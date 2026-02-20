@@ -154,7 +154,7 @@ extension ARCRegionswitchClientTypes {
         public var comment: Swift.String?
         /// The timestamp when the plan execution was ended.
         public var endTime: Foundation.Date?
-        /// The plan execution action. Valid values are Activate, to activate an Amazon Web Services Region, or Deactivate, to deactivate a Region.
+        /// The plan execution action. Valid values are activate, to activate an Amazon Web Services Region, or deactivate, to deactivate a Region.
         /// This member is required.
         public var executionAction: ARCRegionswitchClientTypes.ExecutionAction?
         /// The execution identifier of a plan execution.
@@ -166,7 +166,7 @@ extension ARCRegionswitchClientTypes {
         /// The plan execution state. Provides the state of a plan execution, for example, In Progress or Paused by Operator.
         /// This member is required.
         public var executionState: ARCRegionswitchClientTypes.ExecutionState?
-        /// The plan execution mode. Valid values are Practice, for testing without making actual changes, or Recovery, for actual traffic shifting and application recovery.
+        /// The plan execution mode. Valid values are graceful, for graceful executions, or ungraceful, for ungraceful executions.
         /// This member is required.
         public var mode: ARCRegionswitchClientTypes.ExecutionMode?
         /// The Amazon Resource Name (ARN) of the plan.
@@ -913,7 +913,7 @@ extension ARCRegionswitchClientTypes {
         /// The name of the CloudWatch alarm associated with the condition.
         /// This member is required.
         public var associatedAlarmName: Swift.String?
-        /// The condition that must be met. Valid values include ALARM and OK.
+        /// The condition that must be met. Valid values include green and red.
         /// This member is required.
         public var condition: ARCRegionswitchClientTypes.AlarmCondition?
 
@@ -931,7 +931,7 @@ extension ARCRegionswitchClientTypes {
 
     /// Defines a condition that can automatically trigger the execution of a Region switch plan.
     public struct Trigger: Swift.Sendable {
-        /// The action to perform when the trigger fires. Valid values include ACTIVATE and DEACTIVATE.
+        /// The action to perform when the trigger fires. Valid values include activate and deactivate.
         /// This member is required.
         public var action: ARCRegionswitchClientTypes.WorkflowTargetAction?
         /// The conditions that must be met for the trigger to fire.
@@ -2603,14 +2603,14 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 public struct StartPlanExecutionInput: Swift.Sendable {
-    /// The action to perform. Valid values are ACTIVATE (to shift traffic to the target Region) or DEACTIVATE (to shift traffic away from the target Region).
+    /// The action to perform. Valid values are activate (to shift traffic to the target Region) or deactivate (to shift traffic away from the target Region).
     /// This member is required.
     public var action: ARCRegionswitchClientTypes.ExecutionAction?
     /// An optional comment explaining why the plan execution is being started.
     public var comment: Swift.String?
     /// A boolean value indicating whether to use the latest version of the plan. If set to false, you must specify a specific version.
     public var latestVersion: Swift.String?
-    /// The plan execution mode. Valid values are Practice, for testing without making actual changes, or Recovery, for actual traffic shifting and application recovery.
+    /// The plan execution mode. Valid values are graceful, for starting the execution in graceful mode, or ungraceful, for starting the execution in ungraceful mode.
     public var mode: ARCRegionswitchClientTypes.ExecutionMode?
     /// The Amazon Resource Name (ARN) of the plan to execute.
     /// This member is required.
@@ -2879,7 +2879,7 @@ extension ARCRegionswitchClientTypes {
         public var steps: [ARCRegionswitchClientTypes.Step]?
         /// The description of the workflow.
         public var workflowDescription: Swift.String?
-        /// The action that the workflow performs. Valid values include ACTIVATE and DEACTIVATE.
+        /// The action that the workflow performs. Valid values include activate and deactivate.
         /// This member is required.
         public var workflowTargetAction: ARCRegionswitchClientTypes.WorkflowTargetAction?
         /// The Amazon Web Services Region that the workflow targets.
@@ -3097,7 +3097,7 @@ public struct GetPlanExecutionOutput: Swift.Sendable {
     public var comment: Swift.String?
     /// The time (UTC) when the plan execution ended.
     public var endTime: Foundation.Date?
-    /// The plan execution action. Valid values are Activate, to activate an Amazon Web Services Region, or Deactivate, to deactivate a Region.
+    /// The plan execution action. Valid values are activate, to activate an Amazon Web Services Region, or deactivate, to deactivate a Region.
     /// This member is required.
     public var executionAction: ARCRegionswitchClientTypes.ExecutionAction?
     /// The execution identifier of a plan execution.
@@ -3111,7 +3111,7 @@ public struct GetPlanExecutionOutput: Swift.Sendable {
     public var executionState: ARCRegionswitchClientTypes.ExecutionState?
     /// Information about the location of a generated report, or the cause of its failure.
     public var generatedReportDetails: [ARCRegionswitchClientTypes.GeneratedReport]?
-    /// The plan execution mode. Valid values are Practice, for testing without making actual changes, or Recovery, for actual traffic shifting and application recovery.
+    /// The plan execution mode. Valid values are graceful, for graceful executions, or ungraceful, for ungraceful executions.
     /// This member is required.
     public var mode: ARCRegionswitchClientTypes.ExecutionMode?
     /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
@@ -4203,122 +4203,101 @@ extension IllegalArgumentException {
     }
 }
 
-extension ARCRegionswitchClientTypes.Plan {
+extension ARCRegionswitchClientTypes.AbbreviatedExecution {
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Plan {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.AbbreviatedExecution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.Plan()
+        var value = ARCRegionswitchClientTypes.AbbreviatedExecution()
+        value.planArn = try reader["planArn"].readIfPresent() ?? ""
+        value.executionId = try reader["executionId"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.comment = try reader["comment"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.executionState = try reader["executionState"].readIfPresent() ?? .sdkUnknown("")
+        value.executionAction = try reader["executionAction"].readIfPresent() ?? .sdkUnknown("")
+        value.executionRegion = try reader["executionRegion"].readIfPresent() ?? ""
+        value.actualRecoveryTime = try reader["actualRecoveryTime"].readIfPresent()
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.AbbreviatedPlan {
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.AbbreviatedPlan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.AbbreviatedPlan()
         value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.workflows = try reader["workflows"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Workflow.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.executionRole = try reader["executionRole"].readIfPresent() ?? ""
-        value.recoveryTimeObjectiveMinutes = try reader["recoveryTimeObjectiveMinutes"].readIfPresent()
-        value.associatedAlarms = try reader["associatedAlarms"].readMapIfPresent(valueReadingClosure: ARCRegionswitchClientTypes.AssociatedAlarm.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.triggers = try reader["triggers"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Trigger.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.reportConfiguration = try reader["reportConfiguration"].readIfPresent(with: ARCRegionswitchClientTypes.ReportConfiguration.read(from:))
+        value.owner = try reader["owner"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.recoveryApproach = try reader["recoveryApproach"].readIfPresent() ?? .sdkUnknown("")
         value.primaryRegion = try reader["primaryRegion"].readIfPresent()
-        value.owner = try reader["owner"].readIfPresent() ?? ""
         value.version = try reader["version"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.ReportConfiguration {
-
-    static func write(value: ARCRegionswitchClientTypes.ReportConfiguration?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["reportOutput"].writeList(value.reportOutput, memberWritingClosure: ARCRegionswitchClientTypes.ReportOutputConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.ReportConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.ReportConfiguration()
-        value.reportOutput = try reader["reportOutput"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.ReportOutputConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.ReportOutputConfiguration {
-
-    static func write(value: ARCRegionswitchClientTypes.ReportOutputConfiguration?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .s3configuration(s3configuration):
-                try writer["s3Configuration"].write(s3configuration, with: ARCRegionswitchClientTypes.S3ReportOutputConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.ReportOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "s3Configuration":
-                return .s3configuration(try reader["s3Configuration"].read(with: ARCRegionswitchClientTypes.S3ReportOutputConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension ARCRegionswitchClientTypes.S3ReportOutputConfiguration {
-
-    static func write(value: ARCRegionswitchClientTypes.S3ReportOutputConfiguration?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["bucketOwner"].write(value.bucketOwner)
-        try writer["bucketPath"].write(value.bucketPath)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.S3ReportOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.S3ReportOutputConfiguration()
-        value.bucketPath = try reader["bucketPath"].readIfPresent()
-        value.bucketOwner = try reader["bucketOwner"].readIfPresent()
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.Trigger {
-
-    static func write(value: ARCRegionswitchClientTypes.Trigger?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["conditions"].writeList(value.conditions, memberWritingClosure: ARCRegionswitchClientTypes.TriggerCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["minDelayMinutesBetweenExecutions"].write(value.minDelayMinutesBetweenExecutions)
-        try writer["targetRegion"].write(value.targetRegion)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Trigger {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.Trigger()
         value.description = try reader["description"].readIfPresent()
-        value.targetRegion = try reader["targetRegion"].readIfPresent() ?? ""
-        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
-        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.TriggerCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.minDelayMinutesBetweenExecutions = try reader["minDelayMinutesBetweenExecutions"].readIfPresent() ?? 0
+        value.executionRole = try reader["executionRole"].readIfPresent()
+        value.activePlanExecution = try reader["activePlanExecution"].readIfPresent()
+        value.recoveryTimeObjectiveMinutes = try reader["recoveryTimeObjectiveMinutes"].readIfPresent()
         return value
     }
 }
 
-extension ARCRegionswitchClientTypes.TriggerCondition {
+extension ARCRegionswitchClientTypes.ArcRoutingControlConfiguration {
 
-    static func write(value: ARCRegionswitchClientTypes.TriggerCondition?, to writer: SmithyCBOR.Writer) throws {
+    static func write(value: ARCRegionswitchClientTypes.ArcRoutingControlConfiguration?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
-        try writer["associatedAlarmName"].write(value.associatedAlarmName)
-        try writer["condition"].write(value.condition)
+        try writer["crossAccountRole"].write(value.crossAccountRole)
+        try writer["externalId"].write(value.externalId)
+        try writer["regionAndRoutingControls"].writeMap(value.regionAndRoutingControls, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: ARCRegionswitchClientTypes.ArcRoutingControlState.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["timeoutMinutes"].write(value.timeoutMinutes)
     }
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.TriggerCondition {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.ArcRoutingControlConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.TriggerCondition()
-        value.associatedAlarmName = try reader["associatedAlarmName"].readIfPresent() ?? ""
-        value.condition = try reader["condition"].readIfPresent() ?? .sdkUnknown("")
+        var value = ARCRegionswitchClientTypes.ArcRoutingControlConfiguration()
+        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
+        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.regionAndRoutingControls = try reader["regionAndRoutingControls"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: ARCRegionswitchClientTypes.ArcRoutingControlState.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.ArcRoutingControlState {
+
+    static func write(value: ARCRegionswitchClientTypes.ArcRoutingControlState?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["routingControlArn"].write(value.routingControlArn)
+        try writer["state"].write(value.state)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.ArcRoutingControlState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.ArcRoutingControlState()
+        value.routingControlArn = try reader["routingControlArn"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.Asg {
+
+    static func write(value: ARCRegionswitchClientTypes.Asg?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["crossAccountRole"].write(value.crossAccountRole)
+        try writer["externalId"].write(value.externalId)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Asg {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.Asg()
+        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
         return value
     }
 }
@@ -4344,44 +4323,221 @@ extension ARCRegionswitchClientTypes.AssociatedAlarm {
     }
 }
 
-extension ARCRegionswitchClientTypes.Workflow {
+extension ARCRegionswitchClientTypes.CustomActionLambdaConfiguration {
 
-    static func write(value: ARCRegionswitchClientTypes.Workflow?, to writer: SmithyCBOR.Writer) throws {
+    static func write(value: ARCRegionswitchClientTypes.CustomActionLambdaConfiguration?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
-        try writer["steps"].writeList(value.steps, memberWritingClosure: ARCRegionswitchClientTypes.Step.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["workflowDescription"].write(value.workflowDescription)
-        try writer["workflowTargetAction"].write(value.workflowTargetAction)
-        try writer["workflowTargetRegion"].write(value.workflowTargetRegion)
+        try writer["lambdas"].writeList(value.lambdas, memberWritingClosure: ARCRegionswitchClientTypes.Lambdas.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["regionToRun"].write(value.regionToRun)
+        try writer["retryIntervalMinutes"].write(value.retryIntervalMinutes)
+        try writer["timeoutMinutes"].write(value.timeoutMinutes)
+        try writer["ungraceful"].write(value.ungraceful, with: ARCRegionswitchClientTypes.LambdaUngraceful.write(value:to:))
     }
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Workflow {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.CustomActionLambdaConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.Workflow()
-        value.steps = try reader["steps"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Step.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.workflowTargetAction = try reader["workflowTargetAction"].readIfPresent() ?? .sdkUnknown("")
-        value.workflowTargetRegion = try reader["workflowTargetRegion"].readIfPresent()
-        value.workflowDescription = try reader["workflowDescription"].readIfPresent()
+        var value = ARCRegionswitchClientTypes.CustomActionLambdaConfiguration()
+        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
+        value.lambdas = try reader["lambdas"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Lambdas.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.retryIntervalMinutes = try reader["retryIntervalMinutes"].readIfPresent() ?? 0.0
+        value.regionToRun = try reader["regionToRun"].readIfPresent() ?? .sdkUnknown("")
+        value.ungraceful = try reader["ungraceful"].readIfPresent(with: ARCRegionswitchClientTypes.LambdaUngraceful.read(from:))
         return value
     }
 }
 
-extension ARCRegionswitchClientTypes.Step {
+extension ARCRegionswitchClientTypes.DocumentDbConfiguration {
 
-    static func write(value: ARCRegionswitchClientTypes.Step?, to writer: SmithyCBOR.Writer) throws {
+    static func write(value: ARCRegionswitchClientTypes.DocumentDbConfiguration?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["executionBlockConfiguration"].write(value.executionBlockConfiguration, with: ARCRegionswitchClientTypes.ExecutionBlockConfiguration.write(value:to:))
-        try writer["executionBlockType"].write(value.executionBlockType)
-        try writer["name"].write(value.name)
+        try writer["behavior"].write(value.behavior)
+        try writer["crossAccountRole"].write(value.crossAccountRole)
+        try writer["databaseClusterArns"].writeList(value.databaseClusterArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["externalId"].write(value.externalId)
+        try writer["globalClusterIdentifier"].write(value.globalClusterIdentifier)
+        try writer["timeoutMinutes"].write(value.timeoutMinutes)
+        try writer["ungraceful"].write(value.ungraceful, with: ARCRegionswitchClientTypes.DocumentDbUngraceful.write(value:to:))
     }
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Step {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.DocumentDbConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.Step()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.executionBlockConfiguration = try reader["executionBlockConfiguration"].readIfPresent(with: ARCRegionswitchClientTypes.ExecutionBlockConfiguration.read(from:))
-        value.executionBlockType = try reader["executionBlockType"].readIfPresent() ?? .sdkUnknown("")
+        var value = ARCRegionswitchClientTypes.DocumentDbConfiguration()
+        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
+        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.behavior = try reader["behavior"].readIfPresent() ?? ARCRegionswitchClientTypes.DocumentDbDefaultBehavior.switchoverOnly
+        value.ungraceful = try reader["ungraceful"].readIfPresent(with: ARCRegionswitchClientTypes.DocumentDbUngraceful.read(from:))
+        value.globalClusterIdentifier = try reader["globalClusterIdentifier"].readIfPresent() ?? ""
+        value.databaseClusterArns = try reader["databaseClusterArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.DocumentDbUngraceful {
+
+    static func write(value: ARCRegionswitchClientTypes.DocumentDbUngraceful?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["ungraceful"].write(value.ungraceful)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.DocumentDbUngraceful {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.DocumentDbUngraceful()
+        value.ungraceful = try reader["ungraceful"].readIfPresent()
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.Ec2AsgCapacityIncreaseConfiguration {
+
+    static func write(value: ARCRegionswitchClientTypes.Ec2AsgCapacityIncreaseConfiguration?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["asgs"].writeList(value.asgs, memberWritingClosure: ARCRegionswitchClientTypes.Asg.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["capacityMonitoringApproach"].write(value.capacityMonitoringApproach)
+        try writer["targetPercent"].write(value.targetPercent)
+        try writer["timeoutMinutes"].write(value.timeoutMinutes)
+        try writer["ungraceful"].write(value.ungraceful, with: ARCRegionswitchClientTypes.Ec2Ungraceful.write(value:to:))
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Ec2AsgCapacityIncreaseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.Ec2AsgCapacityIncreaseConfiguration()
+        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
+        value.asgs = try reader["asgs"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Asg.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.ungraceful = try reader["ungraceful"].readIfPresent(with: ARCRegionswitchClientTypes.Ec2Ungraceful.read(from:))
+        value.targetPercent = try reader["targetPercent"].readIfPresent() ?? 100
+        value.capacityMonitoringApproach = try reader["capacityMonitoringApproach"].readIfPresent() ?? ARCRegionswitchClientTypes.Ec2AsgCapacityMonitoringApproach.sampledMaxInLast24Hours
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.Ec2Ungraceful {
+
+    static func write(value: ARCRegionswitchClientTypes.Ec2Ungraceful?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["minimumSuccessPercentage"].write(value.minimumSuccessPercentage)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Ec2Ungraceful {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.Ec2Ungraceful()
+        value.minimumSuccessPercentage = try reader["minimumSuccessPercentage"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.EcsCapacityIncreaseConfiguration {
+
+    static func write(value: ARCRegionswitchClientTypes.EcsCapacityIncreaseConfiguration?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["capacityMonitoringApproach"].write(value.capacityMonitoringApproach)
+        try writer["services"].writeList(value.services, memberWritingClosure: ARCRegionswitchClientTypes.Service.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetPercent"].write(value.targetPercent)
+        try writer["timeoutMinutes"].write(value.timeoutMinutes)
+        try writer["ungraceful"].write(value.ungraceful, with: ARCRegionswitchClientTypes.EcsUngraceful.write(value:to:))
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.EcsCapacityIncreaseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.EcsCapacityIncreaseConfiguration()
+        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
+        value.services = try reader["services"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Service.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.ungraceful = try reader["ungraceful"].readIfPresent(with: ARCRegionswitchClientTypes.EcsUngraceful.read(from:))
+        value.targetPercent = try reader["targetPercent"].readIfPresent() ?? 100
+        value.capacityMonitoringApproach = try reader["capacityMonitoringApproach"].readIfPresent() ?? ARCRegionswitchClientTypes.EcsCapacityMonitoringApproach.sampledMaxInLast24Hours
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.EcsUngraceful {
+
+    static func write(value: ARCRegionswitchClientTypes.EcsUngraceful?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["minimumSuccessPercentage"].write(value.minimumSuccessPercentage)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.EcsUngraceful {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.EcsUngraceful()
+        value.minimumSuccessPercentage = try reader["minimumSuccessPercentage"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.EksCluster {
+
+    static func write(value: ARCRegionswitchClientTypes.EksCluster?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["clusterArn"].write(value.clusterArn)
+        try writer["crossAccountRole"].write(value.crossAccountRole)
+        try writer["externalId"].write(value.externalId)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.EksCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.EksCluster()
+        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.clusterArn = try reader["clusterArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.EksResourceScalingConfiguration {
+
+    static func write(value: ARCRegionswitchClientTypes.EksResourceScalingConfiguration?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["capacityMonitoringApproach"].write(value.capacityMonitoringApproach)
+        try writer["eksClusters"].writeList(value.eksClusters, memberWritingClosure: ARCRegionswitchClientTypes.EksCluster.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["kubernetesResourceType"].write(value.kubernetesResourceType, with: ARCRegionswitchClientTypes.KubernetesResourceType.write(value:to:))
+        try writer["scalingResources"].writeList(value.scalingResources, memberWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: ARCRegionswitchClientTypes.KubernetesScalingResource.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetPercent"].write(value.targetPercent)
+        try writer["timeoutMinutes"].write(value.timeoutMinutes)
+        try writer["ungraceful"].write(value.ungraceful, with: ARCRegionswitchClientTypes.EksResourceScalingUngraceful.write(value:to:))
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.EksResourceScalingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.EksResourceScalingConfiguration()
+        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
+        value.kubernetesResourceType = try reader["kubernetesResourceType"].readIfPresent(with: ARCRegionswitchClientTypes.KubernetesResourceType.read(from:))
+        value.scalingResources = try reader["scalingResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: ARCRegionswitchClientTypes.KubernetesScalingResource.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.eksClusters = try reader["eksClusters"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.EksCluster.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ungraceful = try reader["ungraceful"].readIfPresent(with: ARCRegionswitchClientTypes.EksResourceScalingUngraceful.read(from:))
+        value.targetPercent = try reader["targetPercent"].readIfPresent() ?? 100
+        value.capacityMonitoringApproach = try reader["capacityMonitoringApproach"].readIfPresent() ?? ARCRegionswitchClientTypes.EksCapacityMonitoringApproach.sampledMaxInLast24Hours
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.EksResourceScalingUngraceful {
+
+    static func write(value: ARCRegionswitchClientTypes.EksResourceScalingUngraceful?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["minimumSuccessPercentage"].write(value.minimumSuccessPercentage)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.EksResourceScalingUngraceful {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.EksResourceScalingUngraceful()
+        value.minimumSuccessPercentage = try reader["minimumSuccessPercentage"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.ExecutionApprovalConfiguration {
+
+    static func write(value: ARCRegionswitchClientTypes.ExecutionApprovalConfiguration?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["approvalRole"].write(value.approvalRole)
+        try writer["timeoutMinutes"].write(value.timeoutMinutes)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.ExecutionApprovalConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.ExecutionApprovalConfiguration()
+        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
+        value.approvalRole = try reader["approvalRole"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4450,276 +4606,42 @@ extension ARCRegionswitchClientTypes.ExecutionBlockConfiguration {
     }
 }
 
-extension ARCRegionswitchClientTypes.DocumentDbConfiguration {
+extension ARCRegionswitchClientTypes.ExecutionEvent {
 
-    static func write(value: ARCRegionswitchClientTypes.DocumentDbConfiguration?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["behavior"].write(value.behavior)
-        try writer["crossAccountRole"].write(value.crossAccountRole)
-        try writer["databaseClusterArns"].writeList(value.databaseClusterArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["externalId"].write(value.externalId)
-        try writer["globalClusterIdentifier"].write(value.globalClusterIdentifier)
-        try writer["timeoutMinutes"].write(value.timeoutMinutes)
-        try writer["ungraceful"].write(value.ungraceful, with: ARCRegionswitchClientTypes.DocumentDbUngraceful.write(value:to:))
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.DocumentDbConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.ExecutionEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.DocumentDbConfiguration()
-        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
-        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.behavior = try reader["behavior"].readIfPresent() ?? ARCRegionswitchClientTypes.DocumentDbDefaultBehavior.switchoverOnly
-        value.ungraceful = try reader["ungraceful"].readIfPresent(with: ARCRegionswitchClientTypes.DocumentDbUngraceful.read(from:))
-        value.globalClusterIdentifier = try reader["globalClusterIdentifier"].readIfPresent() ?? ""
-        value.databaseClusterArns = try reader["databaseClusterArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = ARCRegionswitchClientTypes.ExecutionEvent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.type = try reader["type"].readIfPresent()
+        value.stepName = try reader["stepName"].readIfPresent()
+        value.executionBlockType = try reader["executionBlockType"].readIfPresent()
+        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.error = try reader["error"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.eventId = try reader["eventId"].readIfPresent() ?? ""
+        value.previousEventId = try reader["previousEventId"].readIfPresent()
         return value
     }
 }
 
-extension ARCRegionswitchClientTypes.DocumentDbUngraceful {
+extension ARCRegionswitchClientTypes.FailedReportOutput {
 
-    static func write(value: ARCRegionswitchClientTypes.DocumentDbUngraceful?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["ungraceful"].write(value.ungraceful)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.DocumentDbUngraceful {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.FailedReportOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.DocumentDbUngraceful()
-        value.ungraceful = try reader["ungraceful"].readIfPresent()
+        var value = ARCRegionswitchClientTypes.FailedReportOutput()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
     }
 }
 
-extension ARCRegionswitchClientTypes.Route53HealthCheckConfiguration {
+extension ARCRegionswitchClientTypes.GeneratedReport {
 
-    static func write(value: ARCRegionswitchClientTypes.Route53HealthCheckConfiguration?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["crossAccountRole"].write(value.crossAccountRole)
-        try writer["externalId"].write(value.externalId)
-        try writer["hostedZoneId"].write(value.hostedZoneId)
-        try writer["recordName"].write(value.recordName)
-        try writer["recordSets"].writeList(value.recordSets, memberWritingClosure: ARCRegionswitchClientTypes.Route53ResourceRecordSet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["timeoutMinutes"].write(value.timeoutMinutes)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Route53HealthCheckConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.GeneratedReport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.Route53HealthCheckConfiguration()
-        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
-        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.hostedZoneId = try reader["hostedZoneId"].readIfPresent() ?? ""
-        value.recordName = try reader["recordName"].readIfPresent() ?? ""
-        value.recordSets = try reader["recordSets"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Route53ResourceRecordSet.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.Route53ResourceRecordSet {
-
-    static func write(value: ARCRegionswitchClientTypes.Route53ResourceRecordSet?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["recordSetIdentifier"].write(value.recordSetIdentifier)
-        try writer["region"].write(value.region)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Route53ResourceRecordSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.Route53ResourceRecordSet()
-        value.recordSetIdentifier = try reader["recordSetIdentifier"].readIfPresent()
-        value.region = try reader["region"].readIfPresent()
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.EksResourceScalingConfiguration {
-
-    static func write(value: ARCRegionswitchClientTypes.EksResourceScalingConfiguration?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["capacityMonitoringApproach"].write(value.capacityMonitoringApproach)
-        try writer["eksClusters"].writeList(value.eksClusters, memberWritingClosure: ARCRegionswitchClientTypes.EksCluster.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["kubernetesResourceType"].write(value.kubernetesResourceType, with: ARCRegionswitchClientTypes.KubernetesResourceType.write(value:to:))
-        try writer["scalingResources"].writeList(value.scalingResources, memberWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: ARCRegionswitchClientTypes.KubernetesScalingResource.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["targetPercent"].write(value.targetPercent)
-        try writer["timeoutMinutes"].write(value.timeoutMinutes)
-        try writer["ungraceful"].write(value.ungraceful, with: ARCRegionswitchClientTypes.EksResourceScalingUngraceful.write(value:to:))
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.EksResourceScalingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.EksResourceScalingConfiguration()
-        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
-        value.kubernetesResourceType = try reader["kubernetesResourceType"].readIfPresent(with: ARCRegionswitchClientTypes.KubernetesResourceType.read(from:))
-        value.scalingResources = try reader["scalingResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: ARCRegionswitchClientTypes.KubernetesScalingResource.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.eksClusters = try reader["eksClusters"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.EksCluster.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ungraceful = try reader["ungraceful"].readIfPresent(with: ARCRegionswitchClientTypes.EksResourceScalingUngraceful.read(from:))
-        value.targetPercent = try reader["targetPercent"].readIfPresent() ?? 100
-        value.capacityMonitoringApproach = try reader["capacityMonitoringApproach"].readIfPresent() ?? ARCRegionswitchClientTypes.EksCapacityMonitoringApproach.sampledMaxInLast24Hours
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.EksResourceScalingUngraceful {
-
-    static func write(value: ARCRegionswitchClientTypes.EksResourceScalingUngraceful?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["minimumSuccessPercentage"].write(value.minimumSuccessPercentage)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.EksResourceScalingUngraceful {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.EksResourceScalingUngraceful()
-        value.minimumSuccessPercentage = try reader["minimumSuccessPercentage"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.EksCluster {
-
-    static func write(value: ARCRegionswitchClientTypes.EksCluster?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["clusterArn"].write(value.clusterArn)
-        try writer["crossAccountRole"].write(value.crossAccountRole)
-        try writer["externalId"].write(value.externalId)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.EksCluster {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.EksCluster()
-        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.clusterArn = try reader["clusterArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.KubernetesScalingResource {
-
-    static func write(value: ARCRegionswitchClientTypes.KubernetesScalingResource?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["hpaName"].write(value.hpaName)
-        try writer["name"].write(value.name)
-        try writer["namespace"].write(value.namespace)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.KubernetesScalingResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.KubernetesScalingResource()
-        value.namespace = try reader["namespace"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.hpaName = try reader["hpaName"].readIfPresent()
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.KubernetesResourceType {
-
-    static func write(value: ARCRegionswitchClientTypes.KubernetesResourceType?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["apiVersion"].write(value.apiVersion)
-        try writer["kind"].write(value.kind)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.KubernetesResourceType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.KubernetesResourceType()
-        value.apiVersion = try reader["apiVersion"].readIfPresent() ?? ""
-        value.kind = try reader["kind"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.EcsCapacityIncreaseConfiguration {
-
-    static func write(value: ARCRegionswitchClientTypes.EcsCapacityIncreaseConfiguration?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["capacityMonitoringApproach"].write(value.capacityMonitoringApproach)
-        try writer["services"].writeList(value.services, memberWritingClosure: ARCRegionswitchClientTypes.Service.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["targetPercent"].write(value.targetPercent)
-        try writer["timeoutMinutes"].write(value.timeoutMinutes)
-        try writer["ungraceful"].write(value.ungraceful, with: ARCRegionswitchClientTypes.EcsUngraceful.write(value:to:))
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.EcsCapacityIncreaseConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.EcsCapacityIncreaseConfiguration()
-        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
-        value.services = try reader["services"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Service.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.ungraceful = try reader["ungraceful"].readIfPresent(with: ARCRegionswitchClientTypes.EcsUngraceful.read(from:))
-        value.targetPercent = try reader["targetPercent"].readIfPresent() ?? 100
-        value.capacityMonitoringApproach = try reader["capacityMonitoringApproach"].readIfPresent() ?? ARCRegionswitchClientTypes.EcsCapacityMonitoringApproach.sampledMaxInLast24Hours
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.EcsUngraceful {
-
-    static func write(value: ARCRegionswitchClientTypes.EcsUngraceful?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["minimumSuccessPercentage"].write(value.minimumSuccessPercentage)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.EcsUngraceful {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.EcsUngraceful()
-        value.minimumSuccessPercentage = try reader["minimumSuccessPercentage"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.Service {
-
-    static func write(value: ARCRegionswitchClientTypes.Service?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["clusterArn"].write(value.clusterArn)
-        try writer["crossAccountRole"].write(value.crossAccountRole)
-        try writer["externalId"].write(value.externalId)
-        try writer["serviceArn"].write(value.serviceArn)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Service {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.Service()
-        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.clusterArn = try reader["clusterArn"].readIfPresent()
-        value.serviceArn = try reader["serviceArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.RegionSwitchPlanConfiguration {
-
-    static func write(value: ARCRegionswitchClientTypes.RegionSwitchPlanConfiguration?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["crossAccountRole"].write(value.crossAccountRole)
-        try writer["externalId"].write(value.externalId)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.RegionSwitchPlanConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.RegionSwitchPlanConfiguration()
-        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.ParallelExecutionBlockConfiguration {
-
-    static func write(value: ARCRegionswitchClientTypes.ParallelExecutionBlockConfiguration?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["steps"].writeList(value.steps, memberWritingClosure: ARCRegionswitchClientTypes.Step.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.ParallelExecutionBlockConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.ParallelExecutionBlockConfiguration()
-        value.steps = try reader["steps"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Step.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = ARCRegionswitchClientTypes.GeneratedReport()
+        value.reportGenerationTime = try reader["reportGenerationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.reportOutput = try reader["reportOutput"].readIfPresent(with: ARCRegionswitchClientTypes.ReportOutput.read(from:))
         return value
     }
 }
@@ -4766,152 +4688,38 @@ extension ARCRegionswitchClientTypes.GlobalAuroraUngraceful {
     }
 }
 
-extension ARCRegionswitchClientTypes.ArcRoutingControlConfiguration {
+extension ARCRegionswitchClientTypes.KubernetesResourceType {
 
-    static func write(value: ARCRegionswitchClientTypes.ArcRoutingControlConfiguration?, to writer: SmithyCBOR.Writer) throws {
+    static func write(value: ARCRegionswitchClientTypes.KubernetesResourceType?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
-        try writer["crossAccountRole"].write(value.crossAccountRole)
-        try writer["externalId"].write(value.externalId)
-        try writer["regionAndRoutingControls"].writeMap(value.regionAndRoutingControls, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: ARCRegionswitchClientTypes.ArcRoutingControlState.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["timeoutMinutes"].write(value.timeoutMinutes)
+        try writer["apiVersion"].write(value.apiVersion)
+        try writer["kind"].write(value.kind)
     }
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.ArcRoutingControlConfiguration {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.KubernetesResourceType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.ArcRoutingControlConfiguration()
-        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
-        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.regionAndRoutingControls = try reader["regionAndRoutingControls"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: ARCRegionswitchClientTypes.ArcRoutingControlState.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        var value = ARCRegionswitchClientTypes.KubernetesResourceType()
+        value.apiVersion = try reader["apiVersion"].readIfPresent() ?? ""
+        value.kind = try reader["kind"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension ARCRegionswitchClientTypes.ArcRoutingControlState {
+extension ARCRegionswitchClientTypes.KubernetesScalingResource {
 
-    static func write(value: ARCRegionswitchClientTypes.ArcRoutingControlState?, to writer: SmithyCBOR.Writer) throws {
+    static func write(value: ARCRegionswitchClientTypes.KubernetesScalingResource?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
-        try writer["routingControlArn"].write(value.routingControlArn)
-        try writer["state"].write(value.state)
+        try writer["hpaName"].write(value.hpaName)
+        try writer["name"].write(value.name)
+        try writer["namespace"].write(value.namespace)
     }
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.ArcRoutingControlState {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.KubernetesScalingResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.ArcRoutingControlState()
-        value.routingControlArn = try reader["routingControlArn"].readIfPresent() ?? ""
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.ExecutionApprovalConfiguration {
-
-    static func write(value: ARCRegionswitchClientTypes.ExecutionApprovalConfiguration?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["approvalRole"].write(value.approvalRole)
-        try writer["timeoutMinutes"].write(value.timeoutMinutes)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.ExecutionApprovalConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.ExecutionApprovalConfiguration()
-        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
-        value.approvalRole = try reader["approvalRole"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.Ec2AsgCapacityIncreaseConfiguration {
-
-    static func write(value: ARCRegionswitchClientTypes.Ec2AsgCapacityIncreaseConfiguration?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["asgs"].writeList(value.asgs, memberWritingClosure: ARCRegionswitchClientTypes.Asg.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["capacityMonitoringApproach"].write(value.capacityMonitoringApproach)
-        try writer["targetPercent"].write(value.targetPercent)
-        try writer["timeoutMinutes"].write(value.timeoutMinutes)
-        try writer["ungraceful"].write(value.ungraceful, with: ARCRegionswitchClientTypes.Ec2Ungraceful.write(value:to:))
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Ec2AsgCapacityIncreaseConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.Ec2AsgCapacityIncreaseConfiguration()
-        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
-        value.asgs = try reader["asgs"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Asg.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.ungraceful = try reader["ungraceful"].readIfPresent(with: ARCRegionswitchClientTypes.Ec2Ungraceful.read(from:))
-        value.targetPercent = try reader["targetPercent"].readIfPresent() ?? 100
-        value.capacityMonitoringApproach = try reader["capacityMonitoringApproach"].readIfPresent() ?? ARCRegionswitchClientTypes.Ec2AsgCapacityMonitoringApproach.sampledMaxInLast24Hours
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.Ec2Ungraceful {
-
-    static func write(value: ARCRegionswitchClientTypes.Ec2Ungraceful?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["minimumSuccessPercentage"].write(value.minimumSuccessPercentage)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Ec2Ungraceful {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.Ec2Ungraceful()
-        value.minimumSuccessPercentage = try reader["minimumSuccessPercentage"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.Asg {
-
-    static func write(value: ARCRegionswitchClientTypes.Asg?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["crossAccountRole"].write(value.crossAccountRole)
-        try writer["externalId"].write(value.externalId)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Asg {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.Asg()
-        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.CustomActionLambdaConfiguration {
-
-    static func write(value: ARCRegionswitchClientTypes.CustomActionLambdaConfiguration?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["lambdas"].writeList(value.lambdas, memberWritingClosure: ARCRegionswitchClientTypes.Lambdas.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["regionToRun"].write(value.regionToRun)
-        try writer["retryIntervalMinutes"].write(value.retryIntervalMinutes)
-        try writer["timeoutMinutes"].write(value.timeoutMinutes)
-        try writer["ungraceful"].write(value.ungraceful, with: ARCRegionswitchClientTypes.LambdaUngraceful.write(value:to:))
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.CustomActionLambdaConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.CustomActionLambdaConfiguration()
-        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
-        value.lambdas = try reader["lambdas"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Lambdas.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.retryIntervalMinutes = try reader["retryIntervalMinutes"].readIfPresent() ?? 0.0
-        value.regionToRun = try reader["regionToRun"].readIfPresent() ?? .sdkUnknown("")
-        value.ungraceful = try reader["ungraceful"].readIfPresent(with: ARCRegionswitchClientTypes.LambdaUngraceful.read(from:))
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.LambdaUngraceful {
-
-    static func write(value: ARCRegionswitchClientTypes.LambdaUngraceful?, to writer: SmithyCBOR.Writer) throws {
-        guard let value else { return }
-        try writer["behavior"].write(value.behavior)
-    }
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.LambdaUngraceful {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.LambdaUngraceful()
-        value.behavior = try reader["behavior"].readIfPresent() ?? ARCRegionswitchClientTypes.LambdaUngracefulBehavior.skip
+        var value = ARCRegionswitchClientTypes.KubernetesScalingResource()
+        value.namespace = try reader["namespace"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.hpaName = try reader["hpaName"].readIfPresent()
         return value
     }
 }
@@ -4935,18 +4743,17 @@ extension ARCRegionswitchClientTypes.Lambdas {
     }
 }
 
-extension ARCRegionswitchClientTypes.ResourceWarning {
+extension ARCRegionswitchClientTypes.LambdaUngraceful {
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.ResourceWarning {
+    static func write(value: ARCRegionswitchClientTypes.LambdaUngraceful?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["behavior"].write(value.behavior)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.LambdaUngraceful {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.ResourceWarning()
-        value.workflow = try reader["workflow"].readIfPresent(with: ARCRegionswitchClientTypes.MinimalWorkflow.read(from:))
-        value.version = try reader["version"].readIfPresent() ?? ""
-        value.stepName = try reader["stepName"].readIfPresent()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.warningStatus = try reader["warningStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.warningUpdatedTime = try reader["warningUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.warningMessage = try reader["warningMessage"].readIfPresent() ?? ""
+        var value = ARCRegionswitchClientTypes.LambdaUngraceful()
+        value.behavior = try reader["behavior"].readIfPresent() ?? ARCRegionswitchClientTypes.LambdaUngracefulBehavior.skip
         return value
     }
 }
@@ -4962,27 +4769,75 @@ extension ARCRegionswitchClientTypes.MinimalWorkflow {
     }
 }
 
-extension ARCRegionswitchClientTypes.StepState {
+extension ARCRegionswitchClientTypes.ParallelExecutionBlockConfiguration {
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.StepState {
+    static func write(value: ARCRegionswitchClientTypes.ParallelExecutionBlockConfiguration?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["steps"].writeList(value.steps, memberWritingClosure: ARCRegionswitchClientTypes.Step.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.ParallelExecutionBlockConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.StepState()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.stepMode = try reader["stepMode"].readIfPresent()
+        var value = ARCRegionswitchClientTypes.ParallelExecutionBlockConfiguration()
+        value.steps = try reader["steps"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Step.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension ARCRegionswitchClientTypes.GeneratedReport {
+extension ARCRegionswitchClientTypes.Plan {
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.GeneratedReport {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Plan {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.GeneratedReport()
-        value.reportGenerationTime = try reader["reportGenerationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.reportOutput = try reader["reportOutput"].readIfPresent(with: ARCRegionswitchClientTypes.ReportOutput.read(from:))
+        var value = ARCRegionswitchClientTypes.Plan()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.workflows = try reader["workflows"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Workflow.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.executionRole = try reader["executionRole"].readIfPresent() ?? ""
+        value.recoveryTimeObjectiveMinutes = try reader["recoveryTimeObjectiveMinutes"].readIfPresent()
+        value.associatedAlarms = try reader["associatedAlarms"].readMapIfPresent(valueReadingClosure: ARCRegionswitchClientTypes.AssociatedAlarm.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.triggers = try reader["triggers"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Trigger.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.reportConfiguration = try reader["reportConfiguration"].readIfPresent(with: ARCRegionswitchClientTypes.ReportConfiguration.read(from:))
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.recoveryApproach = try reader["recoveryApproach"].readIfPresent() ?? .sdkUnknown("")
+        value.primaryRegion = try reader["primaryRegion"].readIfPresent()
+        value.owner = try reader["owner"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.RegionSwitchPlanConfiguration {
+
+    static func write(value: ARCRegionswitchClientTypes.RegionSwitchPlanConfiguration?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["crossAccountRole"].write(value.crossAccountRole)
+        try writer["externalId"].write(value.externalId)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.RegionSwitchPlanConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.RegionSwitchPlanConfiguration()
+        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.ReportConfiguration {
+
+    static func write(value: ARCRegionswitchClientTypes.ReportConfiguration?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["reportOutput"].writeList(value.reportOutput, memberWritingClosure: ARCRegionswitchClientTypes.ReportOutputConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.ReportConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.ReportConfiguration()
+        value.reportOutput = try reader["reportOutput"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.ReportOutputConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5003,83 +4858,42 @@ extension ARCRegionswitchClientTypes.ReportOutput {
     }
 }
 
-extension ARCRegionswitchClientTypes.FailedReportOutput {
+extension ARCRegionswitchClientTypes.ReportOutputConfiguration {
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.FailedReportOutput {
+    static func write(value: ARCRegionswitchClientTypes.ReportOutputConfiguration?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3configuration(s3configuration):
+                try writer["s3Configuration"].write(s3configuration, with: ARCRegionswitchClientTypes.S3ReportOutputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.ReportOutputConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.FailedReportOutput()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        return value
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3Configuration":
+                return .s3configuration(try reader["s3Configuration"].read(with: ARCRegionswitchClientTypes.S3ReportOutputConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
-extension ARCRegionswitchClientTypes.S3ReportOutput {
+extension ARCRegionswitchClientTypes.ResourceWarning {
 
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.S3ReportOutput {
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.ResourceWarning {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.S3ReportOutput()
-        value.s3ObjectKey = try reader["s3ObjectKey"].readIfPresent()
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.ExecutionEvent {
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.ExecutionEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.ExecutionEvent()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.type = try reader["type"].readIfPresent()
+        var value = ARCRegionswitchClientTypes.ResourceWarning()
+        value.workflow = try reader["workflow"].readIfPresent(with: ARCRegionswitchClientTypes.MinimalWorkflow.read(from:))
+        value.version = try reader["version"].readIfPresent() ?? ""
         value.stepName = try reader["stepName"].readIfPresent()
-        value.executionBlockType = try reader["executionBlockType"].readIfPresent()
-        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.error = try reader["error"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.eventId = try reader["eventId"].readIfPresent() ?? ""
-        value.previousEventId = try reader["previousEventId"].readIfPresent()
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.AbbreviatedExecution {
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.AbbreviatedExecution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.AbbreviatedExecution()
-        value.planArn = try reader["planArn"].readIfPresent() ?? ""
-        value.executionId = try reader["executionId"].readIfPresent() ?? ""
-        value.version = try reader["version"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.comment = try reader["comment"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
-        value.executionState = try reader["executionState"].readIfPresent() ?? .sdkUnknown("")
-        value.executionAction = try reader["executionAction"].readIfPresent() ?? .sdkUnknown("")
-        value.executionRegion = try reader["executionRegion"].readIfPresent() ?? ""
-        value.actualRecoveryTime = try reader["actualRecoveryTime"].readIfPresent()
-        return value
-    }
-}
-
-extension ARCRegionswitchClientTypes.AbbreviatedPlan {
-
-    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.AbbreviatedPlan {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCRegionswitchClientTypes.AbbreviatedPlan()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.owner = try reader["owner"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.recoveryApproach = try reader["recoveryApproach"].readIfPresent() ?? .sdkUnknown("")
-        value.primaryRegion = try reader["primaryRegion"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.description = try reader["description"].readIfPresent()
-        value.executionRole = try reader["executionRole"].readIfPresent()
-        value.activePlanExecution = try reader["activePlanExecution"].readIfPresent()
-        value.recoveryTimeObjectiveMinutes = try reader["recoveryTimeObjectiveMinutes"].readIfPresent()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.warningStatus = try reader["warningStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.warningUpdatedTime = try reader["warningUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.warningMessage = try reader["warningMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5094,6 +4908,192 @@ extension ARCRegionswitchClientTypes.Route53HealthCheck {
         value.healthCheckId = try reader["healthCheckId"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.region = try reader["region"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.Route53HealthCheckConfiguration {
+
+    static func write(value: ARCRegionswitchClientTypes.Route53HealthCheckConfiguration?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["crossAccountRole"].write(value.crossAccountRole)
+        try writer["externalId"].write(value.externalId)
+        try writer["hostedZoneId"].write(value.hostedZoneId)
+        try writer["recordName"].write(value.recordName)
+        try writer["recordSets"].writeList(value.recordSets, memberWritingClosure: ARCRegionswitchClientTypes.Route53ResourceRecordSet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["timeoutMinutes"].write(value.timeoutMinutes)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Route53HealthCheckConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.Route53HealthCheckConfiguration()
+        value.timeoutMinutes = try reader["timeoutMinutes"].readIfPresent() ?? 60
+        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.hostedZoneId = try reader["hostedZoneId"].readIfPresent() ?? ""
+        value.recordName = try reader["recordName"].readIfPresent() ?? ""
+        value.recordSets = try reader["recordSets"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Route53ResourceRecordSet.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.Route53ResourceRecordSet {
+
+    static func write(value: ARCRegionswitchClientTypes.Route53ResourceRecordSet?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["recordSetIdentifier"].write(value.recordSetIdentifier)
+        try writer["region"].write(value.region)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Route53ResourceRecordSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.Route53ResourceRecordSet()
+        value.recordSetIdentifier = try reader["recordSetIdentifier"].readIfPresent()
+        value.region = try reader["region"].readIfPresent()
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.S3ReportOutput {
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.S3ReportOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.S3ReportOutput()
+        value.s3ObjectKey = try reader["s3ObjectKey"].readIfPresent()
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.S3ReportOutputConfiguration {
+
+    static func write(value: ARCRegionswitchClientTypes.S3ReportOutputConfiguration?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["bucketOwner"].write(value.bucketOwner)
+        try writer["bucketPath"].write(value.bucketPath)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.S3ReportOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.S3ReportOutputConfiguration()
+        value.bucketPath = try reader["bucketPath"].readIfPresent()
+        value.bucketOwner = try reader["bucketOwner"].readIfPresent()
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.Service {
+
+    static func write(value: ARCRegionswitchClientTypes.Service?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["clusterArn"].write(value.clusterArn)
+        try writer["crossAccountRole"].write(value.crossAccountRole)
+        try writer["externalId"].write(value.externalId)
+        try writer["serviceArn"].write(value.serviceArn)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Service {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.Service()
+        value.crossAccountRole = try reader["crossAccountRole"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.serviceArn = try reader["serviceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.Step {
+
+    static func write(value: ARCRegionswitchClientTypes.Step?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["executionBlockConfiguration"].write(value.executionBlockConfiguration, with: ARCRegionswitchClientTypes.ExecutionBlockConfiguration.write(value:to:))
+        try writer["executionBlockType"].write(value.executionBlockType)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Step {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.Step()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.executionBlockConfiguration = try reader["executionBlockConfiguration"].readIfPresent(with: ARCRegionswitchClientTypes.ExecutionBlockConfiguration.read(from:))
+        value.executionBlockType = try reader["executionBlockType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.StepState {
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.StepState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.StepState()
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.stepMode = try reader["stepMode"].readIfPresent()
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.Trigger {
+
+    static func write(value: ARCRegionswitchClientTypes.Trigger?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["conditions"].writeList(value.conditions, memberWritingClosure: ARCRegionswitchClientTypes.TriggerCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["description"].write(value.description)
+        try writer["minDelayMinutesBetweenExecutions"].write(value.minDelayMinutesBetweenExecutions)
+        try writer["targetRegion"].write(value.targetRegion)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Trigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.Trigger()
+        value.description = try reader["description"].readIfPresent()
+        value.targetRegion = try reader["targetRegion"].readIfPresent() ?? ""
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.TriggerCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.minDelayMinutesBetweenExecutions = try reader["minDelayMinutesBetweenExecutions"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.TriggerCondition {
+
+    static func write(value: ARCRegionswitchClientTypes.TriggerCondition?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["associatedAlarmName"].write(value.associatedAlarmName)
+        try writer["condition"].write(value.condition)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.TriggerCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.TriggerCondition()
+        value.associatedAlarmName = try reader["associatedAlarmName"].readIfPresent() ?? ""
+        value.condition = try reader["condition"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ARCRegionswitchClientTypes.Workflow {
+
+    static func write(value: ARCRegionswitchClientTypes.Workflow?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["steps"].writeList(value.steps, memberWritingClosure: ARCRegionswitchClientTypes.Step.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["workflowDescription"].write(value.workflowDescription)
+        try writer["workflowTargetAction"].write(value.workflowTargetAction)
+        try writer["workflowTargetRegion"].write(value.workflowTargetRegion)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> ARCRegionswitchClientTypes.Workflow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCRegionswitchClientTypes.Workflow()
+        value.steps = try reader["steps"].readListIfPresent(memberReadingClosure: ARCRegionswitchClientTypes.Step.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.workflowTargetAction = try reader["workflowTargetAction"].readIfPresent() ?? .sdkUnknown("")
+        value.workflowTargetRegion = try reader["workflowTargetRegion"].readIfPresent()
+        value.workflowDescription = try reader["workflowDescription"].readIfPresent()
         return value
     }
 }

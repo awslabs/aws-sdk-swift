@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DataBrewClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DataBrewClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DataBrewClient.DataBrewClientConfig
+    public let config: DataBrewClient.DataBrewClientConfig
     let serviceName = "DataBrew"
 
     @available(*, deprecated, message: "Use DataBrewClient.DataBrewClientConfig instead")
     public typealias Config = DataBrewClient.DataBrewClientConfiguration
+    public typealias Configuration = DataBrewClient.DataBrewClientConfig
 
     public required init(config: DataBrewClient.DataBrewClientConfig) {
         ClientRuntime.initialize()

@@ -640,19 +640,23 @@ public struct InvokeDataAutomationInput: Swift.Sendable {
     /// Input configuration.
     /// This member is required.
     public var inputConfiguration: BedrockDataAutomationRuntimeClientTypes.SyncInputConfiguration?
+    /// Output configuration.
+    public var outputConfiguration: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration?
 
     public init(
         blueprints: [BedrockDataAutomationRuntimeClientTypes.Blueprint]? = nil,
         dataAutomationConfiguration: BedrockDataAutomationRuntimeClientTypes.DataAutomationConfiguration? = nil,
         dataAutomationProfileArn: Swift.String? = nil,
         encryptionConfiguration: BedrockDataAutomationRuntimeClientTypes.EncryptionConfiguration? = nil,
-        inputConfiguration: BedrockDataAutomationRuntimeClientTypes.SyncInputConfiguration? = nil
+        inputConfiguration: BedrockDataAutomationRuntimeClientTypes.SyncInputConfiguration? = nil,
+        outputConfiguration: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration? = nil
     ) {
         self.blueprints = blueprints
         self.dataAutomationConfiguration = dataAutomationConfiguration
         self.dataAutomationProfileArn = dataAutomationProfileArn
         self.encryptionConfiguration = encryptionConfiguration
         self.inputConfiguration = inputConfiguration
+        self.outputConfiguration = outputConfiguration
     }
 }
 
@@ -747,17 +751,20 @@ extension BedrockDataAutomationRuntimeClientTypes {
 
 /// Invoke Data Automation Response
 public struct InvokeDataAutomationOutput: Swift.Sendable {
+    /// Output configuration
+    public var outputConfiguration: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration?
     /// List of outputs for each logical sub-doc
-    /// This member is required.
     public var outputSegments: [BedrockDataAutomationRuntimeClientTypes.OutputSegment]?
     /// Detected semantic modality
     /// This member is required.
     public var semanticModality: BedrockDataAutomationRuntimeClientTypes.SemanticModality?
 
     public init(
-        outputSegments: [BedrockDataAutomationRuntimeClientTypes.OutputSegment]? = nil,
+        outputConfiguration: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration? = nil,
+        outputSegments: [BedrockDataAutomationRuntimeClientTypes.OutputSegment]? = [],
         semanticModality: BedrockDataAutomationRuntimeClientTypes.SemanticModality? = nil
     ) {
+        self.outputConfiguration = outputConfiguration
         self.outputSegments = outputSegments
         self.semanticModality = semanticModality
     }
@@ -889,6 +896,7 @@ extension InvokeDataAutomationInput {
         try writer["dataAutomationProfileArn"].write(value.dataAutomationProfileArn)
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: BedrockDataAutomationRuntimeClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["inputConfiguration"].write(value.inputConfiguration, with: BedrockDataAutomationRuntimeClientTypes.SyncInputConfiguration.write(value:to:))
+        try writer["outputConfiguration"].write(value.outputConfiguration, with: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration.write(value:to:))
     }
 }
 
@@ -959,6 +967,7 @@ extension InvokeDataAutomationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = InvokeDataAutomationOutput()
+        value.outputConfiguration = try reader["outputConfiguration"].readIfPresent(with: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration.read(from:))
         value.outputSegments = try reader["outputSegments"].readListIfPresent(memberReadingClosure: BedrockDataAutomationRuntimeClientTypes.OutputSegment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.semanticModality = try reader["semanticModality"].readIfPresent() ?? .sdkUnknown("")
         return value
@@ -1203,6 +1212,67 @@ extension ServiceQuotaExceededException {
     }
 }
 
+extension BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["video"].write(value.video, with: BedrockDataAutomationRuntimeClientTypes.VideoAssetProcessingConfiguration.write(value:to:))
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.Blueprint {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.Blueprint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["blueprintArn"].write(value.blueprintArn)
+        try writer["stage"].write(value.stage)
+        try writer["version"].write(value.version)
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.DataAutomationConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.DataAutomationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataAutomationProjectArn"].write(value.dataAutomationProjectArn)
+        try writer["stage"].write(value.stage)
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.EncryptionConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsEncryptionContext"].writeMap(value.kmsEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["kmsKeyId"].write(value.kmsKeyId)
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.EventBridgeConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.EventBridgeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventBridgeEnabled"].write(value.eventBridgeEnabled)
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.InputConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.InputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetProcessingConfiguration"].write(value.assetProcessingConfiguration, with: BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration.write(value:to:))
+        try writer["s3Uri"].write(value.s3Uri)
+    }
+}
+
+extension BedrockDataAutomationRuntimeClientTypes.NotificationConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.NotificationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventBridgeConfiguration"].write(value.eventBridgeConfiguration, with: BedrockDataAutomationRuntimeClientTypes.EventBridgeConfiguration.write(value:to:))
+    }
+}
+
 extension BedrockDataAutomationRuntimeClientTypes.OutputConfiguration {
 
     static func write(value: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -1230,6 +1300,15 @@ extension BedrockDataAutomationRuntimeClientTypes.OutputSegment {
     }
 }
 
+extension BedrockDataAutomationRuntimeClientTypes.SyncInputConfiguration {
+
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.SyncInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bytes"].write(value.bytes)
+        try writer["s3Uri"].write(value.s3Uri)
+    }
+}
+
 extension BedrockDataAutomationRuntimeClientTypes.Tag {
 
     static func write(value: BedrockDataAutomationRuntimeClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -1247,57 +1326,12 @@ extension BedrockDataAutomationRuntimeClientTypes.Tag {
     }
 }
 
-extension BedrockDataAutomationRuntimeClientTypes.SyncInputConfiguration {
+extension BedrockDataAutomationRuntimeClientTypes.TimestampSegment {
 
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.SyncInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockDataAutomationRuntimeClientTypes.TimestampSegment?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["bytes"].write(value.bytes)
-        try writer["s3Uri"].write(value.s3Uri)
-    }
-}
-
-extension BedrockDataAutomationRuntimeClientTypes.DataAutomationConfiguration {
-
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.DataAutomationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataAutomationProjectArn"].write(value.dataAutomationProjectArn)
-        try writer["stage"].write(value.stage)
-    }
-}
-
-extension BedrockDataAutomationRuntimeClientTypes.Blueprint {
-
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.Blueprint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blueprintArn"].write(value.blueprintArn)
-        try writer["stage"].write(value.stage)
-        try writer["version"].write(value.version)
-    }
-}
-
-extension BedrockDataAutomationRuntimeClientTypes.EncryptionConfiguration {
-
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kmsEncryptionContext"].writeMap(value.kmsEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-    }
-}
-
-extension BedrockDataAutomationRuntimeClientTypes.InputConfiguration {
-
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.InputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetProcessingConfiguration"].write(value.assetProcessingConfiguration, with: BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration.write(value:to:))
-        try writer["s3Uri"].write(value.s3Uri)
-    }
-}
-
-extension BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration {
-
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.AssetProcessingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["video"].write(value.video, with: BedrockDataAutomationRuntimeClientTypes.VideoAssetProcessingConfiguration.write(value:to:))
+        try writer["endTimeMillis"].write(value.endTimeMillis)
+        try writer["startTimeMillis"].write(value.startTimeMillis)
     }
 }
 
@@ -1319,31 +1353,6 @@ extension BedrockDataAutomationRuntimeClientTypes.VideoSegmentConfiguration {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
-    }
-}
-
-extension BedrockDataAutomationRuntimeClientTypes.TimestampSegment {
-
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.TimestampSegment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTimeMillis"].write(value.endTimeMillis)
-        try writer["startTimeMillis"].write(value.startTimeMillis)
-    }
-}
-
-extension BedrockDataAutomationRuntimeClientTypes.NotificationConfiguration {
-
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.NotificationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventBridgeConfiguration"].write(value.eventBridgeConfiguration, with: BedrockDataAutomationRuntimeClientTypes.EventBridgeConfiguration.write(value:to:))
-    }
-}
-
-extension BedrockDataAutomationRuntimeClientTypes.EventBridgeConfiguration {
-
-    static func write(value: BedrockDataAutomationRuntimeClientTypes.EventBridgeConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventBridgeEnabled"].write(value.eventBridgeEnabled)
     }
 }
 

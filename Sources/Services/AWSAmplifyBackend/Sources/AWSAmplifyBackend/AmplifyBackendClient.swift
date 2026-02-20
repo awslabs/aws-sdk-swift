@@ -70,11 +70,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class AmplifyBackendClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "AmplifyBackendClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: AmplifyBackendClient.AmplifyBackendClientConfig
+    public let config: AmplifyBackendClient.AmplifyBackendClientConfig
     let serviceName = "AmplifyBackend"
 
     @available(*, deprecated, message: "Use AmplifyBackendClient.AmplifyBackendClientConfig instead")
     public typealias Config = AmplifyBackendClient.AmplifyBackendClientConfiguration
+    public typealias Configuration = AmplifyBackendClient.AmplifyBackendClientConfig
 
     public required init(config: AmplifyBackendClient.AmplifyBackendClientConfig) {
         ClientRuntime.initialize()

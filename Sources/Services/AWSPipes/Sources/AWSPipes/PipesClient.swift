@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class PipesClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PipesClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: PipesClient.PipesClientConfig
+    public let config: PipesClient.PipesClientConfig
     let serviceName = "Pipes"
 
     @available(*, deprecated, message: "Use PipesClient.PipesClientConfig instead")
     public typealias Config = PipesClient.PipesClientConfiguration
+    public typealias Configuration = PipesClient.PipesClientConfig
 
     public required init(config: PipesClient.PipesClientConfig) {
         ClientRuntime.initialize()

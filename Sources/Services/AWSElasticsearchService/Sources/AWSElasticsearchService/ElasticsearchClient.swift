@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ElasticsearchClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ElasticsearchClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ElasticsearchClient.ElasticsearchClientConfig
+    public let config: ElasticsearchClient.ElasticsearchClientConfig
     let serviceName = "Elasticsearch"
 
     @available(*, deprecated, message: "Use ElasticsearchClient.ElasticsearchClientConfig instead")
     public typealias Config = ElasticsearchClient.ElasticsearchClientConfiguration
+    public typealias Configuration = ElasticsearchClient.ElasticsearchClientConfig
 
     public required init(config: ElasticsearchClient.ElasticsearchClientConfig) {
         ClientRuntime.initialize()

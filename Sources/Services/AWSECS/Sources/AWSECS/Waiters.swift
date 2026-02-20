@@ -108,7 +108,7 @@ extension ECSClient {
                 let servicesFiltered: [ECSClientTypes.Service]? = services?.filter { original in
                     let deployments = original.deployments
                     let count = Double(deployments?.count ?? 0)
-                    let number = Double(1.0)
+                    let number = Double(1)
                     let comparison = SmithyWaitersAPI.JMESUtils.compare(count, ==, number)
                     let runningCount = original.runningCount
                     let desiredCount = original.desiredCount
@@ -118,7 +118,7 @@ extension ECSClient {
                     return negated
                 }
                 let count = Double(servicesFiltered?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, ==, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),

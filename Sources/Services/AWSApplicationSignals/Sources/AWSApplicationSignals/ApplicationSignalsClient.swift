@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ApplicationSignalsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ApplicationSignalsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ApplicationSignalsClient.ApplicationSignalsClientConfig
+    public let config: ApplicationSignalsClient.ApplicationSignalsClientConfig
     let serviceName = "Application Signals"
 
     @available(*, deprecated, message: "Use ApplicationSignalsClient.ApplicationSignalsClientConfig instead")
     public typealias Config = ApplicationSignalsClient.ApplicationSignalsClientConfiguration
+    public typealias Configuration = ApplicationSignalsClient.ApplicationSignalsClientConfig
 
     public required init(config: ApplicationSignalsClient.ApplicationSignalsClientConfig) {
         ClientRuntime.initialize()

@@ -7,6 +7,7 @@ import software.amazon.smithy.swift.codegen.integration.Plugin
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 import software.amazon.smithy.swift.codegen.model.buildSymbol
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
 class EndpointPlugin(
@@ -36,13 +37,17 @@ class EndpointPlugin(
             }
             writer.write("")
             writer.openBlock(
-                "public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {",
+                "public func configureClient<Config: \$N>(clientConfiguration: inout Config) async throws {",
                 "}",
+                ClientRuntimeTypes.Core.ClientConfiguration,
             ) {
-                writer.openBlock("if var config = clientConfiguration as? ${serviceConfig.sendableTypeName} {", "}") {
-                    writer.write("config.endpointResolver = self.endpointResolver")
-                    writer.write("clientConfiguration = config")
-                }
+                writer.write(
+                    "guard var config = clientConfiguration as? \$L else { return }",
+                    serviceConfig.sendableTypeName,
+                )
+                writer.write("config.endpointResolver = self.endpointResolver")
+                writer.write("guard let modifiedConfig = config as? Config else { return }")
+                writer.write("clientConfiguration = modifiedConfig")
             }
         }
         writer.write("")

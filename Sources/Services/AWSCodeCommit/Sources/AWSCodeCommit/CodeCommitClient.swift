@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CodeCommitClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CodeCommitClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CodeCommitClient.CodeCommitClientConfig
+    public let config: CodeCommitClient.CodeCommitClientConfig
     let serviceName = "CodeCommit"
 
     @available(*, deprecated, message: "Use CodeCommitClient.CodeCommitClientConfig instead")
     public typealias Config = CodeCommitClient.CodeCommitClientConfiguration
+    public typealias Configuration = CodeCommitClient.CodeCommitClientConfig
 
     public required init(config: CodeCommitClient.CodeCommitClientConfig) {
         ClientRuntime.initialize()

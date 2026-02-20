@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SchedulerClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SchedulerClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SchedulerClient.SchedulerClientConfig
+    public let config: SchedulerClient.SchedulerClientConfig
     let serviceName = "Scheduler"
 
     @available(*, deprecated, message: "Use SchedulerClient.SchedulerClientConfig instead")
     public typealias Config = SchedulerClient.SchedulerClientConfiguration
+    public typealias Configuration = SchedulerClient.SchedulerClientConfig
 
     public required init(config: SchedulerClient.SchedulerClientConfig) {
         ClientRuntime.initialize()

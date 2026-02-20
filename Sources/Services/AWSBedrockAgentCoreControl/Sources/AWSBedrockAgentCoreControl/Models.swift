@@ -1454,7 +1454,7 @@ public struct ListAgentRuntimesInput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Contains information about an agent runtime. An agent runtime is the execution environment for a Amazon Bedrock Agent.
+    /// Contains information about an agent runtime. An agent runtime is the execution environment for a Amazon Bedrock AgentCore Agent.
     public struct AgentRuntime: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the agent runtime.
         /// This member is required.
@@ -1991,6 +1991,308 @@ public struct UpdateApiKeyCredentialProviderOutput: Swift.Sendable {
     }
 }
 
+public struct CreateBrowserProfileInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request but does not return an error.
+    public var clientToken: Swift.String?
+    /// A description of the browser profile. Use this field to describe the purpose or contents of the profile.
+    public var description: Swift.String?
+    /// The name of the browser profile. The name must be unique within your account and can contain alphanumeric characters and underscores.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A map of tag keys and values to assign to the browser profile. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.name = name
+        self.tags = tags
+    }
+}
+
+extension CreateBrowserProfileInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateBrowserProfileInput(clientToken: \(Swift.String(describing: clientToken)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The status of a browser profile.
+    public enum BrowserProfileStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deleted
+        case deleting
+        case ready
+        case saving
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BrowserProfileStatus] {
+            return [
+                .deleted,
+                .deleting,
+                .ready,
+                .saving
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .ready: return "READY"
+            case .saving: return "SAVING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateBrowserProfileOutput: Swift.Sendable {
+    /// The timestamp when the browser profile was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the created browser profile.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The unique identifier of the created browser profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The current status of the browser profile.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.BrowserProfileStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        profileArn: Swift.String? = nil,
+        profileId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.BrowserProfileStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.profileArn = profileArn
+        self.profileId = profileId
+        self.status = status
+    }
+}
+
+public struct DeleteBrowserProfileInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The unique identifier of the browser profile to delete.
+    /// This member is required.
+    public var profileId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        profileId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.profileId = profileId
+    }
+}
+
+public struct DeleteBrowserProfileOutput: Swift.Sendable {
+    /// The timestamp when browser session data was last saved to this profile before deletion.
+    public var lastSavedAt: Foundation.Date?
+    /// The timestamp when the browser profile was last updated.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the deleted browser profile.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The unique identifier of the deleted browser profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The current status of the browser profile deletion.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.BrowserProfileStatus?
+
+    public init(
+        lastSavedAt: Foundation.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        profileArn: Swift.String? = nil,
+        profileId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.BrowserProfileStatus? = nil
+    ) {
+        self.lastSavedAt = lastSavedAt
+        self.lastUpdatedAt = lastUpdatedAt
+        self.profileArn = profileArn
+        self.profileId = profileId
+        self.status = status
+    }
+}
+
+public struct GetBrowserProfileInput: Swift.Sendable {
+    /// The unique identifier of the browser profile to retrieve.
+    /// This member is required.
+    public var profileId: Swift.String?
+
+    public init(
+        profileId: Swift.String? = nil
+    ) {
+        self.profileId = profileId
+    }
+}
+
+public struct GetBrowserProfileOutput: Swift.Sendable {
+    /// The timestamp when the browser profile was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the browser profile.
+    public var description: Swift.String?
+    /// The timestamp when browser session data was last saved to this profile.
+    public var lastSavedAt: Foundation.Date?
+    /// The identifier of the browser from which data was last saved to this profile.
+    public var lastSavedBrowserId: Swift.String?
+    /// The identifier of the browser session from which data was last saved to this profile.
+    public var lastSavedBrowserSessionId: Swift.String?
+    /// The timestamp when the browser profile was last updated.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the browser profile.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the browser profile.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The unique identifier of the browser profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The current status of the browser profile.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.BrowserProfileStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        lastSavedAt: Foundation.Date? = nil,
+        lastSavedBrowserId: Swift.String? = nil,
+        lastSavedBrowserSessionId: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        profileArn: Swift.String? = nil,
+        profileId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.BrowserProfileStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.lastSavedAt = lastSavedAt
+        self.lastSavedBrowserId = lastSavedBrowserId
+        self.lastSavedBrowserSessionId = lastSavedBrowserSessionId
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.profileArn = profileArn
+        self.profileId = profileId
+        self.status = status
+    }
+}
+
+extension GetBrowserProfileOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetBrowserProfileOutput(createdAt: \(Swift.String(describing: createdAt)), lastSavedAt: \(Swift.String(describing: lastSavedAt)), lastSavedBrowserId: \(Swift.String(describing: lastSavedBrowserId)), lastSavedBrowserSessionId: \(Swift.String(describing: lastSavedBrowserSessionId)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), name: \(Swift.String(describing: name)), profileArn: \(Swift.String(describing: profileArn)), profileId: \(Swift.String(describing: profileId)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListBrowserProfilesInput: Swift.Sendable {
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// A token to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains summary information about a browser profile. A browser profile stores persistent browser data that can be reused across browser sessions.
+    public struct BrowserProfileSummary: Swift.Sendable {
+        /// The timestamp when the browser profile was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the browser profile.
+        public var description: Swift.String?
+        /// The timestamp when browser session data was last saved to this profile.
+        public var lastSavedAt: Foundation.Date?
+        /// The identifier of the browser from which data was last saved to this profile.
+        public var lastSavedBrowserId: Swift.String?
+        /// The identifier of the browser session from which data was last saved to this profile.
+        public var lastSavedBrowserSessionId: Swift.String?
+        /// The timestamp when the browser profile was last updated.
+        /// This member is required.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The name of the browser profile.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the browser profile.
+        /// This member is required.
+        public var profileArn: Swift.String?
+        /// The unique identifier of the browser profile.
+        /// This member is required.
+        public var profileId: Swift.String?
+        /// The current status of the browser profile. Possible values include READY, SAVING, DELETING, and DELETED.
+        /// This member is required.
+        public var status: BedrockAgentCoreControlClientTypes.BrowserProfileStatus?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            lastSavedAt: Foundation.Date? = nil,
+            lastSavedBrowserId: Swift.String? = nil,
+            lastSavedBrowserSessionId: Swift.String? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            profileArn: Swift.String? = nil,
+            profileId: Swift.String? = nil,
+            status: BedrockAgentCoreControlClientTypes.BrowserProfileStatus? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.lastSavedAt = lastSavedAt
+            self.lastSavedBrowserId = lastSavedBrowserId
+            self.lastSavedBrowserSessionId = lastSavedBrowserSessionId
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.profileArn = profileArn
+            self.profileId = profileId
+            self.status = status
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.BrowserProfileSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BrowserProfileSummary(createdAt: \(Swift.String(describing: createdAt)), lastSavedAt: \(Swift.String(describing: lastSavedAt)), lastSavedBrowserId: \(Swift.String(describing: lastSavedBrowserId)), lastSavedBrowserSessionId: \(Swift.String(describing: lastSavedBrowserSessionId)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), name: \(Swift.String(describing: name)), profileArn: \(Swift.String(describing: profileArn)), profileId: \(Swift.String(describing: profileId)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListBrowserProfilesOutput: Swift.Sendable {
+    /// A token to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The list of browser profile summaries.
+    /// This member is required.
+    public var profileSummaries: [BedrockAgentCoreControlClientTypes.BrowserProfileSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        profileSummaries: [BedrockAgentCoreControlClientTypes.BrowserProfileSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.profileSummaries = profileSummaries
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes {
 
     /// Configuration for enabling browser signing capabilities that allow agents to cryptographically identify themselves to websites using HTTP message signatures.
@@ -2078,7 +2380,7 @@ extension BedrockAgentCoreControlClientTypes {
 public struct CreateBrowserInput: Swift.Sendable {
     /// The browser signing configuration that enables cryptographic agent identification using HTTP message signatures for web bot authentication.
     public var browserSigning: BedrockAgentCoreControlClientTypes.BrowserSigningConfigInput?
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request but does not return an error.
     public var clientToken: Swift.String?
     /// The description of the browser.
     public var description: Swift.String?
@@ -2372,7 +2674,7 @@ public struct ListBrowsersInput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Contains summary information about a browser. A browser enables Amazon Bedrock Agent to interact with web content.
+    /// Contains summary information about a browser. A browser enables Amazon Bedrock AgentCore Agent to interact with web content.
     public struct BrowserSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the browser.
         /// This member is required.
@@ -2487,7 +2789,7 @@ extension BedrockAgentCoreControlClientTypes {
 }
 
 public struct CreateCodeInterpreterInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request but does not return an error.
     public var clientToken: Swift.String?
     /// The description of the code interpreter.
     public var description: Swift.String?
@@ -2722,7 +3024,7 @@ public struct ListCodeInterpretersInput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Contains summary information about a code interpreter. A code interpreter enables Amazon Bedrock Agent to execute code.
+    /// Contains summary information about a code interpreter. A code interpreter enables Amazon Bedrock AgentCore Agent to execute code.
     public struct CodeInterpreterSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the code interpreter.
         /// This member is required.
@@ -10742,6 +11044,13 @@ extension CreateBrowserInput {
     }
 }
 
+extension CreateBrowserProfileInput {
+
+    static func urlPathProvider(_ value: CreateBrowserProfileInput) -> Swift.String? {
+        return "/browser-profiles"
+    }
+}
+
 extension CreateCodeInterpreterInput {
 
     static func urlPathProvider(_ value: CreateCodeInterpreterInput) -> Swift.String? {
@@ -10885,6 +11194,28 @@ extension DeleteBrowserInput {
 extension DeleteBrowserInput {
 
     static func queryItemProvider(_ value: DeleteBrowserInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension DeleteBrowserProfileInput {
+
+    static func urlPathProvider(_ value: DeleteBrowserProfileInput) -> Swift.String? {
+        guard let profileId = value.profileId else {
+            return nil
+        }
+        return "/browser-profiles/\(profileId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteBrowserProfileInput {
+
+    static func queryItemProvider(_ value: DeleteBrowserProfileInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
             let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
@@ -11077,6 +11408,16 @@ extension GetBrowserInput {
             return nil
         }
         return "/browsers/\(browserId.urlPercentEncoding())"
+    }
+}
+
+extension GetBrowserProfileInput {
+
+    static func urlPathProvider(_ value: GetBrowserProfileInput) -> Swift.String? {
+        guard let profileId = value.profileId else {
+            return nil
+        }
+        return "/browser-profiles/\(profileId.urlPercentEncoding())"
     }
 }
 
@@ -11301,6 +11642,29 @@ extension ListApiKeyCredentialProvidersInput {
 
     static func urlPathProvider(_ value: ListApiKeyCredentialProvidersInput) -> Swift.String? {
         return "/identities/ListApiKeyCredentialProviders"
+    }
+}
+
+extension ListBrowserProfilesInput {
+
+    static func urlPathProvider(_ value: ListBrowserProfilesInput) -> Swift.String? {
+        return "/browser-profiles"
+    }
+}
+
+extension ListBrowserProfilesInput {
+
+    static func queryItemProvider(_ value: ListBrowserProfilesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
@@ -11841,6 +12205,17 @@ extension CreateBrowserInput {
     }
 }
 
+extension CreateBrowserProfileInput {
+
+    static func write(value: CreateBrowserProfileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateCodeInterpreterInput {
 
     static func write(value: CreateCodeInterpreterInput?, to writer: SmithyJSON.Writer) throws {
@@ -12314,6 +12689,21 @@ extension CreateBrowserOutput {
     }
 }
 
+extension CreateBrowserProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateBrowserProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateBrowserProfileOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension CreateCodeInterpreterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCodeInterpreterOutput {
@@ -12540,6 +12930,22 @@ extension DeleteBrowserOutput {
         var value = DeleteBrowserOutput()
         value.browserId = try reader["browserId"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DeleteBrowserProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBrowserProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteBrowserProfileOutput()
+        value.lastSavedAt = try reader["lastSavedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
@@ -12775,6 +13181,27 @@ extension GetBrowserOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.BrowserNetworkConfiguration.read(from:))
         value.recording = try reader["recording"].readIfPresent(with: BedrockAgentCoreControlClientTypes.RecordingConfig.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GetBrowserProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetBrowserProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBrowserProfileOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.lastSavedAt = try reader["lastSavedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastSavedBrowserId = try reader["lastSavedBrowserId"].readIfPresent()
+        value.lastSavedBrowserSessionId = try reader["lastSavedBrowserSessionId"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
@@ -13082,6 +13509,19 @@ extension ListApiKeyCredentialProvidersOutput {
         var value = ListApiKeyCredentialProvidersOutput()
         value.credentialProviders = try reader["credentialProviders"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ApiKeyCredentialProviderItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListBrowserProfilesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListBrowserProfilesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListBrowserProfilesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.profileSummaries = try reader["profileSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.BrowserProfileSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -13646,6 +14086,25 @@ enum CreateBrowserOutputError {
     }
 }
 
+enum CreateBrowserProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateCodeInterpreterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13912,6 +14371,25 @@ enum DeleteBrowserOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteBrowserProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14197,6 +14675,24 @@ enum GetBrowserOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetBrowserProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -14505,6 +15001,23 @@ enum ListApiKeyCredentialProvidersOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListBrowserProfilesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -15300,331 +15813,66 @@ extension ConcurrentModificationException {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails {
+extension BedrockAgentCoreControlClientTypes.AgentRuntime {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AgentRuntime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails()
-        value.workloadIdentityArn = try reader["workloadIdentityArn"].readIfPresent() ?? ""
+        var value = BedrockAgentCoreControlClientTypes.AgentRuntime()
+        value.agentRuntimeArn = try reader["agentRuntimeArn"].readIfPresent() ?? ""
+        value.agentRuntimeId = try reader["agentRuntimeId"].readIfPresent() ?? ""
+        value.agentRuntimeVersion = try reader["agentRuntimeVersion"].readIfPresent() ?? ""
+        value.agentRuntimeName = try reader["agentRuntimeName"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.Secret {
+extension BedrockAgentCoreControlClientTypes.AgentRuntimeArtifact {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Secret {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.Secret()
-        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.AgentRuntimeArtifact?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .mcp(mcp):
-                try writer["mcp"].write(mcp, with: BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration.write(value:to:))
+            case let .codeconfiguration(codeconfiguration):
+                try writer["codeConfiguration"].write(codeconfiguration, with: BedrockAgentCoreControlClientTypes.CodeConfiguration.write(value:to:))
+            case let .containerconfiguration(containerconfiguration):
+                try writer["containerConfiguration"].write(containerconfiguration, with: BedrockAgentCoreControlClientTypes.ContainerConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AgentRuntimeArtifact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "mcp":
-                return .mcp(try reader["mcp"].read(with: BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration.read(from:)))
+            case "containerConfiguration":
+                return .containerconfiguration(try reader["containerConfiguration"].read(with: BedrockAgentCoreControlClientTypes.ContainerConfiguration.read(from:)))
+            case "codeConfiguration":
+                return .codeconfiguration(try reader["codeConfiguration"].read(with: BedrockAgentCoreControlClientTypes.CodeConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration {
+extension BedrockAgentCoreControlClientTypes.AgentRuntimeEndpoint {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["instructions"].write(value.instructions)
-        try writer["searchType"].write(value.searchType)
-        try writer["supportedVersions"].writeList(value.supportedVersions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AgentRuntimeEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration()
-        value.supportedVersions = try reader["supportedVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.instructions = try reader["instructions"].readIfPresent()
-        value.searchType = try reader["searchType"].readIfPresent()
+        var value = BedrockAgentCoreControlClientTypes.AgentRuntimeEndpoint()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.liveVersion = try reader["liveVersion"].readIfPresent()
+        value.targetVersion = try reader["targetVersion"].readIfPresent()
+        value.agentRuntimeEndpointArn = try reader["agentRuntimeEndpointArn"].readIfPresent() ?? ""
+        value.agentRuntimeArn = try reader["agentRuntimeArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.AuthorizerConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .customjwtauthorizer(customjwtauthorizer):
-                try writer["customJWTAuthorizer"].write(customjwtauthorizer, with: BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AuthorizerConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "customJWTAuthorizer":
-                return .customjwtauthorizer(try reader["customJWTAuthorizer"].read(with: BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowedAudience"].writeList(value.allowedAudience, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["allowedClients"].writeList(value.allowedClients, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["allowedScopes"].writeList(value.allowedScopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["customClaims"].writeList(value.customClaims, memberWritingClosure: BedrockAgentCoreControlClientTypes.CustomClaimValidationType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["discoveryUrl"].write(value.discoveryUrl)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration()
-        value.discoveryUrl = try reader["discoveryUrl"].readIfPresent() ?? ""
-        value.allowedAudience = try reader["allowedAudience"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allowedClients = try reader["allowedClients"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allowedScopes = try reader["allowedScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.customClaims = try reader["customClaims"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CustomClaimValidationType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.CustomClaimValidationType {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.CustomClaimValidationType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authorizingClaimMatchValue"].write(value.authorizingClaimMatchValue, with: BedrockAgentCoreControlClientTypes.AuthorizingClaimMatchValueType.write(value:to:))
-        try writer["inboundTokenClaimName"].write(value.inboundTokenClaimName)
-        try writer["inboundTokenClaimValueType"].write(value.inboundTokenClaimValueType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CustomClaimValidationType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.CustomClaimValidationType()
-        value.inboundTokenClaimName = try reader["inboundTokenClaimName"].readIfPresent() ?? ""
-        value.inboundTokenClaimValueType = try reader["inboundTokenClaimValueType"].readIfPresent() ?? .sdkUnknown("")
-        value.authorizingClaimMatchValue = try reader["authorizingClaimMatchValue"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizingClaimMatchValueType.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.AuthorizingClaimMatchValueType {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.AuthorizingClaimMatchValueType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["claimMatchOperator"].write(value.claimMatchOperator)
-        try writer["claimMatchValue"].write(value.claimMatchValue, with: BedrockAgentCoreControlClientTypes.ClaimMatchValueType.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AuthorizingClaimMatchValueType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.AuthorizingClaimMatchValueType()
-        value.claimMatchValue = try reader["claimMatchValue"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ClaimMatchValueType.read(from:))
-        value.claimMatchOperator = try reader["claimMatchOperator"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.ClaimMatchValueType {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.ClaimMatchValueType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .matchvaluestring(matchvaluestring):
-                try writer["matchValueString"].write(matchvaluestring)
-            case let .matchvaluestringlist(matchvaluestringlist):
-                try writer["matchValueStringList"].writeList(matchvaluestringlist, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ClaimMatchValueType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "matchValueString":
-                return .matchvaluestring(try reader["matchValueString"].read())
-            case "matchValueStringList":
-                return .matchvaluestringlist(try reader["matchValueStringList"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["inputConfiguration"].write(value.inputConfiguration, with: BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration.write(value:to:))
-        try writer["interceptionPoints"].writeList(value.interceptionPoints, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockAgentCoreControlClientTypes.GatewayInterceptionPoint>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["interceptor"].write(value.interceptor, with: BedrockAgentCoreControlClientTypes.InterceptorConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration()
-        value.interceptor = try reader["interceptor"].readIfPresent(with: BedrockAgentCoreControlClientTypes.InterceptorConfiguration.read(from:))
-        value.interceptionPoints = try reader["interceptionPoints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockAgentCoreControlClientTypes.GatewayInterceptionPoint>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.inputConfiguration = try reader["inputConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["passRequestHeaders"].write(value.passRequestHeaders)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration()
-        value.passRequestHeaders = try reader["passRequestHeaders"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.InterceptorConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.InterceptorConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .lambda(lambda):
-                try writer["lambda"].write(lambda, with: BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.InterceptorConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "lambda":
-                return .lambda(try reader["lambda"].read(with: BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.GatewayPolicyEngineConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.GatewayPolicyEngineConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["mode"].write(value.mode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GatewayPolicyEngineConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.GatewayPolicyEngineConfiguration()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.TargetConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.TargetConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .mcp(mcp):
-                try writer["mcp"].write(mcp, with: BedrockAgentCoreControlClientTypes.McpTargetConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.TargetConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "mcp":
-                return .mcp(try reader["mcp"].read(with: BedrockAgentCoreControlClientTypes.McpTargetConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.McpTargetConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.McpTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .apigateway(apigateway):
-                try writer["apiGateway"].write(apigateway, with: BedrockAgentCoreControlClientTypes.ApiGatewayTargetConfiguration.write(value:to:))
-            case let .lambda(lambda):
-                try writer["lambda"].write(lambda, with: BedrockAgentCoreControlClientTypes.McpLambdaTargetConfiguration.write(value:to:))
-            case let .mcpserver(mcpserver):
-                try writer["mcpServer"].write(mcpserver, with: BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration.write(value:to:))
-            case let .openapischema(openapischema):
-                try writer["openApiSchema"].write(openapischema, with: BedrockAgentCoreControlClientTypes.ApiSchemaConfiguration.write(value:to:))
-            case let .smithymodel(smithymodel):
-                try writer["smithyModel"].write(smithymodel, with: BedrockAgentCoreControlClientTypes.ApiSchemaConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.McpTargetConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "openApiSchema":
-                return .openapischema(try reader["openApiSchema"].read(with: BedrockAgentCoreControlClientTypes.ApiSchemaConfiguration.read(from:)))
-            case "smithyModel":
-                return .smithymodel(try reader["smithyModel"].read(with: BedrockAgentCoreControlClientTypes.ApiSchemaConfiguration.read(from:)))
-            case "lambda":
-                return .lambda(try reader["lambda"].read(with: BedrockAgentCoreControlClientTypes.McpLambdaTargetConfiguration.read(from:)))
-            case "mcpServer":
-                return .mcpserver(try reader["mcpServer"].read(with: BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration.read(from:)))
-            case "apiGateway":
-                return .apigateway(try reader["apiGateway"].read(with: BedrockAgentCoreControlClientTypes.ApiGatewayTargetConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
     }
 }
 
@@ -15702,123 +15950,15 @@ extension BedrockAgentCoreControlClientTypes.ApiGatewayToolOverride {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration {
+extension BedrockAgentCoreControlClientTypes.ApiKeyCredentialProviderItem {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endpoint"].write(value.endpoint)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ApiKeyCredentialProviderItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration()
-        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.McpLambdaTargetConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.McpLambdaTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lambdaArn"].write(value.lambdaArn)
-        try writer["toolSchema"].write(value.toolSchema, with: BedrockAgentCoreControlClientTypes.ToolSchema.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.McpLambdaTargetConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.McpLambdaTargetConfiguration()
-        value.lambdaArn = try reader["lambdaArn"].readIfPresent() ?? ""
-        value.toolSchema = try reader["toolSchema"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ToolSchema.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.ToolSchema {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.ToolSchema?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .inlinepayload(inlinepayload):
-                try writer["inlinePayload"].writeList(inlinepayload, memberWritingClosure: BedrockAgentCoreControlClientTypes.ToolDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .s3(s3):
-                try writer["s3"].write(s3, with: BedrockAgentCoreControlClientTypes.S3Configuration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ToolSchema {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "s3":
-                return .s3(try reader["s3"].read(with: BedrockAgentCoreControlClientTypes.S3Configuration.read(from:)))
-            case "inlinePayload":
-                return .inlinepayload(try reader["inlinePayload"].readList(memberReadingClosure: BedrockAgentCoreControlClientTypes.ToolDefinition.read(from:), memberNodeInfo: "member", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.ToolDefinition {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.ToolDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["inputSchema"].write(value.inputSchema, with: BedrockAgentCoreControlClientTypes.SchemaDefinition.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["outputSchema"].write(value.outputSchema, with: BedrockAgentCoreControlClientTypes.SchemaDefinition.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ToolDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.ToolDefinition()
+        var value = BedrockAgentCoreControlClientTypes.ApiKeyCredentialProviderItem()
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent() ?? ""
-        value.inputSchema = try reader["inputSchema"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SchemaDefinition.read(from:))
-        value.outputSchema = try reader["outputSchema"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SchemaDefinition.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.SchemaDefinition {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.SchemaDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["items"].write(value.items, with: BedrockAgentCoreControlClientTypes.SchemaDefinition.write(value:to:))
-        try writer["properties"].writeMap(value.properties, valueWritingClosure: BedrockAgentCoreControlClientTypes.SchemaDefinition.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["required"].writeList(value.`required`, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SchemaDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.SchemaDefinition()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.properties = try reader["properties"].readMapIfPresent(valueReadingClosure: BedrockAgentCoreControlClientTypes.SchemaDefinition.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.`required` = try reader["required"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.items = try reader["items"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SchemaDefinition.read(from:))
-        value.description = try reader["description"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.S3Configuration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.S3Configuration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketOwnerAccountId"].write(value.bucketOwnerAccountId)
-        try writer["uri"].write(value.uri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.S3Configuration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.S3Configuration()
-        value.uri = try reader["uri"].readIfPresent()
-        value.bucketOwnerAccountId = try reader["bucketOwnerAccountId"].readIfPresent()
+        value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -15851,20 +15991,358 @@ extension BedrockAgentCoreControlClientTypes.ApiSchemaConfiguration {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration {
+extension BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigInput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["credentialProvider"].write(value.credentialProvider, with: BedrockAgentCoreControlClientTypes.CredentialProvider.write(value:to:))
-        try writer["credentialProviderType"].write(value.credentialProviderType)
+        try writer["clientId"].write(value.clientId)
+        try writer["clientSecret"].write(value.clientSecret)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.AuthorizerConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .customjwtauthorizer(customjwtauthorizer):
+                try writer["customJWTAuthorizer"].write(customjwtauthorizer, with: BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AuthorizerConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration()
-        value.credentialProviderType = try reader["credentialProviderType"].readIfPresent() ?? .sdkUnknown("")
-        value.credentialProvider = try reader["credentialProvider"].readIfPresent(with: BedrockAgentCoreControlClientTypes.CredentialProvider.read(from:))
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "customJWTAuthorizer":
+                return .customjwtauthorizer(try reader["customJWTAuthorizer"].read(with: BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.AuthorizingClaimMatchValueType {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.AuthorizingClaimMatchValueType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["claimMatchOperator"].write(value.claimMatchOperator)
+        try writer["claimMatchValue"].write(value.claimMatchValue, with: BedrockAgentCoreControlClientTypes.ClaimMatchValueType.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AuthorizingClaimMatchValueType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.AuthorizingClaimMatchValueType()
+        value.claimMatchValue = try reader["claimMatchValue"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ClaimMatchValueType.read(from:))
+        value.claimMatchOperator = try reader["claimMatchOperator"].readIfPresent() ?? .sdkUnknown("")
         return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.BedrockEvaluatorModelConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.BedrockEvaluatorModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalModelRequestFields"].write(value.additionalModelRequestFields)
+        try writer["inferenceConfig"].write(value.inferenceConfig, with: BedrockAgentCoreControlClientTypes.InferenceConfiguration.write(value:to:))
+        try writer["modelId"].write(value.modelId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.BedrockEvaluatorModelConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.BedrockEvaluatorModelConfig()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.inferenceConfig = try reader["inferenceConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.InferenceConfiguration.read(from:))
+        value.additionalModelRequestFields = try reader["additionalModelRequestFields"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.BrowserNetworkConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.BrowserNetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkMode"].write(value.networkMode)
+        try writer["vpcConfig"].write(value.vpcConfig, with: BedrockAgentCoreControlClientTypes.VpcConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.BrowserNetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.BrowserNetworkConfiguration()
+        value.networkMode = try reader["networkMode"].readIfPresent() ?? BedrockAgentCoreControlClientTypes.BrowserNetworkMode.`public`
+        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.VpcConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.BrowserProfileSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.BrowserProfileSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.BrowserProfileSummary()
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastSavedAt = try reader["lastSavedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastSavedBrowserSessionId = try reader["lastSavedBrowserSessionId"].readIfPresent()
+        value.lastSavedBrowserId = try reader["lastSavedBrowserId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.BrowserSigningConfigInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.BrowserSigningConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.BrowserSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.BrowserSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.BrowserSummary()
+        value.browserId = try reader["browserId"].readIfPresent() ?? ""
+        value.browserArn = try reader["browserArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["definition"].write(value.definition)
+        try writer["label"].write(value.label)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition()
+        value.definition = try reader["definition"].readIfPresent() ?? ""
+        value.label = try reader["label"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.CedarPolicy {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.CedarPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["statement"].write(value.statement)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CedarPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.CedarPolicy()
+        value.statement = try reader["statement"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ClaimMatchValueType {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ClaimMatchValueType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .matchvaluestring(matchvaluestring):
+                try writer["matchValueString"].write(matchvaluestring)
+            case let .matchvaluestringlist(matchvaluestringlist):
+                try writer["matchValueStringList"].writeList(matchvaluestringlist, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ClaimMatchValueType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "matchValueString":
+                return .matchvaluestring(try reader["matchValueString"].read())
+            case "matchValueStringList":
+                return .matchvaluestringlist(try reader["matchValueStringList"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logGroupNames"].writeList(value.logGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["serviceNames"].writeList(value.serviceNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig()
+        value.logGroupNames = try reader["logGroupNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.serviceNames = try reader["serviceNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig()
+        value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Code {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.Code?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3(s3):
+                try writer["s3"].write(s3, with: BedrockAgentCoreControlClientTypes.S3Location.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Code {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: BedrockAgentCoreControlClientTypes.S3Location.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.CodeConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.CodeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["code"].write(value.code, with: BedrockAgentCoreControlClientTypes.Code.write(value:to:))
+        try writer["entryPoint"].writeList(value.entryPoint, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["runtime"].write(value.runtime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CodeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.CodeConfiguration()
+        value.code = try reader["code"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Code.read(from:))
+        value.runtime = try reader["runtime"].readIfPresent() ?? .sdkUnknown("")
+        value.entryPoint = try reader["entryPoint"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkMode"].write(value.networkMode)
+        try writer["vpcConfig"].write(value.vpcConfig, with: BedrockAgentCoreControlClientTypes.VpcConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkConfiguration()
+        value.networkMode = try reader["networkMode"].readIfPresent() ?? BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkMode.sandbox
+        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.VpcConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.CodeInterpreterSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CodeInterpreterSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.CodeInterpreterSummary()
+        value.codeInterpreterId = try reader["codeInterpreterId"].readIfPresent() ?? ""
+        value.codeInterpreterArn = try reader["codeInterpreterArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ConsolidationConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ConsolidationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "customConsolidationConfiguration":
+                return .customconsolidationconfiguration(try reader["customConsolidationConfiguration"].read(with: BedrockAgentCoreControlClientTypes.CustomConsolidationConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ContainerConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ContainerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containerUri"].write(value.containerUri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ContainerConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ContainerConfiguration()
+        value.containerUri = try reader["containerUri"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Content {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.Content?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .rawtext(rawtext):
+                try writer["rawText"].write(rawtext)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
@@ -15896,255 +16374,59 @@ extension BedrockAgentCoreControlClientTypes.CredentialProvider {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.GatewayApiKeyCredentialProvider {
+extension BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.GatewayApiKeyCredentialProvider?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["credentialLocation"].write(value.credentialLocation)
-        try writer["credentialParameterName"].write(value.credentialParameterName)
-        try writer["credentialPrefix"].write(value.credentialPrefix)
-        try writer["providerArn"].write(value.providerArn)
+        try writer["credentialProvider"].write(value.credentialProvider, with: BedrockAgentCoreControlClientTypes.CredentialProvider.write(value:to:))
+        try writer["credentialProviderType"].write(value.credentialProviderType)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GatewayApiKeyCredentialProvider {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.GatewayApiKeyCredentialProvider()
-        value.providerArn = try reader["providerArn"].readIfPresent() ?? ""
-        value.credentialParameterName = try reader["credentialParameterName"].readIfPresent()
-        value.credentialPrefix = try reader["credentialPrefix"].readIfPresent()
-        value.credentialLocation = try reader["credentialLocation"].readIfPresent()
+        var value = BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration()
+        value.credentialProviderType = try reader["credentialProviderType"].readIfPresent() ?? .sdkUnknown("")
+        value.credentialProvider = try reader["credentialProvider"].readIfPresent(with: BedrockAgentCoreControlClientTypes.CredentialProvider.read(from:))
         return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.OAuthCredentialProvider {
+extension BedrockAgentCoreControlClientTypes.CustomClaimValidationType {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.OAuthCredentialProvider?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.CustomClaimValidationType?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["customParameters"].writeMap(value.customParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["defaultReturnUrl"].write(value.defaultReturnUrl)
-        try writer["grantType"].write(value.grantType)
-        try writer["providerArn"].write(value.providerArn)
-        try writer["scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["authorizingClaimMatchValue"].write(value.authorizingClaimMatchValue, with: BedrockAgentCoreControlClientTypes.AuthorizingClaimMatchValueType.write(value:to:))
+        try writer["inboundTokenClaimName"].write(value.inboundTokenClaimName)
+        try writer["inboundTokenClaimValueType"].write(value.inboundTokenClaimValueType)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.OAuthCredentialProvider {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CustomClaimValidationType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.OAuthCredentialProvider()
-        value.providerArn = try reader["providerArn"].readIfPresent() ?? ""
-        value.scopes = try reader["scopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.customParameters = try reader["customParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.grantType = try reader["grantType"].readIfPresent() ?? BedrockAgentCoreControlClientTypes.OAuthGrantType.clientCredentials
-        value.defaultReturnUrl = try reader["defaultReturnUrl"].readIfPresent()
+        var value = BedrockAgentCoreControlClientTypes.CustomClaimValidationType()
+        value.inboundTokenClaimName = try reader["inboundTokenClaimName"].readIfPresent() ?? ""
+        value.inboundTokenClaimValueType = try reader["inboundTokenClaimValueType"].readIfPresent() ?? .sdkUnknown("")
+        value.authorizingClaimMatchValue = try reader["authorizingClaimMatchValue"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizingClaimMatchValueType.read(from:))
         return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.MetadataConfiguration {
+extension BedrockAgentCoreControlClientTypes.CustomConfigurationInput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.MetadataConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.CustomConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["allowedQueryParameters"].writeList(value.allowedQueryParameters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["allowedRequestHeaders"].writeList(value.allowedRequestHeaders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["allowedResponseHeaders"].writeList(value.allowedResponseHeaders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MetadataConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.MetadataConfiguration()
-        value.allowedRequestHeaders = try reader["allowedRequestHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allowedQueryParameters = try reader["allowedQueryParameters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allowedResponseHeaders = try reader["allowedResponseHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.Memory {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Memory {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.Memory()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
-        value.memoryExecutionRoleArn = try reader["memoryExecutionRoleArn"].readIfPresent()
-        value.eventExpiryDuration = try reader["eventExpiryDuration"].readIfPresent() ?? 0
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.strategies = try reader["strategies"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.MemoryStrategy.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.MemoryStrategy {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MemoryStrategy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.MemoryStrategy()
-        value.strategyId = try reader["strategyId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.configuration = try reader["configuration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.StrategyConfiguration.read(from:))
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.StrategyConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.StrategyConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.StrategyConfiguration()
-        value.type = try reader["type"].readIfPresent()
-        value.extraction = try reader["extraction"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ExtractionConfiguration.read(from:))
-        value.consolidation = try reader["consolidation"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ConsolidationConfiguration.read(from:))
-        value.reflection = try reader["reflection"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ReflectionConfiguration.read(from:))
-        value.selfManagedConfiguration = try reader["selfManagedConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SelfManagedConfiguration.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.SelfManagedConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SelfManagedConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.SelfManagedConfiguration()
-        value.triggerConditions = try reader["triggerConditions"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.TriggerCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.invocationConfiguration = try reader["invocationConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.InvocationConfiguration.read(from:))
-        value.historicalContextWindowSize = try reader["historicalContextWindowSize"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.InvocationConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.InvocationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.InvocationConfiguration()
-        value.topicArn = try reader["topicArn"].readIfPresent() ?? ""
-        value.payloadDeliveryBucketName = try reader["payloadDeliveryBucketName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.TriggerCondition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.TriggerCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "messageBasedTrigger":
-                return .messagebasedtrigger(try reader["messageBasedTrigger"].read(with: BedrockAgentCoreControlClientTypes.MessageBasedTrigger.read(from:)))
-            case "tokenBasedTrigger":
-                return .tokenbasedtrigger(try reader["tokenBasedTrigger"].read(with: BedrockAgentCoreControlClientTypes.TokenBasedTrigger.read(from:)))
-            case "timeBasedTrigger":
-                return .timebasedtrigger(try reader["timeBasedTrigger"].read(with: BedrockAgentCoreControlClientTypes.TimeBasedTrigger.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.TimeBasedTrigger {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.TimeBasedTrigger {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.TimeBasedTrigger()
-        value.idleSessionTimeout = try reader["idleSessionTimeout"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.TokenBasedTrigger {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.TokenBasedTrigger {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.TokenBasedTrigger()
-        value.tokenCount = try reader["tokenCount"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.MessageBasedTrigger {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MessageBasedTrigger {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.MessageBasedTrigger()
-        value.messageCount = try reader["messageCount"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.ReflectionConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ReflectionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "customReflectionConfiguration":
-                return .customreflectionconfiguration(try reader["customReflectionConfiguration"].read(with: BedrockAgentCoreControlClientTypes.CustomReflectionConfiguration.read(from:)))
-            case "episodicReflectionConfiguration":
-                return .episodicreflectionconfiguration(try reader["episodicReflectionConfiguration"].read(with: BedrockAgentCoreControlClientTypes.EpisodicReflectionConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.EpisodicReflectionConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.EpisodicReflectionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.EpisodicReflectionConfiguration()
-        value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.CustomReflectionConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CustomReflectionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "episodicReflectionOverride":
-                return .episodicreflectionoverride(try reader["episodicReflectionOverride"].read(with: BedrockAgentCoreControlClientTypes.EpisodicReflectionOverride.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.EpisodicReflectionOverride {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.EpisodicReflectionOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.EpisodicReflectionOverride()
-        value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
-        value.modelId = try reader["modelId"].readIfPresent() ?? ""
-        value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.ConsolidationConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ConsolidationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "customConsolidationConfiguration":
-                return .customconsolidationconfiguration(try reader["customConsolidationConfiguration"].read(with: BedrockAgentCoreControlClientTypes.CustomConsolidationConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
+        switch value {
+            case let .episodicoverride(episodicoverride):
+                try writer["episodicOverride"].write(episodicoverride, with: BedrockAgentCoreControlClientTypes.EpisodicOverrideConfigurationInput.write(value:to:))
+            case let .selfmanagedconfiguration(selfmanagedconfiguration):
+                try writer["selfManagedConfiguration"].write(selfmanagedconfiguration, with: BedrockAgentCoreControlClientTypes.SelfManagedConfigurationInput.write(value:to:))
+            case let .semanticoverride(semanticoverride):
+                try writer["semanticOverride"].write(semanticoverride, with: BedrockAgentCoreControlClientTypes.SemanticOverrideConfigurationInput.write(value:to:))
+            case let .summaryoverride(summaryoverride):
+                try writer["summaryOverride"].write(summaryoverride, with: BedrockAgentCoreControlClientTypes.SummaryOverrideConfigurationInput.write(value:to:))
+            case let .userpreferenceoverride(userpreferenceoverride):
+                try writer["userPreferenceOverride"].write(userpreferenceoverride, with: BedrockAgentCoreControlClientTypes.UserPreferenceOverrideConfigurationInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 }
@@ -16169,60 +16451,21 @@ extension BedrockAgentCoreControlClientTypes.CustomConsolidationConfiguration {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.EpisodicConsolidationOverride {
+extension BedrockAgentCoreControlClientTypes.CustomConsolidationConfigurationInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.EpisodicConsolidationOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.EpisodicConsolidationOverride()
-        value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
-        value.modelId = try reader["modelId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.UserPreferenceConsolidationOverride {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.UserPreferenceConsolidationOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.UserPreferenceConsolidationOverride()
-        value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
-        value.modelId = try reader["modelId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.SummaryConsolidationOverride {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SummaryConsolidationOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.SummaryConsolidationOverride()
-        value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
-        value.modelId = try reader["modelId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.SemanticConsolidationOverride {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SemanticConsolidationOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.SemanticConsolidationOverride()
-        value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
-        value.modelId = try reader["modelId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.ExtractionConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ExtractionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "customExtractionConfiguration":
-                return .customextractionconfiguration(try reader["customExtractionConfiguration"].read(with: BedrockAgentCoreControlClientTypes.CustomExtractionConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
+    static func write(value: BedrockAgentCoreControlClientTypes.CustomConsolidationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .episodicconsolidationoverride(episodicconsolidationoverride):
+                try writer["episodicConsolidationOverride"].write(episodicconsolidationoverride, with: BedrockAgentCoreControlClientTypes.EpisodicOverrideConsolidationConfigurationInput.write(value:to:))
+            case let .semanticconsolidationoverride(semanticconsolidationoverride):
+                try writer["semanticConsolidationOverride"].write(semanticconsolidationoverride, with: BedrockAgentCoreControlClientTypes.SemanticOverrideConsolidationConfigurationInput.write(value:to:))
+            case let .summaryconsolidationoverride(summaryconsolidationoverride):
+                try writer["summaryConsolidationOverride"].write(summaryconsolidationoverride, with: BedrockAgentCoreControlClientTypes.SummaryOverrideConsolidationConfigurationInput.write(value:to:))
+            case let .userpreferenceconsolidationoverride(userpreferenceconsolidationoverride):
+                try writer["userPreferenceConsolidationOverride"].write(userpreferenceconsolidationoverride, with: BedrockAgentCoreControlClientTypes.UserPreferenceOverrideConsolidationConfigurationInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 }
@@ -16245,205 +16488,64 @@ extension BedrockAgentCoreControlClientTypes.CustomExtractionConfiguration {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.EpisodicExtractionOverride {
+extension BedrockAgentCoreControlClientTypes.CustomExtractionConfigurationInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.EpisodicExtractionOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.EpisodicExtractionOverride()
-        value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
-        value.modelId = try reader["modelId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.UserPreferenceExtractionOverride {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.UserPreferenceExtractionOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.UserPreferenceExtractionOverride()
-        value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
-        value.modelId = try reader["modelId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.SemanticExtractionOverride {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SemanticExtractionOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.SemanticExtractionOverride()
-        value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
-        value.modelId = try reader["modelId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "customOauth2ProviderConfig":
-                return .customoauth2providerconfig(try reader["customOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigOutput.read(from:)))
-            case "googleOauth2ProviderConfig":
-                return .googleoauth2providerconfig(try reader["googleOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput.read(from:)))
-            case "githubOauth2ProviderConfig":
-                return .githuboauth2providerconfig(try reader["githubOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput.read(from:)))
-            case "slackOauth2ProviderConfig":
-                return .slackoauth2providerconfig(try reader["slackOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput.read(from:)))
-            case "salesforceOauth2ProviderConfig":
-                return .salesforceoauth2providerconfig(try reader["salesforceOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput.read(from:)))
-            case "microsoftOauth2ProviderConfig":
-                return .microsoftoauth2providerconfig(try reader["microsoftOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput.read(from:)))
-            case "atlassianOauth2ProviderConfig":
-                return .atlassianoauth2providerconfig(try reader["atlassianOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigOutput.read(from:)))
-            case "linkedinOauth2ProviderConfig":
-                return .linkedinoauth2providerconfig(try reader["linkedinOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigOutput.read(from:)))
-            case "includedOauth2ProviderConfig":
-                return .includedoauth2providerconfig(try reader["includedOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigOutput.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigOutput()
-        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
-        value.clientId = try reader["clientId"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.Oauth2Discovery {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.Oauth2Discovery?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.CustomExtractionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .authorizationservermetadata(authorizationservermetadata):
-                try writer["authorizationServerMetadata"].write(authorizationservermetadata, with: BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata.write(value:to:))
-            case let .discoveryurl(discoveryurl):
-                try writer["discoveryUrl"].write(discoveryurl)
+            case let .episodicextractionoverride(episodicextractionoverride):
+                try writer["episodicExtractionOverride"].write(episodicextractionoverride, with: BedrockAgentCoreControlClientTypes.EpisodicOverrideExtractionConfigurationInput.write(value:to:))
+            case let .semanticextractionoverride(semanticextractionoverride):
+                try writer["semanticExtractionOverride"].write(semanticextractionoverride, with: BedrockAgentCoreControlClientTypes.SemanticOverrideExtractionConfigurationInput.write(value:to:))
+            case let .userpreferenceextractionoverride(userpreferenceextractionoverride):
+                try writer["userPreferenceExtractionOverride"].write(userpreferenceextractionoverride, with: BedrockAgentCoreControlClientTypes.UserPreferenceOverrideExtractionConfigurationInput.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Oauth2Discovery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "discoveryUrl":
-                return .discoveryurl(try reader["discoveryUrl"].read())
-            case "authorizationServerMetadata":
-                return .authorizationservermetadata(try reader["authorizationServerMetadata"].read(with: BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
-extension BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata {
+extension BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["authorizationEndpoint"].write(value.authorizationEndpoint)
-        try writer["issuer"].write(value.issuer)
-        try writer["responseTypes"].writeList(value.responseTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tokenEndpoint"].write(value.tokenEndpoint)
-        try writer["tokenEndpointAuthMethods"].writeList(value.tokenEndpointAuthMethods, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedAudience"].writeList(value.allowedAudience, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedClients"].writeList(value.allowedClients, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedScopes"].writeList(value.allowedScopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["customClaims"].writeList(value.customClaims, memberWritingClosure: BedrockAgentCoreControlClientTypes.CustomClaimValidationType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["discoveryUrl"].write(value.discoveryUrl)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata()
-        value.issuer = try reader["issuer"].readIfPresent() ?? ""
-        value.authorizationEndpoint = try reader["authorizationEndpoint"].readIfPresent() ?? ""
-        value.tokenEndpoint = try reader["tokenEndpoint"].readIfPresent() ?? ""
-        value.responseTypes = try reader["responseTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tokenEndpointAuthMethods = try reader["tokenEndpointAuthMethods"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration()
+        value.discoveryUrl = try reader["discoveryUrl"].readIfPresent() ?? ""
+        value.allowedAudience = try reader["allowedAudience"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedClients = try reader["allowedClients"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedScopes = try reader["allowedScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customClaims = try reader["customClaims"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CustomClaimValidationType.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigOutput {
+extension BedrockAgentCoreControlClientTypes.CustomMemoryStrategyInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigOutput()
-        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
-        value.clientId = try reader["clientId"].readIfPresent()
-        return value
+    static func write(value: BedrockAgentCoreControlClientTypes.CustomMemoryStrategyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: BedrockAgentCoreControlClientTypes.CustomConfigurationInput.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigOutput {
+extension BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigOutput()
-        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
-        value.clientId = try reader["clientId"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput()
-        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
-        value.clientId = try reader["clientId"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput()
-        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
-        value.clientId = try reader["clientId"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput()
-        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
-        value.clientId = try reader["clientId"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput()
-        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
-        value.clientId = try reader["clientId"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput()
-        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
-        value.clientId = try reader["clientId"].readIfPresent()
-        return value
+    static func write(value: BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientId"].write(value.clientId)
+        try writer["clientSecret"].write(value.clientSecret)
+        try writer["oauthDiscovery"].write(value.oauthDiscovery, with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.write(value:to:))
     }
 }
 
@@ -16458,317 +16560,162 @@ extension BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigOutput {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.OutputConfig {
+extension BedrockAgentCoreControlClientTypes.CustomReflectionConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.OutputConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.OutputConfig()
-        value.cloudWatchConfig = try reader["cloudWatchConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig()
-        value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.PolicyDefinition {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.PolicyDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .cedar(cedar):
-                try writer["cedar"].write(cedar, with: BedrockAgentCoreControlClientTypes.CedarPolicy.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PolicyDefinition {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CustomReflectionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "cedar":
-                return .cedar(try reader["cedar"].read(with: BedrockAgentCoreControlClientTypes.CedarPolicy.read(from:)))
+            case "episodicReflectionOverride":
+                return .episodicreflectionoverride(try reader["episodicReflectionOverride"].read(with: BedrockAgentCoreControlClientTypes.EpisodicReflectionOverride.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.CedarPolicy {
+extension BedrockAgentCoreControlClientTypes.CustomReflectionConfigurationInput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.CedarPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["statement"].write(value.statement)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CedarPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.CedarPolicy()
-        value.statement = try reader["statement"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.NetworkConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkMode"].write(value.networkMode)
-        try writer["networkModeConfig"].write(value.networkModeConfig, with: BedrockAgentCoreControlClientTypes.VpcConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.NetworkConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.NetworkConfiguration()
-        value.networkMode = try reader["networkMode"].readIfPresent() ?? .sdkUnknown("")
-        value.networkModeConfig = try reader["networkModeConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.VpcConfig.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.VpcConfig {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.VpcConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.VpcConfig()
-        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.subnets = try reader["subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.LifecycleConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.LifecycleConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["idleRuntimeSessionTimeout"].write(value.idleRuntimeSessionTimeout)
-        try writer["maxLifetime"].write(value.maxLifetime)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.LifecycleConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.LifecycleConfiguration()
-        value.idleRuntimeSessionTimeout = try reader["idleRuntimeSessionTimeout"].readIfPresent()
-        value.maxLifetime = try reader["maxLifetime"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.AgentRuntimeArtifact {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.AgentRuntimeArtifact?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.CustomReflectionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .codeconfiguration(codeconfiguration):
-                try writer["codeConfiguration"].write(codeconfiguration, with: BedrockAgentCoreControlClientTypes.CodeConfiguration.write(value:to:))
-            case let .containerconfiguration(containerconfiguration):
-                try writer["containerConfiguration"].write(containerconfiguration, with: BedrockAgentCoreControlClientTypes.ContainerConfiguration.write(value:to:))
+            case let .episodicreflectionoverride(episodicreflectionoverride):
+                try writer["episodicReflectionOverride"].write(episodicreflectionoverride, with: BedrockAgentCoreControlClientTypes.EpisodicOverrideReflectionConfigurationInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.DataSourceConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.DataSourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .cloudwatchlogs(cloudwatchlogs):
+                try writer["cloudWatchLogs"].write(cloudwatchlogs, with: BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AgentRuntimeArtifact {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.DataSourceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "containerConfiguration":
-                return .containerconfiguration(try reader["containerConfiguration"].read(with: BedrockAgentCoreControlClientTypes.ContainerConfiguration.read(from:)))
-            case "codeConfiguration":
-                return .codeconfiguration(try reader["codeConfiguration"].read(with: BedrockAgentCoreControlClientTypes.CodeConfiguration.read(from:)))
+            case "cloudWatchLogs":
+                return .cloudwatchlogs(try reader["cloudWatchLogs"].read(with: BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.CodeConfiguration {
+extension BedrockAgentCoreControlClientTypes.DeleteMemoryStrategyInput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.CodeConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.DeleteMemoryStrategyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["code"].write(value.code, with: BedrockAgentCoreControlClientTypes.Code.write(value:to:))
-        try writer["entryPoint"].writeList(value.entryPoint, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["runtime"].write(value.runtime)
+        try writer["memoryStrategyId"].write(value.memoryStrategyId)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CodeConfiguration {
+extension BedrockAgentCoreControlClientTypes.EpisodicConsolidationOverride {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.EpisodicConsolidationOverride {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.CodeConfiguration()
-        value.code = try reader["code"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Code.read(from:))
-        value.runtime = try reader["runtime"].readIfPresent() ?? .sdkUnknown("")
-        value.entryPoint = try reader["entryPoint"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = BedrockAgentCoreControlClientTypes.EpisodicConsolidationOverride()
+        value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.Code {
+extension BedrockAgentCoreControlClientTypes.EpisodicExtractionOverride {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.Code?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .s3(s3):
-                try writer["s3"].write(s3, with: BedrockAgentCoreControlClientTypes.S3Location.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Code {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.EpisodicExtractionOverride {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "s3":
-                return .s3(try reader["s3"].read(with: BedrockAgentCoreControlClientTypes.S3Location.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.S3Location {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["prefix"].write(value.`prefix`)
-        try writer["versionId"].write(value.versionId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.S3Location {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.S3Location()
-        value.bucket = try reader["bucket"].readIfPresent() ?? ""
-        value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
-        value.versionId = try reader["versionId"].readIfPresent()
+        var value = BedrockAgentCoreControlClientTypes.EpisodicExtractionOverride()
+        value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.ContainerConfiguration {
+extension BedrockAgentCoreControlClientTypes.EpisodicMemoryStrategyInput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.ContainerConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.EpisodicMemoryStrategyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["containerUri"].write(value.containerUri)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["reflectionConfiguration"].write(value.reflectionConfiguration, with: BedrockAgentCoreControlClientTypes.EpisodicReflectionConfigurationInput.write(value:to:))
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ContainerConfiguration {
+extension BedrockAgentCoreControlClientTypes.EpisodicOverrideConfigurationInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.EpisodicOverrideConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consolidation"].write(value.consolidation, with: BedrockAgentCoreControlClientTypes.EpisodicOverrideConsolidationConfigurationInput.write(value:to:))
+        try writer["extraction"].write(value.extraction, with: BedrockAgentCoreControlClientTypes.EpisodicOverrideExtractionConfigurationInput.write(value:to:))
+        try writer["reflection"].write(value.reflection, with: BedrockAgentCoreControlClientTypes.EpisodicOverrideReflectionConfigurationInput.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.EpisodicOverrideConsolidationConfigurationInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.EpisodicOverrideConsolidationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appendToPrompt"].write(value.appendToPrompt)
+        try writer["modelId"].write(value.modelId)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.EpisodicOverrideExtractionConfigurationInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.EpisodicOverrideExtractionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appendToPrompt"].write(value.appendToPrompt)
+        try writer["modelId"].write(value.modelId)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.EpisodicOverrideReflectionConfigurationInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.EpisodicOverrideReflectionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appendToPrompt"].write(value.appendToPrompt)
+        try writer["modelId"].write(value.modelId)
+        try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.EpisodicReflectionConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.EpisodicReflectionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.ContainerConfiguration()
-        value.containerUri = try reader["containerUri"].readIfPresent() ?? ""
+        var value = BedrockAgentCoreControlClientTypes.EpisodicReflectionConfiguration()
+        value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.ProtocolConfiguration {
+extension BedrockAgentCoreControlClientTypes.EpisodicReflectionConfigurationInput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.ProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.EpisodicReflectionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["serverProtocol"].write(value.serverProtocol)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ProtocolConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.ProtocolConfiguration()
-        value.serverProtocol = try reader["serverProtocol"].readIfPresent() ?? .sdkUnknown("")
-        return value
+        try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration {
+extension BedrockAgentCoreControlClientTypes.EpisodicReflectionOverride {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .requestheaderallowlist(requestheaderallowlist):
-                try writer["requestHeaderAllowlist"].writeList(requestheaderallowlist, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.EpisodicReflectionOverride {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "requestHeaderAllowlist":
-                return .requestheaderallowlist(try reader["requestHeaderAllowlist"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.BrowserNetworkConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.BrowserNetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkMode"].write(value.networkMode)
-        try writer["vpcConfig"].write(value.vpcConfig, with: BedrockAgentCoreControlClientTypes.VpcConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.BrowserNetworkConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.BrowserNetworkConfiguration()
-        value.networkMode = try reader["networkMode"].readIfPresent() ?? BedrockAgentCoreControlClientTypes.BrowserNetworkMode.`public`
-        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.VpcConfig.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.RecordingConfig {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.RecordingConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-        try writer["s3Location"].write(value.s3Location, with: BedrockAgentCoreControlClientTypes.S3Location.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.RecordingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.RecordingConfig()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
-        value.s3Location = try reader["s3Location"].readIfPresent(with: BedrockAgentCoreControlClientTypes.S3Location.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkMode"].write(value.networkMode)
-        try writer["vpcConfig"].write(value.vpcConfig, with: BedrockAgentCoreControlClientTypes.VpcConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkConfiguration()
-        value.networkMode = try reader["networkMode"].readIfPresent() ?? BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkMode.sandbox
-        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.VpcConfig.read(from:))
+        var value = BedrockAgentCoreControlClientTypes.EpisodicReflectionOverride()
+        value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -16797,25 +16744,6 @@ extension BedrockAgentCoreControlClientTypes.EvaluatorConfig {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["instructions"].write(value.instructions)
-        try writer["modelConfig"].write(value.modelConfig, with: BedrockAgentCoreControlClientTypes.EvaluatorModelConfig.write(value:to:))
-        try writer["ratingScale"].write(value.ratingScale, with: BedrockAgentCoreControlClientTypes.RatingScale.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig()
-        value.instructions = try reader["instructions"].readIfPresent() ?? ""
-        value.ratingScale = try reader["ratingScale"].readIfPresent(with: BedrockAgentCoreControlClientTypes.RatingScale.read(from:))
-        value.modelConfig = try reader["modelConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.EvaluatorModelConfig.read(from:))
-        return value
-    }
-}
-
 extension BedrockAgentCoreControlClientTypes.EvaluatorModelConfig {
 
     static func write(value: BedrockAgentCoreControlClientTypes.EvaluatorModelConfig?, to writer: SmithyJSON.Writer) throws {
@@ -16840,141 +16768,60 @@ extension BedrockAgentCoreControlClientTypes.EvaluatorModelConfig {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.BedrockEvaluatorModelConfig {
+extension BedrockAgentCoreControlClientTypes.EvaluatorReference {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.BedrockEvaluatorModelConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalModelRequestFields"].write(value.additionalModelRequestFields)
-        try writer["inferenceConfig"].write(value.inferenceConfig, with: BedrockAgentCoreControlClientTypes.InferenceConfiguration.write(value:to:))
-        try writer["modelId"].write(value.modelId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.BedrockEvaluatorModelConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.BedrockEvaluatorModelConfig()
-        value.modelId = try reader["modelId"].readIfPresent() ?? ""
-        value.inferenceConfig = try reader["inferenceConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.InferenceConfiguration.read(from:))
-        value.additionalModelRequestFields = try reader["additionalModelRequestFields"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.InferenceConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.InferenceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxTokens"].write(value.maxTokens)
-        try writer["stopSequences"].writeList(value.stopSequences, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["temperature"].write(value.temperature)
-        try writer["topP"].write(value.topp)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.InferenceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.InferenceConfiguration()
-        value.maxTokens = try reader["maxTokens"].readIfPresent()
-        value.temperature = try reader["temperature"].readIfPresent()
-        value.topp = try reader["topP"].readIfPresent()
-        value.stopSequences = try reader["stopSequences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.RatingScale {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.RatingScale?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.EvaluatorReference?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .categorical(categorical):
-                try writer["categorical"].writeList(categorical, memberWritingClosure: BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .numerical(numerical):
-                try writer["numerical"].writeList(numerical, memberWritingClosure: BedrockAgentCoreControlClientTypes.NumericalScaleDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .evaluatorid(evaluatorid):
+                try writer["evaluatorId"].write(evaluatorid)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.RatingScale {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.EvaluatorReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "numerical":
-                return .numerical(try reader["numerical"].readList(memberReadingClosure: BedrockAgentCoreControlClientTypes.NumericalScaleDefinition.read(from:), memberNodeInfo: "member", isFlattened: false))
-            case "categorical":
-                return .categorical(try reader["categorical"].readList(memberReadingClosure: BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "evaluatorId":
+                return .evaluatorid(try reader["evaluatorId"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition {
+extension BedrockAgentCoreControlClientTypes.EvaluatorSummary {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["definition"].write(value.definition)
-        try writer["label"].write(value.label)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.EvaluatorSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition()
-        value.definition = try reader["definition"].readIfPresent() ?? ""
-        value.label = try reader["label"].readIfPresent() ?? ""
+        var value = BedrockAgentCoreControlClientTypes.EvaluatorSummary()
+        value.evaluatorArn = try reader["evaluatorArn"].readIfPresent() ?? ""
+        value.evaluatorId = try reader["evaluatorId"].readIfPresent() ?? ""
+        value.evaluatorName = try reader["evaluatorName"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.evaluatorType = try reader["evaluatorType"].readIfPresent() ?? .sdkUnknown("")
+        value.level = try reader["level"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lockedForModification = try reader["lockedForModification"].readIfPresent()
         return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.NumericalScaleDefinition {
+extension BedrockAgentCoreControlClientTypes.ExtractionConfiguration {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.NumericalScaleDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["definition"].write(value.definition)
-        try writer["label"].write(value.label)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.NumericalScaleDefinition {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ExtractionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.NumericalScaleDefinition()
-        value.definition = try reader["definition"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? 0.0
-        value.label = try reader["label"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.Rule {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.Rule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filters"].writeList(value.filters, memberWritingClosure: BedrockAgentCoreControlClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["samplingConfig"].write(value.samplingConfig, with: BedrockAgentCoreControlClientTypes.SamplingConfig.write(value:to:))
-        try writer["sessionConfig"].write(value.sessionConfig, with: BedrockAgentCoreControlClientTypes.SessionConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Rule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.Rule()
-        value.samplingConfig = try reader["samplingConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SamplingConfig.read(from:))
-        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sessionConfig = try reader["sessionConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SessionConfig.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.SessionConfig {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.SessionConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sessionTimeoutMinutes"].write(value.sessionTimeoutMinutes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SessionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.SessionConfig()
-        value.sessionTimeoutMinutes = try reader["sessionTimeoutMinutes"].readIfPresent() ?? 0
-        return value
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "customExtractionConfiguration":
+                return .customextractionconfiguration(try reader["customExtractionConfiguration"].read(with: BedrockAgentCoreControlClientTypes.CustomExtractionConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -17029,223 +16876,95 @@ extension BedrockAgentCoreControlClientTypes.FilterValue {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.SamplingConfig {
+extension BedrockAgentCoreControlClientTypes.Finding {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.SamplingConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["samplingPercentage"].write(value.samplingPercentage)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SamplingConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Finding {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.SamplingConfig()
-        value.samplingPercentage = try reader["samplingPercentage"].readIfPresent() ?? 0.0
+        var value = BedrockAgentCoreControlClientTypes.Finding()
+        value.type = try reader["type"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
         return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.DataSourceConfig {
+extension BedrockAgentCoreControlClientTypes.GatewayApiKeyCredentialProvider {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.DataSourceConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.GatewayApiKeyCredentialProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentialLocation"].write(value.credentialLocation)
+        try writer["credentialParameterName"].write(value.credentialParameterName)
+        try writer["credentialPrefix"].write(value.credentialPrefix)
+        try writer["providerArn"].write(value.providerArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GatewayApiKeyCredentialProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.GatewayApiKeyCredentialProvider()
+        value.providerArn = try reader["providerArn"].readIfPresent() ?? ""
+        value.credentialParameterName = try reader["credentialParameterName"].readIfPresent()
+        value.credentialPrefix = try reader["credentialPrefix"].readIfPresent()
+        value.credentialLocation = try reader["credentialLocation"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inputConfiguration"].write(value.inputConfiguration, with: BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration.write(value:to:))
+        try writer["interceptionPoints"].writeList(value.interceptionPoints, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockAgentCoreControlClientTypes.GatewayInterceptionPoint>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["interceptor"].write(value.interceptor, with: BedrockAgentCoreControlClientTypes.InterceptorConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration()
+        value.interceptor = try reader["interceptor"].readIfPresent(with: BedrockAgentCoreControlClientTypes.InterceptorConfiguration.read(from:))
+        value.interceptionPoints = try reader["interceptionPoints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockAgentCoreControlClientTypes.GatewayInterceptionPoint>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.inputConfiguration = try reader["inputConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.GatewayPolicyEngineConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.GatewayPolicyEngineConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["mode"].write(value.mode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GatewayPolicyEngineConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.GatewayPolicyEngineConfiguration()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .cloudwatchlogs(cloudwatchlogs):
-                try writer["cloudWatchLogs"].write(cloudwatchlogs, with: BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig.write(value:to:))
+            case let .mcp(mcp):
+                try writer["mcp"].write(mcp, with: BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.DataSourceConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GatewayProtocolConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "cloudWatchLogs":
-                return .cloudwatchlogs(try reader["cloudWatchLogs"].read(with: BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig.read(from:)))
+            case "mcp":
+                return .mcp(try reader["mcp"].read(with: BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logGroupNames"].writeList(value.logGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["serviceNames"].writeList(value.serviceNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.CloudWatchLogsInputConfig()
-        value.logGroupNames = try reader["logGroupNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.serviceNames = try reader["serviceNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.EvaluatorReference {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.EvaluatorReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .evaluatorid(evaluatorid):
-                try writer["evaluatorId"].write(evaluatorid)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.EvaluatorReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "evaluatorId":
-                return .evaluatorid(try reader["evaluatorId"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.Resource {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .arn(arn):
-                try writer["arn"].write(arn)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Resource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "arn":
-                return .arn(try reader["arn"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.KmsConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.KmsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["keyType"].write(value.keyType)
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.KmsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.KmsConfiguration()
-        value.keyType = try reader["keyType"].readIfPresent() ?? .sdkUnknown("")
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.AgentRuntimeEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AgentRuntimeEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.AgentRuntimeEndpoint()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.liveVersion = try reader["liveVersion"].readIfPresent()
-        value.targetVersion = try reader["targetVersion"].readIfPresent()
-        value.agentRuntimeEndpointArn = try reader["agentRuntimeEndpointArn"].readIfPresent() ?? ""
-        value.agentRuntimeArn = try reader["agentRuntimeArn"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.AgentRuntime {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AgentRuntime {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.AgentRuntime()
-        value.agentRuntimeArn = try reader["agentRuntimeArn"].readIfPresent() ?? ""
-        value.agentRuntimeId = try reader["agentRuntimeId"].readIfPresent() ?? ""
-        value.agentRuntimeVersion = try reader["agentRuntimeVersion"].readIfPresent() ?? ""
-        value.agentRuntimeName = try reader["agentRuntimeName"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent() ?? ""
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.ApiKeyCredentialProviderItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ApiKeyCredentialProviderItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.ApiKeyCredentialProviderItem()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.BrowserSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.BrowserSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.BrowserSummary()
-        value.browserId = try reader["browserId"].readIfPresent() ?? ""
-        value.browserArn = try reader["browserArn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.CodeInterpreterSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CodeInterpreterSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.CodeInterpreterSummary()
-        value.codeInterpreterId = try reader["codeInterpreterId"].readIfPresent() ?? ""
-        value.codeInterpreterArn = try reader["codeInterpreterArn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.EvaluatorSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.EvaluatorSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.EvaluatorSummary()
-        value.evaluatorArn = try reader["evaluatorArn"].readIfPresent() ?? ""
-        value.evaluatorId = try reader["evaluatorId"].readIfPresent() ?? ""
-        value.evaluatorName = try reader["evaluatorName"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.evaluatorType = try reader["evaluatorType"].readIfPresent() ?? .sdkUnknown("")
-        value.level = try reader["level"].readIfPresent()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lockedForModification = try reader["lockedForModification"].readIfPresent()
-        return value
     }
 }
 
@@ -17262,157 +16981,6 @@ extension BedrockAgentCoreControlClientTypes.GatewaySummary {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.authorizerType = try reader["authorizerType"].readIfPresent() ?? .sdkUnknown("")
         value.protocolType = try reader["protocolType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.TargetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.TargetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.TargetSummary()
-        value.targetId = try reader["targetId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.description = try reader["description"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.MemorySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MemorySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.MemorySummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.Oauth2CredentialProviderItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Oauth2CredentialProviderItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.Oauth2CredentialProviderItem()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.credentialProviderVendor = try reader["credentialProviderVendor"].readIfPresent() ?? .sdkUnknown("")
-        value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.OnlineEvaluationConfigSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.OnlineEvaluationConfigSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.OnlineEvaluationConfigSummary()
-        value.onlineEvaluationConfigArn = try reader["onlineEvaluationConfigArn"].readIfPresent() ?? ""
-        value.onlineEvaluationConfigId = try reader["onlineEvaluationConfigId"].readIfPresent() ?? ""
-        value.onlineEvaluationConfigName = try reader["onlineEvaluationConfigName"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.executionStatus = try reader["executionStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.Policy {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Policy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.Policy()
-        value.policyId = try reader["policyId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
-        value.definition = try reader["definition"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PolicyDefinition.read(from:))
-        value.description = try reader["description"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.policyArn = try reader["policyArn"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.PolicyEngine {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PolicyEngine {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.PolicyEngine()
-        value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.policyEngineArn = try reader["policyEngineArn"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.PolicyGenerationAsset {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PolicyGenerationAsset {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.PolicyGenerationAsset()
-        value.policyGenerationAssetId = try reader["policyGenerationAssetId"].readIfPresent() ?? ""
-        value.definition = try reader["definition"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PolicyDefinition.read(from:))
-        value.rawTextFragment = try reader["rawTextFragment"].readIfPresent() ?? ""
-        value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.Finding.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.Finding {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Finding {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.Finding()
-        value.type = try reader["type"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.PolicyGeneration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PolicyGeneration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.PolicyGeneration()
-        value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
-        value.policyGenerationId = try reader["policyGenerationId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.policyGenerationArn = try reader["policyGenerationArn"].readIfPresent() ?? ""
-        value.resource = try reader["resource"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Resource.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.findings = try reader["findings"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.WorkloadIdentityType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.WorkloadIdentityType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.WorkloadIdentityType()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.workloadIdentityArn = try reader["workloadIdentityArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -17438,22 +17006,364 @@ extension BedrockAgentCoreControlClientTypes.GatewayTarget {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.ValidationExceptionField {
+extension BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ValidationExceptionField {
+    static func write(value: BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientId"].write(value.clientId)
+        try writer["clientSecret"].write(value.clientSecret)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
+        var value = BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
         return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.BrowserSigningConfigInput {
+extension BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigInput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.BrowserSigningConfigInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["enabled"].write(value.enabled)
+        try writer["clientId"].write(value.clientId)
+        try writer["clientSecret"].write(value.clientSecret)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizationEndpoint"].write(value.authorizationEndpoint)
+        try writer["clientId"].write(value.clientId)
+        try writer["clientSecret"].write(value.clientSecret)
+        try writer["issuer"].write(value.issuer)
+        try writer["tokenEndpoint"].write(value.tokenEndpoint)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.InferenceConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.InferenceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["stopSequences"].writeList(value.stopSequences, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["temperature"].write(value.temperature)
+        try writer["topP"].write(value.topp)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.InferenceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.InferenceConfiguration()
+        value.maxTokens = try reader["maxTokens"].readIfPresent()
+        value.temperature = try reader["temperature"].readIfPresent()
+        value.topp = try reader["topP"].readIfPresent()
+        value.stopSequences = try reader["stopSequences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.InterceptorConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.InterceptorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .lambda(lambda):
+                try writer["lambda"].write(lambda, with: BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.InterceptorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "lambda":
+                return .lambda(try reader["lambda"].read(with: BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["passRequestHeaders"].write(value.passRequestHeaders)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.InterceptorInputConfiguration()
+        value.passRequestHeaders = try reader["passRequestHeaders"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.InvocationConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.InvocationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.InvocationConfiguration()
+        value.topicArn = try reader["topicArn"].readIfPresent() ?? ""
+        value.payloadDeliveryBucketName = try reader["payloadDeliveryBucketName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.InvocationConfigurationInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.InvocationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["payloadDeliveryBucketName"].write(value.payloadDeliveryBucketName)
+        try writer["topicArn"].write(value.topicArn)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.KmsConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.KmsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["keyType"].write(value.keyType)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.KmsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.KmsConfiguration()
+        value.keyType = try reader["keyType"].readIfPresent() ?? .sdkUnknown("")
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.LambdaInterceptorConfiguration()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.LifecycleConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.LifecycleConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["idleRuntimeSessionTimeout"].write(value.idleRuntimeSessionTimeout)
+        try writer["maxLifetime"].write(value.maxLifetime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.LifecycleConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.LifecycleConfiguration()
+        value.idleRuntimeSessionTimeout = try reader["idleRuntimeSessionTimeout"].readIfPresent()
+        value.maxLifetime = try reader["maxLifetime"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientId"].write(value.clientId)
+        try writer["clientSecret"].write(value.clientSecret)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["instructions"].write(value.instructions)
+        try writer["modelConfig"].write(value.modelConfig, with: BedrockAgentCoreControlClientTypes.EvaluatorModelConfig.write(value:to:))
+        try writer["ratingScale"].write(value.ratingScale, with: BedrockAgentCoreControlClientTypes.RatingScale.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.LlmAsAJudgeEvaluatorConfig()
+        value.instructions = try reader["instructions"].readIfPresent() ?? ""
+        value.ratingScale = try reader["ratingScale"].readIfPresent(with: BedrockAgentCoreControlClientTypes.RatingScale.read(from:))
+        value.modelConfig = try reader["modelConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.EvaluatorModelConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["instructions"].write(value.instructions)
+        try writer["searchType"].write(value.searchType)
+        try writer["supportedVersions"].writeList(value.supportedVersions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.MCPGatewayConfiguration()
+        value.supportedVersions = try reader["supportedVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.instructions = try reader["instructions"].readIfPresent()
+        value.searchType = try reader["searchType"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.McpLambdaTargetConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.McpLambdaTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["lambdaArn"].write(value.lambdaArn)
+        try writer["toolSchema"].write(value.toolSchema, with: BedrockAgentCoreControlClientTypes.ToolSchema.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.McpLambdaTargetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.McpLambdaTargetConfiguration()
+        value.lambdaArn = try reader["lambdaArn"].readIfPresent() ?? ""
+        value.toolSchema = try reader["toolSchema"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ToolSchema.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endpoint"].write(value.endpoint)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration()
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.McpTargetConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.McpTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .apigateway(apigateway):
+                try writer["apiGateway"].write(apigateway, with: BedrockAgentCoreControlClientTypes.ApiGatewayTargetConfiguration.write(value:to:))
+            case let .lambda(lambda):
+                try writer["lambda"].write(lambda, with: BedrockAgentCoreControlClientTypes.McpLambdaTargetConfiguration.write(value:to:))
+            case let .mcpserver(mcpserver):
+                try writer["mcpServer"].write(mcpserver, with: BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration.write(value:to:))
+            case let .openapischema(openapischema):
+                try writer["openApiSchema"].write(openapischema, with: BedrockAgentCoreControlClientTypes.ApiSchemaConfiguration.write(value:to:))
+            case let .smithymodel(smithymodel):
+                try writer["smithyModel"].write(smithymodel, with: BedrockAgentCoreControlClientTypes.ApiSchemaConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.McpTargetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "openApiSchema":
+                return .openapischema(try reader["openApiSchema"].read(with: BedrockAgentCoreControlClientTypes.ApiSchemaConfiguration.read(from:)))
+            case "smithyModel":
+                return .smithymodel(try reader["smithyModel"].read(with: BedrockAgentCoreControlClientTypes.ApiSchemaConfiguration.read(from:)))
+            case "lambda":
+                return .lambda(try reader["lambda"].read(with: BedrockAgentCoreControlClientTypes.McpLambdaTargetConfiguration.read(from:)))
+            case "mcpServer":
+                return .mcpserver(try reader["mcpServer"].read(with: BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration.read(from:)))
+            case "apiGateway":
+                return .apigateway(try reader["apiGateway"].read(with: BedrockAgentCoreControlClientTypes.ApiGatewayTargetConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Memory {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Memory {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.Memory()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
+        value.memoryExecutionRoleArn = try reader["memoryExecutionRoleArn"].readIfPresent()
+        value.eventExpiryDuration = try reader["eventExpiryDuration"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.strategies = try reader["strategies"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.MemoryStrategy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.MemoryStrategy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MemoryStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.MemoryStrategy()
+        value.strategyId = try reader["strategyId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.configuration = try reader["configuration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.StrategyConfiguration.read(from:))
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        return value
     }
 }
 
@@ -17478,106 +17388,27 @@ extension BedrockAgentCoreControlClientTypes.MemoryStrategyInput {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.EpisodicMemoryStrategyInput {
+extension BedrockAgentCoreControlClientTypes.MemorySummary {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.EpisodicMemoryStrategyInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["reflectionConfiguration"].write(value.reflectionConfiguration, with: BedrockAgentCoreControlClientTypes.EpisodicReflectionConfigurationInput.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MemorySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.MemorySummary()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.EpisodicReflectionConfigurationInput {
+extension BedrockAgentCoreControlClientTypes.MessageBasedTrigger {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.EpisodicReflectionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.CustomMemoryStrategyInput {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.CustomMemoryStrategyInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configuration"].write(value.configuration, with: BedrockAgentCoreControlClientTypes.CustomConfigurationInput.write(value:to:))
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.CustomConfigurationInput {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.CustomConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .episodicoverride(episodicoverride):
-                try writer["episodicOverride"].write(episodicoverride, with: BedrockAgentCoreControlClientTypes.EpisodicOverrideConfigurationInput.write(value:to:))
-            case let .selfmanagedconfiguration(selfmanagedconfiguration):
-                try writer["selfManagedConfiguration"].write(selfmanagedconfiguration, with: BedrockAgentCoreControlClientTypes.SelfManagedConfigurationInput.write(value:to:))
-            case let .semanticoverride(semanticoverride):
-                try writer["semanticOverride"].write(semanticoverride, with: BedrockAgentCoreControlClientTypes.SemanticOverrideConfigurationInput.write(value:to:))
-            case let .summaryoverride(summaryoverride):
-                try writer["summaryOverride"].write(summaryoverride, with: BedrockAgentCoreControlClientTypes.SummaryOverrideConfigurationInput.write(value:to:))
-            case let .userpreferenceoverride(userpreferenceoverride):
-                try writer["userPreferenceOverride"].write(userpreferenceoverride, with: BedrockAgentCoreControlClientTypes.UserPreferenceOverrideConfigurationInput.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.SelfManagedConfigurationInput {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.SelfManagedConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["historicalContextWindowSize"].write(value.historicalContextWindowSize)
-        try writer["invocationConfiguration"].write(value.invocationConfiguration, with: BedrockAgentCoreControlClientTypes.InvocationConfigurationInput.write(value:to:))
-        try writer["triggerConditions"].writeList(value.triggerConditions, memberWritingClosure: BedrockAgentCoreControlClientTypes.TriggerConditionInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.InvocationConfigurationInput {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.InvocationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["payloadDeliveryBucketName"].write(value.payloadDeliveryBucketName)
-        try writer["topicArn"].write(value.topicArn)
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.TriggerConditionInput {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.TriggerConditionInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .messagebasedtrigger(messagebasedtrigger):
-                try writer["messageBasedTrigger"].write(messagebasedtrigger, with: BedrockAgentCoreControlClientTypes.MessageBasedTriggerInput.write(value:to:))
-            case let .timebasedtrigger(timebasedtrigger):
-                try writer["timeBasedTrigger"].write(timebasedtrigger, with: BedrockAgentCoreControlClientTypes.TimeBasedTriggerInput.write(value:to:))
-            case let .tokenbasedtrigger(tokenbasedtrigger):
-                try writer["tokenBasedTrigger"].write(tokenbasedtrigger, with: BedrockAgentCoreControlClientTypes.TokenBasedTriggerInput.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.TimeBasedTriggerInput {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.TimeBasedTriggerInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["idleSessionTimeout"].write(value.idleSessionTimeout)
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.TokenBasedTriggerInput {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.TokenBasedTriggerInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["tokenCount"].write(value.tokenCount)
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MessageBasedTrigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.MessageBasedTrigger()
+        value.messageCount = try reader["messageCount"].readIfPresent()
+        return value
     }
 }
 
@@ -17589,142 +17420,236 @@ extension BedrockAgentCoreControlClientTypes.MessageBasedTriggerInput {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.EpisodicOverrideConfigurationInput {
+extension BedrockAgentCoreControlClientTypes.MetadataConfiguration {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.EpisodicOverrideConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.MetadataConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["consolidation"].write(value.consolidation, with: BedrockAgentCoreControlClientTypes.EpisodicOverrideConsolidationConfigurationInput.write(value:to:))
-        try writer["extraction"].write(value.extraction, with: BedrockAgentCoreControlClientTypes.EpisodicOverrideExtractionConfigurationInput.write(value:to:))
-        try writer["reflection"].write(value.reflection, with: BedrockAgentCoreControlClientTypes.EpisodicOverrideReflectionConfigurationInput.write(value:to:))
+        try writer["allowedQueryParameters"].writeList(value.allowedQueryParameters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedRequestHeaders"].writeList(value.allowedRequestHeaders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedResponseHeaders"].writeList(value.allowedResponseHeaders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MetadataConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.MetadataConfiguration()
+        value.allowedRequestHeaders = try reader["allowedRequestHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedQueryParameters = try reader["allowedQueryParameters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedResponseHeaders = try reader["allowedResponseHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.EpisodicOverrideReflectionConfigurationInput {
+extension BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigInput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.EpisodicOverrideReflectionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["appendToPrompt"].write(value.appendToPrompt)
-        try writer["modelId"].write(value.modelId)
-        try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["clientId"].write(value.clientId)
+        try writer["clientSecret"].write(value.clientSecret)
+        try writer["tenantId"].write(value.tenantId)
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.EpisodicOverrideConsolidationConfigurationInput {
+extension BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.EpisodicOverrideConsolidationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appendToPrompt"].write(value.appendToPrompt)
-        try writer["modelId"].write(value.modelId)
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
+        return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.EpisodicOverrideExtractionConfigurationInput {
+extension BedrockAgentCoreControlClientTypes.ModifyConsolidationConfiguration {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.EpisodicOverrideExtractionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.ModifyConsolidationConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["appendToPrompt"].write(value.appendToPrompt)
-        try writer["modelId"].write(value.modelId)
+        switch value {
+            case let .customconsolidationconfiguration(customconsolidationconfiguration):
+                try writer["customConsolidationConfiguration"].write(customconsolidationconfiguration, with: BedrockAgentCoreControlClientTypes.CustomConsolidationConfigurationInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.UserPreferenceOverrideConfigurationInput {
+extension BedrockAgentCoreControlClientTypes.ModifyExtractionConfiguration {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.UserPreferenceOverrideConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.ModifyExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["consolidation"].write(value.consolidation, with: BedrockAgentCoreControlClientTypes.UserPreferenceOverrideConsolidationConfigurationInput.write(value:to:))
-        try writer["extraction"].write(value.extraction, with: BedrockAgentCoreControlClientTypes.UserPreferenceOverrideExtractionConfigurationInput.write(value:to:))
+        switch value {
+            case let .customextractionconfiguration(customextractionconfiguration):
+                try writer["customExtractionConfiguration"].write(customextractionconfiguration, with: BedrockAgentCoreControlClientTypes.CustomExtractionConfigurationInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.UserPreferenceOverrideConsolidationConfigurationInput {
+extension BedrockAgentCoreControlClientTypes.ModifyInvocationConfigurationInput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.UserPreferenceOverrideConsolidationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.ModifyInvocationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["appendToPrompt"].write(value.appendToPrompt)
-        try writer["modelId"].write(value.modelId)
+        try writer["payloadDeliveryBucketName"].write(value.payloadDeliveryBucketName)
+        try writer["topicArn"].write(value.topicArn)
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.UserPreferenceOverrideExtractionConfigurationInput {
+extension BedrockAgentCoreControlClientTypes.ModifyMemoryStrategies {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.UserPreferenceOverrideExtractionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.ModifyMemoryStrategies?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["appendToPrompt"].write(value.appendToPrompt)
-        try writer["modelId"].write(value.modelId)
+        try writer["addMemoryStrategies"].writeList(value.addMemoryStrategies, memberWritingClosure: BedrockAgentCoreControlClientTypes.MemoryStrategyInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["deleteMemoryStrategies"].writeList(value.deleteMemoryStrategies, memberWritingClosure: BedrockAgentCoreControlClientTypes.DeleteMemoryStrategyInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["modifyMemoryStrategies"].writeList(value.modifyMemoryStrategies, memberWritingClosure: BedrockAgentCoreControlClientTypes.ModifyMemoryStrategyInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.SummaryOverrideConfigurationInput {
+extension BedrockAgentCoreControlClientTypes.ModifyMemoryStrategyInput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.SummaryOverrideConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.ModifyMemoryStrategyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["consolidation"].write(value.consolidation, with: BedrockAgentCoreControlClientTypes.SummaryOverrideConsolidationConfigurationInput.write(value:to:))
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.SummaryOverrideConsolidationConfigurationInput {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.SummaryOverrideConsolidationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appendToPrompt"].write(value.appendToPrompt)
-        try writer["modelId"].write(value.modelId)
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.SemanticOverrideConfigurationInput {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.SemanticOverrideConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["consolidation"].write(value.consolidation, with: BedrockAgentCoreControlClientTypes.SemanticOverrideConsolidationConfigurationInput.write(value:to:))
-        try writer["extraction"].write(value.extraction, with: BedrockAgentCoreControlClientTypes.SemanticOverrideExtractionConfigurationInput.write(value:to:))
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.SemanticOverrideConsolidationConfigurationInput {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.SemanticOverrideConsolidationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appendToPrompt"].write(value.appendToPrompt)
-        try writer["modelId"].write(value.modelId)
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.SemanticOverrideExtractionConfigurationInput {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.SemanticOverrideExtractionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appendToPrompt"].write(value.appendToPrompt)
-        try writer["modelId"].write(value.modelId)
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.UserPreferenceMemoryStrategyInput {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.UserPreferenceMemoryStrategyInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: BedrockAgentCoreControlClientTypes.ModifyStrategyConfiguration.write(value:to:))
         try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
+        try writer["memoryStrategyId"].write(value.memoryStrategyId)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.SummaryMemoryStrategyInput {
+extension BedrockAgentCoreControlClientTypes.ModifyReflectionConfiguration {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.SummaryMemoryStrategyInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.ModifyReflectionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        switch value {
+            case let .customreflectionconfiguration(customreflectionconfiguration):
+                try writer["customReflectionConfiguration"].write(customreflectionconfiguration, with: BedrockAgentCoreControlClientTypes.CustomReflectionConfigurationInput.write(value:to:))
+            case let .episodicreflectionconfiguration(episodicreflectionconfiguration):
+                try writer["episodicReflectionConfiguration"].write(episodicreflectionconfiguration, with: BedrockAgentCoreControlClientTypes.EpisodicReflectionConfigurationInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.SemanticMemoryStrategyInput {
+extension BedrockAgentCoreControlClientTypes.ModifySelfManagedConfiguration {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.SemanticMemoryStrategyInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.ModifySelfManagedConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["historicalContextWindowSize"].write(value.historicalContextWindowSize)
+        try writer["invocationConfiguration"].write(value.invocationConfiguration, with: BedrockAgentCoreControlClientTypes.ModifyInvocationConfigurationInput.write(value:to:))
+        try writer["triggerConditions"].writeList(value.triggerConditions, memberWritingClosure: BedrockAgentCoreControlClientTypes.TriggerConditionInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ModifyStrategyConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ModifyStrategyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consolidation"].write(value.consolidation, with: BedrockAgentCoreControlClientTypes.ModifyConsolidationConfiguration.write(value:to:))
+        try writer["extraction"].write(value.extraction, with: BedrockAgentCoreControlClientTypes.ModifyExtractionConfiguration.write(value:to:))
+        try writer["reflection"].write(value.reflection, with: BedrockAgentCoreControlClientTypes.ModifyReflectionConfiguration.write(value:to:))
+        try writer["selfManagedConfiguration"].write(value.selfManagedConfiguration, with: BedrockAgentCoreControlClientTypes.ModifySelfManagedConfiguration.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.NetworkConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkMode"].write(value.networkMode)
+        try writer["networkModeConfig"].write(value.networkModeConfig, with: BedrockAgentCoreControlClientTypes.VpcConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.NetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.NetworkConfiguration()
+        value.networkMode = try reader["networkMode"].readIfPresent() ?? .sdkUnknown("")
+        value.networkModeConfig = try reader["networkModeConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.VpcConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.NumericalScaleDefinition {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.NumericalScaleDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["definition"].write(value.definition)
+        try writer["label"].write(value.label)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.NumericalScaleDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.NumericalScaleDefinition()
+        value.definition = try reader["definition"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? 0.0
+        value.label = try reader["label"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizationEndpoint"].write(value.authorizationEndpoint)
+        try writer["issuer"].write(value.issuer)
+        try writer["responseTypes"].writeList(value.responseTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tokenEndpoint"].write(value.tokenEndpoint)
+        try writer["tokenEndpointAuthMethods"].writeList(value.tokenEndpointAuthMethods, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata()
+        value.issuer = try reader["issuer"].readIfPresent() ?? ""
+        value.authorizationEndpoint = try reader["authorizationEndpoint"].readIfPresent() ?? ""
+        value.tokenEndpoint = try reader["tokenEndpoint"].readIfPresent() ?? ""
+        value.responseTypes = try reader["responseTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tokenEndpointAuthMethods = try reader["tokenEndpointAuthMethods"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Oauth2CredentialProviderItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Oauth2CredentialProviderItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.Oauth2CredentialProviderItem()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.credentialProviderVendor = try reader["credentialProviderVendor"].readIfPresent() ?? .sdkUnknown("")
+        value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Oauth2Discovery {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.Oauth2Discovery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .authorizationservermetadata(authorizationservermetadata):
+                try writer["authorizationServerMetadata"].write(authorizationservermetadata, with: BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata.write(value:to:))
+            case let .discoveryurl(discoveryurl):
+                try writer["discoveryUrl"].write(discoveryurl)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Oauth2Discovery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "discoveryUrl":
+                return .discoveryurl(try reader["discoveryUrl"].read())
+            case "authorizationServerMetadata":
+                return .authorizationservermetadata(try reader["authorizationServerMetadata"].read(with: BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -17757,43 +17682,355 @@ extension BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigInput {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigInput {
+extension BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authorizationEndpoint"].write(value.authorizationEndpoint)
-        try writer["clientId"].write(value.clientId)
-        try writer["clientSecret"].write(value.clientSecret)
-        try writer["issuer"].write(value.issuer)
-        try writer["tokenEndpoint"].write(value.tokenEndpoint)
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "customOauth2ProviderConfig":
+                return .customoauth2providerconfig(try reader["customOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigOutput.read(from:)))
+            case "googleOauth2ProviderConfig":
+                return .googleoauth2providerconfig(try reader["googleOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput.read(from:)))
+            case "githubOauth2ProviderConfig":
+                return .githuboauth2providerconfig(try reader["githubOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput.read(from:)))
+            case "slackOauth2ProviderConfig":
+                return .slackoauth2providerconfig(try reader["slackOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput.read(from:)))
+            case "salesforceOauth2ProviderConfig":
+                return .salesforceoauth2providerconfig(try reader["salesforceOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput.read(from:)))
+            case "microsoftOauth2ProviderConfig":
+                return .microsoftoauth2providerconfig(try reader["microsoftOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput.read(from:)))
+            case "atlassianOauth2ProviderConfig":
+                return .atlassianoauth2providerconfig(try reader["atlassianOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigOutput.read(from:)))
+            case "linkedinOauth2ProviderConfig":
+                return .linkedinoauth2providerconfig(try reader["linkedinOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigOutput.read(from:)))
+            case "includedOauth2ProviderConfig":
+                return .includedoauth2providerconfig(try reader["includedOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigOutput.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigInput {
+extension BedrockAgentCoreControlClientTypes.OAuthCredentialProvider {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.OAuthCredentialProvider?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["clientId"].write(value.clientId)
-        try writer["clientSecret"].write(value.clientSecret)
+        try writer["customParameters"].writeMap(value.customParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["defaultReturnUrl"].write(value.defaultReturnUrl)
+        try writer["grantType"].write(value.grantType)
+        try writer["providerArn"].write(value.providerArn)
+        try writer["scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.OAuthCredentialProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.OAuthCredentialProvider()
+        value.providerArn = try reader["providerArn"].readIfPresent() ?? ""
+        value.scopes = try reader["scopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.customParameters = try reader["customParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.grantType = try reader["grantType"].readIfPresent() ?? BedrockAgentCoreControlClientTypes.OAuthGrantType.clientCredentials
+        value.defaultReturnUrl = try reader["defaultReturnUrl"].readIfPresent()
+        return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigInput {
+extension BedrockAgentCoreControlClientTypes.OnlineEvaluationConfigSummary {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientId"].write(value.clientId)
-        try writer["clientSecret"].write(value.clientSecret)
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.OnlineEvaluationConfigSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.OnlineEvaluationConfigSummary()
+        value.onlineEvaluationConfigArn = try reader["onlineEvaluationConfigArn"].readIfPresent() ?? ""
+        value.onlineEvaluationConfigId = try reader["onlineEvaluationConfigId"].readIfPresent() ?? ""
+        value.onlineEvaluationConfigName = try reader["onlineEvaluationConfigName"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.executionStatus = try reader["executionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigInput {
+extension BedrockAgentCoreControlClientTypes.OutputConfig {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.OutputConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.OutputConfig()
+        value.cloudWatchConfig = try reader["cloudWatchConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Policy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Policy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.Policy()
+        value.policyId = try reader["policyId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
+        value.definition = try reader["definition"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PolicyDefinition.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.policyArn = try reader["policyArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.PolicyDefinition {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.PolicyDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["clientId"].write(value.clientId)
-        try writer["clientSecret"].write(value.clientSecret)
-        try writer["tenantId"].write(value.tenantId)
+        switch value {
+            case let .cedar(cedar):
+                try writer["cedar"].write(cedar, with: BedrockAgentCoreControlClientTypes.CedarPolicy.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PolicyDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "cedar":
+                return .cedar(try reader["cedar"].read(with: BedrockAgentCoreControlClientTypes.CedarPolicy.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.PolicyEngine {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PolicyEngine {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.PolicyEngine()
+        value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.policyEngineArn = try reader["policyEngineArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.PolicyGeneration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PolicyGeneration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.PolicyGeneration()
+        value.policyEngineId = try reader["policyEngineId"].readIfPresent() ?? ""
+        value.policyGenerationId = try reader["policyGenerationId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.policyGenerationArn = try reader["policyGenerationArn"].readIfPresent() ?? ""
+        value.resource = try reader["resource"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Resource.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.findings = try reader["findings"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.PolicyGenerationAsset {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PolicyGenerationAsset {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.PolicyGenerationAsset()
+        value.policyGenerationAssetId = try reader["policyGenerationAssetId"].readIfPresent() ?? ""
+        value.definition = try reader["definition"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PolicyDefinition.read(from:))
+        value.rawTextFragment = try reader["rawTextFragment"].readIfPresent() ?? ""
+        value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.Finding.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ProtocolConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["serverProtocol"].write(value.serverProtocol)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ProtocolConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ProtocolConfiguration()
+        value.serverProtocol = try reader["serverProtocol"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.RatingScale {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.RatingScale?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .categorical(categorical):
+                try writer["categorical"].writeList(categorical, memberWritingClosure: BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .numerical(numerical):
+                try writer["numerical"].writeList(numerical, memberWritingClosure: BedrockAgentCoreControlClientTypes.NumericalScaleDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.RatingScale {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "numerical":
+                return .numerical(try reader["numerical"].readList(memberReadingClosure: BedrockAgentCoreControlClientTypes.NumericalScaleDefinition.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "categorical":
+                return .categorical(try reader["categorical"].readList(memberReadingClosure: BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.RecordingConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.RecordingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["s3Location"].write(value.s3Location, with: BedrockAgentCoreControlClientTypes.S3Location.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.RecordingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.RecordingConfig()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.s3Location = try reader["s3Location"].readIfPresent(with: BedrockAgentCoreControlClientTypes.S3Location.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ReflectionConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ReflectionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "customReflectionConfiguration":
+                return .customreflectionconfiguration(try reader["customReflectionConfiguration"].read(with: BedrockAgentCoreControlClientTypes.CustomReflectionConfiguration.read(from:)))
+            case "episodicReflectionConfiguration":
+                return .episodicreflectionconfiguration(try reader["episodicReflectionConfiguration"].read(with: BedrockAgentCoreControlClientTypes.EpisodicReflectionConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .requestheaderallowlist(requestheaderallowlist):
+                try writer["requestHeaderAllowlist"].writeList(requestheaderallowlist, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "requestHeaderAllowlist":
+                return .requestheaderallowlist(try reader["requestHeaderAllowlist"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Resource {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .arn(arn):
+                try writer["arn"].write(arn)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Resource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "arn":
+                return .arn(try reader["arn"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Rule {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.Rule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: BedrockAgentCoreControlClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["samplingConfig"].write(value.samplingConfig, with: BedrockAgentCoreControlClientTypes.SamplingConfig.write(value:to:))
+        try writer["sessionConfig"].write(value.sessionConfig, with: BedrockAgentCoreControlClientTypes.SessionConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Rule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.Rule()
+        value.samplingConfig = try reader["samplingConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SamplingConfig.read(from:))
+        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sessionConfig = try reader["sessionConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SessionConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.S3Configuration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.S3Configuration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketOwnerAccountId"].write(value.bucketOwnerAccountId)
+        try writer["uri"].write(value.uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.S3Configuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.S3Configuration()
+        value.uri = try reader["uri"].readIfPresent()
+        value.bucketOwnerAccountId = try reader["bucketOwnerAccountId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.S3Location {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["prefix"].write(value.`prefix`)
+        try writer["versionId"].write(value.versionId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.S3Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.S3Location()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
+        value.versionId = try reader["versionId"].readIfPresent()
+        return value
     }
 }
 
@@ -17806,6 +18043,161 @@ extension BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigInput
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SamplingConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SamplingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["samplingPercentage"].write(value.samplingPercentage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SamplingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SamplingConfig()
+        value.samplingPercentage = try reader["samplingPercentage"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SchemaDefinition {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SchemaDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["items"].write(value.items, with: BedrockAgentCoreControlClientTypes.SchemaDefinition.write(value:to:))
+        try writer["properties"].writeMap(value.properties, valueWritingClosure: BedrockAgentCoreControlClientTypes.SchemaDefinition.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["required"].writeList(value.`required`, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SchemaDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SchemaDefinition()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.properties = try reader["properties"].readMapIfPresent(valueReadingClosure: BedrockAgentCoreControlClientTypes.SchemaDefinition.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.`required` = try reader["required"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.items = try reader["items"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SchemaDefinition.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Secret {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Secret {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.Secret()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SelfManagedConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SelfManagedConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SelfManagedConfiguration()
+        value.triggerConditions = try reader["triggerConditions"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.TriggerCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.invocationConfiguration = try reader["invocationConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.InvocationConfiguration.read(from:))
+        value.historicalContextWindowSize = try reader["historicalContextWindowSize"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SelfManagedConfigurationInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SelfManagedConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["historicalContextWindowSize"].write(value.historicalContextWindowSize)
+        try writer["invocationConfiguration"].write(value.invocationConfiguration, with: BedrockAgentCoreControlClientTypes.InvocationConfigurationInput.write(value:to:))
+        try writer["triggerConditions"].writeList(value.triggerConditions, memberWritingClosure: BedrockAgentCoreControlClientTypes.TriggerConditionInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SemanticConsolidationOverride {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SemanticConsolidationOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SemanticConsolidationOverride()
+        value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SemanticExtractionOverride {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SemanticExtractionOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SemanticExtractionOverride()
+        value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SemanticMemoryStrategyInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SemanticMemoryStrategyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SemanticOverrideConfigurationInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SemanticOverrideConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consolidation"].write(value.consolidation, with: BedrockAgentCoreControlClientTypes.SemanticOverrideConsolidationConfigurationInput.write(value:to:))
+        try writer["extraction"].write(value.extraction, with: BedrockAgentCoreControlClientTypes.SemanticOverrideExtractionConfigurationInput.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SemanticOverrideConsolidationConfigurationInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SemanticOverrideConsolidationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appendToPrompt"].write(value.appendToPrompt)
+        try writer["modelId"].write(value.modelId)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SemanticOverrideExtractionConfigurationInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SemanticOverrideExtractionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appendToPrompt"].write(value.appendToPrompt)
+        try writer["modelId"].write(value.modelId)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SessionConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SessionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sessionTimeoutMinutes"].write(value.sessionTimeoutMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SessionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SessionConfig()
+        value.sessionTimeoutMinutes = try reader["sessionTimeoutMinutes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigInput {
 
     static func write(value: BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
@@ -17815,193 +18207,333 @@ extension BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigInput {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigInput {
+extension BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientId"].write(value.clientId)
-        try writer["clientSecret"].write(value.clientSecret)
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
+        return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigInput {
+extension BedrockAgentCoreControlClientTypes.StrategyConfiguration {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientId"].write(value.clientId)
-        try writer["clientSecret"].write(value.clientSecret)
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.StrategyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.StrategyConfiguration()
+        value.type = try reader["type"].readIfPresent()
+        value.extraction = try reader["extraction"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ExtractionConfiguration.read(from:))
+        value.consolidation = try reader["consolidation"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ConsolidationConfiguration.read(from:))
+        value.reflection = try reader["reflection"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ReflectionConfiguration.read(from:))
+        value.selfManagedConfiguration = try reader["selfManagedConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SelfManagedConfiguration.read(from:))
+        return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigInput {
+extension BedrockAgentCoreControlClientTypes.SummaryConsolidationOverride {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientId"].write(value.clientId)
-        try writer["clientSecret"].write(value.clientSecret)
-        try writer["oauthDiscovery"].write(value.oauthDiscovery, with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SummaryConsolidationOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SummaryConsolidationOverride()
+        value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.Content {
+extension BedrockAgentCoreControlClientTypes.SummaryMemoryStrategyInput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.Content?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.SummaryMemoryStrategyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .rawtext(rawtext):
-                try writer["rawText"].write(rawtext)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.ModifyMemoryStrategies {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.ModifyMemoryStrategies?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addMemoryStrategies"].writeList(value.addMemoryStrategies, memberWritingClosure: BedrockAgentCoreControlClientTypes.MemoryStrategyInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["deleteMemoryStrategies"].writeList(value.deleteMemoryStrategies, memberWritingClosure: BedrockAgentCoreControlClientTypes.DeleteMemoryStrategyInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["modifyMemoryStrategies"].writeList(value.modifyMemoryStrategies, memberWritingClosure: BedrockAgentCoreControlClientTypes.ModifyMemoryStrategyInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.DeleteMemoryStrategyInput {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.DeleteMemoryStrategyInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["memoryStrategyId"].write(value.memoryStrategyId)
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.ModifyMemoryStrategyInput {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.ModifyMemoryStrategyInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configuration"].write(value.configuration, with: BedrockAgentCoreControlClientTypes.ModifyStrategyConfiguration.write(value:to:))
         try writer["description"].write(value.description)
-        try writer["memoryStrategyId"].write(value.memoryStrategyId)
+        try writer["name"].write(value.name)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.ModifyStrategyConfiguration {
+extension BedrockAgentCoreControlClientTypes.SummaryOverrideConfigurationInput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.ModifyStrategyConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.SummaryOverrideConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["consolidation"].write(value.consolidation, with: BedrockAgentCoreControlClientTypes.ModifyConsolidationConfiguration.write(value:to:))
-        try writer["extraction"].write(value.extraction, with: BedrockAgentCoreControlClientTypes.ModifyExtractionConfiguration.write(value:to:))
-        try writer["reflection"].write(value.reflection, with: BedrockAgentCoreControlClientTypes.ModifyReflectionConfiguration.write(value:to:))
-        try writer["selfManagedConfiguration"].write(value.selfManagedConfiguration, with: BedrockAgentCoreControlClientTypes.ModifySelfManagedConfiguration.write(value:to:))
+        try writer["consolidation"].write(value.consolidation, with: BedrockAgentCoreControlClientTypes.SummaryOverrideConsolidationConfigurationInput.write(value:to:))
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.ModifySelfManagedConfiguration {
+extension BedrockAgentCoreControlClientTypes.SummaryOverrideConsolidationConfigurationInput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.ModifySelfManagedConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.SummaryOverrideConsolidationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["historicalContextWindowSize"].write(value.historicalContextWindowSize)
-        try writer["invocationConfiguration"].write(value.invocationConfiguration, with: BedrockAgentCoreControlClientTypes.ModifyInvocationConfigurationInput.write(value:to:))
-        try writer["triggerConditions"].writeList(value.triggerConditions, memberWritingClosure: BedrockAgentCoreControlClientTypes.TriggerConditionInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["appendToPrompt"].write(value.appendToPrompt)
+        try writer["modelId"].write(value.modelId)
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.ModifyInvocationConfigurationInput {
+extension BedrockAgentCoreControlClientTypes.TargetConfiguration {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.ModifyInvocationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["payloadDeliveryBucketName"].write(value.payloadDeliveryBucketName)
-        try writer["topicArn"].write(value.topicArn)
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.ModifyReflectionConfiguration {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.ModifyReflectionConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.TargetConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .customreflectionconfiguration(customreflectionconfiguration):
-                try writer["customReflectionConfiguration"].write(customreflectionconfiguration, with: BedrockAgentCoreControlClientTypes.CustomReflectionConfigurationInput.write(value:to:))
-            case let .episodicreflectionconfiguration(episodicreflectionconfiguration):
-                try writer["episodicReflectionConfiguration"].write(episodicreflectionconfiguration, with: BedrockAgentCoreControlClientTypes.EpisodicReflectionConfigurationInput.write(value:to:))
+            case let .mcp(mcp):
+                try writer["mcp"].write(mcp, with: BedrockAgentCoreControlClientTypes.McpTargetConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.TargetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "mcp":
+                return .mcp(try reader["mcp"].read(with: BedrockAgentCoreControlClientTypes.McpTargetConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.TargetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.TargetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.TargetSummary()
+        value.targetId = try reader["targetId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.TimeBasedTrigger {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.TimeBasedTrigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.TimeBasedTrigger()
+        value.idleSessionTimeout = try reader["idleSessionTimeout"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.TimeBasedTriggerInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.TimeBasedTriggerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["idleSessionTimeout"].write(value.idleSessionTimeout)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.TokenBasedTrigger {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.TokenBasedTrigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.TokenBasedTrigger()
+        value.tokenCount = try reader["tokenCount"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.TokenBasedTriggerInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.TokenBasedTriggerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tokenCount"].write(value.tokenCount)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ToolDefinition {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ToolDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["inputSchema"].write(value.inputSchema, with: BedrockAgentCoreControlClientTypes.SchemaDefinition.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["outputSchema"].write(value.outputSchema, with: BedrockAgentCoreControlClientTypes.SchemaDefinition.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ToolDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ToolDefinition()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.inputSchema = try reader["inputSchema"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SchemaDefinition.read(from:))
+        value.outputSchema = try reader["outputSchema"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SchemaDefinition.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ToolSchema {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ToolSchema?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .inlinepayload(inlinepayload):
+                try writer["inlinePayload"].writeList(inlinepayload, memberWritingClosure: BedrockAgentCoreControlClientTypes.ToolDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .s3(s3):
+                try writer["s3"].write(s3, with: BedrockAgentCoreControlClientTypes.S3Configuration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ToolSchema {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: BedrockAgentCoreControlClientTypes.S3Configuration.read(from:)))
+            case "inlinePayload":
+                return .inlinepayload(try reader["inlinePayload"].readList(memberReadingClosure: BedrockAgentCoreControlClientTypes.ToolDefinition.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.TriggerCondition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.TriggerCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "messageBasedTrigger":
+                return .messagebasedtrigger(try reader["messageBasedTrigger"].read(with: BedrockAgentCoreControlClientTypes.MessageBasedTrigger.read(from:)))
+            case "tokenBasedTrigger":
+                return .tokenbasedtrigger(try reader["tokenBasedTrigger"].read(with: BedrockAgentCoreControlClientTypes.TokenBasedTrigger.read(from:)))
+            case "timeBasedTrigger":
+                return .timebasedtrigger(try reader["timeBasedTrigger"].read(with: BedrockAgentCoreControlClientTypes.TimeBasedTrigger.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.TriggerConditionInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.TriggerConditionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .messagebasedtrigger(messagebasedtrigger):
+                try writer["messageBasedTrigger"].write(messagebasedtrigger, with: BedrockAgentCoreControlClientTypes.MessageBasedTriggerInput.write(value:to:))
+            case let .timebasedtrigger(timebasedtrigger):
+                try writer["timeBasedTrigger"].write(timebasedtrigger, with: BedrockAgentCoreControlClientTypes.TimeBasedTriggerInput.write(value:to:))
+            case let .tokenbasedtrigger(tokenbasedtrigger):
+                try writer["tokenBasedTrigger"].write(tokenbasedtrigger, with: BedrockAgentCoreControlClientTypes.TokenBasedTriggerInput.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.CustomReflectionConfigurationInput {
+extension BedrockAgentCoreControlClientTypes.UserPreferenceConsolidationOverride {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.CustomReflectionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .episodicreflectionoverride(episodicreflectionoverride):
-                try writer["episodicReflectionOverride"].write(episodicreflectionoverride, with: BedrockAgentCoreControlClientTypes.EpisodicOverrideReflectionConfigurationInput.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.UserPreferenceConsolidationOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.UserPreferenceConsolidationOverride()
+        value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.ModifyConsolidationConfiguration {
+extension BedrockAgentCoreControlClientTypes.UserPreferenceExtractionOverride {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.ModifyConsolidationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .customconsolidationconfiguration(customconsolidationconfiguration):
-                try writer["customConsolidationConfiguration"].write(customconsolidationconfiguration, with: BedrockAgentCoreControlClientTypes.CustomConsolidationConfigurationInput.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.UserPreferenceExtractionOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.UserPreferenceExtractionOverride()
+        value.appendToPrompt = try reader["appendToPrompt"].readIfPresent() ?? ""
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.CustomConsolidationConfigurationInput {
+extension BedrockAgentCoreControlClientTypes.UserPreferenceMemoryStrategyInput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.CustomConsolidationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.UserPreferenceMemoryStrategyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .episodicconsolidationoverride(episodicconsolidationoverride):
-                try writer["episodicConsolidationOverride"].write(episodicconsolidationoverride, with: BedrockAgentCoreControlClientTypes.EpisodicOverrideConsolidationConfigurationInput.write(value:to:))
-            case let .semanticconsolidationoverride(semanticconsolidationoverride):
-                try writer["semanticConsolidationOverride"].write(semanticconsolidationoverride, with: BedrockAgentCoreControlClientTypes.SemanticOverrideConsolidationConfigurationInput.write(value:to:))
-            case let .summaryconsolidationoverride(summaryconsolidationoverride):
-                try writer["summaryConsolidationOverride"].write(summaryconsolidationoverride, with: BedrockAgentCoreControlClientTypes.SummaryOverrideConsolidationConfigurationInput.write(value:to:))
-            case let .userpreferenceconsolidationoverride(userpreferenceconsolidationoverride):
-                try writer["userPreferenceConsolidationOverride"].write(userpreferenceconsolidationoverride, with: BedrockAgentCoreControlClientTypes.UserPreferenceOverrideConsolidationConfigurationInput.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.ModifyExtractionConfiguration {
+extension BedrockAgentCoreControlClientTypes.UserPreferenceOverrideConfigurationInput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.ModifyExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.UserPreferenceOverrideConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .customextractionconfiguration(customextractionconfiguration):
-                try writer["customExtractionConfiguration"].write(customextractionconfiguration, with: BedrockAgentCoreControlClientTypes.CustomExtractionConfigurationInput.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["consolidation"].write(value.consolidation, with: BedrockAgentCoreControlClientTypes.UserPreferenceOverrideConsolidationConfigurationInput.write(value:to:))
+        try writer["extraction"].write(value.extraction, with: BedrockAgentCoreControlClientTypes.UserPreferenceOverrideExtractionConfigurationInput.write(value:to:))
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.CustomExtractionConfigurationInput {
+extension BedrockAgentCoreControlClientTypes.UserPreferenceOverrideConsolidationConfigurationInput {
 
-    static func write(value: BedrockAgentCoreControlClientTypes.CustomExtractionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BedrockAgentCoreControlClientTypes.UserPreferenceOverrideConsolidationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .episodicextractionoverride(episodicextractionoverride):
-                try writer["episodicExtractionOverride"].write(episodicextractionoverride, with: BedrockAgentCoreControlClientTypes.EpisodicOverrideExtractionConfigurationInput.write(value:to:))
-            case let .semanticextractionoverride(semanticextractionoverride):
-                try writer["semanticExtractionOverride"].write(semanticextractionoverride, with: BedrockAgentCoreControlClientTypes.SemanticOverrideExtractionConfigurationInput.write(value:to:))
-            case let .userpreferenceextractionoverride(userpreferenceextractionoverride):
-                try writer["userPreferenceExtractionOverride"].write(userpreferenceextractionoverride, with: BedrockAgentCoreControlClientTypes.UserPreferenceOverrideExtractionConfigurationInput.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["appendToPrompt"].write(value.appendToPrompt)
+        try writer["modelId"].write(value.modelId)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.UserPreferenceOverrideExtractionConfigurationInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.UserPreferenceOverrideExtractionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appendToPrompt"].write(value.appendToPrompt)
+        try writer["modelId"].write(value.modelId)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.VpcConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.VpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.VpcConfig()
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnets = try reader["subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails()
+        value.workloadIdentityArn = try reader["workloadIdentityArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.WorkloadIdentityType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.WorkloadIdentityType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.WorkloadIdentityType()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.workloadIdentityArn = try reader["workloadIdentityArn"].readIfPresent() ?? ""
+        return value
     }
 }
 

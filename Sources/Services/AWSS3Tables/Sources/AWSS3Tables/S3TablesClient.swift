@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class S3TablesClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "S3TablesClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: S3TablesClient.S3TablesClientConfig
+    public let config: S3TablesClient.S3TablesClientConfig
     let serviceName = "S3Tables"
 
     @available(*, deprecated, message: "Use S3TablesClient.S3TablesClientConfig instead")
     public typealias Config = S3TablesClient.S3TablesClientConfiguration
+    public typealias Configuration = S3TablesClient.S3TablesClientConfig
 
     public required init(config: S3TablesClient.S3TablesClientConfig) {
         ClientRuntime.initialize()

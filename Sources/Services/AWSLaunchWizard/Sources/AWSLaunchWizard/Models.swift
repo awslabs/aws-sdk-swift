@@ -1976,6 +1976,18 @@ extension ValidationException {
     }
 }
 
+extension LaunchWizardClientTypes.DeploymentConditionalField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentConditionalField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LaunchWizardClientTypes.DeploymentConditionalField()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        value.comparator = try reader["comparator"].readIfPresent()
+        return value
+    }
+}
+
 extension LaunchWizardClientTypes.DeploymentData {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentData {
@@ -1997,6 +2009,45 @@ extension LaunchWizardClientTypes.DeploymentData {
     }
 }
 
+extension LaunchWizardClientTypes.DeploymentDataSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentDataSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LaunchWizardClientTypes.DeploymentDataSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.workloadName = try reader["workloadName"].readIfPresent()
+        value.patternName = try reader["patternName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension LaunchWizardClientTypes.DeploymentEventDataSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentEventDataSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LaunchWizardClientTypes.DeploymentEventDataSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension LaunchWizardClientTypes.DeploymentFilter {
+
+    static func write(value: LaunchWizardClientTypes.DeploymentFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension LaunchWizardClientTypes.DeploymentPatternVersionDataSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentPatternVersionDataSummary {
@@ -2007,6 +2058,29 @@ extension LaunchWizardClientTypes.DeploymentPatternVersionDataSummary {
         value.documentationUrl = try reader["documentationUrl"].readIfPresent()
         value.workloadName = try reader["workloadName"].readIfPresent()
         value.deploymentPatternName = try reader["deploymentPatternName"].readIfPresent()
+        return value
+    }
+}
+
+extension LaunchWizardClientTypes.DeploymentPatternVersionFilter {
+
+    static func write(value: LaunchWizardClientTypes.DeploymentPatternVersionFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension LaunchWizardClientTypes.DeploymentSpecificationsField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentSpecificationsField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LaunchWizardClientTypes.DeploymentSpecificationsField()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`required` = try reader["required"].readIfPresent()
+        value.conditionals = try reader["conditionals"].readListIfPresent(memberReadingClosure: LaunchWizardClientTypes.DeploymentConditionalField.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2023,6 +2097,18 @@ extension LaunchWizardClientTypes.WorkloadData {
         value.documentationUrl = try reader["documentationUrl"].readIfPresent()
         value.iconUrl = try reader["iconUrl"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension LaunchWizardClientTypes.WorkloadDataSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.WorkloadDataSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LaunchWizardClientTypes.WorkloadDataSummary()
+        value.workloadName = try reader["workloadName"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -2045,62 +2131,6 @@ extension LaunchWizardClientTypes.WorkloadDeploymentPatternData {
     }
 }
 
-extension LaunchWizardClientTypes.DeploymentSpecificationsField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentSpecificationsField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LaunchWizardClientTypes.DeploymentSpecificationsField()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`required` = try reader["required"].readIfPresent()
-        value.conditionals = try reader["conditionals"].readListIfPresent(memberReadingClosure: LaunchWizardClientTypes.DeploymentConditionalField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LaunchWizardClientTypes.DeploymentConditionalField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentConditionalField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LaunchWizardClientTypes.DeploymentConditionalField()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        value.comparator = try reader["comparator"].readIfPresent()
-        return value
-    }
-}
-
-extension LaunchWizardClientTypes.DeploymentEventDataSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentEventDataSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LaunchWizardClientTypes.DeploymentEventDataSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension LaunchWizardClientTypes.DeploymentDataSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentDataSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LaunchWizardClientTypes.DeploymentDataSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.workloadName = try reader["workloadName"].readIfPresent()
-        value.patternName = try reader["patternName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
 extension LaunchWizardClientTypes.WorkloadDeploymentPatternDataSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.WorkloadDeploymentPatternDataSummary {
@@ -2115,36 +2145,6 @@ extension LaunchWizardClientTypes.WorkloadDeploymentPatternDataSummary {
         value.status = try reader["status"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         return value
-    }
-}
-
-extension LaunchWizardClientTypes.WorkloadDataSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.WorkloadDataSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LaunchWizardClientTypes.WorkloadDataSummary()
-        value.workloadName = try reader["workloadName"].readIfPresent()
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension LaunchWizardClientTypes.DeploymentPatternVersionFilter {
-
-    static func write(value: LaunchWizardClientTypes.DeploymentPatternVersionFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension LaunchWizardClientTypes.DeploymentFilter {
-
-    static func write(value: LaunchWizardClientTypes.DeploymentFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

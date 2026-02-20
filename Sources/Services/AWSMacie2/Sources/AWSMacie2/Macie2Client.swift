@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class Macie2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "Macie2Client"
     let client: ClientRuntime.SdkHttpClient
-    let config: Macie2Client.Macie2ClientConfig
+    public let config: Macie2Client.Macie2ClientConfig
     let serviceName = "Macie2"
 
     @available(*, deprecated, message: "Use Macie2Client.Macie2ClientConfig instead")
     public typealias Config = Macie2Client.Macie2ClientConfiguration
+    public typealias Configuration = Macie2Client.Macie2ClientConfig
 
     public required init(config: Macie2Client.Macie2ClientConfig) {
         ClientRuntime.initialize()

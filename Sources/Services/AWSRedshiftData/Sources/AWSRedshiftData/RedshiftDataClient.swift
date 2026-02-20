@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class RedshiftDataClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RedshiftDataClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: RedshiftDataClient.RedshiftDataClientConfig
+    public let config: RedshiftDataClient.RedshiftDataClientConfig
     let serviceName = "Redshift Data"
 
     @available(*, deprecated, message: "Use RedshiftDataClient.RedshiftDataClientConfig instead")
     public typealias Config = RedshiftDataClient.RedshiftDataClientConfiguration
+    public typealias Configuration = RedshiftDataClient.RedshiftDataClientConfig
 
     public required init(config: RedshiftDataClient.RedshiftDataClientConfig) {
         ClientRuntime.initialize()

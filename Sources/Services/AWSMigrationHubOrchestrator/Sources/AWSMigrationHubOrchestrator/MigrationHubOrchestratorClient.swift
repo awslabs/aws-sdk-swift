@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class MigrationHubOrchestratorClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MigrationHubOrchestratorClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: MigrationHubOrchestratorClient.MigrationHubOrchestratorClientConfig
+    public let config: MigrationHubOrchestratorClient.MigrationHubOrchestratorClientConfig
     let serviceName = "MigrationHubOrchestrator"
 
     @available(*, deprecated, message: "Use MigrationHubOrchestratorClient.MigrationHubOrchestratorClientConfig instead")
     public typealias Config = MigrationHubOrchestratorClient.MigrationHubOrchestratorClientConfiguration
+    public typealias Configuration = MigrationHubOrchestratorClient.MigrationHubOrchestratorClientConfig
 
     public required init(config: MigrationHubOrchestratorClient.MigrationHubOrchestratorClientConfig) {
         ClientRuntime.initialize()

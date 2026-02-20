@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class IAMClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IAMClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: IAMClient.IAMClientConfig
+    public let config: IAMClient.IAMClientConfig
     let serviceName = "IAM"
 
     @available(*, deprecated, message: "Use IAMClient.IAMClientConfig instead")
     public typealias Config = IAMClient.IAMClientConfiguration
+    public typealias Configuration = IAMClient.IAMClientConfig
 
     public required init(config: IAMClient.IAMClientConfig) {
         ClientRuntime.initialize()

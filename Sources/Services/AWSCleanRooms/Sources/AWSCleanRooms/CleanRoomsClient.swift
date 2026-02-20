@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CleanRoomsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CleanRoomsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CleanRoomsClient.CleanRoomsClientConfig
+    public let config: CleanRoomsClient.CleanRoomsClientConfig
     let serviceName = "CleanRooms"
 
     @available(*, deprecated, message: "Use CleanRoomsClient.CleanRoomsClientConfig instead")
     public typealias Config = CleanRoomsClient.CleanRoomsClientConfiguration
+    public typealias Configuration = CleanRoomsClient.CleanRoomsClientConfig
 
     public required init(config: CleanRoomsClient.CleanRoomsClientConfig) {
         ClientRuntime.initialize()

@@ -10723,53 +10723,6 @@ extension UnsupportedSettingsException {
     }
 }
 
-extension DirectoryClientTypes.SharedDirectory {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.SharedDirectory {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.SharedDirectory()
-        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
-        value.ownerDirectoryId = try reader["OwnerDirectoryId"].readIfPresent()
-        value.shareMethod = try reader["ShareMethod"].readIfPresent()
-        value.sharedAccountId = try reader["SharedAccountId"].readIfPresent()
-        value.sharedDirectoryId = try reader["SharedDirectoryId"].readIfPresent()
-        value.shareStatus = try reader["ShareStatus"].readIfPresent()
-        value.shareNotes = try reader["ShareNotes"].readIfPresent()
-        value.createdDateTime = try reader["CreatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["LastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.Computer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Computer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.Computer()
-        value.computerId = try reader["ComputerId"].readIfPresent()
-        value.computerName = try reader["ComputerName"].readIfPresent()
-        value.computerAttributes = try reader["ComputerAttributes"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.Attribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.Attribute {
-
-    static func write(value: DirectoryClientTypes.Attribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Attribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.Attribute()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
 extension DirectoryClientTypes.Assessment {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Assessment {
@@ -10794,6 +10747,18 @@ extension DirectoryClientTypes.Assessment {
     }
 }
 
+extension DirectoryClientTypes.AssessmentConfiguration {
+
+    static func write(value: DirectoryClientTypes.AssessmentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomerDnsIps"].writeList(value.customerDnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DnsName"].write(value.dnsName)
+        try writer["InstanceIds"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcSettings"].write(value.vpcSettings, with: DirectoryClientTypes.DirectoryVpcSettings.write(value:to:))
+    }
+}
+
 extension DirectoryClientTypes.AssessmentReport {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.AssessmentReport {
@@ -10801,6 +10766,23 @@ extension DirectoryClientTypes.AssessmentReport {
         var value = DirectoryClientTypes.AssessmentReport()
         value.domainControllerIp = try reader["DomainControllerIp"].readIfPresent()
         value.validations = try reader["Validations"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.AssessmentValidation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.AssessmentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.AssessmentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.AssessmentSummary()
+        value.assessmentId = try reader["AssessmentId"].readIfPresent()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.dnsName = try reader["DnsName"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateDateTime = try reader["LastUpdateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.customerDnsIps = try reader["CustomerDnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.reportType = try reader["ReportType"].readIfPresent()
         return value
     }
 }
@@ -10817,6 +10799,23 @@ extension DirectoryClientTypes.AssessmentValidation {
         value.statusReason = try reader["StatusReason"].readIfPresent()
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdateDateTime = try reader["LastUpdateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.Attribute {
+
+    static func write(value: DirectoryClientTypes.Attribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Attribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.Attribute()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }
@@ -10838,17 +10837,16 @@ extension DirectoryClientTypes.Certificate {
     }
 }
 
-extension DirectoryClientTypes.ClientCertAuthSettings {
+extension DirectoryClientTypes.CertificateInfo {
 
-    static func write(value: DirectoryClientTypes.ClientCertAuthSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OCSPUrl"].write(value.ocspUrl)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.ClientCertAuthSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.CertificateInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.ClientCertAuthSettings()
-        value.ocspUrl = try reader["OCSPUrl"].readIfPresent()
+        var value = DirectoryClientTypes.CertificateInfo()
+        value.certificateId = try reader["CertificateId"].readIfPresent()
+        value.commonName = try reader["CommonName"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.expiryDateTime = try reader["ExpiryDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -10865,6 +10863,33 @@ extension DirectoryClientTypes.ClientAuthenticationSettingInfo {
     }
 }
 
+extension DirectoryClientTypes.ClientCertAuthSettings {
+
+    static func write(value: DirectoryClientTypes.ClientCertAuthSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OCSPUrl"].write(value.ocspUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.ClientCertAuthSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.ClientCertAuthSettings()
+        value.ocspUrl = try reader["OCSPUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectoryClientTypes.Computer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Computer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.Computer()
+        value.computerId = try reader["ComputerId"].readIfPresent()
+        value.computerName = try reader["ComputerName"].readIfPresent()
+        value.computerAttributes = try reader["ComputerAttributes"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.Attribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DirectoryClientTypes.ConditionalForwarder {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.ConditionalForwarder {
@@ -10874,6 +10899,34 @@ extension DirectoryClientTypes.ConditionalForwarder {
         value.dnsIpAddrs = try reader["DnsIpAddrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.dnsIpv6Addrs = try reader["DnsIpv6Addrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicationScope = try reader["ReplicationScope"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectoryClientTypes.DirectoryConnectSettings {
+
+    static func write(value: DirectoryClientTypes.DirectoryConnectSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomerDnsIps"].writeList(value.customerDnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CustomerDnsIpsV6"].writeList(value.customerDnsIpsV6, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CustomerUserName"].write(value.customerUserName)
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcId"].write(value.vpcId)
+    }
+}
+
+extension DirectoryClientTypes.DirectoryConnectSettingsDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryConnectSettingsDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.DirectoryConnectSettingsDescription()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customerUserName = try reader["CustomerUserName"].readIfPresent()
+        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent()
+        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectIps = try reader["ConnectIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectIpsV6 = try reader["ConnectIpsV6"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10916,6 +10969,113 @@ extension DirectoryClientTypes.DirectoryDescription {
     }
 }
 
+extension DirectoryClientTypes.DirectoryLimits {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryLimits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.DirectoryLimits()
+        value.cloudOnlyDirectoriesLimit = try reader["CloudOnlyDirectoriesLimit"].readIfPresent()
+        value.cloudOnlyDirectoriesCurrentCount = try reader["CloudOnlyDirectoriesCurrentCount"].readIfPresent()
+        value.cloudOnlyDirectoriesLimitReached = try reader["CloudOnlyDirectoriesLimitReached"].readIfPresent() ?? false
+        value.cloudOnlyMicrosoftADLimit = try reader["CloudOnlyMicrosoftADLimit"].readIfPresent()
+        value.cloudOnlyMicrosoftADCurrentCount = try reader["CloudOnlyMicrosoftADCurrentCount"].readIfPresent()
+        value.cloudOnlyMicrosoftADLimitReached = try reader["CloudOnlyMicrosoftADLimitReached"].readIfPresent() ?? false
+        value.connectedDirectoriesLimit = try reader["ConnectedDirectoriesLimit"].readIfPresent()
+        value.connectedDirectoriesCurrentCount = try reader["ConnectedDirectoriesCurrentCount"].readIfPresent()
+        value.connectedDirectoriesLimitReached = try reader["ConnectedDirectoriesLimitReached"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension DirectoryClientTypes.DirectorySizeUpdateSettings {
+
+    static func write(value: DirectoryClientTypes.DirectorySizeUpdateSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectorySize"].write(value.directorySize)
+    }
+}
+
+extension DirectoryClientTypes.DirectoryVpcSettings {
+
+    static func write(value: DirectoryClientTypes.DirectoryVpcSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcId"].write(value.vpcId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryVpcSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.DirectoryVpcSettings()
+        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DirectoryClientTypes.DirectoryVpcSettingsDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryVpcSettingsDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.DirectoryVpcSettingsDescription()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent()
+        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.DomainController {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DomainController {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.DomainController()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.domainControllerId = try reader["DomainControllerId"].readIfPresent()
+        value.dnsIpAddr = try reader["DnsIpAddr"].readIfPresent()
+        value.dnsIpv6Addr = try reader["DnsIpv6Addr"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnetId = try reader["SubnetId"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.launchTime = try reader["LaunchTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.statusLastUpdatedDateTime = try reader["StatusLastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.EventTopic {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.EventTopic {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.EventTopic()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.topicName = try reader["TopicName"].readIfPresent()
+        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.createdDateTime = try reader["CreatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectoryClientTypes.HybridAdministratorAccountUpdate {
+
+    static func write(value: DirectoryClientTypes.HybridAdministratorAccountUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SecretArn"].write(value.secretArn)
+    }
+}
+
+extension DirectoryClientTypes.HybridCustomerInstancesSettings {
+
+    static func write(value: DirectoryClientTypes.HybridCustomerInstancesSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomerDnsIps"].writeList(value.customerDnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InstanceIds"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension DirectoryClientTypes.HybridSettingsDescription {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridSettingsDescription {
@@ -10927,13 +11087,115 @@ extension DirectoryClientTypes.HybridSettingsDescription {
     }
 }
 
-extension DirectoryClientTypes.RegionsInfo {
+extension DirectoryClientTypes.HybridUpdateActivities {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.RegionsInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridUpdateActivities {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.RegionsInfo()
-        value.primaryRegion = try reader["PrimaryRegion"].readIfPresent()
-        value.additionalRegions = try reader["AdditionalRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = DirectoryClientTypes.HybridUpdateActivities()
+        value.selfManagedInstances = try reader["SelfManagedInstances"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.HybridUpdateInfoEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hybridAdministratorAccount = try reader["HybridAdministratorAccount"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.HybridUpdateInfoEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.HybridUpdateInfoEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridUpdateInfoEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.HybridUpdateInfoEntry()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.initiatedBy = try reader["InitiatedBy"].readIfPresent()
+        value.newValue = try reader["NewValue"].readIfPresent(with: DirectoryClientTypes.HybridUpdateValue.read(from:))
+        value.previousValue = try reader["PreviousValue"].readIfPresent(with: DirectoryClientTypes.HybridUpdateValue.read(from:))
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["LastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.assessmentId = try reader["AssessmentId"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectoryClientTypes.HybridUpdateValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridUpdateValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.HybridUpdateValue()
+        value.instanceIds = try reader["InstanceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.IpRoute {
+
+    static func write(value: DirectoryClientTypes.IpRoute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CidrIp"].write(value.cidrIp)
+        try writer["CidrIpv6"].write(value.cidrIpv6)
+        try writer["Description"].write(value.description)
+    }
+}
+
+extension DirectoryClientTypes.IpRouteInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.IpRouteInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.IpRouteInfo()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.cidrIp = try reader["CidrIp"].readIfPresent()
+        value.cidrIpv6 = try reader["CidrIpv6"].readIfPresent()
+        value.ipRouteStatusMsg = try reader["IpRouteStatusMsg"].readIfPresent()
+        value.addedDateTime = try reader["AddedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ipRouteStatusReason = try reader["IpRouteStatusReason"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectoryClientTypes.LDAPSSettingInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.LDAPSSettingInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.LDAPSSettingInfo()
+        value.ldapsStatus = try reader["LDAPSStatus"].readIfPresent()
+        value.ldapsStatusReason = try reader["LDAPSStatusReason"].readIfPresent()
+        value.lastUpdatedDateTime = try reader["LastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.LogSubscription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.LogSubscription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.LogSubscription()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.logGroupName = try reader["LogGroupName"].readIfPresent()
+        value.subscriptionCreatedDateTime = try reader["SubscriptionCreatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.NetworkUpdateSettings {
+
+    static func write(value: DirectoryClientTypes.NetworkUpdateSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomerDnsIpsV6"].writeList(value.customerDnsIpsV6, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NetworkType"].write(value.networkType)
+    }
+}
+
+extension DirectoryClientTypes.OSUpdateSettings {
+
+    static func write(value: DirectoryClientTypes.OSUpdateSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OSVersion"].write(value.osVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.OSUpdateSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.OSUpdateSettings()
+        value.osVersion = try reader["OSVersion"].readIfPresent()
         return value
     }
 }
@@ -10986,120 +11248,6 @@ extension DirectoryClientTypes.RadiusSettings {
     }
 }
 
-extension DirectoryClientTypes.DirectoryVpcSettingsDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryVpcSettingsDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.DirectoryVpcSettingsDescription()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent()
-        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.DirectoryConnectSettingsDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryConnectSettingsDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.DirectoryConnectSettingsDescription()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.customerUserName = try reader["CustomerUserName"].readIfPresent()
-        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent()
-        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.connectIps = try reader["ConnectIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.connectIpsV6 = try reader["ConnectIpsV6"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.DomainController {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DomainController {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.DomainController()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.domainControllerId = try reader["DomainControllerId"].readIfPresent()
-        value.dnsIpAddr = try reader["DnsIpAddr"].readIfPresent()
-        value.dnsIpv6Addr = try reader["DnsIpv6Addr"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetId = try reader["SubnetId"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.launchTime = try reader["LaunchTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.statusLastUpdatedDateTime = try reader["StatusLastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.EventTopic {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.EventTopic {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.EventTopic()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.topicName = try reader["TopicName"].readIfPresent()
-        value.topicArn = try reader["TopicArn"].readIfPresent()
-        value.createdDateTime = try reader["CreatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectoryClientTypes.HybridUpdateActivities {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridUpdateActivities {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.HybridUpdateActivities()
-        value.selfManagedInstances = try reader["SelfManagedInstances"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.HybridUpdateInfoEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.hybridAdministratorAccount = try reader["HybridAdministratorAccount"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.HybridUpdateInfoEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.HybridUpdateInfoEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridUpdateInfoEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.HybridUpdateInfoEntry()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.initiatedBy = try reader["InitiatedBy"].readIfPresent()
-        value.newValue = try reader["NewValue"].readIfPresent(with: DirectoryClientTypes.HybridUpdateValue.read(from:))
-        value.previousValue = try reader["PreviousValue"].readIfPresent(with: DirectoryClientTypes.HybridUpdateValue.read(from:))
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["LastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.assessmentId = try reader["AssessmentId"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectoryClientTypes.HybridUpdateValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridUpdateValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.HybridUpdateValue()
-        value.instanceIds = try reader["InstanceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.LDAPSSettingInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.LDAPSSettingInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.LDAPSSettingInfo()
-        value.ldapsStatus = try reader["LDAPSStatus"].readIfPresent()
-        value.ldapsStatusReason = try reader["LDAPSStatusReason"].readIfPresent()
-        value.lastUpdatedDateTime = try reader["LastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
 extension DirectoryClientTypes.RegionDescription {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.RegionDescription {
@@ -11118,20 +11266,39 @@ extension DirectoryClientTypes.RegionDescription {
     }
 }
 
-extension DirectoryClientTypes.DirectoryVpcSettings {
+extension DirectoryClientTypes.RegionsInfo {
 
-    static func write(value: DirectoryClientTypes.DirectoryVpcSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryVpcSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.RegionsInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.DirectoryVpcSettings()
-        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = DirectoryClientTypes.RegionsInfo()
+        value.primaryRegion = try reader["PrimaryRegion"].readIfPresent()
+        value.additionalRegions = try reader["AdditionalRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension DirectoryClientTypes.SchemaExtensionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.SchemaExtensionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.SchemaExtensionInfo()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.schemaExtensionId = try reader["SchemaExtensionId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.schemaExtensionStatus = try reader["SchemaExtensionStatus"].readIfPresent()
+        value.schemaExtensionStatusReason = try reader["SchemaExtensionStatusReason"].readIfPresent()
+        value.startDateTime = try reader["StartDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endDateTime = try reader["EndDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.Setting {
+
+    static func write(value: DirectoryClientTypes.Setting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
     }
 }
 
@@ -11155,6 +11322,33 @@ extension DirectoryClientTypes.SettingEntry {
     }
 }
 
+extension DirectoryClientTypes.SharedDirectory {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.SharedDirectory {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.SharedDirectory()
+        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
+        value.ownerDirectoryId = try reader["OwnerDirectoryId"].readIfPresent()
+        value.shareMethod = try reader["ShareMethod"].readIfPresent()
+        value.sharedAccountId = try reader["SharedAccountId"].readIfPresent()
+        value.sharedDirectoryId = try reader["SharedDirectoryId"].readIfPresent()
+        value.shareStatus = try reader["ShareStatus"].readIfPresent()
+        value.shareNotes = try reader["ShareNotes"].readIfPresent()
+        value.createdDateTime = try reader["CreatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["LastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.ShareTarget {
+
+    static func write(value: DirectoryClientTypes.ShareTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Type"].write(value.type)
+    }
+}
+
 extension DirectoryClientTypes.Snapshot {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Snapshot {
@@ -11166,6 +11360,35 @@ extension DirectoryClientTypes.Snapshot {
         value.name = try reader["Name"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.SnapshotLimits {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.SnapshotLimits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.SnapshotLimits()
+        value.manualSnapshotsLimit = try reader["ManualSnapshotsLimit"].readIfPresent()
+        value.manualSnapshotsCurrentCount = try reader["ManualSnapshotsCurrentCount"].readIfPresent()
+        value.manualSnapshotsLimitReached = try reader["ManualSnapshotsLimitReached"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension DirectoryClientTypes.Tag {
+
+    static func write(value: DirectoryClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11187,6 +11410,15 @@ extension DirectoryClientTypes.Trust {
         value.trustStateReason = try reader["TrustStateReason"].readIfPresent()
         value.selectiveAuth = try reader["SelectiveAuth"].readIfPresent()
         return value
+    }
+}
+
+extension DirectoryClientTypes.UnshareTarget {
+
+    static func write(value: DirectoryClientTypes.UnshareTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Type"].write(value.type)
     }
 }
 
@@ -11214,238 +11446,6 @@ extension DirectoryClientTypes.UpdateValue {
         var value = DirectoryClientTypes.UpdateValue()
         value.osUpdateSettings = try reader["OSUpdateSettings"].readIfPresent(with: DirectoryClientTypes.OSUpdateSettings.read(from:))
         return value
-    }
-}
-
-extension DirectoryClientTypes.OSUpdateSettings {
-
-    static func write(value: DirectoryClientTypes.OSUpdateSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OSVersion"].write(value.osVersion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.OSUpdateSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.OSUpdateSettings()
-        value.osVersion = try reader["OSVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectoryClientTypes.DirectoryLimits {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.DirectoryLimits {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.DirectoryLimits()
-        value.cloudOnlyDirectoriesLimit = try reader["CloudOnlyDirectoriesLimit"].readIfPresent()
-        value.cloudOnlyDirectoriesCurrentCount = try reader["CloudOnlyDirectoriesCurrentCount"].readIfPresent()
-        value.cloudOnlyDirectoriesLimitReached = try reader["CloudOnlyDirectoriesLimitReached"].readIfPresent() ?? false
-        value.cloudOnlyMicrosoftADLimit = try reader["CloudOnlyMicrosoftADLimit"].readIfPresent()
-        value.cloudOnlyMicrosoftADCurrentCount = try reader["CloudOnlyMicrosoftADCurrentCount"].readIfPresent()
-        value.cloudOnlyMicrosoftADLimitReached = try reader["CloudOnlyMicrosoftADLimitReached"].readIfPresent() ?? false
-        value.connectedDirectoriesLimit = try reader["ConnectedDirectoriesLimit"].readIfPresent()
-        value.connectedDirectoriesCurrentCount = try reader["ConnectedDirectoriesCurrentCount"].readIfPresent()
-        value.connectedDirectoriesLimitReached = try reader["ConnectedDirectoriesLimitReached"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension DirectoryClientTypes.SnapshotLimits {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.SnapshotLimits {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.SnapshotLimits()
-        value.manualSnapshotsLimit = try reader["ManualSnapshotsLimit"].readIfPresent()
-        value.manualSnapshotsCurrentCount = try reader["ManualSnapshotsCurrentCount"].readIfPresent()
-        value.manualSnapshotsLimitReached = try reader["ManualSnapshotsLimitReached"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension DirectoryClientTypes.AssessmentSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.AssessmentSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.AssessmentSummary()
-        value.assessmentId = try reader["AssessmentId"].readIfPresent()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.dnsName = try reader["DnsName"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdateDateTime = try reader["LastUpdateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.customerDnsIps = try reader["CustomerDnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.reportType = try reader["ReportType"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectoryClientTypes.CertificateInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.CertificateInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.CertificateInfo()
-        value.certificateId = try reader["CertificateId"].readIfPresent()
-        value.commonName = try reader["CommonName"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.expiryDateTime = try reader["ExpiryDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectoryClientTypes.IpRouteInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.IpRouteInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.IpRouteInfo()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.cidrIp = try reader["CidrIp"].readIfPresent()
-        value.cidrIpv6 = try reader["CidrIpv6"].readIfPresent()
-        value.ipRouteStatusMsg = try reader["IpRouteStatusMsg"].readIfPresent()
-        value.addedDateTime = try reader["AddedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.ipRouteStatusReason = try reader["IpRouteStatusReason"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension DirectoryClientTypes.LogSubscription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.LogSubscription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.LogSubscription()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.logGroupName = try reader["LogGroupName"].readIfPresent()
-        value.subscriptionCreatedDateTime = try reader["SubscriptionCreatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.SchemaExtensionInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.SchemaExtensionInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.SchemaExtensionInfo()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.schemaExtensionId = try reader["SchemaExtensionId"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.schemaExtensionStatus = try reader["SchemaExtensionStatus"].readIfPresent()
-        value.schemaExtensionStatusReason = try reader["SchemaExtensionStatusReason"].readIfPresent()
-        value.startDateTime = try reader["StartDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endDateTime = try reader["EndDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension DirectoryClientTypes.Tag {
-
-    static func write(value: DirectoryClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DirectoryClientTypes.IpRoute {
-
-    static func write(value: DirectoryClientTypes.IpRoute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CidrIp"].write(value.cidrIp)
-        try writer["CidrIpv6"].write(value.cidrIpv6)
-        try writer["Description"].write(value.description)
-    }
-}
-
-extension DirectoryClientTypes.DirectoryConnectSettings {
-
-    static func write(value: DirectoryClientTypes.DirectoryConnectSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomerDnsIps"].writeList(value.customerDnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CustomerDnsIpsV6"].writeList(value.customerDnsIpsV6, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CustomerUserName"].write(value.customerUserName)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
-}
-
-extension DirectoryClientTypes.ShareTarget {
-
-    static func write(value: DirectoryClientTypes.ShareTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Type"].write(value.type)
-    }
-}
-
-extension DirectoryClientTypes.AssessmentConfiguration {
-
-    static func write(value: DirectoryClientTypes.AssessmentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomerDnsIps"].writeList(value.customerDnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DnsName"].write(value.dnsName)
-        try writer["InstanceIds"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcSettings"].write(value.vpcSettings, with: DirectoryClientTypes.DirectoryVpcSettings.write(value:to:))
-    }
-}
-
-extension DirectoryClientTypes.UnshareTarget {
-
-    static func write(value: DirectoryClientTypes.UnshareTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Type"].write(value.type)
-    }
-}
-
-extension DirectoryClientTypes.DirectorySizeUpdateSettings {
-
-    static func write(value: DirectoryClientTypes.DirectorySizeUpdateSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DirectorySize"].write(value.directorySize)
-    }
-}
-
-extension DirectoryClientTypes.NetworkUpdateSettings {
-
-    static func write(value: DirectoryClientTypes.NetworkUpdateSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomerDnsIpsV6"].writeList(value.customerDnsIpsV6, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NetworkType"].write(value.networkType)
-    }
-}
-
-extension DirectoryClientTypes.HybridAdministratorAccountUpdate {
-
-    static func write(value: DirectoryClientTypes.HybridAdministratorAccountUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SecretArn"].write(value.secretArn)
-    }
-}
-
-extension DirectoryClientTypes.HybridCustomerInstancesSettings {
-
-    static func write(value: DirectoryClientTypes.HybridCustomerInstancesSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomerDnsIps"].writeList(value.customerDnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InstanceIds"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension DirectoryClientTypes.Setting {
-
-    static func write(value: DirectoryClientTypes.Setting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
     }
 }
 

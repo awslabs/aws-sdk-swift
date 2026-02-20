@@ -74,11 +74,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class IoTManagedIntegrationsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IoTManagedIntegrationsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfig
+    public let config: IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfig
     let serviceName = "IoT Managed Integrations"
 
     @available(*, deprecated, message: "Use IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfig instead")
     public typealias Config = IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfiguration
+    public typealias Configuration = IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfig
 
     public required init(config: IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfig) {
         ClientRuntime.initialize()
@@ -5011,7 +5012,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `ListTagsForResource` operation on the `IoTManagedIntegrations` service.
     ///
-    /// List tags for the specified resource.
+    /// Lists the tags for a specified resource.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
@@ -5668,6 +5669,7 @@ extension IoTManagedIntegrationsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : User is not authorized.
+    /// - `ConflictException` : There is a conflict with the request.
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
@@ -5803,7 +5805,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `TagResource` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Add tags for the specified resource.
+    /// Adds tags to a specified resource.
     ///
     /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
@@ -5875,7 +5877,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `UntagResource` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Remove tags for the specified resource.
+    /// Removes tags from a specified resource.
     ///
     /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///

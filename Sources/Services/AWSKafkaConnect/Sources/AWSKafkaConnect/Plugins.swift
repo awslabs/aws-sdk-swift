@@ -28,11 +28,11 @@ public class KafkaConnectClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
 
-    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
-        if var config = clientConfiguration as? KafkaConnectClient.KafkaConnectClientConfig {
-            config.endpointResolver = self.endpointResolver
-            clientConfiguration = config
-        }
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
+        guard var config = clientConfiguration as? KafkaConnectClient.KafkaConnectClientConfig else { return }
+        config.endpointResolver = self.endpointResolver
+        guard let modifiedConfig = config as? Config else { return }
+        clientConfiguration = modifiedConfig
     }
 }
 
@@ -40,13 +40,14 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
 
     public init() {}
 
-    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
         if var config = clientConfiguration as? KafkaConnectClient.KafkaConnectClientConfig {
             config.authSchemeResolver = DefaultKafkaConnectAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
-            clientConfiguration = config
+            guard let modifiedConfig = config as? Config else { return }
+            clientConfiguration = modifiedConfig
         }
     }
 }
@@ -66,7 +67,7 @@ public class KafkaConnectClientAuthSchemePlugin: ClientRuntime.Plugin {
         self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
     }
 
-    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
         if var config = clientConfiguration as? KafkaConnectClient.KafkaConnectClientConfig {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
@@ -81,7 +82,8 @@ public class KafkaConnectClientAuthSchemePlugin: ClientRuntime.Plugin {
             if (self.bearerTokenIdentityResolver != nil) {
                 config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!
             }
-            clientConfiguration = config
+            guard let modifiedConfig = config as? Config else { return }
+            clientConfiguration = modifiedConfig
         }
     }
 }

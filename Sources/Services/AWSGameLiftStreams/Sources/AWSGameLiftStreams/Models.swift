@@ -4786,6 +4786,57 @@ extension ConflictException {
     }
 }
 
+extension GameLiftStreamsClientTypes.ApplicationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ApplicationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftStreamsClientTypes.ApplicationSummary()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.runtimeEnvironment = try reader["RuntimeEnvironment"].readIfPresent(with: GameLiftStreamsClientTypes.RuntimeEnvironment.read(from:))
+        return value
+    }
+}
+
+extension GameLiftStreamsClientTypes.DefaultApplication {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.DefaultApplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftStreamsClientTypes.DefaultApplication()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftStreamsClientTypes.ExportFilesMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ExportFilesMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftStreamsClientTypes.ExportFilesMetadata()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.outputUri = try reader["OutputUri"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftStreamsClientTypes.LocationConfiguration {
+
+    static func write(value: GameLiftStreamsClientTypes.LocationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AlwaysOnCapacity"].write(value.alwaysOnCapacity)
+        try writer["LocationName"].write(value.locationName)
+        try writer["MaximumCapacity"].write(value.maximumCapacity)
+        try writer["OnDemandCapacity"].write(value.onDemandCapacity)
+        try writer["TargetIdleCapacity"].write(value.targetIdleCapacity)
+    }
+}
+
 extension GameLiftStreamsClientTypes.LocationState {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.LocationState {
@@ -4800,45 +4851,6 @@ extension GameLiftStreamsClientTypes.LocationState {
         value.requestedCapacity = try reader["RequestedCapacity"].readIfPresent()
         value.allocatedCapacity = try reader["AllocatedCapacity"].readIfPresent()
         value.idleCapacity = try reader["IdleCapacity"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftStreamsClientTypes.RuntimeEnvironment {
-
-    static func write(value: GameLiftStreamsClientTypes.RuntimeEnvironment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Version"].write(value.version)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.RuntimeEnvironment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftStreamsClientTypes.RuntimeEnvironment()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.version = try reader["Version"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GameLiftStreamsClientTypes.ReplicationStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ReplicationStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftStreamsClientTypes.ReplicationStatus()
-        value.location = try reader["Location"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftStreamsClientTypes.DefaultApplication {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.DefaultApplication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftStreamsClientTypes.DefaultApplication()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }
@@ -4858,30 +4870,30 @@ extension GameLiftStreamsClientTypes.PerformanceStatsConfiguration {
     }
 }
 
-extension GameLiftStreamsClientTypes.ExportFilesMetadata {
+extension GameLiftStreamsClientTypes.ReplicationStatus {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ExportFilesMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ReplicationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftStreamsClientTypes.ExportFilesMetadata()
+        var value = GameLiftStreamsClientTypes.ReplicationStatus()
+        value.location = try reader["Location"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.outputUri = try reader["OutputUri"].readIfPresent()
         return value
     }
 }
 
-extension GameLiftStreamsClientTypes.ApplicationSummary {
+extension GameLiftStreamsClientTypes.RuntimeEnvironment {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ApplicationSummary {
+    static func write(value: GameLiftStreamsClientTypes.RuntimeEnvironment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.RuntimeEnvironment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftStreamsClientTypes.ApplicationSummary()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.id = try reader["Id"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.runtimeEnvironment = try reader["RuntimeEnvironment"].readIfPresent(with: GameLiftStreamsClientTypes.RuntimeEnvironment.read(from:))
+        var value = GameLiftStreamsClientTypes.RuntimeEnvironment()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.version = try reader["Version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4920,18 +4932,6 @@ extension GameLiftStreamsClientTypes.StreamSessionSummary {
         value.exportFilesMetadata = try reader["ExportFilesMetadata"].readIfPresent(with: GameLiftStreamsClientTypes.ExportFilesMetadata.read(from:))
         value.location = try reader["Location"].readIfPresent()
         return value
-    }
-}
-
-extension GameLiftStreamsClientTypes.LocationConfiguration {
-
-    static func write(value: GameLiftStreamsClientTypes.LocationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlwaysOnCapacity"].write(value.alwaysOnCapacity)
-        try writer["LocationName"].write(value.locationName)
-        try writer["MaximumCapacity"].write(value.maximumCapacity)
-        try writer["OnDemandCapacity"].write(value.onDemandCapacity)
-        try writer["TargetIdleCapacity"].write(value.targetIdleCapacity)
     }
 }
 

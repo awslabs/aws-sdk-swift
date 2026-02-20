@@ -70,11 +70,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ElasticLoadBalancingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ElasticLoadBalancingClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ElasticLoadBalancingClient.ElasticLoadBalancingClientConfig
+    public let config: ElasticLoadBalancingClient.ElasticLoadBalancingClientConfig
     let serviceName = "Elastic Load Balancing"
 
     @available(*, deprecated, message: "Use ElasticLoadBalancingClient.ElasticLoadBalancingClientConfig instead")
     public typealias Config = ElasticLoadBalancingClient.ElasticLoadBalancingClientConfiguration
+    public typealias Configuration = ElasticLoadBalancingClient.ElasticLoadBalancingClientConfig
 
     public required init(config: ElasticLoadBalancingClient.ElasticLoadBalancingClientConfig) {
         ClientRuntime.initialize()

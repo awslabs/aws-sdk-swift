@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class PCSClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PCSClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: PCSClient.PCSClientConfig
+    public let config: PCSClient.PCSClientConfig
     let serviceName = "PCS"
 
     @available(*, deprecated, message: "Use PCSClient.PCSClientConfig instead")
     public typealias Config = PCSClient.PCSClientConfiguration
+    public typealias Configuration = PCSClient.PCSClientConfig
 
     public required init(config: PCSClient.PCSClientConfig) {
         ClientRuntime.initialize()

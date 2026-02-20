@@ -7562,6 +7562,73 @@ extension SubnetInUse {
     }
 }
 
+extension MemoryDBClientTypes.ACL {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ACL {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.ACL()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.userNames = try reader["UserNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
+        value.pendingChanges = try reader["PendingChanges"].readIfPresent(with: MemoryDBClientTypes.ACLPendingChanges.read(from:))
+        value.clusters = try reader["Clusters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["ARN"].readIfPresent()
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.ACLPendingChanges {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ACLPendingChanges {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.ACLPendingChanges()
+        value.userNamesToRemove = try reader["UserNamesToRemove"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userNamesToAdd = try reader["UserNamesToAdd"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.ACLsUpdateStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ACLsUpdateStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.ACLsUpdateStatus()
+        value.aclToApply = try reader["ACLToApply"].readIfPresent()
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.Authentication {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Authentication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.Authentication()
+        value.type = try reader["Type"].readIfPresent()
+        value.passwordCount = try reader["PasswordCount"].readIfPresent()
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.AuthenticationMode {
+
+    static func write(value: MemoryDBClientTypes.AuthenticationMode?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Passwords"].writeList(value.passwords, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension MemoryDBClientTypes.AvailabilityZone {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.AvailabilityZone {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.AvailabilityZone()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
 extension MemoryDBClientTypes.Cluster {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Cluster {
@@ -7601,137 +7668,6 @@ extension MemoryDBClientTypes.Cluster {
     }
 }
 
-extension MemoryDBClientTypes.SecurityGroupMembership {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.SecurityGroupMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.SecurityGroupMembership()
-        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.Endpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Endpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.Endpoint()
-        value.address = try reader["Address"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.Shard {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Shard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.Shard()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.slots = try reader["Slots"].readIfPresent()
-        value.nodes = try reader["Nodes"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.Node.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.numberOfNodes = try reader["NumberOfNodes"].readIfPresent()
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.Node {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Node {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.Node()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endpoint = try reader["Endpoint"].readIfPresent(with: MemoryDBClientTypes.Endpoint.read(from:))
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.ClusterPendingUpdates {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ClusterPendingUpdates {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.ClusterPendingUpdates()
-        value.resharding = try reader["Resharding"].readIfPresent(with: MemoryDBClientTypes.ReshardingStatus.read(from:))
-        value.acLs = try reader["ACLs"].readIfPresent(with: MemoryDBClientTypes.ACLsUpdateStatus.read(from:))
-        value.serviceUpdates = try reader["ServiceUpdates"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.PendingModifiedServiceUpdate.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.PendingModifiedServiceUpdate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.PendingModifiedServiceUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.PendingModifiedServiceUpdate()
-        value.serviceUpdateName = try reader["ServiceUpdateName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.ACLsUpdateStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ACLsUpdateStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.ACLsUpdateStatus()
-        value.aclToApply = try reader["ACLToApply"].readIfPresent()
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.ReshardingStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ReshardingStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.ReshardingStatus()
-        value.slotMigration = try reader["SlotMigration"].readIfPresent(with: MemoryDBClientTypes.SlotMigration.read(from:))
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.SlotMigration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.SlotMigration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.SlotMigration()
-        value.progressPercentage = try reader["ProgressPercentage"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.UnprocessedCluster {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.UnprocessedCluster {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.UnprocessedCluster()
-        value.clusterName = try reader["ClusterName"].readIfPresent()
-        value.errorType = try reader["ErrorType"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.Snapshot {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Snapshot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.Snapshot()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.source = try reader["Source"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.arn = try reader["ARN"].readIfPresent()
-        value.clusterConfiguration = try reader["ClusterConfiguration"].readIfPresent(with: MemoryDBClientTypes.ClusterConfiguration.read(from:))
-        value.dataTiering = try reader["DataTiering"].readIfPresent()
-        return value
-    }
-}
-
 extension MemoryDBClientTypes.ClusterConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ClusterConfiguration {
@@ -7758,163 +7694,25 @@ extension MemoryDBClientTypes.ClusterConfiguration {
     }
 }
 
-extension MemoryDBClientTypes.ShardDetail {
+extension MemoryDBClientTypes.ClusterPendingUpdates {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ShardDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ClusterPendingUpdates {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.ShardDetail()
-        value.name = try reader["Name"].readIfPresent()
-        value.configuration = try reader["Configuration"].readIfPresent(with: MemoryDBClientTypes.ShardConfiguration.read(from:))
-        value.size = try reader["Size"].readIfPresent()
-        value.snapshotCreationTime = try reader["SnapshotCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = MemoryDBClientTypes.ClusterPendingUpdates()
+        value.resharding = try reader["Resharding"].readIfPresent(with: MemoryDBClientTypes.ReshardingStatus.read(from:))
+        value.acLs = try reader["ACLs"].readIfPresent(with: MemoryDBClientTypes.ACLsUpdateStatus.read(from:))
+        value.serviceUpdates = try reader["ServiceUpdates"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.PendingModifiedServiceUpdate.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension MemoryDBClientTypes.ShardConfiguration {
+extension MemoryDBClientTypes.Endpoint {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ShardConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.ShardConfiguration()
-        value.slots = try reader["Slots"].readIfPresent()
-        value.replicaCount = try reader["ReplicaCount"].readIfPresent()
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.ACL {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ACL {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.ACL()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.userNames = try reader["UserNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
-        value.pendingChanges = try reader["PendingChanges"].readIfPresent(with: MemoryDBClientTypes.ACLPendingChanges.read(from:))
-        value.clusters = try reader["Clusters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.arn = try reader["ARN"].readIfPresent()
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.ACLPendingChanges {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ACLPendingChanges {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.ACLPendingChanges()
-        value.userNamesToRemove = try reader["UserNamesToRemove"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.userNamesToAdd = try reader["UserNamesToAdd"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.MultiRegionCluster {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.MultiRegionCluster {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.MultiRegionCluster()
-        value.multiRegionClusterName = try reader["MultiRegionClusterName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.nodeType = try reader["NodeType"].readIfPresent()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.numberOfShards = try reader["NumberOfShards"].readIfPresent()
-        value.clusters = try reader["Clusters"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.RegionalCluster.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.multiRegionParameterGroupName = try reader["MultiRegionParameterGroupName"].readIfPresent()
-        value.tlsEnabled = try reader["TLSEnabled"].readIfPresent()
-        value.arn = try reader["ARN"].readIfPresent()
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.RegionalCluster {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.RegionalCluster {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.RegionalCluster()
-        value.clusterName = try reader["ClusterName"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.arn = try reader["ARN"].readIfPresent()
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.ParameterGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ParameterGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.ParameterGroup()
-        value.name = try reader["Name"].readIfPresent()
-        value.family = try reader["Family"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.arn = try reader["ARN"].readIfPresent()
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.SubnetGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.SubnetGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.SubnetGroup()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.Subnet.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.arn = try reader["ARN"].readIfPresent()
-        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MemoryDBClientTypes.NetworkType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.Subnet {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Subnet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.Subnet()
-        value.identifier = try reader["Identifier"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent(with: MemoryDBClientTypes.AvailabilityZone.read(from:))
-        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MemoryDBClientTypes.NetworkType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.AvailabilityZone {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.AvailabilityZone {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.AvailabilityZone()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.User {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.User {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.User()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.accessString = try reader["AccessString"].readIfPresent()
-        value.aclNames = try reader["ACLNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
-        value.authentication = try reader["Authentication"].readIfPresent(with: MemoryDBClientTypes.Authentication.read(from:))
-        value.arn = try reader["ARN"].readIfPresent()
-        return value
-    }
-}
-
-extension MemoryDBClientTypes.Authentication {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Authentication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.Authentication()
-        value.type = try reader["Type"].readIfPresent()
-        value.passwordCount = try reader["PasswordCount"].readIfPresent()
+        var value = MemoryDBClientTypes.Endpoint()
+        value.address = try reader["Address"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7945,14 +7743,30 @@ extension MemoryDBClientTypes.Event {
     }
 }
 
-extension MemoryDBClientTypes.MultiRegionParameterGroup {
+extension MemoryDBClientTypes.Filter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.MultiRegionParameterGroup {
+    static func write(value: MemoryDBClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MemoryDBClientTypes.MultiRegionCluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.MultiRegionCluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.MultiRegionParameterGroup()
-        value.name = try reader["Name"].readIfPresent()
-        value.family = try reader["Family"].readIfPresent()
+        var value = MemoryDBClientTypes.MultiRegionCluster()
+        value.multiRegionClusterName = try reader["MultiRegionClusterName"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.nodeType = try reader["NodeType"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.numberOfShards = try reader["NumberOfShards"].readIfPresent()
+        value.clusters = try reader["Clusters"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.RegionalCluster.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.multiRegionParameterGroupName = try reader["MultiRegionParameterGroupName"].readIfPresent()
+        value.tlsEnabled = try reader["TLSEnabled"].readIfPresent()
         value.arn = try reader["ARN"].readIfPresent()
         return value
     }
@@ -7974,6 +7788,33 @@ extension MemoryDBClientTypes.MultiRegionParameter {
     }
 }
 
+extension MemoryDBClientTypes.MultiRegionParameterGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.MultiRegionParameterGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.MultiRegionParameterGroup()
+        value.name = try reader["Name"].readIfPresent()
+        value.family = try reader["Family"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.Node {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Node {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.Node()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endpoint = try reader["Endpoint"].readIfPresent(with: MemoryDBClientTypes.Endpoint.read(from:))
+        return value
+    }
+}
+
 extension MemoryDBClientTypes.Parameter {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Parameter {
@@ -7986,6 +7827,71 @@ extension MemoryDBClientTypes.Parameter {
         value.allowedValues = try reader["AllowedValues"].readIfPresent()
         value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
         return value
+    }
+}
+
+extension MemoryDBClientTypes.ParameterGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ParameterGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.ParameterGroup()
+        value.name = try reader["Name"].readIfPresent()
+        value.family = try reader["Family"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.ParameterNameValue {
+
+    static func write(value: MemoryDBClientTypes.ParameterNameValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ParameterName"].write(value.parameterName)
+        try writer["ParameterValue"].write(value.parameterValue)
+    }
+}
+
+extension MemoryDBClientTypes.PendingModifiedServiceUpdate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.PendingModifiedServiceUpdate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.PendingModifiedServiceUpdate()
+        value.serviceUpdateName = try reader["ServiceUpdateName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.RecurringCharge {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.RecurringCharge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.RecurringCharge()
+        value.recurringChargeAmount = try reader["RecurringChargeAmount"].readIfPresent() ?? 0
+        value.recurringChargeFrequency = try reader["RecurringChargeFrequency"].readIfPresent()
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.RegionalCluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.RegionalCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.RegionalCluster()
+        value.clusterName = try reader["ClusterName"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.ReplicaConfigurationRequest {
+
+    static func write(value: MemoryDBClientTypes.ReplicaConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ReplicaCount"].write(value.replicaCount)
     }
 }
 
@@ -8009,17 +7915,6 @@ extension MemoryDBClientTypes.ReservedNode {
     }
 }
 
-extension MemoryDBClientTypes.RecurringCharge {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.RecurringCharge {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MemoryDBClientTypes.RecurringCharge()
-        value.recurringChargeAmount = try reader["RecurringChargeAmount"].readIfPresent() ?? 0
-        value.recurringChargeFrequency = try reader["RecurringChargeFrequency"].readIfPresent()
-        return value
-    }
-}
-
 extension MemoryDBClientTypes.ReservedNodesOffering {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ReservedNodesOffering {
@@ -8031,6 +7926,27 @@ extension MemoryDBClientTypes.ReservedNodesOffering {
         value.fixedPrice = try reader["FixedPrice"].readIfPresent() ?? 0
         value.offeringType = try reader["OfferingType"].readIfPresent()
         value.recurringCharges = try reader["RecurringCharges"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.RecurringCharge.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.ReshardingStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ReshardingStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.ReshardingStatus()
+        value.slotMigration = try reader["SlotMigration"].readIfPresent(with: MemoryDBClientTypes.SlotMigration.read(from:))
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.SecurityGroupMembership {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.SecurityGroupMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.SecurityGroupMembership()
+        value.securityGroupId = try reader["SecurityGroupId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -8053,6 +7969,113 @@ extension MemoryDBClientTypes.ServiceUpdate {
     }
 }
 
+extension MemoryDBClientTypes.ServiceUpdateRequest {
+
+    static func write(value: MemoryDBClientTypes.ServiceUpdateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ServiceUpdateNameToApply"].write(value.serviceUpdateNameToApply)
+    }
+}
+
+extension MemoryDBClientTypes.Shard {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Shard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.Shard()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.slots = try reader["Slots"].readIfPresent()
+        value.nodes = try reader["Nodes"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.Node.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.numberOfNodes = try reader["NumberOfNodes"].readIfPresent()
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.ShardConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ShardConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.ShardConfiguration()
+        value.slots = try reader["Slots"].readIfPresent()
+        value.replicaCount = try reader["ReplicaCount"].readIfPresent()
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.ShardConfigurationRequest {
+
+    static func write(value: MemoryDBClientTypes.ShardConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ShardCount"].write(value.shardCount)
+    }
+}
+
+extension MemoryDBClientTypes.ShardDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.ShardDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.ShardDetail()
+        value.name = try reader["Name"].readIfPresent()
+        value.configuration = try reader["Configuration"].readIfPresent(with: MemoryDBClientTypes.ShardConfiguration.read(from:))
+        value.size = try reader["Size"].readIfPresent()
+        value.snapshotCreationTime = try reader["SnapshotCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.SlotMigration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.SlotMigration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.SlotMigration()
+        value.progressPercentage = try reader["ProgressPercentage"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.Snapshot {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Snapshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.Snapshot()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
+        value.clusterConfiguration = try reader["ClusterConfiguration"].readIfPresent(with: MemoryDBClientTypes.ClusterConfiguration.read(from:))
+        value.dataTiering = try reader["DataTiering"].readIfPresent()
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.Subnet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.Subnet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.Subnet()
+        value.identifier = try reader["Identifier"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent(with: MemoryDBClientTypes.AvailabilityZone.read(from:))
+        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MemoryDBClientTypes.NetworkType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.SubnetGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.SubnetGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.SubnetGroup()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.Subnet.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["ARN"].readIfPresent()
+        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MemoryDBClientTypes.NetworkType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension MemoryDBClientTypes.Tag {
 
     static func write(value: MemoryDBClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -8070,54 +8093,31 @@ extension MemoryDBClientTypes.Tag {
     }
 }
 
-extension MemoryDBClientTypes.ServiceUpdateRequest {
+extension MemoryDBClientTypes.UnprocessedCluster {
 
-    static func write(value: MemoryDBClientTypes.ServiceUpdateRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ServiceUpdateNameToApply"].write(value.serviceUpdateNameToApply)
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.UnprocessedCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.UnprocessedCluster()
+        value.clusterName = try reader["ClusterName"].readIfPresent()
+        value.errorType = try reader["ErrorType"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
     }
 }
 
-extension MemoryDBClientTypes.AuthenticationMode {
+extension MemoryDBClientTypes.User {
 
-    static func write(value: MemoryDBClientTypes.AuthenticationMode?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Passwords"].writeList(value.passwords, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
-}
-
-extension MemoryDBClientTypes.Filter {
-
-    static func write(value: MemoryDBClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MemoryDBClientTypes.ReplicaConfigurationRequest {
-
-    static func write(value: MemoryDBClientTypes.ReplicaConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReplicaCount"].write(value.replicaCount)
-    }
-}
-
-extension MemoryDBClientTypes.ShardConfigurationRequest {
-
-    static func write(value: MemoryDBClientTypes.ShardConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ShardCount"].write(value.shardCount)
-    }
-}
-
-extension MemoryDBClientTypes.ParameterNameValue {
-
-    static func write(value: MemoryDBClientTypes.ParameterNameValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ParameterName"].write(value.parameterName)
-        try writer["ParameterValue"].write(value.parameterValue)
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.User {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.User()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.accessString = try reader["AccessString"].readIfPresent()
+        value.aclNames = try reader["ACLNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
+        value.authentication = try reader["Authentication"].readIfPresent(with: MemoryDBClientTypes.Authentication.read(from:))
+        value.arn = try reader["ARN"].readIfPresent()
+        return value
     }
 }
 

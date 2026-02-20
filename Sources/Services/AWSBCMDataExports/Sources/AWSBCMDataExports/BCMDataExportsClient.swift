@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class BCMDataExportsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BCMDataExportsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: BCMDataExportsClient.BCMDataExportsClientConfig
+    public let config: BCMDataExportsClient.BCMDataExportsClientConfig
     let serviceName = "BCM Data Exports"
 
     @available(*, deprecated, message: "Use BCMDataExportsClient.BCMDataExportsClientConfig instead")
     public typealias Config = BCMDataExportsClient.BCMDataExportsClientConfiguration
+    public typealias Configuration = BCMDataExportsClient.BCMDataExportsClientConfig
 
     public required init(config: BCMDataExportsClient.BCMDataExportsClientConfig) {
         ClientRuntime.initialize()

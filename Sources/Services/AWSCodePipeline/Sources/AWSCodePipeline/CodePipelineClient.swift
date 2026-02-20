@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CodePipelineClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CodePipelineClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CodePipelineClient.CodePipelineClientConfig
+    public let config: CodePipelineClient.CodePipelineClientConfig
     let serviceName = "CodePipeline"
 
     @available(*, deprecated, message: "Use CodePipelineClient.CodePipelineClientConfig instead")
     public typealias Config = CodePipelineClient.CodePipelineClientConfiguration
+    public typealias Configuration = CodePipelineClient.CodePipelineClientConfig
 
     public required init(config: CodePipelineClient.CodePipelineClientConfig) {
         ClientRuntime.initialize()

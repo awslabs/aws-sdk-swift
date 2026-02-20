@@ -35,7 +35,7 @@ class DefaultAWSAuthSchemePlugin(
             writer.write("public init() {}")
             writer.write("")
             writer.openBlock(
-                "public func configureClient(clientConfiguration: inout \$N) async throws {",
+                "public func configureClient<Config: \$N>(clientConfiguration: inout Config) async throws {",
                 "}",
                 ClientRuntimeTypes.Core.ClientConfiguration,
             ) {
@@ -67,7 +67,8 @@ class DefaultAWSAuthSchemePlugin(
                             SmithyIdentityTypes.StaticBearerTokenIdentityResolver,
                         )
                     }
-                    writer.write("clientConfiguration = config")
+                    writer.write("guard let modifiedConfig = config as? Config else { return }")
+                    writer.write("clientConfiguration = modifiedConfig")
                 }
             }
         }

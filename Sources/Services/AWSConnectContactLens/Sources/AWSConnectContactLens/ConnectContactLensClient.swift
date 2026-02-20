@@ -70,11 +70,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ConnectContactLensClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ConnectContactLensClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ConnectContactLensClient.ConnectContactLensClientConfig
+    public let config: ConnectContactLensClient.ConnectContactLensClientConfig
     let serviceName = "Connect Contact Lens"
 
     @available(*, deprecated, message: "Use ConnectContactLensClient.ConnectContactLensClientConfig instead")
     public typealias Config = ConnectContactLensClient.ConnectContactLensClientConfiguration
+    public typealias Configuration = ConnectContactLensClient.ConnectContactLensClientConfig
 
     public required init(config: ConnectContactLensClient.ConnectContactLensClientConfig) {
         ClientRuntime.initialize()

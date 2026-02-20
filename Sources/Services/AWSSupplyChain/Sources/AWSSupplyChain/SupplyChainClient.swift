@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SupplyChainClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SupplyChainClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SupplyChainClient.SupplyChainClientConfig
+    public let config: SupplyChainClient.SupplyChainClientConfig
     let serviceName = "SupplyChain"
 
     @available(*, deprecated, message: "Use SupplyChainClient.SupplyChainClientConfig instead")
     public typealias Config = SupplyChainClient.SupplyChainClientConfiguration
+    public typealias Configuration = SupplyChainClient.SupplyChainClientConfig
 
     public required init(config: SupplyChainClient.SupplyChainClientConfig) {
         ClientRuntime.initialize()

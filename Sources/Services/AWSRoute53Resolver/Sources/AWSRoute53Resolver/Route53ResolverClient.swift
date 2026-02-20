@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class Route53ResolverClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "Route53ResolverClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: Route53ResolverClient.Route53ResolverClientConfig
+    public let config: Route53ResolverClient.Route53ResolverClientConfig
     let serviceName = "Route53Resolver"
 
     @available(*, deprecated, message: "Use Route53ResolverClient.Route53ResolverClientConfig instead")
     public typealias Config = Route53ResolverClient.Route53ResolverClientConfiguration
+    public typealias Configuration = Route53ResolverClient.Route53ResolverClientConfig
 
     public required init(config: Route53ResolverClient.Route53ResolverClientConfig) {
         ClientRuntime.initialize()

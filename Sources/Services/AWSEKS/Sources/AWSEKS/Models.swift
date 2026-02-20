@@ -658,8 +658,10 @@ extension EKSClientTypes {
         case custom
         case windowsCore2019X8664
         case windowsCore2022X8664
+        case windowsCore2025X8664
         case windowsFull2019X8664
         case windowsFull2022X8664
+        case windowsFull2025X8664
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AMITypes] {
@@ -683,8 +685,10 @@ extension EKSClientTypes {
                 .custom,
                 .windowsCore2019X8664,
                 .windowsCore2022X8664,
+                .windowsCore2025X8664,
                 .windowsFull2019X8664,
-                .windowsFull2022X8664
+                .windowsFull2022X8664,
+                .windowsFull2025X8664
             ]
         }
 
@@ -714,8 +718,10 @@ extension EKSClientTypes {
             case .custom: return "CUSTOM"
             case .windowsCore2019X8664: return "WINDOWS_CORE_2019_x86_64"
             case .windowsCore2022X8664: return "WINDOWS_CORE_2022_x86_64"
+            case .windowsCore2025X8664: return "WINDOWS_CORE_2025_x86_64"
             case .windowsFull2019X8664: return "WINDOWS_FULL_2019_x86_64"
             case .windowsFull2022X8664: return "WINDOWS_FULL_2022_x86_64"
+            case .windowsFull2025X8664: return "WINDOWS_FULL_2025_x86_64"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1686,6 +1692,7 @@ extension EKSClientTypes {
         case loggingUpdate
         case remoteNetworkConfigUpdate
         case upgradePolicyUpdate
+        case vendedLogsUpdate
         case versionUpdate
         case vpcConfigUpdate
         case zonalShiftConfigUpdate
@@ -1706,6 +1713,7 @@ extension EKSClientTypes {
                 .loggingUpdate,
                 .remoteNetworkConfigUpdate,
                 .upgradePolicyUpdate,
+                .vendedLogsUpdate,
                 .versionUpdate,
                 .vpcConfigUpdate,
                 .zonalShiftConfigUpdate
@@ -1732,6 +1740,7 @@ extension EKSClientTypes {
             case .loggingUpdate: return "LoggingUpdate"
             case .remoteNetworkConfigUpdate: return "RemoteNetworkConfigUpdate"
             case .upgradePolicyUpdate: return "UpgradePolicyUpdate"
+            case .vendedLogsUpdate: return "VendedLogsUpdate"
             case .versionUpdate: return "VersionUpdate"
             case .vpcConfigUpdate: return "VpcConfigUpdate"
             case .zonalShiftConfigUpdate: return "ZonalShiftConfigUpdate"
@@ -4848,6 +4857,12 @@ public struct CreatePodIdentityAssociationInput: Swift.Sendable {
     /// The name of the Kubernetes namespace inside the cluster to create the EKS Pod Identity association in. The service account and the Pods that use the service account must be in this namespace.
     /// This member is required.
     public var namespace: Swift.String?
+    /// An optional IAM policy in JSON format (as an escaped string) that applies additional restrictions to this pod identity association beyond the IAM policies attached to the IAM role. This policy is applied as the intersection of the role's policies and this policy, allowing you to reduce the permissions that applications in the pods can use. Use this policy to enforce least privilege access while still leveraging a shared IAM role across multiple applications. Important considerations
+    ///
+    /// * Session tags: When using this policy, disableSessionTags must be set to true.
+    ///
+    /// * Target role permissions: If you specify both a TargetRoleArn and a policy, the policy restrictions apply only to the target role's permissions, not to the initial role used for assuming the target role.
+    public var policy: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the Pods that use this service account.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -4878,6 +4893,7 @@ public struct CreatePodIdentityAssociationInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         disableSessionTags: Swift.Bool? = nil,
         namespace: Swift.String? = nil,
+        policy: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         serviceAccount: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -4887,6 +4903,7 @@ public struct CreatePodIdentityAssociationInput: Swift.Sendable {
         self.clusterName = clusterName
         self.disableSessionTags = disableSessionTags
         self.namespace = namespace
+        self.policy = policy
         self.roleArn = roleArn
         self.serviceAccount = serviceAccount
         self.tags = tags
@@ -4916,6 +4933,8 @@ extension EKSClientTypes {
         public var namespace: Swift.String?
         /// If defined, the EKS Pod Identity association is owned by an Amazon EKS add-on.
         public var ownerArn: Swift.String?
+        /// An optional IAM policy in JSON format (as an escaped string) that applies additional restrictions to this pod identity association beyond the IAM policies attached to the IAM role. This policy is applied as the intersection of the role's policies and this policy, allowing you to reduce the permissions that applications in the pods can use. Use this policy to enforce least privilege access while still leveraging a shared IAM role across multiple applications.
+        public var policy: Swift.String?
         /// The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the Pods that use this service account.
         public var roleArn: Swift.String?
         /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
@@ -4949,6 +4968,7 @@ extension EKSClientTypes {
             modifiedAt: Foundation.Date? = nil,
             namespace: Swift.String? = nil,
             ownerArn: Swift.String? = nil,
+            policy: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             serviceAccount: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
@@ -4963,6 +4983,7 @@ extension EKSClientTypes {
             self.modifiedAt = modifiedAt
             self.namespace = namespace
             self.ownerArn = ownerArn
+            self.policy = policy
             self.roleArn = roleArn
             self.serviceAccount = serviceAccount
             self.tags = tags
@@ -7767,6 +7788,12 @@ public struct UpdatePodIdentityAssociationInput: Swift.Sendable {
     public var clusterName: Swift.String?
     /// Disable the automatic sessions tags that are appended by EKS Pod Identity. EKS Pod Identity adds a pre-defined set of session tags when it assumes the role. You can use these tags to author a single role that can work across resources by allowing access to Amazon Web Services resources based on matching tags. By default, EKS Pod Identity attaches six tags, including tags for cluster name, namespace, and service account name. For the list of tags added by EKS Pod Identity, see [List of session tags added by EKS Pod Identity](https://docs.aws.amazon.com/eks/latest/userguide/pod-id-abac.html#pod-id-abac-tags) in the Amazon EKS User Guide. Amazon Web Services compresses inline session policies, managed policy ARNs, and session tags into a packed binary format that has a separate limit. If you receive a PackedPolicyTooLarge error indicating the packed binary format has exceeded the size limit, you can attempt to reduce the size by disabling the session tags added by EKS Pod Identity.
     public var disableSessionTags: Swift.Bool?
+    /// An optional IAM policy in JSON format (as an escaped string) that applies additional restrictions to this pod identity association beyond the IAM policies attached to the IAM role. This policy is applied as the intersection of the role's policies and this policy, allowing you to reduce the permissions that applications in the pods can use. Use this policy to enforce least privilege access while still leveraging a shared IAM role across multiple applications. Important considerations
+    ///
+    /// * Session tags: When using this policy, disableSessionTags must be set to true.
+    ///
+    /// * Target role permissions: If you specify both a TargetRoleArn and a policy, the policy restrictions apply only to the target role's permissions, not to the initial role used for assuming the target role.
+    public var policy: Swift.String?
     /// The new IAM role to change in the association.
     public var roleArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the target IAM role to associate with the service account. This role is assumed by using the EKS Pod Identity association role, then the credentials for this role are injected into the Pod. When you run applications on Amazon EKS, your application might need to access Amazon Web Services resources from a different role that exists in the same or different Amazon Web Services account. For example, your application running in “Account A” might need to access resources, such as buckets in “Account B” or within “Account A” itself. You can create a association to access Amazon Web Services resources in “Account B” by creating two IAM roles: a role in “Account A” and a role in “Account B” (which can be the same or different account), each with the necessary trust and permission policies. After you provide these roles in the IAM role and Target IAM role fields, EKS will perform role chaining to ensure your application gets the required permissions. This means Role A will assume Role B, allowing your Pods to securely access resources like S3 buckets in the target account.
@@ -7777,6 +7804,7 @@ public struct UpdatePodIdentityAssociationInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         disableSessionTags: Swift.Bool? = nil,
+        policy: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         targetRoleArn: Swift.String? = nil
     ) {
@@ -7784,6 +7812,7 @@ public struct UpdatePodIdentityAssociationInput: Swift.Sendable {
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
         self.disableSessionTags = disableSessionTags
+        self.policy = policy
         self.roleArn = roleArn
         self.targetRoleArn = targetRoleArn
     }
@@ -9021,6 +9050,7 @@ extension CreatePodIdentityAssociationInput {
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["disableSessionTags"].write(value.disableSessionTags)
         try writer["namespace"].write(value.namespace)
+        try writer["policy"].write(value.policy)
         try writer["roleArn"].write(value.roleArn)
         try writer["serviceAccount"].write(value.serviceAccount)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -9177,6 +9207,7 @@ extension UpdatePodIdentityAssociationInput {
         guard let value else { return }
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["disableSessionTags"].write(value.disableSessionTags)
+        try writer["policy"].write(value.policy)
         try writer["roleArn"].write(value.roleArn)
         try writer["targetRoleArn"].write(value.targetRoleArn)
     }
@@ -11315,70 +11346,13 @@ extension InvalidStateException {
     }
 }
 
-extension EKSClientTypes.AssociatedAccessPolicy {
+extension EKSClientTypes.AccessConfigResponse {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AssociatedAccessPolicy {
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AccessConfigResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.AssociatedAccessPolicy()
-        value.policyArn = try reader["policyArn"].readIfPresent()
-        value.accessScope = try reader["accessScope"].readIfPresent(with: EKSClientTypes.AccessScope.read(from:))
-        value.associatedAt = try reader["associatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension EKSClientTypes.AccessScope {
-
-    static func write(value: EKSClientTypes.AccessScope?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AccessScope {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.AccessScope()
-        value.type = try reader["type"].readIfPresent()
-        value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EKSClientTypes.Update {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Update {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.Update()
-        value.id = try reader["id"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.params = try reader["params"].readListIfPresent(memberReadingClosure: EKSClientTypes.UpdateParam.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: EKSClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EKSClientTypes.ErrorDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ErrorDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.ErrorDetail()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.resourceIds = try reader["resourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EKSClientTypes.UpdateParam {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.UpdateParam {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.UpdateParam()
-        value.type = try reader["type"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        var value = EKSClientTypes.AccessConfigResponse()
+        value.bootstrapClusterCreatorAdminPermissions = try reader["bootstrapClusterCreatorAdminPermissions"].readIfPresent()
+        value.authenticationMode = try reader["authenticationMode"].readIfPresent()
         return value
     }
 }
@@ -11397,6 +11371,34 @@ extension EKSClientTypes.AccessEntry {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.username = try reader["username"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.AccessPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AccessPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.AccessPolicy()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.AccessScope {
+
+    static func write(value: EKSClientTypes.AccessScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AccessScope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.AccessScope()
+        value.type = try reader["type"].readIfPresent()
+        value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11426,23 +11428,13 @@ extension EKSClientTypes.Addon {
     }
 }
 
-extension EKSClientTypes.AddonNamespaceConfigResponse {
+extension EKSClientTypes.AddonCompatibilityDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AddonNamespaceConfigResponse {
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AddonCompatibilityDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.AddonNamespaceConfigResponse()
-        value.namespace = try reader["namespace"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.MarketplaceInformation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.MarketplaceInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.MarketplaceInformation()
-        value.productId = try reader["productId"].readIfPresent()
-        value.productUrl = try reader["productUrl"].readIfPresent()
+        var value = EKSClientTypes.AddonCompatibilityDetail()
+        value.name = try reader["name"].readIfPresent()
+        value.compatibleVersions = try reader["compatibleVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11453,6 +11445,22 @@ extension EKSClientTypes.AddonHealth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSClientTypes.AddonHealth()
         value.issues = try reader["issues"].readListIfPresent(memberReadingClosure: EKSClientTypes.AddonIssue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.AddonInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AddonInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.AddonInfo()
+        value.addonName = try reader["addonName"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.addonVersions = try reader["addonVersions"].readListIfPresent(memberReadingClosure: EKSClientTypes.AddonVersionInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.publisher = try reader["publisher"].readIfPresent()
+        value.owner = try reader["owner"].readIfPresent()
+        value.marketplaceInformation = try reader["marketplaceInformation"].readIfPresent(with: EKSClientTypes.MarketplaceInformation.read(from:))
+        value.defaultNamespace = try reader["defaultNamespace"].readIfPresent()
         return value
     }
 }
@@ -11469,56 +11477,88 @@ extension EKSClientTypes.AddonIssue {
     }
 }
 
-extension EKSClientTypes.Capability {
+extension EKSClientTypes.AddonNamespaceConfigRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Capability {
+    static func write(value: EKSClientTypes.AddonNamespaceConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["namespace"].write(value.namespace)
+    }
+}
+
+extension EKSClientTypes.AddonNamespaceConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AddonNamespaceConfigResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.Capability()
-        value.capabilityName = try reader["capabilityName"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.clusterName = try reader["clusterName"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        value.configuration = try reader["configuration"].readIfPresent(with: EKSClientTypes.CapabilityConfigurationResponse.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.health = try reader["health"].readIfPresent(with: EKSClientTypes.CapabilityHealth.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deletePropagationPolicy = try reader["deletePropagationPolicy"].readIfPresent()
+        var value = EKSClientTypes.AddonNamespaceConfigResponse()
+        value.namespace = try reader["namespace"].readIfPresent()
         return value
     }
 }
 
-extension EKSClientTypes.CapabilityHealth {
+extension EKSClientTypes.AddonPodIdentityAssociations {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CapabilityHealth {
+    static func write(value: EKSClientTypes.AddonPodIdentityAssociations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["roleArn"].write(value.roleArn)
+        try writer["serviceAccount"].write(value.serviceAccount)
+    }
+}
+
+extension EKSClientTypes.AddonPodIdentityConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AddonPodIdentityConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.CapabilityHealth()
-        value.issues = try reader["issues"].readListIfPresent(memberReadingClosure: EKSClientTypes.CapabilityIssue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = EKSClientTypes.AddonPodIdentityConfiguration()
+        value.serviceAccount = try reader["serviceAccount"].readIfPresent()
+        value.recommendedManagedPolicies = try reader["recommendedManagedPolicies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension EKSClientTypes.CapabilityIssue {
+extension EKSClientTypes.AddonVersionInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CapabilityIssue {
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AddonVersionInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.CapabilityIssue()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        var value = EKSClientTypes.AddonVersionInfo()
+        value.addonVersion = try reader["addonVersion"].readIfPresent()
+        value.architecture = try reader["architecture"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.computeTypes = try reader["computeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.compatibilities = try reader["compatibilities"].readListIfPresent(memberReadingClosure: EKSClientTypes.Compatibility.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requiresConfiguration = try reader["requiresConfiguration"].readIfPresent() ?? false
+        value.requiresIamPermissions = try reader["requiresIamPermissions"].readIfPresent() ?? false
         return value
     }
 }
 
-extension EKSClientTypes.CapabilityConfigurationResponse {
+extension EKSClientTypes.ArgoCdAwsIdcConfigRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CapabilityConfigurationResponse {
+    static func write(value: EKSClientTypes.ArgoCdAwsIdcConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["idcInstanceArn"].write(value.idcInstanceArn)
+        try writer["idcRegion"].write(value.idcRegion)
+    }
+}
+
+extension EKSClientTypes.ArgoCdAwsIdcConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ArgoCdAwsIdcConfigResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.CapabilityConfigurationResponse()
-        value.argoCd = try reader["argoCd"].readIfPresent(with: EKSClientTypes.ArgoCdConfigResponse.read(from:))
+        var value = EKSClientTypes.ArgoCdAwsIdcConfigResponse()
+        value.idcInstanceArn = try reader["idcInstanceArn"].readIfPresent()
+        value.idcRegion = try reader["idcRegion"].readIfPresent()
+        value.idcManagedApplicationArn = try reader["idcManagedApplicationArn"].readIfPresent()
         return value
+    }
+}
+
+extension EKSClientTypes.ArgoCdConfigRequest {
+
+    static func write(value: EKSClientTypes.ArgoCdConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsIdc"].write(value.awsIdc, with: EKSClientTypes.ArgoCdAwsIdcConfigRequest.write(value:to:))
+        try writer["namespace"].write(value.namespace)
+        try writer["networkAccess"].write(value.networkAccess, with: EKSClientTypes.ArgoCdNetworkAccessConfigRequest.write(value:to:))
+        try writer["rbacRoleMappings"].writeList(value.rbacRoleMappings, memberWritingClosure: EKSClientTypes.ArgoCdRoleMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11533,6 +11573,14 @@ extension EKSClientTypes.ArgoCdConfigResponse {
         value.networkAccess = try reader["networkAccess"].readIfPresent(with: EKSClientTypes.ArgoCdNetworkAccessConfigResponse.read(from:))
         value.serverUrl = try reader["serverUrl"].readIfPresent()
         return value
+    }
+}
+
+extension EKSClientTypes.ArgoCdNetworkAccessConfigRequest {
+
+    static func write(value: EKSClientTypes.ArgoCdNetworkAccessConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["vpceIds"].writeList(value.vpceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11563,31 +11611,139 @@ extension EKSClientTypes.ArgoCdRoleMapping {
     }
 }
 
-extension EKSClientTypes.SsoIdentity {
+extension EKSClientTypes.AssociatedAccessPolicy {
 
-    static func write(value: EKSClientTypes.SsoIdentity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.SsoIdentity {
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AssociatedAccessPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.SsoIdentity()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        var value = EKSClientTypes.AssociatedAccessPolicy()
+        value.policyArn = try reader["policyArn"].readIfPresent()
+        value.accessScope = try reader["accessScope"].readIfPresent(with: EKSClientTypes.AccessScope.read(from:))
+        value.associatedAt = try reader["associatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension EKSClientTypes.ArgoCdAwsIdcConfigResponse {
+extension EKSClientTypes.AutoScalingGroup {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ArgoCdAwsIdcConfigResponse {
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AutoScalingGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.ArgoCdAwsIdcConfigResponse()
-        value.idcInstanceArn = try reader["idcInstanceArn"].readIfPresent()
-        value.idcRegion = try reader["idcRegion"].readIfPresent()
-        value.idcManagedApplicationArn = try reader["idcManagedApplicationArn"].readIfPresent()
+        var value = EKSClientTypes.AutoScalingGroup()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.BlockStorage {
+
+    static func write(value: EKSClientTypes.BlockStorage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.BlockStorage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.BlockStorage()
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.Capability {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Capability {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.Capability()
+        value.capabilityName = try reader["capabilityName"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.clusterName = try reader["clusterName"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        value.configuration = try reader["configuration"].readIfPresent(with: EKSClientTypes.CapabilityConfigurationResponse.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.health = try reader["health"].readIfPresent(with: EKSClientTypes.CapabilityHealth.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deletePropagationPolicy = try reader["deletePropagationPolicy"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.CapabilityConfigurationRequest {
+
+    static func write(value: EKSClientTypes.CapabilityConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["argoCd"].write(value.argoCd, with: EKSClientTypes.ArgoCdConfigRequest.write(value:to:))
+    }
+}
+
+extension EKSClientTypes.CapabilityConfigurationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CapabilityConfigurationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.CapabilityConfigurationResponse()
+        value.argoCd = try reader["argoCd"].readIfPresent(with: EKSClientTypes.ArgoCdConfigResponse.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.CapabilityHealth {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CapabilityHealth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.CapabilityHealth()
+        value.issues = try reader["issues"].readListIfPresent(memberReadingClosure: EKSClientTypes.CapabilityIssue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.CapabilityIssue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CapabilityIssue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.CapabilityIssue()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.CapabilitySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CapabilitySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.CapabilitySummary()
+        value.capabilityName = try reader["capabilityName"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension EKSClientTypes.Certificate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Certificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.Certificate()
+        value.data = try reader["data"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.ClientStat {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ClientStat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ClientStat()
+        value.userAgent = try reader["userAgent"].readIfPresent()
+        value.numberOfRequestsLast30Days = try reader["numberOfRequestsLast30Days"].readIfPresent() ?? 0
+        value.lastRequestTime = try reader["lastRequestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -11629,152 +11785,6 @@ extension EKSClientTypes.Cluster {
     }
 }
 
-extension EKSClientTypes.ControlPlaneScalingConfig {
-
-    static func write(value: EKSClientTypes.ControlPlaneScalingConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["tier"].write(value.tier)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ControlPlaneScalingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.ControlPlaneScalingConfig()
-        value.tier = try reader["tier"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.StorageConfigResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.StorageConfigResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.StorageConfigResponse()
-        value.blockStorage = try reader["blockStorage"].readIfPresent(with: EKSClientTypes.BlockStorage.read(from:))
-        return value
-    }
-}
-
-extension EKSClientTypes.BlockStorage {
-
-    static func write(value: EKSClientTypes.BlockStorage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.BlockStorage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.BlockStorage()
-        value.enabled = try reader["enabled"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.ComputeConfigResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ComputeConfigResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.ComputeConfigResponse()
-        value.enabled = try reader["enabled"].readIfPresent()
-        value.nodePools = try reader["nodePools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nodeRoleArn = try reader["nodeRoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.RemoteNetworkConfigResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.RemoteNetworkConfigResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.RemoteNetworkConfigResponse()
-        value.remoteNodeNetworks = try reader["remoteNodeNetworks"].readListIfPresent(memberReadingClosure: EKSClientTypes.RemoteNodeNetwork.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.remotePodNetworks = try reader["remotePodNetworks"].readListIfPresent(memberReadingClosure: EKSClientTypes.RemotePodNetwork.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EKSClientTypes.RemotePodNetwork {
-
-    static func write(value: EKSClientTypes.RemotePodNetwork?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cidrs"].writeList(value.cidrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.RemotePodNetwork {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.RemotePodNetwork()
-        value.cidrs = try reader["cidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EKSClientTypes.RemoteNodeNetwork {
-
-    static func write(value: EKSClientTypes.RemoteNodeNetwork?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cidrs"].writeList(value.cidrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.RemoteNodeNetwork {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.RemoteNodeNetwork()
-        value.cidrs = try reader["cidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EKSClientTypes.ZonalShiftConfigResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ZonalShiftConfigResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.ZonalShiftConfigResponse()
-        value.enabled = try reader["enabled"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.UpgradePolicyResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.UpgradePolicyResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.UpgradePolicyResponse()
-        value.supportType = try reader["supportType"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.AccessConfigResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AccessConfigResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.AccessConfigResponse()
-        value.bootstrapClusterCreatorAdminPermissions = try reader["bootstrapClusterCreatorAdminPermissions"].readIfPresent()
-        value.authenticationMode = try reader["authenticationMode"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.OutpostConfigResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.OutpostConfigResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.OutpostConfigResponse()
-        value.outpostArns = try reader["outpostArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.controlPlaneInstanceType = try reader["controlPlaneInstanceType"].readIfPresent() ?? ""
-        value.controlPlanePlacement = try reader["controlPlanePlacement"].readIfPresent(with: EKSClientTypes.ControlPlanePlacementResponse.read(from:))
-        return value
-    }
-}
-
-extension EKSClientTypes.ControlPlanePlacementResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ControlPlanePlacementResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.ControlPlanePlacementResponse()
-        value.groupName = try reader["groupName"].readIfPresent()
-        return value
-    }
-}
-
 extension EKSClientTypes.ClusterHealth {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ClusterHealth {
@@ -11797,6 +11807,68 @@ extension EKSClientTypes.ClusterIssue {
     }
 }
 
+extension EKSClientTypes.ClusterVersionInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ClusterVersionInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ClusterVersionInformation()
+        value.clusterVersion = try reader["clusterVersion"].readIfPresent()
+        value.clusterType = try reader["clusterType"].readIfPresent()
+        value.defaultPlatformVersion = try reader["defaultPlatformVersion"].readIfPresent()
+        value.defaultVersion = try reader["defaultVersion"].readIfPresent() ?? false
+        value.releaseDate = try reader["releaseDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endOfStandardSupportDate = try reader["endOfStandardSupportDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endOfExtendedSupportDate = try reader["endOfExtendedSupportDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.versionStatus = try reader["versionStatus"].readIfPresent()
+        value.kubernetesPatchVersion = try reader["kubernetesPatchVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.Compatibility {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Compatibility {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.Compatibility()
+        value.clusterVersion = try reader["clusterVersion"].readIfPresent()
+        value.platformVersions = try reader["platformVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultVersion = try reader["defaultVersion"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension EKSClientTypes.ComputeConfigRequest {
+
+    static func write(value: EKSClientTypes.ComputeConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["nodePools"].writeList(value.nodePools, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["nodeRoleArn"].write(value.nodeRoleArn)
+    }
+}
+
+extension EKSClientTypes.ComputeConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ComputeConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ComputeConfigResponse()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.nodePools = try reader["nodePools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nodeRoleArn = try reader["nodeRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.ConnectorConfigRequest {
+
+    static func write(value: EKSClientTypes.ConnectorConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["provider"].write(value.provider)
+        try writer["roleArn"].write(value.roleArn)
+    }
+}
+
 extension EKSClientTypes.ConnectorConfigResponse {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ConnectorConfigResponse {
@@ -11811,140 +11883,58 @@ extension EKSClientTypes.ConnectorConfigResponse {
     }
 }
 
-extension EKSClientTypes.EncryptionConfig {
+extension EKSClientTypes.ControlPlanePlacementRequest {
 
-    static func write(value: EKSClientTypes.EncryptionConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EKSClientTypes.ControlPlanePlacementRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["provider"].write(value.provider, with: EKSClientTypes.Provider.write(value:to:))
-        try writer["resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["groupName"].write(value.groupName)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.EncryptionConfig {
+extension EKSClientTypes.ControlPlanePlacementResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ControlPlanePlacementResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.EncryptionConfig()
-        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.provider = try reader["provider"].readIfPresent(with: EKSClientTypes.Provider.read(from:))
+        var value = EKSClientTypes.ControlPlanePlacementResponse()
+        value.groupName = try reader["groupName"].readIfPresent()
         return value
     }
 }
 
-extension EKSClientTypes.Provider {
+extension EKSClientTypes.ControlPlaneScalingConfig {
 
-    static func write(value: EKSClientTypes.Provider?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EKSClientTypes.ControlPlaneScalingConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["keyArn"].write(value.keyArn)
+        try writer["tier"].write(value.tier)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Provider {
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ControlPlaneScalingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.Provider()
-        value.keyArn = try reader["keyArn"].readIfPresent()
+        var value = EKSClientTypes.ControlPlaneScalingConfig()
+        value.tier = try reader["tier"].readIfPresent()
         return value
     }
 }
 
-extension EKSClientTypes.Certificate {
+extension EKSClientTypes.CreateAccessConfigRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Certificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.Certificate()
-        value.data = try reader["data"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.Identity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Identity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.Identity()
-        value.oidc = try reader["oidc"].readIfPresent(with: EKSClientTypes.OIDC.read(from:))
-        return value
-    }
-}
-
-extension EKSClientTypes.OIDC {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.OIDC {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.OIDC()
-        value.issuer = try reader["issuer"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.Logging {
-
-    static func write(value: EKSClientTypes.Logging?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EKSClientTypes.CreateAccessConfigRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["clusterLogging"].writeList(value.clusterLogging, memberWritingClosure: EKSClientTypes.LogSetup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Logging {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.Logging()
-        value.clusterLogging = try reader["clusterLogging"].readListIfPresent(memberReadingClosure: EKSClientTypes.LogSetup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+        try writer["authenticationMode"].write(value.authenticationMode)
+        try writer["bootstrapClusterCreatorAdminPermissions"].write(value.bootstrapClusterCreatorAdminPermissions)
     }
 }
 
-extension EKSClientTypes.LogSetup {
+extension EKSClientTypes.DeprecationDetail {
 
-    static func write(value: EKSClientTypes.LogSetup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EKSClientTypes.LogType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.LogSetup {
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.DeprecationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.LogSetup()
-        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EKSClientTypes.LogType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enabled = try reader["enabled"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.KubernetesNetworkConfigResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.KubernetesNetworkConfigResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.KubernetesNetworkConfigResponse()
-        value.serviceIpv4Cidr = try reader["serviceIpv4Cidr"].readIfPresent()
-        value.serviceIpv6Cidr = try reader["serviceIpv6Cidr"].readIfPresent()
-        value.ipFamily = try reader["ipFamily"].readIfPresent()
-        value.elasticLoadBalancing = try reader["elasticLoadBalancing"].readIfPresent(with: EKSClientTypes.ElasticLoadBalancing.read(from:))
-        return value
-    }
-}
-
-extension EKSClientTypes.ElasticLoadBalancing {
-
-    static func write(value: EKSClientTypes.ElasticLoadBalancing?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ElasticLoadBalancing {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.ElasticLoadBalancing()
-        value.enabled = try reader["enabled"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.VpcConfigResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.VpcConfigResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.VpcConfigResponse()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.clusterSecurityGroupId = try reader["clusterSecurityGroupId"].readIfPresent()
-        value.vpcId = try reader["vpcId"].readIfPresent()
-        value.endpointPublicAccess = try reader["endpointPublicAccess"].readIfPresent() ?? false
-        value.endpointPrivateAccess = try reader["endpointPrivateAccess"].readIfPresent() ?? false
-        value.publicAccessCidrs = try reader["publicAccessCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = EKSClientTypes.DeprecationDetail()
+        value.usage = try reader["usage"].readIfPresent()
+        value.replacedWith = try reader["replacedWith"].readIfPresent()
+        value.stopServingVersion = try reader["stopServingVersion"].readIfPresent()
+        value.startServingReplacementVersion = try reader["startServingReplacementVersion"].readIfPresent()
+        value.clientStats = try reader["clientStats"].readListIfPresent(memberReadingClosure: EKSClientTypes.ClientStat.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11971,17 +11961,6 @@ extension EKSClientTypes.EksAnywhereSubscription {
     }
 }
 
-extension EKSClientTypes.License {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.License {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.License()
-        value.id = try reader["id"].readIfPresent()
-        value.token = try reader["token"].readIfPresent()
-        return value
-    }
-}
-
 extension EKSClientTypes.EksAnywhereSubscriptionTerm {
 
     static func write(value: EKSClientTypes.EksAnywhereSubscriptionTerm?, to writer: SmithyJSON.Writer) throws {
@@ -11995,6 +11974,50 @@ extension EKSClientTypes.EksAnywhereSubscriptionTerm {
         var value = EKSClientTypes.EksAnywhereSubscriptionTerm()
         value.duration = try reader["duration"].readIfPresent() ?? 0
         value.unit = try reader["unit"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.ElasticLoadBalancing {
+
+    static func write(value: EKSClientTypes.ElasticLoadBalancing?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ElasticLoadBalancing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ElasticLoadBalancing()
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.EncryptionConfig {
+
+    static func write(value: EKSClientTypes.EncryptionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["provider"].write(value.provider, with: EKSClientTypes.Provider.write(value:to:))
+        try writer["resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.EncryptionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.EncryptionConfig()
+        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.provider = try reader["provider"].readIfPresent(with: EKSClientTypes.Provider.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.ErrorDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ErrorDetail()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.resourceIds = try reader["resourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -12057,6 +12080,233 @@ extension EKSClientTypes.FargateProfileSelector {
     }
 }
 
+extension EKSClientTypes.Identity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Identity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.Identity()
+        value.oidc = try reader["oidc"].readIfPresent(with: EKSClientTypes.OIDC.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.IdentityProviderConfig {
+
+    static func write(value: EKSClientTypes.IdentityProviderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.IdentityProviderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.IdentityProviderConfig()
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EKSClientTypes.IdentityProviderConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.IdentityProviderConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.IdentityProviderConfigResponse()
+        value.oidc = try reader["oidc"].readIfPresent(with: EKSClientTypes.OidcIdentityProviderConfig.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.Insight {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Insight {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.Insight()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.category = try reader["category"].readIfPresent()
+        value.kubernetesVersion = try reader["kubernetesVersion"].readIfPresent()
+        value.lastRefreshTime = try reader["lastRefreshTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastTransitionTime = try reader["lastTransitionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["description"].readIfPresent()
+        value.insightStatus = try reader["insightStatus"].readIfPresent(with: EKSClientTypes.InsightStatus.read(from:))
+        value.recommendation = try reader["recommendation"].readIfPresent()
+        value.additionalInfo = try reader["additionalInfo"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: EKSClientTypes.InsightResourceDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.categorySpecificSummary = try reader["categorySpecificSummary"].readIfPresent(with: EKSClientTypes.InsightCategorySpecificSummary.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.InsightCategorySpecificSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.InsightCategorySpecificSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.InsightCategorySpecificSummary()
+        value.deprecationDetails = try reader["deprecationDetails"].readListIfPresent(memberReadingClosure: EKSClientTypes.DeprecationDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.addonCompatibilityDetails = try reader["addonCompatibilityDetails"].readListIfPresent(memberReadingClosure: EKSClientTypes.AddonCompatibilityDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.InsightResourceDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.InsightResourceDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.InsightResourceDetail()
+        value.insightStatus = try reader["insightStatus"].readIfPresent(with: EKSClientTypes.InsightStatus.read(from:))
+        value.kubernetesResourceUri = try reader["kubernetesResourceUri"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.InsightsFilter {
+
+    static func write(value: EKSClientTypes.InsightsFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["categories"].writeList(value.categories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EKSClientTypes.Category>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["kubernetesVersions"].writeList(value.kubernetesVersions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EKSClientTypes.InsightStatusValue>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension EKSClientTypes.InsightStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.InsightStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.InsightStatus()
+        value.status = try reader["status"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.InsightSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.InsightSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.InsightSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.category = try reader["category"].readIfPresent()
+        value.kubernetesVersion = try reader["kubernetesVersion"].readIfPresent()
+        value.lastRefreshTime = try reader["lastRefreshTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastTransitionTime = try reader["lastTransitionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["description"].readIfPresent()
+        value.insightStatus = try reader["insightStatus"].readIfPresent(with: EKSClientTypes.InsightStatus.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.Issue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Issue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.Issue()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.resourceIds = try reader["resourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.KubernetesNetworkConfigRequest {
+
+    static func write(value: EKSClientTypes.KubernetesNetworkConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["elasticLoadBalancing"].write(value.elasticLoadBalancing, with: EKSClientTypes.ElasticLoadBalancing.write(value:to:))
+        try writer["ipFamily"].write(value.ipFamily)
+        try writer["serviceIpv4Cidr"].write(value.serviceIpv4Cidr)
+    }
+}
+
+extension EKSClientTypes.KubernetesNetworkConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.KubernetesNetworkConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.KubernetesNetworkConfigResponse()
+        value.serviceIpv4Cidr = try reader["serviceIpv4Cidr"].readIfPresent()
+        value.serviceIpv6Cidr = try reader["serviceIpv6Cidr"].readIfPresent()
+        value.ipFamily = try reader["ipFamily"].readIfPresent()
+        value.elasticLoadBalancing = try reader["elasticLoadBalancing"].readIfPresent(with: EKSClientTypes.ElasticLoadBalancing.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.LaunchTemplateSpecification {
+
+    static func write(value: EKSClientTypes.LaunchTemplateSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+        try writer["version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.LaunchTemplateSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.LaunchTemplateSpecification()
+        value.name = try reader["name"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.License {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.License {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.License()
+        value.id = try reader["id"].readIfPresent()
+        value.token = try reader["token"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.Logging {
+
+    static func write(value: EKSClientTypes.Logging?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clusterLogging"].writeList(value.clusterLogging, memberWritingClosure: EKSClientTypes.LogSetup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Logging {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.Logging()
+        value.clusterLogging = try reader["clusterLogging"].readListIfPresent(memberReadingClosure: EKSClientTypes.LogSetup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.LogSetup {
+
+    static func write(value: EKSClientTypes.LogSetup?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EKSClientTypes.LogType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.LogSetup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.LogSetup()
+        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EKSClientTypes.LogType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.MarketplaceInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.MarketplaceInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.MarketplaceInformation()
+        value.productId = try reader["productId"].readIfPresent()
+        value.productUrl = try reader["productUrl"].readIfPresent()
+        return value
+    }
+}
+
 extension EKSClientTypes.Nodegroup {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Nodegroup {
@@ -12090,21 +12340,61 @@ extension EKSClientTypes.Nodegroup {
     }
 }
 
-extension EKSClientTypes.LaunchTemplateSpecification {
+extension EKSClientTypes.NodegroupHealth {
 
-    static func write(value: EKSClientTypes.LaunchTemplateSpecification?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.NodegroupHealth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.NodegroupHealth()
+        value.issues = try reader["issues"].readListIfPresent(memberReadingClosure: EKSClientTypes.Issue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.NodegroupResources {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.NodegroupResources {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.NodegroupResources()
+        value.autoScalingGroups = try reader["autoScalingGroups"].readListIfPresent(memberReadingClosure: EKSClientTypes.AutoScalingGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.remoteAccessSecurityGroup = try reader["remoteAccessSecurityGroup"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.NodegroupScalingConfig {
+
+    static func write(value: EKSClientTypes.NodegroupScalingConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["version"].write(value.version)
+        try writer["desiredSize"].write(value.desiredSize)
+        try writer["maxSize"].write(value.maxSize)
+        try writer["minSize"].write(value.minSize)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.LaunchTemplateSpecification {
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.NodegroupScalingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.LaunchTemplateSpecification()
-        value.name = try reader["name"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
+        var value = EKSClientTypes.NodegroupScalingConfig()
+        value.minSize = try reader["minSize"].readIfPresent()
+        value.maxSize = try reader["maxSize"].readIfPresent()
+        value.desiredSize = try reader["desiredSize"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.NodegroupUpdateConfig {
+
+    static func write(value: EKSClientTypes.NodegroupUpdateConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxUnavailable"].write(value.maxUnavailable)
+        try writer["maxUnavailablePercentage"].write(value.maxUnavailablePercentage)
+        try writer["updateStrategy"].write(value.updateStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.NodegroupUpdateConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.NodegroupUpdateConfig()
+        value.maxUnavailable = try reader["maxUnavailable"].readIfPresent()
+        value.maxUnavailablePercentage = try reader["maxUnavailablePercentage"].readIfPresent()
+        value.updateStrategy = try reader["updateStrategy"].readIfPresent()
         return value
     }
 }
@@ -12155,224 +12445,12 @@ extension EKSClientTypes.NodeRepairConfigOverrides {
     }
 }
 
-extension EKSClientTypes.NodegroupUpdateConfig {
+extension EKSClientTypes.OIDC {
 
-    static func write(value: EKSClientTypes.NodegroupUpdateConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxUnavailable"].write(value.maxUnavailable)
-        try writer["maxUnavailablePercentage"].write(value.maxUnavailablePercentage)
-        try writer["updateStrategy"].write(value.updateStrategy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.NodegroupUpdateConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.OIDC {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.NodegroupUpdateConfig()
-        value.maxUnavailable = try reader["maxUnavailable"].readIfPresent()
-        value.maxUnavailablePercentage = try reader["maxUnavailablePercentage"].readIfPresent()
-        value.updateStrategy = try reader["updateStrategy"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.NodegroupHealth {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.NodegroupHealth {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.NodegroupHealth()
-        value.issues = try reader["issues"].readListIfPresent(memberReadingClosure: EKSClientTypes.Issue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EKSClientTypes.Issue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Issue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.Issue()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        value.resourceIds = try reader["resourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EKSClientTypes.NodegroupResources {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.NodegroupResources {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.NodegroupResources()
-        value.autoScalingGroups = try reader["autoScalingGroups"].readListIfPresent(memberReadingClosure: EKSClientTypes.AutoScalingGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.remoteAccessSecurityGroup = try reader["remoteAccessSecurityGroup"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.AutoScalingGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AutoScalingGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.AutoScalingGroup()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.Taint {
-
-    static func write(value: EKSClientTypes.Taint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["effect"].write(value.effect)
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Taint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.Taint()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        value.effect = try reader["effect"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.RemoteAccessConfig {
-
-    static func write(value: EKSClientTypes.RemoteAccessConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ec2SshKey"].write(value.ec2SshKey)
-        try writer["sourceSecurityGroups"].writeList(value.sourceSecurityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.RemoteAccessConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.RemoteAccessConfig()
-        value.ec2SshKey = try reader["ec2SshKey"].readIfPresent()
-        value.sourceSecurityGroups = try reader["sourceSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EKSClientTypes.NodegroupScalingConfig {
-
-    static func write(value: EKSClientTypes.NodegroupScalingConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["desiredSize"].write(value.desiredSize)
-        try writer["maxSize"].write(value.maxSize)
-        try writer["minSize"].write(value.minSize)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.NodegroupScalingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.NodegroupScalingConfig()
-        value.minSize = try reader["minSize"].readIfPresent()
-        value.maxSize = try reader["maxSize"].readIfPresent()
-        value.desiredSize = try reader["desiredSize"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.PodIdentityAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.PodIdentityAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.PodIdentityAssociation()
-        value.clusterName = try reader["clusterName"].readIfPresent()
-        value.namespace = try reader["namespace"].readIfPresent()
-        value.serviceAccount = try reader["serviceAccount"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.associationArn = try reader["associationArn"].readIfPresent()
-        value.associationId = try reader["associationId"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.ownerArn = try reader["ownerArn"].readIfPresent()
-        value.disableSessionTags = try reader["disableSessionTags"].readIfPresent()
-        value.targetRoleArn = try reader["targetRoleArn"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.AddonPodIdentityConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AddonPodIdentityConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.AddonPodIdentityConfiguration()
-        value.serviceAccount = try reader["serviceAccount"].readIfPresent()
-        value.recommendedManagedPolicies = try reader["recommendedManagedPolicies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EKSClientTypes.AddonInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AddonInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.AddonInfo()
-        value.addonName = try reader["addonName"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.addonVersions = try reader["addonVersions"].readListIfPresent(memberReadingClosure: EKSClientTypes.AddonVersionInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.publisher = try reader["publisher"].readIfPresent()
-        value.owner = try reader["owner"].readIfPresent()
-        value.marketplaceInformation = try reader["marketplaceInformation"].readIfPresent(with: EKSClientTypes.MarketplaceInformation.read(from:))
-        value.defaultNamespace = try reader["defaultNamespace"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.AddonVersionInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AddonVersionInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.AddonVersionInfo()
-        value.addonVersion = try reader["addonVersion"].readIfPresent()
-        value.architecture = try reader["architecture"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.computeTypes = try reader["computeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.compatibilities = try reader["compatibilities"].readListIfPresent(memberReadingClosure: EKSClientTypes.Compatibility.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.requiresConfiguration = try reader["requiresConfiguration"].readIfPresent() ?? false
-        value.requiresIamPermissions = try reader["requiresIamPermissions"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension EKSClientTypes.Compatibility {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Compatibility {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.Compatibility()
-        value.clusterVersion = try reader["clusterVersion"].readIfPresent()
-        value.platformVersions = try reader["platformVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.defaultVersion = try reader["defaultVersion"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension EKSClientTypes.ClusterVersionInformation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ClusterVersionInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.ClusterVersionInformation()
-        value.clusterVersion = try reader["clusterVersion"].readIfPresent()
-        value.clusterType = try reader["clusterType"].readIfPresent()
-        value.defaultPlatformVersion = try reader["defaultPlatformVersion"].readIfPresent()
-        value.defaultVersion = try reader["defaultVersion"].readIfPresent() ?? false
-        value.releaseDate = try reader["releaseDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endOfStandardSupportDate = try reader["endOfStandardSupportDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endOfExtendedSupportDate = try reader["endOfExtendedSupportDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        value.versionStatus = try reader["versionStatus"].readIfPresent()
-        value.kubernetesPatchVersion = try reader["kubernetesPatchVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.IdentityProviderConfigResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.IdentityProviderConfigResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.IdentityProviderConfigResponse()
-        value.oidc = try reader["oidc"].readIfPresent(with: EKSClientTypes.OidcIdentityProviderConfig.read(from:))
+        var value = EKSClientTypes.OIDC()
+        value.issuer = try reader["issuer"].readIfPresent()
         return value
     }
 }
@@ -12398,155 +12476,62 @@ extension EKSClientTypes.OidcIdentityProviderConfig {
     }
 }
 
-extension EKSClientTypes.Insight {
+extension EKSClientTypes.OidcIdentityProviderConfigRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Insight {
+    static func write(value: EKSClientTypes.OidcIdentityProviderConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientId"].write(value.clientId)
+        try writer["groupsClaim"].write(value.groupsClaim)
+        try writer["groupsPrefix"].write(value.groupsPrefix)
+        try writer["identityProviderConfigName"].write(value.identityProviderConfigName)
+        try writer["issuerUrl"].write(value.issuerUrl)
+        try writer["requiredClaims"].writeMap(value.requiredClaims, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["usernameClaim"].write(value.usernameClaim)
+        try writer["usernamePrefix"].write(value.usernamePrefix)
+    }
+}
+
+extension EKSClientTypes.OutpostConfigRequest {
+
+    static func write(value: EKSClientTypes.OutpostConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["controlPlaneInstanceType"].write(value.controlPlaneInstanceType)
+        try writer["controlPlanePlacement"].write(value.controlPlanePlacement, with: EKSClientTypes.ControlPlanePlacementRequest.write(value:to:))
+        try writer["outpostArns"].writeList(value.outpostArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension EKSClientTypes.OutpostConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.OutpostConfigResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.Insight()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.category = try reader["category"].readIfPresent()
-        value.kubernetesVersion = try reader["kubernetesVersion"].readIfPresent()
-        value.lastRefreshTime = try reader["lastRefreshTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastTransitionTime = try reader["lastTransitionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.description = try reader["description"].readIfPresent()
-        value.insightStatus = try reader["insightStatus"].readIfPresent(with: EKSClientTypes.InsightStatus.read(from:))
-        value.recommendation = try reader["recommendation"].readIfPresent()
-        value.additionalInfo = try reader["additionalInfo"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: EKSClientTypes.InsightResourceDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.categorySpecificSummary = try reader["categorySpecificSummary"].readIfPresent(with: EKSClientTypes.InsightCategorySpecificSummary.read(from:))
+        var value = EKSClientTypes.OutpostConfigResponse()
+        value.outpostArns = try reader["outpostArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.controlPlaneInstanceType = try reader["controlPlaneInstanceType"].readIfPresent() ?? ""
+        value.controlPlanePlacement = try reader["controlPlanePlacement"].readIfPresent(with: EKSClientTypes.ControlPlanePlacementResponse.read(from:))
         return value
     }
 }
 
-extension EKSClientTypes.InsightCategorySpecificSummary {
+extension EKSClientTypes.PodIdentityAssociation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.InsightCategorySpecificSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.PodIdentityAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.InsightCategorySpecificSummary()
-        value.deprecationDetails = try reader["deprecationDetails"].readListIfPresent(memberReadingClosure: EKSClientTypes.DeprecationDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.addonCompatibilityDetails = try reader["addonCompatibilityDetails"].readListIfPresent(memberReadingClosure: EKSClientTypes.AddonCompatibilityDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EKSClientTypes.AddonCompatibilityDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AddonCompatibilityDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.AddonCompatibilityDetail()
-        value.name = try reader["name"].readIfPresent()
-        value.compatibleVersions = try reader["compatibleVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EKSClientTypes.DeprecationDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.DeprecationDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.DeprecationDetail()
-        value.usage = try reader["usage"].readIfPresent()
-        value.replacedWith = try reader["replacedWith"].readIfPresent()
-        value.stopServingVersion = try reader["stopServingVersion"].readIfPresent()
-        value.startServingReplacementVersion = try reader["startServingReplacementVersion"].readIfPresent()
-        value.clientStats = try reader["clientStats"].readListIfPresent(memberReadingClosure: EKSClientTypes.ClientStat.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EKSClientTypes.ClientStat {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ClientStat {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.ClientStat()
-        value.userAgent = try reader["userAgent"].readIfPresent()
-        value.numberOfRequestsLast30Days = try reader["numberOfRequestsLast30Days"].readIfPresent() ?? 0
-        value.lastRequestTime = try reader["lastRequestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension EKSClientTypes.InsightResourceDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.InsightResourceDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.InsightResourceDetail()
-        value.insightStatus = try reader["insightStatus"].readIfPresent(with: EKSClientTypes.InsightStatus.read(from:))
-        value.kubernetesResourceUri = try reader["kubernetesResourceUri"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.InsightStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.InsightStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.InsightStatus()
-        value.status = try reader["status"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.AccessPolicy {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AccessPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.AccessPolicy()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        return value
-    }
-}
-
-extension EKSClientTypes.CapabilitySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CapabilitySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.CapabilitySummary()
-        value.capabilityName = try reader["capabilityName"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        var value = EKSClientTypes.PodIdentityAssociation()
+        value.clusterName = try reader["clusterName"].readIfPresent()
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.serviceAccount = try reader["serviceAccount"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.associationArn = try reader["associationArn"].readIfPresent()
+        value.associationId = try reader["associationId"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension EKSClientTypes.IdentityProviderConfig {
-
-    static func write(value: EKSClientTypes.IdentityProviderConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.IdentityProviderConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.IdentityProviderConfig()
-        value.type = try reader["type"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension EKSClientTypes.InsightSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.InsightSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSClientTypes.InsightSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.category = try reader["category"].readIfPresent()
-        value.kubernetesVersion = try reader["kubernetesVersion"].readIfPresent()
-        value.lastRefreshTime = try reader["lastRefreshTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastTransitionTime = try reader["lastTransitionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.description = try reader["description"].readIfPresent()
-        value.insightStatus = try reader["insightStatus"].readIfPresent(with: EKSClientTypes.InsightStatus.read(from:))
+        value.ownerArn = try reader["ownerArn"].readIfPresent()
+        value.disableSessionTags = try reader["disableSessionTags"].readIfPresent()
+        value.targetRoleArn = try reader["targetRoleArn"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent()
         return value
     }
 }
@@ -12566,71 +12551,235 @@ extension EKSClientTypes.PodIdentityAssociationSummary {
     }
 }
 
-extension EKSClientTypes.OidcIdentityProviderConfigRequest {
+extension EKSClientTypes.Provider {
 
-    static func write(value: EKSClientTypes.OidcIdentityProviderConfigRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EKSClientTypes.Provider?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["clientId"].write(value.clientId)
-        try writer["groupsClaim"].write(value.groupsClaim)
-        try writer["groupsPrefix"].write(value.groupsPrefix)
-        try writer["identityProviderConfigName"].write(value.identityProviderConfigName)
-        try writer["issuerUrl"].write(value.issuerUrl)
-        try writer["requiredClaims"].writeMap(value.requiredClaims, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["usernameClaim"].write(value.usernameClaim)
-        try writer["usernamePrefix"].write(value.usernamePrefix)
+        try writer["keyArn"].write(value.keyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Provider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.Provider()
+        value.keyArn = try reader["keyArn"].readIfPresent()
+        return value
     }
 }
 
-extension EKSClientTypes.AddonPodIdentityAssociations {
+extension EKSClientTypes.RemoteAccessConfig {
 
-    static func write(value: EKSClientTypes.AddonPodIdentityAssociations?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EKSClientTypes.RemoteAccessConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["roleArn"].write(value.roleArn)
-        try writer["serviceAccount"].write(value.serviceAccount)
+        try writer["ec2SshKey"].write(value.ec2SshKey)
+        try writer["sourceSecurityGroups"].writeList(value.sourceSecurityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.RemoteAccessConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.RemoteAccessConfig()
+        value.ec2SshKey = try reader["ec2SshKey"].readIfPresent()
+        value.sourceSecurityGroups = try reader["sourceSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension EKSClientTypes.AddonNamespaceConfigRequest {
+extension EKSClientTypes.RemoteNetworkConfigRequest {
 
-    static func write(value: EKSClientTypes.AddonNamespaceConfigRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EKSClientTypes.RemoteNetworkConfigRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["namespace"].write(value.namespace)
+        try writer["remoteNodeNetworks"].writeList(value.remoteNodeNetworks, memberWritingClosure: EKSClientTypes.RemoteNodeNetwork.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["remotePodNetworks"].writeList(value.remotePodNetworks, memberWritingClosure: EKSClientTypes.RemotePodNetwork.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension EKSClientTypes.CapabilityConfigurationRequest {
+extension EKSClientTypes.RemoteNetworkConfigResponse {
 
-    static func write(value: EKSClientTypes.CapabilityConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["argoCd"].write(value.argoCd, with: EKSClientTypes.ArgoCdConfigRequest.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.RemoteNetworkConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.RemoteNetworkConfigResponse()
+        value.remoteNodeNetworks = try reader["remoteNodeNetworks"].readListIfPresent(memberReadingClosure: EKSClientTypes.RemoteNodeNetwork.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.remotePodNetworks = try reader["remotePodNetworks"].readListIfPresent(memberReadingClosure: EKSClientTypes.RemotePodNetwork.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension EKSClientTypes.ArgoCdConfigRequest {
+extension EKSClientTypes.RemoteNodeNetwork {
 
-    static func write(value: EKSClientTypes.ArgoCdConfigRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EKSClientTypes.RemoteNodeNetwork?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["awsIdc"].write(value.awsIdc, with: EKSClientTypes.ArgoCdAwsIdcConfigRequest.write(value:to:))
-        try writer["namespace"].write(value.namespace)
+        try writer["cidrs"].writeList(value.cidrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.RemoteNodeNetwork {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.RemoteNodeNetwork()
+        value.cidrs = try reader["cidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.RemotePodNetwork {
+
+    static func write(value: EKSClientTypes.RemotePodNetwork?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidrs"].writeList(value.cidrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.RemotePodNetwork {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.RemotePodNetwork()
+        value.cidrs = try reader["cidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.SsoIdentity {
+
+    static func write(value: EKSClientTypes.SsoIdentity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.SsoIdentity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.SsoIdentity()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension EKSClientTypes.StorageConfigRequest {
+
+    static func write(value: EKSClientTypes.StorageConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["blockStorage"].write(value.blockStorage, with: EKSClientTypes.BlockStorage.write(value:to:))
+    }
+}
+
+extension EKSClientTypes.StorageConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.StorageConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.StorageConfigResponse()
+        value.blockStorage = try reader["blockStorage"].readIfPresent(with: EKSClientTypes.BlockStorage.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.Taint {
+
+    static func write(value: EKSClientTypes.Taint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["effect"].write(value.effect)
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Taint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.Taint()
+        value.key = try reader["key"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        value.effect = try reader["effect"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.Update {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Update {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.Update()
+        value.id = try reader["id"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.params = try reader["params"].readListIfPresent(memberReadingClosure: EKSClientTypes.UpdateParam.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: EKSClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.UpdateAccessConfigRequest {
+
+    static func write(value: EKSClientTypes.UpdateAccessConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authenticationMode"].write(value.authenticationMode)
+    }
+}
+
+extension EKSClientTypes.UpdateArgoCdConfig {
+
+    static func write(value: EKSClientTypes.UpdateArgoCdConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
         try writer["networkAccess"].write(value.networkAccess, with: EKSClientTypes.ArgoCdNetworkAccessConfigRequest.write(value:to:))
-        try writer["rbacRoleMappings"].writeList(value.rbacRoleMappings, memberWritingClosure: EKSClientTypes.ArgoCdRoleMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["rbacRoleMappings"].write(value.rbacRoleMappings, with: EKSClientTypes.UpdateRoleMappings.write(value:to:))
     }
 }
 
-extension EKSClientTypes.ArgoCdNetworkAccessConfigRequest {
+extension EKSClientTypes.UpdateCapabilityConfiguration {
 
-    static func write(value: EKSClientTypes.ArgoCdNetworkAccessConfigRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EKSClientTypes.UpdateCapabilityConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["vpceIds"].writeList(value.vpceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["argoCd"].write(value.argoCd, with: EKSClientTypes.UpdateArgoCdConfig.write(value:to:))
     }
 }
 
-extension EKSClientTypes.ArgoCdAwsIdcConfigRequest {
+extension EKSClientTypes.UpdateLabelsPayload {
 
-    static func write(value: EKSClientTypes.ArgoCdAwsIdcConfigRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EKSClientTypes.UpdateLabelsPayload?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["idcInstanceArn"].write(value.idcInstanceArn)
-        try writer["idcRegion"].write(value.idcRegion)
+        try writer["addOrUpdateLabels"].writeMap(value.addOrUpdateLabels, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["removeLabels"].writeList(value.removeLabels, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension EKSClientTypes.UpdateParam {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.UpdateParam {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.UpdateParam()
+        value.type = try reader["type"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.UpdateRoleMappings {
+
+    static func write(value: EKSClientTypes.UpdateRoleMappings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["addOrUpdateRoleMappings"].writeList(value.addOrUpdateRoleMappings, memberWritingClosure: EKSClientTypes.ArgoCdRoleMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["removeRoleMappings"].writeList(value.removeRoleMappings, memberWritingClosure: EKSClientTypes.ArgoCdRoleMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension EKSClientTypes.UpdateTaintsPayload {
+
+    static func write(value: EKSClientTypes.UpdateTaintsPayload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["addOrUpdateTaints"].writeList(value.addOrUpdateTaints, memberWritingClosure: EKSClientTypes.Taint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["removeTaints"].writeList(value.removeTaints, memberWritingClosure: EKSClientTypes.Taint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension EKSClientTypes.UpgradePolicyRequest {
+
+    static func write(value: EKSClientTypes.UpgradePolicyRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["supportType"].write(value.supportType)
+    }
+}
+
+extension EKSClientTypes.UpgradePolicyResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.UpgradePolicyResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.UpgradePolicyResponse()
+        value.supportType = try reader["supportType"].readIfPresent()
+        return value
     }
 }
 
@@ -12646,48 +12795,19 @@ extension EKSClientTypes.VpcConfigRequest {
     }
 }
 
-extension EKSClientTypes.KubernetesNetworkConfigRequest {
+extension EKSClientTypes.VpcConfigResponse {
 
-    static func write(value: EKSClientTypes.KubernetesNetworkConfigRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["elasticLoadBalancing"].write(value.elasticLoadBalancing, with: EKSClientTypes.ElasticLoadBalancing.write(value:to:))
-        try writer["ipFamily"].write(value.ipFamily)
-        try writer["serviceIpv4Cidr"].write(value.serviceIpv4Cidr)
-    }
-}
-
-extension EKSClientTypes.OutpostConfigRequest {
-
-    static func write(value: EKSClientTypes.OutpostConfigRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["controlPlaneInstanceType"].write(value.controlPlaneInstanceType)
-        try writer["controlPlanePlacement"].write(value.controlPlanePlacement, with: EKSClientTypes.ControlPlanePlacementRequest.write(value:to:))
-        try writer["outpostArns"].writeList(value.outpostArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension EKSClientTypes.ControlPlanePlacementRequest {
-
-    static func write(value: EKSClientTypes.ControlPlanePlacementRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupName"].write(value.groupName)
-    }
-}
-
-extension EKSClientTypes.CreateAccessConfigRequest {
-
-    static func write(value: EKSClientTypes.CreateAccessConfigRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authenticationMode"].write(value.authenticationMode)
-        try writer["bootstrapClusterCreatorAdminPermissions"].write(value.bootstrapClusterCreatorAdminPermissions)
-    }
-}
-
-extension EKSClientTypes.UpgradePolicyRequest {
-
-    static func write(value: EKSClientTypes.UpgradePolicyRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["supportType"].write(value.supportType)
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.VpcConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.VpcConfigResponse()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusterSecurityGroupId = try reader["clusterSecurityGroupId"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.endpointPublicAccess = try reader["endpointPublicAccess"].readIfPresent() ?? false
+        value.endpointPrivateAccess = try reader["endpointPrivateAccess"].readIfPresent() ?? false
+        value.publicAccessCidrs = try reader["publicAccessCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -12699,101 +12819,13 @@ extension EKSClientTypes.ZonalShiftConfigRequest {
     }
 }
 
-extension EKSClientTypes.RemoteNetworkConfigRequest {
+extension EKSClientTypes.ZonalShiftConfigResponse {
 
-    static func write(value: EKSClientTypes.RemoteNetworkConfigRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["remoteNodeNetworks"].writeList(value.remoteNodeNetworks, memberWritingClosure: EKSClientTypes.RemoteNodeNetwork.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["remotePodNetworks"].writeList(value.remotePodNetworks, memberWritingClosure: EKSClientTypes.RemotePodNetwork.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension EKSClientTypes.ComputeConfigRequest {
-
-    static func write(value: EKSClientTypes.ComputeConfigRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-        try writer["nodePools"].writeList(value.nodePools, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["nodeRoleArn"].write(value.nodeRoleArn)
-    }
-}
-
-extension EKSClientTypes.StorageConfigRequest {
-
-    static func write(value: EKSClientTypes.StorageConfigRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blockStorage"].write(value.blockStorage, with: EKSClientTypes.BlockStorage.write(value:to:))
-    }
-}
-
-extension EKSClientTypes.InsightsFilter {
-
-    static func write(value: EKSClientTypes.InsightsFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["categories"].writeList(value.categories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EKSClientTypes.Category>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["kubernetesVersions"].writeList(value.kubernetesVersions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EKSClientTypes.InsightStatusValue>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension EKSClientTypes.ConnectorConfigRequest {
-
-    static func write(value: EKSClientTypes.ConnectorConfigRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["provider"].write(value.provider)
-        try writer["roleArn"].write(value.roleArn)
-    }
-}
-
-extension EKSClientTypes.UpdateCapabilityConfiguration {
-
-    static func write(value: EKSClientTypes.UpdateCapabilityConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["argoCd"].write(value.argoCd, with: EKSClientTypes.UpdateArgoCdConfig.write(value:to:))
-    }
-}
-
-extension EKSClientTypes.UpdateArgoCdConfig {
-
-    static func write(value: EKSClientTypes.UpdateArgoCdConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkAccess"].write(value.networkAccess, with: EKSClientTypes.ArgoCdNetworkAccessConfigRequest.write(value:to:))
-        try writer["rbacRoleMappings"].write(value.rbacRoleMappings, with: EKSClientTypes.UpdateRoleMappings.write(value:to:))
-    }
-}
-
-extension EKSClientTypes.UpdateRoleMappings {
-
-    static func write(value: EKSClientTypes.UpdateRoleMappings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addOrUpdateRoleMappings"].writeList(value.addOrUpdateRoleMappings, memberWritingClosure: EKSClientTypes.ArgoCdRoleMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["removeRoleMappings"].writeList(value.removeRoleMappings, memberWritingClosure: EKSClientTypes.ArgoCdRoleMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension EKSClientTypes.UpdateAccessConfigRequest {
-
-    static func write(value: EKSClientTypes.UpdateAccessConfigRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authenticationMode"].write(value.authenticationMode)
-    }
-}
-
-extension EKSClientTypes.UpdateLabelsPayload {
-
-    static func write(value: EKSClientTypes.UpdateLabelsPayload?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addOrUpdateLabels"].writeMap(value.addOrUpdateLabels, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["removeLabels"].writeList(value.removeLabels, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension EKSClientTypes.UpdateTaintsPayload {
-
-    static func write(value: EKSClientTypes.UpdateTaintsPayload?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addOrUpdateTaints"].writeList(value.addOrUpdateTaints, memberWritingClosure: EKSClientTypes.Taint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["removeTaints"].writeList(value.removeTaints, memberWritingClosure: EKSClientTypes.Taint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ZonalShiftConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ZonalShiftConfigResponse()
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
     }
 }
 

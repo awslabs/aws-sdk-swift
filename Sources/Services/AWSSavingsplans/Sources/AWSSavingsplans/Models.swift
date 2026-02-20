@@ -1987,30 +1987,17 @@ extension ValidationException {
     }
 }
 
-extension SavingsplansClientTypes.SavingsPlanRate {
+extension SavingsplansClientTypes.ParentSavingsPlanOffering {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanRate {
+    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.ParentSavingsPlanOffering {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SavingsplansClientTypes.SavingsPlanRate()
-        value.rate = try reader["rate"].readIfPresent()
+        var value = SavingsplansClientTypes.ParentSavingsPlanOffering()
+        value.offeringId = try reader["offeringId"].readIfPresent()
+        value.paymentOption = try reader["paymentOption"].readIfPresent()
+        value.planType = try reader["planType"].readIfPresent()
+        value.durationSeconds = try reader["durationSeconds"].readIfPresent() ?? 0
         value.currency = try reader["currency"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
-        value.productType = try reader["productType"].readIfPresent()
-        value.serviceCode = try reader["serviceCode"].readIfPresent()
-        value.usageType = try reader["usageType"].readIfPresent()
-        value.operation = try reader["operation"].readIfPresent()
-        value.properties = try reader["properties"].readListIfPresent(memberReadingClosure: SavingsplansClientTypes.SavingsPlanRateProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SavingsplansClientTypes.SavingsPlanRateProperty {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanRateProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SavingsplansClientTypes.SavingsPlanRateProperty()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        value.planDescription = try reader["planDescription"].readIfPresent()
         return value
     }
 }
@@ -2043,46 +2030,12 @@ extension SavingsplansClientTypes.SavingsPlan {
     }
 }
 
-extension SavingsplansClientTypes.SavingsPlanOfferingRate {
+extension SavingsplansClientTypes.SavingsPlanFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanOfferingRate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SavingsplansClientTypes.SavingsPlanOfferingRate()
-        value.savingsPlanOffering = try reader["savingsPlanOffering"].readIfPresent(with: SavingsplansClientTypes.ParentSavingsPlanOffering.read(from:))
-        value.rate = try reader["rate"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
-        value.productType = try reader["productType"].readIfPresent()
-        value.serviceCode = try reader["serviceCode"].readIfPresent()
-        value.usageType = try reader["usageType"].readIfPresent()
-        value.operation = try reader["operation"].readIfPresent()
-        value.properties = try reader["properties"].readListIfPresent(memberReadingClosure: SavingsplansClientTypes.SavingsPlanOfferingRateProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SavingsplansClientTypes.SavingsPlanOfferingRateProperty {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanOfferingRateProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SavingsplansClientTypes.SavingsPlanOfferingRateProperty()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension SavingsplansClientTypes.ParentSavingsPlanOffering {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.ParentSavingsPlanOffering {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SavingsplansClientTypes.ParentSavingsPlanOffering()
-        value.offeringId = try reader["offeringId"].readIfPresent()
-        value.paymentOption = try reader["paymentOption"].readIfPresent()
-        value.planType = try reader["planType"].readIfPresent()
-        value.durationSeconds = try reader["durationSeconds"].readIfPresent() ?? 0
-        value.currency = try reader["currency"].readIfPresent()
-        value.planDescription = try reader["planDescription"].readIfPresent()
-        return value
+    static func write(value: SavingsplansClientTypes.SavingsPlanFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -2106,6 +2059,15 @@ extension SavingsplansClientTypes.SavingsPlanOffering {
     }
 }
 
+extension SavingsplansClientTypes.SavingsPlanOfferingFilterElement {
+
+    static func write(value: SavingsplansClientTypes.SavingsPlanOfferingFilterElement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension SavingsplansClientTypes.SavingsPlanOfferingProperty {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanOfferingProperty {
@@ -2113,6 +2075,60 @@ extension SavingsplansClientTypes.SavingsPlanOfferingProperty {
         var value = SavingsplansClientTypes.SavingsPlanOfferingProperty()
         value.name = try reader["name"].readIfPresent()
         value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension SavingsplansClientTypes.SavingsPlanOfferingRate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanOfferingRate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SavingsplansClientTypes.SavingsPlanOfferingRate()
+        value.savingsPlanOffering = try reader["savingsPlanOffering"].readIfPresent(with: SavingsplansClientTypes.ParentSavingsPlanOffering.read(from:))
+        value.rate = try reader["rate"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        value.productType = try reader["productType"].readIfPresent()
+        value.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.usageType = try reader["usageType"].readIfPresent()
+        value.operation = try reader["operation"].readIfPresent()
+        value.properties = try reader["properties"].readListIfPresent(memberReadingClosure: SavingsplansClientTypes.SavingsPlanOfferingRateProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement {
+
+    static func write(value: SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SavingsplansClientTypes.SavingsPlanOfferingRateProperty {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanOfferingRateProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SavingsplansClientTypes.SavingsPlanOfferingRateProperty()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension SavingsplansClientTypes.SavingsPlanRate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanRate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SavingsplansClientTypes.SavingsPlanRate()
+        value.rate = try reader["rate"].readIfPresent()
+        value.currency = try reader["currency"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        value.productType = try reader["productType"].readIfPresent()
+        value.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.usageType = try reader["usageType"].readIfPresent()
+        value.operation = try reader["operation"].readIfPresent()
+        value.properties = try reader["properties"].readListIfPresent(memberReadingClosure: SavingsplansClientTypes.SavingsPlanRateProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2126,30 +2142,14 @@ extension SavingsplansClientTypes.SavingsPlanRateFilter {
     }
 }
 
-extension SavingsplansClientTypes.SavingsPlanFilter {
+extension SavingsplansClientTypes.SavingsPlanRateProperty {
 
-    static func write(value: SavingsplansClientTypes.SavingsPlanFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement {
-
-    static func write(value: SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension SavingsplansClientTypes.SavingsPlanOfferingFilterElement {
-
-    static func write(value: SavingsplansClientTypes.SavingsPlanOfferingFilterElement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> SavingsplansClientTypes.SavingsPlanRateProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SavingsplansClientTypes.SavingsPlanRateProperty()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
     }
 }
 

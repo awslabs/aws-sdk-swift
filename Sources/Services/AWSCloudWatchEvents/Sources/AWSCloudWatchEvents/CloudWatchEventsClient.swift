@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CloudWatchEventsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CloudWatchEventsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CloudWatchEventsClient.CloudWatchEventsClientConfig
+    public let config: CloudWatchEventsClient.CloudWatchEventsClientConfig
     let serviceName = "CloudWatch Events"
 
     @available(*, deprecated, message: "Use CloudWatchEventsClient.CloudWatchEventsClientConfig instead")
     public typealias Config = CloudWatchEventsClient.CloudWatchEventsClientConfiguration
+    public typealias Configuration = CloudWatchEventsClient.CloudWatchEventsClientConfig
 
     public required init(config: CloudWatchEventsClient.CloudWatchEventsClientConfig) {
         ClientRuntime.initialize()

@@ -3391,6 +3391,97 @@ extension ServiceQuotaExceededException {
     }
 }
 
+extension BraketClientTypes.ActionMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.ActionMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BraketClientTypes.ActionMetadata()
+        value.actionType = try reader["actionType"].readIfPresent() ?? ""
+        value.programCount = try reader["programCount"].readIfPresent()
+        value.executableCount = try reader["executableCount"].readIfPresent()
+        return value
+    }
+}
+
+extension BraketClientTypes.AlgorithmSpecification {
+
+    static func write(value: BraketClientTypes.AlgorithmSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containerImage"].write(value.containerImage, with: BraketClientTypes.ContainerImage.write(value:to:))
+        try writer["scriptModeConfig"].write(value.scriptModeConfig, with: BraketClientTypes.ScriptModeConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.AlgorithmSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BraketClientTypes.AlgorithmSpecification()
+        value.scriptModeConfig = try reader["scriptModeConfig"].readIfPresent(with: BraketClientTypes.ScriptModeConfig.read(from:))
+        value.containerImage = try reader["containerImage"].readIfPresent(with: BraketClientTypes.ContainerImage.read(from:))
+        return value
+    }
+}
+
+extension BraketClientTypes.Association {
+
+    static func write(value: BraketClientTypes.Association?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.Association {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BraketClientTypes.Association()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BraketClientTypes.ContainerImage {
+
+    static func write(value: BraketClientTypes.ContainerImage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["uri"].write(value.uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.ContainerImage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BraketClientTypes.ContainerImage()
+        value.uri = try reader["uri"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BraketClientTypes.DataSource {
+
+    static func write(value: BraketClientTypes.DataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3DataSource"].write(value.s3DataSource, with: BraketClientTypes.S3DataSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.DataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BraketClientTypes.DataSource()
+        value.s3DataSource = try reader["s3DataSource"].readIfPresent(with: BraketClientTypes.S3DataSource.read(from:))
+        return value
+    }
+}
+
+extension BraketClientTypes.DeviceConfig {
+
+    static func write(value: BraketClientTypes.DeviceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["device"].write(value.device)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.DeviceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BraketClientTypes.DeviceConfig()
+        value.device = try reader["device"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BraketClientTypes.DeviceQueueInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.DeviceQueueInfo {
@@ -3399,6 +3490,56 @@ extension BraketClientTypes.DeviceQueueInfo {
         value.queue = try reader["queue"].readIfPresent() ?? .sdkUnknown("")
         value.queueSize = try reader["queueSize"].readIfPresent() ?? ""
         value.queuePriority = try reader["queuePriority"].readIfPresent()
+        return value
+    }
+}
+
+extension BraketClientTypes.DeviceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.DeviceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BraketClientTypes.DeviceSummary()
+        value.deviceArn = try reader["deviceArn"].readIfPresent() ?? ""
+        value.deviceName = try reader["deviceName"].readIfPresent() ?? ""
+        value.providerName = try reader["providerName"].readIfPresent() ?? ""
+        value.deviceType = try reader["deviceType"].readIfPresent() ?? .sdkUnknown("")
+        value.deviceStatus = try reader["deviceStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BraketClientTypes.ExperimentalCapabilities {
+
+    static func write(value: BraketClientTypes.ExperimentalCapabilities?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .enabled(enabled):
+                try writer["enabled"].write(enabled)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.ExperimentalCapabilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "enabled":
+                return .enabled(try reader["enabled"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BraketClientTypes.HybridJobQueueInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.HybridJobQueueInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BraketClientTypes.HybridJobQueueInfo()
+        value.queue = try reader["queue"].readIfPresent() ?? .sdkUnknown("")
+        value.position = try reader["position"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -3422,32 +3563,50 @@ extension BraketClientTypes.InputFileConfig {
     }
 }
 
-extension BraketClientTypes.DataSource {
+extension BraketClientTypes.InstanceConfig {
 
-    static func write(value: BraketClientTypes.DataSource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BraketClientTypes.InstanceConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["s3DataSource"].write(value.s3DataSource, with: BraketClientTypes.S3DataSource.write(value:to:))
+        try writer["instanceCount"].write(value.instanceCount)
+        try writer["instanceType"].write(value.instanceType)
+        try writer["volumeSizeInGb"].write(value.volumeSizeInGb)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.DataSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.InstanceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.DataSource()
-        value.s3DataSource = try reader["s3DataSource"].readIfPresent(with: BraketClientTypes.S3DataSource.read(from:))
+        var value = BraketClientTypes.InstanceConfig()
+        value.instanceType = try reader["instanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.volumeSizeInGb = try reader["volumeSizeInGb"].readIfPresent() ?? 0
+        value.instanceCount = try reader["instanceCount"].readIfPresent()
         return value
     }
 }
 
-extension BraketClientTypes.S3DataSource {
+extension BraketClientTypes.JobCheckpointConfig {
 
-    static func write(value: BraketClientTypes.S3DataSource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BraketClientTypes.JobCheckpointConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["localPath"].write(value.localPath)
         try writer["s3Uri"].write(value.s3Uri)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.S3DataSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.JobCheckpointConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.S3DataSource()
+        var value = BraketClientTypes.JobCheckpointConfig()
+        value.localPath = try reader["localPath"].readIfPresent()
         value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BraketClientTypes.JobEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.JobEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BraketClientTypes.JobEventDetails()
+        value.eventType = try reader["eventType"].readIfPresent()
+        value.timeOfEvent = try reader["timeOfEvent"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -3484,212 +3643,6 @@ extension BraketClientTypes.JobStoppingCondition {
     }
 }
 
-extension BraketClientTypes.JobCheckpointConfig {
-
-    static func write(value: BraketClientTypes.JobCheckpointConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["localPath"].write(value.localPath)
-        try writer["s3Uri"].write(value.s3Uri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.JobCheckpointConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.JobCheckpointConfig()
-        value.localPath = try reader["localPath"].readIfPresent()
-        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BraketClientTypes.AlgorithmSpecification {
-
-    static func write(value: BraketClientTypes.AlgorithmSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containerImage"].write(value.containerImage, with: BraketClientTypes.ContainerImage.write(value:to:))
-        try writer["scriptModeConfig"].write(value.scriptModeConfig, with: BraketClientTypes.ScriptModeConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.AlgorithmSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.AlgorithmSpecification()
-        value.scriptModeConfig = try reader["scriptModeConfig"].readIfPresent(with: BraketClientTypes.ScriptModeConfig.read(from:))
-        value.containerImage = try reader["containerImage"].readIfPresent(with: BraketClientTypes.ContainerImage.read(from:))
-        return value
-    }
-}
-
-extension BraketClientTypes.ContainerImage {
-
-    static func write(value: BraketClientTypes.ContainerImage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["uri"].write(value.uri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.ContainerImage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.ContainerImage()
-        value.uri = try reader["uri"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BraketClientTypes.ScriptModeConfig {
-
-    static func write(value: BraketClientTypes.ScriptModeConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["compressionType"].write(value.compressionType)
-        try writer["entryPoint"].write(value.entryPoint)
-        try writer["s3Uri"].write(value.s3Uri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.ScriptModeConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.ScriptModeConfig()
-        value.entryPoint = try reader["entryPoint"].readIfPresent() ?? ""
-        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
-        value.compressionType = try reader["compressionType"].readIfPresent()
-        return value
-    }
-}
-
-extension BraketClientTypes.InstanceConfig {
-
-    static func write(value: BraketClientTypes.InstanceConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["instanceCount"].write(value.instanceCount)
-        try writer["instanceType"].write(value.instanceType)
-        try writer["volumeSizeInGb"].write(value.volumeSizeInGb)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.InstanceConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.InstanceConfig()
-        value.instanceType = try reader["instanceType"].readIfPresent() ?? .sdkUnknown("")
-        value.volumeSizeInGb = try reader["volumeSizeInGb"].readIfPresent() ?? 0
-        value.instanceCount = try reader["instanceCount"].readIfPresent()
-        return value
-    }
-}
-
-extension BraketClientTypes.DeviceConfig {
-
-    static func write(value: BraketClientTypes.DeviceConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["device"].write(value.device)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.DeviceConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.DeviceConfig()
-        value.device = try reader["device"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BraketClientTypes.JobEventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.JobEventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.JobEventDetails()
-        value.eventType = try reader["eventType"].readIfPresent()
-        value.timeOfEvent = try reader["timeOfEvent"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension BraketClientTypes.HybridJobQueueInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.HybridJobQueueInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.HybridJobQueueInfo()
-        value.queue = try reader["queue"].readIfPresent() ?? .sdkUnknown("")
-        value.position = try reader["position"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension BraketClientTypes.Association {
-
-    static func write(value: BraketClientTypes.Association?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.Association {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.Association()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension BraketClientTypes.QuantumTaskQueueInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.QuantumTaskQueueInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.QuantumTaskQueueInfo()
-        value.queue = try reader["queue"].readIfPresent() ?? .sdkUnknown("")
-        value.position = try reader["position"].readIfPresent() ?? ""
-        value.queuePriority = try reader["queuePriority"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension BraketClientTypes.ActionMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.ActionMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.ActionMetadata()
-        value.actionType = try reader["actionType"].readIfPresent() ?? ""
-        value.programCount = try reader["programCount"].readIfPresent()
-        value.executableCount = try reader["executableCount"].readIfPresent()
-        return value
-    }
-}
-
-extension BraketClientTypes.ExperimentalCapabilities {
-
-    static func write(value: BraketClientTypes.ExperimentalCapabilities?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .enabled(enabled):
-                try writer["enabled"].write(enabled)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.ExperimentalCapabilities {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "enabled":
-                return .enabled(try reader["enabled"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BraketClientTypes.DeviceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.DeviceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.DeviceSummary()
-        value.deviceArn = try reader["deviceArn"].readIfPresent() ?? ""
-        value.deviceName = try reader["deviceName"].readIfPresent() ?? ""
-        value.providerName = try reader["providerName"].readIfPresent() ?? ""
-        value.deviceType = try reader["deviceType"].readIfPresent() ?? .sdkUnknown("")
-        value.deviceStatus = try reader["deviceStatus"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
 extension BraketClientTypes.JobSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.JobSummary {
@@ -3703,6 +3656,31 @@ extension BraketClientTypes.JobSummary {
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BraketClientTypes.ProgramSetValidationFailure {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.ProgramSetValidationFailure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BraketClientTypes.ProgramSetValidationFailure()
+        value.programIndex = try reader["programIndex"].readIfPresent() ?? 0
+        value.inputsIndex = try reader["inputsIndex"].readIfPresent()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BraketClientTypes.QuantumTaskQueueInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.QuantumTaskQueueInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BraketClientTypes.QuantumTaskQueueInfo()
+        value.queue = try reader["queue"].readIfPresent() ?? .sdkUnknown("")
+        value.position = try reader["position"].readIfPresent() ?? ""
+        value.queuePriority = try reader["queuePriority"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -3725,49 +3703,36 @@ extension BraketClientTypes.QuantumTaskSummary {
     }
 }
 
-extension BraketClientTypes.SpendingLimitSummary {
+extension BraketClientTypes.S3DataSource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.SpendingLimitSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.SpendingLimitSummary()
-        value.spendingLimitArn = try reader["spendingLimitArn"].readIfPresent() ?? ""
-        value.deviceArn = try reader["deviceArn"].readIfPresent() ?? ""
-        value.timePeriod = try reader["timePeriod"].readIfPresent(with: BraketClientTypes.TimePeriod.read(from:))
-        value.spendingLimit = try reader["spendingLimit"].readIfPresent() ?? ""
-        value.queuedSpend = try reader["queuedSpend"].readIfPresent() ?? ""
-        value.totalSpend = try reader["totalSpend"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension BraketClientTypes.TimePeriod {
-
-    static func write(value: BraketClientTypes.TimePeriod?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BraketClientTypes.S3DataSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["endAt"].writeTimestamp(value.endAt, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["startAt"].writeTimestamp(value.startAt, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["s3Uri"].write(value.s3Uri)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.TimePeriod {
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.S3DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.TimePeriod()
-        value.startAt = try reader["startAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endAt = try reader["endAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = BraketClientTypes.S3DataSource()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension BraketClientTypes.ProgramSetValidationFailure {
+extension BraketClientTypes.ScriptModeConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.ProgramSetValidationFailure {
+    static func write(value: BraketClientTypes.ScriptModeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["compressionType"].write(value.compressionType)
+        try writer["entryPoint"].write(value.entryPoint)
+        try writer["s3Uri"].write(value.s3Uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.ScriptModeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BraketClientTypes.ProgramSetValidationFailure()
-        value.programIndex = try reader["programIndex"].readIfPresent() ?? 0
-        value.inputsIndex = try reader["inputsIndex"].readIfPresent()
-        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = BraketClientTypes.ScriptModeConfig()
+        value.entryPoint = try reader["entryPoint"].readIfPresent() ?? ""
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
+        value.compressionType = try reader["compressionType"].readIfPresent()
         return value
     }
 }
@@ -3808,6 +3773,41 @@ extension BraketClientTypes.SearchSpendingLimitsFilter {
         try writer["name"].write(value.name)
         try writer["operator"].write(value.`operator`)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BraketClientTypes.SpendingLimitSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.SpendingLimitSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BraketClientTypes.SpendingLimitSummary()
+        value.spendingLimitArn = try reader["spendingLimitArn"].readIfPresent() ?? ""
+        value.deviceArn = try reader["deviceArn"].readIfPresent() ?? ""
+        value.timePeriod = try reader["timePeriod"].readIfPresent(with: BraketClientTypes.TimePeriod.read(from:))
+        value.spendingLimit = try reader["spendingLimit"].readIfPresent() ?? ""
+        value.queuedSpend = try reader["queuedSpend"].readIfPresent() ?? ""
+        value.totalSpend = try reader["totalSpend"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BraketClientTypes.TimePeriod {
+
+    static func write(value: BraketClientTypes.TimePeriod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endAt"].writeTimestamp(value.endAt, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["startAt"].writeTimestamp(value.startAt, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.TimePeriod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BraketClientTypes.TimePeriod()
+        value.startAt = try reader["startAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endAt = try reader["endAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
     }
 }
 

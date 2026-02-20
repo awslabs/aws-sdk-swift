@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class GroundStationClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GroundStationClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: GroundStationClient.GroundStationClientConfig
+    public let config: GroundStationClient.GroundStationClientConfig
     let serviceName = "GroundStation"
 
     @available(*, deprecated, message: "Use GroundStationClient.GroundStationClientConfig instead")
     public typealias Config = GroundStationClient.GroundStationClientConfiguration
+    public typealias Configuration = GroundStationClient.GroundStationClientConfig
 
     public required init(config: GroundStationClient.GroundStationClientConfig) {
         ClientRuntime.initialize()

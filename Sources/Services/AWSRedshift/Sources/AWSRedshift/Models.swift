@@ -12617,7 +12617,7 @@ public struct ModifyClusterMaintenanceInput: Swift.Sendable {
     public var clusterIdentifier: Swift.String?
     /// A boolean indicating whether to enable the deferred maintenance window.
     public var deferMaintenance: Swift.Bool?
-    /// An integer indicating the duration of the maintenance window in days. If you specify a duration, you can't specify an end time. The duration must be 45 days or less.
+    /// An integer indicating the duration of the maintenance window in days. If you specify a duration, you can't specify an end time. The duration must be 60 days or less.
     public var deferMaintenanceDuration: Swift.Int?
     /// A timestamp indicating end time for the deferred maintenance window. If you specify an end time, you can't specify a duration.
     public var deferMaintenanceEndTime: Foundation.Date?
@@ -23176,153 +23176,13 @@ extension EndpointAuthorizationNotFoundFault {
     }
 }
 
-extension RedshiftClientTypes.ReservedNode {
+extension RedshiftClientTypes.AccountAttribute {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ReservedNode {
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.AccountAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ReservedNode()
-        value.reservedNodeId = try reader["ReservedNodeId"].readIfPresent()
-        value.reservedNodeOfferingId = try reader["ReservedNodeOfferingId"].readIfPresent()
-        value.nodeType = try reader["NodeType"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.duration = try reader["Duration"].readIfPresent()
-        value.fixedPrice = try reader["FixedPrice"].readIfPresent()
-        value.usagePrice = try reader["UsagePrice"].readIfPresent()
-        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
-        value.nodeCount = try reader["NodeCount"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.offeringType = try reader["OfferingType"].readIfPresent()
-        value.recurringCharges = try reader["RecurringCharges"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.RecurringCharge.read(from:), memberNodeInfo: "RecurringCharge", isFlattened: false)
-        value.reservedNodeOfferingType = try reader["ReservedNodeOfferingType"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.RecurringCharge {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.RecurringCharge {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.RecurringCharge()
-        value.recurringChargeAmount = try reader["RecurringChargeAmount"].readIfPresent()
-        value.recurringChargeFrequency = try reader["RecurringChargeFrequency"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.DataShareAssociation {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.DataShareAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.DataShareAssociation()
-        value.consumerIdentifier = try reader["ConsumerIdentifier"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.consumerRegion = try reader["ConsumerRegion"].readIfPresent()
-        value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.statusChangeDate = try reader["StatusChangeDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.producerAllowedWrites = try reader["ProducerAllowedWrites"].readIfPresent()
-        value.consumerAcceptedWrites = try reader["ConsumerAcceptedWrites"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.ClusterSecurityGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ClusterSecurityGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ClusterSecurityGroup()
-        value.clusterSecurityGroupName = try reader["ClusterSecurityGroupName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.ec2SecurityGroups = try reader["EC2SecurityGroups"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.EC2SecurityGroup.read(from:), memberNodeInfo: "EC2SecurityGroup", isFlattened: false)
-        value.ipRanges = try reader["IPRanges"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.IPRange.read(from:), memberNodeInfo: "IPRange", isFlattened: false)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.Tag {
-
-    static func write(value: RedshiftClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.IPRange {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.IPRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.IPRange()
-        value.status = try reader["Status"].readIfPresent()
-        value.cidrip = try reader["CIDRIP"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.EC2SecurityGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.EC2SecurityGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.EC2SecurityGroup()
-        value.status = try reader["Status"].readIfPresent()
-        value.ec2SecurityGroupName = try reader["EC2SecurityGroupName"].readIfPresent()
-        value.ec2SecurityGroupOwnerId = try reader["EC2SecurityGroupOwnerId"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.Snapshot {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Snapshot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.Snapshot()
-        value.snapshotIdentifier = try reader["SnapshotIdentifier"].readIfPresent()
-        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
-        value.snapshotCreateTime = try reader["SnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["Status"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.clusterCreateTime = try reader["ClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.masterUsername = try reader["MasterUsername"].readIfPresent()
-        value.clusterVersion = try reader["ClusterVersion"].readIfPresent()
-        value.engineFullVersion = try reader["EngineFullVersion"].readIfPresent()
-        value.snapshotType = try reader["SnapshotType"].readIfPresent()
-        value.nodeType = try reader["NodeType"].readIfPresent()
-        value.numberOfNodes = try reader["NumberOfNodes"].readIfPresent()
-        value.dbName = try reader["DBName"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.encrypted = try reader["Encrypted"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.encryptedWithHSM = try reader["EncryptedWithHSM"].readIfPresent()
-        value.accountsWithRestoreAccess = try reader["AccountsWithRestoreAccess"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.AccountWithRestoreAccess.read(from:), memberNodeInfo: "AccountWithRestoreAccess", isFlattened: false)
-        value.ownerAccount = try reader["OwnerAccount"].readIfPresent()
-        value.totalBackupSizeInMegaBytes = try reader["TotalBackupSizeInMegaBytes"].readIfPresent()
-        value.actualIncrementalBackupSizeInMegaBytes = try reader["ActualIncrementalBackupSizeInMegaBytes"].readIfPresent()
-        value.backupProgressInMegaBytes = try reader["BackupProgressInMegaBytes"].readIfPresent()
-        value.currentBackupRateInMegaBytesPerSecond = try reader["CurrentBackupRateInMegaBytesPerSecond"].readIfPresent()
-        value.estimatedSecondsToCompletion = try reader["EstimatedSecondsToCompletion"].readIfPresent()
-        value.elapsedTimeInSeconds = try reader["ElapsedTimeInSeconds"].readIfPresent()
-        value.sourceRegion = try reader["SourceRegion"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        value.restorableNodeTypes = try reader["RestorableNodeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "NodeType", isFlattened: false)
-        value.enhancedVpcRouting = try reader["EnhancedVpcRouting"].readIfPresent()
-        value.maintenanceTrackName = try reader["MaintenanceTrackName"].readIfPresent()
-        value.manualSnapshotRetentionPeriod = try reader["ManualSnapshotRetentionPeriod"].readIfPresent()
-        value.manualSnapshotRemainingDays = try reader["ManualSnapshotRemainingDays"].readIfPresent()
-        value.snapshotRetentionStartTime = try reader["SnapshotRetentionStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.masterPasswordSecretArn = try reader["MasterPasswordSecretArn"].readIfPresent()
-        value.masterPasswordSecretKmsKeyId = try reader["MasterPasswordSecretKmsKeyId"].readIfPresent()
-        value.snapshotArn = try reader["SnapshotArn"].readIfPresent()
+        var value = RedshiftClientTypes.AccountAttribute()
+        value.attributeName = try reader["AttributeName"].readIfPresent()
+        value.attributeValues = try reader["AttributeValues"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.AttributeValueTarget.read(from:), memberNodeInfo: "AttributeValueTarget", isFlattened: false)
         return value
     }
 }
@@ -23338,15 +23198,85 @@ extension RedshiftClientTypes.AccountWithRestoreAccess {
     }
 }
 
-extension RedshiftClientTypes.SnapshotErrorMessage {
+extension RedshiftClientTypes.AquaConfiguration {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.SnapshotErrorMessage {
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.AquaConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.SnapshotErrorMessage()
-        value.snapshotIdentifier = try reader["SnapshotIdentifier"].readIfPresent()
-        value.snapshotClusterIdentifier = try reader["SnapshotClusterIdentifier"].readIfPresent()
-        value.failureCode = try reader["FailureCode"].readIfPresent()
-        value.failureReason = try reader["FailureReason"].readIfPresent()
+        var value = RedshiftClientTypes.AquaConfiguration()
+        value.aquaStatus = try reader["AquaStatus"].readIfPresent()
+        value.aquaConfigurationStatus = try reader["AquaConfigurationStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.Association {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Association {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.Association()
+        value.customDomainCertificateArn = try reader["CustomDomainCertificateArn"].readIfPresent()
+        value.customDomainCertificateExpiryDate = try reader["CustomDomainCertificateExpiryDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.certificateAssociations = try reader["CertificateAssociations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.CertificateAssociation.read(from:), memberNodeInfo: "CertificateAssociation", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.AttributeValueTarget {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.AttributeValueTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.AttributeValueTarget()
+        value.attributeValue = try reader["AttributeValue"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.AuthenticationProfile {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.AuthenticationProfile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.AuthenticationProfile()
+        value.authenticationProfileName = try reader["AuthenticationProfileName"].readIfPresent()
+        value.authenticationProfileContent = try reader["AuthenticationProfileContent"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.AuthorizedTokenIssuer {
+
+    static func write(value: RedshiftClientTypes.AuthorizedTokenIssuer?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AuthorizedAudiencesList"].writeList(value.authorizedAudiencesList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TrustedTokenIssuerArn"].write(value.trustedTokenIssuerArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.AuthorizedTokenIssuer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.AuthorizedTokenIssuer()
+        value.trustedTokenIssuerArn = try reader["TrustedTokenIssuerArn"].readIfPresent()
+        value.authorizedAudiencesList = try reader["AuthorizedAudiencesList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.AvailabilityZone {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.AvailabilityZone {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.AvailabilityZone()
+        value.name = try reader["Name"].readIfPresent()
+        value.supportedPlatforms = try reader["SupportedPlatforms"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.SupportedPlatform.read(from:), memberNodeInfo: "SupportedPlatform", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.CertificateAssociation {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.CertificateAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.CertificateAssociation()
+        value.customDomainName = try reader["CustomDomainName"].readIfPresent()
+        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
         return value
     }
 }
@@ -23423,13 +23353,37 @@ extension RedshiftClientTypes.Cluster {
     }
 }
 
-extension RedshiftClientTypes.SecondaryClusterInfo {
+extension RedshiftClientTypes.ClusterAssociatedToSchedule {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.SecondaryClusterInfo {
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ClusterAssociatedToSchedule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.SecondaryClusterInfo()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.clusterNodes = try reader["ClusterNodes"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.ClusterNode.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = RedshiftClientTypes.ClusterAssociatedToSchedule()
+        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
+        value.scheduleAssociationState = try reader["ScheduleAssociationState"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.ClusterDbRevision {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ClusterDbRevision {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.ClusterDbRevision()
+        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
+        value.currentDatabaseRevision = try reader["CurrentDatabaseRevision"].readIfPresent()
+        value.databaseRevisionReleaseDate = try reader["DatabaseRevisionReleaseDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.revisionTargets = try reader["RevisionTargets"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.RevisionTarget.read(from:), memberNodeInfo: "RevisionTarget", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.ClusterIamRole {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ClusterIamRole {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.ClusterIamRole()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
+        value.applyStatus = try reader["ApplyStatus"].readIfPresent()
         return value
     }
 }
@@ -23446,151 +23400,15 @@ extension RedshiftClientTypes.ClusterNode {
     }
 }
 
-extension RedshiftClientTypes.ReservedNodeExchangeStatus {
+extension RedshiftClientTypes.ClusterParameterGroup {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ReservedNodeExchangeStatus {
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ClusterParameterGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ReservedNodeExchangeStatus()
-        value.reservedNodeExchangeRequestId = try reader["ReservedNodeExchangeRequestId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.requestTime = try reader["RequestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.sourceReservedNodeId = try reader["SourceReservedNodeId"].readIfPresent()
-        value.sourceReservedNodeType = try reader["SourceReservedNodeType"].readIfPresent()
-        value.sourceReservedNodeCount = try reader["SourceReservedNodeCount"].readIfPresent()
-        value.targetReservedNodeOfferingId = try reader["TargetReservedNodeOfferingId"].readIfPresent()
-        value.targetReservedNodeType = try reader["TargetReservedNodeType"].readIfPresent()
-        value.targetReservedNodeCount = try reader["TargetReservedNodeCount"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.AquaConfiguration {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.AquaConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.AquaConfiguration()
-        value.aquaStatus = try reader["AquaStatus"].readIfPresent()
-        value.aquaConfigurationStatus = try reader["AquaConfigurationStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.ResizeInfo {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ResizeInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ResizeInfo()
-        value.resizeType = try reader["ResizeType"].readIfPresent()
-        value.allowCancelResize = try reader["AllowCancelResize"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.DeferredMaintenanceWindow {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.DeferredMaintenanceWindow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.DeferredMaintenanceWindow()
-        value.deferMaintenanceIdentifier = try reader["DeferMaintenanceIdentifier"].readIfPresent()
-        value.deferMaintenanceStartTime = try reader["DeferMaintenanceStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.deferMaintenanceEndTime = try reader["DeferMaintenanceEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.ClusterIamRole {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ClusterIamRole {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ClusterIamRole()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        value.applyStatus = try reader["ApplyStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.ElasticIpStatus {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ElasticIpStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ElasticIpStatus()
-        value.elasticIp = try reader["ElasticIp"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.ClusterSnapshotCopyStatus {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ClusterSnapshotCopyStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ClusterSnapshotCopyStatus()
-        value.destinationRegion = try reader["DestinationRegion"].readIfPresent()
-        value.retentionPeriod = try reader["RetentionPeriod"].readIfPresent()
-        value.manualSnapshotRetentionPeriod = try reader["ManualSnapshotRetentionPeriod"].readIfPresent()
-        value.snapshotCopyGrantName = try reader["SnapshotCopyGrantName"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.HsmStatus {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.HsmStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.HsmStatus()
-        value.hsmClientCertificateIdentifier = try reader["HsmClientCertificateIdentifier"].readIfPresent()
-        value.hsmConfigurationIdentifier = try reader["HsmConfigurationIdentifier"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.DataTransferProgress {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.DataTransferProgress {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.DataTransferProgress()
-        value.status = try reader["Status"].readIfPresent()
-        value.currentRateInMegaBytesPerSecond = try reader["CurrentRateInMegaBytesPerSecond"].readIfPresent()
-        value.totalDataInMegaBytes = try reader["TotalDataInMegaBytes"].readIfPresent()
-        value.dataTransferredInMegaBytes = try reader["DataTransferredInMegaBytes"].readIfPresent()
-        value.estimatedTimeToCompletionInSeconds = try reader["EstimatedTimeToCompletionInSeconds"].readIfPresent()
-        value.elapsedTimeInSeconds = try reader["ElapsedTimeInSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.RestoreStatus {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.RestoreStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.RestoreStatus()
-        value.status = try reader["Status"].readIfPresent()
-        value.currentRestoreRateInMegaBytesPerSecond = try reader["CurrentRestoreRateInMegaBytesPerSecond"].readIfPresent()
-        value.snapshotSizeInMegaBytes = try reader["SnapshotSizeInMegaBytes"].readIfPresent()
-        value.progressInMegaBytes = try reader["ProgressInMegaBytes"].readIfPresent()
-        value.elapsedTimeInSeconds = try reader["ElapsedTimeInSeconds"].readIfPresent()
-        value.estimatedTimeToCompletionInSeconds = try reader["EstimatedTimeToCompletionInSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.PendingModifiedValues {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.PendingModifiedValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.PendingModifiedValues()
-        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
-        value.nodeType = try reader["NodeType"].readIfPresent()
-        value.numberOfNodes = try reader["NumberOfNodes"].readIfPresent()
-        value.clusterType = try reader["ClusterType"].readIfPresent()
-        value.clusterVersion = try reader["ClusterVersion"].readIfPresent()
-        value.automatedSnapshotRetentionPeriod = try reader["AutomatedSnapshotRetentionPeriod"].readIfPresent()
-        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
-        value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
-        value.enhancedVpcRouting = try reader["EnhancedVpcRouting"].readIfPresent()
-        value.maintenanceTrackName = try reader["MaintenanceTrackName"].readIfPresent()
-        value.encryptionType = try reader["EncryptionType"].readIfPresent()
+        var value = RedshiftClientTypes.ClusterParameterGroup()
+        value.parameterGroupName = try reader["ParameterGroupName"].readIfPresent()
+        value.parameterGroupFamily = try reader["ParameterGroupFamily"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
     }
 }
@@ -23619,13 +23437,16 @@ extension RedshiftClientTypes.ClusterParameterStatus {
     }
 }
 
-extension RedshiftClientTypes.VpcSecurityGroupMembership {
+extension RedshiftClientTypes.ClusterSecurityGroup {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.VpcSecurityGroupMembership {
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ClusterSecurityGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.VpcSecurityGroupMembership()
-        value.vpcSecurityGroupId = try reader["VpcSecurityGroupId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        var value = RedshiftClientTypes.ClusterSecurityGroup()
+        value.clusterSecurityGroupName = try reader["ClusterSecurityGroupName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.ec2SecurityGroups = try reader["EC2SecurityGroups"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.EC2SecurityGroup.read(from:), memberNodeInfo: "EC2SecurityGroup", isFlattened: false)
+        value.ipRanges = try reader["IPRanges"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.IPRange.read(from:), memberNodeInfo: "IPRange", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
     }
 }
@@ -23641,53 +23462,15 @@ extension RedshiftClientTypes.ClusterSecurityGroupMembership {
     }
 }
 
-extension RedshiftClientTypes.Endpoint {
+extension RedshiftClientTypes.ClusterSnapshotCopyStatus {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Endpoint {
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ClusterSnapshotCopyStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.Endpoint()
-        value.address = try reader["Address"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.vpcEndpoints = try reader["VpcEndpoints"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.VpcEndpoint.read(from:), memberNodeInfo: "VpcEndpoint", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.VpcEndpoint {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.VpcEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.VpcEndpoint()
-        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.networkInterfaces = try reader["NetworkInterfaces"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.NetworkInterface.read(from:), memberNodeInfo: "NetworkInterface", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.NetworkInterface {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.NetworkInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.NetworkInterface()
-        value.networkInterfaceId = try reader["NetworkInterfaceId"].readIfPresent()
-        value.subnetId = try reader["SubnetId"].readIfPresent()
-        value.privateIpAddress = try reader["PrivateIpAddress"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.ipv6Address = try reader["Ipv6Address"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.ClusterParameterGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ClusterParameterGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ClusterParameterGroup()
-        value.parameterGroupName = try reader["ParameterGroupName"].readIfPresent()
-        value.parameterGroupFamily = try reader["ParameterGroupFamily"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        var value = RedshiftClientTypes.ClusterSnapshotCopyStatus()
+        value.destinationRegion = try reader["DestinationRegion"].readIfPresent()
+        value.retentionPeriod = try reader["RetentionPeriod"].readIfPresent()
+        value.manualSnapshotRetentionPeriod = try reader["ManualSnapshotRetentionPeriod"].readIfPresent()
+        value.snapshotCopyGrantName = try reader["SnapshotCopyGrantName"].readIfPresent()
         return value
     }
 }
@@ -23708,35 +23491,230 @@ extension RedshiftClientTypes.ClusterSubnetGroup {
     }
 }
 
-extension RedshiftClientTypes.Subnet {
+extension RedshiftClientTypes.ClusterVersion {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Subnet {
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ClusterVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.Subnet()
-        value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
-        value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent(with: RedshiftClientTypes.AvailabilityZone.read(from:))
-        value.subnetStatus = try reader["SubnetStatus"].readIfPresent()
+        var value = RedshiftClientTypes.ClusterVersion()
+        value.clusterVersion = try reader["ClusterVersion"].readIfPresent()
+        value.clusterParameterGroupFamily = try reader["ClusterParameterGroupFamily"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }
 
-extension RedshiftClientTypes.AvailabilityZone {
+extension RedshiftClientTypes.Connect {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.AvailabilityZone {
+    static func write(value: RedshiftClientTypes.Connect?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Authorization"].write(value.authorization)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Connect {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.AvailabilityZone()
-        value.name = try reader["Name"].readIfPresent()
-        value.supportedPlatforms = try reader["SupportedPlatforms"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.SupportedPlatform.read(from:), memberNodeInfo: "SupportedPlatform", isFlattened: false)
+        var value = RedshiftClientTypes.Connect()
+        value.authorization = try reader["Authorization"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension RedshiftClientTypes.SupportedPlatform {
+extension RedshiftClientTypes.DataShare {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.SupportedPlatform {
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.DataShare {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.SupportedPlatform()
-        value.name = try reader["Name"].readIfPresent()
+        var value = RedshiftClientTypes.DataShare()
+        value.dataShareArn = try reader["DataShareArn"].readIfPresent()
+        value.producerArn = try reader["ProducerArn"].readIfPresent()
+        value.allowPubliclyAccessibleConsumers = try reader["AllowPubliclyAccessibleConsumers"].readIfPresent()
+        value.dataShareAssociations = try reader["DataShareAssociations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.DataShareAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.managedBy = try reader["ManagedBy"].readIfPresent()
+        value.dataShareType = try reader["DataShareType"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.DataShareAssociation {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.DataShareAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.DataShareAssociation()
+        value.consumerIdentifier = try reader["ConsumerIdentifier"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.consumerRegion = try reader["ConsumerRegion"].readIfPresent()
+        value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.statusChangeDate = try reader["StatusChangeDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.producerAllowedWrites = try reader["ProducerAllowedWrites"].readIfPresent()
+        value.consumerAcceptedWrites = try reader["ConsumerAcceptedWrites"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.DataTransferProgress {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.DataTransferProgress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.DataTransferProgress()
+        value.status = try reader["Status"].readIfPresent()
+        value.currentRateInMegaBytesPerSecond = try reader["CurrentRateInMegaBytesPerSecond"].readIfPresent()
+        value.totalDataInMegaBytes = try reader["TotalDataInMegaBytes"].readIfPresent()
+        value.dataTransferredInMegaBytes = try reader["DataTransferredInMegaBytes"].readIfPresent()
+        value.estimatedTimeToCompletionInSeconds = try reader["EstimatedTimeToCompletionInSeconds"].readIfPresent()
+        value.elapsedTimeInSeconds = try reader["ElapsedTimeInSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.DefaultClusterParameters {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.DefaultClusterParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.DefaultClusterParameters()
+        value.parameterGroupFamily = try reader["ParameterGroupFamily"].readIfPresent()
+        value.marker = try reader["Marker"].readIfPresent()
+        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Parameter.read(from:), memberNodeInfo: "Parameter", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.DeferredMaintenanceWindow {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.DeferredMaintenanceWindow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.DeferredMaintenanceWindow()
+        value.deferMaintenanceIdentifier = try reader["DeferMaintenanceIdentifier"].readIfPresent()
+        value.deferMaintenanceStartTime = try reader["DeferMaintenanceStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.deferMaintenanceEndTime = try reader["DeferMaintenanceEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.DeleteClusterSnapshotMessage {
+
+    static func write(value: RedshiftClientTypes.DeleteClusterSnapshotMessage?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["SnapshotClusterIdentifier"].write(value.snapshotClusterIdentifier)
+        try writer["SnapshotIdentifier"].write(value.snapshotIdentifier)
+    }
+}
+
+extension RedshiftClientTypes.DescribeIntegrationsFilter {
+
+    static func write(value: RedshiftClientTypes.DescribeIntegrationsFilter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Value", isFlattened: false)
+    }
+}
+
+extension RedshiftClientTypes.EC2SecurityGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.EC2SecurityGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.EC2SecurityGroup()
+        value.status = try reader["Status"].readIfPresent()
+        value.ec2SecurityGroupName = try reader["EC2SecurityGroupName"].readIfPresent()
+        value.ec2SecurityGroupOwnerId = try reader["EC2SecurityGroupOwnerId"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.ElasticIpStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ElasticIpStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.ElasticIpStatus()
+        value.elasticIp = try reader["ElasticIp"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.Endpoint {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Endpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.Endpoint()
+        value.address = try reader["Address"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.vpcEndpoints = try reader["VpcEndpoints"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.VpcEndpoint.read(from:), memberNodeInfo: "VpcEndpoint", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.EndpointAccess {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.EndpointAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.EndpointAccess()
+        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
+        value.resourceOwner = try reader["ResourceOwner"].readIfPresent()
+        value.subnetGroupName = try reader["SubnetGroupName"].readIfPresent()
+        value.endpointStatus = try reader["EndpointStatus"].readIfPresent()
+        value.endpointName = try reader["EndpointName"].readIfPresent()
+        value.endpointCreateTime = try reader["EndpointCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.port = try reader["Port"].readIfPresent()
+        value.address = try reader["Address"].readIfPresent()
+        value.vpcSecurityGroups = try reader["VpcSecurityGroups"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.VpcSecurityGroupMembership.read(from:), memberNodeInfo: "VpcSecurityGroup", isFlattened: false)
+        value.vpcEndpoint = try reader["VpcEndpoint"].readIfPresent(with: RedshiftClientTypes.VpcEndpoint.read(from:))
+        return value
+    }
+}
+
+extension RedshiftClientTypes.EndpointAuthorization {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.EndpointAuthorization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.EndpointAuthorization()
+        value.grantor = try reader["Grantor"].readIfPresent()
+        value.grantee = try reader["Grantee"].readIfPresent()
+        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
+        value.authorizeTime = try reader["AuthorizeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.clusterStatus = try reader["ClusterStatus"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.allowedAllVPCs = try reader["AllowedAllVPCs"].readIfPresent()
+        value.allowedVPCs = try reader["AllowedVPCs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "VpcIdentifier", isFlattened: false)
+        value.endpointCount = try reader["EndpointCount"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.Event {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Event {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.Event()
+        value.sourceIdentifier = try reader["SourceIdentifier"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
+        value.severity = try reader["Severity"].readIfPresent()
+        value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.eventId = try reader["EventId"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.EventCategoriesMap {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.EventCategoriesMap {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.EventCategoriesMap()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.EventInfoMap.read(from:), memberNodeInfo: "EventInfoMap", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.EventInfoMap {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.EventInfoMap {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.EventInfoMap()
+        value.eventId = try reader["EventId"].readIfPresent()
+        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
+        value.eventDescription = try reader["EventDescription"].readIfPresent()
+        value.severity = try reader["Severity"].readIfPresent()
         return value
     }
 }
@@ -23787,561 +23765,14 @@ extension RedshiftClientTypes.HsmConfiguration {
     }
 }
 
-extension RedshiftClientTypes.IntegrationError {
+extension RedshiftClientTypes.HsmStatus {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.IntegrationError {
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.HsmStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.IntegrationError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.RedshiftIdcApplication {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.RedshiftIdcApplication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.RedshiftIdcApplication()
-        value.idcInstanceArn = try reader["IdcInstanceArn"].readIfPresent()
-        value.redshiftIdcApplicationName = try reader["RedshiftIdcApplicationName"].readIfPresent()
-        value.redshiftIdcApplicationArn = try reader["RedshiftIdcApplicationArn"].readIfPresent()
-        value.identityNamespace = try reader["IdentityNamespace"].readIfPresent()
-        value.idcDisplayName = try reader["IdcDisplayName"].readIfPresent()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        value.idcManagedApplicationArn = try reader["IdcManagedApplicationArn"].readIfPresent()
-        value.idcOnboardStatus = try reader["IdcOnboardStatus"].readIfPresent()
-        value.authorizedTokenIssuerList = try reader["AuthorizedTokenIssuerList"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.AuthorizedTokenIssuer.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.serviceIntegrations = try reader["ServiceIntegrations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.ServiceIntegrationsUnion.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.applicationType = try reader["ApplicationType"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        value.ssoTagKeys = try reader["SsoTagKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "TagKey", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.ServiceIntegrationsUnion {
-
-    static func write(value: RedshiftClientTypes.ServiceIntegrationsUnion?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .lakeformation(lakeformation):
-                try writer["LakeFormation"].writeList(lakeformation, memberWritingClosure: RedshiftClientTypes.LakeFormationScopeUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .redshift(redshift):
-                try writer["Redshift"].writeList(redshift, memberWritingClosure: RedshiftClientTypes.RedshiftScopeUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .s3accessgrants(s3accessgrants):
-                try writer["S3AccessGrants"].writeList(s3accessgrants, memberWritingClosure: RedshiftClientTypes.S3AccessGrantsScopeUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ServiceIntegrationsUnion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "LakeFormation":
-                return .lakeformation(try reader["LakeFormation"].readList(memberReadingClosure: RedshiftClientTypes.LakeFormationScopeUnion.read(from:), memberNodeInfo: "member", isFlattened: false))
-            case "S3AccessGrants":
-                return .s3accessgrants(try reader["S3AccessGrants"].readList(memberReadingClosure: RedshiftClientTypes.S3AccessGrantsScopeUnion.read(from:), memberNodeInfo: "member", isFlattened: false))
-            case "Redshift":
-                return .redshift(try reader["Redshift"].readList(memberReadingClosure: RedshiftClientTypes.RedshiftScopeUnion.read(from:), memberNodeInfo: "member", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension RedshiftClientTypes.RedshiftScopeUnion {
-
-    static func write(value: RedshiftClientTypes.RedshiftScopeUnion?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .connect(connect):
-                try writer["Connect"].write(connect, with: RedshiftClientTypes.Connect.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.RedshiftScopeUnion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Connect":
-                return .connect(try reader["Connect"].read(with: RedshiftClientTypes.Connect.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension RedshiftClientTypes.Connect {
-
-    static func write(value: RedshiftClientTypes.Connect?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Authorization"].write(value.authorization)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Connect {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.Connect()
-        value.authorization = try reader["Authorization"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension RedshiftClientTypes.S3AccessGrantsScopeUnion {
-
-    static func write(value: RedshiftClientTypes.S3AccessGrantsScopeUnion?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .readwriteaccess(readwriteaccess):
-                try writer["ReadWriteAccess"].write(readwriteaccess, with: RedshiftClientTypes.ReadWriteAccess.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.S3AccessGrantsScopeUnion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "ReadWriteAccess":
-                return .readwriteaccess(try reader["ReadWriteAccess"].read(with: RedshiftClientTypes.ReadWriteAccess.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension RedshiftClientTypes.ReadWriteAccess {
-
-    static func write(value: RedshiftClientTypes.ReadWriteAccess?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Authorization"].write(value.authorization)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ReadWriteAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ReadWriteAccess()
-        value.authorization = try reader["Authorization"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension RedshiftClientTypes.LakeFormationScopeUnion {
-
-    static func write(value: RedshiftClientTypes.LakeFormationScopeUnion?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .lakeformationquery(lakeformationquery):
-                try writer["LakeFormationQuery"].write(lakeformationquery, with: RedshiftClientTypes.LakeFormationQuery.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.LakeFormationScopeUnion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "LakeFormationQuery":
-                return .lakeformationquery(try reader["LakeFormationQuery"].read(with: RedshiftClientTypes.LakeFormationQuery.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension RedshiftClientTypes.LakeFormationQuery {
-
-    static func write(value: RedshiftClientTypes.LakeFormationQuery?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Authorization"].write(value.authorization)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.LakeFormationQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.LakeFormationQuery()
-        value.authorization = try reader["Authorization"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension RedshiftClientTypes.AuthorizedTokenIssuer {
-
-    static func write(value: RedshiftClientTypes.AuthorizedTokenIssuer?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizedAudiencesList"].writeList(value.authorizedAudiencesList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TrustedTokenIssuerArn"].write(value.trustedTokenIssuerArn)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.AuthorizedTokenIssuer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.AuthorizedTokenIssuer()
-        value.trustedTokenIssuerArn = try reader["TrustedTokenIssuerArn"].readIfPresent()
-        value.authorizedAudiencesList = try reader["AuthorizedAudiencesList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.ScheduledActionType {
-
-    static func write(value: RedshiftClientTypes.ScheduledActionType?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["PauseCluster"].write(value.pauseCluster, with: RedshiftClientTypes.PauseClusterMessage.write(value:to:))
-        try writer["ResizeCluster"].write(value.resizeCluster, with: RedshiftClientTypes.ResizeClusterMessage.write(value:to:))
-        try writer["ResumeCluster"].write(value.resumeCluster, with: RedshiftClientTypes.ResumeClusterMessage.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ScheduledActionType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ScheduledActionType()
-        value.resizeCluster = try reader["ResizeCluster"].readIfPresent(with: RedshiftClientTypes.ResizeClusterMessage.read(from:))
-        value.pauseCluster = try reader["PauseCluster"].readIfPresent(with: RedshiftClientTypes.PauseClusterMessage.read(from:))
-        value.resumeCluster = try reader["ResumeCluster"].readIfPresent(with: RedshiftClientTypes.ResumeClusterMessage.read(from:))
-        return value
-    }
-}
-
-extension RedshiftClientTypes.ResumeClusterMessage {
-
-    static func write(value: RedshiftClientTypes.ResumeClusterMessage?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ClusterIdentifier"].write(value.clusterIdentifier)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ResumeClusterMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ResumeClusterMessage()
-        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension RedshiftClientTypes.PauseClusterMessage {
-
-    static func write(value: RedshiftClientTypes.PauseClusterMessage?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ClusterIdentifier"].write(value.clusterIdentifier)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.PauseClusterMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.PauseClusterMessage()
-        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension RedshiftClientTypes.ResizeClusterMessage {
-
-    static func write(value: RedshiftClientTypes.ResizeClusterMessage?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Classic"].write(value.classic)
-        try writer["ClusterIdentifier"].write(value.clusterIdentifier)
-        try writer["ClusterType"].write(value.clusterType)
-        try writer["NodeType"].write(value.nodeType)
-        try writer["NumberOfNodes"].write(value.numberOfNodes)
-        try writer["ReservedNodeId"].write(value.reservedNodeId)
-        try writer["TargetReservedNodeOfferingId"].write(value.targetReservedNodeOfferingId)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ResizeClusterMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ResizeClusterMessage()
-        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent() ?? ""
-        value.clusterType = try reader["ClusterType"].readIfPresent()
-        value.nodeType = try reader["NodeType"].readIfPresent()
-        value.numberOfNodes = try reader["NumberOfNodes"].readIfPresent()
-        value.classic = try reader["Classic"].readIfPresent()
-        value.reservedNodeId = try reader["ReservedNodeId"].readIfPresent()
-        value.targetReservedNodeOfferingId = try reader["TargetReservedNodeOfferingId"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.SnapshotCopyGrant {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.SnapshotCopyGrant {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.SnapshotCopyGrant()
-        value.snapshotCopyGrantName = try reader["SnapshotCopyGrantName"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.ClusterAssociatedToSchedule {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ClusterAssociatedToSchedule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ClusterAssociatedToSchedule()
-        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
-        value.scheduleAssociationState = try reader["ScheduleAssociationState"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.AccountAttribute {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.AccountAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.AccountAttribute()
-        value.attributeName = try reader["AttributeName"].readIfPresent()
-        value.attributeValues = try reader["AttributeValues"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.AttributeValueTarget.read(from:), memberNodeInfo: "AttributeValueTarget", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.AttributeValueTarget {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.AttributeValueTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.AttributeValueTarget()
-        value.attributeValue = try reader["AttributeValue"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.AuthenticationProfile {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.AuthenticationProfile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.AuthenticationProfile()
-        value.authenticationProfileName = try reader["AuthenticationProfileName"].readIfPresent()
-        value.authenticationProfileContent = try reader["AuthenticationProfileContent"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.ClusterDbRevision {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ClusterDbRevision {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ClusterDbRevision()
-        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
-        value.currentDatabaseRevision = try reader["CurrentDatabaseRevision"].readIfPresent()
-        value.databaseRevisionReleaseDate = try reader["DatabaseRevisionReleaseDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.revisionTargets = try reader["RevisionTargets"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.RevisionTarget.read(from:), memberNodeInfo: "RevisionTarget", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.RevisionTarget {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.RevisionTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.RevisionTarget()
-        value.databaseRevision = try reader["DatabaseRevision"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.databaseRevisionReleaseDate = try reader["DatabaseRevisionReleaseDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.Parameter {
-
-    static func write(value: RedshiftClientTypes.Parameter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedValues"].write(value.allowedValues)
-        try writer["ApplyType"].write(value.applyType)
-        try writer["DataType"].write(value.dataType)
-        try writer["Description"].write(value.description)
-        try writer["IsModifiable"].write(value.isModifiable)
-        try writer["MinimumEngineVersion"].write(value.minimumEngineVersion)
-        try writer["ParameterName"].write(value.parameterName)
-        try writer["ParameterValue"].write(value.parameterValue)
-        try writer["Source"].write(value.source)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Parameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.Parameter()
-        value.parameterName = try reader["ParameterName"].readIfPresent()
-        value.parameterValue = try reader["ParameterValue"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.source = try reader["Source"].readIfPresent()
-        value.dataType = try reader["DataType"].readIfPresent()
-        value.allowedValues = try reader["AllowedValues"].readIfPresent()
-        value.applyType = try reader["ApplyType"].readIfPresent()
-        value.isModifiable = try reader["IsModifiable"].readIfPresent()
-        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.MaintenanceTrack {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.MaintenanceTrack {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.MaintenanceTrack()
-        value.maintenanceTrackName = try reader["MaintenanceTrackName"].readIfPresent()
-        value.databaseVersion = try reader["DatabaseVersion"].readIfPresent()
-        value.updateTargets = try reader["UpdateTargets"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.UpdateTarget.read(from:), memberNodeInfo: "UpdateTarget", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.UpdateTarget {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.UpdateTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.UpdateTarget()
-        value.maintenanceTrackName = try reader["MaintenanceTrackName"].readIfPresent()
-        value.databaseVersion = try reader["DatabaseVersion"].readIfPresent()
-        value.supportedOperations = try reader["SupportedOperations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.SupportedOperation.read(from:), memberNodeInfo: "SupportedOperation", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.SupportedOperation {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.SupportedOperation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.SupportedOperation()
-        value.operationName = try reader["OperationName"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.ClusterVersion {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ClusterVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ClusterVersion()
-        value.clusterVersion = try reader["ClusterVersion"].readIfPresent()
-        value.clusterParameterGroupFamily = try reader["ClusterParameterGroupFamily"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.Association {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Association {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.Association()
-        value.customDomainCertificateArn = try reader["CustomDomainCertificateArn"].readIfPresent()
-        value.customDomainCertificateExpiryDate = try reader["CustomDomainCertificateExpiryDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.certificateAssociations = try reader["CertificateAssociations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.CertificateAssociation.read(from:), memberNodeInfo: "CertificateAssociation", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.CertificateAssociation {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.CertificateAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.CertificateAssociation()
-        value.customDomainName = try reader["CustomDomainName"].readIfPresent()
-        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.DataShare {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.DataShare {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.DataShare()
-        value.dataShareArn = try reader["DataShareArn"].readIfPresent()
-        value.producerArn = try reader["ProducerArn"].readIfPresent()
-        value.allowPubliclyAccessibleConsumers = try reader["AllowPubliclyAccessibleConsumers"].readIfPresent()
-        value.dataShareAssociations = try reader["DataShareAssociations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.DataShareAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.managedBy = try reader["ManagedBy"].readIfPresent()
-        value.dataShareType = try reader["DataShareType"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.DefaultClusterParameters {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.DefaultClusterParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.DefaultClusterParameters()
-        value.parameterGroupFamily = try reader["ParameterGroupFamily"].readIfPresent()
-        value.marker = try reader["Marker"].readIfPresent()
-        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Parameter.read(from:), memberNodeInfo: "Parameter", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.EndpointAccess {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.EndpointAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.EndpointAccess()
-        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
-        value.resourceOwner = try reader["ResourceOwner"].readIfPresent()
-        value.subnetGroupName = try reader["SubnetGroupName"].readIfPresent()
-        value.endpointStatus = try reader["EndpointStatus"].readIfPresent()
-        value.endpointName = try reader["EndpointName"].readIfPresent()
-        value.endpointCreateTime = try reader["EndpointCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.port = try reader["Port"].readIfPresent()
-        value.address = try reader["Address"].readIfPresent()
-        value.vpcSecurityGroups = try reader["VpcSecurityGroups"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.VpcSecurityGroupMembership.read(from:), memberNodeInfo: "VpcSecurityGroup", isFlattened: false)
-        value.vpcEndpoint = try reader["VpcEndpoint"].readIfPresent(with: RedshiftClientTypes.VpcEndpoint.read(from:))
-        return value
-    }
-}
-
-extension RedshiftClientTypes.EndpointAuthorization {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.EndpointAuthorization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.EndpointAuthorization()
-        value.grantor = try reader["Grantor"].readIfPresent()
-        value.grantee = try reader["Grantee"].readIfPresent()
-        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
-        value.authorizeTime = try reader["AuthorizeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.clusterStatus = try reader["ClusterStatus"].readIfPresent()
+        var value = RedshiftClientTypes.HsmStatus()
+        value.hsmClientCertificateIdentifier = try reader["HsmClientCertificateIdentifier"].readIfPresent()
+        value.hsmConfigurationIdentifier = try reader["HsmConfigurationIdentifier"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        value.allowedAllVPCs = try reader["AllowedAllVPCs"].readIfPresent()
-        value.allowedVPCs = try reader["AllowedVPCs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "VpcIdentifier", isFlattened: false)
-        value.endpointCount = try reader["EndpointCount"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.EventCategoriesMap {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.EventCategoriesMap {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.EventCategoriesMap()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.EventInfoMap.read(from:), memberNodeInfo: "EventInfoMap", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.EventInfoMap {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.EventInfoMap {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.EventInfoMap()
-        value.eventId = try reader["EventId"].readIfPresent()
-        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
-        value.eventDescription = try reader["EventDescription"].readIfPresent()
-        value.severity = try reader["Severity"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.Event {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Event {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.Event()
-        value.sourceIdentifier = try reader["SourceIdentifier"].readIfPresent()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
-        value.severity = try reader["Severity"].readIfPresent()
-        value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.eventId = try reader["EventId"].readIfPresent()
         return value
     }
 }
@@ -24381,6 +23812,109 @@ extension RedshiftClientTypes.Integration {
     }
 }
 
+extension RedshiftClientTypes.IntegrationError {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.IntegrationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.IntegrationError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.IPRange {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.IPRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.IPRange()
+        value.status = try reader["Status"].readIfPresent()
+        value.cidrip = try reader["CIDRIP"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.LakeFormationQuery {
+
+    static func write(value: RedshiftClientTypes.LakeFormationQuery?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Authorization"].write(value.authorization)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.LakeFormationQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.LakeFormationQuery()
+        value.authorization = try reader["Authorization"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension RedshiftClientTypes.LakeFormationScopeUnion {
+
+    static func write(value: RedshiftClientTypes.LakeFormationScopeUnion?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .lakeformationquery(lakeformationquery):
+                try writer["LakeFormationQuery"].write(lakeformationquery, with: RedshiftClientTypes.LakeFormationQuery.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.LakeFormationScopeUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "LakeFormationQuery":
+                return .lakeformationquery(try reader["LakeFormationQuery"].read(with: RedshiftClientTypes.LakeFormationQuery.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension RedshiftClientTypes.MaintenanceTrack {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.MaintenanceTrack {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.MaintenanceTrack()
+        value.maintenanceTrackName = try reader["MaintenanceTrackName"].readIfPresent()
+        value.databaseVersion = try reader["DatabaseVersion"].readIfPresent()
+        value.updateTargets = try reader["UpdateTargets"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.UpdateTarget.read(from:), memberNodeInfo: "UpdateTarget", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.NamespaceIdentifierUnion {
+
+    static func write(value: RedshiftClientTypes.NamespaceIdentifierUnion?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .provisionedidentifier(provisionedidentifier):
+                try writer["ProvisionedIdentifier"].write(provisionedidentifier, with: RedshiftClientTypes.ProvisionedIdentifier.write(value:to:))
+            case let .serverlessidentifier(serverlessidentifier):
+                try writer["ServerlessIdentifier"].write(serverlessidentifier, with: RedshiftClientTypes.ServerlessIdentifier.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension RedshiftClientTypes.NetworkInterface {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.NetworkInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.NetworkInterface()
+        value.networkInterfaceId = try reader["NetworkInterfaceId"].readIfPresent()
+        value.subnetId = try reader["SubnetId"].readIfPresent()
+        value.privateIpAddress = try reader["PrivateIpAddress"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.ipv6Address = try reader["Ipv6Address"].readIfPresent()
+        return value
+    }
+}
+
 extension RedshiftClientTypes.NodeConfigurationOption {
 
     static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.NodeConfigurationOption {
@@ -24391,6 +23925,16 @@ extension RedshiftClientTypes.NodeConfigurationOption {
         value.estimatedDiskUtilizationPercent = try reader["EstimatedDiskUtilizationPercent"].readIfPresent()
         value.mode = try reader["Mode"].readIfPresent()
         return value
+    }
+}
+
+extension RedshiftClientTypes.NodeConfigurationOptionsFilter {
+
+    static func write(value: RedshiftClientTypes.NodeConfigurationOptionsFilter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Operator"].write(value.`operator`)
+        try writer["Value"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "item", isFlattened: false)
     }
 }
 
@@ -24407,6 +23951,37 @@ extension RedshiftClientTypes.OrderableClusterOption {
     }
 }
 
+extension RedshiftClientTypes.Parameter {
+
+    static func write(value: RedshiftClientTypes.Parameter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedValues"].write(value.allowedValues)
+        try writer["ApplyType"].write(value.applyType)
+        try writer["DataType"].write(value.dataType)
+        try writer["Description"].write(value.description)
+        try writer["IsModifiable"].write(value.isModifiable)
+        try writer["MinimumEngineVersion"].write(value.minimumEngineVersion)
+        try writer["ParameterName"].write(value.parameterName)
+        try writer["ParameterValue"].write(value.parameterValue)
+        try writer["Source"].write(value.source)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Parameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.Parameter()
+        value.parameterName = try reader["ParameterName"].readIfPresent()
+        value.parameterValue = try reader["ParameterValue"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent()
+        value.dataType = try reader["DataType"].readIfPresent()
+        value.allowedValues = try reader["AllowedValues"].readIfPresent()
+        value.applyType = try reader["ApplyType"].readIfPresent()
+        value.isModifiable = try reader["IsModifiable"].readIfPresent()
+        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
+        return value
+    }
+}
+
 extension RedshiftClientTypes.PartnerIntegrationInfo {
 
     static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.PartnerIntegrationInfo {
@@ -24418,6 +23993,218 @@ extension RedshiftClientTypes.PartnerIntegrationInfo {
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.PauseClusterMessage {
+
+    static func write(value: RedshiftClientTypes.PauseClusterMessage?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterIdentifier"].write(value.clusterIdentifier)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.PauseClusterMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.PauseClusterMessage()
+        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension RedshiftClientTypes.PendingModifiedValues {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.PendingModifiedValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.PendingModifiedValues()
+        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
+        value.nodeType = try reader["NodeType"].readIfPresent()
+        value.numberOfNodes = try reader["NumberOfNodes"].readIfPresent()
+        value.clusterType = try reader["ClusterType"].readIfPresent()
+        value.clusterVersion = try reader["ClusterVersion"].readIfPresent()
+        value.automatedSnapshotRetentionPeriod = try reader["AutomatedSnapshotRetentionPeriod"].readIfPresent()
+        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
+        value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
+        value.enhancedVpcRouting = try reader["EnhancedVpcRouting"].readIfPresent()
+        value.maintenanceTrackName = try reader["MaintenanceTrackName"].readIfPresent()
+        value.encryptionType = try reader["EncryptionType"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.ProvisionedIdentifier {
+
+    static func write(value: RedshiftClientTypes.ProvisionedIdentifier?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterIdentifier"].write(value.clusterIdentifier)
+    }
+}
+
+extension RedshiftClientTypes.ReadWriteAccess {
+
+    static func write(value: RedshiftClientTypes.ReadWriteAccess?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Authorization"].write(value.authorization)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ReadWriteAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.ReadWriteAccess()
+        value.authorization = try reader["Authorization"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension RedshiftClientTypes.Recommendation {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Recommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.Recommendation()
+        value.id = try reader["Id"].readIfPresent()
+        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
+        value.namespaceArn = try reader["NamespaceArn"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.recommendationType = try reader["RecommendationType"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.observation = try reader["Observation"].readIfPresent()
+        value.impactRanking = try reader["ImpactRanking"].readIfPresent()
+        value.recommendationText = try reader["RecommendationText"].readIfPresent()
+        value.recommendedActions = try reader["RecommendedActions"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.RecommendedAction.read(from:), memberNodeInfo: "RecommendedAction", isFlattened: false)
+        value.referenceLinks = try reader["ReferenceLinks"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.ReferenceLink.read(from:), memberNodeInfo: "ReferenceLink", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.RecommendedAction {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.RecommendedAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.RecommendedAction()
+        value.text = try reader["Text"].readIfPresent()
+        value.database = try reader["Database"].readIfPresent()
+        value.command = try reader["Command"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.RecurringCharge {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.RecurringCharge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.RecurringCharge()
+        value.recurringChargeAmount = try reader["RecurringChargeAmount"].readIfPresent()
+        value.recurringChargeFrequency = try reader["RecurringChargeFrequency"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.RedshiftIdcApplication {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.RedshiftIdcApplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.RedshiftIdcApplication()
+        value.idcInstanceArn = try reader["IdcInstanceArn"].readIfPresent()
+        value.redshiftIdcApplicationName = try reader["RedshiftIdcApplicationName"].readIfPresent()
+        value.redshiftIdcApplicationArn = try reader["RedshiftIdcApplicationArn"].readIfPresent()
+        value.identityNamespace = try reader["IdentityNamespace"].readIfPresent()
+        value.idcDisplayName = try reader["IdcDisplayName"].readIfPresent()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
+        value.idcManagedApplicationArn = try reader["IdcManagedApplicationArn"].readIfPresent()
+        value.idcOnboardStatus = try reader["IdcOnboardStatus"].readIfPresent()
+        value.authorizedTokenIssuerList = try reader["AuthorizedTokenIssuerList"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.AuthorizedTokenIssuer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceIntegrations = try reader["ServiceIntegrations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.ServiceIntegrationsUnion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.applicationType = try reader["ApplicationType"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.ssoTagKeys = try reader["SsoTagKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "TagKey", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.RedshiftScopeUnion {
+
+    static func write(value: RedshiftClientTypes.RedshiftScopeUnion?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .connect(connect):
+                try writer["Connect"].write(connect, with: RedshiftClientTypes.Connect.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.RedshiftScopeUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Connect":
+                return .connect(try reader["Connect"].read(with: RedshiftClientTypes.Connect.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension RedshiftClientTypes.ReferenceLink {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ReferenceLink {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.ReferenceLink()
+        value.text = try reader["Text"].readIfPresent()
+        value.link = try reader["Link"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.ReservedNode {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ReservedNode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.ReservedNode()
+        value.reservedNodeId = try reader["ReservedNodeId"].readIfPresent()
+        value.reservedNodeOfferingId = try reader["ReservedNodeOfferingId"].readIfPresent()
+        value.nodeType = try reader["NodeType"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.duration = try reader["Duration"].readIfPresent()
+        value.fixedPrice = try reader["FixedPrice"].readIfPresent()
+        value.usagePrice = try reader["UsagePrice"].readIfPresent()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        value.nodeCount = try reader["NodeCount"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.offeringType = try reader["OfferingType"].readIfPresent()
+        value.recurringCharges = try reader["RecurringCharges"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.RecurringCharge.read(from:), memberNodeInfo: "RecurringCharge", isFlattened: false)
+        value.reservedNodeOfferingType = try reader["ReservedNodeOfferingType"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.ReservedNodeConfigurationOption {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ReservedNodeConfigurationOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.ReservedNodeConfigurationOption()
+        value.sourceReservedNode = try reader["SourceReservedNode"].readIfPresent(with: RedshiftClientTypes.ReservedNode.read(from:))
+        value.targetReservedNodeCount = try reader["TargetReservedNodeCount"].readIfPresent()
+        value.targetReservedNodeOffering = try reader["TargetReservedNodeOffering"].readIfPresent(with: RedshiftClientTypes.ReservedNodeOffering.read(from:))
+        return value
+    }
+}
+
+extension RedshiftClientTypes.ReservedNodeExchangeStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ReservedNodeExchangeStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.ReservedNodeExchangeStatus()
+        value.reservedNodeExchangeRequestId = try reader["ReservedNodeExchangeRequestId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.requestTime = try reader["RequestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.sourceReservedNodeId = try reader["SourceReservedNodeId"].readIfPresent()
+        value.sourceReservedNodeType = try reader["SourceReservedNodeType"].readIfPresent()
+        value.sourceReservedNodeCount = try reader["SourceReservedNodeCount"].readIfPresent()
+        value.targetReservedNodeOfferingId = try reader["TargetReservedNodeOfferingId"].readIfPresent()
+        value.targetReservedNodeType = try reader["TargetReservedNodeType"].readIfPresent()
+        value.targetReservedNodeCount = try reader["TargetReservedNodeCount"].readIfPresent()
         return value
     }
 }
@@ -24440,6 +24227,121 @@ extension RedshiftClientTypes.ReservedNodeOffering {
     }
 }
 
+extension RedshiftClientTypes.ResizeClusterMessage {
+
+    static func write(value: RedshiftClientTypes.ResizeClusterMessage?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Classic"].write(value.classic)
+        try writer["ClusterIdentifier"].write(value.clusterIdentifier)
+        try writer["ClusterType"].write(value.clusterType)
+        try writer["NodeType"].write(value.nodeType)
+        try writer["NumberOfNodes"].write(value.numberOfNodes)
+        try writer["ReservedNodeId"].write(value.reservedNodeId)
+        try writer["TargetReservedNodeOfferingId"].write(value.targetReservedNodeOfferingId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ResizeClusterMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.ResizeClusterMessage()
+        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent() ?? ""
+        value.clusterType = try reader["ClusterType"].readIfPresent()
+        value.nodeType = try reader["NodeType"].readIfPresent()
+        value.numberOfNodes = try reader["NumberOfNodes"].readIfPresent()
+        value.classic = try reader["Classic"].readIfPresent()
+        value.reservedNodeId = try reader["ReservedNodeId"].readIfPresent()
+        value.targetReservedNodeOfferingId = try reader["TargetReservedNodeOfferingId"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.ResizeInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ResizeInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.ResizeInfo()
+        value.resizeType = try reader["ResizeType"].readIfPresent()
+        value.allowCancelResize = try reader["AllowCancelResize"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.ResourcePolicy {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ResourcePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.ResourcePolicy()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.policy = try reader["Policy"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.RestoreStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.RestoreStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.RestoreStatus()
+        value.status = try reader["Status"].readIfPresent()
+        value.currentRestoreRateInMegaBytesPerSecond = try reader["CurrentRestoreRateInMegaBytesPerSecond"].readIfPresent()
+        value.snapshotSizeInMegaBytes = try reader["SnapshotSizeInMegaBytes"].readIfPresent()
+        value.progressInMegaBytes = try reader["ProgressInMegaBytes"].readIfPresent()
+        value.elapsedTimeInSeconds = try reader["ElapsedTimeInSeconds"].readIfPresent()
+        value.estimatedTimeToCompletionInSeconds = try reader["EstimatedTimeToCompletionInSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.ResumeClusterMessage {
+
+    static func write(value: RedshiftClientTypes.ResumeClusterMessage?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterIdentifier"].write(value.clusterIdentifier)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ResumeClusterMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.ResumeClusterMessage()
+        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension RedshiftClientTypes.RevisionTarget {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.RevisionTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.RevisionTarget()
+        value.databaseRevision = try reader["DatabaseRevision"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.databaseRevisionReleaseDate = try reader["DatabaseRevisionReleaseDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.S3AccessGrantsScopeUnion {
+
+    static func write(value: RedshiftClientTypes.S3AccessGrantsScopeUnion?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .readwriteaccess(readwriteaccess):
+                try writer["ReadWriteAccess"].write(readwriteaccess, with: RedshiftClientTypes.ReadWriteAccess.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.S3AccessGrantsScopeUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "ReadWriteAccess":
+                return .readwriteaccess(try reader["ReadWriteAccess"].read(with: RedshiftClientTypes.ReadWriteAccess.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension RedshiftClientTypes.ScheduledAction {
 
     static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ScheduledAction {
@@ -24458,6 +24360,157 @@ extension RedshiftClientTypes.ScheduledAction {
     }
 }
 
+extension RedshiftClientTypes.ScheduledActionFilter {
+
+    static func write(value: RedshiftClientTypes.ScheduledActionFilter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "item", isFlattened: false)
+    }
+}
+
+extension RedshiftClientTypes.ScheduledActionType {
+
+    static func write(value: RedshiftClientTypes.ScheduledActionType?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["PauseCluster"].write(value.pauseCluster, with: RedshiftClientTypes.PauseClusterMessage.write(value:to:))
+        try writer["ResizeCluster"].write(value.resizeCluster, with: RedshiftClientTypes.ResizeClusterMessage.write(value:to:))
+        try writer["ResumeCluster"].write(value.resumeCluster, with: RedshiftClientTypes.ResumeClusterMessage.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ScheduledActionType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.ScheduledActionType()
+        value.resizeCluster = try reader["ResizeCluster"].readIfPresent(with: RedshiftClientTypes.ResizeClusterMessage.read(from:))
+        value.pauseCluster = try reader["PauseCluster"].readIfPresent(with: RedshiftClientTypes.PauseClusterMessage.read(from:))
+        value.resumeCluster = try reader["ResumeCluster"].readIfPresent(with: RedshiftClientTypes.ResumeClusterMessage.read(from:))
+        return value
+    }
+}
+
+extension RedshiftClientTypes.SecondaryClusterInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.SecondaryClusterInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.SecondaryClusterInfo()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.clusterNodes = try reader["ClusterNodes"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.ClusterNode.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.ServerlessIdentifier {
+
+    static func write(value: RedshiftClientTypes.ServerlessIdentifier?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["NamespaceIdentifier"].write(value.namespaceIdentifier)
+        try writer["WorkgroupIdentifier"].write(value.workgroupIdentifier)
+    }
+}
+
+extension RedshiftClientTypes.ServiceIntegrationsUnion {
+
+    static func write(value: RedshiftClientTypes.ServiceIntegrationsUnion?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .lakeformation(lakeformation):
+                try writer["LakeFormation"].writeList(lakeformation, memberWritingClosure: RedshiftClientTypes.LakeFormationScopeUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .redshift(redshift):
+                try writer["Redshift"].writeList(redshift, memberWritingClosure: RedshiftClientTypes.RedshiftScopeUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .s3accessgrants(s3accessgrants):
+                try writer["S3AccessGrants"].writeList(s3accessgrants, memberWritingClosure: RedshiftClientTypes.S3AccessGrantsScopeUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ServiceIntegrationsUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "LakeFormation":
+                return .lakeformation(try reader["LakeFormation"].readList(memberReadingClosure: RedshiftClientTypes.LakeFormationScopeUnion.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "S3AccessGrants":
+                return .s3accessgrants(try reader["S3AccessGrants"].readList(memberReadingClosure: RedshiftClientTypes.S3AccessGrantsScopeUnion.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "Redshift":
+                return .redshift(try reader["Redshift"].readList(memberReadingClosure: RedshiftClientTypes.RedshiftScopeUnion.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension RedshiftClientTypes.Snapshot {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Snapshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.Snapshot()
+        value.snapshotIdentifier = try reader["SnapshotIdentifier"].readIfPresent()
+        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
+        value.snapshotCreateTime = try reader["SnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["Status"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.clusterCreateTime = try reader["ClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.masterUsername = try reader["MasterUsername"].readIfPresent()
+        value.clusterVersion = try reader["ClusterVersion"].readIfPresent()
+        value.engineFullVersion = try reader["EngineFullVersion"].readIfPresent()
+        value.snapshotType = try reader["SnapshotType"].readIfPresent()
+        value.nodeType = try reader["NodeType"].readIfPresent()
+        value.numberOfNodes = try reader["NumberOfNodes"].readIfPresent()
+        value.dbName = try reader["DBName"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.encrypted = try reader["Encrypted"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.encryptedWithHSM = try reader["EncryptedWithHSM"].readIfPresent()
+        value.accountsWithRestoreAccess = try reader["AccountsWithRestoreAccess"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.AccountWithRestoreAccess.read(from:), memberNodeInfo: "AccountWithRestoreAccess", isFlattened: false)
+        value.ownerAccount = try reader["OwnerAccount"].readIfPresent()
+        value.totalBackupSizeInMegaBytes = try reader["TotalBackupSizeInMegaBytes"].readIfPresent()
+        value.actualIncrementalBackupSizeInMegaBytes = try reader["ActualIncrementalBackupSizeInMegaBytes"].readIfPresent()
+        value.backupProgressInMegaBytes = try reader["BackupProgressInMegaBytes"].readIfPresent()
+        value.currentBackupRateInMegaBytesPerSecond = try reader["CurrentBackupRateInMegaBytesPerSecond"].readIfPresent()
+        value.estimatedSecondsToCompletion = try reader["EstimatedSecondsToCompletion"].readIfPresent()
+        value.elapsedTimeInSeconds = try reader["ElapsedTimeInSeconds"].readIfPresent()
+        value.sourceRegion = try reader["SourceRegion"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.restorableNodeTypes = try reader["RestorableNodeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "NodeType", isFlattened: false)
+        value.enhancedVpcRouting = try reader["EnhancedVpcRouting"].readIfPresent()
+        value.maintenanceTrackName = try reader["MaintenanceTrackName"].readIfPresent()
+        value.manualSnapshotRetentionPeriod = try reader["ManualSnapshotRetentionPeriod"].readIfPresent()
+        value.manualSnapshotRemainingDays = try reader["ManualSnapshotRemainingDays"].readIfPresent()
+        value.snapshotRetentionStartTime = try reader["SnapshotRetentionStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.masterPasswordSecretArn = try reader["MasterPasswordSecretArn"].readIfPresent()
+        value.masterPasswordSecretKmsKeyId = try reader["MasterPasswordSecretKmsKeyId"].readIfPresent()
+        value.snapshotArn = try reader["SnapshotArn"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.SnapshotCopyGrant {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.SnapshotCopyGrant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.SnapshotCopyGrant()
+        value.snapshotCopyGrantName = try reader["SnapshotCopyGrantName"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.SnapshotErrorMessage {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.SnapshotErrorMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.SnapshotErrorMessage()
+        value.snapshotIdentifier = try reader["SnapshotIdentifier"].readIfPresent()
+        value.snapshotClusterIdentifier = try reader["SnapshotClusterIdentifier"].readIfPresent()
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        return value
+    }
+}
+
 extension RedshiftClientTypes.SnapshotSchedule {
 
     static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.SnapshotSchedule {
@@ -24470,6 +24523,47 @@ extension RedshiftClientTypes.SnapshotSchedule {
         value.nextInvocations = try reader["NextInvocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.dateTime), memberNodeInfo: "SnapshotTime", isFlattened: false)
         value.associatedClusterCount = try reader["AssociatedClusterCount"].readIfPresent()
         value.associatedClusters = try reader["AssociatedClusters"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.ClusterAssociatedToSchedule.read(from:), memberNodeInfo: "ClusterAssociatedToSchedule", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftClientTypes.SnapshotSortingEntity {
+
+    static func write(value: RedshiftClientTypes.SnapshotSortingEntity?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Attribute"].write(value.attribute)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension RedshiftClientTypes.Subnet {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Subnet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.Subnet()
+        value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
+        value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent(with: RedshiftClientTypes.AvailabilityZone.read(from:))
+        value.subnetStatus = try reader["SubnetStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.SupportedOperation {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.SupportedOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.SupportedOperation()
+        value.operationName = try reader["OperationName"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.SupportedPlatform {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.SupportedPlatform {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.SupportedPlatform()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
@@ -24497,6 +24591,23 @@ extension RedshiftClientTypes.TableRestoreStatus {
     }
 }
 
+extension RedshiftClientTypes.Tag {
+
+    static func write(value: RedshiftClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
 extension RedshiftClientTypes.TaggedResource {
 
     static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.TaggedResource {
@@ -24505,6 +24616,18 @@ extension RedshiftClientTypes.TaggedResource {
         value.tag = try reader["Tag"].readIfPresent(with: RedshiftClientTypes.Tag.read(from:))
         value.resourceName = try reader["ResourceName"].readIfPresent()
         value.resourceType = try reader["ResourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftClientTypes.UpdateTarget {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.UpdateTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.UpdateTarget()
+        value.maintenanceTrackName = try reader["MaintenanceTrackName"].readIfPresent()
+        value.databaseVersion = try reader["DatabaseVersion"].readIfPresent()
+        value.supportedOperations = try reader["SupportedOperations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.SupportedOperation.read(from:), memberNodeInfo: "SupportedOperation", isFlattened: false)
         return value
     }
 }
@@ -24526,149 +24649,26 @@ extension RedshiftClientTypes.UsageLimit {
     }
 }
 
-extension RedshiftClientTypes.ReservedNodeConfigurationOption {
+extension RedshiftClientTypes.VpcEndpoint {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ReservedNodeConfigurationOption {
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.VpcEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ReservedNodeConfigurationOption()
-        value.sourceReservedNode = try reader["SourceReservedNode"].readIfPresent(with: RedshiftClientTypes.ReservedNode.read(from:))
-        value.targetReservedNodeCount = try reader["TargetReservedNodeCount"].readIfPresent()
-        value.targetReservedNodeOffering = try reader["TargetReservedNodeOffering"].readIfPresent(with: RedshiftClientTypes.ReservedNodeOffering.read(from:))
+        var value = RedshiftClientTypes.VpcEndpoint()
+        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.networkInterfaces = try reader["NetworkInterfaces"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.NetworkInterface.read(from:), memberNodeInfo: "NetworkInterface", isFlattened: false)
         return value
     }
 }
 
-extension RedshiftClientTypes.ResourcePolicy {
+extension RedshiftClientTypes.VpcSecurityGroupMembership {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ResourcePolicy {
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.VpcSecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ResourcePolicy()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.policy = try reader["Policy"].readIfPresent()
+        var value = RedshiftClientTypes.VpcSecurityGroupMembership()
+        value.vpcSecurityGroupId = try reader["VpcSecurityGroupId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
-    }
-}
-
-extension RedshiftClientTypes.Recommendation {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Recommendation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.Recommendation()
-        value.id = try reader["Id"].readIfPresent()
-        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
-        value.namespaceArn = try reader["NamespaceArn"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.recommendationType = try reader["RecommendationType"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.observation = try reader["Observation"].readIfPresent()
-        value.impactRanking = try reader["ImpactRanking"].readIfPresent()
-        value.recommendationText = try reader["RecommendationText"].readIfPresent()
-        value.recommendedActions = try reader["RecommendedActions"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.RecommendedAction.read(from:), memberNodeInfo: "RecommendedAction", isFlattened: false)
-        value.referenceLinks = try reader["ReferenceLinks"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.ReferenceLink.read(from:), memberNodeInfo: "ReferenceLink", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftClientTypes.ReferenceLink {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ReferenceLink {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.ReferenceLink()
-        value.text = try reader["Text"].readIfPresent()
-        value.link = try reader["Link"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.RecommendedAction {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.RecommendedAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.RecommendedAction()
-        value.text = try reader["Text"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
-        value.command = try reader["Command"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftClientTypes.DeleteClusterSnapshotMessage {
-
-    static func write(value: RedshiftClientTypes.DeleteClusterSnapshotMessage?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["SnapshotClusterIdentifier"].write(value.snapshotClusterIdentifier)
-        try writer["SnapshotIdentifier"].write(value.snapshotIdentifier)
-    }
-}
-
-extension RedshiftClientTypes.NamespaceIdentifierUnion {
-
-    static func write(value: RedshiftClientTypes.NamespaceIdentifierUnion?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .provisionedidentifier(provisionedidentifier):
-                try writer["ProvisionedIdentifier"].write(provisionedidentifier, with: RedshiftClientTypes.ProvisionedIdentifier.write(value:to:))
-            case let .serverlessidentifier(serverlessidentifier):
-                try writer["ServerlessIdentifier"].write(serverlessidentifier, with: RedshiftClientTypes.ServerlessIdentifier.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension RedshiftClientTypes.ProvisionedIdentifier {
-
-    static func write(value: RedshiftClientTypes.ProvisionedIdentifier?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ClusterIdentifier"].write(value.clusterIdentifier)
-    }
-}
-
-extension RedshiftClientTypes.ServerlessIdentifier {
-
-    static func write(value: RedshiftClientTypes.ServerlessIdentifier?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["NamespaceIdentifier"].write(value.namespaceIdentifier)
-        try writer["WorkgroupIdentifier"].write(value.workgroupIdentifier)
-    }
-}
-
-extension RedshiftClientTypes.SnapshotSortingEntity {
-
-    static func write(value: RedshiftClientTypes.SnapshotSortingEntity?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Attribute"].write(value.attribute)
-        try writer["SortOrder"].write(value.sortOrder)
-    }
-}
-
-extension RedshiftClientTypes.DescribeIntegrationsFilter {
-
-    static func write(value: RedshiftClientTypes.DescribeIntegrationsFilter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Value", isFlattened: false)
-    }
-}
-
-extension RedshiftClientTypes.NodeConfigurationOptionsFilter {
-
-    static func write(value: RedshiftClientTypes.NodeConfigurationOptionsFilter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Operator"].write(value.`operator`)
-        try writer["Value"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "item", isFlattened: false)
-    }
-}
-
-extension RedshiftClientTypes.ScheduledActionFilter {
-
-    static func write(value: RedshiftClientTypes.ScheduledActionFilter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "item", isFlattened: false)
     }
 }
 

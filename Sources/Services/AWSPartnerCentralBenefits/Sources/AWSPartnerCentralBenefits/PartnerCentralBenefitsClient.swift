@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class PartnerCentralBenefitsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PartnerCentralBenefitsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: PartnerCentralBenefitsClient.PartnerCentralBenefitsClientConfig
+    public let config: PartnerCentralBenefitsClient.PartnerCentralBenefitsClientConfig
     let serviceName = "PartnerCentral Benefits"
 
     @available(*, deprecated, message: "Use PartnerCentralBenefitsClient.PartnerCentralBenefitsClientConfig instead")
     public typealias Config = PartnerCentralBenefitsClient.PartnerCentralBenefitsClientConfiguration
+    public typealias Configuration = PartnerCentralBenefitsClient.PartnerCentralBenefitsClientConfig
 
     public required init(config: PartnerCentralBenefitsClient.PartnerCentralBenefitsClientConfig) {
         ClientRuntime.initialize()

@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class VPCLatticeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "VPCLatticeClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: VPCLatticeClient.VPCLatticeClientConfig
+    public let config: VPCLatticeClient.VPCLatticeClientConfig
     let serviceName = "VPC Lattice"
 
     @available(*, deprecated, message: "Use VPCLatticeClient.VPCLatticeClientConfig instead")
     public typealias Config = VPCLatticeClient.VPCLatticeClientConfiguration
+    public typealias Configuration = VPCLatticeClient.VPCLatticeClientConfig
 
     public required init(config: VPCLatticeClient.VPCLatticeClientConfig) {
         ClientRuntime.initialize()

@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SQSClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SQSClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SQSClient.SQSClientConfig
+    public let config: SQSClient.SQSClientConfig
     let serviceName = "SQS"
 
     @available(*, deprecated, message: "Use SQSClient.SQSClientConfig instead")
     public typealias Config = SQSClient.SQSClientConfiguration
+    public typealias Configuration = SQSClient.SQSClientConfig
 
     public required init(config: SQSClient.SQSClientConfig) {
         ClientRuntime.initialize()

@@ -16797,6 +16797,85 @@ extension EncryptionKeyRequiredException {
     }
 }
 
+extension CodeCommitClientTypes.Approval {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Approval {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.Approval()
+        value.userArn = try reader["userArn"].readIfPresent()
+        value.approvalState = try reader["approvalState"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.ApprovalRule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ApprovalRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.ApprovalRule()
+        value.approvalRuleId = try reader["approvalRuleId"].readIfPresent()
+        value.approvalRuleName = try reader["approvalRuleName"].readIfPresent()
+        value.approvalRuleContent = try reader["approvalRuleContent"].readIfPresent()
+        value.ruleContentSha256 = try reader["ruleContentSha256"].readIfPresent()
+        value.lastModifiedDate = try reader["lastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedUser = try reader["lastModifiedUser"].readIfPresent()
+        value.originApprovalRuleTemplate = try reader["originApprovalRuleTemplate"].readIfPresent(with: CodeCommitClientTypes.OriginApprovalRuleTemplate.read(from:))
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.ApprovalRuleEventMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ApprovalRuleEventMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.ApprovalRuleEventMetadata()
+        value.approvalRuleName = try reader["approvalRuleName"].readIfPresent()
+        value.approvalRuleId = try reader["approvalRuleId"].readIfPresent()
+        value.approvalRuleContent = try reader["approvalRuleContent"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.ApprovalRuleOverriddenEventMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ApprovalRuleOverriddenEventMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.ApprovalRuleOverriddenEventMetadata()
+        value.revisionId = try reader["revisionId"].readIfPresent()
+        value.overrideStatus = try reader["overrideStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.ApprovalRuleTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ApprovalRuleTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.ApprovalRuleTemplate()
+        value.approvalRuleTemplateId = try reader["approvalRuleTemplateId"].readIfPresent()
+        value.approvalRuleTemplateName = try reader["approvalRuleTemplateName"].readIfPresent()
+        value.approvalRuleTemplateDescription = try reader["approvalRuleTemplateDescription"].readIfPresent()
+        value.approvalRuleTemplateContent = try reader["approvalRuleTemplateContent"].readIfPresent()
+        value.ruleContentSha256 = try reader["ruleContentSha256"].readIfPresent()
+        value.lastModifiedDate = try reader["lastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedUser = try reader["lastModifiedUser"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.ApprovalStateChangedEventMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ApprovalStateChangedEventMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.ApprovalStateChangedEventMetadata()
+        value.revisionId = try reader["revisionId"].readIfPresent()
+        value.approvalStatus = try reader["approvalStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension CodeCommitClientTypes.BatchAssociateApprovalRuleTemplateWithRepositoriesError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.BatchAssociateApprovalRuleTemplateWithRepositoriesError {
@@ -16805,120 +16884,6 @@ extension CodeCommitClientTypes.BatchAssociateApprovalRuleTemplateWithRepositori
         value.repositoryName = try reader["repositoryName"].readIfPresent()
         value.errorCode = try reader["errorCode"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.Conflict {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Conflict {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.Conflict()
-        value.conflictMetadata = try reader["conflictMetadata"].readIfPresent(with: CodeCommitClientTypes.ConflictMetadata.read(from:))
-        value.mergeHunks = try reader["mergeHunks"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.MergeHunk.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.MergeHunk {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.MergeHunk {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.MergeHunk()
-        value.isConflict = try reader["isConflict"].readIfPresent() ?? false
-        value.source = try reader["source"].readIfPresent(with: CodeCommitClientTypes.MergeHunkDetail.read(from:))
-        value.destination = try reader["destination"].readIfPresent(with: CodeCommitClientTypes.MergeHunkDetail.read(from:))
-        value.base = try reader["base"].readIfPresent(with: CodeCommitClientTypes.MergeHunkDetail.read(from:))
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.MergeHunkDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.MergeHunkDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.MergeHunkDetail()
-        value.startLine = try reader["startLine"].readIfPresent()
-        value.endLine = try reader["endLine"].readIfPresent()
-        value.hunkContent = try reader["hunkContent"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.ConflictMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ConflictMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.ConflictMetadata()
-        value.filePath = try reader["filePath"].readIfPresent()
-        value.fileSizes = try reader["fileSizes"].readIfPresent(with: CodeCommitClientTypes.FileSizes.read(from:))
-        value.fileModes = try reader["fileModes"].readIfPresent(with: CodeCommitClientTypes.FileModes.read(from:))
-        value.objectTypes = try reader["objectTypes"].readIfPresent(with: CodeCommitClientTypes.ObjectTypes.read(from:))
-        value.numberOfConflicts = try reader["numberOfConflicts"].readIfPresent() ?? 0
-        value.isBinaryFile = try reader["isBinaryFile"].readIfPresent(with: CodeCommitClientTypes.IsBinaryFile.read(from:))
-        value.contentConflict = try reader["contentConflict"].readIfPresent() ?? false
-        value.fileModeConflict = try reader["fileModeConflict"].readIfPresent() ?? false
-        value.objectTypeConflict = try reader["objectTypeConflict"].readIfPresent() ?? false
-        value.mergeOperations = try reader["mergeOperations"].readIfPresent(with: CodeCommitClientTypes.MergeOperations.read(from:))
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.MergeOperations {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.MergeOperations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.MergeOperations()
-        value.source = try reader["source"].readIfPresent()
-        value.destination = try reader["destination"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.IsBinaryFile {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.IsBinaryFile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.IsBinaryFile()
-        value.source = try reader["source"].readIfPresent()
-        value.destination = try reader["destination"].readIfPresent()
-        value.base = try reader["base"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.ObjectTypes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ObjectTypes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.ObjectTypes()
-        value.source = try reader["source"].readIfPresent()
-        value.destination = try reader["destination"].readIfPresent()
-        value.base = try reader["base"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.FileModes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.FileModes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.FileModes()
-        value.source = try reader["source"].readIfPresent()
-        value.destination = try reader["destination"].readIfPresent()
-        value.base = try reader["base"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.FileSizes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.FileSizes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.FileSizes()
-        value.source = try reader["source"].readIfPresent() ?? 0
-        value.destination = try reader["destination"].readIfPresent() ?? 0
-        value.base = try reader["base"].readIfPresent() ?? 0
         return value
     }
 }
@@ -16947,34 +16912,6 @@ extension CodeCommitClientTypes.BatchDisassociateApprovalRuleTemplateFromReposit
     }
 }
 
-extension CodeCommitClientTypes.Commit {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Commit {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.Commit()
-        value.commitId = try reader["commitId"].readIfPresent()
-        value.treeId = try reader["treeId"].readIfPresent()
-        value.parents = try reader["parents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.message = try reader["message"].readIfPresent()
-        value.author = try reader["author"].readIfPresent(with: CodeCommitClientTypes.UserInfo.read(from:))
-        value.committer = try reader["committer"].readIfPresent(with: CodeCommitClientTypes.UserInfo.read(from:))
-        value.additionalData = try reader["additionalData"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.UserInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.UserInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.UserInfo()
-        value.name = try reader["name"].readIfPresent()
-        value.email = try reader["email"].readIfPresent()
-        value.date = try reader["date"].readIfPresent()
-        return value
-    }
-}
-
 extension CodeCommitClientTypes.BatchGetCommitsError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.BatchGetCommitsError {
@@ -16983,26 +16920,6 @@ extension CodeCommitClientTypes.BatchGetCommitsError {
         value.commitId = try reader["commitId"].readIfPresent()
         value.errorCode = try reader["errorCode"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.RepositoryMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.RepositoryMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.RepositoryMetadata()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.repositoryId = try reader["repositoryId"].readIfPresent()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
-        value.repositoryDescription = try reader["repositoryDescription"].readIfPresent()
-        value.defaultBranch = try reader["defaultBranch"].readIfPresent()
-        value.lastModifiedDate = try reader["lastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.cloneUrlHttp = try reader["cloneUrlHttp"].readIfPresent()
-        value.cloneUrlSsh = try reader["cloneUrlSsh"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         return value
     }
 }
@@ -17020,108 +16937,14 @@ extension CodeCommitClientTypes.BatchGetRepositoriesError {
     }
 }
 
-extension CodeCommitClientTypes.ApprovalRuleTemplate {
+extension CodeCommitClientTypes.BlobMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ApprovalRuleTemplate {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.BlobMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.ApprovalRuleTemplate()
-        value.approvalRuleTemplateId = try reader["approvalRuleTemplateId"].readIfPresent()
-        value.approvalRuleTemplateName = try reader["approvalRuleTemplateName"].readIfPresent()
-        value.approvalRuleTemplateDescription = try reader["approvalRuleTemplateDescription"].readIfPresent()
-        value.approvalRuleTemplateContent = try reader["approvalRuleTemplateContent"].readIfPresent()
-        value.ruleContentSha256 = try reader["ruleContentSha256"].readIfPresent()
-        value.lastModifiedDate = try reader["lastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedUser = try reader["lastModifiedUser"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.FileMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.FileMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.FileMetadata()
-        value.absolutePath = try reader["absolutePath"].readIfPresent()
+        var value = CodeCommitClientTypes.BlobMetadata()
         value.blobId = try reader["blobId"].readIfPresent()
-        value.fileMode = try reader["fileMode"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.PullRequest {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.PullRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.PullRequest()
-        value.pullRequestId = try reader["pullRequestId"].readIfPresent()
-        value.title = try reader["title"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.lastActivityDate = try reader["lastActivityDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.pullRequestStatus = try reader["pullRequestStatus"].readIfPresent()
-        value.authorArn = try reader["authorArn"].readIfPresent()
-        value.pullRequestTargets = try reader["pullRequestTargets"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.PullRequestTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.clientRequestToken = try reader["clientRequestToken"].readIfPresent()
-        value.revisionId = try reader["revisionId"].readIfPresent()
-        value.approvalRules = try reader["approvalRules"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.ApprovalRule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.ApprovalRule {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ApprovalRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.ApprovalRule()
-        value.approvalRuleId = try reader["approvalRuleId"].readIfPresent()
-        value.approvalRuleName = try reader["approvalRuleName"].readIfPresent()
-        value.approvalRuleContent = try reader["approvalRuleContent"].readIfPresent()
-        value.ruleContentSha256 = try reader["ruleContentSha256"].readIfPresent()
-        value.lastModifiedDate = try reader["lastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedUser = try reader["lastModifiedUser"].readIfPresent()
-        value.originApprovalRuleTemplate = try reader["originApprovalRuleTemplate"].readIfPresent(with: CodeCommitClientTypes.OriginApprovalRuleTemplate.read(from:))
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.OriginApprovalRuleTemplate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.OriginApprovalRuleTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.OriginApprovalRuleTemplate()
-        value.approvalRuleTemplateId = try reader["approvalRuleTemplateId"].readIfPresent()
-        value.approvalRuleTemplateName = try reader["approvalRuleTemplateName"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.PullRequestTarget {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.PullRequestTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.PullRequestTarget()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
-        value.sourceReference = try reader["sourceReference"].readIfPresent()
-        value.destinationReference = try reader["destinationReference"].readIfPresent()
-        value.destinationCommit = try reader["destinationCommit"].readIfPresent()
-        value.sourceCommit = try reader["sourceCommit"].readIfPresent()
-        value.mergeBase = try reader["mergeBase"].readIfPresent()
-        value.mergeMetadata = try reader["mergeMetadata"].readIfPresent(with: CodeCommitClientTypes.MergeMetadata.read(from:))
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.MergeMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.MergeMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.MergeMetadata()
-        value.isMerged = try reader["isMerged"].readIfPresent() ?? false
-        value.mergedBy = try reader["mergedBy"].readIfPresent()
-        value.mergeCommitId = try reader["mergeCommitId"].readIfPresent()
-        value.mergeOption = try reader["mergeOption"].readIfPresent()
+        value.path = try reader["path"].readIfPresent()
+        value.mode = try reader["mode"].readIfPresent()
         return value
     }
 }
@@ -17156,6 +16979,338 @@ extension CodeCommitClientTypes.Comment {
     }
 }
 
+extension CodeCommitClientTypes.CommentsForComparedCommit {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.CommentsForComparedCommit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.CommentsForComparedCommit()
+        value.repositoryName = try reader["repositoryName"].readIfPresent()
+        value.beforeCommitId = try reader["beforeCommitId"].readIfPresent()
+        value.afterCommitId = try reader["afterCommitId"].readIfPresent()
+        value.beforeBlobId = try reader["beforeBlobId"].readIfPresent()
+        value.afterBlobId = try reader["afterBlobId"].readIfPresent()
+        value.location = try reader["location"].readIfPresent(with: CodeCommitClientTypes.Location.read(from:))
+        value.comments = try reader["comments"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.Comment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.CommentsForPullRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.CommentsForPullRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.CommentsForPullRequest()
+        value.pullRequestId = try reader["pullRequestId"].readIfPresent()
+        value.repositoryName = try reader["repositoryName"].readIfPresent()
+        value.beforeCommitId = try reader["beforeCommitId"].readIfPresent()
+        value.afterCommitId = try reader["afterCommitId"].readIfPresent()
+        value.beforeBlobId = try reader["beforeBlobId"].readIfPresent()
+        value.afterBlobId = try reader["afterBlobId"].readIfPresent()
+        value.location = try reader["location"].readIfPresent(with: CodeCommitClientTypes.Location.read(from:))
+        value.comments = try reader["comments"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.Comment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.Commit {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Commit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.Commit()
+        value.commitId = try reader["commitId"].readIfPresent()
+        value.treeId = try reader["treeId"].readIfPresent()
+        value.parents = try reader["parents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.message = try reader["message"].readIfPresent()
+        value.author = try reader["author"].readIfPresent(with: CodeCommitClientTypes.UserInfo.read(from:))
+        value.committer = try reader["committer"].readIfPresent(with: CodeCommitClientTypes.UserInfo.read(from:))
+        value.additionalData = try reader["additionalData"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.Conflict {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Conflict {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.Conflict()
+        value.conflictMetadata = try reader["conflictMetadata"].readIfPresent(with: CodeCommitClientTypes.ConflictMetadata.read(from:))
+        value.mergeHunks = try reader["mergeHunks"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.MergeHunk.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.ConflictMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ConflictMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.ConflictMetadata()
+        value.filePath = try reader["filePath"].readIfPresent()
+        value.fileSizes = try reader["fileSizes"].readIfPresent(with: CodeCommitClientTypes.FileSizes.read(from:))
+        value.fileModes = try reader["fileModes"].readIfPresent(with: CodeCommitClientTypes.FileModes.read(from:))
+        value.objectTypes = try reader["objectTypes"].readIfPresent(with: CodeCommitClientTypes.ObjectTypes.read(from:))
+        value.numberOfConflicts = try reader["numberOfConflicts"].readIfPresent() ?? 0
+        value.isBinaryFile = try reader["isBinaryFile"].readIfPresent(with: CodeCommitClientTypes.IsBinaryFile.read(from:))
+        value.contentConflict = try reader["contentConflict"].readIfPresent() ?? false
+        value.fileModeConflict = try reader["fileModeConflict"].readIfPresent() ?? false
+        value.objectTypeConflict = try reader["objectTypeConflict"].readIfPresent() ?? false
+        value.mergeOperations = try reader["mergeOperations"].readIfPresent(with: CodeCommitClientTypes.MergeOperations.read(from:))
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.ConflictResolution {
+
+    static func write(value: CodeCommitClientTypes.ConflictResolution?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deleteFiles"].writeList(value.deleteFiles, memberWritingClosure: CodeCommitClientTypes.DeleteFileEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["replaceContents"].writeList(value.replaceContents, memberWritingClosure: CodeCommitClientTypes.ReplaceContentEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["setFileModes"].writeList(value.setFileModes, memberWritingClosure: CodeCommitClientTypes.SetFileModeEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CodeCommitClientTypes.DeleteFileEntry {
+
+    static func write(value: CodeCommitClientTypes.DeleteFileEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filePath"].write(value.filePath)
+    }
+}
+
+extension CodeCommitClientTypes.Difference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Difference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.Difference()
+        value.beforeBlob = try reader["beforeBlob"].readIfPresent(with: CodeCommitClientTypes.BlobMetadata.read(from:))
+        value.afterBlob = try reader["afterBlob"].readIfPresent(with: CodeCommitClientTypes.BlobMetadata.read(from:))
+        value.changeType = try reader["changeType"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.Evaluation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Evaluation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.Evaluation()
+        value.approved = try reader["approved"].readIfPresent() ?? false
+        value.overridden = try reader["overridden"].readIfPresent() ?? false
+        value.approvalRulesSatisfied = try reader["approvalRulesSatisfied"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.approvalRulesNotSatisfied = try reader["approvalRulesNotSatisfied"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.File {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.File {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.File()
+        value.blobId = try reader["blobId"].readIfPresent()
+        value.absolutePath = try reader["absolutePath"].readIfPresent()
+        value.relativePath = try reader["relativePath"].readIfPresent()
+        value.fileMode = try reader["fileMode"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.FileMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.FileMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.FileMetadata()
+        value.absolutePath = try reader["absolutePath"].readIfPresent()
+        value.blobId = try reader["blobId"].readIfPresent()
+        value.fileMode = try reader["fileMode"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.FileModes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.FileModes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.FileModes()
+        value.source = try reader["source"].readIfPresent()
+        value.destination = try reader["destination"].readIfPresent()
+        value.base = try reader["base"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.FileSizes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.FileSizes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.FileSizes()
+        value.source = try reader["source"].readIfPresent() ?? 0
+        value.destination = try reader["destination"].readIfPresent() ?? 0
+        value.base = try reader["base"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.FileVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.FileVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.FileVersion()
+        value.commit = try reader["commit"].readIfPresent(with: CodeCommitClientTypes.Commit.read(from:))
+        value.blobId = try reader["blobId"].readIfPresent()
+        value.path = try reader["path"].readIfPresent()
+        value.revisionChildren = try reader["revisionChildren"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.Folder {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Folder {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.Folder()
+        value.treeId = try reader["treeId"].readIfPresent()
+        value.absolutePath = try reader["absolutePath"].readIfPresent()
+        value.relativePath = try reader["relativePath"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.IsBinaryFile {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.IsBinaryFile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.IsBinaryFile()
+        value.source = try reader["source"].readIfPresent()
+        value.destination = try reader["destination"].readIfPresent()
+        value.base = try reader["base"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.Location {
+
+    static func write(value: CodeCommitClientTypes.Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filePath"].write(value.filePath)
+        try writer["filePosition"].write(value.filePosition)
+        try writer["relativeFileVersion"].write(value.relativeFileVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.Location()
+        value.filePath = try reader["filePath"].readIfPresent()
+        value.filePosition = try reader["filePosition"].readIfPresent()
+        value.relativeFileVersion = try reader["relativeFileVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.MergeHunk {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.MergeHunk {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.MergeHunk()
+        value.isConflict = try reader["isConflict"].readIfPresent() ?? false
+        value.source = try reader["source"].readIfPresent(with: CodeCommitClientTypes.MergeHunkDetail.read(from:))
+        value.destination = try reader["destination"].readIfPresent(with: CodeCommitClientTypes.MergeHunkDetail.read(from:))
+        value.base = try reader["base"].readIfPresent(with: CodeCommitClientTypes.MergeHunkDetail.read(from:))
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.MergeHunkDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.MergeHunkDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.MergeHunkDetail()
+        value.startLine = try reader["startLine"].readIfPresent()
+        value.endLine = try reader["endLine"].readIfPresent()
+        value.hunkContent = try reader["hunkContent"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.MergeMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.MergeMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.MergeMetadata()
+        value.isMerged = try reader["isMerged"].readIfPresent() ?? false
+        value.mergedBy = try reader["mergedBy"].readIfPresent()
+        value.mergeCommitId = try reader["mergeCommitId"].readIfPresent()
+        value.mergeOption = try reader["mergeOption"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.MergeOperations {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.MergeOperations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.MergeOperations()
+        value.source = try reader["source"].readIfPresent()
+        value.destination = try reader["destination"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.ObjectTypes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ObjectTypes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.ObjectTypes()
+        value.source = try reader["source"].readIfPresent()
+        value.destination = try reader["destination"].readIfPresent()
+        value.base = try reader["base"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.OriginApprovalRuleTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.OriginApprovalRuleTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.OriginApprovalRuleTemplate()
+        value.approvalRuleTemplateId = try reader["approvalRuleTemplateId"].readIfPresent()
+        value.approvalRuleTemplateName = try reader["approvalRuleTemplateName"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.PullRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.PullRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.PullRequest()
+        value.pullRequestId = try reader["pullRequestId"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.lastActivityDate = try reader["lastActivityDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.pullRequestStatus = try reader["pullRequestStatus"].readIfPresent()
+        value.authorArn = try reader["authorArn"].readIfPresent()
+        value.pullRequestTargets = try reader["pullRequestTargets"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.PullRequestTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clientRequestToken = try reader["clientRequestToken"].readIfPresent()
+        value.revisionId = try reader["revisionId"].readIfPresent()
+        value.approvalRules = try reader["approvalRules"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.ApprovalRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeCommitClientTypes.PullRequestCreatedEventMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.PullRequestCreatedEventMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.PullRequestCreatedEventMetadata()
+        value.repositoryName = try reader["repositoryName"].readIfPresent()
+        value.sourceCommitId = try reader["sourceCommitId"].readIfPresent()
+        value.destinationCommitId = try reader["destinationCommitId"].readIfPresent()
+        value.mergeBase = try reader["mergeBase"].readIfPresent()
+        return value
+    }
+}
+
 extension CodeCommitClientTypes.PullRequestEvent {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.PullRequestEvent {
@@ -17172,40 +17327,6 @@ extension CodeCommitClientTypes.PullRequestEvent {
         value.approvalRuleEventMetadata = try reader["approvalRuleEventMetadata"].readIfPresent(with: CodeCommitClientTypes.ApprovalRuleEventMetadata.read(from:))
         value.approvalStateChangedEventMetadata = try reader["approvalStateChangedEventMetadata"].readIfPresent(with: CodeCommitClientTypes.ApprovalStateChangedEventMetadata.read(from:))
         value.approvalRuleOverriddenEventMetadata = try reader["approvalRuleOverriddenEventMetadata"].readIfPresent(with: CodeCommitClientTypes.ApprovalRuleOverriddenEventMetadata.read(from:))
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.ApprovalRuleOverriddenEventMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ApprovalRuleOverriddenEventMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.ApprovalRuleOverriddenEventMetadata()
-        value.revisionId = try reader["revisionId"].readIfPresent()
-        value.overrideStatus = try reader["overrideStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.ApprovalStateChangedEventMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ApprovalStateChangedEventMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.ApprovalStateChangedEventMetadata()
-        value.revisionId = try reader["revisionId"].readIfPresent()
-        value.approvalStatus = try reader["approvalStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.ApprovalRuleEventMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.ApprovalRuleEventMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.ApprovalRuleEventMetadata()
-        value.approvalRuleName = try reader["approvalRuleName"].readIfPresent()
-        value.approvalRuleId = try reader["approvalRuleId"].readIfPresent()
-        value.approvalRuleContent = try reader["approvalRuleContent"].readIfPresent()
         return value
     }
 }
@@ -17245,29 +17366,30 @@ extension CodeCommitClientTypes.PullRequestStatusChangedEventMetadata {
     }
 }
 
-extension CodeCommitClientTypes.PullRequestCreatedEventMetadata {
+extension CodeCommitClientTypes.PullRequestTarget {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.PullRequestCreatedEventMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.PullRequestTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.PullRequestCreatedEventMetadata()
+        var value = CodeCommitClientTypes.PullRequestTarget()
         value.repositoryName = try reader["repositoryName"].readIfPresent()
-        value.sourceCommitId = try reader["sourceCommitId"].readIfPresent()
-        value.destinationCommitId = try reader["destinationCommitId"].readIfPresent()
+        value.sourceReference = try reader["sourceReference"].readIfPresent()
+        value.destinationReference = try reader["destinationReference"].readIfPresent()
+        value.destinationCommit = try reader["destinationCommit"].readIfPresent()
+        value.sourceCommit = try reader["sourceCommit"].readIfPresent()
         value.mergeBase = try reader["mergeBase"].readIfPresent()
+        value.mergeMetadata = try reader["mergeMetadata"].readIfPresent(with: CodeCommitClientTypes.MergeMetadata.read(from:))
         return value
     }
 }
 
-extension CodeCommitClientTypes.Evaluation {
+extension CodeCommitClientTypes.PutFileEntry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Evaluation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.Evaluation()
-        value.approved = try reader["approved"].readIfPresent() ?? false
-        value.overridden = try reader["overridden"].readIfPresent() ?? false
-        value.approvalRulesSatisfied = try reader["approvalRulesSatisfied"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.approvalRulesNotSatisfied = try reader["approvalRulesNotSatisfied"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+    static func write(value: CodeCommitClientTypes.PutFileEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fileContent"].write(value.fileContent)
+        try writer["fileMode"].write(value.fileMode)
+        try writer["filePath"].write(value.filePath)
+        try writer["sourceFile"].write(value.sourceFile, with: CodeCommitClientTypes.SourceFileSpecifier.write(value:to:))
     }
 }
 
@@ -17295,139 +17417,44 @@ extension CodeCommitClientTypes.ReactionValueFormats {
     }
 }
 
-extension CodeCommitClientTypes.CommentsForComparedCommit {
+extension CodeCommitClientTypes.ReplaceContentEntry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.CommentsForComparedCommit {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.CommentsForComparedCommit()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
-        value.beforeCommitId = try reader["beforeCommitId"].readIfPresent()
-        value.afterCommitId = try reader["afterCommitId"].readIfPresent()
-        value.beforeBlobId = try reader["beforeBlobId"].readIfPresent()
-        value.afterBlobId = try reader["afterBlobId"].readIfPresent()
-        value.location = try reader["location"].readIfPresent(with: CodeCommitClientTypes.Location.read(from:))
-        value.comments = try reader["comments"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.Comment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.Location {
-
-    static func write(value: CodeCommitClientTypes.Location?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CodeCommitClientTypes.ReplaceContentEntry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["content"].write(value.content)
+        try writer["fileMode"].write(value.fileMode)
         try writer["filePath"].write(value.filePath)
-        try writer["filePosition"].write(value.filePosition)
-        try writer["relativeFileVersion"].write(value.relativeFileVersion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Location {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.Location()
-        value.filePath = try reader["filePath"].readIfPresent()
-        value.filePosition = try reader["filePosition"].readIfPresent()
-        value.relativeFileVersion = try reader["relativeFileVersion"].readIfPresent()
-        return value
+        try writer["replacementType"].write(value.replacementType)
     }
 }
 
-extension CodeCommitClientTypes.CommentsForPullRequest {
+extension CodeCommitClientTypes.RepositoryMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.CommentsForPullRequest {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.RepositoryMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.CommentsForPullRequest()
-        value.pullRequestId = try reader["pullRequestId"].readIfPresent()
+        var value = CodeCommitClientTypes.RepositoryMetadata()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.repositoryId = try reader["repositoryId"].readIfPresent()
         value.repositoryName = try reader["repositoryName"].readIfPresent()
-        value.beforeCommitId = try reader["beforeCommitId"].readIfPresent()
-        value.afterCommitId = try reader["afterCommitId"].readIfPresent()
-        value.beforeBlobId = try reader["beforeBlobId"].readIfPresent()
-        value.afterBlobId = try reader["afterBlobId"].readIfPresent()
-        value.location = try reader["location"].readIfPresent(with: CodeCommitClientTypes.Location.read(from:))
-        value.comments = try reader["comments"].readListIfPresent(memberReadingClosure: CodeCommitClientTypes.Comment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.repositoryDescription = try reader["repositoryDescription"].readIfPresent()
+        value.defaultBranch = try reader["defaultBranch"].readIfPresent()
+        value.lastModifiedDate = try reader["lastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.cloneUrlHttp = try reader["cloneUrlHttp"].readIfPresent()
+        value.cloneUrlSsh = try reader["cloneUrlSsh"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         return value
     }
 }
 
-extension CodeCommitClientTypes.Difference {
+extension CodeCommitClientTypes.RepositoryNameIdPair {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Difference {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.RepositoryNameIdPair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.Difference()
-        value.beforeBlob = try reader["beforeBlob"].readIfPresent(with: CodeCommitClientTypes.BlobMetadata.read(from:))
-        value.afterBlob = try reader["afterBlob"].readIfPresent(with: CodeCommitClientTypes.BlobMetadata.read(from:))
-        value.changeType = try reader["changeType"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.BlobMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.BlobMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.BlobMetadata()
-        value.blobId = try reader["blobId"].readIfPresent()
-        value.path = try reader["path"].readIfPresent()
-        value.mode = try reader["mode"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.Folder {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Folder {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.Folder()
-        value.treeId = try reader["treeId"].readIfPresent()
-        value.absolutePath = try reader["absolutePath"].readIfPresent()
-        value.relativePath = try reader["relativePath"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.File {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.File {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.File()
-        value.blobId = try reader["blobId"].readIfPresent()
-        value.absolutePath = try reader["absolutePath"].readIfPresent()
-        value.relativePath = try reader["relativePath"].readIfPresent()
-        value.fileMode = try reader["fileMode"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.SymbolicLink {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.SymbolicLink {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.SymbolicLink()
-        value.blobId = try reader["blobId"].readIfPresent()
-        value.absolutePath = try reader["absolutePath"].readIfPresent()
-        value.relativePath = try reader["relativePath"].readIfPresent()
-        value.fileMode = try reader["fileMode"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.SubModule {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.SubModule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.SubModule()
-        value.commitId = try reader["commitId"].readIfPresent()
-        value.absolutePath = try reader["absolutePath"].readIfPresent()
-        value.relativePath = try reader["relativePath"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.Approval {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.Approval {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.Approval()
-        value.userArn = try reader["userArn"].readIfPresent()
-        value.approvalState = try reader["approvalState"].readIfPresent()
+        var value = CodeCommitClientTypes.RepositoryNameIdPair()
+        value.repositoryName = try reader["repositoryName"].readIfPresent()
+        value.repositoryId = try reader["repositoryId"].readIfPresent()
         return value
     }
 }
@@ -17455,30 +17482,6 @@ extension CodeCommitClientTypes.RepositoryTrigger {
     }
 }
 
-extension CodeCommitClientTypes.FileVersion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.FileVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.FileVersion()
-        value.commit = try reader["commit"].readIfPresent(with: CodeCommitClientTypes.Commit.read(from:))
-        value.blobId = try reader["blobId"].readIfPresent()
-        value.path = try reader["path"].readIfPresent()
-        value.revisionChildren = try reader["revisionChildren"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CodeCommitClientTypes.RepositoryNameIdPair {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.RepositoryNameIdPair {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeCommitClientTypes.RepositoryNameIdPair()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
-        value.repositoryId = try reader["repositoryId"].readIfPresent()
-        return value
-    }
-}
-
 extension CodeCommitClientTypes.RepositoryTriggerExecutionFailure {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.RepositoryTriggerExecutionFailure {
@@ -17490,14 +17493,12 @@ extension CodeCommitClientTypes.RepositoryTriggerExecutionFailure {
     }
 }
 
-extension CodeCommitClientTypes.PutFileEntry {
+extension CodeCommitClientTypes.SetFileModeEntry {
 
-    static func write(value: CodeCommitClientTypes.PutFileEntry?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CodeCommitClientTypes.SetFileModeEntry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["fileContent"].write(value.fileContent)
         try writer["fileMode"].write(value.fileMode)
         try writer["filePath"].write(value.filePath)
-        try writer["sourceFile"].write(value.sourceFile, with: CodeCommitClientTypes.SourceFileSpecifier.write(value:to:))
     }
 }
 
@@ -17510,20 +17511,28 @@ extension CodeCommitClientTypes.SourceFileSpecifier {
     }
 }
 
-extension CodeCommitClientTypes.DeleteFileEntry {
+extension CodeCommitClientTypes.SubModule {
 
-    static func write(value: CodeCommitClientTypes.DeleteFileEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filePath"].write(value.filePath)
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.SubModule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.SubModule()
+        value.commitId = try reader["commitId"].readIfPresent()
+        value.absolutePath = try reader["absolutePath"].readIfPresent()
+        value.relativePath = try reader["relativePath"].readIfPresent()
+        return value
     }
 }
 
-extension CodeCommitClientTypes.SetFileModeEntry {
+extension CodeCommitClientTypes.SymbolicLink {
 
-    static func write(value: CodeCommitClientTypes.SetFileModeEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fileMode"].write(value.fileMode)
-        try writer["filePath"].write(value.filePath)
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.SymbolicLink {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.SymbolicLink()
+        value.blobId = try reader["blobId"].readIfPresent()
+        value.absolutePath = try reader["absolutePath"].readIfPresent()
+        value.relativePath = try reader["relativePath"].readIfPresent()
+        value.fileMode = try reader["fileMode"].readIfPresent()
+        return value
     }
 }
 
@@ -17537,24 +17546,15 @@ extension CodeCommitClientTypes.Target {
     }
 }
 
-extension CodeCommitClientTypes.ConflictResolution {
+extension CodeCommitClientTypes.UserInfo {
 
-    static func write(value: CodeCommitClientTypes.ConflictResolution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deleteFiles"].writeList(value.deleteFiles, memberWritingClosure: CodeCommitClientTypes.DeleteFileEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["replaceContents"].writeList(value.replaceContents, memberWritingClosure: CodeCommitClientTypes.ReplaceContentEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["setFileModes"].writeList(value.setFileModes, memberWritingClosure: CodeCommitClientTypes.SetFileModeEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension CodeCommitClientTypes.ReplaceContentEntry {
-
-    static func write(value: CodeCommitClientTypes.ReplaceContentEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["content"].write(value.content)
-        try writer["fileMode"].write(value.fileMode)
-        try writer["filePath"].write(value.filePath)
-        try writer["replacementType"].write(value.replacementType)
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeCommitClientTypes.UserInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeCommitClientTypes.UserInfo()
+        value.name = try reader["name"].readIfPresent()
+        value.email = try reader["email"].readIfPresent()
+        value.date = try reader["date"].readIfPresent()
+        return value
     }
 }
 

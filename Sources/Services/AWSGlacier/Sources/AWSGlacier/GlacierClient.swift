@@ -78,11 +78,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class GlacierClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GlacierClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: GlacierClient.GlacierClientConfig
+    public let config: GlacierClient.GlacierClientConfig
     let serviceName = "Glacier"
 
     @available(*, deprecated, message: "Use GlacierClient.GlacierClientConfig instead")
     public typealias Config = GlacierClient.GlacierClientConfiguration
+    public typealias Configuration = GlacierClient.GlacierClientConfig
 
     public required init(config: GlacierClient.GlacierClientConfig) {
         ClientRuntime.initialize()

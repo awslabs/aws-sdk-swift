@@ -2561,239 +2561,12 @@ extension LexRuntimeV2ClientTypes.StartConversationResponseEventStream {
     }
 }
 
-extension LexRuntimeV2ClientTypes.Message {
+extension AccessDeniedException {
 
-    static func write(value: LexRuntimeV2ClientTypes.Message?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["content"].write(value.content)
-        try writer["contentType"].write(value.contentType)
-        try writer["imageResponseCard"].write(value.imageResponseCard, with: LexRuntimeV2ClientTypes.ImageResponseCard.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.Message {
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessDeniedException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.Message()
-        value.content = try reader["content"].readIfPresent()
-        value.contentType = try reader["contentType"].readIfPresent() ?? .sdkUnknown("")
-        value.imageResponseCard = try reader["imageResponseCard"].readIfPresent(with: LexRuntimeV2ClientTypes.ImageResponseCard.read(from:))
-        return value
-    }
-}
-
-extension LexRuntimeV2ClientTypes.ImageResponseCard {
-
-    static func write(value: LexRuntimeV2ClientTypes.ImageResponseCard?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["buttons"].writeList(value.buttons, memberWritingClosure: LexRuntimeV2ClientTypes.Button.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["imageUrl"].write(value.imageUrl)
-        try writer["subtitle"].write(value.subtitle)
-        try writer["title"].write(value.title)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.ImageResponseCard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.ImageResponseCard()
-        value.title = try reader["title"].readIfPresent() ?? ""
-        value.subtitle = try reader["subtitle"].readIfPresent()
-        value.imageUrl = try reader["imageUrl"].readIfPresent()
-        value.buttons = try reader["buttons"].readListIfPresent(memberReadingClosure: LexRuntimeV2ClientTypes.Button.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LexRuntimeV2ClientTypes.Button {
-
-    static func write(value: LexRuntimeV2ClientTypes.Button?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["text"].write(value.text)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.Button {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.Button()
-        value.text = try reader["text"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LexRuntimeV2ClientTypes.Interpretation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.Interpretation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.Interpretation()
-        value.nluConfidence = try reader["nluConfidence"].readIfPresent(with: LexRuntimeV2ClientTypes.ConfidenceScore.read(from:))
-        value.sentimentResponse = try reader["sentimentResponse"].readIfPresent(with: LexRuntimeV2ClientTypes.SentimentResponse.read(from:))
-        value.intent = try reader["intent"].readIfPresent(with: LexRuntimeV2ClientTypes.Intent.read(from:))
-        value.interpretationSource = try reader["interpretationSource"].readIfPresent()
-        return value
-    }
-}
-
-extension LexRuntimeV2ClientTypes.Intent {
-
-    static func write(value: LexRuntimeV2ClientTypes.Intent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["confirmationState"].write(value.confirmationState)
-        try writer["name"].write(value.name)
-        try writer["slots"].writeMap(value.slots, valueWritingClosure: LexRuntimeV2ClientTypes.Slot.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["state"].write(value.state)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.Intent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.Intent()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.slots = try reader["slots"].readMapIfPresent(valueReadingClosure: LexRuntimeV2ClientTypes.Slot.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.state = try reader["state"].readIfPresent()
-        value.confirmationState = try reader["confirmationState"].readIfPresent()
-        return value
-    }
-}
-
-extension LexRuntimeV2ClientTypes.Slot {
-
-    static func write(value: LexRuntimeV2ClientTypes.Slot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["shape"].write(value.shape)
-        try writer["subSlots"].writeMap(value.subSlots, valueWritingClosure: LexRuntimeV2ClientTypes.Slot.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["value"].write(value.value, with: LexRuntimeV2ClientTypes.Value.write(value:to:))
-        try writer["values"].writeList(value.values, memberWritingClosure: LexRuntimeV2ClientTypes.Slot.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.Slot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.Slot()
-        value.value = try reader["value"].readIfPresent(with: LexRuntimeV2ClientTypes.Value.read(from:))
-        value.shape = try reader["shape"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: LexRuntimeV2ClientTypes.Slot.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subSlots = try reader["subSlots"].readMapIfPresent(valueReadingClosure: LexRuntimeV2ClientTypes.Slot.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension LexRuntimeV2ClientTypes.Value {
-
-    static func write(value: LexRuntimeV2ClientTypes.Value?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["interpretedValue"].write(value.interpretedValue)
-        try writer["originalValue"].write(value.originalValue)
-        try writer["resolvedValues"].writeList(value.resolvedValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.Value {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.Value()
-        value.originalValue = try reader["originalValue"].readIfPresent()
-        value.interpretedValue = try reader["interpretedValue"].readIfPresent() ?? ""
-        value.resolvedValues = try reader["resolvedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LexRuntimeV2ClientTypes.SentimentResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.SentimentResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.SentimentResponse()
-        value.sentiment = try reader["sentiment"].readIfPresent()
-        value.sentimentScore = try reader["sentimentScore"].readIfPresent(with: LexRuntimeV2ClientTypes.SentimentScore.read(from:))
-        return value
-    }
-}
-
-extension LexRuntimeV2ClientTypes.SentimentScore {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.SentimentScore {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.SentimentScore()
-        value.positive = try reader["positive"].readIfPresent() ?? 0
-        value.negative = try reader["negative"].readIfPresent() ?? 0
-        value.neutral = try reader["neutral"].readIfPresent() ?? 0
-        value.mixed = try reader["mixed"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension LexRuntimeV2ClientTypes.ConfidenceScore {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.ConfidenceScore {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.ConfidenceScore()
-        value.score = try reader["score"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension LexRuntimeV2ClientTypes.SessionState {
-
-    static func write(value: LexRuntimeV2ClientTypes.SessionState?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeContexts"].writeList(value.activeContexts, memberWritingClosure: LexRuntimeV2ClientTypes.ActiveContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["dialogAction"].write(value.dialogAction, with: LexRuntimeV2ClientTypes.DialogAction.write(value:to:))
-        try writer["intent"].write(value.intent, with: LexRuntimeV2ClientTypes.Intent.write(value:to:))
-        try writer["originatingRequestId"].write(value.originatingRequestId)
-        try writer["runtimeHints"].write(value.runtimeHints, with: LexRuntimeV2ClientTypes.RuntimeHints.write(value:to:))
-        try writer["sessionAttributes"].writeMap(value.sessionAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.SessionState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.SessionState()
-        value.dialogAction = try reader["dialogAction"].readIfPresent(with: LexRuntimeV2ClientTypes.DialogAction.read(from:))
-        value.intent = try reader["intent"].readIfPresent(with: LexRuntimeV2ClientTypes.Intent.read(from:))
-        value.activeContexts = try reader["activeContexts"].readListIfPresent(memberReadingClosure: LexRuntimeV2ClientTypes.ActiveContext.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sessionAttributes = try reader["sessionAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.originatingRequestId = try reader["originatingRequestId"].readIfPresent()
-        value.runtimeHints = try reader["runtimeHints"].readIfPresent(with: LexRuntimeV2ClientTypes.RuntimeHints.read(from:))
-        return value
-    }
-}
-
-extension LexRuntimeV2ClientTypes.RuntimeHints {
-
-    static func write(value: LexRuntimeV2ClientTypes.RuntimeHints?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["slotHints"].writeMap(value.slotHints, valueWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: LexRuntimeV2ClientTypes.RuntimeHintDetails.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.RuntimeHints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.RuntimeHints()
-        value.slotHints = try reader["slotHints"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: LexRuntimeV2ClientTypes.RuntimeHintDetails.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension LexRuntimeV2ClientTypes.RuntimeHintDetails {
-
-    static func write(value: LexRuntimeV2ClientTypes.RuntimeHintDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["runtimeHintValues"].writeList(value.runtimeHintValues, memberWritingClosure: LexRuntimeV2ClientTypes.RuntimeHintValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subSlotHints"].writeMap(value.subSlotHints, valueWritingClosure: LexRuntimeV2ClientTypes.RuntimeHintDetails.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.RuntimeHintDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.RuntimeHintDetails()
-        value.runtimeHintValues = try reader["runtimeHintValues"].readListIfPresent(memberReadingClosure: LexRuntimeV2ClientTypes.RuntimeHintValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subSlotHints = try reader["subSlotHints"].readMapIfPresent(valueReadingClosure: LexRuntimeV2ClientTypes.RuntimeHintDetails.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension LexRuntimeV2ClientTypes.RuntimeHintValue {
-
-    static func write(value: LexRuntimeV2ClientTypes.RuntimeHintValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["phrase"].write(value.phrase)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.RuntimeHintValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.RuntimeHintValue()
-        value.phrase = try reader["phrase"].readIfPresent() ?? ""
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2834,6 +2607,100 @@ extension LexRuntimeV2ClientTypes.ActiveContextTimeToLive {
     }
 }
 
+extension LexRuntimeV2ClientTypes.AudioInputEvent {
+
+    static func write(value: LexRuntimeV2ClientTypes.AudioInputEvent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioChunk"].write(value.audioChunk)
+        try writer["clientTimestampMillis"].write(value.clientTimestampMillis)
+        try writer["contentType"].write(value.contentType)
+        try writer["eventId"].write(value.eventId)
+    }
+}
+
+extension LexRuntimeV2ClientTypes.AudioResponseEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.AudioResponseEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeV2ClientTypes.AudioResponseEvent()
+        value.audioChunk = try reader["audioChunk"].readIfPresent()
+        value.contentType = try reader["contentType"].readIfPresent()
+        value.eventId = try reader["eventId"].readIfPresent()
+        return value
+    }
+}
+
+extension BadGatewayException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BadGatewayException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BadGatewayException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LexRuntimeV2ClientTypes.Button {
+
+    static func write(value: LexRuntimeV2ClientTypes.Button?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["text"].write(value.text)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.Button {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeV2ClientTypes.Button()
+        value.text = try reader["text"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LexRuntimeV2ClientTypes.ConfidenceScore {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.ConfidenceScore {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeV2ClientTypes.ConfidenceScore()
+        value.score = try reader["score"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension LexRuntimeV2ClientTypes.ConfigurationEvent {
+
+    static func write(value: LexRuntimeV2ClientTypes.ConfigurationEvent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientTimestampMillis"].write(value.clientTimestampMillis)
+        try writer["disablePlayback"].write(value.disablePlayback)
+        try writer["eventId"].write(value.eventId)
+        try writer["requestAttributes"].writeMap(value.requestAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["responseContentType"].write(value.responseContentType)
+        try writer["sessionState"].write(value.sessionState, with: LexRuntimeV2ClientTypes.SessionState.write(value:to:))
+        try writer["welcomeMessages"].writeList(value.welcomeMessages, memberWritingClosure: LexRuntimeV2ClientTypes.Message.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConflictException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConflictException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DependencyFailedException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DependencyFailedException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DependencyFailedException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension LexRuntimeV2ClientTypes.DialogAction {
 
     static func write(value: LexRuntimeV2ClientTypes.DialogAction?, to writer: SmithyJSON.Writer) throws {
@@ -2855,6 +2722,25 @@ extension LexRuntimeV2ClientTypes.DialogAction {
     }
 }
 
+extension LexRuntimeV2ClientTypes.DisconnectionEvent {
+
+    static func write(value: LexRuntimeV2ClientTypes.DisconnectionEvent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientTimestampMillis"].write(value.clientTimestampMillis)
+        try writer["eventId"].write(value.eventId)
+    }
+}
+
+extension LexRuntimeV2ClientTypes.DTMFInputEvent {
+
+    static func write(value: LexRuntimeV2ClientTypes.DTMFInputEvent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientTimestampMillis"].write(value.clientTimestampMillis)
+        try writer["eventId"].write(value.eventId)
+        try writer["inputCharacter"].write(value.inputCharacter)
+    }
+}
+
 extension LexRuntimeV2ClientTypes.ElicitSubSlot {
 
     static func write(value: LexRuntimeV2ClientTypes.ElicitSubSlot?, to writer: SmithyJSON.Writer) throws {
@@ -2872,97 +2758,6 @@ extension LexRuntimeV2ClientTypes.ElicitSubSlot {
     }
 }
 
-extension LexRuntimeV2ClientTypes.RecognizedBotMember {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.RecognizedBotMember {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.RecognizedBotMember()
-        value.botId = try reader["botId"].readIfPresent() ?? ""
-        value.botName = try reader["botName"].readIfPresent()
-        return value
-    }
-}
-
-extension BadGatewayException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BadGatewayException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BadGatewayException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DependencyFailedException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DependencyFailedException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DependencyFailedException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConflictException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension InternalServerException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternalServerException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ThrottlingException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ValidationException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceNotFoundException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AccessDeniedException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension LexRuntimeV2ClientTypes.HeartbeatEvent {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.HeartbeatEvent {
@@ -2973,25 +2768,44 @@ extension LexRuntimeV2ClientTypes.HeartbeatEvent {
     }
 }
 
-extension LexRuntimeV2ClientTypes.AudioResponseEvent {
+extension LexRuntimeV2ClientTypes.ImageResponseCard {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.AudioResponseEvent {
+    static func write(value: LexRuntimeV2ClientTypes.ImageResponseCard?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["buttons"].writeList(value.buttons, memberWritingClosure: LexRuntimeV2ClientTypes.Button.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["imageUrl"].write(value.imageUrl)
+        try writer["subtitle"].write(value.subtitle)
+        try writer["title"].write(value.title)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.ImageResponseCard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.AudioResponseEvent()
-        value.audioChunk = try reader["audioChunk"].readIfPresent()
-        value.contentType = try reader["contentType"].readIfPresent()
-        value.eventId = try reader["eventId"].readIfPresent()
+        var value = LexRuntimeV2ClientTypes.ImageResponseCard()
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.subtitle = try reader["subtitle"].readIfPresent()
+        value.imageUrl = try reader["imageUrl"].readIfPresent()
+        value.buttons = try reader["buttons"].readListIfPresent(memberReadingClosure: LexRuntimeV2ClientTypes.Button.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension LexRuntimeV2ClientTypes.TextResponseEvent {
+extension LexRuntimeV2ClientTypes.Intent {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.TextResponseEvent {
+    static func write(value: LexRuntimeV2ClientTypes.Intent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["confirmationState"].write(value.confirmationState)
+        try writer["name"].write(value.name)
+        try writer["slots"].writeMap(value.slots, valueWritingClosure: LexRuntimeV2ClientTypes.Slot.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["state"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.Intent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.TextResponseEvent()
-        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: LexRuntimeV2ClientTypes.Message.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.eventId = try reader["eventId"].readIfPresent()
+        var value = LexRuntimeV2ClientTypes.Intent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.slots = try reader["slots"].readMapIfPresent(valueReadingClosure: LexRuntimeV2ClientTypes.Slot.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
+        value.confirmationState = try reader["confirmationState"].readIfPresent()
         return value
     }
 }
@@ -3012,14 +2826,54 @@ extension LexRuntimeV2ClientTypes.IntentResultEvent {
     }
 }
 
-extension LexRuntimeV2ClientTypes.TranscriptEvent {
+extension InternalServerException {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.TranscriptEvent {
+    static func read(from reader: SmithyJSON.Reader) throws -> InternalServerException {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeV2ClientTypes.TranscriptEvent()
-        value.transcript = try reader["transcript"].readIfPresent()
-        value.eventId = try reader["eventId"].readIfPresent()
+        var value = InternalServerException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension LexRuntimeV2ClientTypes.Interpretation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.Interpretation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeV2ClientTypes.Interpretation()
+        value.nluConfidence = try reader["nluConfidence"].readIfPresent(with: LexRuntimeV2ClientTypes.ConfidenceScore.read(from:))
+        value.sentimentResponse = try reader["sentimentResponse"].readIfPresent(with: LexRuntimeV2ClientTypes.SentimentResponse.read(from:))
+        value.intent = try reader["intent"].readIfPresent(with: LexRuntimeV2ClientTypes.Intent.read(from:))
+        value.interpretationSource = try reader["interpretationSource"].readIfPresent()
+        return value
+    }
+}
+
+extension LexRuntimeV2ClientTypes.Message {
+
+    static func write(value: LexRuntimeV2ClientTypes.Message?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].write(value.content)
+        try writer["contentType"].write(value.contentType)
+        try writer["imageResponseCard"].write(value.imageResponseCard, with: LexRuntimeV2ClientTypes.ImageResponseCard.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.Message {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeV2ClientTypes.Message()
+        value.content = try reader["content"].readIfPresent()
+        value.contentType = try reader["contentType"].readIfPresent() ?? .sdkUnknown("")
+        value.imageResponseCard = try reader["imageResponseCard"].readIfPresent(with: LexRuntimeV2ClientTypes.ImageResponseCard.read(from:))
+        return value
+    }
+}
+
+extension LexRuntimeV2ClientTypes.PlaybackCompletionEvent {
+
+    static func write(value: LexRuntimeV2ClientTypes.PlaybackCompletionEvent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientTimestampMillis"].write(value.clientTimestampMillis)
+        try writer["eventId"].write(value.eventId)
     }
 }
 
@@ -3035,21 +2889,141 @@ extension LexRuntimeV2ClientTypes.PlaybackInterruptionEvent {
     }
 }
 
-extension LexRuntimeV2ClientTypes.DisconnectionEvent {
+extension LexRuntimeV2ClientTypes.RecognizedBotMember {
 
-    static func write(value: LexRuntimeV2ClientTypes.DisconnectionEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientTimestampMillis"].write(value.clientTimestampMillis)
-        try writer["eventId"].write(value.eventId)
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.RecognizedBotMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeV2ClientTypes.RecognizedBotMember()
+        value.botId = try reader["botId"].readIfPresent() ?? ""
+        value.botName = try reader["botName"].readIfPresent()
+        return value
     }
 }
 
-extension LexRuntimeV2ClientTypes.PlaybackCompletionEvent {
+extension ResourceNotFoundException {
 
-    static func write(value: LexRuntimeV2ClientTypes.PlaybackCompletionEvent?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceNotFoundException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LexRuntimeV2ClientTypes.RuntimeHintDetails {
+
+    static func write(value: LexRuntimeV2ClientTypes.RuntimeHintDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["clientTimestampMillis"].write(value.clientTimestampMillis)
-        try writer["eventId"].write(value.eventId)
+        try writer["runtimeHintValues"].writeList(value.runtimeHintValues, memberWritingClosure: LexRuntimeV2ClientTypes.RuntimeHintValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subSlotHints"].writeMap(value.subSlotHints, valueWritingClosure: LexRuntimeV2ClientTypes.RuntimeHintDetails.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.RuntimeHintDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeV2ClientTypes.RuntimeHintDetails()
+        value.runtimeHintValues = try reader["runtimeHintValues"].readListIfPresent(memberReadingClosure: LexRuntimeV2ClientTypes.RuntimeHintValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subSlotHints = try reader["subSlotHints"].readMapIfPresent(valueReadingClosure: LexRuntimeV2ClientTypes.RuntimeHintDetails.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension LexRuntimeV2ClientTypes.RuntimeHints {
+
+    static func write(value: LexRuntimeV2ClientTypes.RuntimeHints?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["slotHints"].writeMap(value.slotHints, valueWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: LexRuntimeV2ClientTypes.RuntimeHintDetails.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.RuntimeHints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeV2ClientTypes.RuntimeHints()
+        value.slotHints = try reader["slotHints"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: LexRuntimeV2ClientTypes.RuntimeHintDetails.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension LexRuntimeV2ClientTypes.RuntimeHintValue {
+
+    static func write(value: LexRuntimeV2ClientTypes.RuntimeHintValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["phrase"].write(value.phrase)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.RuntimeHintValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeV2ClientTypes.RuntimeHintValue()
+        value.phrase = try reader["phrase"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LexRuntimeV2ClientTypes.SentimentResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.SentimentResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeV2ClientTypes.SentimentResponse()
+        value.sentiment = try reader["sentiment"].readIfPresent()
+        value.sentimentScore = try reader["sentimentScore"].readIfPresent(with: LexRuntimeV2ClientTypes.SentimentScore.read(from:))
+        return value
+    }
+}
+
+extension LexRuntimeV2ClientTypes.SentimentScore {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.SentimentScore {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeV2ClientTypes.SentimentScore()
+        value.positive = try reader["positive"].readIfPresent() ?? 0
+        value.negative = try reader["negative"].readIfPresent() ?? 0
+        value.neutral = try reader["neutral"].readIfPresent() ?? 0
+        value.mixed = try reader["mixed"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension LexRuntimeV2ClientTypes.SessionState {
+
+    static func write(value: LexRuntimeV2ClientTypes.SessionState?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["activeContexts"].writeList(value.activeContexts, memberWritingClosure: LexRuntimeV2ClientTypes.ActiveContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["dialogAction"].write(value.dialogAction, with: LexRuntimeV2ClientTypes.DialogAction.write(value:to:))
+        try writer["intent"].write(value.intent, with: LexRuntimeV2ClientTypes.Intent.write(value:to:))
+        try writer["originatingRequestId"].write(value.originatingRequestId)
+        try writer["runtimeHints"].write(value.runtimeHints, with: LexRuntimeV2ClientTypes.RuntimeHints.write(value:to:))
+        try writer["sessionAttributes"].writeMap(value.sessionAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.SessionState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeV2ClientTypes.SessionState()
+        value.dialogAction = try reader["dialogAction"].readIfPresent(with: LexRuntimeV2ClientTypes.DialogAction.read(from:))
+        value.intent = try reader["intent"].readIfPresent(with: LexRuntimeV2ClientTypes.Intent.read(from:))
+        value.activeContexts = try reader["activeContexts"].readListIfPresent(memberReadingClosure: LexRuntimeV2ClientTypes.ActiveContext.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sessionAttributes = try reader["sessionAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.originatingRequestId = try reader["originatingRequestId"].readIfPresent()
+        value.runtimeHints = try reader["runtimeHints"].readIfPresent(with: LexRuntimeV2ClientTypes.RuntimeHints.read(from:))
+        return value
+    }
+}
+
+extension LexRuntimeV2ClientTypes.Slot {
+
+    static func write(value: LexRuntimeV2ClientTypes.Slot?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["shape"].write(value.shape)
+        try writer["subSlots"].writeMap(value.subSlots, valueWritingClosure: LexRuntimeV2ClientTypes.Slot.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["value"].write(value.value, with: LexRuntimeV2ClientTypes.Value.write(value:to:))
+        try writer["values"].writeList(value.values, memberWritingClosure: LexRuntimeV2ClientTypes.Slot.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.Slot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeV2ClientTypes.Slot()
+        value.value = try reader["value"].readIfPresent(with: LexRuntimeV2ClientTypes.Value.read(from:))
+        value.shape = try reader["shape"].readIfPresent()
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: LexRuntimeV2ClientTypes.Slot.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subSlots = try reader["subSlots"].readMapIfPresent(valueReadingClosure: LexRuntimeV2ClientTypes.Slot.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 
@@ -3063,38 +3037,64 @@ extension LexRuntimeV2ClientTypes.TextInputEvent {
     }
 }
 
-extension LexRuntimeV2ClientTypes.DTMFInputEvent {
+extension LexRuntimeV2ClientTypes.TextResponseEvent {
 
-    static func write(value: LexRuntimeV2ClientTypes.DTMFInputEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientTimestampMillis"].write(value.clientTimestampMillis)
-        try writer["eventId"].write(value.eventId)
-        try writer["inputCharacter"].write(value.inputCharacter)
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.TextResponseEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeV2ClientTypes.TextResponseEvent()
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: LexRuntimeV2ClientTypes.Message.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eventId = try reader["eventId"].readIfPresent()
+        return value
     }
 }
 
-extension LexRuntimeV2ClientTypes.AudioInputEvent {
+extension ThrottlingException {
 
-    static func write(value: LexRuntimeV2ClientTypes.AudioInputEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audioChunk"].write(value.audioChunk)
-        try writer["clientTimestampMillis"].write(value.clientTimestampMillis)
-        try writer["contentType"].write(value.contentType)
-        try writer["eventId"].write(value.eventId)
+    static func read(from reader: SmithyJSON.Reader) throws -> ThrottlingException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension LexRuntimeV2ClientTypes.ConfigurationEvent {
+extension LexRuntimeV2ClientTypes.TranscriptEvent {
 
-    static func write(value: LexRuntimeV2ClientTypes.ConfigurationEvent?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.TranscriptEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeV2ClientTypes.TranscriptEvent()
+        value.transcript = try reader["transcript"].readIfPresent()
+        value.eventId = try reader["eventId"].readIfPresent()
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ValidationException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ValidationException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LexRuntimeV2ClientTypes.Value {
+
+    static func write(value: LexRuntimeV2ClientTypes.Value?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["clientTimestampMillis"].write(value.clientTimestampMillis)
-        try writer["disablePlayback"].write(value.disablePlayback)
-        try writer["eventId"].write(value.eventId)
-        try writer["requestAttributes"].writeMap(value.requestAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["responseContentType"].write(value.responseContentType)
-        try writer["sessionState"].write(value.sessionState, with: LexRuntimeV2ClientTypes.SessionState.write(value:to:))
-        try writer["welcomeMessages"].writeList(value.welcomeMessages, memberWritingClosure: LexRuntimeV2ClientTypes.Message.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["interpretedValue"].write(value.interpretedValue)
+        try writer["originalValue"].write(value.originalValue)
+        try writer["resolvedValues"].writeList(value.resolvedValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeV2ClientTypes.Value {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeV2ClientTypes.Value()
+        value.originalValue = try reader["originalValue"].readIfPresent()
+        value.interpretedValue = try reader["interpretedValue"].readIfPresent() ?? ""
+        value.resolvedValues = try reader["resolvedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

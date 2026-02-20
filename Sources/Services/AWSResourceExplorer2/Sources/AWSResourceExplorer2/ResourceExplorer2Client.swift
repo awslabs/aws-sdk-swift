@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ResourceExplorer2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ResourceExplorer2Client"
     let client: ClientRuntime.SdkHttpClient
-    let config: ResourceExplorer2Client.ResourceExplorer2ClientConfig
+    public let config: ResourceExplorer2Client.ResourceExplorer2ClientConfig
     let serviceName = "Resource Explorer 2"
 
     @available(*, deprecated, message: "Use ResourceExplorer2Client.ResourceExplorer2ClientConfig instead")
     public typealias Config = ResourceExplorer2Client.ResourceExplorer2ClientConfiguration
+    public typealias Configuration = ResourceExplorer2Client.ResourceExplorer2ClientConfig
 
     public required init(config: ResourceExplorer2Client.ResourceExplorer2ClientConfig) {
         ClientRuntime.initialize()

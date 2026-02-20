@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class AuditManagerClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "AuditManagerClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: AuditManagerClient.AuditManagerClientConfig
+    public let config: AuditManagerClient.AuditManagerClientConfig
     let serviceName = "AuditManager"
 
     @available(*, deprecated, message: "Use AuditManagerClient.AuditManagerClientConfig instead")
     public typealias Config = AuditManagerClient.AuditManagerClientConfiguration
+    public typealias Configuration = AuditManagerClient.AuditManagerClientConfig
 
     public required init(config: AuditManagerClient.AuditManagerClientConfig) {
         ClientRuntime.initialize()

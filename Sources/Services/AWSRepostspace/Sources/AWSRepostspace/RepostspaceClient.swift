@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class RepostspaceClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RepostspaceClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: RepostspaceClient.RepostspaceClientConfig
+    public let config: RepostspaceClient.RepostspaceClientConfig
     let serviceName = "repostspace"
 
     @available(*, deprecated, message: "Use RepostspaceClient.RepostspaceClientConfig instead")
     public typealias Config = RepostspaceClient.RepostspaceClientConfiguration
+    public typealias Configuration = RepostspaceClient.RepostspaceClientConfig
 
     public required init(config: RepostspaceClient.RepostspaceClientConfig) {
         ClientRuntime.initialize()

@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class NetworkFirewallClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "NetworkFirewallClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: NetworkFirewallClient.NetworkFirewallClientConfig
+    public let config: NetworkFirewallClient.NetworkFirewallClientConfig
     let serviceName = "Network Firewall"
 
     @available(*, deprecated, message: "Use NetworkFirewallClient.NetworkFirewallClientConfig instead")
     public typealias Config = NetworkFirewallClient.NetworkFirewallClientConfiguration
+    public typealias Configuration = NetworkFirewallClient.NetworkFirewallClientConfig
 
     public required init(config: NetworkFirewallClient.NetworkFirewallClientConfig) {
         ClientRuntime.initialize()

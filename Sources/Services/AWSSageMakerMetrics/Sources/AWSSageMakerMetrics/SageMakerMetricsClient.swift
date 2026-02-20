@@ -70,11 +70,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SageMakerMetricsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SageMakerMetricsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SageMakerMetricsClient.SageMakerMetricsClientConfig
+    public let config: SageMakerMetricsClient.SageMakerMetricsClientConfig
     let serviceName = "SageMaker Metrics"
 
     @available(*, deprecated, message: "Use SageMakerMetricsClient.SageMakerMetricsClientConfig instead")
     public typealias Config = SageMakerMetricsClient.SageMakerMetricsClientConfiguration
+    public typealias Configuration = SageMakerMetricsClient.SageMakerMetricsClientConfig
 
     public required init(config: SageMakerMetricsClient.SageMakerMetricsClientConfig) {
         ClientRuntime.initialize()

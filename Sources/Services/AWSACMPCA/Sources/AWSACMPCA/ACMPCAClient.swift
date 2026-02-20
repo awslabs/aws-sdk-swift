@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ACMPCAClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ACMPCAClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ACMPCAClient.ACMPCAClientConfig
+    public let config: ACMPCAClient.ACMPCAClientConfig
     let serviceName = "ACM PCA"
 
     @available(*, deprecated, message: "Use ACMPCAClient.ACMPCAClientConfig instead")
     public typealias Config = ACMPCAClient.ACMPCAClientConfiguration
+    public typealias Configuration = ACMPCAClient.ACMPCAClientConfig
 
     public required init(config: ACMPCAClient.ACMPCAClientConfig) {
         ClientRuntime.initialize()

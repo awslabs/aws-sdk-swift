@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class RTBFabricClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RTBFabricClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: RTBFabricClient.RTBFabricClientConfig
+    public let config: RTBFabricClient.RTBFabricClientConfig
     let serviceName = "RTBFabric"
 
     @available(*, deprecated, message: "Use RTBFabricClient.RTBFabricClientConfig instead")
     public typealias Config = RTBFabricClient.RTBFabricClientConfiguration
+    public typealias Configuration = RTBFabricClient.RTBFabricClientConfig
 
     public required init(config: RTBFabricClient.RTBFabricClientConfig) {
         ClientRuntime.initialize()

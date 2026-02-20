@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class VoiceIDClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "VoiceIDClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: VoiceIDClient.VoiceIDClientConfig
+    public let config: VoiceIDClient.VoiceIDClientConfig
     let serviceName = "Voice ID"
 
     @available(*, deprecated, message: "Use VoiceIDClient.VoiceIDClientConfig instead")
     public typealias Config = VoiceIDClient.VoiceIDClientConfiguration
+    public typealias Configuration = VoiceIDClient.VoiceIDClientConfig
 
     public required init(config: VoiceIDClient.VoiceIDClientConfig) {
         ClientRuntime.initialize()

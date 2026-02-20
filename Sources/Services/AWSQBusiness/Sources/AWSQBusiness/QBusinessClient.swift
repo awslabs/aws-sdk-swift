@@ -76,11 +76,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class QBusinessClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "QBusinessClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: QBusinessClient.QBusinessClientConfig
+    public let config: QBusinessClient.QBusinessClientConfig
     let serviceName = "QBusiness"
 
     @available(*, deprecated, message: "Use QBusinessClient.QBusinessClientConfig instead")
     public typealias Config = QBusinessClient.QBusinessClientConfiguration
+    public typealias Configuration = QBusinessClient.QBusinessClientConfig
 
     public required init(config: QBusinessClient.QBusinessClientConfig) {
         ClientRuntime.initialize()

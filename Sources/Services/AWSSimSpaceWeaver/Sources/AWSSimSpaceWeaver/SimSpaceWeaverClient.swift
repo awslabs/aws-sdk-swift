@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SimSpaceWeaverClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SimSpaceWeaverClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SimSpaceWeaverClient.SimSpaceWeaverClientConfig
+    public let config: SimSpaceWeaverClient.SimSpaceWeaverClientConfig
     let serviceName = "SimSpaceWeaver"
 
     @available(*, deprecated, message: "Use SimSpaceWeaverClient.SimSpaceWeaverClientConfig instead")
     public typealias Config = SimSpaceWeaverClient.SimSpaceWeaverClientConfiguration
+    public typealias Configuration = SimSpaceWeaverClient.SimSpaceWeaverClientConfig
 
     public required init(config: SimSpaceWeaverClient.SimSpaceWeaverClientConfig) {
         ClientRuntime.initialize()

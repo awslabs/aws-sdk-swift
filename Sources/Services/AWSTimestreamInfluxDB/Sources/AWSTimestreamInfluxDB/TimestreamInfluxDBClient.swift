@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class TimestreamInfluxDBClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TimestreamInfluxDBClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: TimestreamInfluxDBClient.TimestreamInfluxDBClientConfig
+    public let config: TimestreamInfluxDBClient.TimestreamInfluxDBClientConfig
     let serviceName = "Timestream InfluxDB"
 
     @available(*, deprecated, message: "Use TimestreamInfluxDBClient.TimestreamInfluxDBClientConfig instead")
     public typealias Config = TimestreamInfluxDBClient.TimestreamInfluxDBClientConfiguration
+    public typealias Configuration = TimestreamInfluxDBClient.TimestreamInfluxDBClientConfig
 
     public required init(config: TimestreamInfluxDBClient.TimestreamInfluxDBClientConfig) {
         ClientRuntime.initialize()

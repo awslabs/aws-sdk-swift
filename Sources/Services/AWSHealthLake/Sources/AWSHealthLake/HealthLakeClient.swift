@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class HealthLakeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "HealthLakeClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: HealthLakeClient.HealthLakeClientConfig
+    public let config: HealthLakeClient.HealthLakeClientConfig
     let serviceName = "HealthLake"
 
     @available(*, deprecated, message: "Use HealthLakeClient.HealthLakeClientConfig instead")
     public typealias Config = HealthLakeClient.HealthLakeClientConfiguration
+    public typealias Configuration = HealthLakeClient.HealthLakeClientConfig
 
     public required init(config: HealthLakeClient.HealthLakeClientConfig) {
         ClientRuntime.initialize()

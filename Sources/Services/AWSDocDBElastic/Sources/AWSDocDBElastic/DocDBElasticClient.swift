@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DocDBElasticClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DocDBElasticClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DocDBElasticClient.DocDBElasticClientConfig
+    public let config: DocDBElasticClient.DocDBElasticClientConfig
     let serviceName = "DocDB Elastic"
 
     @available(*, deprecated, message: "Use DocDBElasticClient.DocDBElasticClientConfig instead")
     public typealias Config = DocDBElasticClient.DocDBElasticClientConfiguration
+    public typealias Configuration = DocDBElasticClient.DocDBElasticClientConfig
 
     public required init(config: DocDBElasticClient.DocDBElasticClientConfig) {
         ClientRuntime.initialize()

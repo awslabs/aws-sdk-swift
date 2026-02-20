@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DocDBClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DocDBClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DocDBClient.DocDBClientConfig
+    public let config: DocDBClient.DocDBClientConfig
     let serviceName = "DocDB"
 
     @available(*, deprecated, message: "Use DocDBClient.DocDBClientConfig instead")
     public typealias Config = DocDBClient.DocDBClientConfiguration
+    public typealias Configuration = DocDBClient.DocDBClientConfig
 
     public required init(config: DocDBClient.DocDBClientConfig) {
         ClientRuntime.initialize()

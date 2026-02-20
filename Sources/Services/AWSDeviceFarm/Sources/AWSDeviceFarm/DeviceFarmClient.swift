@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DeviceFarmClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DeviceFarmClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DeviceFarmClient.DeviceFarmClientConfig
+    public let config: DeviceFarmClient.DeviceFarmClientConfig
     let serviceName = "Device Farm"
 
     @available(*, deprecated, message: "Use DeviceFarmClient.DeviceFarmClientConfig instead")
     public typealias Config = DeviceFarmClient.DeviceFarmClientConfiguration
+    public typealias Configuration = DeviceFarmClient.DeviceFarmClientConfig
 
     public required init(config: DeviceFarmClient.DeviceFarmClientConfig) {
         ClientRuntime.initialize()

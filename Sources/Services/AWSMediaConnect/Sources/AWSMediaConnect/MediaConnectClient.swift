@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class MediaConnectClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MediaConnectClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: MediaConnectClient.MediaConnectClientConfig
+    public let config: MediaConnectClient.MediaConnectClientConfig
     let serviceName = "MediaConnect"
 
     @available(*, deprecated, message: "Use MediaConnectClient.MediaConnectClientConfig instead")
     public typealias Config = MediaConnectClient.MediaConnectClientConfiguration
+    public typealias Configuration = MediaConnectClient.MediaConnectClientConfig
 
     public required init(config: MediaConnectClient.MediaConnectClientConfig) {
         ClientRuntime.initialize()

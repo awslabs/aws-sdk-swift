@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ControlCatalogClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ControlCatalogClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ControlCatalogClient.ControlCatalogClientConfig
+    public let config: ControlCatalogClient.ControlCatalogClientConfig
     let serviceName = "ControlCatalog"
 
     @available(*, deprecated, message: "Use ControlCatalogClient.ControlCatalogClientConfig instead")
     public typealias Config = ControlCatalogClient.ControlCatalogClientConfiguration
+    public typealias Configuration = ControlCatalogClient.ControlCatalogClientConfig
 
     public required init(config: ControlCatalogClient.ControlCatalogClientConfig) {
         ClientRuntime.initialize()

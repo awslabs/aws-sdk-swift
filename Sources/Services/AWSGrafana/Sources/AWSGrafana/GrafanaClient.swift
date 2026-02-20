@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class GrafanaClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GrafanaClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: GrafanaClient.GrafanaClientConfig
+    public let config: GrafanaClient.GrafanaClientConfig
     let serviceName = "grafana"
 
     @available(*, deprecated, message: "Use GrafanaClient.GrafanaClientConfig instead")
     public typealias Config = GrafanaClient.GrafanaClientConfiguration
+    public typealias Configuration = GrafanaClient.GrafanaClientConfig
 
     public required init(config: GrafanaClient.GrafanaClientConfig) {
         ClientRuntime.initialize()
@@ -1887,7 +1888,7 @@ extension GrafanaClient {
 
     /// Performs the `ListWorkspaces` operation on the `Grafana` service.
     ///
-    /// Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete information about one workspace, use [DescribeWorkspace](https://docs.aws.amazon.com/AAMG/latest/APIReference/API_DescribeWorkspace.html).
+    /// Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete information about one workspace, use [DescribeWorkspace](https://docs.aws.amazon.com/grafana/latest/APIReference/API_DescribeWorkspace.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `ListWorkspacesInput`)
     ///

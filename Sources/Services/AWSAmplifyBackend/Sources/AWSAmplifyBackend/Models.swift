@@ -4784,48 +4784,6 @@ extension TooManyRequestsException {
     }
 }
 
-extension AmplifyBackendClientTypes.BackendAPIResourceConfig {
-
-    static func write(value: AmplifyBackendClientTypes.BackendAPIResourceConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalAuthTypes"].writeList(value.additionalAuthTypes, memberWritingClosure: AmplifyBackendClientTypes.BackendAPIAuthType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["apiName"].write(value.apiName)
-        try writer["conflictResolution"].write(value.conflictResolution, with: AmplifyBackendClientTypes.BackendAPIConflictResolution.write(value:to:))
-        try writer["defaultAuthType"].write(value.defaultAuthType, with: AmplifyBackendClientTypes.BackendAPIAuthType.write(value:to:))
-        try writer["service"].write(value.service)
-        try writer["transformSchema"].write(value.transformSchema)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.BackendAPIResourceConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyBackendClientTypes.BackendAPIResourceConfig()
-        value.additionalAuthTypes = try reader["additionalAuthTypes"].readListIfPresent(memberReadingClosure: AmplifyBackendClientTypes.BackendAPIAuthType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.apiName = try reader["apiName"].readIfPresent()
-        value.conflictResolution = try reader["conflictResolution"].readIfPresent(with: AmplifyBackendClientTypes.BackendAPIConflictResolution.read(from:))
-        value.defaultAuthType = try reader["defaultAuthType"].readIfPresent(with: AmplifyBackendClientTypes.BackendAPIAuthType.read(from:))
-        value.service = try reader["service"].readIfPresent()
-        value.transformSchema = try reader["transformSchema"].readIfPresent()
-        return value
-    }
-}
-
-extension AmplifyBackendClientTypes.BackendAPIAuthType {
-
-    static func write(value: AmplifyBackendClientTypes.BackendAPIAuthType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["mode"].write(value.mode)
-        try writer["settings"].write(value.settings, with: AmplifyBackendClientTypes.BackendAPIAppSyncAuthSettings.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.BackendAPIAuthType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyBackendClientTypes.BackendAPIAuthType()
-        value.mode = try reader["mode"].readIfPresent()
-        value.settings = try reader["settings"].readIfPresent(with: AmplifyBackendClientTypes.BackendAPIAppSyncAuthSettings.read(from:))
-        return value
-    }
-}
-
 extension AmplifyBackendClientTypes.BackendAPIAppSyncAuthSettings {
 
     static func write(value: AmplifyBackendClientTypes.BackendAPIAppSyncAuthSettings?, to writer: SmithyJSON.Writer) throws {
@@ -4855,6 +4813,23 @@ extension AmplifyBackendClientTypes.BackendAPIAppSyncAuthSettings {
     }
 }
 
+extension AmplifyBackendClientTypes.BackendAPIAuthType {
+
+    static func write(value: AmplifyBackendClientTypes.BackendAPIAuthType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mode"].write(value.mode)
+        try writer["settings"].write(value.settings, with: AmplifyBackendClientTypes.BackendAPIAppSyncAuthSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.BackendAPIAuthType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyBackendClientTypes.BackendAPIAuthType()
+        value.mode = try reader["mode"].readIfPresent()
+        value.settings = try reader["settings"].readIfPresent(with: AmplifyBackendClientTypes.BackendAPIAppSyncAuthSettings.read(from:))
+        return value
+    }
+}
+
 extension AmplifyBackendClientTypes.BackendAPIConflictResolution {
 
     static func write(value: AmplifyBackendClientTypes.BackendAPIConflictResolution?, to writer: SmithyJSON.Writer) throws {
@@ -4866,6 +4841,198 @@ extension AmplifyBackendClientTypes.BackendAPIConflictResolution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmplifyBackendClientTypes.BackendAPIConflictResolution()
         value.resolutionStrategy = try reader["resolutionStrategy"].readIfPresent()
+        return value
+    }
+}
+
+extension AmplifyBackendClientTypes.BackendAPIResourceConfig {
+
+    static func write(value: AmplifyBackendClientTypes.BackendAPIResourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalAuthTypes"].writeList(value.additionalAuthTypes, memberWritingClosure: AmplifyBackendClientTypes.BackendAPIAuthType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["apiName"].write(value.apiName)
+        try writer["conflictResolution"].write(value.conflictResolution, with: AmplifyBackendClientTypes.BackendAPIConflictResolution.write(value:to:))
+        try writer["defaultAuthType"].write(value.defaultAuthType, with: AmplifyBackendClientTypes.BackendAPIAuthType.write(value:to:))
+        try writer["service"].write(value.service)
+        try writer["transformSchema"].write(value.transformSchema)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.BackendAPIResourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyBackendClientTypes.BackendAPIResourceConfig()
+        value.additionalAuthTypes = try reader["additionalAuthTypes"].readListIfPresent(memberReadingClosure: AmplifyBackendClientTypes.BackendAPIAuthType.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.apiName = try reader["apiName"].readIfPresent()
+        value.conflictResolution = try reader["conflictResolution"].readIfPresent(with: AmplifyBackendClientTypes.BackendAPIConflictResolution.read(from:))
+        value.defaultAuthType = try reader["defaultAuthType"].readIfPresent(with: AmplifyBackendClientTypes.BackendAPIAuthType.read(from:))
+        value.service = try reader["service"].readIfPresent()
+        value.transformSchema = try reader["transformSchema"].readIfPresent()
+        return value
+    }
+}
+
+extension AmplifyBackendClientTypes.BackendAuthAppleProviderConfig {
+
+    static func write(value: AmplifyBackendClientTypes.BackendAuthAppleProviderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["client_id"].write(value.clientId)
+        try writer["key_id"].write(value.keyId)
+        try writer["private_key"].write(value.privateKey)
+        try writer["team_id"].write(value.teamId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.BackendAuthAppleProviderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyBackendClientTypes.BackendAuthAppleProviderConfig()
+        value.clientId = try reader["client_id"].readIfPresent()
+        value.keyId = try reader["key_id"].readIfPresent()
+        value.privateKey = try reader["private_key"].readIfPresent()
+        value.teamId = try reader["team_id"].readIfPresent()
+        return value
+    }
+}
+
+extension AmplifyBackendClientTypes.BackendAuthSocialProviderConfig {
+
+    static func write(value: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["client_id"].write(value.clientId)
+        try writer["client_secret"].write(value.clientSecret)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.BackendAuthSocialProviderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyBackendClientTypes.BackendAuthSocialProviderConfig()
+        value.clientId = try reader["client_id"].readIfPresent()
+        value.clientSecret = try reader["client_secret"].readIfPresent()
+        return value
+    }
+}
+
+extension AmplifyBackendClientTypes.BackendJobRespObj {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.BackendJobRespObj {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyBackendClientTypes.BackendJobRespObj()
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        value.backendEnvironmentName = try reader["backendEnvironmentName"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readIfPresent()
+        value.error = try reader["error"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent()
+        value.operation = try reader["operation"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.updateTime = try reader["updateTime"].readIfPresent()
+        return value
+    }
+}
+
+extension AmplifyBackendClientTypes.BackendStoragePermissions {
+
+    static func write(value: AmplifyBackendClientTypes.BackendStoragePermissions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authenticated"].writeList(value.authenticated, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AmplifyBackendClientTypes.AuthenticatedElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["unAuthenticated"].writeList(value.unAuthenticated, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AmplifyBackendClientTypes.UnAuthenticatedElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.BackendStoragePermissions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyBackendClientTypes.BackendStoragePermissions()
+        value.authenticated = try reader["authenticated"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AmplifyBackendClientTypes.AuthenticatedElement>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.unAuthenticated = try reader["unAuthenticated"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AmplifyBackendClientTypes.UnAuthenticatedElement>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AmplifyBackendClientTypes.CreateBackendAuthForgotPasswordConfig {
+
+    static func write(value: AmplifyBackendClientTypes.CreateBackendAuthForgotPasswordConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deliveryMethod"].write(value.deliveryMethod)
+        try writer["emailSettings"].write(value.emailSettings, with: AmplifyBackendClientTypes.EmailSettings.write(value:to:))
+        try writer["smsSettings"].write(value.smsSettings, with: AmplifyBackendClientTypes.SmsSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.CreateBackendAuthForgotPasswordConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyBackendClientTypes.CreateBackendAuthForgotPasswordConfig()
+        value.deliveryMethod = try reader["deliveryMethod"].readIfPresent() ?? .sdkUnknown("")
+        value.emailSettings = try reader["emailSettings"].readIfPresent(with: AmplifyBackendClientTypes.EmailSettings.read(from:))
+        value.smsSettings = try reader["smsSettings"].readIfPresent(with: AmplifyBackendClientTypes.SmsSettings.read(from:))
+        return value
+    }
+}
+
+extension AmplifyBackendClientTypes.CreateBackendAuthIdentityPoolConfig {
+
+    static func write(value: AmplifyBackendClientTypes.CreateBackendAuthIdentityPoolConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identityPoolName"].write(value.identityPoolName)
+        try writer["unauthenticatedLogin"].write(value.unauthenticatedLogin)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.CreateBackendAuthIdentityPoolConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyBackendClientTypes.CreateBackendAuthIdentityPoolConfig()
+        value.identityPoolName = try reader["identityPoolName"].readIfPresent() ?? ""
+        value.unauthenticatedLogin = try reader["unauthenticatedLogin"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension AmplifyBackendClientTypes.CreateBackendAuthMFAConfig {
+
+    static func write(value: AmplifyBackendClientTypes.CreateBackendAuthMFAConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MFAMode"].write(value.mfaMode)
+        try writer["settings"].write(value.settings, with: AmplifyBackendClientTypes.Settings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.CreateBackendAuthMFAConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyBackendClientTypes.CreateBackendAuthMFAConfig()
+        value.mfaMode = try reader["MFAMode"].readIfPresent() ?? .sdkUnknown("")
+        value.settings = try reader["settings"].readIfPresent(with: AmplifyBackendClientTypes.Settings.read(from:))
+        return value
+    }
+}
+
+extension AmplifyBackendClientTypes.CreateBackendAuthOAuthConfig {
+
+    static func write(value: AmplifyBackendClientTypes.CreateBackendAuthOAuthConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainPrefix"].write(value.domainPrefix)
+        try writer["oAuthGrantType"].write(value.oAuthGrantType)
+        try writer["oAuthScopes"].writeList(value.oAuthScopes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AmplifyBackendClientTypes.OAuthScopesElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["redirectSignInURIs"].writeList(value.redirectSignInURIs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["redirectSignOutURIs"].writeList(value.redirectSignOutURIs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["socialProviderSettings"].write(value.socialProviderSettings, with: AmplifyBackendClientTypes.SocialProviderSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.CreateBackendAuthOAuthConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyBackendClientTypes.CreateBackendAuthOAuthConfig()
+        value.domainPrefix = try reader["domainPrefix"].readIfPresent()
+        value.oAuthGrantType = try reader["oAuthGrantType"].readIfPresent() ?? .sdkUnknown("")
+        value.oAuthScopes = try reader["oAuthScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AmplifyBackendClientTypes.OAuthScopesElement>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.redirectSignInURIs = try reader["redirectSignInURIs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.redirectSignOutURIs = try reader["redirectSignOutURIs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.socialProviderSettings = try reader["socialProviderSettings"].readIfPresent(with: AmplifyBackendClientTypes.SocialProviderSettings.read(from:))
+        return value
+    }
+}
+
+extension AmplifyBackendClientTypes.CreateBackendAuthPasswordPolicyConfig {
+
+    static func write(value: AmplifyBackendClientTypes.CreateBackendAuthPasswordPolicyConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalConstraints"].writeList(value.additionalConstraints, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AmplifyBackendClientTypes.AdditionalConstraintsElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["minimumLength"].write(value.minimumLength)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.CreateBackendAuthPasswordPolicyConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyBackendClientTypes.CreateBackendAuthPasswordPolicyConfig()
+        value.additionalConstraints = try reader["additionalConstraints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AmplifyBackendClientTypes.AdditionalConstraintsElement>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.minimumLength = try reader["minimumLength"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -4939,18 +5106,13 @@ extension AmplifyBackendClientTypes.CreateBackendAuthVerificationMessageConfig {
     }
 }
 
-extension AmplifyBackendClientTypes.SmsSettings {
+extension AmplifyBackendClientTypes.CreateBackendStorageResourceConfig {
 
-    static func write(value: AmplifyBackendClientTypes.SmsSettings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AmplifyBackendClientTypes.CreateBackendStorageResourceConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["smsMessage"].write(value.smsMessage)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.SmsSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyBackendClientTypes.SmsSettings()
-        value.smsMessage = try reader["smsMessage"].readIfPresent()
-        return value
+        try writer["bucketName"].write(value.bucketName)
+        try writer["permissions"].write(value.permissions, with: AmplifyBackendClientTypes.BackendStoragePermissions.write(value:to:))
+        try writer["serviceName"].write(value.serviceName)
     }
 }
 
@@ -4971,177 +5133,6 @@ extension AmplifyBackendClientTypes.EmailSettings {
     }
 }
 
-extension AmplifyBackendClientTypes.CreateBackendAuthPasswordPolicyConfig {
-
-    static func write(value: AmplifyBackendClientTypes.CreateBackendAuthPasswordPolicyConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalConstraints"].writeList(value.additionalConstraints, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AmplifyBackendClientTypes.AdditionalConstraintsElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["minimumLength"].write(value.minimumLength)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.CreateBackendAuthPasswordPolicyConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyBackendClientTypes.CreateBackendAuthPasswordPolicyConfig()
-        value.additionalConstraints = try reader["additionalConstraints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AmplifyBackendClientTypes.AdditionalConstraintsElement>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.minimumLength = try reader["minimumLength"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
-extension AmplifyBackendClientTypes.CreateBackendAuthOAuthConfig {
-
-    static func write(value: AmplifyBackendClientTypes.CreateBackendAuthOAuthConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domainPrefix"].write(value.domainPrefix)
-        try writer["oAuthGrantType"].write(value.oAuthGrantType)
-        try writer["oAuthScopes"].writeList(value.oAuthScopes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AmplifyBackendClientTypes.OAuthScopesElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["redirectSignInURIs"].writeList(value.redirectSignInURIs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["redirectSignOutURIs"].writeList(value.redirectSignOutURIs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["socialProviderSettings"].write(value.socialProviderSettings, with: AmplifyBackendClientTypes.SocialProviderSettings.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.CreateBackendAuthOAuthConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyBackendClientTypes.CreateBackendAuthOAuthConfig()
-        value.domainPrefix = try reader["domainPrefix"].readIfPresent()
-        value.oAuthGrantType = try reader["oAuthGrantType"].readIfPresent() ?? .sdkUnknown("")
-        value.oAuthScopes = try reader["oAuthScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AmplifyBackendClientTypes.OAuthScopesElement>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.redirectSignInURIs = try reader["redirectSignInURIs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.redirectSignOutURIs = try reader["redirectSignOutURIs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.socialProviderSettings = try reader["socialProviderSettings"].readIfPresent(with: AmplifyBackendClientTypes.SocialProviderSettings.read(from:))
-        return value
-    }
-}
-
-extension AmplifyBackendClientTypes.SocialProviderSettings {
-
-    static func write(value: AmplifyBackendClientTypes.SocialProviderSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Facebook"].write(value.facebook, with: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig.write(value:to:))
-        try writer["Google"].write(value.google, with: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig.write(value:to:))
-        try writer["LoginWithAmazon"].write(value.loginWithAmazon, with: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig.write(value:to:))
-        try writer["SignInWithApple"].write(value.signInWithApple, with: AmplifyBackendClientTypes.BackendAuthAppleProviderConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.SocialProviderSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyBackendClientTypes.SocialProviderSettings()
-        value.facebook = try reader["Facebook"].readIfPresent(with: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig.read(from:))
-        value.google = try reader["Google"].readIfPresent(with: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig.read(from:))
-        value.loginWithAmazon = try reader["LoginWithAmazon"].readIfPresent(with: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig.read(from:))
-        value.signInWithApple = try reader["SignInWithApple"].readIfPresent(with: AmplifyBackendClientTypes.BackendAuthAppleProviderConfig.read(from:))
-        return value
-    }
-}
-
-extension AmplifyBackendClientTypes.BackendAuthAppleProviderConfig {
-
-    static func write(value: AmplifyBackendClientTypes.BackendAuthAppleProviderConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["client_id"].write(value.clientId)
-        try writer["key_id"].write(value.keyId)
-        try writer["private_key"].write(value.privateKey)
-        try writer["team_id"].write(value.teamId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.BackendAuthAppleProviderConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyBackendClientTypes.BackendAuthAppleProviderConfig()
-        value.clientId = try reader["client_id"].readIfPresent()
-        value.keyId = try reader["key_id"].readIfPresent()
-        value.privateKey = try reader["private_key"].readIfPresent()
-        value.teamId = try reader["team_id"].readIfPresent()
-        return value
-    }
-}
-
-extension AmplifyBackendClientTypes.BackendAuthSocialProviderConfig {
-
-    static func write(value: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["client_id"].write(value.clientId)
-        try writer["client_secret"].write(value.clientSecret)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.BackendAuthSocialProviderConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyBackendClientTypes.BackendAuthSocialProviderConfig()
-        value.clientId = try reader["client_id"].readIfPresent()
-        value.clientSecret = try reader["client_secret"].readIfPresent()
-        return value
-    }
-}
-
-extension AmplifyBackendClientTypes.CreateBackendAuthMFAConfig {
-
-    static func write(value: AmplifyBackendClientTypes.CreateBackendAuthMFAConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MFAMode"].write(value.mfaMode)
-        try writer["settings"].write(value.settings, with: AmplifyBackendClientTypes.Settings.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.CreateBackendAuthMFAConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyBackendClientTypes.CreateBackendAuthMFAConfig()
-        value.mfaMode = try reader["MFAMode"].readIfPresent() ?? .sdkUnknown("")
-        value.settings = try reader["settings"].readIfPresent(with: AmplifyBackendClientTypes.Settings.read(from:))
-        return value
-    }
-}
-
-extension AmplifyBackendClientTypes.Settings {
-
-    static func write(value: AmplifyBackendClientTypes.Settings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["mfaTypes"].writeList(value.mfaTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AmplifyBackendClientTypes.MfaTypesElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["smsMessage"].write(value.smsMessage)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.Settings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyBackendClientTypes.Settings()
-        value.mfaTypes = try reader["mfaTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AmplifyBackendClientTypes.MfaTypesElement>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.smsMessage = try reader["smsMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension AmplifyBackendClientTypes.CreateBackendAuthForgotPasswordConfig {
-
-    static func write(value: AmplifyBackendClientTypes.CreateBackendAuthForgotPasswordConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deliveryMethod"].write(value.deliveryMethod)
-        try writer["emailSettings"].write(value.emailSettings, with: AmplifyBackendClientTypes.EmailSettings.write(value:to:))
-        try writer["smsSettings"].write(value.smsSettings, with: AmplifyBackendClientTypes.SmsSettings.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.CreateBackendAuthForgotPasswordConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyBackendClientTypes.CreateBackendAuthForgotPasswordConfig()
-        value.deliveryMethod = try reader["deliveryMethod"].readIfPresent() ?? .sdkUnknown("")
-        value.emailSettings = try reader["emailSettings"].readIfPresent(with: AmplifyBackendClientTypes.EmailSettings.read(from:))
-        value.smsSettings = try reader["smsSettings"].readIfPresent(with: AmplifyBackendClientTypes.SmsSettings.read(from:))
-        return value
-    }
-}
-
-extension AmplifyBackendClientTypes.CreateBackendAuthIdentityPoolConfig {
-
-    static func write(value: AmplifyBackendClientTypes.CreateBackendAuthIdentityPoolConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["identityPoolName"].write(value.identityPoolName)
-        try writer["unauthenticatedLogin"].write(value.unauthenticatedLogin)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.CreateBackendAuthIdentityPoolConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyBackendClientTypes.CreateBackendAuthIdentityPoolConfig()
-        value.identityPoolName = try reader["identityPoolName"].readIfPresent() ?? ""
-        value.unauthenticatedLogin = try reader["unauthenticatedLogin"].readIfPresent() ?? false
-        return value
-    }
-}
-
 extension AmplifyBackendClientTypes.GetBackendStorageResourceConfig {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.GetBackendStorageResourceConfig {
@@ -5151,51 +5142,6 @@ extension AmplifyBackendClientTypes.GetBackendStorageResourceConfig {
         value.imported = try reader["imported"].readIfPresent() ?? false
         value.permissions = try reader["permissions"].readIfPresent(with: AmplifyBackendClientTypes.BackendStoragePermissions.read(from:))
         value.serviceName = try reader["serviceName"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension AmplifyBackendClientTypes.BackendStoragePermissions {
-
-    static func write(value: AmplifyBackendClientTypes.BackendStoragePermissions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authenticated"].writeList(value.authenticated, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AmplifyBackendClientTypes.AuthenticatedElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["unAuthenticated"].writeList(value.unAuthenticated, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AmplifyBackendClientTypes.UnAuthenticatedElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.BackendStoragePermissions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyBackendClientTypes.BackendStoragePermissions()
-        value.authenticated = try reader["authenticated"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AmplifyBackendClientTypes.AuthenticatedElement>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.unAuthenticated = try reader["unAuthenticated"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AmplifyBackendClientTypes.UnAuthenticatedElement>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension AmplifyBackendClientTypes.BackendJobRespObj {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.BackendJobRespObj {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyBackendClientTypes.BackendJobRespObj()
-        value.appId = try reader["appId"].readIfPresent() ?? ""
-        value.backendEnvironmentName = try reader["backendEnvironmentName"].readIfPresent() ?? ""
-        value.createTime = try reader["createTime"].readIfPresent()
-        value.error = try reader["error"].readIfPresent()
-        value.jobId = try reader["jobId"].readIfPresent()
-        value.operation = try reader["operation"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.updateTime = try reader["updateTime"].readIfPresent()
-        return value
-    }
-}
-
-extension AmplifyBackendClientTypes.S3BucketInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.S3BucketInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmplifyBackendClientTypes.S3BucketInfo()
-        value.creationDate = try reader["creationDate"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
         return value
     }
 }
@@ -5229,13 +5175,116 @@ extension AmplifyBackendClientTypes.ResourceConfig {
     }
 }
 
-extension AmplifyBackendClientTypes.CreateBackendStorageResourceConfig {
+extension AmplifyBackendClientTypes.S3BucketInfo {
 
-    static func write(value: AmplifyBackendClientTypes.CreateBackendStorageResourceConfig?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.S3BucketInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyBackendClientTypes.S3BucketInfo()
+        value.creationDate = try reader["creationDate"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension AmplifyBackendClientTypes.Settings {
+
+    static func write(value: AmplifyBackendClientTypes.Settings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["bucketName"].write(value.bucketName)
-        try writer["permissions"].write(value.permissions, with: AmplifyBackendClientTypes.BackendStoragePermissions.write(value:to:))
-        try writer["serviceName"].write(value.serviceName)
+        try writer["mfaTypes"].writeList(value.mfaTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AmplifyBackendClientTypes.MfaTypesElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["smsMessage"].write(value.smsMessage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.Settings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyBackendClientTypes.Settings()
+        value.mfaTypes = try reader["mfaTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AmplifyBackendClientTypes.MfaTypesElement>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.smsMessage = try reader["smsMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension AmplifyBackendClientTypes.SmsSettings {
+
+    static func write(value: AmplifyBackendClientTypes.SmsSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["smsMessage"].write(value.smsMessage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.SmsSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyBackendClientTypes.SmsSettings()
+        value.smsMessage = try reader["smsMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension AmplifyBackendClientTypes.SocialProviderSettings {
+
+    static func write(value: AmplifyBackendClientTypes.SocialProviderSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Facebook"].write(value.facebook, with: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig.write(value:to:))
+        try writer["Google"].write(value.google, with: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig.write(value:to:))
+        try writer["LoginWithAmazon"].write(value.loginWithAmazon, with: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig.write(value:to:))
+        try writer["SignInWithApple"].write(value.signInWithApple, with: AmplifyBackendClientTypes.BackendAuthAppleProviderConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyBackendClientTypes.SocialProviderSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyBackendClientTypes.SocialProviderSettings()
+        value.facebook = try reader["Facebook"].readIfPresent(with: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig.read(from:))
+        value.google = try reader["Google"].readIfPresent(with: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig.read(from:))
+        value.loginWithAmazon = try reader["LoginWithAmazon"].readIfPresent(with: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig.read(from:))
+        value.signInWithApple = try reader["SignInWithApple"].readIfPresent(with: AmplifyBackendClientTypes.BackendAuthAppleProviderConfig.read(from:))
+        return value
+    }
+}
+
+extension AmplifyBackendClientTypes.UpdateBackendAuthForgotPasswordConfig {
+
+    static func write(value: AmplifyBackendClientTypes.UpdateBackendAuthForgotPasswordConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deliveryMethod"].write(value.deliveryMethod)
+        try writer["emailSettings"].write(value.emailSettings, with: AmplifyBackendClientTypes.EmailSettings.write(value:to:))
+        try writer["smsSettings"].write(value.smsSettings, with: AmplifyBackendClientTypes.SmsSettings.write(value:to:))
+    }
+}
+
+extension AmplifyBackendClientTypes.UpdateBackendAuthIdentityPoolConfig {
+
+    static func write(value: AmplifyBackendClientTypes.UpdateBackendAuthIdentityPoolConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["unauthenticatedLogin"].write(value.unauthenticatedLogin)
+    }
+}
+
+extension AmplifyBackendClientTypes.UpdateBackendAuthMFAConfig {
+
+    static func write(value: AmplifyBackendClientTypes.UpdateBackendAuthMFAConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MFAMode"].write(value.mfaMode)
+        try writer["settings"].write(value.settings, with: AmplifyBackendClientTypes.Settings.write(value:to:))
+    }
+}
+
+extension AmplifyBackendClientTypes.UpdateBackendAuthOAuthConfig {
+
+    static func write(value: AmplifyBackendClientTypes.UpdateBackendAuthOAuthConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainPrefix"].write(value.domainPrefix)
+        try writer["oAuthGrantType"].write(value.oAuthGrantType)
+        try writer["oAuthScopes"].writeList(value.oAuthScopes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AmplifyBackendClientTypes.OAuthScopesElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["redirectSignInURIs"].writeList(value.redirectSignInURIs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["redirectSignOutURIs"].writeList(value.redirectSignOutURIs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["socialProviderSettings"].write(value.socialProviderSettings, with: AmplifyBackendClientTypes.SocialProviderSettings.write(value:to:))
+    }
+}
+
+extension AmplifyBackendClientTypes.UpdateBackendAuthPasswordPolicyConfig {
+
+    static func write(value: AmplifyBackendClientTypes.UpdateBackendAuthPasswordPolicyConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalConstraints"].writeList(value.additionalConstraints, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AmplifyBackendClientTypes.AdditionalConstraintsElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["minimumLength"].write(value.minimumLength)
     }
 }
 
@@ -5269,55 +5318,6 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthVerificationMessageConfig {
         try writer["deliveryMethod"].write(value.deliveryMethod)
         try writer["emailSettings"].write(value.emailSettings, with: AmplifyBackendClientTypes.EmailSettings.write(value:to:))
         try writer["smsSettings"].write(value.smsSettings, with: AmplifyBackendClientTypes.SmsSettings.write(value:to:))
-    }
-}
-
-extension AmplifyBackendClientTypes.UpdateBackendAuthPasswordPolicyConfig {
-
-    static func write(value: AmplifyBackendClientTypes.UpdateBackendAuthPasswordPolicyConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalConstraints"].writeList(value.additionalConstraints, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AmplifyBackendClientTypes.AdditionalConstraintsElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["minimumLength"].write(value.minimumLength)
-    }
-}
-
-extension AmplifyBackendClientTypes.UpdateBackendAuthOAuthConfig {
-
-    static func write(value: AmplifyBackendClientTypes.UpdateBackendAuthOAuthConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["domainPrefix"].write(value.domainPrefix)
-        try writer["oAuthGrantType"].write(value.oAuthGrantType)
-        try writer["oAuthScopes"].writeList(value.oAuthScopes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AmplifyBackendClientTypes.OAuthScopesElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["redirectSignInURIs"].writeList(value.redirectSignInURIs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["redirectSignOutURIs"].writeList(value.redirectSignOutURIs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["socialProviderSettings"].write(value.socialProviderSettings, with: AmplifyBackendClientTypes.SocialProviderSettings.write(value:to:))
-    }
-}
-
-extension AmplifyBackendClientTypes.UpdateBackendAuthMFAConfig {
-
-    static func write(value: AmplifyBackendClientTypes.UpdateBackendAuthMFAConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MFAMode"].write(value.mfaMode)
-        try writer["settings"].write(value.settings, with: AmplifyBackendClientTypes.Settings.write(value:to:))
-    }
-}
-
-extension AmplifyBackendClientTypes.UpdateBackendAuthForgotPasswordConfig {
-
-    static func write(value: AmplifyBackendClientTypes.UpdateBackendAuthForgotPasswordConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deliveryMethod"].write(value.deliveryMethod)
-        try writer["emailSettings"].write(value.emailSettings, with: AmplifyBackendClientTypes.EmailSettings.write(value:to:))
-        try writer["smsSettings"].write(value.smsSettings, with: AmplifyBackendClientTypes.SmsSettings.write(value:to:))
-    }
-}
-
-extension AmplifyBackendClientTypes.UpdateBackendAuthIdentityPoolConfig {
-
-    static func write(value: AmplifyBackendClientTypes.UpdateBackendAuthIdentityPoolConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["unauthenticatedLogin"].write(value.unauthenticatedLogin)
     }
 }
 

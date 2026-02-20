@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ElastiCacheClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ElastiCacheClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ElastiCacheClient.ElastiCacheClientConfig
+    public let config: ElastiCacheClient.ElastiCacheClientConfig
     let serviceName = "ElastiCache"
 
     @available(*, deprecated, message: "Use ElastiCacheClient.ElastiCacheClientConfig instead")
     public typealias Config = ElastiCacheClient.ElastiCacheClientConfiguration
+    public typealias Configuration = ElastiCacheClient.ElastiCacheClientConfig
 
     public required init(config: ElastiCacheClient.ElastiCacheClientConfig) {
         ClientRuntime.initialize()

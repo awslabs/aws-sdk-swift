@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DLMClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DLMClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DLMClient.DLMClientConfig
+    public let config: DLMClient.DLMClientConfig
     let serviceName = "DLM"
 
     @available(*, deprecated, message: "Use DLMClient.DLMClientConfig instead")
     public typealias Config = DLMClient.DLMClientConfiguration
+    public typealias Configuration = DLMClient.DLMClientConfig
 
     public required init(config: DLMClient.DLMClientConfig) {
         ClientRuntime.initialize()

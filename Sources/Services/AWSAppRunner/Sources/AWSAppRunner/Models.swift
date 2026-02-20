@@ -4766,40 +4766,19 @@ extension ResourceNotFoundException {
     }
 }
 
-extension AppRunnerClientTypes.CustomDomain {
+extension AppRunnerClientTypes.AuthenticationConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.CustomDomain {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.CustomDomain()
-        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
-        value.enableWWWSubdomain = try reader["EnableWWWSubdomain"].readIfPresent() ?? false
-        value.certificateValidationRecords = try reader["CertificateValidationRecords"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.CertificateValidationRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        return value
+    static func write(value: AppRunnerClientTypes.AuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessRoleArn"].write(value.accessRoleArn)
+        try writer["ConnectionArn"].write(value.connectionArn)
     }
-}
 
-extension AppRunnerClientTypes.CertificateValidationRecord {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.CertificateValidationRecord {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.AuthenticationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.CertificateValidationRecord()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension AppRunnerClientTypes.VpcDNSTarget {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.VpcDNSTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.VpcDNSTarget()
-        value.vpcIngressConnectionArn = try reader["VpcIngressConnectionArn"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.domainName = try reader["DomainName"].readIfPresent()
+        var value = AppRunnerClientTypes.AuthenticationConfiguration()
+        value.connectionArn = try reader["ConnectionArn"].readIfPresent()
+        value.accessRoleArn = try reader["AccessRoleArn"].readIfPresent()
         return value
     }
 }
@@ -4825,144 +4804,6 @@ extension AppRunnerClientTypes.AutoScalingConfiguration {
     }
 }
 
-extension AppRunnerClientTypes.Connection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.Connection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.Connection()
-        value.connectionName = try reader["ConnectionName"].readIfPresent()
-        value.connectionArn = try reader["ConnectionArn"].readIfPresent()
-        value.providerType = try reader["ProviderType"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension AppRunnerClientTypes.ObservabilityConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ObservabilityConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.ObservabilityConfiguration()
-        value.observabilityConfigurationArn = try reader["ObservabilityConfigurationArn"].readIfPresent()
-        value.observabilityConfigurationName = try reader["ObservabilityConfigurationName"].readIfPresent()
-        value.traceConfiguration = try reader["TraceConfiguration"].readIfPresent(with: AppRunnerClientTypes.TraceConfiguration.read(from:))
-        value.observabilityConfigurationRevision = try reader["ObservabilityConfigurationRevision"].readIfPresent() ?? 0
-        value.latest = try reader["Latest"].readIfPresent() ?? false
-        value.status = try reader["Status"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deletedAt = try reader["DeletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension AppRunnerClientTypes.TraceConfiguration {
-
-    static func write(value: AppRunnerClientTypes.TraceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Vendor"].write(value.vendor)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.TraceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.TraceConfiguration()
-        value.vendor = try reader["Vendor"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension AppRunnerClientTypes.Service {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.Service {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.Service()
-        value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
-        value.serviceId = try reader["ServiceId"].readIfPresent() ?? ""
-        value.serviceArn = try reader["ServiceArn"].readIfPresent() ?? ""
-        value.serviceUrl = try reader["ServiceUrl"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.deletedAt = try reader["DeletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.sourceConfiguration = try reader["SourceConfiguration"].readIfPresent(with: AppRunnerClientTypes.SourceConfiguration.read(from:))
-        value.instanceConfiguration = try reader["InstanceConfiguration"].readIfPresent(with: AppRunnerClientTypes.InstanceConfiguration.read(from:))
-        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: AppRunnerClientTypes.EncryptionConfiguration.read(from:))
-        value.healthCheckConfiguration = try reader["HealthCheckConfiguration"].readIfPresent(with: AppRunnerClientTypes.HealthCheckConfiguration.read(from:))
-        value.autoScalingConfigurationSummary = try reader["AutoScalingConfigurationSummary"].readIfPresent(with: AppRunnerClientTypes.AutoScalingConfigurationSummary.read(from:))
-        value.networkConfiguration = try reader["NetworkConfiguration"].readIfPresent(with: AppRunnerClientTypes.NetworkConfiguration.read(from:))
-        value.observabilityConfiguration = try reader["ObservabilityConfiguration"].readIfPresent(with: AppRunnerClientTypes.ServiceObservabilityConfiguration.read(from:))
-        return value
-    }
-}
-
-extension AppRunnerClientTypes.ServiceObservabilityConfiguration {
-
-    static func write(value: AppRunnerClientTypes.ServiceObservabilityConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ObservabilityConfigurationArn"].write(value.observabilityConfigurationArn)
-        try writer["ObservabilityEnabled"].write(value.observabilityEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ServiceObservabilityConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.ServiceObservabilityConfiguration()
-        value.observabilityEnabled = try reader["ObservabilityEnabled"].readIfPresent() ?? false
-        value.observabilityConfigurationArn = try reader["ObservabilityConfigurationArn"].readIfPresent()
-        return value
-    }
-}
-
-extension AppRunnerClientTypes.NetworkConfiguration {
-
-    static func write(value: AppRunnerClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EgressConfiguration"].write(value.egressConfiguration, with: AppRunnerClientTypes.EgressConfiguration.write(value:to:))
-        try writer["IngressConfiguration"].write(value.ingressConfiguration, with: AppRunnerClientTypes.IngressConfiguration.write(value:to:))
-        try writer["IpAddressType"].write(value.ipAddressType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.NetworkConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.NetworkConfiguration()
-        value.egressConfiguration = try reader["EgressConfiguration"].readIfPresent(with: AppRunnerClientTypes.EgressConfiguration.read(from:))
-        value.ingressConfiguration = try reader["IngressConfiguration"].readIfPresent(with: AppRunnerClientTypes.IngressConfiguration.read(from:))
-        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
-        return value
-    }
-}
-
-extension AppRunnerClientTypes.IngressConfiguration {
-
-    static func write(value: AppRunnerClientTypes.IngressConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IsPubliclyAccessible"].write(value.isPubliclyAccessible)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.IngressConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.IngressConfiguration()
-        value.isPubliclyAccessible = try reader["IsPubliclyAccessible"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension AppRunnerClientTypes.EgressConfiguration {
-
-    static func write(value: AppRunnerClientTypes.EgressConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EgressType"].write(value.egressType)
-        try writer["VpcConnectorArn"].write(value.vpcConnectorArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.EgressConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.EgressConfiguration()
-        value.egressType = try reader["EgressType"].readIfPresent()
-        value.vpcConnectorArn = try reader["VpcConnectorArn"].readIfPresent()
-        return value
-    }
-}
-
 extension AppRunnerClientTypes.AutoScalingConfigurationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.AutoScalingConfigurationSummary {
@@ -4979,160 +4820,15 @@ extension AppRunnerClientTypes.AutoScalingConfigurationSummary {
     }
 }
 
-extension AppRunnerClientTypes.HealthCheckConfiguration {
+extension AppRunnerClientTypes.CertificateValidationRecord {
 
-    static func write(value: AppRunnerClientTypes.HealthCheckConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HealthyThreshold"].write(value.healthyThreshold)
-        try writer["Interval"].write(value.interval)
-        try writer["Path"].write(value.path)
-        try writer["Protocol"].write(value.`protocol`)
-        try writer["Timeout"].write(value.timeout)
-        try writer["UnhealthyThreshold"].write(value.unhealthyThreshold)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.HealthCheckConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.CertificateValidationRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.HealthCheckConfiguration()
-        value.`protocol` = try reader["Protocol"].readIfPresent()
-        value.path = try reader["Path"].readIfPresent()
-        value.interval = try reader["Interval"].readIfPresent()
-        value.timeout = try reader["Timeout"].readIfPresent()
-        value.healthyThreshold = try reader["HealthyThreshold"].readIfPresent()
-        value.unhealthyThreshold = try reader["UnhealthyThreshold"].readIfPresent()
-        return value
-    }
-}
-
-extension AppRunnerClientTypes.EncryptionConfiguration {
-
-    static func write(value: AppRunnerClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKey"].write(value.kmsKey)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.EncryptionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.EncryptionConfiguration()
-        value.kmsKey = try reader["KmsKey"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppRunnerClientTypes.InstanceConfiguration {
-
-    static func write(value: AppRunnerClientTypes.InstanceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Cpu"].write(value.cpu)
-        try writer["InstanceRoleArn"].write(value.instanceRoleArn)
-        try writer["Memory"].write(value.memory)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.InstanceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.InstanceConfiguration()
-        value.cpu = try reader["Cpu"].readIfPresent()
-        value.memory = try reader["Memory"].readIfPresent()
-        value.instanceRoleArn = try reader["InstanceRoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension AppRunnerClientTypes.SourceConfiguration {
-
-    static func write(value: AppRunnerClientTypes.SourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthenticationConfiguration"].write(value.authenticationConfiguration, with: AppRunnerClientTypes.AuthenticationConfiguration.write(value:to:))
-        try writer["AutoDeploymentsEnabled"].write(value.autoDeploymentsEnabled)
-        try writer["CodeRepository"].write(value.codeRepository, with: AppRunnerClientTypes.CodeRepository.write(value:to:))
-        try writer["ImageRepository"].write(value.imageRepository, with: AppRunnerClientTypes.ImageRepository.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.SourceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.SourceConfiguration()
-        value.codeRepository = try reader["CodeRepository"].readIfPresent(with: AppRunnerClientTypes.CodeRepository.read(from:))
-        value.imageRepository = try reader["ImageRepository"].readIfPresent(with: AppRunnerClientTypes.ImageRepository.read(from:))
-        value.autoDeploymentsEnabled = try reader["AutoDeploymentsEnabled"].readIfPresent()
-        value.authenticationConfiguration = try reader["AuthenticationConfiguration"].readIfPresent(with: AppRunnerClientTypes.AuthenticationConfiguration.read(from:))
-        return value
-    }
-}
-
-extension AppRunnerClientTypes.AuthenticationConfiguration {
-
-    static func write(value: AppRunnerClientTypes.AuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessRoleArn"].write(value.accessRoleArn)
-        try writer["ConnectionArn"].write(value.connectionArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.AuthenticationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.AuthenticationConfiguration()
-        value.connectionArn = try reader["ConnectionArn"].readIfPresent()
-        value.accessRoleArn = try reader["AccessRoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension AppRunnerClientTypes.ImageRepository {
-
-    static func write(value: AppRunnerClientTypes.ImageRepository?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ImageConfiguration"].write(value.imageConfiguration, with: AppRunnerClientTypes.ImageConfiguration.write(value:to:))
-        try writer["ImageIdentifier"].write(value.imageIdentifier)
-        try writer["ImageRepositoryType"].write(value.imageRepositoryType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ImageRepository {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.ImageRepository()
-        value.imageIdentifier = try reader["ImageIdentifier"].readIfPresent() ?? ""
-        value.imageConfiguration = try reader["ImageConfiguration"].readIfPresent(with: AppRunnerClientTypes.ImageConfiguration.read(from:))
-        value.imageRepositoryType = try reader["ImageRepositoryType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension AppRunnerClientTypes.ImageConfiguration {
-
-    static func write(value: AppRunnerClientTypes.ImageConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Port"].write(value.port)
-        try writer["RuntimeEnvironmentSecrets"].writeMap(value.runtimeEnvironmentSecrets, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["RuntimeEnvironmentVariables"].writeMap(value.runtimeEnvironmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["StartCommand"].write(value.startCommand)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ImageConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.ImageConfiguration()
-        value.runtimeEnvironmentVariables = try reader["RuntimeEnvironmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.startCommand = try reader["StartCommand"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.runtimeEnvironmentSecrets = try reader["RuntimeEnvironmentSecrets"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension AppRunnerClientTypes.CodeRepository {
-
-    static func write(value: AppRunnerClientTypes.CodeRepository?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CodeConfiguration"].write(value.codeConfiguration, with: AppRunnerClientTypes.CodeConfiguration.write(value:to:))
-        try writer["RepositoryUrl"].write(value.repositoryUrl)
-        try writer["SourceCodeVersion"].write(value.sourceCodeVersion, with: AppRunnerClientTypes.SourceCodeVersion.write(value:to:))
-        try writer["SourceDirectory"].write(value.sourceDirectory)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.CodeRepository {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.CodeRepository()
-        value.repositoryUrl = try reader["RepositoryUrl"].readIfPresent() ?? ""
-        value.sourceCodeVersion = try reader["SourceCodeVersion"].readIfPresent(with: AppRunnerClientTypes.SourceCodeVersion.read(from:))
-        value.codeConfiguration = try reader["CodeConfiguration"].readIfPresent(with: AppRunnerClientTypes.CodeConfiguration.read(from:))
-        value.sourceDirectory = try reader["SourceDirectory"].readIfPresent()
+        var value = AppRunnerClientTypes.CertificateValidationRecord()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -5179,54 +4875,176 @@ extension AppRunnerClientTypes.CodeConfigurationValues {
     }
 }
 
-extension AppRunnerClientTypes.SourceCodeVersion {
+extension AppRunnerClientTypes.CodeRepository {
 
-    static func write(value: AppRunnerClientTypes.SourceCodeVersion?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AppRunnerClientTypes.CodeRepository?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
+        try writer["CodeConfiguration"].write(value.codeConfiguration, with: AppRunnerClientTypes.CodeConfiguration.write(value:to:))
+        try writer["RepositoryUrl"].write(value.repositoryUrl)
+        try writer["SourceCodeVersion"].write(value.sourceCodeVersion, with: AppRunnerClientTypes.SourceCodeVersion.write(value:to:))
+        try writer["SourceDirectory"].write(value.sourceDirectory)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.SourceCodeVersion {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.CodeRepository {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.SourceCodeVersion()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = AppRunnerClientTypes.CodeRepository()
+        value.repositoryUrl = try reader["RepositoryUrl"].readIfPresent() ?? ""
+        value.sourceCodeVersion = try reader["SourceCodeVersion"].readIfPresent(with: AppRunnerClientTypes.SourceCodeVersion.read(from:))
+        value.codeConfiguration = try reader["CodeConfiguration"].readIfPresent(with: AppRunnerClientTypes.CodeConfiguration.read(from:))
+        value.sourceDirectory = try reader["SourceDirectory"].readIfPresent()
         return value
     }
 }
 
-extension AppRunnerClientTypes.VpcConnector {
+extension AppRunnerClientTypes.Connection {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.VpcConnector {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.Connection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.VpcConnector()
-        value.vpcConnectorName = try reader["VpcConnectorName"].readIfPresent()
+        var value = AppRunnerClientTypes.Connection()
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.connectionArn = try reader["ConnectionArn"].readIfPresent()
+        value.providerType = try reader["ProviderType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension AppRunnerClientTypes.ConnectionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ConnectionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.ConnectionSummary()
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.connectionArn = try reader["ConnectionArn"].readIfPresent()
+        value.providerType = try reader["ProviderType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension AppRunnerClientTypes.CustomDomain {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.CustomDomain {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.CustomDomain()
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.enableWWWSubdomain = try reader["EnableWWWSubdomain"].readIfPresent() ?? false
+        value.certificateValidationRecords = try reader["CertificateValidationRecords"].readListIfPresent(memberReadingClosure: AppRunnerClientTypes.CertificateValidationRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension AppRunnerClientTypes.EgressConfiguration {
+
+    static func write(value: AppRunnerClientTypes.EgressConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EgressType"].write(value.egressType)
+        try writer["VpcConnectorArn"].write(value.vpcConnectorArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.EgressConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.EgressConfiguration()
+        value.egressType = try reader["EgressType"].readIfPresent()
         value.vpcConnectorArn = try reader["VpcConnectorArn"].readIfPresent()
-        value.vpcConnectorRevision = try reader["VpcConnectorRevision"].readIfPresent() ?? 0
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["Status"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deletedAt = try reader["DeletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension AppRunnerClientTypes.VpcIngressConnection {
+extension AppRunnerClientTypes.EncryptionConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.VpcIngressConnection {
+    static func write(value: AppRunnerClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKey"].write(value.kmsKey)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.EncryptionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.VpcIngressConnection()
-        value.vpcIngressConnectionArn = try reader["VpcIngressConnectionArn"].readIfPresent()
-        value.vpcIngressConnectionName = try reader["VpcIngressConnectionName"].readIfPresent()
-        value.serviceArn = try reader["ServiceArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.ingressVpcConfiguration = try reader["IngressVpcConfiguration"].readIfPresent(with: AppRunnerClientTypes.IngressVpcConfiguration.read(from:))
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deletedAt = try reader["DeletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = AppRunnerClientTypes.EncryptionConfiguration()
+        value.kmsKey = try reader["KmsKey"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppRunnerClientTypes.HealthCheckConfiguration {
+
+    static func write(value: AppRunnerClientTypes.HealthCheckConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HealthyThreshold"].write(value.healthyThreshold)
+        try writer["Interval"].write(value.interval)
+        try writer["Path"].write(value.path)
+        try writer["Protocol"].write(value.`protocol`)
+        try writer["Timeout"].write(value.timeout)
+        try writer["UnhealthyThreshold"].write(value.unhealthyThreshold)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.HealthCheckConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.HealthCheckConfiguration()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.path = try reader["Path"].readIfPresent()
+        value.interval = try reader["Interval"].readIfPresent()
+        value.timeout = try reader["Timeout"].readIfPresent()
+        value.healthyThreshold = try reader["HealthyThreshold"].readIfPresent()
+        value.unhealthyThreshold = try reader["UnhealthyThreshold"].readIfPresent()
+        return value
+    }
+}
+
+extension AppRunnerClientTypes.ImageConfiguration {
+
+    static func write(value: AppRunnerClientTypes.ImageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Port"].write(value.port)
+        try writer["RuntimeEnvironmentSecrets"].writeMap(value.runtimeEnvironmentSecrets, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["RuntimeEnvironmentVariables"].writeMap(value.runtimeEnvironmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["StartCommand"].write(value.startCommand)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ImageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.ImageConfiguration()
+        value.runtimeEnvironmentVariables = try reader["RuntimeEnvironmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.startCommand = try reader["StartCommand"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.runtimeEnvironmentSecrets = try reader["RuntimeEnvironmentSecrets"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension AppRunnerClientTypes.ImageRepository {
+
+    static func write(value: AppRunnerClientTypes.ImageRepository?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ImageConfiguration"].write(value.imageConfiguration, with: AppRunnerClientTypes.ImageConfiguration.write(value:to:))
+        try writer["ImageIdentifier"].write(value.imageIdentifier)
+        try writer["ImageRepositoryType"].write(value.imageRepositoryType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ImageRepository {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.ImageRepository()
+        value.imageIdentifier = try reader["ImageIdentifier"].readIfPresent() ?? ""
+        value.imageConfiguration = try reader["ImageConfiguration"].readIfPresent(with: AppRunnerClientTypes.ImageConfiguration.read(from:))
+        value.imageRepositoryType = try reader["ImageRepositoryType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension AppRunnerClientTypes.IngressConfiguration {
+
+    static func write(value: AppRunnerClientTypes.IngressConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IsPubliclyAccessible"].write(value.isPubliclyAccessible)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.IngressConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.IngressConfiguration()
+        value.isPubliclyAccessible = try reader["IsPubliclyAccessible"].readIfPresent() ?? false
         return value
     }
 }
@@ -5248,16 +5066,66 @@ extension AppRunnerClientTypes.IngressVpcConfiguration {
     }
 }
 
-extension AppRunnerClientTypes.ConnectionSummary {
+extension AppRunnerClientTypes.InstanceConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ConnectionSummary {
+    static func write(value: AppRunnerClientTypes.InstanceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Cpu"].write(value.cpu)
+        try writer["InstanceRoleArn"].write(value.instanceRoleArn)
+        try writer["Memory"].write(value.memory)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.InstanceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppRunnerClientTypes.ConnectionSummary()
-        value.connectionName = try reader["ConnectionName"].readIfPresent()
-        value.connectionArn = try reader["ConnectionArn"].readIfPresent()
-        value.providerType = try reader["ProviderType"].readIfPresent()
+        var value = AppRunnerClientTypes.InstanceConfiguration()
+        value.cpu = try reader["Cpu"].readIfPresent()
+        value.memory = try reader["Memory"].readIfPresent()
+        value.instanceRoleArn = try reader["InstanceRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension AppRunnerClientTypes.ListVpcIngressConnectionsFilter {
+
+    static func write(value: AppRunnerClientTypes.ListVpcIngressConnectionsFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ServiceArn"].write(value.serviceArn)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
+    }
+}
+
+extension AppRunnerClientTypes.NetworkConfiguration {
+
+    static func write(value: AppRunnerClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EgressConfiguration"].write(value.egressConfiguration, with: AppRunnerClientTypes.EgressConfiguration.write(value:to:))
+        try writer["IngressConfiguration"].write(value.ingressConfiguration, with: AppRunnerClientTypes.IngressConfiguration.write(value:to:))
+        try writer["IpAddressType"].write(value.ipAddressType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.NetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.NetworkConfiguration()
+        value.egressConfiguration = try reader["EgressConfiguration"].readIfPresent(with: AppRunnerClientTypes.EgressConfiguration.read(from:))
+        value.ingressConfiguration = try reader["IngressConfiguration"].readIfPresent(with: AppRunnerClientTypes.IngressConfiguration.read(from:))
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
+        return value
+    }
+}
+
+extension AppRunnerClientTypes.ObservabilityConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ObservabilityConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.ObservabilityConfiguration()
+        value.observabilityConfigurationArn = try reader["ObservabilityConfigurationArn"].readIfPresent()
+        value.observabilityConfigurationName = try reader["ObservabilityConfigurationName"].readIfPresent()
+        value.traceConfiguration = try reader["TraceConfiguration"].readIfPresent(with: AppRunnerClientTypes.TraceConfiguration.read(from:))
+        value.observabilityConfigurationRevision = try reader["ObservabilityConfigurationRevision"].readIfPresent() ?? 0
+        value.latest = try reader["Latest"].readIfPresent() ?? false
         value.status = try reader["Status"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deletedAt = try reader["DeletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -5290,6 +5158,47 @@ extension AppRunnerClientTypes.OperationSummary {
     }
 }
 
+extension AppRunnerClientTypes.Service {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.Service {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.Service()
+        value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
+        value.serviceId = try reader["ServiceId"].readIfPresent() ?? ""
+        value.serviceArn = try reader["ServiceArn"].readIfPresent() ?? ""
+        value.serviceUrl = try reader["ServiceUrl"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.deletedAt = try reader["DeletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceConfiguration = try reader["SourceConfiguration"].readIfPresent(with: AppRunnerClientTypes.SourceConfiguration.read(from:))
+        value.instanceConfiguration = try reader["InstanceConfiguration"].readIfPresent(with: AppRunnerClientTypes.InstanceConfiguration.read(from:))
+        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: AppRunnerClientTypes.EncryptionConfiguration.read(from:))
+        value.healthCheckConfiguration = try reader["HealthCheckConfiguration"].readIfPresent(with: AppRunnerClientTypes.HealthCheckConfiguration.read(from:))
+        value.autoScalingConfigurationSummary = try reader["AutoScalingConfigurationSummary"].readIfPresent(with: AppRunnerClientTypes.AutoScalingConfigurationSummary.read(from:))
+        value.networkConfiguration = try reader["NetworkConfiguration"].readIfPresent(with: AppRunnerClientTypes.NetworkConfiguration.read(from:))
+        value.observabilityConfiguration = try reader["ObservabilityConfiguration"].readIfPresent(with: AppRunnerClientTypes.ServiceObservabilityConfiguration.read(from:))
+        return value
+    }
+}
+
+extension AppRunnerClientTypes.ServiceObservabilityConfiguration {
+
+    static func write(value: AppRunnerClientTypes.ServiceObservabilityConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ObservabilityConfigurationArn"].write(value.observabilityConfigurationArn)
+        try writer["ObservabilityEnabled"].write(value.observabilityEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ServiceObservabilityConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.ServiceObservabilityConfiguration()
+        value.observabilityEnabled = try reader["ObservabilityEnabled"].readIfPresent() ?? false
+        value.observabilityConfigurationArn = try reader["ObservabilityConfigurationArn"].readIfPresent()
+        return value
+    }
+}
+
 extension AppRunnerClientTypes.ServiceSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.ServiceSummary {
@@ -5302,6 +5211,44 @@ extension AppRunnerClientTypes.ServiceSummary {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension AppRunnerClientTypes.SourceCodeVersion {
+
+    static func write(value: AppRunnerClientTypes.SourceCodeVersion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.SourceCodeVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.SourceCodeVersion()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppRunnerClientTypes.SourceConfiguration {
+
+    static func write(value: AppRunnerClientTypes.SourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthenticationConfiguration"].write(value.authenticationConfiguration, with: AppRunnerClientTypes.AuthenticationConfiguration.write(value:to:))
+        try writer["AutoDeploymentsEnabled"].write(value.autoDeploymentsEnabled)
+        try writer["CodeRepository"].write(value.codeRepository, with: AppRunnerClientTypes.CodeRepository.write(value:to:))
+        try writer["ImageRepository"].write(value.imageRepository, with: AppRunnerClientTypes.ImageRepository.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.SourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.SourceConfiguration()
+        value.codeRepository = try reader["CodeRepository"].readIfPresent(with: AppRunnerClientTypes.CodeRepository.read(from:))
+        value.imageRepository = try reader["ImageRepository"].readIfPresent(with: AppRunnerClientTypes.ImageRepository.read(from:))
+        value.autoDeploymentsEnabled = try reader["AutoDeploymentsEnabled"].readIfPresent()
+        value.authenticationConfiguration = try reader["AuthenticationConfiguration"].readIfPresent(with: AppRunnerClientTypes.AuthenticationConfiguration.read(from:))
         return value
     }
 }
@@ -5323,6 +5270,68 @@ extension AppRunnerClientTypes.Tag {
     }
 }
 
+extension AppRunnerClientTypes.TraceConfiguration {
+
+    static func write(value: AppRunnerClientTypes.TraceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Vendor"].write(value.vendor)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.TraceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.TraceConfiguration()
+        value.vendor = try reader["Vendor"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension AppRunnerClientTypes.VpcConnector {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.VpcConnector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.VpcConnector()
+        value.vpcConnectorName = try reader["VpcConnectorName"].readIfPresent()
+        value.vpcConnectorArn = try reader["VpcConnectorArn"].readIfPresent()
+        value.vpcConnectorRevision = try reader["VpcConnectorRevision"].readIfPresent() ?? 0
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deletedAt = try reader["DeletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension AppRunnerClientTypes.VpcDNSTarget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.VpcDNSTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.VpcDNSTarget()
+        value.vpcIngressConnectionArn = try reader["VpcIngressConnectionArn"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.domainName = try reader["DomainName"].readIfPresent()
+        return value
+    }
+}
+
+extension AppRunnerClientTypes.VpcIngressConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.VpcIngressConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppRunnerClientTypes.VpcIngressConnection()
+        value.vpcIngressConnectionArn = try reader["VpcIngressConnectionArn"].readIfPresent()
+        value.vpcIngressConnectionName = try reader["VpcIngressConnectionName"].readIfPresent()
+        value.serviceArn = try reader["ServiceArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.domainName = try reader["DomainName"].readIfPresent()
+        value.ingressVpcConfiguration = try reader["IngressVpcConfiguration"].readIfPresent(with: AppRunnerClientTypes.IngressVpcConfiguration.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deletedAt = try reader["DeletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension AppRunnerClientTypes.VpcIngressConnectionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppRunnerClientTypes.VpcIngressConnectionSummary {
@@ -5331,15 +5340,6 @@ extension AppRunnerClientTypes.VpcIngressConnectionSummary {
         value.vpcIngressConnectionArn = try reader["VpcIngressConnectionArn"].readIfPresent()
         value.serviceArn = try reader["ServiceArn"].readIfPresent()
         return value
-    }
-}
-
-extension AppRunnerClientTypes.ListVpcIngressConnectionsFilter {
-
-    static func write(value: AppRunnerClientTypes.ListVpcIngressConnectionsFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ServiceArn"].write(value.serviceArn)
-        try writer["VpcEndpointId"].write(value.vpcEndpointId)
     }
 }
 

@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class AppMeshClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "AppMeshClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: AppMeshClient.AppMeshClientConfig
+    public let config: AppMeshClient.AppMeshClientConfig
     let serviceName = "App Mesh"
 
     @available(*, deprecated, message: "Use AppMeshClient.AppMeshClientConfig instead")
     public typealias Config = AppMeshClient.AppMeshClientConfiguration
+    public typealias Configuration = AppMeshClient.AppMeshClientConfig
 
     public required init(config: AppMeshClient.AppMeshClientConfig) {
         ClientRuntime.initialize()

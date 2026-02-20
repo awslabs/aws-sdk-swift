@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class AthenaClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "AthenaClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: AthenaClient.AthenaClientConfig
+    public let config: AthenaClient.AthenaClientConfig
     let serviceName = "Athena"
 
     @available(*, deprecated, message: "Use AthenaClient.AthenaClientConfig instead")
     public typealias Config = AthenaClient.AthenaClientConfiguration
+    public typealias Configuration = AthenaClient.AthenaClientConfig
 
     public required init(config: AthenaClient.AthenaClientConfig) {
         ClientRuntime.initialize()

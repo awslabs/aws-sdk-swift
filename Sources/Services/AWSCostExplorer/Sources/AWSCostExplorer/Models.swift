@@ -10433,6 +10433,206 @@ extension TooManyTagsException {
     }
 }
 
+extension CostExplorerClientTypes.AnalysisDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.AnalysisDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.AnalysisDetails()
+        value.savingsPlansPurchaseAnalysisDetails = try reader["SavingsPlansPurchaseAnalysisDetails"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisDetails.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.AnalysisSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.AnalysisSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.AnalysisSummary()
+        value.estimatedCompletionTime = try reader["EstimatedCompletionTime"].readIfPresent()
+        value.analysisCompletionTime = try reader["AnalysisCompletionTime"].readIfPresent()
+        value.analysisStartedTime = try reader["AnalysisStartedTime"].readIfPresent()
+        value.analysisStatus = try reader["AnalysisStatus"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.analysisId = try reader["AnalysisId"].readIfPresent()
+        value.commitmentPurchaseAnalysisConfiguration = try reader["CommitmentPurchaseAnalysisConfiguration"].readIfPresent(with: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.Anomaly {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.Anomaly {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.Anomaly()
+        value.anomalyId = try reader["AnomalyId"].readIfPresent() ?? ""
+        value.anomalyStartDate = try reader["AnomalyStartDate"].readIfPresent()
+        value.anomalyEndDate = try reader["AnomalyEndDate"].readIfPresent()
+        value.dimensionValue = try reader["DimensionValue"].readIfPresent()
+        value.rootCauses = try reader["RootCauses"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.RootCause.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.anomalyScore = try reader["AnomalyScore"].readIfPresent(with: CostExplorerClientTypes.AnomalyScore.read(from:))
+        value.impact = try reader["Impact"].readIfPresent(with: CostExplorerClientTypes.Impact.read(from:))
+        value.monitorArn = try reader["MonitorArn"].readIfPresent() ?? ""
+        value.feedback = try reader["Feedback"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.AnomalyDateInterval {
+
+    static func write(value: CostExplorerClientTypes.AnomalyDateInterval?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndDate"].write(value.endDate)
+        try writer["StartDate"].write(value.startDate)
+    }
+}
+
+extension CostExplorerClientTypes.AnomalyMonitor {
+
+    static func write(value: CostExplorerClientTypes.AnomalyMonitor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CreationDate"].write(value.creationDate)
+        try writer["DimensionalValueCount"].write(value.dimensionalValueCount)
+        try writer["LastEvaluatedDate"].write(value.lastEvaluatedDate)
+        try writer["LastUpdatedDate"].write(value.lastUpdatedDate)
+        try writer["MonitorArn"].write(value.monitorArn)
+        try writer["MonitorDimension"].write(value.monitorDimension)
+        try writer["MonitorName"].write(value.monitorName)
+        try writer["MonitorSpecification"].write(value.monitorSpecification, with: CostExplorerClientTypes.Expression.write(value:to:))
+        try writer["MonitorType"].write(value.monitorType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.AnomalyMonitor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.AnomalyMonitor()
+        value.monitorArn = try reader["MonitorArn"].readIfPresent()
+        value.monitorName = try reader["MonitorName"].readIfPresent() ?? ""
+        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.lastUpdatedDate = try reader["LastUpdatedDate"].readIfPresent()
+        value.lastEvaluatedDate = try reader["LastEvaluatedDate"].readIfPresent()
+        value.monitorType = try reader["MonitorType"].readIfPresent() ?? .sdkUnknown("")
+        value.monitorDimension = try reader["MonitorDimension"].readIfPresent()
+        value.monitorSpecification = try reader["MonitorSpecification"].readIfPresent(with: CostExplorerClientTypes.Expression.read(from:))
+        value.dimensionalValueCount = try reader["DimensionalValueCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.AnomalyScore {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.AnomalyScore {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.AnomalyScore()
+        value.maxScore = try reader["MaxScore"].readIfPresent() ?? 0
+        value.currentScore = try reader["CurrentScore"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.AnomalySubscription {
+
+    static func write(value: CostExplorerClientTypes.AnomalySubscription?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["Frequency"].write(value.frequency)
+        try writer["MonitorArnList"].writeList(value.monitorArnList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Subscribers"].writeList(value.subscribers, memberWritingClosure: CostExplorerClientTypes.Subscriber.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SubscriptionArn"].write(value.subscriptionArn)
+        try writer["SubscriptionName"].write(value.subscriptionName)
+        try writer["Threshold"].write(value.threshold)
+        try writer["ThresholdExpression"].write(value.thresholdExpression, with: CostExplorerClientTypes.Expression.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.AnomalySubscription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.AnomalySubscription()
+        value.subscriptionArn = try reader["SubscriptionArn"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.monitorArnList = try reader["MonitorArnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subscribers = try reader["Subscribers"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.Subscriber.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.threshold = try reader["Threshold"].readIfPresent()
+        value.frequency = try reader["Frequency"].readIfPresent() ?? .sdkUnknown("")
+        value.subscriptionName = try reader["SubscriptionName"].readIfPresent() ?? ""
+        value.thresholdExpression = try reader["ThresholdExpression"].readIfPresent(with: CostExplorerClientTypes.Expression.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration {
+
+    static func write(value: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SavingsPlansPurchaseAnalysisConfiguration"].write(value.savingsPlansPurchaseAnalysisConfiguration, with: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration()
+        value.savingsPlansPurchaseAnalysisConfiguration = try reader["SavingsPlansPurchaseAnalysisConfiguration"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ComparisonMetricValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ComparisonMetricValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ComparisonMetricValue()
+        value.baselineTimePeriodAmount = try reader["BaselineTimePeriodAmount"].readIfPresent()
+        value.comparisonTimePeriodAmount = try reader["ComparisonTimePeriodAmount"].readIfPresent()
+        value.difference = try reader["Difference"].readIfPresent()
+        value.unit = try reader["Unit"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CostAllocationTag {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostAllocationTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CostAllocationTag()
+        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.lastUpdatedDate = try reader["LastUpdatedDate"].readIfPresent()
+        value.lastUsedDate = try reader["LastUsedDate"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CostAllocationTagBackfillRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostAllocationTagBackfillRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CostAllocationTagBackfillRequest()
+        value.backfillFrom = try reader["BackfillFrom"].readIfPresent()
+        value.requestedAt = try reader["RequestedAt"].readIfPresent()
+        value.completedAt = try reader["CompletedAt"].readIfPresent()
+        value.backfillStatus = try reader["BackfillStatus"].readIfPresent()
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CostAllocationTagStatusEntry {
+
+    static func write(value: CostExplorerClientTypes.CostAllocationTagStatusEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Status"].write(value.status)
+        try writer["TagKey"].write(value.tagKey)
+    }
+}
+
+extension CostExplorerClientTypes.CostAndUsageComparison {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostAndUsageComparison {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CostAndUsageComparison()
+        value.costAndUsageSelector = try reader["CostAndUsageSelector"].readIfPresent(with: CostExplorerClientTypes.Expression.read(from:))
+        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: CostExplorerClientTypes.ComparisonMetricValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension CostExplorerClientTypes.CostCategory {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategory {
@@ -10451,6 +10651,23 @@ extension CostExplorerClientTypes.CostCategory {
     }
 }
 
+extension CostExplorerClientTypes.CostCategoryInheritedValueDimension {
+
+    static func write(value: CostExplorerClientTypes.CostCategoryInheritedValueDimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DimensionKey"].write(value.dimensionKey)
+        try writer["DimensionName"].write(value.dimensionName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategoryInheritedValueDimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CostCategoryInheritedValueDimension()
+        value.dimensionName = try reader["DimensionName"].readIfPresent()
+        value.dimensionKey = try reader["DimensionKey"].readIfPresent()
+        return value
+    }
+}
+
 extension CostExplorerClientTypes.CostCategoryProcessingStatus {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategoryProcessingStatus {
@@ -10458,6 +10675,57 @@ extension CostExplorerClientTypes.CostCategoryProcessingStatus {
         var value = CostExplorerClientTypes.CostCategoryProcessingStatus()
         value.component = try reader["Component"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CostCategoryReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategoryReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CostCategoryReference()
+        value.costCategoryArn = try reader["CostCategoryArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.effectiveStart = try reader["EffectiveStart"].readIfPresent()
+        value.effectiveEnd = try reader["EffectiveEnd"].readIfPresent()
+        value.numberOfRules = try reader["NumberOfRules"].readIfPresent() ?? 0
+        value.processingStatus = try reader["ProcessingStatus"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CostCategoryProcessingStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.supportedResourceTypes = try reader["SupportedResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CostCategoryResourceAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategoryResourceAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CostCategoryResourceAssociation()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.costCategoryName = try reader["CostCategoryName"].readIfPresent()
+        value.costCategoryArn = try reader["CostCategoryArn"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CostCategoryRule {
+
+    static func write(value: CostExplorerClientTypes.CostCategoryRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InheritedValue"].write(value.inheritedValue, with: CostExplorerClientTypes.CostCategoryInheritedValueDimension.write(value:to:))
+        try writer["Rule"].write(value.rule, with: CostExplorerClientTypes.Expression.write(value:to:))
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategoryRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CostCategoryRule()
+        value.value = try reader["Value"].readIfPresent()
+        value.rule = try reader["Rule"].readIfPresent(with: CostExplorerClientTypes.Expression.read(from:))
+        value.inheritedValue = try reader["InheritedValue"].readIfPresent(with: CostExplorerClientTypes.CostCategoryInheritedValueDimension.read(from:))
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -10500,40 +10768,303 @@ extension CostExplorerClientTypes.CostCategorySplitChargeRuleParameter {
     }
 }
 
-extension CostExplorerClientTypes.CostCategoryRule {
+extension CostExplorerClientTypes.CostCategoryValues {
 
-    static func write(value: CostExplorerClientTypes.CostCategoryRule?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CostExplorerClientTypes.CostCategoryValues?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["InheritedValue"].write(value.inheritedValue, with: CostExplorerClientTypes.CostCategoryInheritedValueDimension.write(value:to:))
-        try writer["Rule"].write(value.rule, with: CostExplorerClientTypes.Expression.write(value:to:))
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
+        try writer["Key"].write(value.key)
+        try writer["MatchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CostExplorerClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategoryRule {
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategoryValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CostCategoryRule()
-        value.value = try reader["Value"].readIfPresent()
-        value.rule = try reader["Rule"].readIfPresent(with: CostExplorerClientTypes.Expression.read(from:))
-        value.inheritedValue = try reader["InheritedValue"].readIfPresent(with: CostExplorerClientTypes.CostCategoryInheritedValueDimension.read(from:))
-        value.type = try reader["Type"].readIfPresent()
+        var value = CostExplorerClientTypes.CostCategoryValues()
+        value.key = try reader["Key"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchOptions = try reader["MatchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CostExplorerClientTypes.MatchOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension CostExplorerClientTypes.CostCategoryInheritedValueDimension {
+extension CostExplorerClientTypes.CostComparisonDriver {
 
-    static func write(value: CostExplorerClientTypes.CostCategoryInheritedValueDimension?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostComparisonDriver {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CostComparisonDriver()
+        value.costSelector = try reader["CostSelector"].readIfPresent(with: CostExplorerClientTypes.Expression.read(from:))
+        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: CostExplorerClientTypes.ComparisonMetricValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.costDrivers = try reader["CostDrivers"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CostDriver.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CostDriver {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostDriver {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CostDriver()
+        value.type = try reader["Type"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: CostExplorerClientTypes.ComparisonMetricValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.Coverage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.Coverage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.Coverage()
+        value.coverageHours = try reader["CoverageHours"].readIfPresent(with: CostExplorerClientTypes.CoverageHours.read(from:))
+        value.coverageNormalizedUnits = try reader["CoverageNormalizedUnits"].readIfPresent(with: CostExplorerClientTypes.CoverageNormalizedUnits.read(from:))
+        value.coverageCost = try reader["CoverageCost"].readIfPresent(with: CostExplorerClientTypes.CoverageCost.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CoverageByTime {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CoverageByTime {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CoverageByTime()
+        value.timePeriod = try reader["TimePeriod"].readIfPresent(with: CostExplorerClientTypes.DateInterval.read(from:))
+        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.ReservationCoverageGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.total = try reader["Total"].readIfPresent(with: CostExplorerClientTypes.Coverage.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CoverageCost {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CoverageCost {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CoverageCost()
+        value.onDemandCost = try reader["OnDemandCost"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CoverageHours {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CoverageHours {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CoverageHours()
+        value.onDemandHours = try reader["OnDemandHours"].readIfPresent()
+        value.reservedHours = try reader["ReservedHours"].readIfPresent()
+        value.totalRunningHours = try reader["TotalRunningHours"].readIfPresent()
+        value.coverageHoursPercentage = try reader["CoverageHoursPercentage"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CoverageNormalizedUnits {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CoverageNormalizedUnits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CoverageNormalizedUnits()
+        value.onDemandNormalizedUnits = try reader["OnDemandNormalizedUnits"].readIfPresent()
+        value.reservedNormalizedUnits = try reader["ReservedNormalizedUnits"].readIfPresent()
+        value.totalRunningNormalizedUnits = try reader["TotalRunningNormalizedUnits"].readIfPresent()
+        value.coverageNormalizedUnitsPercentage = try reader["CoverageNormalizedUnitsPercentage"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CurrentInstance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CurrentInstance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CurrentInstance()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.instanceName = try reader["InstanceName"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.TagValues.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceDetails = try reader["ResourceDetails"].readIfPresent(with: CostExplorerClientTypes.ResourceDetails.read(from:))
+        value.resourceUtilization = try reader["ResourceUtilization"].readIfPresent(with: CostExplorerClientTypes.ResourceUtilization.read(from:))
+        value.reservationCoveredHoursInLookbackPeriod = try reader["ReservationCoveredHoursInLookbackPeriod"].readIfPresent()
+        value.savingsPlansCoveredHoursInLookbackPeriod = try reader["SavingsPlansCoveredHoursInLookbackPeriod"].readIfPresent()
+        value.onDemandHoursInLookbackPeriod = try reader["OnDemandHoursInLookbackPeriod"].readIfPresent()
+        value.totalRunningHoursInLookbackPeriod = try reader["TotalRunningHoursInLookbackPeriod"].readIfPresent()
+        value.monthlyCost = try reader["MonthlyCost"].readIfPresent()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.DateInterval {
+
+    static func write(value: CostExplorerClientTypes.DateInterval?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DimensionKey"].write(value.dimensionKey)
-        try writer["DimensionName"].write(value.dimensionName)
+        try writer["End"].write(value.end)
+        try writer["Start"].write(value.start)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategoryInheritedValueDimension {
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.DateInterval {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CostCategoryInheritedValueDimension()
-        value.dimensionName = try reader["DimensionName"].readIfPresent()
-        value.dimensionKey = try reader["DimensionKey"].readIfPresent()
+        var value = CostExplorerClientTypes.DateInterval()
+        value.start = try reader["Start"].readIfPresent() ?? ""
+        value.end = try reader["End"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.DimensionValues {
+
+    static func write(value: CostExplorerClientTypes.DimensionValues?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["MatchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CostExplorerClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.DimensionValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.DimensionValues()
+        value.key = try reader["Key"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchOptions = try reader["MatchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CostExplorerClientTypes.MatchOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.DimensionValuesWithAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.DimensionValuesWithAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.DimensionValuesWithAttributes()
+        value.value = try reader["Value"].readIfPresent()
+        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.DiskResourceUtilization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.DiskResourceUtilization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.DiskResourceUtilization()
+        value.diskReadOpsPerSecond = try reader["DiskReadOpsPerSecond"].readIfPresent()
+        value.diskWriteOpsPerSecond = try reader["DiskWriteOpsPerSecond"].readIfPresent()
+        value.diskReadBytesPerSecond = try reader["DiskReadBytesPerSecond"].readIfPresent()
+        value.diskWriteBytesPerSecond = try reader["DiskWriteBytesPerSecond"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.DynamoDBCapacityDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.DynamoDBCapacityDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.DynamoDBCapacityDetails()
+        value.capacityUnits = try reader["CapacityUnits"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.EBSResourceUtilization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.EBSResourceUtilization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.EBSResourceUtilization()
+        value.ebsReadOpsPerSecond = try reader["EbsReadOpsPerSecond"].readIfPresent()
+        value.ebsWriteOpsPerSecond = try reader["EbsWriteOpsPerSecond"].readIfPresent()
+        value.ebsReadBytesPerSecond = try reader["EbsReadBytesPerSecond"].readIfPresent()
+        value.ebsWriteBytesPerSecond = try reader["EbsWriteBytesPerSecond"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.EC2InstanceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.EC2InstanceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.EC2InstanceDetails()
+        value.family = try reader["Family"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent()
+        value.tenancy = try reader["Tenancy"].readIfPresent()
+        value.currentGeneration = try reader["CurrentGeneration"].readIfPresent() ?? false
+        value.sizeFlexEligible = try reader["SizeFlexEligible"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.EC2ResourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.EC2ResourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.EC2ResourceDetails()
+        value.hourlyOnDemandRate = try reader["HourlyOnDemandRate"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.sku = try reader["Sku"].readIfPresent()
+        value.memory = try reader["Memory"].readIfPresent()
+        value.networkPerformance = try reader["NetworkPerformance"].readIfPresent()
+        value.storage = try reader["Storage"].readIfPresent()
+        value.vcpu = try reader["Vcpu"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.EC2ResourceUtilization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.EC2ResourceUtilization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.EC2ResourceUtilization()
+        value.maxCpuUtilizationPercentage = try reader["MaxCpuUtilizationPercentage"].readIfPresent()
+        value.maxMemoryUtilizationPercentage = try reader["MaxMemoryUtilizationPercentage"].readIfPresent()
+        value.maxStorageUtilizationPercentage = try reader["MaxStorageUtilizationPercentage"].readIfPresent()
+        value.ebsResourceUtilization = try reader["EBSResourceUtilization"].readIfPresent(with: CostExplorerClientTypes.EBSResourceUtilization.read(from:))
+        value.diskResourceUtilization = try reader["DiskResourceUtilization"].readIfPresent(with: CostExplorerClientTypes.DiskResourceUtilization.read(from:))
+        value.networkResourceUtilization = try reader["NetworkResourceUtilization"].readIfPresent(with: CostExplorerClientTypes.NetworkResourceUtilization.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.EC2Specification {
+
+    static func write(value: CostExplorerClientTypes.EC2Specification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OfferingClass"].write(value.offeringClass)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.EC2Specification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.EC2Specification()
+        value.offeringClass = try reader["OfferingClass"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ElastiCacheInstanceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ElastiCacheInstanceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ElastiCacheInstanceDetails()
+        value.family = try reader["Family"].readIfPresent()
+        value.nodeType = try reader["NodeType"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.productDescription = try reader["ProductDescription"].readIfPresent()
+        value.currentGeneration = try reader["CurrentGeneration"].readIfPresent() ?? false
+        value.sizeFlexEligible = try reader["SizeFlexEligible"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ESInstanceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ESInstanceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ESInstanceDetails()
+        value.instanceClass = try reader["InstanceClass"].readIfPresent()
+        value.instanceSize = try reader["InstanceSize"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.currentGeneration = try reader["CurrentGeneration"].readIfPresent() ?? false
+        value.sizeFlexEligible = try reader["SizeFlexEligible"].readIfPresent() ?? false
         return value
     }
 }
@@ -10563,345 +11094,40 @@ extension CostExplorerClientTypes.Expression {
     }
 }
 
-extension CostExplorerClientTypes.CostCategoryValues {
+extension CostExplorerClientTypes.ForecastResult {
 
-    static func write(value: CostExplorerClientTypes.CostCategoryValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["MatchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CostExplorerClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategoryValues {
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ForecastResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CostCategoryValues()
-        value.key = try reader["Key"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.matchOptions = try reader["MatchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CostExplorerClientTypes.MatchOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = CostExplorerClientTypes.ForecastResult()
+        value.timePeriod = try reader["TimePeriod"].readIfPresent(with: CostExplorerClientTypes.DateInterval.read(from:))
+        value.meanValue = try reader["MeanValue"].readIfPresent()
+        value.predictionIntervalLowerBound = try reader["PredictionIntervalLowerBound"].readIfPresent()
+        value.predictionIntervalUpperBound = try reader["PredictionIntervalUpperBound"].readIfPresent()
         return value
     }
 }
 
-extension CostExplorerClientTypes.TagValues {
+extension CostExplorerClientTypes.GenerationSummary {
 
-    static func write(value: CostExplorerClientTypes.TagValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["MatchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CostExplorerClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.TagValues {
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.GenerationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.TagValues()
-        value.key = try reader["Key"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.matchOptions = try reader["MatchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CostExplorerClientTypes.MatchOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = CostExplorerClientTypes.GenerationSummary()
+        value.recommendationId = try reader["RecommendationId"].readIfPresent()
+        value.generationStatus = try reader["GenerationStatus"].readIfPresent()
+        value.generationStartedTime = try reader["GenerationStartedTime"].readIfPresent()
+        value.generationCompletionTime = try reader["GenerationCompletionTime"].readIfPresent()
+        value.estimatedCompletionTime = try reader["EstimatedCompletionTime"].readIfPresent()
         return value
     }
 }
 
-extension CostExplorerClientTypes.DimensionValues {
+extension CostExplorerClientTypes.Group {
 
-    static func write(value: CostExplorerClientTypes.DimensionValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["MatchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CostExplorerClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.DimensionValues {
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.Group {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.DimensionValues()
-        value.key = try reader["Key"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.matchOptions = try reader["MatchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CostExplorerClientTypes.MatchOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.Anomaly {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.Anomaly {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.Anomaly()
-        value.anomalyId = try reader["AnomalyId"].readIfPresent() ?? ""
-        value.anomalyStartDate = try reader["AnomalyStartDate"].readIfPresent()
-        value.anomalyEndDate = try reader["AnomalyEndDate"].readIfPresent()
-        value.dimensionValue = try reader["DimensionValue"].readIfPresent()
-        value.rootCauses = try reader["RootCauses"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.RootCause.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.anomalyScore = try reader["AnomalyScore"].readIfPresent(with: CostExplorerClientTypes.AnomalyScore.read(from:))
-        value.impact = try reader["Impact"].readIfPresent(with: CostExplorerClientTypes.Impact.read(from:))
-        value.monitorArn = try reader["MonitorArn"].readIfPresent() ?? ""
-        value.feedback = try reader["Feedback"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.Impact {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.Impact {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.Impact()
-        value.maxImpact = try reader["MaxImpact"].readIfPresent() ?? 0
-        value.totalImpact = try reader["TotalImpact"].readIfPresent() ?? 0
-        value.totalActualSpend = try reader["TotalActualSpend"].readIfPresent()
-        value.totalExpectedSpend = try reader["TotalExpectedSpend"].readIfPresent()
-        value.totalImpactPercentage = try reader["TotalImpactPercentage"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.AnomalyScore {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.AnomalyScore {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.AnomalyScore()
-        value.maxScore = try reader["MaxScore"].readIfPresent() ?? 0
-        value.currentScore = try reader["CurrentScore"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.RootCause {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RootCause {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.RootCause()
-        value.service = try reader["Service"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.linkedAccount = try reader["LinkedAccount"].readIfPresent()
-        value.linkedAccountName = try reader["LinkedAccountName"].readIfPresent()
-        value.usageType = try reader["UsageType"].readIfPresent()
-        value.impact = try reader["Impact"].readIfPresent(with: CostExplorerClientTypes.RootCauseImpact.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.RootCauseImpact {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RootCauseImpact {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.RootCauseImpact()
-        value.contribution = try reader["Contribution"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.AnomalyMonitor {
-
-    static func write(value: CostExplorerClientTypes.AnomalyMonitor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationDate"].write(value.creationDate)
-        try writer["DimensionalValueCount"].write(value.dimensionalValueCount)
-        try writer["LastEvaluatedDate"].write(value.lastEvaluatedDate)
-        try writer["LastUpdatedDate"].write(value.lastUpdatedDate)
-        try writer["MonitorArn"].write(value.monitorArn)
-        try writer["MonitorDimension"].write(value.monitorDimension)
-        try writer["MonitorName"].write(value.monitorName)
-        try writer["MonitorSpecification"].write(value.monitorSpecification, with: CostExplorerClientTypes.Expression.write(value:to:))
-        try writer["MonitorType"].write(value.monitorType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.AnomalyMonitor {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.AnomalyMonitor()
-        value.monitorArn = try reader["MonitorArn"].readIfPresent()
-        value.monitorName = try reader["MonitorName"].readIfPresent() ?? ""
-        value.creationDate = try reader["CreationDate"].readIfPresent()
-        value.lastUpdatedDate = try reader["LastUpdatedDate"].readIfPresent()
-        value.lastEvaluatedDate = try reader["LastEvaluatedDate"].readIfPresent()
-        value.monitorType = try reader["MonitorType"].readIfPresent() ?? .sdkUnknown("")
-        value.monitorDimension = try reader["MonitorDimension"].readIfPresent()
-        value.monitorSpecification = try reader["MonitorSpecification"].readIfPresent(with: CostExplorerClientTypes.Expression.read(from:))
-        value.dimensionalValueCount = try reader["DimensionalValueCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.AnomalySubscription {
-
-    static func write(value: CostExplorerClientTypes.AnomalySubscription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Frequency"].write(value.frequency)
-        try writer["MonitorArnList"].writeList(value.monitorArnList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Subscribers"].writeList(value.subscribers, memberWritingClosure: CostExplorerClientTypes.Subscriber.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SubscriptionArn"].write(value.subscriptionArn)
-        try writer["SubscriptionName"].write(value.subscriptionName)
-        try writer["Threshold"].write(value.threshold)
-        try writer["ThresholdExpression"].write(value.thresholdExpression, with: CostExplorerClientTypes.Expression.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.AnomalySubscription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.AnomalySubscription()
-        value.subscriptionArn = try reader["SubscriptionArn"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.monitorArnList = try reader["MonitorArnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.subscribers = try reader["Subscribers"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.Subscriber.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.threshold = try reader["Threshold"].readIfPresent()
-        value.frequency = try reader["Frequency"].readIfPresent() ?? .sdkUnknown("")
-        value.subscriptionName = try reader["SubscriptionName"].readIfPresent() ?? ""
-        value.thresholdExpression = try reader["ThresholdExpression"].readIfPresent(with: CostExplorerClientTypes.Expression.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.Subscriber {
-
-    static func write(value: CostExplorerClientTypes.Subscriber?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address)
-        try writer["Status"].write(value.status)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.Subscriber {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.Subscriber()
-        value.address = try reader["Address"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.DateInterval {
-
-    static func write(value: CostExplorerClientTypes.DateInterval?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["End"].write(value.end)
-        try writer["Start"].write(value.start)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.DateInterval {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.DateInterval()
-        value.start = try reader["Start"].readIfPresent() ?? ""
-        value.end = try reader["End"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.AnalysisDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.AnalysisDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.AnalysisDetails()
-        value.savingsPlansPurchaseAnalysisDetails = try reader["SavingsPlansPurchaseAnalysisDetails"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisDetails.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.SavingsPlansPurchaseAnalysisDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansPurchaseAnalysisDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.SavingsPlansPurchaseAnalysisDetails()
-        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
-        value.lookbackPeriodInHours = try reader["LookbackPeriodInHours"].readIfPresent()
-        value.currentAverageCoverage = try reader["CurrentAverageCoverage"].readIfPresent()
-        value.currentAverageHourlyOnDemandSpend = try reader["CurrentAverageHourlyOnDemandSpend"].readIfPresent()
-        value.currentMaximumHourlyOnDemandSpend = try reader["CurrentMaximumHourlyOnDemandSpend"].readIfPresent()
-        value.currentMinimumHourlyOnDemandSpend = try reader["CurrentMinimumHourlyOnDemandSpend"].readIfPresent()
-        value.currentOnDemandSpend = try reader["CurrentOnDemandSpend"].readIfPresent()
-        value.existingHourlyCommitment = try reader["ExistingHourlyCommitment"].readIfPresent()
-        value.hourlyCommitmentToPurchase = try reader["HourlyCommitmentToPurchase"].readIfPresent()
-        value.estimatedAverageCoverage = try reader["EstimatedAverageCoverage"].readIfPresent()
-        value.estimatedAverageUtilization = try reader["EstimatedAverageUtilization"].readIfPresent()
-        value.estimatedMonthlySavingsAmount = try reader["EstimatedMonthlySavingsAmount"].readIfPresent()
-        value.estimatedOnDemandCost = try reader["EstimatedOnDemandCost"].readIfPresent()
-        value.estimatedOnDemandCostWithCurrentCommitment = try reader["EstimatedOnDemandCostWithCurrentCommitment"].readIfPresent()
-        value.estimatedROI = try reader["EstimatedROI"].readIfPresent()
-        value.estimatedSavingsAmount = try reader["EstimatedSavingsAmount"].readIfPresent()
-        value.estimatedSavingsPercentage = try reader["EstimatedSavingsPercentage"].readIfPresent()
-        value.estimatedCommitmentCost = try reader["EstimatedCommitmentCost"].readIfPresent()
-        value.latestUsageTimestamp = try reader["LatestUsageTimestamp"].readIfPresent()
-        value.upfrontCost = try reader["UpfrontCost"].readIfPresent()
-        value.additionalMetadata = try reader["AdditionalMetadata"].readIfPresent()
-        value.metricsOverLookbackPeriod = try reader["MetricsOverLookbackPeriod"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.RecommendationDetailHourlyMetrics.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.RecommendationDetailHourlyMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RecommendationDetailHourlyMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.RecommendationDetailHourlyMetrics()
-        value.startTime = try reader["StartTime"].readIfPresent()
-        value.estimatedOnDemandCost = try reader["EstimatedOnDemandCost"].readIfPresent()
-        value.currentCoverage = try reader["CurrentCoverage"].readIfPresent()
-        value.estimatedCoverage = try reader["EstimatedCoverage"].readIfPresent()
-        value.estimatedNewCommitmentUtilization = try reader["EstimatedNewCommitmentUtilization"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration {
-
-    static func write(value: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SavingsPlansPurchaseAnalysisConfiguration"].write(value.savingsPlansPurchaseAnalysisConfiguration, with: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration()
-        value.savingsPlansPurchaseAnalysisConfiguration = try reader["SavingsPlansPurchaseAnalysisConfiguration"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration {
-
-    static func write(value: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AccountScope"].write(value.accountScope)
-        try writer["AnalysisType"].write(value.analysisType)
-        try writer["LookBackTimePeriod"].write(value.lookBackTimePeriod, with: CostExplorerClientTypes.DateInterval.write(value:to:))
-        try writer["SavingsPlansToAdd"].writeList(value.savingsPlansToAdd, memberWritingClosure: CostExplorerClientTypes.SavingsPlans.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SavingsPlansToExclude"].writeList(value.savingsPlansToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration()
-        value.accountScope = try reader["AccountScope"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.analysisType = try reader["AnalysisType"].readIfPresent() ?? .sdkUnknown("")
-        value.savingsPlansToAdd = try reader["SavingsPlansToAdd"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.SavingsPlans.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.savingsPlansToExclude = try reader["SavingsPlansToExclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lookBackTimePeriod = try reader["LookBackTimePeriod"].readIfPresent(with: CostExplorerClientTypes.DateInterval.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.SavingsPlans {
-
-    static func write(value: CostExplorerClientTypes.SavingsPlans?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InstanceFamily"].write(value.instanceFamily)
-        try writer["OfferingId"].write(value.offeringId)
-        try writer["PaymentOption"].write(value.paymentOption)
-        try writer["Region"].write(value.region)
-        try writer["SavingsPlansCommitment"].write(value.savingsPlansCommitment)
-        try writer["SavingsPlansType"].write(value.savingsPlansType)
-        try writer["TermInYears"].write(value.termInYears)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlans {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.SavingsPlans()
-        value.paymentOption = try reader["PaymentOption"].readIfPresent()
-        value.savingsPlansType = try reader["SavingsPlansType"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.instanceFamily = try reader["InstanceFamily"].readIfPresent()
-        value.termInYears = try reader["TermInYears"].readIfPresent()
-        value.savingsPlansCommitment = try reader["SavingsPlansCommitment"].readIfPresent()
-        value.offeringId = try reader["OfferingId"].readIfPresent()
+        var value = CostExplorerClientTypes.Group()
+        value.keys = try reader["Keys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: CostExplorerClientTypes.MetricValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -10923,274 +11149,16 @@ extension CostExplorerClientTypes.GroupDefinition {
     }
 }
 
-extension CostExplorerClientTypes.ResultByTime {
+extension CostExplorerClientTypes.Impact {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ResultByTime {
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.Impact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ResultByTime()
-        value.timePeriod = try reader["TimePeriod"].readIfPresent(with: CostExplorerClientTypes.DateInterval.read(from:))
-        value.total = try reader["Total"].readMapIfPresent(valueReadingClosure: CostExplorerClientTypes.MetricValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.Group.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.estimated = try reader["Estimated"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.Group {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.Group {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.Group()
-        value.keys = try reader["Keys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: CostExplorerClientTypes.MetricValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.MetricValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.MetricValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.MetricValue()
-        value.amount = try reader["Amount"].readIfPresent()
-        value.unit = try reader["Unit"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.DimensionValuesWithAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.DimensionValuesWithAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.DimensionValuesWithAttributes()
-        value.value = try reader["Value"].readIfPresent()
-        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.CostAndUsageComparison {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostAndUsageComparison {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CostAndUsageComparison()
-        value.costAndUsageSelector = try reader["CostAndUsageSelector"].readIfPresent(with: CostExplorerClientTypes.Expression.read(from:))
-        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: CostExplorerClientTypes.ComparisonMetricValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.ComparisonMetricValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ComparisonMetricValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ComparisonMetricValue()
-        value.baselineTimePeriodAmount = try reader["BaselineTimePeriodAmount"].readIfPresent()
-        value.comparisonTimePeriodAmount = try reader["ComparisonTimePeriodAmount"].readIfPresent()
-        value.difference = try reader["Difference"].readIfPresent()
-        value.unit = try reader["Unit"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.CostComparisonDriver {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostComparisonDriver {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CostComparisonDriver()
-        value.costSelector = try reader["CostSelector"].readIfPresent(with: CostExplorerClientTypes.Expression.read(from:))
-        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: CostExplorerClientTypes.ComparisonMetricValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.costDrivers = try reader["CostDrivers"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CostDriver.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.CostDriver {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostDriver {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CostDriver()
-        value.type = try reader["Type"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: CostExplorerClientTypes.ComparisonMetricValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.ForecastResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ForecastResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ForecastResult()
-        value.timePeriod = try reader["TimePeriod"].readIfPresent(with: CostExplorerClientTypes.DateInterval.read(from:))
-        value.meanValue = try reader["MeanValue"].readIfPresent()
-        value.predictionIntervalLowerBound = try reader["PredictionIntervalLowerBound"].readIfPresent()
-        value.predictionIntervalUpperBound = try reader["PredictionIntervalUpperBound"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.CoverageByTime {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CoverageByTime {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CoverageByTime()
-        value.timePeriod = try reader["TimePeriod"].readIfPresent(with: CostExplorerClientTypes.DateInterval.read(from:))
-        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.ReservationCoverageGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.total = try reader["Total"].readIfPresent(with: CostExplorerClientTypes.Coverage.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.Coverage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.Coverage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.Coverage()
-        value.coverageHours = try reader["CoverageHours"].readIfPresent(with: CostExplorerClientTypes.CoverageHours.read(from:))
-        value.coverageNormalizedUnits = try reader["CoverageNormalizedUnits"].readIfPresent(with: CostExplorerClientTypes.CoverageNormalizedUnits.read(from:))
-        value.coverageCost = try reader["CoverageCost"].readIfPresent(with: CostExplorerClientTypes.CoverageCost.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.CoverageCost {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CoverageCost {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CoverageCost()
-        value.onDemandCost = try reader["OnDemandCost"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.CoverageNormalizedUnits {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CoverageNormalizedUnits {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CoverageNormalizedUnits()
-        value.onDemandNormalizedUnits = try reader["OnDemandNormalizedUnits"].readIfPresent()
-        value.reservedNormalizedUnits = try reader["ReservedNormalizedUnits"].readIfPresent()
-        value.totalRunningNormalizedUnits = try reader["TotalRunningNormalizedUnits"].readIfPresent()
-        value.coverageNormalizedUnitsPercentage = try reader["CoverageNormalizedUnitsPercentage"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.CoverageHours {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CoverageHours {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CoverageHours()
-        value.onDemandHours = try reader["OnDemandHours"].readIfPresent()
-        value.reservedHours = try reader["ReservedHours"].readIfPresent()
-        value.totalRunningHours = try reader["TotalRunningHours"].readIfPresent()
-        value.coverageHoursPercentage = try reader["CoverageHoursPercentage"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.ReservationCoverageGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationCoverageGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ReservationCoverageGroup()
-        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.coverage = try reader["Coverage"].readIfPresent(with: CostExplorerClientTypes.Coverage.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.ReservationPurchaseRecommendationMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationPurchaseRecommendationMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ReservationPurchaseRecommendationMetadata()
-        value.recommendationId = try reader["RecommendationId"].readIfPresent()
-        value.generationTimestamp = try reader["GenerationTimestamp"].readIfPresent()
-        value.additionalMetadata = try reader["AdditionalMetadata"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.ReservationPurchaseRecommendation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationPurchaseRecommendation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ReservationPurchaseRecommendation()
-        value.accountScope = try reader["AccountScope"].readIfPresent()
-        value.lookbackPeriodInDays = try reader["LookbackPeriodInDays"].readIfPresent()
-        value.termInYears = try reader["TermInYears"].readIfPresent()
-        value.paymentOption = try reader["PaymentOption"].readIfPresent()
-        value.serviceSpecification = try reader["ServiceSpecification"].readIfPresent(with: CostExplorerClientTypes.ServiceSpecification.read(from:))
-        value.recommendationDetails = try reader["RecommendationDetails"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.ReservationPurchaseRecommendationDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.recommendationSummary = try reader["RecommendationSummary"].readIfPresent(with: CostExplorerClientTypes.ReservationPurchaseRecommendationSummary.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.ReservationPurchaseRecommendationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationPurchaseRecommendationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ReservationPurchaseRecommendationSummary()
-        value.totalEstimatedMonthlySavingsAmount = try reader["TotalEstimatedMonthlySavingsAmount"].readIfPresent()
-        value.totalEstimatedMonthlySavingsPercentage = try reader["TotalEstimatedMonthlySavingsPercentage"].readIfPresent()
-        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.ReservationPurchaseRecommendationDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationPurchaseRecommendationDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ReservationPurchaseRecommendationDetail()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.instanceDetails = try reader["InstanceDetails"].readIfPresent(with: CostExplorerClientTypes.InstanceDetails.read(from:))
-        value.recommendedNumberOfInstancesToPurchase = try reader["RecommendedNumberOfInstancesToPurchase"].readIfPresent()
-        value.recommendedNormalizedUnitsToPurchase = try reader["RecommendedNormalizedUnitsToPurchase"].readIfPresent()
-        value.minimumNumberOfInstancesUsedPerHour = try reader["MinimumNumberOfInstancesUsedPerHour"].readIfPresent()
-        value.minimumNormalizedUnitsUsedPerHour = try reader["MinimumNormalizedUnitsUsedPerHour"].readIfPresent()
-        value.maximumNumberOfInstancesUsedPerHour = try reader["MaximumNumberOfInstancesUsedPerHour"].readIfPresent()
-        value.maximumNormalizedUnitsUsedPerHour = try reader["MaximumNormalizedUnitsUsedPerHour"].readIfPresent()
-        value.averageNumberOfInstancesUsedPerHour = try reader["AverageNumberOfInstancesUsedPerHour"].readIfPresent()
-        value.averageNormalizedUnitsUsedPerHour = try reader["AverageNormalizedUnitsUsedPerHour"].readIfPresent()
-        value.averageUtilization = try reader["AverageUtilization"].readIfPresent()
-        value.estimatedBreakEvenInMonths = try reader["EstimatedBreakEvenInMonths"].readIfPresent()
-        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
-        value.estimatedMonthlySavingsAmount = try reader["EstimatedMonthlySavingsAmount"].readIfPresent()
-        value.estimatedMonthlySavingsPercentage = try reader["EstimatedMonthlySavingsPercentage"].readIfPresent()
-        value.estimatedMonthlyOnDemandCost = try reader["EstimatedMonthlyOnDemandCost"].readIfPresent()
-        value.estimatedReservationCostForLookbackPeriod = try reader["EstimatedReservationCostForLookbackPeriod"].readIfPresent()
-        value.upfrontCost = try reader["UpfrontCost"].readIfPresent()
-        value.recurringStandardMonthlyCost = try reader["RecurringStandardMonthlyCost"].readIfPresent()
-        value.reservedCapacityDetails = try reader["ReservedCapacityDetails"].readIfPresent(with: CostExplorerClientTypes.ReservedCapacityDetails.read(from:))
-        value.recommendedNumberOfCapacityUnitsToPurchase = try reader["RecommendedNumberOfCapacityUnitsToPurchase"].readIfPresent()
-        value.minimumNumberOfCapacityUnitsUsedPerHour = try reader["MinimumNumberOfCapacityUnitsUsedPerHour"].readIfPresent()
-        value.maximumNumberOfCapacityUnitsUsedPerHour = try reader["MaximumNumberOfCapacityUnitsUsedPerHour"].readIfPresent()
-        value.averageNumberOfCapacityUnitsUsedPerHour = try reader["AverageNumberOfCapacityUnitsUsedPerHour"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.ReservedCapacityDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservedCapacityDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ReservedCapacityDetails()
-        value.dynamoDBCapacityDetails = try reader["DynamoDBCapacityDetails"].readIfPresent(with: CostExplorerClientTypes.DynamoDBCapacityDetails.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.DynamoDBCapacityDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.DynamoDBCapacityDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.DynamoDBCapacityDetails()
-        value.capacityUnits = try reader["CapacityUnits"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
+        var value = CostExplorerClientTypes.Impact()
+        value.maxImpact = try reader["MaxImpact"].readIfPresent() ?? 0
+        value.totalImpact = try reader["TotalImpact"].readIfPresent() ?? 0
+        value.totalActualSpend = try reader["TotalActualSpend"].readIfPresent()
+        value.totalExpectedSpend = try reader["TotalExpectedSpend"].readIfPresent()
+        value.totalImpactPercentage = try reader["TotalImpactPercentage"].readIfPresent()
         return value
     }
 }
@@ -11224,45 +11192,36 @@ extension CostExplorerClientTypes.MemoryDBInstanceDetails {
     }
 }
 
-extension CostExplorerClientTypes.ESInstanceDetails {
+extension CostExplorerClientTypes.MetricValue {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ESInstanceDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.MetricValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ESInstanceDetails()
-        value.instanceClass = try reader["InstanceClass"].readIfPresent()
-        value.instanceSize = try reader["InstanceSize"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.currentGeneration = try reader["CurrentGeneration"].readIfPresent() ?? false
-        value.sizeFlexEligible = try reader["SizeFlexEligible"].readIfPresent() ?? false
+        var value = CostExplorerClientTypes.MetricValue()
+        value.amount = try reader["Amount"].readIfPresent()
+        value.unit = try reader["Unit"].readIfPresent()
         return value
     }
 }
 
-extension CostExplorerClientTypes.ElastiCacheInstanceDetails {
+extension CostExplorerClientTypes.ModifyRecommendationDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ElastiCacheInstanceDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ModifyRecommendationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ElastiCacheInstanceDetails()
-        value.family = try reader["Family"].readIfPresent()
-        value.nodeType = try reader["NodeType"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.productDescription = try reader["ProductDescription"].readIfPresent()
-        value.currentGeneration = try reader["CurrentGeneration"].readIfPresent() ?? false
-        value.sizeFlexEligible = try reader["SizeFlexEligible"].readIfPresent() ?? false
+        var value = CostExplorerClientTypes.ModifyRecommendationDetail()
+        value.targetInstances = try reader["TargetInstances"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.TargetInstance.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension CostExplorerClientTypes.RedshiftInstanceDetails {
+extension CostExplorerClientTypes.NetworkResourceUtilization {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RedshiftInstanceDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.NetworkResourceUtilization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.RedshiftInstanceDetails()
-        value.family = try reader["Family"].readIfPresent()
-        value.nodeType = try reader["NodeType"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.currentGeneration = try reader["CurrentGeneration"].readIfPresent() ?? false
-        value.sizeFlexEligible = try reader["SizeFlexEligible"].readIfPresent() ?? false
+        var value = CostExplorerClientTypes.NetworkResourceUtilization()
+        value.networkInBytesPerSecond = try reader["NetworkInBytesPerSecond"].readIfPresent()
+        value.networkOutBytesPerSecond = try reader["NetworkOutBytesPerSecond"].readIfPresent()
+        value.networkPacketsInPerSecond = try reader["NetworkPacketsInPerSecond"].readIfPresent()
+        value.networkPacketsOutPerSecond = try reader["NetworkPacketsOutPerSecond"].readIfPresent()
         return value
     }
 }
@@ -11282,311 +11241,6 @@ extension CostExplorerClientTypes.RDSInstanceDetails {
         value.currentGeneration = try reader["CurrentGeneration"].readIfPresent() ?? false
         value.sizeFlexEligible = try reader["SizeFlexEligible"].readIfPresent() ?? false
         value.deploymentModel = try reader["DeploymentModel"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.EC2InstanceDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.EC2InstanceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.EC2InstanceDetails()
-        value.family = try reader["Family"].readIfPresent()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
-        value.tenancy = try reader["Tenancy"].readIfPresent()
-        value.currentGeneration = try reader["CurrentGeneration"].readIfPresent() ?? false
-        value.sizeFlexEligible = try reader["SizeFlexEligible"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.ServiceSpecification {
-
-    static func write(value: CostExplorerClientTypes.ServiceSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EC2Specification"].write(value.ec2Specification, with: CostExplorerClientTypes.EC2Specification.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ServiceSpecification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ServiceSpecification()
-        value.ec2Specification = try reader["EC2Specification"].readIfPresent(with: CostExplorerClientTypes.EC2Specification.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.EC2Specification {
-
-    static func write(value: CostExplorerClientTypes.EC2Specification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OfferingClass"].write(value.offeringClass)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.EC2Specification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.EC2Specification()
-        value.offeringClass = try reader["OfferingClass"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.UtilizationByTime {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.UtilizationByTime {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.UtilizationByTime()
-        value.timePeriod = try reader["TimePeriod"].readIfPresent(with: CostExplorerClientTypes.DateInterval.read(from:))
-        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.ReservationUtilizationGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.total = try reader["Total"].readIfPresent(with: CostExplorerClientTypes.ReservationAggregates.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.ReservationAggregates {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationAggregates {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ReservationAggregates()
-        value.utilizationPercentage = try reader["UtilizationPercentage"].readIfPresent()
-        value.utilizationPercentageInUnits = try reader["UtilizationPercentageInUnits"].readIfPresent()
-        value.purchasedHours = try reader["PurchasedHours"].readIfPresent()
-        value.purchasedUnits = try reader["PurchasedUnits"].readIfPresent()
-        value.totalActualHours = try reader["TotalActualHours"].readIfPresent()
-        value.totalActualUnits = try reader["TotalActualUnits"].readIfPresent()
-        value.unusedHours = try reader["UnusedHours"].readIfPresent()
-        value.unusedUnits = try reader["UnusedUnits"].readIfPresent()
-        value.onDemandCostOfRIHoursUsed = try reader["OnDemandCostOfRIHoursUsed"].readIfPresent()
-        value.netRISavings = try reader["NetRISavings"].readIfPresent()
-        value.totalPotentialRISavings = try reader["TotalPotentialRISavings"].readIfPresent()
-        value.amortizedUpfrontFee = try reader["AmortizedUpfrontFee"].readIfPresent()
-        value.amortizedRecurringFee = try reader["AmortizedRecurringFee"].readIfPresent()
-        value.totalAmortizedFee = try reader["TotalAmortizedFee"].readIfPresent()
-        value.riCostForUnusedHours = try reader["RICostForUnusedHours"].readIfPresent()
-        value.realizedSavings = try reader["RealizedSavings"].readIfPresent()
-        value.unrealizedSavings = try reader["UnrealizedSavings"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.ReservationUtilizationGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationUtilizationGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ReservationUtilizationGroup()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.utilization = try reader["Utilization"].readIfPresent(with: CostExplorerClientTypes.ReservationAggregates.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.RightsizingRecommendationMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RightsizingRecommendationMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.RightsizingRecommendationMetadata()
-        value.recommendationId = try reader["RecommendationId"].readIfPresent()
-        value.generationTimestamp = try reader["GenerationTimestamp"].readIfPresent()
-        value.lookbackPeriodInDays = try reader["LookbackPeriodInDays"].readIfPresent()
-        value.additionalMetadata = try reader["AdditionalMetadata"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.RightsizingRecommendationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RightsizingRecommendationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.RightsizingRecommendationSummary()
-        value.totalRecommendationCount = try reader["TotalRecommendationCount"].readIfPresent()
-        value.estimatedTotalMonthlySavingsAmount = try reader["EstimatedTotalMonthlySavingsAmount"].readIfPresent()
-        value.savingsCurrencyCode = try reader["SavingsCurrencyCode"].readIfPresent()
-        value.savingsPercentage = try reader["SavingsPercentage"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.RightsizingRecommendation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RightsizingRecommendation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.RightsizingRecommendation()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.currentInstance = try reader["CurrentInstance"].readIfPresent(with: CostExplorerClientTypes.CurrentInstance.read(from:))
-        value.rightsizingType = try reader["RightsizingType"].readIfPresent()
-        value.modifyRecommendationDetail = try reader["ModifyRecommendationDetail"].readIfPresent(with: CostExplorerClientTypes.ModifyRecommendationDetail.read(from:))
-        value.terminateRecommendationDetail = try reader["TerminateRecommendationDetail"].readIfPresent(with: CostExplorerClientTypes.TerminateRecommendationDetail.read(from:))
-        value.findingReasonCodes = try reader["FindingReasonCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CostExplorerClientTypes.FindingReasonCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.TerminateRecommendationDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.TerminateRecommendationDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.TerminateRecommendationDetail()
-        value.estimatedMonthlySavings = try reader["EstimatedMonthlySavings"].readIfPresent()
-        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.ModifyRecommendationDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ModifyRecommendationDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ModifyRecommendationDetail()
-        value.targetInstances = try reader["TargetInstances"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.TargetInstance.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.TargetInstance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.TargetInstance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.TargetInstance()
-        value.estimatedMonthlyCost = try reader["EstimatedMonthlyCost"].readIfPresent()
-        value.estimatedMonthlySavings = try reader["EstimatedMonthlySavings"].readIfPresent()
-        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
-        value.defaultTargetInstance = try reader["DefaultTargetInstance"].readIfPresent() ?? false
-        value.resourceDetails = try reader["ResourceDetails"].readIfPresent(with: CostExplorerClientTypes.ResourceDetails.read(from:))
-        value.expectedResourceUtilization = try reader["ExpectedResourceUtilization"].readIfPresent(with: CostExplorerClientTypes.ResourceUtilization.read(from:))
-        value.platformDifferences = try reader["PlatformDifferences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CostExplorerClientTypes.PlatformDifference>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.ResourceUtilization {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ResourceUtilization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ResourceUtilization()
-        value.ec2ResourceUtilization = try reader["EC2ResourceUtilization"].readIfPresent(with: CostExplorerClientTypes.EC2ResourceUtilization.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.EC2ResourceUtilization {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.EC2ResourceUtilization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.EC2ResourceUtilization()
-        value.maxCpuUtilizationPercentage = try reader["MaxCpuUtilizationPercentage"].readIfPresent()
-        value.maxMemoryUtilizationPercentage = try reader["MaxMemoryUtilizationPercentage"].readIfPresent()
-        value.maxStorageUtilizationPercentage = try reader["MaxStorageUtilizationPercentage"].readIfPresent()
-        value.ebsResourceUtilization = try reader["EBSResourceUtilization"].readIfPresent(with: CostExplorerClientTypes.EBSResourceUtilization.read(from:))
-        value.diskResourceUtilization = try reader["DiskResourceUtilization"].readIfPresent(with: CostExplorerClientTypes.DiskResourceUtilization.read(from:))
-        value.networkResourceUtilization = try reader["NetworkResourceUtilization"].readIfPresent(with: CostExplorerClientTypes.NetworkResourceUtilization.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.NetworkResourceUtilization {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.NetworkResourceUtilization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.NetworkResourceUtilization()
-        value.networkInBytesPerSecond = try reader["NetworkInBytesPerSecond"].readIfPresent()
-        value.networkOutBytesPerSecond = try reader["NetworkOutBytesPerSecond"].readIfPresent()
-        value.networkPacketsInPerSecond = try reader["NetworkPacketsInPerSecond"].readIfPresent()
-        value.networkPacketsOutPerSecond = try reader["NetworkPacketsOutPerSecond"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.DiskResourceUtilization {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.DiskResourceUtilization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.DiskResourceUtilization()
-        value.diskReadOpsPerSecond = try reader["DiskReadOpsPerSecond"].readIfPresent()
-        value.diskWriteOpsPerSecond = try reader["DiskWriteOpsPerSecond"].readIfPresent()
-        value.diskReadBytesPerSecond = try reader["DiskReadBytesPerSecond"].readIfPresent()
-        value.diskWriteBytesPerSecond = try reader["DiskWriteBytesPerSecond"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.EBSResourceUtilization {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.EBSResourceUtilization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.EBSResourceUtilization()
-        value.ebsReadOpsPerSecond = try reader["EbsReadOpsPerSecond"].readIfPresent()
-        value.ebsWriteOpsPerSecond = try reader["EbsWriteOpsPerSecond"].readIfPresent()
-        value.ebsReadBytesPerSecond = try reader["EbsReadBytesPerSecond"].readIfPresent()
-        value.ebsWriteBytesPerSecond = try reader["EbsWriteBytesPerSecond"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.ResourceDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ResourceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ResourceDetails()
-        value.ec2ResourceDetails = try reader["EC2ResourceDetails"].readIfPresent(with: CostExplorerClientTypes.EC2ResourceDetails.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.EC2ResourceDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.EC2ResourceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.EC2ResourceDetails()
-        value.hourlyOnDemandRate = try reader["HourlyOnDemandRate"].readIfPresent()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.sku = try reader["Sku"].readIfPresent()
-        value.memory = try reader["Memory"].readIfPresent()
-        value.networkPerformance = try reader["NetworkPerformance"].readIfPresent()
-        value.storage = try reader["Storage"].readIfPresent()
-        value.vcpu = try reader["Vcpu"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.CurrentInstance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CurrentInstance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CurrentInstance()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.instanceName = try reader["InstanceName"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.TagValues.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceDetails = try reader["ResourceDetails"].readIfPresent(with: CostExplorerClientTypes.ResourceDetails.read(from:))
-        value.resourceUtilization = try reader["ResourceUtilization"].readIfPresent(with: CostExplorerClientTypes.ResourceUtilization.read(from:))
-        value.reservationCoveredHoursInLookbackPeriod = try reader["ReservationCoveredHoursInLookbackPeriod"].readIfPresent()
-        value.savingsPlansCoveredHoursInLookbackPeriod = try reader["SavingsPlansCoveredHoursInLookbackPeriod"].readIfPresent()
-        value.onDemandHoursInLookbackPeriod = try reader["OnDemandHoursInLookbackPeriod"].readIfPresent()
-        value.totalRunningHoursInLookbackPeriod = try reader["TotalRunningHoursInLookbackPeriod"].readIfPresent()
-        value.monthlyCost = try reader["MonthlyCost"].readIfPresent()
-        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.RightsizingRecommendationConfiguration {
-
-    static func write(value: CostExplorerClientTypes.RightsizingRecommendationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BenefitsConsidered"].write(value.benefitsConsidered)
-        try writer["RecommendationTarget"].write(value.recommendationTarget)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RightsizingRecommendationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.RightsizingRecommendationConfiguration()
-        value.recommendationTarget = try reader["RecommendationTarget"].readIfPresent() ?? .sdkUnknown("")
-        value.benefitsConsidered = try reader["BenefitsConsidered"].readIfPresent() ?? false
         return value
     }
 }
@@ -11629,6 +11283,339 @@ extension CostExplorerClientTypes.RecommendationDetailData {
     }
 }
 
+extension CostExplorerClientTypes.RecommendationDetailHourlyMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RecommendationDetailHourlyMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.RecommendationDetailHourlyMetrics()
+        value.startTime = try reader["StartTime"].readIfPresent()
+        value.estimatedOnDemandCost = try reader["EstimatedOnDemandCost"].readIfPresent()
+        value.currentCoverage = try reader["CurrentCoverage"].readIfPresent()
+        value.estimatedCoverage = try reader["EstimatedCoverage"].readIfPresent()
+        value.estimatedNewCommitmentUtilization = try reader["EstimatedNewCommitmentUtilization"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.RedshiftInstanceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RedshiftInstanceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.RedshiftInstanceDetails()
+        value.family = try reader["Family"].readIfPresent()
+        value.nodeType = try reader["NodeType"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.currentGeneration = try reader["CurrentGeneration"].readIfPresent() ?? false
+        value.sizeFlexEligible = try reader["SizeFlexEligible"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ReservationAggregates {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationAggregates {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ReservationAggregates()
+        value.utilizationPercentage = try reader["UtilizationPercentage"].readIfPresent()
+        value.utilizationPercentageInUnits = try reader["UtilizationPercentageInUnits"].readIfPresent()
+        value.purchasedHours = try reader["PurchasedHours"].readIfPresent()
+        value.purchasedUnits = try reader["PurchasedUnits"].readIfPresent()
+        value.totalActualHours = try reader["TotalActualHours"].readIfPresent()
+        value.totalActualUnits = try reader["TotalActualUnits"].readIfPresent()
+        value.unusedHours = try reader["UnusedHours"].readIfPresent()
+        value.unusedUnits = try reader["UnusedUnits"].readIfPresent()
+        value.onDemandCostOfRIHoursUsed = try reader["OnDemandCostOfRIHoursUsed"].readIfPresent()
+        value.netRISavings = try reader["NetRISavings"].readIfPresent()
+        value.totalPotentialRISavings = try reader["TotalPotentialRISavings"].readIfPresent()
+        value.amortizedUpfrontFee = try reader["AmortizedUpfrontFee"].readIfPresent()
+        value.amortizedRecurringFee = try reader["AmortizedRecurringFee"].readIfPresent()
+        value.totalAmortizedFee = try reader["TotalAmortizedFee"].readIfPresent()
+        value.riCostForUnusedHours = try reader["RICostForUnusedHours"].readIfPresent()
+        value.realizedSavings = try reader["RealizedSavings"].readIfPresent()
+        value.unrealizedSavings = try reader["UnrealizedSavings"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ReservationCoverageGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationCoverageGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ReservationCoverageGroup()
+        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.coverage = try reader["Coverage"].readIfPresent(with: CostExplorerClientTypes.Coverage.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ReservationPurchaseRecommendation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationPurchaseRecommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ReservationPurchaseRecommendation()
+        value.accountScope = try reader["AccountScope"].readIfPresent()
+        value.lookbackPeriodInDays = try reader["LookbackPeriodInDays"].readIfPresent()
+        value.termInYears = try reader["TermInYears"].readIfPresent()
+        value.paymentOption = try reader["PaymentOption"].readIfPresent()
+        value.serviceSpecification = try reader["ServiceSpecification"].readIfPresent(with: CostExplorerClientTypes.ServiceSpecification.read(from:))
+        value.recommendationDetails = try reader["RecommendationDetails"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.ReservationPurchaseRecommendationDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recommendationSummary = try reader["RecommendationSummary"].readIfPresent(with: CostExplorerClientTypes.ReservationPurchaseRecommendationSummary.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ReservationPurchaseRecommendationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationPurchaseRecommendationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ReservationPurchaseRecommendationDetail()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.instanceDetails = try reader["InstanceDetails"].readIfPresent(with: CostExplorerClientTypes.InstanceDetails.read(from:))
+        value.recommendedNumberOfInstancesToPurchase = try reader["RecommendedNumberOfInstancesToPurchase"].readIfPresent()
+        value.recommendedNormalizedUnitsToPurchase = try reader["RecommendedNormalizedUnitsToPurchase"].readIfPresent()
+        value.minimumNumberOfInstancesUsedPerHour = try reader["MinimumNumberOfInstancesUsedPerHour"].readIfPresent()
+        value.minimumNormalizedUnitsUsedPerHour = try reader["MinimumNormalizedUnitsUsedPerHour"].readIfPresent()
+        value.maximumNumberOfInstancesUsedPerHour = try reader["MaximumNumberOfInstancesUsedPerHour"].readIfPresent()
+        value.maximumNormalizedUnitsUsedPerHour = try reader["MaximumNormalizedUnitsUsedPerHour"].readIfPresent()
+        value.averageNumberOfInstancesUsedPerHour = try reader["AverageNumberOfInstancesUsedPerHour"].readIfPresent()
+        value.averageNormalizedUnitsUsedPerHour = try reader["AverageNormalizedUnitsUsedPerHour"].readIfPresent()
+        value.averageUtilization = try reader["AverageUtilization"].readIfPresent()
+        value.estimatedBreakEvenInMonths = try reader["EstimatedBreakEvenInMonths"].readIfPresent()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        value.estimatedMonthlySavingsAmount = try reader["EstimatedMonthlySavingsAmount"].readIfPresent()
+        value.estimatedMonthlySavingsPercentage = try reader["EstimatedMonthlySavingsPercentage"].readIfPresent()
+        value.estimatedMonthlyOnDemandCost = try reader["EstimatedMonthlyOnDemandCost"].readIfPresent()
+        value.estimatedReservationCostForLookbackPeriod = try reader["EstimatedReservationCostForLookbackPeriod"].readIfPresent()
+        value.upfrontCost = try reader["UpfrontCost"].readIfPresent()
+        value.recurringStandardMonthlyCost = try reader["RecurringStandardMonthlyCost"].readIfPresent()
+        value.reservedCapacityDetails = try reader["ReservedCapacityDetails"].readIfPresent(with: CostExplorerClientTypes.ReservedCapacityDetails.read(from:))
+        value.recommendedNumberOfCapacityUnitsToPurchase = try reader["RecommendedNumberOfCapacityUnitsToPurchase"].readIfPresent()
+        value.minimumNumberOfCapacityUnitsUsedPerHour = try reader["MinimumNumberOfCapacityUnitsUsedPerHour"].readIfPresent()
+        value.maximumNumberOfCapacityUnitsUsedPerHour = try reader["MaximumNumberOfCapacityUnitsUsedPerHour"].readIfPresent()
+        value.averageNumberOfCapacityUnitsUsedPerHour = try reader["AverageNumberOfCapacityUnitsUsedPerHour"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ReservationPurchaseRecommendationMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationPurchaseRecommendationMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ReservationPurchaseRecommendationMetadata()
+        value.recommendationId = try reader["RecommendationId"].readIfPresent()
+        value.generationTimestamp = try reader["GenerationTimestamp"].readIfPresent()
+        value.additionalMetadata = try reader["AdditionalMetadata"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ReservationPurchaseRecommendationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationPurchaseRecommendationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ReservationPurchaseRecommendationSummary()
+        value.totalEstimatedMonthlySavingsAmount = try reader["TotalEstimatedMonthlySavingsAmount"].readIfPresent()
+        value.totalEstimatedMonthlySavingsPercentage = try reader["TotalEstimatedMonthlySavingsPercentage"].readIfPresent()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ReservationUtilizationGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservationUtilizationGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ReservationUtilizationGroup()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.utilization = try reader["Utilization"].readIfPresent(with: CostExplorerClientTypes.ReservationAggregates.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ReservedCapacityDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ReservedCapacityDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ReservedCapacityDetails()
+        value.dynamoDBCapacityDetails = try reader["DynamoDBCapacityDetails"].readIfPresent(with: CostExplorerClientTypes.DynamoDBCapacityDetails.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ResourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ResourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ResourceDetails()
+        value.ec2ResourceDetails = try reader["EC2ResourceDetails"].readIfPresent(with: CostExplorerClientTypes.EC2ResourceDetails.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ResourceTag {
+
+    static func write(value: CostExplorerClientTypes.ResourceTag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ResourceTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ResourceTag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ResourceUtilization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ResourceUtilization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ResourceUtilization()
+        value.ec2ResourceUtilization = try reader["EC2ResourceUtilization"].readIfPresent(with: CostExplorerClientTypes.EC2ResourceUtilization.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ResultByTime {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ResultByTime {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ResultByTime()
+        value.timePeriod = try reader["TimePeriod"].readIfPresent(with: CostExplorerClientTypes.DateInterval.read(from:))
+        value.total = try reader["Total"].readMapIfPresent(valueReadingClosure: CostExplorerClientTypes.MetricValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.Group.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.estimated = try reader["Estimated"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.RightsizingRecommendation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RightsizingRecommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.RightsizingRecommendation()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.currentInstance = try reader["CurrentInstance"].readIfPresent(with: CostExplorerClientTypes.CurrentInstance.read(from:))
+        value.rightsizingType = try reader["RightsizingType"].readIfPresent()
+        value.modifyRecommendationDetail = try reader["ModifyRecommendationDetail"].readIfPresent(with: CostExplorerClientTypes.ModifyRecommendationDetail.read(from:))
+        value.terminateRecommendationDetail = try reader["TerminateRecommendationDetail"].readIfPresent(with: CostExplorerClientTypes.TerminateRecommendationDetail.read(from:))
+        value.findingReasonCodes = try reader["FindingReasonCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CostExplorerClientTypes.FindingReasonCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.RightsizingRecommendationConfiguration {
+
+    static func write(value: CostExplorerClientTypes.RightsizingRecommendationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BenefitsConsidered"].write(value.benefitsConsidered)
+        try writer["RecommendationTarget"].write(value.recommendationTarget)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RightsizingRecommendationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.RightsizingRecommendationConfiguration()
+        value.recommendationTarget = try reader["RecommendationTarget"].readIfPresent() ?? .sdkUnknown("")
+        value.benefitsConsidered = try reader["BenefitsConsidered"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.RightsizingRecommendationMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RightsizingRecommendationMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.RightsizingRecommendationMetadata()
+        value.recommendationId = try reader["RecommendationId"].readIfPresent()
+        value.generationTimestamp = try reader["GenerationTimestamp"].readIfPresent()
+        value.lookbackPeriodInDays = try reader["LookbackPeriodInDays"].readIfPresent()
+        value.additionalMetadata = try reader["AdditionalMetadata"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.RightsizingRecommendationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RightsizingRecommendationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.RightsizingRecommendationSummary()
+        value.totalRecommendationCount = try reader["TotalRecommendationCount"].readIfPresent()
+        value.estimatedTotalMonthlySavingsAmount = try reader["EstimatedTotalMonthlySavingsAmount"].readIfPresent()
+        value.savingsCurrencyCode = try reader["SavingsCurrencyCode"].readIfPresent()
+        value.savingsPercentage = try reader["SavingsPercentage"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.RootCause {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RootCause {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.RootCause()
+        value.service = try reader["Service"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.linkedAccount = try reader["LinkedAccount"].readIfPresent()
+        value.linkedAccountName = try reader["LinkedAccountName"].readIfPresent()
+        value.usageType = try reader["UsageType"].readIfPresent()
+        value.impact = try reader["Impact"].readIfPresent(with: CostExplorerClientTypes.RootCauseImpact.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.RootCauseImpact {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RootCauseImpact {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.RootCauseImpact()
+        value.contribution = try reader["Contribution"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.SavingsPlans {
+
+    static func write(value: CostExplorerClientTypes.SavingsPlans?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceFamily"].write(value.instanceFamily)
+        try writer["OfferingId"].write(value.offeringId)
+        try writer["PaymentOption"].write(value.paymentOption)
+        try writer["Region"].write(value.region)
+        try writer["SavingsPlansCommitment"].write(value.savingsPlansCommitment)
+        try writer["SavingsPlansType"].write(value.savingsPlansType)
+        try writer["TermInYears"].write(value.termInYears)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlans {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.SavingsPlans()
+        value.paymentOption = try reader["PaymentOption"].readIfPresent()
+        value.savingsPlansType = try reader["SavingsPlansType"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.instanceFamily = try reader["InstanceFamily"].readIfPresent()
+        value.termInYears = try reader["TermInYears"].readIfPresent()
+        value.savingsPlansCommitment = try reader["SavingsPlansCommitment"].readIfPresent()
+        value.offeringId = try reader["OfferingId"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.SavingsPlansAmortizedCommitment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansAmortizedCommitment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.SavingsPlansAmortizedCommitment()
+        value.amortizedRecurringCommitment = try reader["AmortizedRecurringCommitment"].readIfPresent()
+        value.amortizedUpfrontCommitment = try reader["AmortizedUpfrontCommitment"].readIfPresent()
+        value.totalAmortizedCommitment = try reader["TotalAmortizedCommitment"].readIfPresent()
+        return value
+    }
+}
+
 extension CostExplorerClientTypes.SavingsPlansCoverage {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansCoverage {
@@ -11654,14 +11641,70 @@ extension CostExplorerClientTypes.SavingsPlansCoverageData {
     }
 }
 
-extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendationMetadata {
+extension CostExplorerClientTypes.SavingsPlansDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansPurchaseRecommendationMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.SavingsPlansPurchaseRecommendationMetadata()
-        value.recommendationId = try reader["RecommendationId"].readIfPresent()
-        value.generationTimestamp = try reader["GenerationTimestamp"].readIfPresent()
+        var value = CostExplorerClientTypes.SavingsPlansDetails()
+        value.region = try reader["Region"].readIfPresent()
+        value.instanceFamily = try reader["InstanceFamily"].readIfPresent()
+        value.offeringId = try reader["OfferingId"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration {
+
+    static func write(value: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["AccountScope"].write(value.accountScope)
+        try writer["AnalysisType"].write(value.analysisType)
+        try writer["LookBackTimePeriod"].write(value.lookBackTimePeriod, with: CostExplorerClientTypes.DateInterval.write(value:to:))
+        try writer["SavingsPlansToAdd"].writeList(value.savingsPlansToAdd, memberWritingClosure: CostExplorerClientTypes.SavingsPlans.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SavingsPlansToExclude"].writeList(value.savingsPlansToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration()
+        value.accountScope = try reader["AccountScope"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.analysisType = try reader["AnalysisType"].readIfPresent() ?? .sdkUnknown("")
+        value.savingsPlansToAdd = try reader["SavingsPlansToAdd"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.SavingsPlans.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.savingsPlansToExclude = try reader["SavingsPlansToExclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lookBackTimePeriod = try reader["LookBackTimePeriod"].readIfPresent(with: CostExplorerClientTypes.DateInterval.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.SavingsPlansPurchaseAnalysisDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansPurchaseAnalysisDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.SavingsPlansPurchaseAnalysisDetails()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        value.lookbackPeriodInHours = try reader["LookbackPeriodInHours"].readIfPresent()
+        value.currentAverageCoverage = try reader["CurrentAverageCoverage"].readIfPresent()
+        value.currentAverageHourlyOnDemandSpend = try reader["CurrentAverageHourlyOnDemandSpend"].readIfPresent()
+        value.currentMaximumHourlyOnDemandSpend = try reader["CurrentMaximumHourlyOnDemandSpend"].readIfPresent()
+        value.currentMinimumHourlyOnDemandSpend = try reader["CurrentMinimumHourlyOnDemandSpend"].readIfPresent()
+        value.currentOnDemandSpend = try reader["CurrentOnDemandSpend"].readIfPresent()
+        value.existingHourlyCommitment = try reader["ExistingHourlyCommitment"].readIfPresent()
+        value.hourlyCommitmentToPurchase = try reader["HourlyCommitmentToPurchase"].readIfPresent()
+        value.estimatedAverageCoverage = try reader["EstimatedAverageCoverage"].readIfPresent()
+        value.estimatedAverageUtilization = try reader["EstimatedAverageUtilization"].readIfPresent()
+        value.estimatedMonthlySavingsAmount = try reader["EstimatedMonthlySavingsAmount"].readIfPresent()
+        value.estimatedOnDemandCost = try reader["EstimatedOnDemandCost"].readIfPresent()
+        value.estimatedOnDemandCostWithCurrentCommitment = try reader["EstimatedOnDemandCostWithCurrentCommitment"].readIfPresent()
+        value.estimatedROI = try reader["EstimatedROI"].readIfPresent()
+        value.estimatedSavingsAmount = try reader["EstimatedSavingsAmount"].readIfPresent()
+        value.estimatedSavingsPercentage = try reader["EstimatedSavingsPercentage"].readIfPresent()
+        value.estimatedCommitmentCost = try reader["EstimatedCommitmentCost"].readIfPresent()
+        value.latestUsageTimestamp = try reader["LatestUsageTimestamp"].readIfPresent()
+        value.upfrontCost = try reader["UpfrontCost"].readIfPresent()
         value.additionalMetadata = try reader["AdditionalMetadata"].readIfPresent()
+        value.metricsOverLookbackPeriod = try reader["MetricsOverLookbackPeriod"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.RecommendationDetailHourlyMetrics.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11678,26 +11721,6 @@ extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendation {
         value.lookbackPeriodInDays = try reader["LookbackPeriodInDays"].readIfPresent()
         value.savingsPlansPurchaseRecommendationDetails = try reader["SavingsPlansPurchaseRecommendationDetails"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.SavingsPlansPurchaseRecommendationDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.savingsPlansPurchaseRecommendationSummary = try reader["SavingsPlansPurchaseRecommendationSummary"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansPurchaseRecommendationSummary.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansPurchaseRecommendationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.SavingsPlansPurchaseRecommendationSummary()
-        value.estimatedROI = try reader["EstimatedROI"].readIfPresent()
-        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
-        value.estimatedTotalCost = try reader["EstimatedTotalCost"].readIfPresent()
-        value.currentOnDemandSpend = try reader["CurrentOnDemandSpend"].readIfPresent()
-        value.estimatedSavingsAmount = try reader["EstimatedSavingsAmount"].readIfPresent()
-        value.totalRecommendationCount = try reader["TotalRecommendationCount"].readIfPresent()
-        value.dailyCommitmentToPurchase = try reader["DailyCommitmentToPurchase"].readIfPresent()
-        value.hourlyCommitmentToPurchase = try reader["HourlyCommitmentToPurchase"].readIfPresent()
-        value.estimatedSavingsPercentage = try reader["EstimatedSavingsPercentage"].readIfPresent()
-        value.estimatedMonthlySavingsAmount = try reader["EstimatedMonthlySavingsAmount"].readIfPresent()
-        value.estimatedOnDemandCostWithCurrentCommitment = try reader["EstimatedOnDemandCostWithCurrentCommitment"].readIfPresent()
         return value
     }
 }
@@ -11728,39 +11751,34 @@ extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendationDetail {
     }
 }
 
-extension CostExplorerClientTypes.SavingsPlansDetails {
+extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendationMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansPurchaseRecommendationMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.SavingsPlansDetails()
-        value.region = try reader["Region"].readIfPresent()
-        value.instanceFamily = try reader["InstanceFamily"].readIfPresent()
-        value.offeringId = try reader["OfferingId"].readIfPresent()
+        var value = CostExplorerClientTypes.SavingsPlansPurchaseRecommendationMetadata()
+        value.recommendationId = try reader["RecommendationId"].readIfPresent()
+        value.generationTimestamp = try reader["GenerationTimestamp"].readIfPresent()
+        value.additionalMetadata = try reader["AdditionalMetadata"].readIfPresent()
         return value
     }
 }
 
-extension CostExplorerClientTypes.SavingsPlansUtilizationByTime {
+extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendationSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansUtilizationByTime {
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansPurchaseRecommendationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.SavingsPlansUtilizationByTime()
-        value.timePeriod = try reader["TimePeriod"].readIfPresent(with: CostExplorerClientTypes.DateInterval.read(from:))
-        value.utilization = try reader["Utilization"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansUtilization.read(from:))
-        value.savings = try reader["Savings"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansSavings.read(from:))
-        value.amortizedCommitment = try reader["AmortizedCommitment"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansAmortizedCommitment.read(from:))
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.SavingsPlansAmortizedCommitment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansAmortizedCommitment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.SavingsPlansAmortizedCommitment()
-        value.amortizedRecurringCommitment = try reader["AmortizedRecurringCommitment"].readIfPresent()
-        value.amortizedUpfrontCommitment = try reader["AmortizedUpfrontCommitment"].readIfPresent()
-        value.totalAmortizedCommitment = try reader["TotalAmortizedCommitment"].readIfPresent()
+        var value = CostExplorerClientTypes.SavingsPlansPurchaseRecommendationSummary()
+        value.estimatedROI = try reader["EstimatedROI"].readIfPresent()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        value.estimatedTotalCost = try reader["EstimatedTotalCost"].readIfPresent()
+        value.currentOnDemandSpend = try reader["CurrentOnDemandSpend"].readIfPresent()
+        value.estimatedSavingsAmount = try reader["EstimatedSavingsAmount"].readIfPresent()
+        value.totalRecommendationCount = try reader["TotalRecommendationCount"].readIfPresent()
+        value.dailyCommitmentToPurchase = try reader["DailyCommitmentToPurchase"].readIfPresent()
+        value.hourlyCommitmentToPurchase = try reader["HourlyCommitmentToPurchase"].readIfPresent()
+        value.estimatedSavingsPercentage = try reader["EstimatedSavingsPercentage"].readIfPresent()
+        value.estimatedMonthlySavingsAmount = try reader["EstimatedMonthlySavingsAmount"].readIfPresent()
+        value.estimatedOnDemandCostWithCurrentCommitment = try reader["EstimatedOnDemandCostWithCurrentCommitment"].readIfPresent()
         return value
     }
 }
@@ -11801,6 +11819,19 @@ extension CostExplorerClientTypes.SavingsPlansUtilizationAggregates {
     }
 }
 
+extension CostExplorerClientTypes.SavingsPlansUtilizationByTime {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansUtilizationByTime {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.SavingsPlansUtilizationByTime()
+        value.timePeriod = try reader["TimePeriod"].readIfPresent(with: CostExplorerClientTypes.DateInterval.read(from:))
+        value.utilization = try reader["Utilization"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansUtilization.read(from:))
+        value.savings = try reader["Savings"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansSavings.read(from:))
+        value.amortizedCommitment = try reader["AmortizedCommitment"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansAmortizedCommitment.read(from:))
+        return value
+    }
+}
+
 extension CostExplorerClientTypes.SavingsPlansUtilizationDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansUtilizationDetail {
@@ -11815,108 +11846,102 @@ extension CostExplorerClientTypes.SavingsPlansUtilizationDetail {
     }
 }
 
-extension CostExplorerClientTypes.AnalysisSummary {
+extension CostExplorerClientTypes.ServiceSpecification {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.AnalysisSummary {
+    static func write(value: CostExplorerClientTypes.ServiceSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EC2Specification"].write(value.ec2Specification, with: CostExplorerClientTypes.EC2Specification.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ServiceSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.AnalysisSummary()
-        value.estimatedCompletionTime = try reader["EstimatedCompletionTime"].readIfPresent()
-        value.analysisCompletionTime = try reader["AnalysisCompletionTime"].readIfPresent()
-        value.analysisStartedTime = try reader["AnalysisStartedTime"].readIfPresent()
-        value.analysisStatus = try reader["AnalysisStatus"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.analysisId = try reader["AnalysisId"].readIfPresent()
-        value.commitmentPurchaseAnalysisConfiguration = try reader["CommitmentPurchaseAnalysisConfiguration"].readIfPresent(with: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration.read(from:))
+        var value = CostExplorerClientTypes.ServiceSpecification()
+        value.ec2Specification = try reader["EC2Specification"].readIfPresent(with: CostExplorerClientTypes.EC2Specification.read(from:))
         return value
     }
 }
 
-extension CostExplorerClientTypes.CostAllocationTagBackfillRequest {
+extension CostExplorerClientTypes.SortDefinition {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostAllocationTagBackfillRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CostAllocationTagBackfillRequest()
-        value.backfillFrom = try reader["BackfillFrom"].readIfPresent()
-        value.requestedAt = try reader["RequestedAt"].readIfPresent()
-        value.completedAt = try reader["CompletedAt"].readIfPresent()
-        value.backfillStatus = try reader["BackfillStatus"].readIfPresent()
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.CostAllocationTag {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostAllocationTag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CostAllocationTag()
-        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.lastUpdatedDate = try reader["LastUpdatedDate"].readIfPresent()
-        value.lastUsedDate = try reader["LastUsedDate"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.CostCategoryReference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategoryReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CostCategoryReference()
-        value.costCategoryArn = try reader["CostCategoryArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.effectiveStart = try reader["EffectiveStart"].readIfPresent()
-        value.effectiveEnd = try reader["EffectiveEnd"].readIfPresent()
-        value.numberOfRules = try reader["NumberOfRules"].readIfPresent() ?? 0
-        value.processingStatus = try reader["ProcessingStatus"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CostCategoryProcessingStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.supportedResourceTypes = try reader["SupportedResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.CostCategoryResourceAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostCategoryResourceAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.CostCategoryResourceAssociation()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.costCategoryName = try reader["CostCategoryName"].readIfPresent()
-        value.costCategoryArn = try reader["CostCategoryArn"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.GenerationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.GenerationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.GenerationSummary()
-        value.recommendationId = try reader["RecommendationId"].readIfPresent()
-        value.generationStatus = try reader["GenerationStatus"].readIfPresent()
-        value.generationStartedTime = try reader["GenerationStartedTime"].readIfPresent()
-        value.generationCompletionTime = try reader["GenerationCompletionTime"].readIfPresent()
-        value.estimatedCompletionTime = try reader["EstimatedCompletionTime"].readIfPresent()
-        return value
-    }
-}
-
-extension CostExplorerClientTypes.ResourceTag {
-
-    static func write(value: CostExplorerClientTypes.ResourceTag?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CostExplorerClientTypes.SortDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension CostExplorerClientTypes.Subscriber {
+
+    static func write(value: CostExplorerClientTypes.Subscriber?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Address"].write(value.address)
+        try writer["Status"].write(value.status)
+        try writer["Type"].write(value.type)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ResourceTag {
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.Subscriber {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.ResourceTag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = CostExplorerClientTypes.Subscriber()
+        value.address = try reader["Address"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
+    }
+}
+
+extension CostExplorerClientTypes.TagValues {
+
+    static func write(value: CostExplorerClientTypes.TagValues?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["MatchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CostExplorerClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.TagValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.TagValues()
+        value.key = try reader["Key"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchOptions = try reader["MatchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CostExplorerClientTypes.MatchOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.TargetInstance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.TargetInstance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.TargetInstance()
+        value.estimatedMonthlyCost = try reader["EstimatedMonthlyCost"].readIfPresent()
+        value.estimatedMonthlySavings = try reader["EstimatedMonthlySavings"].readIfPresent()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        value.defaultTargetInstance = try reader["DefaultTargetInstance"].readIfPresent() ?? false
+        value.resourceDetails = try reader["ResourceDetails"].readIfPresent(with: CostExplorerClientTypes.ResourceDetails.read(from:))
+        value.expectedResourceUtilization = try reader["ExpectedResourceUtilization"].readIfPresent(with: CostExplorerClientTypes.ResourceUtilization.read(from:))
+        value.platformDifferences = try reader["PlatformDifferences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CostExplorerClientTypes.PlatformDifference>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.TerminateRecommendationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.TerminateRecommendationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.TerminateRecommendationDetail()
+        value.estimatedMonthlySavings = try reader["EstimatedMonthlySavings"].readIfPresent()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.TotalImpactFilter {
+
+    static func write(value: CostExplorerClientTypes.TotalImpactFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndValue"].write(value.endValue)
+        try writer["NumericOperator"].write(value.numericOperator)
+        try writer["StartValue"].write(value.startValue)
     }
 }
 
@@ -11932,40 +11957,15 @@ extension CostExplorerClientTypes.UpdateCostAllocationTagsStatusError {
     }
 }
 
-extension CostExplorerClientTypes.AnomalyDateInterval {
+extension CostExplorerClientTypes.UtilizationByTime {
 
-    static func write(value: CostExplorerClientTypes.AnomalyDateInterval?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndDate"].write(value.endDate)
-        try writer["StartDate"].write(value.startDate)
-    }
-}
-
-extension CostExplorerClientTypes.TotalImpactFilter {
-
-    static func write(value: CostExplorerClientTypes.TotalImpactFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndValue"].write(value.endValue)
-        try writer["NumericOperator"].write(value.numericOperator)
-        try writer["StartValue"].write(value.startValue)
-    }
-}
-
-extension CostExplorerClientTypes.SortDefinition {
-
-    static func write(value: CostExplorerClientTypes.SortDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["SortOrder"].write(value.sortOrder)
-    }
-}
-
-extension CostExplorerClientTypes.CostAllocationTagStatusEntry {
-
-    static func write(value: CostExplorerClientTypes.CostAllocationTagStatusEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
-        try writer["TagKey"].write(value.tagKey)
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.UtilizationByTime {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.UtilizationByTime()
+        value.timePeriod = try reader["TimePeriod"].readIfPresent(with: CostExplorerClientTypes.DateInterval.read(from:))
+        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.ReservationUtilizationGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.total = try reader["Total"].readIfPresent(with: CostExplorerClientTypes.ReservationAggregates.read(from:))
+        return value
     }
 }
 

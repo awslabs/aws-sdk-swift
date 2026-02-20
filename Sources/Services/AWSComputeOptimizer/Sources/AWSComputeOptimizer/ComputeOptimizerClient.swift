@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ComputeOptimizerClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ComputeOptimizerClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ComputeOptimizerClient.ComputeOptimizerClientConfig
+    public let config: ComputeOptimizerClient.ComputeOptimizerClientConfig
     let serviceName = "Compute Optimizer"
 
     @available(*, deprecated, message: "Use ComputeOptimizerClient.ComputeOptimizerClientConfig instead")
     public typealias Config = ComputeOptimizerClient.ComputeOptimizerClientConfiguration
+    public typealias Configuration = ComputeOptimizerClient.ComputeOptimizerClientConfig
 
     public required init(config: ComputeOptimizerClient.ComputeOptimizerClientConfig) {
         ClientRuntime.initialize()

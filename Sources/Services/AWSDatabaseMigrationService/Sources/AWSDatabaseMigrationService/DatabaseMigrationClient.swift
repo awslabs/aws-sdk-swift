@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DatabaseMigrationClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DatabaseMigrationClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DatabaseMigrationClient.DatabaseMigrationClientConfig
+    public let config: DatabaseMigrationClient.DatabaseMigrationClientConfig
     let serviceName = "Database Migration"
 
     @available(*, deprecated, message: "Use DatabaseMigrationClient.DatabaseMigrationClientConfig instead")
     public typealias Config = DatabaseMigrationClient.DatabaseMigrationClientConfiguration
+    public typealias Configuration = DatabaseMigrationClient.DatabaseMigrationClientConfig
 
     public required init(config: DatabaseMigrationClient.DatabaseMigrationClientConfig) {
         ClientRuntime.initialize()

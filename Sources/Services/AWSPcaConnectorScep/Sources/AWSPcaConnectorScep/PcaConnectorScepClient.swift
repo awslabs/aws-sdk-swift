@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class PcaConnectorScepClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PcaConnectorScepClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: PcaConnectorScepClient.PcaConnectorScepClientConfig
+    public let config: PcaConnectorScepClient.PcaConnectorScepClientConfig
     let serviceName = "Pca Connector Scep"
 
     @available(*, deprecated, message: "Use PcaConnectorScepClient.PcaConnectorScepClientConfig instead")
     public typealias Config = PcaConnectorScepClient.PcaConnectorScepClientConfiguration
+    public typealias Configuration = PcaConnectorScepClient.PcaConnectorScepClientConfig
 
     public required init(config: PcaConnectorScepClient.PcaConnectorScepClientConfig) {
         ClientRuntime.initialize()
@@ -613,7 +614,7 @@ extension PcaConnectorScepClient {
 extension PcaConnectorScepClient {
     /// Performs the `CreateChallenge` operation on the `PcaConnectorScep` service.
     ///
-    /// For general-purpose connectors. Creates a challenge password for the specified connector. The SCEP protocol uses a challenge password to authenticate a request before issuing a certificate from a certificate authority (CA). Your SCEP clients include the challenge password as part of their certificate request to Connector for SCEP. To retrieve the connector Amazon Resource Names (ARNs) for the connectors in your account, call [ListConnectors](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_ListConnectors.html). To create additional challenge passwords for the connector, call CreateChallenge again. We recommend frequently rotating your challenge passwords.
+    /// For general-purpose connectors. Creates a challenge password for the specified connector. The SCEP protocol uses a challenge password to authenticate a request before issuing a certificate from a certificate authority (CA). Your SCEP clients include the challenge password as part of their certificate request to Connector for SCEP. To retrieve the connector Amazon Resource Names (ARNs) for the connectors in your account, call [ListConnectors](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_ListConnectors.html). To create additional challenge passwords for the connector, call CreateChallenge again. We recommend frequently rotating your challenge passwords.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateChallengeInput`)
     ///
@@ -764,7 +765,7 @@ extension PcaConnectorScepClient {
 
     /// Performs the `DeleteChallenge` operation on the `PcaConnectorScep` service.
     ///
-    /// Deletes the specified [Challenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Challenge.html).
+    /// Deletes the specified [Challenge](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_Challenge.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteChallengeInput`)
     ///
@@ -834,7 +835,7 @@ extension PcaConnectorScepClient {
 
     /// Performs the `DeleteConnector` operation on the `PcaConnectorScep` service.
     ///
-    /// Deletes the specified [Connector](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Connector.html). This operation also deletes any challenges associated with the connector.
+    /// Deletes the specified [Connector](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_Connector.html). This operation also deletes any challenges associated with the connector.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteConnectorInput`)
     ///
@@ -904,7 +905,7 @@ extension PcaConnectorScepClient {
 
     /// Performs the `GetChallengeMetadata` operation on the `PcaConnectorScep` service.
     ///
-    /// Retrieves the metadata for the specified [Challenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Challenge.html).
+    /// Retrieves the metadata for the specified [Challenge](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_Challenge.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `GetChallengeMetadataInput`)
     ///
@@ -973,7 +974,7 @@ extension PcaConnectorScepClient {
 
     /// Performs the `GetChallengePassword` operation on the `PcaConnectorScep` service.
     ///
-    /// Retrieves the challenge password for the specified [Challenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Challenge.html).
+    /// Retrieves the challenge password for the specified [Challenge](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_Challenge.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `GetChallengePasswordInput`)
     ///
@@ -1042,7 +1043,7 @@ extension PcaConnectorScepClient {
 
     /// Performs the `GetConnector` operation on the `PcaConnectorScep` service.
     ///
-    /// Retrieves details about the specified [Connector](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Connector.html). Calling this action returns important details about the connector, such as the public SCEP URL where your clients can request certificates.
+    /// Retrieves details about the specified [Connector](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_Connector.html). Calling this action returns important details about the connector, such as the public SCEP URL where your clients can request certificates.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetConnectorInput`)
     ///

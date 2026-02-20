@@ -75,11 +75,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class MedicalImagingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MedicalImagingClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: MedicalImagingClient.MedicalImagingClientConfig
+    public let config: MedicalImagingClient.MedicalImagingClientConfig
     let serviceName = "Medical Imaging"
 
     @available(*, deprecated, message: "Use MedicalImagingClient.MedicalImagingClientConfig instead")
     public typealias Config = MedicalImagingClient.MedicalImagingClientConfiguration
+    public typealias Configuration = MedicalImagingClient.MedicalImagingClientConfig
 
     public required init(config: MedicalImagingClient.MedicalImagingClientConfig) {
         ClientRuntime.initialize()

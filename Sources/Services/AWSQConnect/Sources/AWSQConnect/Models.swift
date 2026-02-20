@@ -6418,11 +6418,13 @@ extension QConnectClientTypes {
 
     public enum MessageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case text
+        case toolUseResult
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MessageType] {
             return [
-                .text
+                .text,
+                .toolUseResult
             ]
         }
 
@@ -6434,6 +6436,7 @@ extension QConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .text: return "TEXT"
+            case .toolUseResult: return "TOOL_USE_RESULT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -17939,24 +17942,19 @@ extension PreconditionFailedException {
     }
 }
 
-extension QConnectClientTypes.AIAgentData {
+extension QConnectClientTypes.AgentAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIAgentData {
+    static func write(value: QConnectClientTypes.AgentAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["firstName"].write(value.firstName)
+        try writer["lastName"].write(value.lastName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AgentAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AIAgentData()
-        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
-        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
-        value.aiAgentId = try reader["aiAgentId"].readIfPresent() ?? ""
-        value.aiAgentArn = try reader["aiAgentArn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.configuration = try reader["configuration"].readIfPresent(with: QConnectClientTypes.AIAgentConfiguration.read(from:))
-        value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.description = try reader["description"].readIfPresent()
-        value.visibilityStatus = try reader["visibilityStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.origin = try reader["origin"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
+        var value = QConnectClientTypes.AgentAttributes()
+        value.firstName = try reader["firstName"].readIfPresent()
+        value.lastName = try reader["lastName"].readIfPresent()
         return value
     }
 }
@@ -18017,508 +18015,117 @@ extension QConnectClientTypes.AIAgentConfiguration {
     }
 }
 
-extension QConnectClientTypes.CaseSummarizationAIAgentConfiguration {
+extension QConnectClientTypes.AIAgentConfigurationData {
 
-    static func write(value: QConnectClientTypes.CaseSummarizationAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.AIAgentConfigurationData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["caseSummarizationAIGuardrailId"].write(value.caseSummarizationAIGuardrailId)
-        try writer["caseSummarizationAIPromptId"].write(value.caseSummarizationAIPromptId)
-        try writer["locale"].write(value.locale)
+        try writer["aiAgentId"].write(value.aiAgentId)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.CaseSummarizationAIAgentConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIAgentConfigurationData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.CaseSummarizationAIAgentConfiguration()
-        value.caseSummarizationAIPromptId = try reader["caseSummarizationAIPromptId"].readIfPresent()
-        value.caseSummarizationAIGuardrailId = try reader["caseSummarizationAIGuardrailId"].readIfPresent()
-        value.locale = try reader["locale"].readIfPresent()
+        var value = QConnectClientTypes.AIAgentConfigurationData()
+        value.aiAgentId = try reader["aiAgentId"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension QConnectClientTypes.NoteTakingAIAgentConfiguration {
+extension QConnectClientTypes.AIAgentData {
 
-    static func write(value: QConnectClientTypes.NoteTakingAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["locale"].write(value.locale)
-        try writer["noteTakingAIGuardrailId"].write(value.noteTakingAIGuardrailId)
-        try writer["noteTakingAIPromptId"].write(value.noteTakingAIPromptId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.NoteTakingAIAgentConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIAgentData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.NoteTakingAIAgentConfiguration()
-        value.noteTakingAIPromptId = try reader["noteTakingAIPromptId"].readIfPresent()
-        value.noteTakingAIGuardrailId = try reader["noteTakingAIGuardrailId"].readIfPresent()
-        value.locale = try reader["locale"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.OrchestrationAIAgentConfiguration {
-
-    static func write(value: QConnectClientTypes.OrchestrationAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connectInstanceArn"].write(value.connectInstanceArn)
-        try writer["locale"].write(value.locale)
-        try writer["orchestrationAIGuardrailId"].write(value.orchestrationAIGuardrailId)
-        try writer["orchestrationAIPromptId"].write(value.orchestrationAIPromptId)
-        try writer["toolConfigurations"].writeList(value.toolConfigurations, memberWritingClosure: QConnectClientTypes.ToolConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.OrchestrationAIAgentConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.OrchestrationAIAgentConfiguration()
-        value.orchestrationAIPromptId = try reader["orchestrationAIPromptId"].readIfPresent() ?? ""
-        value.orchestrationAIGuardrailId = try reader["orchestrationAIGuardrailId"].readIfPresent()
-        value.toolConfigurations = try reader["toolConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ToolConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.connectInstanceArn = try reader["connectInstanceArn"].readIfPresent()
-        value.locale = try reader["locale"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.ToolConfiguration {
-
-    static func write(value: QConnectClientTypes.ToolConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["annotations"].write(value.annotations, with: QConnectClientTypes.Annotation.write(value:to:))
-        try writer["description"].write(value.description)
-        try writer["inputSchema"].write(value.inputSchema)
-        try writer["instruction"].write(value.instruction, with: QConnectClientTypes.ToolInstruction.write(value:to:))
-        try writer["outputFilters"].writeList(value.outputFilters, memberWritingClosure: QConnectClientTypes.ToolOutputFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["outputSchema"].write(value.outputSchema)
-        try writer["overrideInputValues"].writeList(value.overrideInputValues, memberWritingClosure: QConnectClientTypes.ToolOverrideInputValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["title"].write(value.title)
-        try writer["toolId"].write(value.toolId)
-        try writer["toolName"].write(value.toolName)
-        try writer["toolType"].write(value.toolType)
-        try writer["userInteractionConfiguration"].write(value.userInteractionConfiguration, with: QConnectClientTypes.UserInteractionConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ToolConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ToolConfiguration()
-        value.toolName = try reader["toolName"].readIfPresent() ?? ""
-        value.toolType = try reader["toolType"].readIfPresent() ?? .sdkUnknown("")
-        value.title = try reader["title"].readIfPresent()
-        value.toolId = try reader["toolId"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.instruction = try reader["instruction"].readIfPresent(with: QConnectClientTypes.ToolInstruction.read(from:))
-        value.overrideInputValues = try reader["overrideInputValues"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ToolOverrideInputValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.outputFilters = try reader["outputFilters"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ToolOutputFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.inputSchema = try reader["inputSchema"].readIfPresent()
-        value.outputSchema = try reader["outputSchema"].readIfPresent()
-        value.annotations = try reader["annotations"].readIfPresent(with: QConnectClientTypes.Annotation.read(from:))
-        value.userInteractionConfiguration = try reader["userInteractionConfiguration"].readIfPresent(with: QConnectClientTypes.UserInteractionConfiguration.read(from:))
-        return value
-    }
-}
-
-extension QConnectClientTypes.UserInteractionConfiguration {
-
-    static func write(value: QConnectClientTypes.UserInteractionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isUserConfirmationRequired"].write(value.isUserConfirmationRequired)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.UserInteractionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.UserInteractionConfiguration()
-        value.isUserConfirmationRequired = try reader["isUserConfirmationRequired"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.Annotation {
-
-    static func write(value: QConnectClientTypes.Annotation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destructiveHint"].write(value.destructiveHint)
-        try writer["title"].write(value.title)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.Annotation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.Annotation()
-        value.title = try reader["title"].readIfPresent()
-        value.destructiveHint = try reader["destructiveHint"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.ToolOutputFilter {
-
-    static func write(value: QConnectClientTypes.ToolOutputFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["jsonPath"].write(value.jsonPath)
-        try writer["outputConfiguration"].write(value.outputConfiguration, with: QConnectClientTypes.ToolOutputConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ToolOutputFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ToolOutputFilter()
-        value.jsonPath = try reader["jsonPath"].readIfPresent() ?? ""
-        value.outputConfiguration = try reader["outputConfiguration"].readIfPresent(with: QConnectClientTypes.ToolOutputConfiguration.read(from:))
-        return value
-    }
-}
-
-extension QConnectClientTypes.ToolOutputConfiguration {
-
-    static func write(value: QConnectClientTypes.ToolOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["outputVariableNameOverride"].write(value.outputVariableNameOverride)
-        try writer["sessionDataNamespace"].write(value.sessionDataNamespace)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ToolOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ToolOutputConfiguration()
-        value.outputVariableNameOverride = try reader["outputVariableNameOverride"].readIfPresent()
-        value.sessionDataNamespace = try reader["sessionDataNamespace"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.ToolOverrideInputValue {
-
-    static func write(value: QConnectClientTypes.ToolOverrideInputValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["jsonPath"].write(value.jsonPath)
-        try writer["value"].write(value.value, with: QConnectClientTypes.ToolOverrideInputValueConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ToolOverrideInputValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ToolOverrideInputValue()
-        value.jsonPath = try reader["jsonPath"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent(with: QConnectClientTypes.ToolOverrideInputValueConfiguration.read(from:))
-        return value
-    }
-}
-
-extension QConnectClientTypes.ToolOverrideInputValueConfiguration {
-
-    static func write(value: QConnectClientTypes.ToolOverrideInputValueConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .constant(constant):
-                try writer["constant"].write(constant, with: QConnectClientTypes.ToolOverrideConstantInputValue.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ToolOverrideInputValueConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "constant":
-                return .constant(try reader["constant"].read(with: QConnectClientTypes.ToolOverrideConstantInputValue.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension QConnectClientTypes.ToolOverrideConstantInputValue {
-
-    static func write(value: QConnectClientTypes.ToolOverrideConstantInputValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ToolOverrideConstantInputValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ToolOverrideConstantInputValue()
+        var value = QConnectClientTypes.AIAgentData()
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.aiAgentId = try reader["aiAgentId"].readIfPresent() ?? ""
+        value.aiAgentArn = try reader["aiAgentArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["value"].readIfPresent() ?? ""
+        value.configuration = try reader["configuration"].readIfPresent(with: QConnectClientTypes.AIAgentConfiguration.read(from:))
+        value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["description"].readIfPresent()
+        value.visibilityStatus = try reader["visibilityStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.origin = try reader["origin"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
 
-extension QConnectClientTypes.ToolInstruction {
+extension QConnectClientTypes.AIAgentSummary {
 
-    static func write(value: QConnectClientTypes.ToolInstruction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["examples"].writeList(value.examples, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["instruction"].write(value.instruction)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ToolInstruction {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIAgentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ToolInstruction()
-        value.instruction = try reader["instruction"].readIfPresent()
-        value.examples = try reader["examples"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = QConnectClientTypes.AIAgentSummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.aiAgentId = try reader["aiAgentId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.aiAgentArn = try reader["aiAgentArn"].readIfPresent() ?? ""
+        value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.visibilityStatus = try reader["visibilityStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.configuration = try reader["configuration"].readIfPresent(with: QConnectClientTypes.AIAgentConfiguration.read(from:))
+        value.origin = try reader["origin"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension QConnectClientTypes.EmailGenerativeAnswerAIAgentConfiguration {
+extension QConnectClientTypes.AIAgentVersionSummary {
 
-    static func write(value: QConnectClientTypes.EmailGenerativeAnswerAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["emailGenerativeAnswerAIPromptId"].write(value.emailGenerativeAnswerAIPromptId)
-        try writer["emailQueryReformulationAIPromptId"].write(value.emailQueryReformulationAIPromptId)
-        try writer["locale"].write(value.locale)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailGenerativeAnswerAIAgentConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIAgentVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.EmailGenerativeAnswerAIAgentConfiguration()
-        value.emailGenerativeAnswerAIPromptId = try reader["emailGenerativeAnswerAIPromptId"].readIfPresent()
-        value.emailQueryReformulationAIPromptId = try reader["emailQueryReformulationAIPromptId"].readIfPresent()
-        value.locale = try reader["locale"].readIfPresent()
-        value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = QConnectClientTypes.AIAgentVersionSummary()
+        value.aiAgentSummary = try reader["aiAgentSummary"].readIfPresent(with: QConnectClientTypes.AIAgentSummary.read(from:))
+        value.versionNumber = try reader["versionNumber"].readIfPresent()
         return value
     }
 }
 
-extension QConnectClientTypes.AssociationConfiguration {
+extension QConnectClientTypes.AIGuardrailAssessment {
 
-    static func write(value: QConnectClientTypes.AssociationConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.AIGuardrailAssessment?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["associationConfigurationData"].write(value.associationConfigurationData, with: QConnectClientTypes.AssociationConfigurationData.write(value:to:))
-        try writer["associationId"].write(value.associationId)
-        try writer["associationType"].write(value.associationType)
+        try writer["blocked"].write(value.blocked)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssociationConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIGuardrailAssessment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AssociationConfiguration()
-        value.associationId = try reader["associationId"].readIfPresent()
-        value.associationType = try reader["associationType"].readIfPresent()
-        value.associationConfigurationData = try reader["associationConfigurationData"].readIfPresent(with: QConnectClientTypes.AssociationConfigurationData.read(from:))
+        var value = QConnectClientTypes.AIGuardrailAssessment()
+        value.blocked = try reader["blocked"].readIfPresent() ?? false
         return value
     }
 }
 
-extension QConnectClientTypes.AssociationConfigurationData {
+extension QConnectClientTypes.AIGuardrailContentPolicyConfig {
 
-    static func write(value: QConnectClientTypes.AssociationConfigurationData?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.AIGuardrailContentPolicyConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .knowledgebaseassociationconfigurationdata(knowledgebaseassociationconfigurationdata):
-                try writer["knowledgeBaseAssociationConfigurationData"].write(knowledgebaseassociationconfigurationdata, with: QConnectClientTypes.KnowledgeBaseAssociationConfigurationData.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["filtersConfig"].writeList(value.filtersConfig, memberWritingClosure: QConnectClientTypes.GuardrailContentFilterConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssociationConfigurationData {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIGuardrailContentPolicyConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "knowledgeBaseAssociationConfigurationData":
-                return .knowledgebaseassociationconfigurationdata(try reader["knowledgeBaseAssociationConfigurationData"].read(with: QConnectClientTypes.KnowledgeBaseAssociationConfigurationData.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension QConnectClientTypes.KnowledgeBaseAssociationConfigurationData {
-
-    static func write(value: QConnectClientTypes.KnowledgeBaseAssociationConfigurationData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contentTagFilter"].write(value.contentTagFilter, with: QConnectClientTypes.TagFilter.write(value:to:))
-        try writer["maxResults"].write(value.maxResults)
-        try writer["overrideKnowledgeBaseSearchType"].write(value.overrideKnowledgeBaseSearchType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.KnowledgeBaseAssociationConfigurationData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.KnowledgeBaseAssociationConfigurationData()
-        value.contentTagFilter = try reader["contentTagFilter"].readIfPresent(with: QConnectClientTypes.TagFilter.read(from:))
-        value.maxResults = try reader["maxResults"].readIfPresent()
-        value.overrideKnowledgeBaseSearchType = try reader["overrideKnowledgeBaseSearchType"].readIfPresent()
+        var value = QConnectClientTypes.AIGuardrailContentPolicyConfig()
+        value.filtersConfig = try reader["filtersConfig"].readListIfPresent(memberReadingClosure: QConnectClientTypes.GuardrailContentFilterConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension QConnectClientTypes.TagFilter {
+extension QConnectClientTypes.AIGuardrailContextualGroundingPolicyConfig {
 
-    static func write(value: QConnectClientTypes.TagFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.AIGuardrailContextualGroundingPolicyConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .andconditions(andconditions):
-                try writer["andConditions"].writeList(andconditions, memberWritingClosure: QConnectClientTypes.TagCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .orconditions(orconditions):
-                try writer["orConditions"].writeList(orconditions, memberWritingClosure: QConnectClientTypes.OrCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .tagcondition(tagcondition):
-                try writer["tagCondition"].write(tagcondition, with: QConnectClientTypes.TagCondition.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["filtersConfig"].writeList(value.filtersConfig, memberWritingClosure: QConnectClientTypes.GuardrailContextualGroundingFilterConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TagFilter {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIGuardrailContextualGroundingPolicyConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "tagCondition":
-                return .tagcondition(try reader["tagCondition"].read(with: QConnectClientTypes.TagCondition.read(from:)))
-            case "andConditions":
-                return .andconditions(try reader["andConditions"].readList(memberReadingClosure: QConnectClientTypes.TagCondition.read(from:), memberNodeInfo: "member", isFlattened: false))
-            case "orConditions":
-                return .orconditions(try reader["orConditions"].readList(memberReadingClosure: QConnectClientTypes.OrCondition.read(from:), memberNodeInfo: "member", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension QConnectClientTypes.OrCondition {
-
-    static func write(value: QConnectClientTypes.OrCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .andconditions(andconditions):
-                try writer["andConditions"].writeList(andconditions, memberWritingClosure: QConnectClientTypes.TagCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .tagcondition(tagcondition):
-                try writer["tagCondition"].write(tagcondition, with: QConnectClientTypes.TagCondition.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.OrCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "andConditions":
-                return .andconditions(try reader["andConditions"].readList(memberReadingClosure: QConnectClientTypes.TagCondition.read(from:), memberNodeInfo: "member", isFlattened: false))
-            case "tagCondition":
-                return .tagcondition(try reader["tagCondition"].read(with: QConnectClientTypes.TagCondition.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension QConnectClientTypes.TagCondition {
-
-    static func write(value: QConnectClientTypes.TagCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TagCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.TagCondition()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.EmailOverviewAIAgentConfiguration {
-
-    static func write(value: QConnectClientTypes.EmailOverviewAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["emailOverviewAIPromptId"].write(value.emailOverviewAIPromptId)
-        try writer["locale"].write(value.locale)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailOverviewAIAgentConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.EmailOverviewAIAgentConfiguration()
-        value.emailOverviewAIPromptId = try reader["emailOverviewAIPromptId"].readIfPresent()
-        value.locale = try reader["locale"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.EmailResponseAIAgentConfiguration {
-
-    static func write(value: QConnectClientTypes.EmailResponseAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["emailQueryReformulationAIPromptId"].write(value.emailQueryReformulationAIPromptId)
-        try writer["emailResponseAIPromptId"].write(value.emailResponseAIPromptId)
-        try writer["locale"].write(value.locale)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailResponseAIAgentConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.EmailResponseAIAgentConfiguration()
-        value.emailResponseAIPromptId = try reader["emailResponseAIPromptId"].readIfPresent()
-        value.emailQueryReformulationAIPromptId = try reader["emailQueryReformulationAIPromptId"].readIfPresent()
-        value.locale = try reader["locale"].readIfPresent()
-        value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.SelfServiceAIAgentConfiguration {
-
-    static func write(value: QConnectClientTypes.SelfServiceAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["selfServiceAIGuardrailId"].write(value.selfServiceAIGuardrailId)
-        try writer["selfServiceAnswerGenerationAIPromptId"].write(value.selfServiceAnswerGenerationAIPromptId)
-        try writer["selfServicePreProcessingAIPromptId"].write(value.selfServicePreProcessingAIPromptId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SelfServiceAIAgentConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SelfServiceAIAgentConfiguration()
-        value.selfServicePreProcessingAIPromptId = try reader["selfServicePreProcessingAIPromptId"].readIfPresent()
-        value.selfServiceAnswerGenerationAIPromptId = try reader["selfServiceAnswerGenerationAIPromptId"].readIfPresent()
-        value.selfServiceAIGuardrailId = try reader["selfServiceAIGuardrailId"].readIfPresent()
-        value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.AnswerRecommendationAIAgentConfiguration {
-
-    static func write(value: QConnectClientTypes.AnswerRecommendationAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["answerGenerationAIGuardrailId"].write(value.answerGenerationAIGuardrailId)
-        try writer["answerGenerationAIPromptId"].write(value.answerGenerationAIPromptId)
-        try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["intentLabelingGenerationAIPromptId"].write(value.intentLabelingGenerationAIPromptId)
-        try writer["locale"].write(value.locale)
-        try writer["queryReformulationAIPromptId"].write(value.queryReformulationAIPromptId)
-        try writer["suggestedMessages"].writeList(value.suggestedMessages, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AnswerRecommendationAIAgentConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AnswerRecommendationAIAgentConfiguration()
-        value.intentLabelingGenerationAIPromptId = try reader["intentLabelingGenerationAIPromptId"].readIfPresent()
-        value.queryReformulationAIPromptId = try reader["queryReformulationAIPromptId"].readIfPresent()
-        value.answerGenerationAIPromptId = try reader["answerGenerationAIPromptId"].readIfPresent()
-        value.answerGenerationAIGuardrailId = try reader["answerGenerationAIGuardrailId"].readIfPresent()
-        value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.locale = try reader["locale"].readIfPresent()
-        value.suggestedMessages = try reader["suggestedMessages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.ManualSearchAIAgentConfiguration {
-
-    static func write(value: QConnectClientTypes.ManualSearchAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["answerGenerationAIGuardrailId"].write(value.answerGenerationAIGuardrailId)
-        try writer["answerGenerationAIPromptId"].write(value.answerGenerationAIPromptId)
-        try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["locale"].write(value.locale)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ManualSearchAIAgentConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ManualSearchAIAgentConfiguration()
-        value.answerGenerationAIPromptId = try reader["answerGenerationAIPromptId"].readIfPresent()
-        value.answerGenerationAIGuardrailId = try reader["answerGenerationAIGuardrailId"].readIfPresent()
-        value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.locale = try reader["locale"].readIfPresent()
+        var value = QConnectClientTypes.AIGuardrailContextualGroundingPolicyConfig()
+        value.filtersConfig = try reader["filtersConfig"].readListIfPresent(memberReadingClosure: QConnectClientTypes.GuardrailContextualGroundingFilterConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -18549,38 +18156,6 @@ extension QConnectClientTypes.AIGuardrailData {
     }
 }
 
-extension QConnectClientTypes.AIGuardrailContextualGroundingPolicyConfig {
-
-    static func write(value: QConnectClientTypes.AIGuardrailContextualGroundingPolicyConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filtersConfig"].writeList(value.filtersConfig, memberWritingClosure: QConnectClientTypes.GuardrailContextualGroundingFilterConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIGuardrailContextualGroundingPolicyConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AIGuardrailContextualGroundingPolicyConfig()
-        value.filtersConfig = try reader["filtersConfig"].readListIfPresent(memberReadingClosure: QConnectClientTypes.GuardrailContextualGroundingFilterConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension QConnectClientTypes.GuardrailContextualGroundingFilterConfig {
-
-    static func write(value: QConnectClientTypes.GuardrailContextualGroundingFilterConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["threshold"].write(value.threshold)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GuardrailContextualGroundingFilterConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.GuardrailContextualGroundingFilterConfig()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.threshold = try reader["threshold"].readIfPresent() ?? 0
-        return value
-    }
-}
-
 extension QConnectClientTypes.AIGuardrailSensitiveInformationPolicyConfig {
 
     static func write(value: QConnectClientTypes.AIGuardrailSensitiveInformationPolicyConfig?, to writer: SmithyJSON.Writer) throws {
@@ -18598,121 +18173,21 @@ extension QConnectClientTypes.AIGuardrailSensitiveInformationPolicyConfig {
     }
 }
 
-extension QConnectClientTypes.GuardrailRegexConfig {
+extension QConnectClientTypes.AIGuardrailSummary {
 
-    static func write(value: QConnectClientTypes.GuardrailRegexConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["description"].write(value.description)
-        try writer["name"].write(value.name)
-        try writer["pattern"].write(value.pattern)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GuardrailRegexConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIGuardrailSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.GuardrailRegexConfig()
+        var value = QConnectClientTypes.AIGuardrailSummary()
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.aiGuardrailId = try reader["aiGuardrailId"].readIfPresent() ?? ""
+        value.aiGuardrailArn = try reader["aiGuardrailArn"].readIfPresent() ?? ""
+        value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.visibilityStatus = try reader["visibilityStatus"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
-        value.pattern = try reader["pattern"].readIfPresent() ?? ""
-        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension QConnectClientTypes.GuardrailPiiEntityConfig {
-
-    static func write(value: QConnectClientTypes.GuardrailPiiEntityConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GuardrailPiiEntityConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.GuardrailPiiEntityConfig()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension QConnectClientTypes.AIGuardrailWordPolicyConfig {
-
-    static func write(value: QConnectClientTypes.AIGuardrailWordPolicyConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["managedWordListsConfig"].writeList(value.managedWordListsConfig, memberWritingClosure: QConnectClientTypes.GuardrailManagedWordsConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["wordsConfig"].writeList(value.wordsConfig, memberWritingClosure: QConnectClientTypes.GuardrailWordConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIGuardrailWordPolicyConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AIGuardrailWordPolicyConfig()
-        value.wordsConfig = try reader["wordsConfig"].readListIfPresent(memberReadingClosure: QConnectClientTypes.GuardrailWordConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.managedWordListsConfig = try reader["managedWordListsConfig"].readListIfPresent(memberReadingClosure: QConnectClientTypes.GuardrailManagedWordsConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.GuardrailManagedWordsConfig {
-
-    static func write(value: QConnectClientTypes.GuardrailManagedWordsConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GuardrailManagedWordsConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.GuardrailManagedWordsConfig()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension QConnectClientTypes.GuardrailWordConfig {
-
-    static func write(value: QConnectClientTypes.GuardrailWordConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["text"].write(value.text)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GuardrailWordConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.GuardrailWordConfig()
-        value.text = try reader["text"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension QConnectClientTypes.AIGuardrailContentPolicyConfig {
-
-    static func write(value: QConnectClientTypes.AIGuardrailContentPolicyConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filtersConfig"].writeList(value.filtersConfig, memberWritingClosure: QConnectClientTypes.GuardrailContentFilterConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIGuardrailContentPolicyConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AIGuardrailContentPolicyConfig()
-        value.filtersConfig = try reader["filtersConfig"].readListIfPresent(memberReadingClosure: QConnectClientTypes.GuardrailContentFilterConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension QConnectClientTypes.GuardrailContentFilterConfig {
-
-    static func write(value: QConnectClientTypes.GuardrailContentFilterConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["inputStrength"].write(value.inputStrength)
-        try writer["outputStrength"].write(value.outputStrength)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GuardrailContentFilterConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.GuardrailContentFilterConfig()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.inputStrength = try reader["inputStrength"].readIfPresent() ?? .sdkUnknown("")
-        value.outputStrength = try reader["outputStrength"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -18732,23 +18207,30 @@ extension QConnectClientTypes.AIGuardrailTopicPolicyConfig {
     }
 }
 
-extension QConnectClientTypes.GuardrailTopicConfig {
+extension QConnectClientTypes.AIGuardrailVersionSummary {
 
-    static func write(value: QConnectClientTypes.GuardrailTopicConfig?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIGuardrailVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AIGuardrailVersionSummary()
+        value.aiGuardrailSummary = try reader["aiGuardrailSummary"].readIfPresent(with: QConnectClientTypes.AIGuardrailSummary.read(from:))
+        value.versionNumber = try reader["versionNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.AIGuardrailWordPolicyConfig {
+
+    static func write(value: QConnectClientTypes.AIGuardrailWordPolicyConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["definition"].write(value.definition)
-        try writer["examples"].writeList(value.examples, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["type"].write(value.type)
+        try writer["managedWordListsConfig"].writeList(value.managedWordListsConfig, memberWritingClosure: QConnectClientTypes.GuardrailManagedWordsConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["wordsConfig"].writeList(value.wordsConfig, memberWritingClosure: QConnectClientTypes.GuardrailWordConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GuardrailTopicConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIGuardrailWordPolicyConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.GuardrailTopicConfig()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.definition = try reader["definition"].readIfPresent() ?? ""
-        value.examples = try reader["examples"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        var value = QConnectClientTypes.AIGuardrailWordPolicyConfig()
+        value.wordsConfig = try reader["wordsConfig"].readListIfPresent(memberReadingClosure: QConnectClientTypes.GuardrailWordConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.managedWordListsConfig = try reader["managedWordListsConfig"].readListIfPresent(memberReadingClosure: QConnectClientTypes.GuardrailManagedWordsConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -18800,6 +18282,30 @@ extension QConnectClientTypes.AIPromptInferenceConfiguration {
     }
 }
 
+extension QConnectClientTypes.AIPromptSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIPromptSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AIPromptSummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.aiPromptId = try reader["aiPromptId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.aiPromptArn = try reader["aiPromptArn"].readIfPresent() ?? ""
+        value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.templateType = try reader["templateType"].readIfPresent() ?? .sdkUnknown("")
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.apiFormat = try reader["apiFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.visibilityStatus = try reader["visibilityStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.origin = try reader["origin"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension QConnectClientTypes.AIPromptTemplateConfiguration {
 
     static func write(value: QConnectClientTypes.AIPromptTemplateConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -18824,17 +18330,162 @@ extension QConnectClientTypes.AIPromptTemplateConfiguration {
     }
 }
 
-extension QConnectClientTypes.TextFullAIPromptEditTemplateConfiguration {
+extension QConnectClientTypes.AIPromptVersionSummary {
 
-    static func write(value: QConnectClientTypes.TextFullAIPromptEditTemplateConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIPromptVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AIPromptVersionSummary()
+        value.aiPromptSummary = try reader["aiPromptSummary"].readIfPresent(with: QConnectClientTypes.AIPromptSummary.read(from:))
+        value.versionNumber = try reader["versionNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.AmazonConnectGuideAssociationData {
+
+    static func write(value: QConnectClientTypes.AmazonConnectGuideAssociationData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["text"].write(value.text)
+        try writer["flowId"].write(value.flowId)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TextFullAIPromptEditTemplateConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AmazonConnectGuideAssociationData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.TextFullAIPromptEditTemplateConfiguration()
-        value.text = try reader["text"].readIfPresent() ?? ""
+        var value = QConnectClientTypes.AmazonConnectGuideAssociationData()
+        value.flowId = try reader["flowId"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.Annotation {
+
+    static func write(value: QConnectClientTypes.Annotation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destructiveHint"].write(value.destructiveHint)
+        try writer["title"].write(value.title)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.Annotation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.Annotation()
+        value.title = try reader["title"].readIfPresent()
+        value.destructiveHint = try reader["destructiveHint"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.AnswerRecommendationAIAgentConfiguration {
+
+    static func write(value: QConnectClientTypes.AnswerRecommendationAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["answerGenerationAIGuardrailId"].write(value.answerGenerationAIGuardrailId)
+        try writer["answerGenerationAIPromptId"].write(value.answerGenerationAIPromptId)
+        try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["intentLabelingGenerationAIPromptId"].write(value.intentLabelingGenerationAIPromptId)
+        try writer["locale"].write(value.locale)
+        try writer["queryReformulationAIPromptId"].write(value.queryReformulationAIPromptId)
+        try writer["suggestedMessages"].writeList(value.suggestedMessages, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AnswerRecommendationAIAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AnswerRecommendationAIAgentConfiguration()
+        value.intentLabelingGenerationAIPromptId = try reader["intentLabelingGenerationAIPromptId"].readIfPresent()
+        value.queryReformulationAIPromptId = try reader["queryReformulationAIPromptId"].readIfPresent()
+        value.answerGenerationAIPromptId = try reader["answerGenerationAIPromptId"].readIfPresent()
+        value.answerGenerationAIGuardrailId = try reader["answerGenerationAIGuardrailId"].readIfPresent()
+        value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.locale = try reader["locale"].readIfPresent()
+        value.suggestedMessages = try reader["suggestedMessages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.AppIntegrationsConfiguration {
+
+    static func write(value: QConnectClientTypes.AppIntegrationsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appIntegrationArn"].write(value.appIntegrationArn)
+        try writer["objectFields"].writeList(value.objectFields, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AppIntegrationsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AppIntegrationsConfiguration()
+        value.appIntegrationArn = try reader["appIntegrationArn"].readIfPresent() ?? ""
+        value.objectFields = try reader["objectFields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.AssistantAssociationData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantAssociationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AssistantAssociationData()
+        value.assistantAssociationId = try reader["assistantAssociationId"].readIfPresent() ?? ""
+        value.assistantAssociationArn = try reader["assistantAssociationArn"].readIfPresent() ?? ""
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
+        value.associationData = try reader["associationData"].readIfPresent(with: QConnectClientTypes.AssistantAssociationOutputData.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.AssistantAssociationInputData {
+
+    static func write(value: QConnectClientTypes.AssistantAssociationInputData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .externalbedrockknowledgebaseconfig(externalbedrockknowledgebaseconfig):
+                try writer["externalBedrockKnowledgeBaseConfig"].write(externalbedrockknowledgebaseconfig, with: QConnectClientTypes.ExternalBedrockKnowledgeBaseConfig.write(value:to:))
+            case let .knowledgebaseid(knowledgebaseid):
+                try writer["knowledgeBaseId"].write(knowledgebaseid)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension QConnectClientTypes.AssistantAssociationOutputData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantAssociationOutputData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "knowledgeBaseAssociation":
+                return .knowledgebaseassociation(try reader["knowledgeBaseAssociation"].read(with: QConnectClientTypes.KnowledgeBaseAssociationData.read(from:)))
+            case "externalBedrockKnowledgeBaseConfig":
+                return .externalbedrockknowledgebaseconfig(try reader["externalBedrockKnowledgeBaseConfig"].read(with: QConnectClientTypes.ExternalBedrockKnowledgeBaseConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.AssistantAssociationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantAssociationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AssistantAssociationSummary()
+        value.assistantAssociationId = try reader["assistantAssociationId"].readIfPresent() ?? ""
+        value.assistantAssociationArn = try reader["assistantAssociationArn"].readIfPresent() ?? ""
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
+        value.associationData = try reader["associationData"].readIfPresent(with: QConnectClientTypes.AssistantAssociationOutputData.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.AssistantCapabilityConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantCapabilityConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AssistantCapabilityConfiguration()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
@@ -18860,48 +18511,6 @@ extension QConnectClientTypes.AssistantData {
     }
 }
 
-extension QConnectClientTypes.OrchestratorConfigurationEntry {
-
-    static func write(value: QConnectClientTypes.OrchestratorConfigurationEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["aiAgentId"].write(value.aiAgentId)
-        try writer["orchestratorUseCase"].write(value.orchestratorUseCase)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.OrchestratorConfigurationEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.OrchestratorConfigurationEntry()
-        value.aiAgentId = try reader["aiAgentId"].readIfPresent()
-        value.orchestratorUseCase = try reader["orchestratorUseCase"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension QConnectClientTypes.AIAgentConfigurationData {
-
-    static func write(value: QConnectClientTypes.AIAgentConfigurationData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["aiAgentId"].write(value.aiAgentId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIAgentConfigurationData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AIAgentConfigurationData()
-        value.aiAgentId = try reader["aiAgentId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension QConnectClientTypes.AssistantCapabilityConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantCapabilityConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AssistantCapabilityConfiguration()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
 extension QConnectClientTypes.AssistantIntegrationConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantIntegrationConfiguration {
@@ -18912,118 +18521,223 @@ extension QConnectClientTypes.AssistantIntegrationConfiguration {
     }
 }
 
-extension QConnectClientTypes.ServerSideEncryptionConfiguration {
+extension QConnectClientTypes.AssistantSummary {
 
-    static func write(value: QConnectClientTypes.ServerSideEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ServerSideEncryptionConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ServerSideEncryptionConfiguration()
-        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.AssistantAssociationData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantAssociationData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AssistantAssociationData()
-        value.assistantAssociationId = try reader["assistantAssociationId"].readIfPresent() ?? ""
-        value.assistantAssociationArn = try reader["assistantAssociationArn"].readIfPresent() ?? ""
+        var value = QConnectClientTypes.AssistantSummary()
         value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
         value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
-        value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
-        value.associationData = try reader["associationData"].readIfPresent(with: QConnectClientTypes.AssistantAssociationOutputData.read(from:))
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: QConnectClientTypes.ServerSideEncryptionConfiguration.read(from:))
+        value.integrationConfiguration = try reader["integrationConfiguration"].readIfPresent(with: QConnectClientTypes.AssistantIntegrationConfiguration.read(from:))
+        value.capabilityConfiguration = try reader["capabilityConfiguration"].readIfPresent(with: QConnectClientTypes.AssistantCapabilityConfiguration.read(from:))
+        value.aiAgentConfiguration = try reader["aiAgentConfiguration"].readMapIfPresent(valueReadingClosure: QConnectClientTypes.AIAgentConfigurationData.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.orchestratorConfigurationList = try reader["orchestratorConfigurationList"].readListIfPresent(memberReadingClosure: QConnectClientTypes.OrchestratorConfigurationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension QConnectClientTypes.AssistantAssociationOutputData {
+extension QConnectClientTypes.AssociationConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantAssociationOutputData {
+    static func write(value: QConnectClientTypes.AssociationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["associationConfigurationData"].write(value.associationConfigurationData, with: QConnectClientTypes.AssociationConfigurationData.write(value:to:))
+        try writer["associationId"].write(value.associationId)
+        try writer["associationType"].write(value.associationType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssociationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AssociationConfiguration()
+        value.associationId = try reader["associationId"].readIfPresent()
+        value.associationType = try reader["associationType"].readIfPresent()
+        value.associationConfigurationData = try reader["associationConfigurationData"].readIfPresent(with: QConnectClientTypes.AssociationConfigurationData.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.AssociationConfigurationData {
+
+    static func write(value: QConnectClientTypes.AssociationConfigurationData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .knowledgebaseassociationconfigurationdata(knowledgebaseassociationconfigurationdata):
+                try writer["knowledgeBaseAssociationConfigurationData"].write(knowledgebaseassociationconfigurationdata, with: QConnectClientTypes.KnowledgeBaseAssociationConfigurationData.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssociationConfigurationData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "knowledgeBaseAssociation":
-                return .knowledgebaseassociation(try reader["knowledgeBaseAssociation"].read(with: QConnectClientTypes.KnowledgeBaseAssociationData.read(from:)))
-            case "externalBedrockKnowledgeBaseConfig":
-                return .externalbedrockknowledgebaseconfig(try reader["externalBedrockKnowledgeBaseConfig"].read(with: QConnectClientTypes.ExternalBedrockKnowledgeBaseConfig.read(from:)))
+            case "knowledgeBaseAssociationConfigurationData":
+                return .knowledgebaseassociationconfigurationdata(try reader["knowledgeBaseAssociationConfigurationData"].read(with: QConnectClientTypes.KnowledgeBaseAssociationConfigurationData.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension QConnectClientTypes.ExternalBedrockKnowledgeBaseConfig {
+extension QConnectClientTypes.BedrockFoundationModelConfigurationForParsing {
 
-    static func write(value: QConnectClientTypes.ExternalBedrockKnowledgeBaseConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.BedrockFoundationModelConfigurationForParsing?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["accessRoleArn"].write(value.accessRoleArn)
-        try writer["bedrockKnowledgeBaseArn"].write(value.bedrockKnowledgeBaseArn)
+        try writer["modelArn"].write(value.modelArn)
+        try writer["parsingPrompt"].write(value.parsingPrompt, with: QConnectClientTypes.ParsingPrompt.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ExternalBedrockKnowledgeBaseConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.BedrockFoundationModelConfigurationForParsing {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ExternalBedrockKnowledgeBaseConfig()
-        value.bedrockKnowledgeBaseArn = try reader["bedrockKnowledgeBaseArn"].readIfPresent() ?? ""
-        value.accessRoleArn = try reader["accessRoleArn"].readIfPresent() ?? ""
+        var value = QConnectClientTypes.BedrockFoundationModelConfigurationForParsing()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        value.parsingPrompt = try reader["parsingPrompt"].readIfPresent(with: QConnectClientTypes.ParsingPrompt.read(from:))
         return value
     }
 }
 
-extension QConnectClientTypes.KnowledgeBaseAssociationData {
+extension QConnectClientTypes.CaseSummarizationAIAgentConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.KnowledgeBaseAssociationData {
+    static func write(value: QConnectClientTypes.CaseSummarizationAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["caseSummarizationAIGuardrailId"].write(value.caseSummarizationAIGuardrailId)
+        try writer["caseSummarizationAIPromptId"].write(value.caseSummarizationAIPromptId)
+        try writer["locale"].write(value.locale)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.CaseSummarizationAIAgentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.KnowledgeBaseAssociationData()
+        var value = QConnectClientTypes.CaseSummarizationAIAgentConfiguration()
+        value.caseSummarizationAIPromptId = try reader["caseSummarizationAIPromptId"].readIfPresent()
+        value.caseSummarizationAIGuardrailId = try reader["caseSummarizationAIGuardrailId"].readIfPresent()
+        value.locale = try reader["locale"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.CaseSummarizationChunkDataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.CaseSummarizationChunkDataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.CaseSummarizationChunkDataDetails()
+        value.completion = try reader["completion"].readIfPresent()
+        value.nextChunkToken = try reader["nextChunkToken"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.CaseSummarizationInputData {
+
+    static func write(value: QConnectClientTypes.CaseSummarizationInputData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["caseArn"].write(value.caseArn)
+    }
+}
+
+extension QConnectClientTypes.ChunkingConfiguration {
+
+    static func write(value: QConnectClientTypes.ChunkingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["chunkingStrategy"].write(value.chunkingStrategy)
+        try writer["fixedSizeChunkingConfiguration"].write(value.fixedSizeChunkingConfiguration, with: QConnectClientTypes.FixedSizeChunkingConfiguration.write(value:to:))
+        try writer["hierarchicalChunkingConfiguration"].write(value.hierarchicalChunkingConfiguration, with: QConnectClientTypes.HierarchicalChunkingConfiguration.write(value:to:))
+        try writer["semanticChunkingConfiguration"].write(value.semanticChunkingConfiguration, with: QConnectClientTypes.SemanticChunkingConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ChunkingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ChunkingConfiguration()
+        value.chunkingStrategy = try reader["chunkingStrategy"].readIfPresent() ?? .sdkUnknown("")
+        value.fixedSizeChunkingConfiguration = try reader["fixedSizeChunkingConfiguration"].readIfPresent(with: QConnectClientTypes.FixedSizeChunkingConfiguration.read(from:))
+        value.hierarchicalChunkingConfiguration = try reader["hierarchicalChunkingConfiguration"].readIfPresent(with: QConnectClientTypes.HierarchicalChunkingConfiguration.read(from:))
+        value.semanticChunkingConfiguration = try reader["semanticChunkingConfiguration"].readIfPresent(with: QConnectClientTypes.SemanticChunkingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.Citation {
+
+    static func write(value: QConnectClientTypes.Citation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["citationSpan"].write(value.citationSpan, with: QConnectClientTypes.CitationSpan.write(value:to:))
+        try writer["contentId"].write(value.contentId)
+        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
+        try writer["referenceType"].write(value.referenceType)
+        try writer["sourceURL"].write(value.sourceURL)
+        try writer["title"].write(value.title)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.Citation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.Citation()
+        value.contentId = try reader["contentId"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
         value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
+        value.citationSpan = try reader["citationSpan"].readIfPresent(with: QConnectClientTypes.CitationSpan.read(from:))
+        value.sourceURL = try reader["sourceURL"].readIfPresent()
+        value.referenceType = try reader["referenceType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension QConnectClientTypes.ContentData {
+extension QConnectClientTypes.CitationSpan {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentData {
+    static func write(value: QConnectClientTypes.CitationSpan?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["beginOffsetInclusive"].write(value.beginOffsetInclusive)
+        try writer["endOffsetExclusive"].write(value.endOffsetExclusive)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.CitationSpan {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ContentData()
-        value.contentArn = try reader["contentArn"].readIfPresent() ?? ""
-        value.contentId = try reader["contentId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
-        value.title = try reader["title"].readIfPresent() ?? ""
-        value.contentType = try reader["contentType"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.linkOutUri = try reader["linkOutUri"].readIfPresent()
-        value.url = try reader["url"].readIfPresent() ?? ""
-        value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = QConnectClientTypes.CitationSpan()
+        value.beginOffsetInclusive = try reader["beginOffsetInclusive"].readIfPresent() ?? 0
+        value.endOffsetExclusive = try reader["endOffsetExclusive"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension QConnectClientTypes.ContentAssociationData {
+extension QConnectClientTypes.Configuration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentAssociationData {
+    static func write(value: QConnectClientTypes.Configuration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .connectconfiguration(connectconfiguration):
+                try writer["connectConfiguration"].write(connectconfiguration, with: QConnectClientTypes.ConnectConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.Configuration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ContentAssociationData()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.contentId = try reader["contentId"].readIfPresent() ?? ""
-        value.contentArn = try reader["contentArn"].readIfPresent() ?? ""
-        value.contentAssociationId = try reader["contentAssociationId"].readIfPresent() ?? ""
-        value.contentAssociationArn = try reader["contentAssociationArn"].readIfPresent() ?? ""
-        value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
-        value.associationData = try reader["associationData"].readIfPresent(with: QConnectClientTypes.ContentAssociationContents.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "connectConfiguration":
+                return .connectconfiguration(try reader["connectConfiguration"].read(with: QConnectClientTypes.ConnectConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.ConnectConfiguration {
+
+    static func write(value: QConnectClientTypes.ConnectConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["instanceId"].write(value.instanceId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ConnectConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ConnectConfiguration()
+        value.instanceId = try reader["instanceId"].readIfPresent()
         return value
     }
 }
@@ -19052,396 +18766,150 @@ extension QConnectClientTypes.ContentAssociationContents {
     }
 }
 
-extension QConnectClientTypes.AmazonConnectGuideAssociationData {
+extension QConnectClientTypes.ContentAssociationData {
 
-    static func write(value: QConnectClientTypes.AmazonConnectGuideAssociationData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["flowId"].write(value.flowId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AmazonConnectGuideAssociationData {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentAssociationData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AmazonConnectGuideAssociationData()
-        value.flowId = try reader["flowId"].readIfPresent()
+        var value = QConnectClientTypes.ContentAssociationData()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.contentId = try reader["contentId"].readIfPresent() ?? ""
+        value.contentArn = try reader["contentArn"].readIfPresent() ?? ""
+        value.contentAssociationId = try reader["contentAssociationId"].readIfPresent() ?? ""
+        value.contentAssociationArn = try reader["contentAssociationArn"].readIfPresent() ?? ""
+        value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
+        value.associationData = try reader["associationData"].readIfPresent(with: QConnectClientTypes.ContentAssociationContents.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension QConnectClientTypes.KnowledgeBaseData {
+extension QConnectClientTypes.ContentAssociationSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.KnowledgeBaseData {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.KnowledgeBaseData()
+        var value = QConnectClientTypes.ContentAssociationSummary()
         value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
         value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.contentId = try reader["contentId"].readIfPresent() ?? ""
+        value.contentArn = try reader["contentArn"].readIfPresent() ?? ""
+        value.contentAssociationId = try reader["contentAssociationId"].readIfPresent() ?? ""
+        value.contentAssociationArn = try reader["contentAssociationArn"].readIfPresent() ?? ""
+        value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
+        value.associationData = try reader["associationData"].readIfPresent(with: QConnectClientTypes.ContentAssociationContents.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.ContentData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ContentData()
+        value.contentArn = try reader["contentArn"].readIfPresent() ?? ""
+        value.contentId = try reader["contentId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.knowledgeBaseType = try reader["knowledgeBaseType"].readIfPresent() ?? .sdkUnknown("")
+        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.contentType = try reader["contentType"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.lastContentModificationTime = try reader["lastContentModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.vectorIngestionConfiguration = try reader["vectorIngestionConfiguration"].readIfPresent(with: QConnectClientTypes.VectorIngestionConfiguration.read(from:))
-        value.sourceConfiguration = try reader["sourceConfiguration"].readIfPresent(with: QConnectClientTypes.SourceConfiguration.read(from:))
-        value.renderingConfiguration = try reader["renderingConfiguration"].readIfPresent(with: QConnectClientTypes.RenderingConfiguration.read(from:))
-        value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: QConnectClientTypes.ServerSideEncryptionConfiguration.read(from:))
-        value.description = try reader["description"].readIfPresent()
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.ingestionStatus = try reader["ingestionStatus"].readIfPresent()
-        value.ingestionFailureReasons = try reader["ingestionFailureReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.linkOutUri = try reader["linkOutUri"].readIfPresent()
+        value.url = try reader["url"].readIfPresent() ?? ""
+        value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
 
-extension QConnectClientTypes.RenderingConfiguration {
+extension QConnectClientTypes.ContentDataDetails {
 
-    static func write(value: QConnectClientTypes.RenderingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["templateUri"].write(value.templateUri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RenderingConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentDataDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.RenderingConfiguration()
-        value.templateUri = try reader["templateUri"].readIfPresent()
+        var value = QConnectClientTypes.ContentDataDetails()
+        value.textData = try reader["textData"].readIfPresent(with: QConnectClientTypes.TextData.read(from:))
+        value.rankingData = try reader["rankingData"].readIfPresent(with: QConnectClientTypes.RankingData.read(from:))
         return value
     }
 }
 
-extension QConnectClientTypes.SourceConfiguration {
+extension QConnectClientTypes.ContentFeedbackData {
 
-    static func write(value: QConnectClientTypes.SourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.ContentFeedbackData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .appintegrations(appintegrations):
-                try writer["appIntegrations"].write(appintegrations, with: QConnectClientTypes.AppIntegrationsConfiguration.write(value:to:))
-            case let .managedsourceconfiguration(managedsourceconfiguration):
-                try writer["managedSourceConfiguration"].write(managedsourceconfiguration, with: QConnectClientTypes.ManagedSourceConfiguration.write(value:to:))
+            case let .generativecontentfeedbackdata(generativecontentfeedbackdata):
+                try writer["generativeContentFeedbackData"].write(generativecontentfeedbackdata, with: QConnectClientTypes.GenerativeContentFeedbackData.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SourceConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentFeedbackData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "appIntegrations":
-                return .appintegrations(try reader["appIntegrations"].read(with: QConnectClientTypes.AppIntegrationsConfiguration.read(from:)))
-            case "managedSourceConfiguration":
-                return .managedsourceconfiguration(try reader["managedSourceConfiguration"].read(with: QConnectClientTypes.ManagedSourceConfiguration.read(from:)))
+            case "generativeContentFeedbackData":
+                return .generativecontentfeedbackdata(try reader["generativeContentFeedbackData"].read(with: QConnectClientTypes.GenerativeContentFeedbackData.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension QConnectClientTypes.ManagedSourceConfiguration {
+extension QConnectClientTypes.ContentReference {
 
-    static func write(value: QConnectClientTypes.ManagedSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .webcrawlerconfiguration(webcrawlerconfiguration):
-                try writer["webCrawlerConfiguration"].write(webcrawlerconfiguration, with: QConnectClientTypes.WebCrawlerConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ManagedSourceConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "webCrawlerConfiguration":
-                return .webcrawlerconfiguration(try reader["webCrawlerConfiguration"].read(with: QConnectClientTypes.WebCrawlerConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension QConnectClientTypes.WebCrawlerConfiguration {
-
-    static func write(value: QConnectClientTypes.WebCrawlerConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["crawlerLimits"].write(value.crawlerLimits, with: QConnectClientTypes.WebCrawlerLimits.write(value:to:))
-        try writer["exclusionFilters"].writeList(value.exclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["inclusionFilters"].writeList(value.inclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["scope"].write(value.scope)
-        try writer["urlConfiguration"].write(value.urlConfiguration, with: QConnectClientTypes.UrlConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.WebCrawlerConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.WebCrawlerConfiguration()
-        value.urlConfiguration = try reader["urlConfiguration"].readIfPresent(with: QConnectClientTypes.UrlConfiguration.read(from:))
-        value.crawlerLimits = try reader["crawlerLimits"].readIfPresent(with: QConnectClientTypes.WebCrawlerLimits.read(from:))
-        value.inclusionFilters = try reader["inclusionFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclusionFilters = try reader["exclusionFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scope = try reader["scope"].readIfPresent()
+        var value = QConnectClientTypes.ContentReference()
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
+        value.contentArn = try reader["contentArn"].readIfPresent()
+        value.contentId = try reader["contentId"].readIfPresent()
+        value.sourceURL = try reader["sourceURL"].readIfPresent()
+        value.referenceType = try reader["referenceType"].readIfPresent()
         return value
     }
 }
 
-extension QConnectClientTypes.WebCrawlerLimits {
+extension QConnectClientTypes.ContentSummary {
 
-    static func write(value: QConnectClientTypes.WebCrawlerLimits?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["rateLimit"].write(value.rateLimit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.WebCrawlerLimits {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.WebCrawlerLimits()
-        value.rateLimit = try reader["rateLimit"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.UrlConfiguration {
-
-    static func write(value: QConnectClientTypes.UrlConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["seedUrls"].writeList(value.seedUrls, memberWritingClosure: QConnectClientTypes.SeedUrl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.UrlConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.UrlConfiguration()
-        value.seedUrls = try reader["seedUrls"].readListIfPresent(memberReadingClosure: QConnectClientTypes.SeedUrl.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.SeedUrl {
-
-    static func write(value: QConnectClientTypes.SeedUrl?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["url"].write(value.url)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SeedUrl {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SeedUrl()
-        value.url = try reader["url"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.AppIntegrationsConfiguration {
-
-    static func write(value: QConnectClientTypes.AppIntegrationsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appIntegrationArn"].write(value.appIntegrationArn)
-        try writer["objectFields"].writeList(value.objectFields, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AppIntegrationsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AppIntegrationsConfiguration()
-        value.appIntegrationArn = try reader["appIntegrationArn"].readIfPresent() ?? ""
-        value.objectFields = try reader["objectFields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.VectorIngestionConfiguration {
-
-    static func write(value: QConnectClientTypes.VectorIngestionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["chunkingConfiguration"].write(value.chunkingConfiguration, with: QConnectClientTypes.ChunkingConfiguration.write(value:to:))
-        try writer["parsingConfiguration"].write(value.parsingConfiguration, with: QConnectClientTypes.ParsingConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.VectorIngestionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.VectorIngestionConfiguration()
-        value.chunkingConfiguration = try reader["chunkingConfiguration"].readIfPresent(with: QConnectClientTypes.ChunkingConfiguration.read(from:))
-        value.parsingConfiguration = try reader["parsingConfiguration"].readIfPresent(with: QConnectClientTypes.ParsingConfiguration.read(from:))
-        return value
-    }
-}
-
-extension QConnectClientTypes.ParsingConfiguration {
-
-    static func write(value: QConnectClientTypes.ParsingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bedrockFoundationModelConfiguration"].write(value.bedrockFoundationModelConfiguration, with: QConnectClientTypes.BedrockFoundationModelConfigurationForParsing.write(value:to:))
-        try writer["parsingStrategy"].write(value.parsingStrategy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ParsingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ParsingConfiguration()
-        value.parsingStrategy = try reader["parsingStrategy"].readIfPresent() ?? .sdkUnknown("")
-        value.bedrockFoundationModelConfiguration = try reader["bedrockFoundationModelConfiguration"].readIfPresent(with: QConnectClientTypes.BedrockFoundationModelConfigurationForParsing.read(from:))
-        return value
-    }
-}
-
-extension QConnectClientTypes.BedrockFoundationModelConfigurationForParsing {
-
-    static func write(value: QConnectClientTypes.BedrockFoundationModelConfigurationForParsing?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["modelArn"].write(value.modelArn)
-        try writer["parsingPrompt"].write(value.parsingPrompt, with: QConnectClientTypes.ParsingPrompt.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.BedrockFoundationModelConfigurationForParsing {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.BedrockFoundationModelConfigurationForParsing()
-        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
-        value.parsingPrompt = try reader["parsingPrompt"].readIfPresent(with: QConnectClientTypes.ParsingPrompt.read(from:))
-        return value
-    }
-}
-
-extension QConnectClientTypes.ParsingPrompt {
-
-    static func write(value: QConnectClientTypes.ParsingPrompt?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["parsingPromptText"].write(value.parsingPromptText)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ParsingPrompt {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ParsingPrompt()
-        value.parsingPromptText = try reader["parsingPromptText"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension QConnectClientTypes.ChunkingConfiguration {
-
-    static func write(value: QConnectClientTypes.ChunkingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["chunkingStrategy"].write(value.chunkingStrategy)
-        try writer["fixedSizeChunkingConfiguration"].write(value.fixedSizeChunkingConfiguration, with: QConnectClientTypes.FixedSizeChunkingConfiguration.write(value:to:))
-        try writer["hierarchicalChunkingConfiguration"].write(value.hierarchicalChunkingConfiguration, with: QConnectClientTypes.HierarchicalChunkingConfiguration.write(value:to:))
-        try writer["semanticChunkingConfiguration"].write(value.semanticChunkingConfiguration, with: QConnectClientTypes.SemanticChunkingConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ChunkingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ChunkingConfiguration()
-        value.chunkingStrategy = try reader["chunkingStrategy"].readIfPresent() ?? .sdkUnknown("")
-        value.fixedSizeChunkingConfiguration = try reader["fixedSizeChunkingConfiguration"].readIfPresent(with: QConnectClientTypes.FixedSizeChunkingConfiguration.read(from:))
-        value.hierarchicalChunkingConfiguration = try reader["hierarchicalChunkingConfiguration"].readIfPresent(with: QConnectClientTypes.HierarchicalChunkingConfiguration.read(from:))
-        value.semanticChunkingConfiguration = try reader["semanticChunkingConfiguration"].readIfPresent(with: QConnectClientTypes.SemanticChunkingConfiguration.read(from:))
-        return value
-    }
-}
-
-extension QConnectClientTypes.SemanticChunkingConfiguration {
-
-    static func write(value: QConnectClientTypes.SemanticChunkingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["breakpointPercentileThreshold"].write(value.breakpointPercentileThreshold)
-        try writer["bufferSize"].write(value.bufferSize)
-        try writer["maxTokens"].write(value.maxTokens)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SemanticChunkingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SemanticChunkingConfiguration()
-        value.maxTokens = try reader["maxTokens"].readIfPresent() ?? 0
-        value.bufferSize = try reader["bufferSize"].readIfPresent() ?? 0
-        value.breakpointPercentileThreshold = try reader["breakpointPercentileThreshold"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension QConnectClientTypes.HierarchicalChunkingConfiguration {
-
-    static func write(value: QConnectClientTypes.HierarchicalChunkingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["levelConfigurations"].writeList(value.levelConfigurations, memberWritingClosure: QConnectClientTypes.HierarchicalChunkingLevelConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["overlapTokens"].write(value.overlapTokens)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.HierarchicalChunkingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.HierarchicalChunkingConfiguration()
-        value.levelConfigurations = try reader["levelConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.HierarchicalChunkingLevelConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.overlapTokens = try reader["overlapTokens"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension QConnectClientTypes.HierarchicalChunkingLevelConfiguration {
-
-    static func write(value: QConnectClientTypes.HierarchicalChunkingLevelConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxTokens"].write(value.maxTokens)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.HierarchicalChunkingLevelConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.HierarchicalChunkingLevelConfiguration()
-        value.maxTokens = try reader["maxTokens"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension QConnectClientTypes.FixedSizeChunkingConfiguration {
-
-    static func write(value: QConnectClientTypes.FixedSizeChunkingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxTokens"].write(value.maxTokens)
-        try writer["overlapPercentage"].write(value.overlapPercentage)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.FixedSizeChunkingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.FixedSizeChunkingConfiguration()
-        value.maxTokens = try reader["maxTokens"].readIfPresent() ?? 0
-        value.overlapPercentage = try reader["overlapPercentage"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension QConnectClientTypes.MessageTemplateData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.MessageTemplateData()
-        value.messageTemplateArn = try reader["messageTemplateArn"].readIfPresent() ?? ""
-        value.messageTemplateId = try reader["messageTemplateId"].readIfPresent() ?? ""
+        var value = QConnectClientTypes.ContentSummary()
+        value.contentArn = try reader["contentArn"].readIfPresent() ?? ""
+        value.contentId = try reader["contentId"].readIfPresent() ?? ""
         value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
         value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.channel = try reader["channel"].readIfPresent()
-        value.channelSubtype = try reader["channelSubtype"].readIfPresent() ?? .sdkUnknown("")
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent() ?? ""
-        value.content = try reader["content"].readIfPresent(with: QConnectClientTypes.MessageTemplateContentProvider.read(from:))
-        value.description = try reader["description"].readIfPresent()
-        value.language = try reader["language"].readIfPresent()
-        value.sourceConfigurationSummary = try reader["sourceConfigurationSummary"].readIfPresent(with: QConnectClientTypes.MessageTemplateSourceConfigurationSummary.read(from:))
-        value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: QConnectClientTypes.GroupingConfiguration.read(from:))
-        value.defaultAttributes = try reader["defaultAttributes"].readIfPresent(with: QConnectClientTypes.MessageTemplateAttributes.read(from:))
-        value.attributeTypes = try reader["attributeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QConnectClientTypes.MessageTemplateAttributeType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.messageTemplateContentSha256 = try reader["messageTemplateContentSha256"].readIfPresent() ?? ""
+        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.contentType = try reader["contentType"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension QConnectClientTypes.MessageTemplateAttributes {
+extension QConnectClientTypes.ConversationContext {
 
-    static func write(value: QConnectClientTypes.MessageTemplateAttributes?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.ConversationContext?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["agentAttributes"].write(value.agentAttributes, with: QConnectClientTypes.AgentAttributes.write(value:to:))
-        try writer["customAttributes"].writeMap(value.customAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["customerProfileAttributes"].write(value.customerProfileAttributes, with: QConnectClientTypes.CustomerProfileAttributes.write(value:to:))
-        try writer["systemAttributes"].write(value.systemAttributes, with: QConnectClientTypes.SystemAttributes.write(value:to:))
+        try writer["selfServiceConversationHistory"].writeList(value.selfServiceConversationHistory, memberWritingClosure: QConnectClientTypes.SelfServiceConversationHistory.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateAttributes {
+extension QConnectClientTypes.ConversationState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ConversationState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.MessageTemplateAttributes()
-        value.systemAttributes = try reader["systemAttributes"].readIfPresent(with: QConnectClientTypes.SystemAttributes.read(from:))
-        value.agentAttributes = try reader["agentAttributes"].readIfPresent(with: QConnectClientTypes.AgentAttributes.read(from:))
-        value.customerProfileAttributes = try reader["customerProfileAttributes"].readIfPresent(with: QConnectClientTypes.CustomerProfileAttributes.read(from:))
-        value.customAttributes = try reader["customAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = QConnectClientTypes.ConversationState()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.reason = try reader["reason"].readIfPresent()
         return value
     }
 }
@@ -19575,53 +19043,387 @@ extension QConnectClientTypes.CustomerProfileAttributes {
     }
 }
 
-extension QConnectClientTypes.AgentAttributes {
+extension QConnectClientTypes.DataDetails {
 
-    static func write(value: QConnectClientTypes.AgentAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["firstName"].write(value.firstName)
-        try writer["lastName"].write(value.lastName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AgentAttributes {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.DataDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AgentAttributes()
-        value.firstName = try reader["firstName"].readIfPresent()
-        value.lastName = try reader["lastName"].readIfPresent()
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "contentData":
+                return .contentdata(try reader["contentData"].read(with: QConnectClientTypes.ContentDataDetails.read(from:)))
+            case "generativeData":
+                return .generativedata(try reader["generativeData"].read(with: QConnectClientTypes.GenerativeDataDetails.read(from:)))
+            case "intentDetectedData":
+                return .intentdetecteddata(try reader["intentDetectedData"].read(with: QConnectClientTypes.IntentDetectedDataDetails.read(from:)))
+            case "sourceContentData":
+                return .sourcecontentdata(try reader["sourceContentData"].read(with: QConnectClientTypes.SourceContentDataDetails.read(from:)))
+            case "generativeChunkData":
+                return .generativechunkdata(try reader["generativeChunkData"].read(with: QConnectClientTypes.GenerativeChunkDataDetails.read(from:)))
+            case "emailResponseChunkData":
+                return .emailresponsechunkdata(try reader["emailResponseChunkData"].read(with: QConnectClientTypes.EmailResponseChunkDataDetails.read(from:)))
+            case "emailOverviewChunkData":
+                return .emailoverviewchunkdata(try reader["emailOverviewChunkData"].read(with: QConnectClientTypes.EmailOverviewChunkDataDetails.read(from:)))
+            case "emailGenerativeAnswerChunkData":
+                return .emailgenerativeanswerchunkdata(try reader["emailGenerativeAnswerChunkData"].read(with: QConnectClientTypes.EmailGenerativeAnswerChunkDataDetails.read(from:)))
+            case "caseSummarizationChunkData":
+                return .casesummarizationchunkdata(try reader["caseSummarizationChunkData"].read(with: QConnectClientTypes.CaseSummarizationChunkDataDetails.read(from:)))
+            case "suggestedMessageData":
+                return .suggestedmessagedata(try reader["suggestedMessageData"].read(with: QConnectClientTypes.SuggestedMessageDataDetails.read(from:)))
+            case "notesData":
+                return .notesdata(try reader["notesData"].read(with: QConnectClientTypes.NotesDataDetails.read(from:)))
+            case "notesChunkData":
+                return .noteschunkdata(try reader["notesChunkData"].read(with: QConnectClientTypes.NotesChunkDataDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.DataReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.DataReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "contentReference":
+                return .contentreference(try reader["contentReference"].read(with: QConnectClientTypes.ContentReference.read(from:)))
+            case "generativeReference":
+                return .generativereference(try reader["generativeReference"].read(with: QConnectClientTypes.GenerativeReference.read(from:)))
+            case "suggestedMessageReference":
+                return .suggestedmessagereference(try reader["suggestedMessageReference"].read(with: QConnectClientTypes.SuggestedMessageReference.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.DataSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.DataSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.DataSummary()
+        value.reference = try reader["reference"].readIfPresent(with: QConnectClientTypes.DataReference.read(from:))
+        value.details = try reader["details"].readIfPresent(with: QConnectClientTypes.DataDetails.read(from:))
         return value
     }
 }
 
-extension QConnectClientTypes.SystemAttributes {
+extension QConnectClientTypes.Document {
 
-    static func write(value: QConnectClientTypes.SystemAttributes?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.Document {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.Document()
+        value.contentReference = try reader["contentReference"].readIfPresent(with: QConnectClientTypes.ContentReference.read(from:))
+        value.title = try reader["title"].readIfPresent(with: QConnectClientTypes.DocumentText.read(from:))
+        value.excerpt = try reader["excerpt"].readIfPresent(with: QConnectClientTypes.DocumentText.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.DocumentText {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.DocumentText {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.DocumentText()
+        value.text = try reader["text"].readIfPresent()
+        value.highlights = try reader["highlights"].readListIfPresent(memberReadingClosure: QConnectClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.EmailGenerativeAnswerAIAgentConfiguration {
+
+    static func write(value: QConnectClientTypes.EmailGenerativeAnswerAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["customerEndpoint"].write(value.customerEndpoint, with: QConnectClientTypes.SystemEndpointAttributes.write(value:to:))
+        try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["emailGenerativeAnswerAIPromptId"].write(value.emailGenerativeAnswerAIPromptId)
+        try writer["emailQueryReformulationAIPromptId"].write(value.emailQueryReformulationAIPromptId)
+        try writer["locale"].write(value.locale)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailGenerativeAnswerAIAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.EmailGenerativeAnswerAIAgentConfiguration()
+        value.emailGenerativeAnswerAIPromptId = try reader["emailGenerativeAnswerAIPromptId"].readIfPresent()
+        value.emailQueryReformulationAIPromptId = try reader["emailQueryReformulationAIPromptId"].readIfPresent()
+        value.locale = try reader["locale"].readIfPresent()
+        value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.EmailGenerativeAnswerChunkDataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailGenerativeAnswerChunkDataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.EmailGenerativeAnswerChunkDataDetails()
+        value.completion = try reader["completion"].readIfPresent()
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: QConnectClientTypes.DataSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextChunkToken = try reader["nextChunkToken"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.EmailHeader {
+
+    static func write(value: QConnectClientTypes.EmailHeader?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
         try writer["name"].write(value.name)
-        try writer["systemEndpoint"].write(value.systemEndpoint, with: QConnectClientTypes.SystemEndpointAttributes.write(value:to:))
+        try writer["value"].write(value.value)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SystemAttributes {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailHeader {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SystemAttributes()
+        var value = QConnectClientTypes.EmailHeader()
         value.name = try reader["name"].readIfPresent()
-        value.customerEndpoint = try reader["customerEndpoint"].readIfPresent(with: QConnectClientTypes.SystemEndpointAttributes.read(from:))
-        value.systemEndpoint = try reader["systemEndpoint"].readIfPresent(with: QConnectClientTypes.SystemEndpointAttributes.read(from:))
+        value.value = try reader["value"].readIfPresent()
         return value
     }
 }
 
-extension QConnectClientTypes.SystemEndpointAttributes {
+extension QConnectClientTypes.EmailMessageTemplateContent {
 
-    static func write(value: QConnectClientTypes.SystemEndpointAttributes?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.EmailMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["address"].write(value.address)
+        try writer["body"].write(value.body, with: QConnectClientTypes.EmailMessageTemplateContentBody.write(value:to:))
+        try writer["headers"].writeList(value.headers, memberWritingClosure: QConnectClientTypes.EmailHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subject"].write(value.subject)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SystemEndpointAttributes {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailMessageTemplateContent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SystemEndpointAttributes()
-        value.address = try reader["address"].readIfPresent()
+        var value = QConnectClientTypes.EmailMessageTemplateContent()
+        value.subject = try reader["subject"].readIfPresent()
+        value.body = try reader["body"].readIfPresent(with: QConnectClientTypes.EmailMessageTemplateContentBody.read(from:))
+        value.headers = try reader["headers"].readListIfPresent(memberReadingClosure: QConnectClientTypes.EmailHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.EmailMessageTemplateContentBody {
+
+    static func write(value: QConnectClientTypes.EmailMessageTemplateContentBody?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["html"].write(value.html, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
+        try writer["plainText"].write(value.plainText, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailMessageTemplateContentBody {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.EmailMessageTemplateContentBody()
+        value.plainText = try reader["plainText"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
+        value.html = try reader["html"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.EmailOverviewAIAgentConfiguration {
+
+    static func write(value: QConnectClientTypes.EmailOverviewAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["emailOverviewAIPromptId"].write(value.emailOverviewAIPromptId)
+        try writer["locale"].write(value.locale)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailOverviewAIAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.EmailOverviewAIAgentConfiguration()
+        value.emailOverviewAIPromptId = try reader["emailOverviewAIPromptId"].readIfPresent()
+        value.locale = try reader["locale"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.EmailOverviewChunkDataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailOverviewChunkDataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.EmailOverviewChunkDataDetails()
+        value.completion = try reader["completion"].readIfPresent()
+        value.nextChunkToken = try reader["nextChunkToken"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.EmailResponseAIAgentConfiguration {
+
+    static func write(value: QConnectClientTypes.EmailResponseAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["emailQueryReformulationAIPromptId"].write(value.emailQueryReformulationAIPromptId)
+        try writer["emailResponseAIPromptId"].write(value.emailResponseAIPromptId)
+        try writer["locale"].write(value.locale)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailResponseAIAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.EmailResponseAIAgentConfiguration()
+        value.emailResponseAIPromptId = try reader["emailResponseAIPromptId"].readIfPresent()
+        value.emailQueryReformulationAIPromptId = try reader["emailQueryReformulationAIPromptId"].readIfPresent()
+        value.locale = try reader["locale"].readIfPresent()
+        value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.EmailResponseChunkDataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailResponseChunkDataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.EmailResponseChunkDataDetails()
+        value.completion = try reader["completion"].readIfPresent()
+        value.nextChunkToken = try reader["nextChunkToken"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.ExtendedMessageTemplateData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ExtendedMessageTemplateData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ExtendedMessageTemplateData()
+        value.messageTemplateArn = try reader["messageTemplateArn"].readIfPresent() ?? ""
+        value.messageTemplateId = try reader["messageTemplateId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.channel = try reader["channel"].readIfPresent()
+        value.channelSubtype = try reader["channelSubtype"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent() ?? ""
+        value.content = try reader["content"].readIfPresent(with: QConnectClientTypes.MessageTemplateContentProvider.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.language = try reader["language"].readIfPresent()
+        value.sourceConfigurationSummary = try reader["sourceConfigurationSummary"].readIfPresent(with: QConnectClientTypes.MessageTemplateSourceConfigurationSummary.read(from:))
+        value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: QConnectClientTypes.GroupingConfiguration.read(from:))
+        value.defaultAttributes = try reader["defaultAttributes"].readIfPresent(with: QConnectClientTypes.MessageTemplateAttributes.read(from:))
+        value.attributeTypes = try reader["attributeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QConnectClientTypes.MessageTemplateAttributeType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attachments = try reader["attachments"].readListIfPresent(memberReadingClosure: QConnectClientTypes.MessageTemplateAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isActive = try reader["isActive"].readIfPresent()
+        value.versionNumber = try reader["versionNumber"].readIfPresent()
+        value.messageTemplateContentSha256 = try reader["messageTemplateContentSha256"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.ExternalBedrockKnowledgeBaseConfig {
+
+    static func write(value: QConnectClientTypes.ExternalBedrockKnowledgeBaseConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessRoleArn"].write(value.accessRoleArn)
+        try writer["bedrockKnowledgeBaseArn"].write(value.bedrockKnowledgeBaseArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ExternalBedrockKnowledgeBaseConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ExternalBedrockKnowledgeBaseConfig()
+        value.bedrockKnowledgeBaseArn = try reader["bedrockKnowledgeBaseArn"].readIfPresent() ?? ""
+        value.accessRoleArn = try reader["accessRoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QConnectClientTypes.ExternalSourceConfiguration {
+
+    static func write(value: QConnectClientTypes.ExternalSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: QConnectClientTypes.Configuration.write(value:to:))
+        try writer["source"].write(value.source)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ExternalSourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ExternalSourceConfiguration()
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
+        value.configuration = try reader["configuration"].readIfPresent(with: QConnectClientTypes.Configuration.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.Filter {
+
+    static func write(value: QConnectClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["field"].write(value.field)
+        try writer["operator"].write(value.`operator`)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension QConnectClientTypes.FilterAttribute {
+
+    static func write(value: QConnectClientTypes.FilterAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension QConnectClientTypes.FixedSizeChunkingConfiguration {
+
+    static func write(value: QConnectClientTypes.FixedSizeChunkingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxTokens"].write(value.maxTokens)
+        try writer["overlapPercentage"].write(value.overlapPercentage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.FixedSizeChunkingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.FixedSizeChunkingConfiguration()
+        value.maxTokens = try reader["maxTokens"].readIfPresent() ?? 0
+        value.overlapPercentage = try reader["overlapPercentage"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QConnectClientTypes.GenerativeChunkDataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GenerativeChunkDataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.GenerativeChunkDataDetails()
+        value.completion = try reader["completion"].readIfPresent()
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: QConnectClientTypes.DataSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextChunkToken = try reader["nextChunkToken"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.GenerativeContentFeedbackData {
+
+    static func write(value: QConnectClientTypes.GenerativeContentFeedbackData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["relevance"].write(value.relevance)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GenerativeContentFeedbackData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.GenerativeContentFeedbackData()
+        value.relevance = try reader["relevance"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension QConnectClientTypes.GenerativeDataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GenerativeDataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.GenerativeDataDetails()
+        value.completion = try reader["completion"].readIfPresent() ?? ""
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: QConnectClientTypes.DataSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.rankingData = try reader["rankingData"].readIfPresent(with: QConnectClientTypes.RankingData.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.GenerativeReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GenerativeReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.GenerativeReference()
+        value.modelId = try reader["modelId"].readIfPresent()
+        value.generationId = try reader["generationId"].readIfPresent()
         return value
     }
 }
@@ -19643,33 +19445,489 @@ extension QConnectClientTypes.GroupingConfiguration {
     }
 }
 
-extension QConnectClientTypes.MessageTemplateSourceConfigurationSummary {
+extension QConnectClientTypes.GuardrailContentFilterConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateSourceConfigurationSummary {
+    static func write(value: QConnectClientTypes.GuardrailContentFilterConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inputStrength"].write(value.inputStrength)
+        try writer["outputStrength"].write(value.outputStrength)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GuardrailContentFilterConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.GuardrailContentFilterConfig()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.inputStrength = try reader["inputStrength"].readIfPresent() ?? .sdkUnknown("")
+        value.outputStrength = try reader["outputStrength"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension QConnectClientTypes.GuardrailContextualGroundingFilterConfig {
+
+    static func write(value: QConnectClientTypes.GuardrailContextualGroundingFilterConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["threshold"].write(value.threshold)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GuardrailContextualGroundingFilterConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.GuardrailContextualGroundingFilterConfig()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.threshold = try reader["threshold"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QConnectClientTypes.GuardrailManagedWordsConfig {
+
+    static func write(value: QConnectClientTypes.GuardrailManagedWordsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GuardrailManagedWordsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.GuardrailManagedWordsConfig()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension QConnectClientTypes.GuardrailPiiEntityConfig {
+
+    static func write(value: QConnectClientTypes.GuardrailPiiEntityConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GuardrailPiiEntityConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.GuardrailPiiEntityConfig()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension QConnectClientTypes.GuardrailRegexConfig {
+
+    static func write(value: QConnectClientTypes.GuardrailRegexConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["pattern"].write(value.pattern)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GuardrailRegexConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.GuardrailRegexConfig()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.pattern = try reader["pattern"].readIfPresent() ?? ""
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension QConnectClientTypes.GuardrailTopicConfig {
+
+    static func write(value: QConnectClientTypes.GuardrailTopicConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["definition"].write(value.definition)
+        try writer["examples"].writeList(value.examples, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GuardrailTopicConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.GuardrailTopicConfig()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.definition = try reader["definition"].readIfPresent() ?? ""
+        value.examples = try reader["examples"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension QConnectClientTypes.GuardrailWordConfig {
+
+    static func write(value: QConnectClientTypes.GuardrailWordConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["text"].write(value.text)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GuardrailWordConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.GuardrailWordConfig()
+        value.text = try reader["text"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QConnectClientTypes.HierarchicalChunkingConfiguration {
+
+    static func write(value: QConnectClientTypes.HierarchicalChunkingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["levelConfigurations"].writeList(value.levelConfigurations, memberWritingClosure: QConnectClientTypes.HierarchicalChunkingLevelConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["overlapTokens"].write(value.overlapTokens)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.HierarchicalChunkingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.HierarchicalChunkingConfiguration()
+        value.levelConfigurations = try reader["levelConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.HierarchicalChunkingLevelConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.overlapTokens = try reader["overlapTokens"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QConnectClientTypes.HierarchicalChunkingLevelConfiguration {
+
+    static func write(value: QConnectClientTypes.HierarchicalChunkingLevelConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxTokens"].write(value.maxTokens)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.HierarchicalChunkingLevelConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.HierarchicalChunkingLevelConfiguration()
+        value.maxTokens = try reader["maxTokens"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QConnectClientTypes.Highlight {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.Highlight {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.Highlight()
+        value.beginOffsetInclusive = try reader["beginOffsetInclusive"].readIfPresent() ?? 0
+        value.endOffsetExclusive = try reader["endOffsetExclusive"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QConnectClientTypes.ImportJobData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ImportJobData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ImportJobData()
+        value.importJobId = try reader["importJobId"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.uploadId = try reader["uploadId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.importJobType = try reader["importJobType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.url = try reader["url"].readIfPresent() ?? ""
+        value.failedRecordReport = try reader["failedRecordReport"].readIfPresent()
+        value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.externalSourceConfiguration = try reader["externalSourceConfiguration"].readIfPresent(with: QConnectClientTypes.ExternalSourceConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.ImportJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ImportJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ImportJobSummary()
+        value.importJobId = try reader["importJobId"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.uploadId = try reader["uploadId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.importJobType = try reader["importJobType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.externalSourceConfiguration = try reader["externalSourceConfiguration"].readIfPresent(with: QConnectClientTypes.ExternalSourceConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.IntentDetectedDataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.IntentDetectedDataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.IntentDetectedDataDetails()
+        value.intent = try reader["intent"].readIfPresent() ?? ""
+        value.intentId = try reader["intentId"].readIfPresent() ?? ""
+        value.relevanceLevel = try reader["relevanceLevel"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.IntentInputData {
+
+    static func write(value: QConnectClientTypes.IntentInputData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["intentId"].write(value.intentId)
+    }
+}
+
+extension QConnectClientTypes.KnowledgeBaseAssociationConfigurationData {
+
+    static func write(value: QConnectClientTypes.KnowledgeBaseAssociationConfigurationData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["contentTagFilter"].write(value.contentTagFilter, with: QConnectClientTypes.TagFilter.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["overrideKnowledgeBaseSearchType"].write(value.overrideKnowledgeBaseSearchType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.KnowledgeBaseAssociationConfigurationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.KnowledgeBaseAssociationConfigurationData()
+        value.contentTagFilter = try reader["contentTagFilter"].readIfPresent(with: QConnectClientTypes.TagFilter.read(from:))
+        value.maxResults = try reader["maxResults"].readIfPresent()
+        value.overrideKnowledgeBaseSearchType = try reader["overrideKnowledgeBaseSearchType"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.KnowledgeBaseAssociationData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.KnowledgeBaseAssociationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.KnowledgeBaseAssociationData()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.KnowledgeBaseData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.KnowledgeBaseData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.KnowledgeBaseData()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.knowledgeBaseType = try reader["knowledgeBaseType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.lastContentModificationTime = try reader["lastContentModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.vectorIngestionConfiguration = try reader["vectorIngestionConfiguration"].readIfPresent(with: QConnectClientTypes.VectorIngestionConfiguration.read(from:))
+        value.sourceConfiguration = try reader["sourceConfiguration"].readIfPresent(with: QConnectClientTypes.SourceConfiguration.read(from:))
+        value.renderingConfiguration = try reader["renderingConfiguration"].readIfPresent(with: QConnectClientTypes.RenderingConfiguration.read(from:))
+        value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: QConnectClientTypes.ServerSideEncryptionConfiguration.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.ingestionStatus = try reader["ingestionStatus"].readIfPresent()
+        value.ingestionFailureReasons = try reader["ingestionFailureReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.KnowledgeBaseSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.KnowledgeBaseSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.KnowledgeBaseSummary()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.knowledgeBaseType = try reader["knowledgeBaseType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceConfiguration = try reader["sourceConfiguration"].readIfPresent(with: QConnectClientTypes.SourceConfiguration.read(from:))
+        value.vectorIngestionConfiguration = try reader["vectorIngestionConfiguration"].readIfPresent(with: QConnectClientTypes.VectorIngestionConfiguration.read(from:))
+        value.renderingConfiguration = try reader["renderingConfiguration"].readIfPresent(with: QConnectClientTypes.RenderingConfiguration.read(from:))
+        value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: QConnectClientTypes.ServerSideEncryptionConfiguration.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.KnowledgeSource {
+
+    static func write(value: QConnectClientTypes.KnowledgeSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .assistantassociationids(assistantassociationids):
+                try writer["assistantAssociationIds"].writeList(assistantassociationids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension QConnectClientTypes.ManagedSourceConfiguration {
+
+    static func write(value: QConnectClientTypes.ManagedSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .webcrawlerconfiguration(webcrawlerconfiguration):
+                try writer["webCrawlerConfiguration"].write(webcrawlerconfiguration, with: QConnectClientTypes.WebCrawlerConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ManagedSourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "whatsApp":
-                return .whatsapp(try reader["whatsApp"].read(with: QConnectClientTypes.WhatsAppMessageTemplateSourceConfigurationSummary.read(from:)))
+            case "webCrawlerConfiguration":
+                return .webcrawlerconfiguration(try reader["webCrawlerConfiguration"].read(with: QConnectClientTypes.WebCrawlerConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension QConnectClientTypes.WhatsAppMessageTemplateSourceConfigurationSummary {
+extension QConnectClientTypes.ManualSearchAIAgentConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.WhatsAppMessageTemplateSourceConfigurationSummary {
+    static func write(value: QConnectClientTypes.ManualSearchAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["answerGenerationAIGuardrailId"].write(value.answerGenerationAIGuardrailId)
+        try writer["answerGenerationAIPromptId"].write(value.answerGenerationAIPromptId)
+        try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["locale"].write(value.locale)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ManualSearchAIAgentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.WhatsAppMessageTemplateSourceConfigurationSummary()
-        value.businessAccountId = try reader["businessAccountId"].readIfPresent() ?? ""
-        value.templateId = try reader["templateId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent()
-        value.language = try reader["language"].readIfPresent()
-        value.components = try reader["components"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
+        var value = QConnectClientTypes.ManualSearchAIAgentConfiguration()
+        value.answerGenerationAIPromptId = try reader["answerGenerationAIPromptId"].readIfPresent()
+        value.answerGenerationAIGuardrailId = try reader["answerGenerationAIGuardrailId"].readIfPresent()
+        value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.locale = try reader["locale"].readIfPresent()
         return value
+    }
+}
+
+extension QConnectClientTypes.MessageConfiguration {
+
+    static func write(value: QConnectClientTypes.MessageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["generateChunkedMessage"].write(value.generateChunkedMessage)
+        try writer["generateFillerMessage"].write(value.generateFillerMessage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.MessageConfiguration()
+        value.generateFillerMessage = try reader["generateFillerMessage"].readIfPresent()
+        value.generateChunkedMessage = try reader["generateChunkedMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.MessageData {
+
+    static func write(value: QConnectClientTypes.MessageData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .text(text):
+                try writer["text"].write(text, with: QConnectClientTypes.TextMessage.write(value:to:))
+            case let .tooluseresult(tooluseresult):
+                try writer["toolUseResult"].write(tooluseresult, with: QConnectClientTypes.ToolUseResultData.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "text":
+                return .text(try reader["text"].read(with: QConnectClientTypes.TextMessage.read(from:)))
+            case "toolUseResult":
+                return .tooluseresult(try reader["toolUseResult"].read(with: QConnectClientTypes.ToolUseResultData.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.MessageInput {
+
+    static func write(value: QConnectClientTypes.MessageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["value"].write(value.value, with: QConnectClientTypes.MessageData.write(value:to:))
+    }
+}
+
+extension QConnectClientTypes.MessageOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.MessageOutput()
+        value.value = try reader["value"].readIfPresent(with: QConnectClientTypes.MessageData.read(from:))
+        value.messageId = try reader["messageId"].readIfPresent() ?? ""
+        value.participant = try reader["participant"].readIfPresent() ?? .sdkUnknown("")
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension QConnectClientTypes.MessageTemplateAttachment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateAttachment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.MessageTemplateAttachment()
+        value.contentDisposition = try reader["contentDisposition"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.uploadedTime = try reader["uploadedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.url = try reader["url"].readIfPresent() ?? ""
+        value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.attachmentId = try reader["attachmentId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QConnectClientTypes.MessageTemplateAttributes {
+
+    static func write(value: QConnectClientTypes.MessageTemplateAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentAttributes"].write(value.agentAttributes, with: QConnectClientTypes.AgentAttributes.write(value:to:))
+        try writer["customAttributes"].writeMap(value.customAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["customerProfileAttributes"].write(value.customerProfileAttributes, with: QConnectClientTypes.CustomerProfileAttributes.write(value:to:))
+        try writer["systemAttributes"].write(value.systemAttributes, with: QConnectClientTypes.SystemAttributes.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.MessageTemplateAttributes()
+        value.systemAttributes = try reader["systemAttributes"].readIfPresent(with: QConnectClientTypes.SystemAttributes.read(from:))
+        value.agentAttributes = try reader["agentAttributes"].readIfPresent(with: QConnectClientTypes.AgentAttributes.read(from:))
+        value.customerProfileAttributes = try reader["customerProfileAttributes"].readIfPresent(with: QConnectClientTypes.CustomerProfileAttributes.read(from:))
+        value.customAttributes = try reader["customAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.MessageTemplateBodyContentProvider {
+
+    static func write(value: QConnectClientTypes.MessageTemplateBodyContentProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .content(content):
+                try writer["content"].write(content)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateBodyContentProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "content":
+                return .content(try reader["content"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -19709,85 +19967,335 @@ extension QConnectClientTypes.MessageTemplateContentProvider {
     }
 }
 
-extension QConnectClientTypes.PushMessageTemplateContent {
+extension QConnectClientTypes.MessageTemplateData {
 
-    static func write(value: QConnectClientTypes.PushMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["adm"].write(value.adm, with: QConnectClientTypes.PushADMMessageTemplateContent.write(value:to:))
-        try writer["apns"].write(value.apns, with: QConnectClientTypes.PushAPNSMessageTemplateContent.write(value:to:))
-        try writer["baidu"].write(value.baidu, with: QConnectClientTypes.PushBaiduMessageTemplateContent.write(value:to:))
-        try writer["fcm"].write(value.fcm, with: QConnectClientTypes.PushFCMMessageTemplateContent.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.PushMessageTemplateContent {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.PushMessageTemplateContent()
-        value.adm = try reader["adm"].readIfPresent(with: QConnectClientTypes.PushADMMessageTemplateContent.read(from:))
-        value.apns = try reader["apns"].readIfPresent(with: QConnectClientTypes.PushAPNSMessageTemplateContent.read(from:))
-        value.fcm = try reader["fcm"].readIfPresent(with: QConnectClientTypes.PushFCMMessageTemplateContent.read(from:))
-        value.baidu = try reader["baidu"].readIfPresent(with: QConnectClientTypes.PushBaiduMessageTemplateContent.read(from:))
+        var value = QConnectClientTypes.MessageTemplateData()
+        value.messageTemplateArn = try reader["messageTemplateArn"].readIfPresent() ?? ""
+        value.messageTemplateId = try reader["messageTemplateId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.channel = try reader["channel"].readIfPresent()
+        value.channelSubtype = try reader["channelSubtype"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent() ?? ""
+        value.content = try reader["content"].readIfPresent(with: QConnectClientTypes.MessageTemplateContentProvider.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.language = try reader["language"].readIfPresent()
+        value.sourceConfigurationSummary = try reader["sourceConfigurationSummary"].readIfPresent(with: QConnectClientTypes.MessageTemplateSourceConfigurationSummary.read(from:))
+        value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: QConnectClientTypes.GroupingConfiguration.read(from:))
+        value.defaultAttributes = try reader["defaultAttributes"].readIfPresent(with: QConnectClientTypes.MessageTemplateAttributes.read(from:))
+        value.attributeTypes = try reader["attributeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QConnectClientTypes.MessageTemplateAttributeType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.messageTemplateContentSha256 = try reader["messageTemplateContentSha256"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension QConnectClientTypes.PushBaiduMessageTemplateContent {
+extension QConnectClientTypes.MessageTemplateFilterField {
 
-    static func write(value: QConnectClientTypes.PushBaiduMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.MessageTemplateFilterField?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["body"].write(value.body, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
-        try writer["imageIconUrl"].write(value.imageIconUrl)
-        try writer["imageUrl"].write(value.imageUrl)
-        try writer["rawContent"].write(value.rawContent, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
-        try writer["smallImageIconUrl"].write(value.smallImageIconUrl)
-        try writer["sound"].write(value.sound)
-        try writer["title"].write(value.title)
-        try writer["url"].write(value.url)
+        try writer["includeNoExistence"].write(value.includeNoExistence)
+        try writer["name"].write(value.name)
+        try writer["operator"].write(value.`operator`)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.PushBaiduMessageTemplateContent {
+extension QConnectClientTypes.MessageTemplateOrderField {
+
+    static func write(value: QConnectClientTypes.MessageTemplateOrderField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["order"].write(value.order)
+    }
+}
+
+extension QConnectClientTypes.MessageTemplateQueryField {
+
+    static func write(value: QConnectClientTypes.MessageTemplateQueryField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowFuzziness"].write(value.allowFuzziness)
+        try writer["name"].write(value.name)
+        try writer["operator"].write(value.`operator`)
+        try writer["priority"].write(value.priority)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension QConnectClientTypes.MessageTemplateSearchExpression {
+
+    static func write(value: QConnectClientTypes.MessageTemplateSearchExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: QConnectClientTypes.MessageTemplateFilterField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["orderOnField"].write(value.orderOnField, with: QConnectClientTypes.MessageTemplateOrderField.write(value:to:))
+        try writer["queries"].writeList(value.queries, memberWritingClosure: QConnectClientTypes.MessageTemplateQueryField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension QConnectClientTypes.MessageTemplateSearchResultData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateSearchResultData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.PushBaiduMessageTemplateContent()
-        value.title = try reader["title"].readIfPresent()
-        value.body = try reader["body"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
-        value.action = try reader["action"].readIfPresent()
-        value.sound = try reader["sound"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
-        value.imageUrl = try reader["imageUrl"].readIfPresent()
-        value.imageIconUrl = try reader["imageIconUrl"].readIfPresent()
-        value.smallImageIconUrl = try reader["smallImageIconUrl"].readIfPresent()
-        value.rawContent = try reader["rawContent"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
+        var value = QConnectClientTypes.MessageTemplateSearchResultData()
+        value.messageTemplateArn = try reader["messageTemplateArn"].readIfPresent() ?? ""
+        value.messageTemplateId = try reader["messageTemplateId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.channel = try reader["channel"].readIfPresent()
+        value.channelSubtype = try reader["channelSubtype"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent() ?? ""
+        value.isActive = try reader["isActive"].readIfPresent()
+        value.versionNumber = try reader["versionNumber"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.sourceConfigurationSummary = try reader["sourceConfigurationSummary"].readIfPresent(with: QConnectClientTypes.MessageTemplateSourceConfigurationSummary.read(from:))
+        value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: QConnectClientTypes.GroupingConfiguration.read(from:))
+        value.language = try reader["language"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension QConnectClientTypes.MessageTemplateBodyContentProvider {
+extension QConnectClientTypes.MessageTemplateSourceConfiguration {
 
-    static func write(value: QConnectClientTypes.MessageTemplateBodyContentProvider?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.MessageTemplateSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .content(content):
-                try writer["content"].write(content)
+            case let .whatsapp(whatsapp):
+                try writer["whatsApp"].write(whatsapp, with: QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateBodyContentProvider {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateSourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "content":
-                return .content(try reader["content"].read())
+            case "whatsApp":
+                return .whatsapp(try reader["whatsApp"].read(with: QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension QConnectClientTypes.PushFCMMessageTemplateContent {
+extension QConnectClientTypes.MessageTemplateSourceConfigurationSummary {
 
-    static func write(value: QConnectClientTypes.PushFCMMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateSourceConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "whatsApp":
+                return .whatsapp(try reader["whatsApp"].read(with: QConnectClientTypes.WhatsAppMessageTemplateSourceConfigurationSummary.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.MessageTemplateSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.MessageTemplateSummary()
+        value.messageTemplateArn = try reader["messageTemplateArn"].readIfPresent() ?? ""
+        value.messageTemplateId = try reader["messageTemplateId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.channel = try reader["channel"].readIfPresent()
+        value.channelSubtype = try reader["channelSubtype"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent() ?? ""
+        value.sourceConfiguration = try reader["sourceConfiguration"].readIfPresent(with: QConnectClientTypes.MessageTemplateSourceConfiguration.read(from:))
+        value.activeVersionNumber = try reader["activeVersionNumber"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.MessageTemplateVersionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.MessageTemplateVersionSummary()
+        value.messageTemplateArn = try reader["messageTemplateArn"].readIfPresent() ?? ""
+        value.messageTemplateId = try reader["messageTemplateId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.channel = try reader["channel"].readIfPresent()
+        value.channelSubtype = try reader["channelSubtype"].readIfPresent() ?? .sdkUnknown("")
+        value.isActive = try reader["isActive"].readIfPresent() ?? false
+        value.versionNumber = try reader["versionNumber"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QConnectClientTypes.NotesChunkDataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.NotesChunkDataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.NotesChunkDataDetails()
+        value.completion = try reader["completion"].readIfPresent()
+        value.nextChunkToken = try reader["nextChunkToken"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.NotesDataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.NotesDataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.NotesDataDetails()
+        value.completion = try reader["completion"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.NoteTakingAIAgentConfiguration {
+
+    static func write(value: QConnectClientTypes.NoteTakingAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["locale"].write(value.locale)
+        try writer["noteTakingAIGuardrailId"].write(value.noteTakingAIGuardrailId)
+        try writer["noteTakingAIPromptId"].write(value.noteTakingAIPromptId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.NoteTakingAIAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.NoteTakingAIAgentConfiguration()
+        value.noteTakingAIPromptId = try reader["noteTakingAIPromptId"].readIfPresent()
+        value.noteTakingAIGuardrailId = try reader["noteTakingAIGuardrailId"].readIfPresent()
+        value.locale = try reader["locale"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.NotifyRecommendationsReceivedError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.NotifyRecommendationsReceivedError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.NotifyRecommendationsReceivedError()
+        value.recommendationId = try reader["recommendationId"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.OrchestrationAIAgentConfiguration {
+
+    static func write(value: QConnectClientTypes.OrchestrationAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectInstanceArn"].write(value.connectInstanceArn)
+        try writer["locale"].write(value.locale)
+        try writer["orchestrationAIGuardrailId"].write(value.orchestrationAIGuardrailId)
+        try writer["orchestrationAIPromptId"].write(value.orchestrationAIPromptId)
+        try writer["toolConfigurations"].writeList(value.toolConfigurations, memberWritingClosure: QConnectClientTypes.ToolConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.OrchestrationAIAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.OrchestrationAIAgentConfiguration()
+        value.orchestrationAIPromptId = try reader["orchestrationAIPromptId"].readIfPresent() ?? ""
+        value.orchestrationAIGuardrailId = try reader["orchestrationAIGuardrailId"].readIfPresent()
+        value.toolConfigurations = try reader["toolConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ToolConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectInstanceArn = try reader["connectInstanceArn"].readIfPresent()
+        value.locale = try reader["locale"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.OrchestratorConfigurationEntry {
+
+    static func write(value: QConnectClientTypes.OrchestratorConfigurationEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aiAgentId"].write(value.aiAgentId)
+        try writer["orchestratorUseCase"].write(value.orchestratorUseCase)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.OrchestratorConfigurationEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.OrchestratorConfigurationEntry()
+        value.aiAgentId = try reader["aiAgentId"].readIfPresent()
+        value.orchestratorUseCase = try reader["orchestratorUseCase"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QConnectClientTypes.OrCondition {
+
+    static func write(value: QConnectClientTypes.OrCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .andconditions(andconditions):
+                try writer["andConditions"].writeList(andconditions, memberWritingClosure: QConnectClientTypes.TagCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .tagcondition(tagcondition):
+                try writer["tagCondition"].write(tagcondition, with: QConnectClientTypes.TagCondition.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.OrCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "andConditions":
+                return .andconditions(try reader["andConditions"].readList(memberReadingClosure: QConnectClientTypes.TagCondition.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "tagCondition":
+                return .tagcondition(try reader["tagCondition"].read(with: QConnectClientTypes.TagCondition.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.ParsingConfiguration {
+
+    static func write(value: QConnectClientTypes.ParsingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bedrockFoundationModelConfiguration"].write(value.bedrockFoundationModelConfiguration, with: QConnectClientTypes.BedrockFoundationModelConfigurationForParsing.write(value:to:))
+        try writer["parsingStrategy"].write(value.parsingStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ParsingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ParsingConfiguration()
+        value.parsingStrategy = try reader["parsingStrategy"].readIfPresent() ?? .sdkUnknown("")
+        value.bedrockFoundationModelConfiguration = try reader["bedrockFoundationModelConfiguration"].readIfPresent(with: QConnectClientTypes.BedrockFoundationModelConfigurationForParsing.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.ParsingPrompt {
+
+    static func write(value: QConnectClientTypes.ParsingPrompt?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["parsingPromptText"].write(value.parsingPromptText)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ParsingPrompt {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ParsingPrompt()
+        value.parsingPromptText = try reader["parsingPromptText"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QConnectClientTypes.PushADMMessageTemplateContent {
+
+    static func write(value: QConnectClientTypes.PushADMMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["action"].write(value.action)
         try writer["body"].write(value.body, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
@@ -19800,9 +20308,9 @@ extension QConnectClientTypes.PushFCMMessageTemplateContent {
         try writer["url"].write(value.url)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.PushFCMMessageTemplateContent {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.PushADMMessageTemplateContent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.PushFCMMessageTemplateContent()
+        var value = QConnectClientTypes.PushADMMessageTemplateContent()
         value.title = try reader["title"].readIfPresent()
         value.body = try reader["body"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
         value.action = try reader["action"].readIfPresent()
@@ -19843,9 +20351,9 @@ extension QConnectClientTypes.PushAPNSMessageTemplateContent {
     }
 }
 
-extension QConnectClientTypes.PushADMMessageTemplateContent {
+extension QConnectClientTypes.PushBaiduMessageTemplateContent {
 
-    static func write(value: QConnectClientTypes.PushADMMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.PushBaiduMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["action"].write(value.action)
         try writer["body"].write(value.body, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
@@ -19858,9 +20366,9 @@ extension QConnectClientTypes.PushADMMessageTemplateContent {
         try writer["url"].write(value.url)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.PushADMMessageTemplateContent {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.PushBaiduMessageTemplateContent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.PushADMMessageTemplateContent()
+        var value = QConnectClientTypes.PushBaiduMessageTemplateContent()
         value.title = try reader["title"].readIfPresent()
         value.body = try reader["body"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
         value.action = try reader["action"].readIfPresent()
@@ -19874,146 +20382,137 @@ extension QConnectClientTypes.PushADMMessageTemplateContent {
     }
 }
 
-extension QConnectClientTypes.WhatsAppMessageTemplateContent {
+extension QConnectClientTypes.PushFCMMessageTemplateContent {
 
-    static func write(value: QConnectClientTypes.WhatsAppMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.PushFCMMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["data"].write(value.data)
+        try writer["action"].write(value.action)
+        try writer["body"].write(value.body, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
+        try writer["imageIconUrl"].write(value.imageIconUrl)
+        try writer["imageUrl"].write(value.imageUrl)
+        try writer["rawContent"].write(value.rawContent, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
+        try writer["smallImageIconUrl"].write(value.smallImageIconUrl)
+        try writer["sound"].write(value.sound)
+        try writer["title"].write(value.title)
+        try writer["url"].write(value.url)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.WhatsAppMessageTemplateContent {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.PushFCMMessageTemplateContent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.WhatsAppMessageTemplateContent()
-        value.data = try reader["data"].readIfPresent()
+        var value = QConnectClientTypes.PushFCMMessageTemplateContent()
+        value.title = try reader["title"].readIfPresent()
+        value.body = try reader["body"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
+        value.action = try reader["action"].readIfPresent()
+        value.sound = try reader["sound"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
+        value.imageUrl = try reader["imageUrl"].readIfPresent()
+        value.imageIconUrl = try reader["imageIconUrl"].readIfPresent()
+        value.smallImageIconUrl = try reader["smallImageIconUrl"].readIfPresent()
+        value.rawContent = try reader["rawContent"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
         return value
     }
 }
 
-extension QConnectClientTypes.SMSMessageTemplateContent {
+extension QConnectClientTypes.PushMessageTemplateContent {
 
-    static func write(value: QConnectClientTypes.SMSMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.PushMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["body"].write(value.body, with: QConnectClientTypes.SMSMessageTemplateContentBody.write(value:to:))
+        try writer["adm"].write(value.adm, with: QConnectClientTypes.PushADMMessageTemplateContent.write(value:to:))
+        try writer["apns"].write(value.apns, with: QConnectClientTypes.PushAPNSMessageTemplateContent.write(value:to:))
+        try writer["baidu"].write(value.baidu, with: QConnectClientTypes.PushBaiduMessageTemplateContent.write(value:to:))
+        try writer["fcm"].write(value.fcm, with: QConnectClientTypes.PushFCMMessageTemplateContent.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SMSMessageTemplateContent {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.PushMessageTemplateContent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SMSMessageTemplateContent()
-        value.body = try reader["body"].readIfPresent(with: QConnectClientTypes.SMSMessageTemplateContentBody.read(from:))
+        var value = QConnectClientTypes.PushMessageTemplateContent()
+        value.adm = try reader["adm"].readIfPresent(with: QConnectClientTypes.PushADMMessageTemplateContent.read(from:))
+        value.apns = try reader["apns"].readIfPresent(with: QConnectClientTypes.PushAPNSMessageTemplateContent.read(from:))
+        value.fcm = try reader["fcm"].readIfPresent(with: QConnectClientTypes.PushFCMMessageTemplateContent.read(from:))
+        value.baidu = try reader["baidu"].readIfPresent(with: QConnectClientTypes.PushBaiduMessageTemplateContent.read(from:))
         return value
     }
 }
 
-extension QConnectClientTypes.SMSMessageTemplateContentBody {
+extension QConnectClientTypes.QueryCondition {
 
-    static func write(value: QConnectClientTypes.SMSMessageTemplateContentBody?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.QueryCondition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["plainText"].write(value.plainText, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SMSMessageTemplateContentBody {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SMSMessageTemplateContentBody()
-        value.plainText = try reader["plainText"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
-        return value
+        switch value {
+            case let .single(single):
+                try writer["single"].write(single, with: QConnectClientTypes.QueryConditionItem.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
-extension QConnectClientTypes.EmailMessageTemplateContent {
+extension QConnectClientTypes.QueryConditionItem {
 
-    static func write(value: QConnectClientTypes.EmailMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.QueryConditionItem?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["body"].write(value.body, with: QConnectClientTypes.EmailMessageTemplateContentBody.write(value:to:))
-        try writer["headers"].writeList(value.headers, memberWritingClosure: QConnectClientTypes.EmailHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subject"].write(value.subject)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailMessageTemplateContent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.EmailMessageTemplateContent()
-        value.subject = try reader["subject"].readIfPresent()
-        value.body = try reader["body"].readIfPresent(with: QConnectClientTypes.EmailMessageTemplateContentBody.read(from:))
-        value.headers = try reader["headers"].readListIfPresent(memberReadingClosure: QConnectClientTypes.EmailHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.EmailHeader {
-
-    static func write(value: QConnectClientTypes.EmailHeader?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
+        try writer["comparator"].write(value.comparator)
+        try writer["field"].write(value.field)
         try writer["value"].write(value.value)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailHeader {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.EmailHeader()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
 }
 
-extension QConnectClientTypes.EmailMessageTemplateContentBody {
+extension QConnectClientTypes.QueryInputData {
 
-    static func write(value: QConnectClientTypes.EmailMessageTemplateContentBody?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.QueryInputData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["html"].write(value.html, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
-        try writer["plainText"].write(value.plainText, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
+        switch value {
+            case let .casesummarizationinputdata(casesummarizationinputdata):
+                try writer["caseSummarizationInputData"].write(casesummarizationinputdata, with: QConnectClientTypes.CaseSummarizationInputData.write(value:to:))
+            case let .intentinputdata(intentinputdata):
+                try writer["intentInputData"].write(intentinputdata, with: QConnectClientTypes.IntentInputData.write(value:to:))
+            case let .querytextinputdata(querytextinputdata):
+                try writer["queryTextInputData"].write(querytextinputdata, with: QConnectClientTypes.QueryTextInputData.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailMessageTemplateContentBody {
+extension QConnectClientTypes.QueryRecommendationTriggerData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QueryRecommendationTriggerData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.EmailMessageTemplateContentBody()
-        value.plainText = try reader["plainText"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
-        value.html = try reader["html"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
+        var value = QConnectClientTypes.QueryRecommendationTriggerData()
+        value.text = try reader["text"].readIfPresent()
         return value
     }
 }
 
-extension QConnectClientTypes.MessageTemplateAttachment {
+extension QConnectClientTypes.QueryTextInputData {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateAttachment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.MessageTemplateAttachment()
-        value.contentDisposition = try reader["contentDisposition"].readIfPresent() ?? .sdkUnknown("")
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.uploadedTime = try reader["uploadedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.url = try reader["url"].readIfPresent() ?? ""
-        value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.attachmentId = try reader["attachmentId"].readIfPresent() ?? ""
-        return value
+    static func write(value: QConnectClientTypes.QueryTextInputData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["text"].write(value.text)
     }
 }
 
-extension QConnectClientTypes.ExtendedMessageTemplateData {
+extension QConnectClientTypes.QuickResponseContentProvider {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ExtendedMessageTemplateData {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseContentProvider {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ExtendedMessageTemplateData()
-        value.messageTemplateArn = try reader["messageTemplateArn"].readIfPresent() ?? ""
-        value.messageTemplateId = try reader["messageTemplateId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.channel = try reader["channel"].readIfPresent()
-        value.channelSubtype = try reader["channelSubtype"].readIfPresent() ?? .sdkUnknown("")
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent() ?? ""
-        value.content = try reader["content"].readIfPresent(with: QConnectClientTypes.MessageTemplateContentProvider.read(from:))
-        value.description = try reader["description"].readIfPresent()
-        value.language = try reader["language"].readIfPresent()
-        value.sourceConfigurationSummary = try reader["sourceConfigurationSummary"].readIfPresent(with: QConnectClientTypes.MessageTemplateSourceConfigurationSummary.read(from:))
-        value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: QConnectClientTypes.GroupingConfiguration.read(from:))
-        value.defaultAttributes = try reader["defaultAttributes"].readIfPresent(with: QConnectClientTypes.MessageTemplateAttributes.read(from:))
-        value.attributeTypes = try reader["attributeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<QConnectClientTypes.MessageTemplateAttributeType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.attachments = try reader["attachments"].readListIfPresent(memberReadingClosure: QConnectClientTypes.MessageTemplateAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isActive = try reader["isActive"].readIfPresent()
-        value.versionNumber = try reader["versionNumber"].readIfPresent()
-        value.messageTemplateContentSha256 = try reader["messageTemplateContentSha256"].readIfPresent() ?? ""
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "content":
+                return .content(try reader["content"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.QuickResponseContents {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseContents {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.QuickResponseContents()
+        value.plainText = try reader["plainText"].readIfPresent(with: QConnectClientTypes.QuickResponseContentProvider.read(from:))
+        value.markdown = try reader["markdown"].readIfPresent(with: QConnectClientTypes.QuickResponseContentProvider.read(from:))
         return value
     }
 }
@@ -20045,303 +20544,253 @@ extension QConnectClientTypes.QuickResponseData {
     }
 }
 
-extension QConnectClientTypes.QuickResponseContents {
+extension QConnectClientTypes.QuickResponseDataProvider {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseContents {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.QuickResponseContents()
-        value.plainText = try reader["plainText"].readIfPresent(with: QConnectClientTypes.QuickResponseContentProvider.read(from:))
-        value.markdown = try reader["markdown"].readIfPresent(with: QConnectClientTypes.QuickResponseContentProvider.read(from:))
-        return value
-    }
-}
-
-extension QConnectClientTypes.QuickResponseContentProvider {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseContentProvider {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "content":
-                return .content(try reader["content"].read())
-            default:
-                return .sdkUnknown(name ?? "")
+    static func write(value: QConnectClientTypes.QuickResponseDataProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .content(content):
+                try writer["content"].write(content)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 }
 
-extension QConnectClientTypes.SessionData {
+extension QConnectClientTypes.QuickResponseFilterField {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SessionData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SessionData()
-        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
-        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.integrationConfiguration = try reader["integrationConfiguration"].readIfPresent(with: QConnectClientTypes.SessionIntegrationConfiguration.read(from:))
-        value.tagFilter = try reader["tagFilter"].readIfPresent(with: QConnectClientTypes.TagFilter.read(from:))
-        value.aiAgentConfiguration = try reader["aiAgentConfiguration"].readMapIfPresent(valueReadingClosure: QConnectClientTypes.AIAgentConfigurationData.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.origin = try reader["origin"].readIfPresent()
-        value.orchestratorConfigurationList = try reader["orchestratorConfigurationList"].readListIfPresent(memberReadingClosure: QConnectClientTypes.OrchestratorConfigurationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+    static func write(value: QConnectClientTypes.QuickResponseFilterField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeNoExistence"].write(value.includeNoExistence)
+        try writer["name"].write(value.name)
+        try writer["operator"].write(value.`operator`)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension QConnectClientTypes.SessionIntegrationConfiguration {
+extension QConnectClientTypes.QuickResponseOrderField {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SessionIntegrationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SessionIntegrationConfiguration()
-        value.topicIntegrationArn = try reader["topicIntegrationArn"].readIfPresent()
-        return value
+    static func write(value: QConnectClientTypes.QuickResponseOrderField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["order"].write(value.order)
     }
 }
 
-extension QConnectClientTypes.ContentSummary {
+extension QConnectClientTypes.QuickResponseQueryField {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentSummary {
+    static func write(value: QConnectClientTypes.QuickResponseQueryField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowFuzziness"].write(value.allowFuzziness)
+        try writer["name"].write(value.name)
+        try writer["operator"].write(value.`operator`)
+        try writer["priority"].write(value.priority)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension QConnectClientTypes.QuickResponseSearchExpression {
+
+    static func write(value: QConnectClientTypes.QuickResponseSearchExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: QConnectClientTypes.QuickResponseFilterField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["orderOnField"].write(value.orderOnField, with: QConnectClientTypes.QuickResponseOrderField.write(value:to:))
+        try writer["queries"].writeList(value.queries, memberWritingClosure: QConnectClientTypes.QuickResponseQueryField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension QConnectClientTypes.QuickResponseSearchResultData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseSearchResultData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ContentSummary()
-        value.contentArn = try reader["contentArn"].readIfPresent() ?? ""
-        value.contentId = try reader["contentId"].readIfPresent() ?? ""
+        var value = QConnectClientTypes.QuickResponseSearchResultData()
+        value.quickResponseArn = try reader["quickResponseArn"].readIfPresent() ?? ""
+        value.quickResponseId = try reader["quickResponseId"].readIfPresent() ?? ""
         value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
         value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
-        value.title = try reader["title"].readIfPresent() ?? ""
         value.contentType = try reader["contentType"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.contents = try reader["contents"].readIfPresent(with: QConnectClientTypes.QuickResponseContents.read(from:))
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.isActive = try reader["isActive"].readIfPresent() ?? false
+        value.description = try reader["description"].readIfPresent()
+        value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: QConnectClientTypes.GroupingConfiguration.read(from:))
+        value.shortcutKey = try reader["shortcutKey"].readIfPresent()
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.language = try reader["language"].readIfPresent()
+        value.attributesNotInterpolated = try reader["attributesNotInterpolated"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attributesInterpolated = try reader["attributesInterpolated"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension QConnectClientTypes.ImportJobData {
+extension QConnectClientTypes.QuickResponseSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ImportJobData {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ImportJobData()
-        value.importJobId = try reader["importJobId"].readIfPresent() ?? ""
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.uploadId = try reader["uploadId"].readIfPresent() ?? ""
+        var value = QConnectClientTypes.QuickResponseSummary()
+        value.quickResponseArn = try reader["quickResponseArn"].readIfPresent() ?? ""
+        value.quickResponseId = try reader["quickResponseId"].readIfPresent() ?? ""
         value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.importJobType = try reader["importJobType"].readIfPresent() ?? .sdkUnknown("")
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.contentType = try reader["contentType"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.url = try reader["url"].readIfPresent() ?? ""
-        value.failedRecordReport = try reader["failedRecordReport"].readIfPresent()
-        value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.externalSourceConfiguration = try reader["externalSourceConfiguration"].readIfPresent(with: QConnectClientTypes.ExternalSourceConfiguration.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.isActive = try reader["isActive"].readIfPresent()
+        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension QConnectClientTypes.ExternalSourceConfiguration {
+extension QConnectClientTypes.RankingData {
 
-    static func write(value: QConnectClientTypes.ExternalSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configuration"].write(value.configuration, with: QConnectClientTypes.Configuration.write(value:to:))
-        try writer["source"].write(value.source)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ExternalSourceConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RankingData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ExternalSourceConfiguration()
+        var value = QConnectClientTypes.RankingData()
+        value.relevanceScore = try reader["relevanceScore"].readIfPresent() ?? 0
+        value.relevanceLevel = try reader["relevanceLevel"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.RecommendationData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RecommendationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.RecommendationData()
+        value.recommendationId = try reader["recommendationId"].readIfPresent() ?? ""
+        value.document = try reader["document"].readIfPresent(with: QConnectClientTypes.Document.read(from:))
+        value.relevanceScore = try reader["relevanceScore"].readIfPresent() ?? 0
+        value.relevanceLevel = try reader["relevanceLevel"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.data = try reader["data"].readIfPresent(with: QConnectClientTypes.DataSummary.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.RecommendationTrigger {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RecommendationTrigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.RecommendationTrigger()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
-        value.configuration = try reader["configuration"].readIfPresent(with: QConnectClientTypes.Configuration.read(from:))
+        value.data = try reader["data"].readIfPresent(with: QConnectClientTypes.RecommendationTriggerData.read(from:))
+        value.recommendationIds = try reader["recommendationIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension QConnectClientTypes.Configuration {
+extension QConnectClientTypes.RecommendationTriggerData {
 
-    static func write(value: QConnectClientTypes.Configuration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .connectconfiguration(connectconfiguration):
-                try writer["connectConfiguration"].write(connectconfiguration, with: QConnectClientTypes.ConnectConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.Configuration {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RecommendationTriggerData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "connectConfiguration":
-                return .connectconfiguration(try reader["connectConfiguration"].read(with: QConnectClientTypes.ConnectConfiguration.read(from:)))
+            case "query":
+                return .query(try reader["query"].read(with: QConnectClientTypes.QueryRecommendationTriggerData.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension QConnectClientTypes.ConnectConfiguration {
+extension QConnectClientTypes.RenderingConfiguration {
 
-    static func write(value: QConnectClientTypes.ConnectConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.RenderingConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["instanceId"].write(value.instanceId)
+        try writer["templateUri"].write(value.templateUri)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ConnectConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RenderingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ConnectConfiguration()
-        value.instanceId = try reader["instanceId"].readIfPresent()
+        var value = QConnectClientTypes.RenderingConfiguration()
+        value.templateUri = try reader["templateUri"].readIfPresent()
         return value
     }
 }
 
-extension QConnectClientTypes.MessageOutput {
+extension QConnectClientTypes.ResultData {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageOutput {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ResultData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.MessageOutput()
-        value.value = try reader["value"].readIfPresent(with: QConnectClientTypes.MessageData.read(from:))
-        value.messageId = try reader["messageId"].readIfPresent() ?? ""
-        value.participant = try reader["participant"].readIfPresent() ?? .sdkUnknown("")
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = QConnectClientTypes.ResultData()
+        value.resultId = try reader["resultId"].readIfPresent() ?? ""
+        value.document = try reader["document"].readIfPresent(with: QConnectClientTypes.Document.read(from:))
+        value.relevanceScore = try reader["relevanceScore"].readIfPresent() ?? 0
+        value.data = try reader["data"].readIfPresent(with: QConnectClientTypes.DataSummary.read(from:))
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
 
-extension QConnectClientTypes.MessageData {
+extension QConnectClientTypes.RetrievalConfiguration {
 
-    static func write(value: QConnectClientTypes.MessageData?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.RetrievalConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filter"].write(value.filter, with: QConnectClientTypes.RetrievalFilterConfiguration.write(value:to:))
+        try writer["knowledgeSource"].write(value.knowledgeSource, with: QConnectClientTypes.KnowledgeSource.write(value:to:))
+        try writer["numberOfResults"].write(value.numberOfResults)
+        try writer["overrideKnowledgeBaseSearchType"].write(value.overrideKnowledgeBaseSearchType)
+    }
+}
+
+extension QConnectClientTypes.RetrievalFilterConfiguration {
+
+    static func write(value: QConnectClientTypes.RetrievalFilterConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .text(text):
-                try writer["text"].write(text, with: QConnectClientTypes.TextMessage.write(value:to:))
-            case let .tooluseresult(tooluseresult):
-                try writer["toolUseResult"].write(tooluseresult, with: QConnectClientTypes.ToolUseResultData.write(value:to:))
+            case let .andall(andall):
+                try writer["andAll"].writeList(andall, memberWritingClosure: QConnectClientTypes.RetrievalFilterConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .equals(equals):
+                try writer["equals"].write(equals, with: QConnectClientTypes.FilterAttribute.write(value:to:))
+            case let .greaterthan(greaterthan):
+                try writer["greaterThan"].write(greaterthan, with: QConnectClientTypes.FilterAttribute.write(value:to:))
+            case let .greaterthanorequals(greaterthanorequals):
+                try writer["greaterThanOrEquals"].write(greaterthanorequals, with: QConnectClientTypes.FilterAttribute.write(value:to:))
+            case let .`in`(`in`):
+                try writer["in"].write(`in`, with: QConnectClientTypes.FilterAttribute.write(value:to:))
+            case let .lessthan(lessthan):
+                try writer["lessThan"].write(lessthan, with: QConnectClientTypes.FilterAttribute.write(value:to:))
+            case let .lessthanorequals(lessthanorequals):
+                try writer["lessThanOrEquals"].write(lessthanorequals, with: QConnectClientTypes.FilterAttribute.write(value:to:))
+            case let .listcontains(listcontains):
+                try writer["listContains"].write(listcontains, with: QConnectClientTypes.FilterAttribute.write(value:to:))
+            case let .notequals(notequals):
+                try writer["notEquals"].write(notequals, with: QConnectClientTypes.FilterAttribute.write(value:to:))
+            case let .notin(notin):
+                try writer["notIn"].write(notin, with: QConnectClientTypes.FilterAttribute.write(value:to:))
+            case let .orall(orall):
+                try writer["orAll"].writeList(orall, memberWritingClosure: QConnectClientTypes.RetrievalFilterConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .startswith(startswith):
+                try writer["startsWith"].write(startswith, with: QConnectClientTypes.FilterAttribute.write(value:to:))
+            case let .stringcontains(stringcontains):
+                try writer["stringContains"].write(stringcontains, with: QConnectClientTypes.FilterAttribute.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "text":
-                return .text(try reader["text"].read(with: QConnectClientTypes.TextMessage.read(from:)))
-            case "toolUseResult":
-                return .tooluseresult(try reader["toolUseResult"].read(with: QConnectClientTypes.ToolUseResultData.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
 }
 
-extension QConnectClientTypes.ToolUseResultData {
+extension QConnectClientTypes.RetrieveResult {
 
-    static func write(value: QConnectClientTypes.ToolUseResultData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["inputSchema"].write(value.inputSchema)
-        try writer["toolName"].write(value.toolName)
-        try writer["toolResult"].write(value.toolResult)
-        try writer["toolUseId"].write(value.toolUseId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ToolUseResultData {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RetrieveResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ToolUseResultData()
-        value.toolUseId = try reader["toolUseId"].readIfPresent() ?? ""
-        value.toolName = try reader["toolName"].readIfPresent() ?? ""
-        value.toolResult = try reader["toolResult"].readIfPresent() ?? [:]
-        value.inputSchema = try reader["inputSchema"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.TextMessage {
-
-    static func write(value: QConnectClientTypes.TextMessage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["aiGuardrailAssessment"].write(value.aiGuardrailAssessment, with: QConnectClientTypes.AIGuardrailAssessment.write(value:to:))
-        try writer["citations"].writeList(value.citations, memberWritingClosure: QConnectClientTypes.Citation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TextMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.TextMessage()
-        value.value = try reader["value"].readIfPresent()
-        value.citations = try reader["citations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.Citation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.aiGuardrailAssessment = try reader["aiGuardrailAssessment"].readIfPresent(with: QConnectClientTypes.AIGuardrailAssessment.read(from:))
-        return value
-    }
-}
-
-extension QConnectClientTypes.AIGuardrailAssessment {
-
-    static func write(value: QConnectClientTypes.AIGuardrailAssessment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blocked"].write(value.blocked)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIGuardrailAssessment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AIGuardrailAssessment()
-        value.blocked = try reader["blocked"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension QConnectClientTypes.Citation {
-
-    static func write(value: QConnectClientTypes.Citation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["citationSpan"].write(value.citationSpan, with: QConnectClientTypes.CitationSpan.write(value:to:))
-        try writer["contentId"].write(value.contentId)
-        try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
-        try writer["referenceType"].write(value.referenceType)
-        try writer["sourceURL"].write(value.sourceURL)
-        try writer["title"].write(value.title)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.Citation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.Citation()
-        value.contentId = try reader["contentId"].readIfPresent()
-        value.title = try reader["title"].readIfPresent()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.citationSpan = try reader["citationSpan"].readIfPresent(with: QConnectClientTypes.CitationSpan.read(from:))
-        value.sourceURL = try reader["sourceURL"].readIfPresent()
+        var value = QConnectClientTypes.RetrieveResult()
+        value.associationId = try reader["associationId"].readIfPresent() ?? ""
+        value.sourceId = try reader["sourceId"].readIfPresent() ?? ""
         value.referenceType = try reader["referenceType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension QConnectClientTypes.CitationSpan {
-
-    static func write(value: QConnectClientTypes.CitationSpan?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["beginOffsetInclusive"].write(value.beginOffsetInclusive)
-        try writer["endOffsetExclusive"].write(value.endOffsetExclusive)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.CitationSpan {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.CitationSpan()
-        value.beginOffsetInclusive = try reader["beginOffsetInclusive"].readIfPresent() ?? 0
-        value.endOffsetExclusive = try reader["endOffsetExclusive"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension QConnectClientTypes.ConversationState {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ConversationState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ConversationState()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.reason = try reader["reason"].readIfPresent()
+        value.contentText = try reader["contentText"].readIfPresent() ?? ""
         return value
     }
 }
@@ -20387,153 +20836,192 @@ extension QConnectClientTypes.RuntimeSessionDataValue {
     }
 }
 
-extension QConnectClientTypes.RecommendationData {
+extension QConnectClientTypes.SearchExpression {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RecommendationData {
+    static func write(value: QConnectClientTypes.SearchExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: QConnectClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension QConnectClientTypes.SeedUrl {
+
+    static func write(value: QConnectClientTypes.SeedUrl?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SeedUrl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.RecommendationData()
-        value.recommendationId = try reader["recommendationId"].readIfPresent() ?? ""
-        value.document = try reader["document"].readIfPresent(with: QConnectClientTypes.Document.read(from:))
-        value.relevanceScore = try reader["relevanceScore"].readIfPresent() ?? 0
-        value.relevanceLevel = try reader["relevanceLevel"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.data = try reader["data"].readIfPresent(with: QConnectClientTypes.DataSummary.read(from:))
+        var value = QConnectClientTypes.SeedUrl()
+        value.url = try reader["url"].readIfPresent()
         return value
     }
 }
 
-extension QConnectClientTypes.DataSummary {
+extension QConnectClientTypes.SelfServiceAIAgentConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.DataSummary {
+    static func write(value: QConnectClientTypes.SelfServiceAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["selfServiceAIGuardrailId"].write(value.selfServiceAIGuardrailId)
+        try writer["selfServiceAnswerGenerationAIPromptId"].write(value.selfServiceAnswerGenerationAIPromptId)
+        try writer["selfServicePreProcessingAIPromptId"].write(value.selfServicePreProcessingAIPromptId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SelfServiceAIAgentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.DataSummary()
-        value.reference = try reader["reference"].readIfPresent(with: QConnectClientTypes.DataReference.read(from:))
-        value.details = try reader["details"].readIfPresent(with: QConnectClientTypes.DataDetails.read(from:))
+        var value = QConnectClientTypes.SelfServiceAIAgentConfiguration()
+        value.selfServicePreProcessingAIPromptId = try reader["selfServicePreProcessingAIPromptId"].readIfPresent()
+        value.selfServiceAnswerGenerationAIPromptId = try reader["selfServiceAnswerGenerationAIPromptId"].readIfPresent()
+        value.selfServiceAIGuardrailId = try reader["selfServiceAIGuardrailId"].readIfPresent()
+        value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension QConnectClientTypes.DataDetails {
+extension QConnectClientTypes.SelfServiceConversationHistory {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.DataDetails {
+    static func write(value: QConnectClientTypes.SelfServiceConversationHistory?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["botResponse"].write(value.botResponse)
+        try writer["inputTranscript"].write(value.inputTranscript)
+        try writer["timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["turnNumber"].write(value.turnNumber)
+    }
+}
+
+extension QConnectClientTypes.SemanticChunkingConfiguration {
+
+    static func write(value: QConnectClientTypes.SemanticChunkingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["breakpointPercentileThreshold"].write(value.breakpointPercentileThreshold)
+        try writer["bufferSize"].write(value.bufferSize)
+        try writer["maxTokens"].write(value.maxTokens)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SemanticChunkingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.SemanticChunkingConfiguration()
+        value.maxTokens = try reader["maxTokens"].readIfPresent() ?? 0
+        value.bufferSize = try reader["bufferSize"].readIfPresent() ?? 0
+        value.breakpointPercentileThreshold = try reader["breakpointPercentileThreshold"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QConnectClientTypes.ServerSideEncryptionConfiguration {
+
+    static func write(value: QConnectClientTypes.ServerSideEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsKeyId"].write(value.kmsKeyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ServerSideEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ServerSideEncryptionConfiguration()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.SessionData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SessionData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.SessionData()
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.integrationConfiguration = try reader["integrationConfiguration"].readIfPresent(with: QConnectClientTypes.SessionIntegrationConfiguration.read(from:))
+        value.tagFilter = try reader["tagFilter"].readIfPresent(with: QConnectClientTypes.TagFilter.read(from:))
+        value.aiAgentConfiguration = try reader["aiAgentConfiguration"].readMapIfPresent(valueReadingClosure: QConnectClientTypes.AIAgentConfigurationData.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.origin = try reader["origin"].readIfPresent()
+        value.orchestratorConfigurationList = try reader["orchestratorConfigurationList"].readListIfPresent(memberReadingClosure: QConnectClientTypes.OrchestratorConfigurationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.SessionIntegrationConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SessionIntegrationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.SessionIntegrationConfiguration()
+        value.topicIntegrationArn = try reader["topicIntegrationArn"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.SessionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SessionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.SessionSummary()
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QConnectClientTypes.SMSMessageTemplateContent {
+
+    static func write(value: QConnectClientTypes.SMSMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["body"].write(value.body, with: QConnectClientTypes.SMSMessageTemplateContentBody.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SMSMessageTemplateContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.SMSMessageTemplateContent()
+        value.body = try reader["body"].readIfPresent(with: QConnectClientTypes.SMSMessageTemplateContentBody.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.SMSMessageTemplateContentBody {
+
+    static func write(value: QConnectClientTypes.SMSMessageTemplateContentBody?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["plainText"].write(value.plainText, with: QConnectClientTypes.MessageTemplateBodyContentProvider.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SMSMessageTemplateContentBody {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.SMSMessageTemplateContentBody()
+        value.plainText = try reader["plainText"].readIfPresent(with: QConnectClientTypes.MessageTemplateBodyContentProvider.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.SourceConfiguration {
+
+    static func write(value: QConnectClientTypes.SourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .appintegrations(appintegrations):
+                try writer["appIntegrations"].write(appintegrations, with: QConnectClientTypes.AppIntegrationsConfiguration.write(value:to:))
+            case let .managedsourceconfiguration(managedsourceconfiguration):
+                try writer["managedSourceConfiguration"].write(managedsourceconfiguration, with: QConnectClientTypes.ManagedSourceConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "contentData":
-                return .contentdata(try reader["contentData"].read(with: QConnectClientTypes.ContentDataDetails.read(from:)))
-            case "generativeData":
-                return .generativedata(try reader["generativeData"].read(with: QConnectClientTypes.GenerativeDataDetails.read(from:)))
-            case "intentDetectedData":
-                return .intentdetecteddata(try reader["intentDetectedData"].read(with: QConnectClientTypes.IntentDetectedDataDetails.read(from:)))
-            case "sourceContentData":
-                return .sourcecontentdata(try reader["sourceContentData"].read(with: QConnectClientTypes.SourceContentDataDetails.read(from:)))
-            case "generativeChunkData":
-                return .generativechunkdata(try reader["generativeChunkData"].read(with: QConnectClientTypes.GenerativeChunkDataDetails.read(from:)))
-            case "emailResponseChunkData":
-                return .emailresponsechunkdata(try reader["emailResponseChunkData"].read(with: QConnectClientTypes.EmailResponseChunkDataDetails.read(from:)))
-            case "emailOverviewChunkData":
-                return .emailoverviewchunkdata(try reader["emailOverviewChunkData"].read(with: QConnectClientTypes.EmailOverviewChunkDataDetails.read(from:)))
-            case "emailGenerativeAnswerChunkData":
-                return .emailgenerativeanswerchunkdata(try reader["emailGenerativeAnswerChunkData"].read(with: QConnectClientTypes.EmailGenerativeAnswerChunkDataDetails.read(from:)))
-            case "caseSummarizationChunkData":
-                return .casesummarizationchunkdata(try reader["caseSummarizationChunkData"].read(with: QConnectClientTypes.CaseSummarizationChunkDataDetails.read(from:)))
-            case "suggestedMessageData":
-                return .suggestedmessagedata(try reader["suggestedMessageData"].read(with: QConnectClientTypes.SuggestedMessageDataDetails.read(from:)))
-            case "notesData":
-                return .notesdata(try reader["notesData"].read(with: QConnectClientTypes.NotesDataDetails.read(from:)))
-            case "notesChunkData":
-                return .noteschunkdata(try reader["notesChunkData"].read(with: QConnectClientTypes.NotesChunkDataDetails.read(from:)))
+            case "appIntegrations":
+                return .appintegrations(try reader["appIntegrations"].read(with: QConnectClientTypes.AppIntegrationsConfiguration.read(from:)))
+            case "managedSourceConfiguration":
+                return .managedsourceconfiguration(try reader["managedSourceConfiguration"].read(with: QConnectClientTypes.ManagedSourceConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
-    }
-}
-
-extension QConnectClientTypes.NotesChunkDataDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.NotesChunkDataDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.NotesChunkDataDetails()
-        value.completion = try reader["completion"].readIfPresent()
-        value.nextChunkToken = try reader["nextChunkToken"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.NotesDataDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.NotesDataDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.NotesDataDetails()
-        value.completion = try reader["completion"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.SuggestedMessageDataDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SuggestedMessageDataDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SuggestedMessageDataDetails()
-        value.messageText = try reader["messageText"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension QConnectClientTypes.CaseSummarizationChunkDataDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.CaseSummarizationChunkDataDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.CaseSummarizationChunkDataDetails()
-        value.completion = try reader["completion"].readIfPresent()
-        value.nextChunkToken = try reader["nextChunkToken"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.EmailGenerativeAnswerChunkDataDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailGenerativeAnswerChunkDataDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.EmailGenerativeAnswerChunkDataDetails()
-        value.completion = try reader["completion"].readIfPresent()
-        value.references = try reader["references"].readListIfPresent(memberReadingClosure: QConnectClientTypes.DataSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextChunkToken = try reader["nextChunkToken"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.EmailOverviewChunkDataDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailOverviewChunkDataDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.EmailOverviewChunkDataDetails()
-        value.completion = try reader["completion"].readIfPresent()
-        value.nextChunkToken = try reader["nextChunkToken"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.EmailResponseChunkDataDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailResponseChunkDataDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.EmailResponseChunkDataDetails()
-        value.completion = try reader["completion"].readIfPresent()
-        value.nextChunkToken = try reader["nextChunkToken"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.GenerativeChunkDataDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GenerativeChunkDataDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.GenerativeChunkDataDetails()
-        value.completion = try reader["completion"].readIfPresent()
-        value.references = try reader["references"].readListIfPresent(memberReadingClosure: QConnectClientTypes.DataSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextChunkToken = try reader["nextChunkToken"].readIfPresent()
-        return value
     }
 }
 
@@ -20547,489 +21035,6 @@ extension QConnectClientTypes.SourceContentDataDetails {
         value.textData = try reader["textData"].readIfPresent(with: QConnectClientTypes.TextData.read(from:))
         value.rankingData = try reader["rankingData"].readIfPresent(with: QConnectClientTypes.RankingData.read(from:))
         value.citationSpan = try reader["citationSpan"].readIfPresent(with: QConnectClientTypes.CitationSpan.read(from:))
-        return value
-    }
-}
-
-extension QConnectClientTypes.RankingData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RankingData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.RankingData()
-        value.relevanceScore = try reader["relevanceScore"].readIfPresent() ?? 0
-        value.relevanceLevel = try reader["relevanceLevel"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.TextData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TextData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.TextData()
-        value.title = try reader["title"].readIfPresent(with: QConnectClientTypes.DocumentText.read(from:))
-        value.excerpt = try reader["excerpt"].readIfPresent(with: QConnectClientTypes.DocumentText.read(from:))
-        return value
-    }
-}
-
-extension QConnectClientTypes.DocumentText {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.DocumentText {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.DocumentText()
-        value.text = try reader["text"].readIfPresent()
-        value.highlights = try reader["highlights"].readListIfPresent(memberReadingClosure: QConnectClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.Highlight {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.Highlight {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.Highlight()
-        value.beginOffsetInclusive = try reader["beginOffsetInclusive"].readIfPresent() ?? 0
-        value.endOffsetExclusive = try reader["endOffsetExclusive"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension QConnectClientTypes.IntentDetectedDataDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.IntentDetectedDataDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.IntentDetectedDataDetails()
-        value.intent = try reader["intent"].readIfPresent() ?? ""
-        value.intentId = try reader["intentId"].readIfPresent() ?? ""
-        value.relevanceLevel = try reader["relevanceLevel"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.GenerativeDataDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GenerativeDataDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.GenerativeDataDetails()
-        value.completion = try reader["completion"].readIfPresent() ?? ""
-        value.references = try reader["references"].readListIfPresent(memberReadingClosure: QConnectClientTypes.DataSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.rankingData = try reader["rankingData"].readIfPresent(with: QConnectClientTypes.RankingData.read(from:))
-        return value
-    }
-}
-
-extension QConnectClientTypes.ContentDataDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentDataDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ContentDataDetails()
-        value.textData = try reader["textData"].readIfPresent(with: QConnectClientTypes.TextData.read(from:))
-        value.rankingData = try reader["rankingData"].readIfPresent(with: QConnectClientTypes.RankingData.read(from:))
-        return value
-    }
-}
-
-extension QConnectClientTypes.DataReference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.DataReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "contentReference":
-                return .contentreference(try reader["contentReference"].read(with: QConnectClientTypes.ContentReference.read(from:)))
-            case "generativeReference":
-                return .generativereference(try reader["generativeReference"].read(with: QConnectClientTypes.GenerativeReference.read(from:)))
-            case "suggestedMessageReference":
-                return .suggestedmessagereference(try reader["suggestedMessageReference"].read(with: QConnectClientTypes.SuggestedMessageReference.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension QConnectClientTypes.SuggestedMessageReference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SuggestedMessageReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SuggestedMessageReference()
-        value.aiAgentId = try reader["aiAgentId"].readIfPresent() ?? ""
-        value.aiAgentArn = try reader["aiAgentArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension QConnectClientTypes.GenerativeReference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GenerativeReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.GenerativeReference()
-        value.modelId = try reader["modelId"].readIfPresent()
-        value.generationId = try reader["generationId"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.ContentReference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ContentReference()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.contentArn = try reader["contentArn"].readIfPresent()
-        value.contentId = try reader["contentId"].readIfPresent()
-        value.sourceURL = try reader["sourceURL"].readIfPresent()
-        value.referenceType = try reader["referenceType"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.Document {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.Document {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.Document()
-        value.contentReference = try reader["contentReference"].readIfPresent(with: QConnectClientTypes.ContentReference.read(from:))
-        value.title = try reader["title"].readIfPresent(with: QConnectClientTypes.DocumentText.read(from:))
-        value.excerpt = try reader["excerpt"].readIfPresent(with: QConnectClientTypes.DocumentText.read(from:))
-        return value
-    }
-}
-
-extension QConnectClientTypes.RecommendationTrigger {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RecommendationTrigger {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.RecommendationTrigger()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
-        value.data = try reader["data"].readIfPresent(with: QConnectClientTypes.RecommendationTriggerData.read(from:))
-        value.recommendationIds = try reader["recommendationIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension QConnectClientTypes.RecommendationTriggerData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RecommendationTriggerData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "query":
-                return .query(try reader["query"].read(with: QConnectClientTypes.QueryRecommendationTriggerData.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension QConnectClientTypes.QueryRecommendationTriggerData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QueryRecommendationTriggerData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.QueryRecommendationTriggerData()
-        value.text = try reader["text"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.AIAgentSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIAgentSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AIAgentSummary()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
-        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
-        value.aiAgentId = try reader["aiAgentId"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.aiAgentArn = try reader["aiAgentArn"].readIfPresent() ?? ""
-        value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.visibilityStatus = try reader["visibilityStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.configuration = try reader["configuration"].readIfPresent(with: QConnectClientTypes.AIAgentConfiguration.read(from:))
-        value.origin = try reader["origin"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.AIAgentVersionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIAgentVersionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AIAgentVersionSummary()
-        value.aiAgentSummary = try reader["aiAgentSummary"].readIfPresent(with: QConnectClientTypes.AIAgentSummary.read(from:))
-        value.versionNumber = try reader["versionNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.AIGuardrailSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIGuardrailSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AIGuardrailSummary()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
-        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
-        value.aiGuardrailId = try reader["aiGuardrailId"].readIfPresent() ?? ""
-        value.aiGuardrailArn = try reader["aiGuardrailArn"].readIfPresent() ?? ""
-        value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.visibilityStatus = try reader["visibilityStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.AIGuardrailVersionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIGuardrailVersionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AIGuardrailVersionSummary()
-        value.aiGuardrailSummary = try reader["aiGuardrailSummary"].readIfPresent(with: QConnectClientTypes.AIGuardrailSummary.read(from:))
-        value.versionNumber = try reader["versionNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.AIPromptSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIPromptSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AIPromptSummary()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
-        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
-        value.aiPromptId = try reader["aiPromptId"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.aiPromptArn = try reader["aiPromptArn"].readIfPresent() ?? ""
-        value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.templateType = try reader["templateType"].readIfPresent() ?? .sdkUnknown("")
-        value.modelId = try reader["modelId"].readIfPresent() ?? ""
-        value.apiFormat = try reader["apiFormat"].readIfPresent() ?? .sdkUnknown("")
-        value.visibilityStatus = try reader["visibilityStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.origin = try reader["origin"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.AIPromptVersionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIPromptVersionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AIPromptVersionSummary()
-        value.aiPromptSummary = try reader["aiPromptSummary"].readIfPresent(with: QConnectClientTypes.AIPromptSummary.read(from:))
-        value.versionNumber = try reader["versionNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.AssistantAssociationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantAssociationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AssistantAssociationSummary()
-        value.assistantAssociationId = try reader["assistantAssociationId"].readIfPresent() ?? ""
-        value.assistantAssociationArn = try reader["assistantAssociationArn"].readIfPresent() ?? ""
-        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
-        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
-        value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
-        value.associationData = try reader["associationData"].readIfPresent(with: QConnectClientTypes.AssistantAssociationOutputData.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.AssistantSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AssistantSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.AssistantSummary()
-        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
-        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.description = try reader["description"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: QConnectClientTypes.ServerSideEncryptionConfiguration.read(from:))
-        value.integrationConfiguration = try reader["integrationConfiguration"].readIfPresent(with: QConnectClientTypes.AssistantIntegrationConfiguration.read(from:))
-        value.capabilityConfiguration = try reader["capabilityConfiguration"].readIfPresent(with: QConnectClientTypes.AssistantCapabilityConfiguration.read(from:))
-        value.aiAgentConfiguration = try reader["aiAgentConfiguration"].readMapIfPresent(valueReadingClosure: QConnectClientTypes.AIAgentConfigurationData.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.orchestratorConfigurationList = try reader["orchestratorConfigurationList"].readListIfPresent(memberReadingClosure: QConnectClientTypes.OrchestratorConfigurationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.ContentAssociationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentAssociationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ContentAssociationSummary()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.contentId = try reader["contentId"].readIfPresent() ?? ""
-        value.contentArn = try reader["contentArn"].readIfPresent() ?? ""
-        value.contentAssociationId = try reader["contentAssociationId"].readIfPresent() ?? ""
-        value.contentAssociationArn = try reader["contentAssociationArn"].readIfPresent() ?? ""
-        value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
-        value.associationData = try reader["associationData"].readIfPresent(with: QConnectClientTypes.ContentAssociationContents.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.ImportJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ImportJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ImportJobSummary()
-        value.importJobId = try reader["importJobId"].readIfPresent() ?? ""
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.uploadId = try reader["uploadId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.importJobType = try reader["importJobType"].readIfPresent() ?? .sdkUnknown("")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.externalSourceConfiguration = try reader["externalSourceConfiguration"].readIfPresent(with: QConnectClientTypes.ExternalSourceConfiguration.read(from:))
-        return value
-    }
-}
-
-extension QConnectClientTypes.KnowledgeBaseSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.KnowledgeBaseSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.KnowledgeBaseSummary()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.knowledgeBaseType = try reader["knowledgeBaseType"].readIfPresent() ?? .sdkUnknown("")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.sourceConfiguration = try reader["sourceConfiguration"].readIfPresent(with: QConnectClientTypes.SourceConfiguration.read(from:))
-        value.vectorIngestionConfiguration = try reader["vectorIngestionConfiguration"].readIfPresent(with: QConnectClientTypes.VectorIngestionConfiguration.read(from:))
-        value.renderingConfiguration = try reader["renderingConfiguration"].readIfPresent(with: QConnectClientTypes.RenderingConfiguration.read(from:))
-        value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: QConnectClientTypes.ServerSideEncryptionConfiguration.read(from:))
-        value.description = try reader["description"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.MessageTemplateSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.MessageTemplateSummary()
-        value.messageTemplateArn = try reader["messageTemplateArn"].readIfPresent() ?? ""
-        value.messageTemplateId = try reader["messageTemplateId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.channel = try reader["channel"].readIfPresent()
-        value.channelSubtype = try reader["channelSubtype"].readIfPresent() ?? .sdkUnknown("")
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent() ?? ""
-        value.sourceConfiguration = try reader["sourceConfiguration"].readIfPresent(with: QConnectClientTypes.MessageTemplateSourceConfiguration.read(from:))
-        value.activeVersionNumber = try reader["activeVersionNumber"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.MessageTemplateSourceConfiguration {
-
-    static func write(value: QConnectClientTypes.MessageTemplateSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .whatsapp(whatsapp):
-                try writer["whatsApp"].write(whatsapp, with: QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateSourceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "whatsApp":
-                return .whatsapp(try reader["whatsApp"].read(with: QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration {
-
-    static func write(value: QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["businessAccountId"].write(value.businessAccountId)
-        try writer["components"].writeList(value.components, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["templateId"].write(value.templateId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration()
-        value.businessAccountId = try reader["businessAccountId"].readIfPresent() ?? ""
-        value.templateId = try reader["templateId"].readIfPresent() ?? ""
-        value.components = try reader["components"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.MessageTemplateVersionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateVersionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.MessageTemplateVersionSummary()
-        value.messageTemplateArn = try reader["messageTemplateArn"].readIfPresent() ?? ""
-        value.messageTemplateId = try reader["messageTemplateId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.channel = try reader["channel"].readIfPresent()
-        value.channelSubtype = try reader["channelSubtype"].readIfPresent() ?? .sdkUnknown("")
-        value.isActive = try reader["isActive"].readIfPresent() ?? false
-        value.versionNumber = try reader["versionNumber"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension QConnectClientTypes.QuickResponseSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.QuickResponseSummary()
-        value.quickResponseArn = try reader["quickResponseArn"].readIfPresent() ?? ""
-        value.quickResponseId = try reader["quickResponseId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.contentType = try reader["contentType"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.description = try reader["description"].readIfPresent()
-        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
-        value.isActive = try reader["isActive"].readIfPresent()
-        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -21097,6 +21102,32 @@ extension QConnectClientTypes.SpanAttributes {
     }
 }
 
+extension QConnectClientTypes.SpanCitation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SpanCitation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.SpanCitation()
+        value.contentId = try reader["contentId"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.SpanMessage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SpanMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.SpanMessage()
+        value.messageId = try reader["messageId"].readIfPresent() ?? ""
+        value.participant = try reader["participant"].readIfPresent() ?? .sdkUnknown("")
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: QConnectClientTypes.SpanMessageValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension QConnectClientTypes.SpanMessageValue {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SpanMessageValue {
@@ -21112,6 +21143,18 @@ extension QConnectClientTypes.SpanMessageValue {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension QConnectClientTypes.SpanTextValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SpanTextValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.SpanTextValue()
+        value.value = try reader["value"].readIfPresent() ?? ""
+        value.citations = try reader["citations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.SpanCitation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aiGuardrailAssessment = try reader["aiGuardrailAssessment"].readIfPresent(with: QConnectClientTypes.AIGuardrailAssessment.read(from:))
+        return value
     }
 }
 
@@ -21139,494 +21182,454 @@ extension QConnectClientTypes.SpanToolUseValue {
     }
 }
 
-extension QConnectClientTypes.SpanTextValue {
+extension QConnectClientTypes.SuggestedMessageDataDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SpanTextValue {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SuggestedMessageDataDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SpanTextValue()
-        value.value = try reader["value"].readIfPresent() ?? ""
-        value.citations = try reader["citations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.SpanCitation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.aiGuardrailAssessment = try reader["aiGuardrailAssessment"].readIfPresent(with: QConnectClientTypes.AIGuardrailAssessment.read(from:))
+        var value = QConnectClientTypes.SuggestedMessageDataDetails()
+        value.messageText = try reader["messageText"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension QConnectClientTypes.SpanCitation {
+extension QConnectClientTypes.SuggestedMessageReference {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SpanCitation {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SuggestedMessageReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SpanCitation()
-        value.contentId = try reader["contentId"].readIfPresent()
-        value.title = try reader["title"].readIfPresent()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
+        var value = QConnectClientTypes.SuggestedMessageReference()
+        value.aiAgentId = try reader["aiAgentId"].readIfPresent() ?? ""
+        value.aiAgentArn = try reader["aiAgentArn"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension QConnectClientTypes.SpanMessage {
+extension QConnectClientTypes.SystemAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SpanMessage {
+    static func write(value: QConnectClientTypes.SystemAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customerEndpoint"].write(value.customerEndpoint, with: QConnectClientTypes.SystemEndpointAttributes.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["systemEndpoint"].write(value.systemEndpoint, with: QConnectClientTypes.SystemEndpointAttributes.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SystemAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SpanMessage()
-        value.messageId = try reader["messageId"].readIfPresent() ?? ""
-        value.participant = try reader["participant"].readIfPresent() ?? .sdkUnknown("")
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: QConnectClientTypes.SpanMessageValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = QConnectClientTypes.SystemAttributes()
+        value.name = try reader["name"].readIfPresent()
+        value.customerEndpoint = try reader["customerEndpoint"].readIfPresent(with: QConnectClientTypes.SystemEndpointAttributes.read(from:))
+        value.systemEndpoint = try reader["systemEndpoint"].readIfPresent(with: QConnectClientTypes.SystemEndpointAttributes.read(from:))
         return value
     }
 }
 
-extension QConnectClientTypes.NotifyRecommendationsReceivedError {
+extension QConnectClientTypes.SystemEndpointAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.NotifyRecommendationsReceivedError {
+    static func write(value: QConnectClientTypes.SystemEndpointAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["address"].write(value.address)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SystemEndpointAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.NotifyRecommendationsReceivedError()
-        value.recommendationId = try reader["recommendationId"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        var value = QConnectClientTypes.SystemEndpointAttributes()
+        value.address = try reader["address"].readIfPresent()
         return value
     }
 }
 
-extension QConnectClientTypes.ContentFeedbackData {
+extension QConnectClientTypes.TagCondition {
 
-    static func write(value: QConnectClientTypes.ContentFeedbackData?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.TagCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TagCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.TagCondition()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.TagFilter {
+
+    static func write(value: QConnectClientTypes.TagFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .generativecontentfeedbackdata(generativecontentfeedbackdata):
-                try writer["generativeContentFeedbackData"].write(generativecontentfeedbackdata, with: QConnectClientTypes.GenerativeContentFeedbackData.write(value:to:))
+            case let .andconditions(andconditions):
+                try writer["andConditions"].writeList(andconditions, memberWritingClosure: QConnectClientTypes.TagCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .orconditions(orconditions):
+                try writer["orConditions"].writeList(orconditions, memberWritingClosure: QConnectClientTypes.OrCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .tagcondition(tagcondition):
+                try writer["tagCondition"].write(tagcondition, with: QConnectClientTypes.TagCondition.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentFeedbackData {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TagFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "generativeContentFeedbackData":
-                return .generativecontentfeedbackdata(try reader["generativeContentFeedbackData"].read(with: QConnectClientTypes.GenerativeContentFeedbackData.read(from:)))
+            case "tagCondition":
+                return .tagcondition(try reader["tagCondition"].read(with: QConnectClientTypes.TagCondition.read(from:)))
+            case "andConditions":
+                return .andconditions(try reader["andConditions"].readList(memberReadingClosure: QConnectClientTypes.TagCondition.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "orConditions":
+                return .orconditions(try reader["orConditions"].readList(memberReadingClosure: QConnectClientTypes.OrCondition.read(from:), memberNodeInfo: "member", isFlattened: false))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension QConnectClientTypes.GenerativeContentFeedbackData {
+extension QConnectClientTypes.TextData {
 
-    static func write(value: QConnectClientTypes.GenerativeContentFeedbackData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["relevance"].write(value.relevance)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.GenerativeContentFeedbackData {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TextData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.GenerativeContentFeedbackData()
-        value.relevance = try reader["relevance"].readIfPresent() ?? .sdkUnknown("")
+        var value = QConnectClientTypes.TextData()
+        value.title = try reader["title"].readIfPresent(with: QConnectClientTypes.DocumentText.read(from:))
+        value.excerpt = try reader["excerpt"].readIfPresent(with: QConnectClientTypes.DocumentText.read(from:))
         return value
     }
 }
 
-extension QConnectClientTypes.ResultData {
+extension QConnectClientTypes.TextFullAIPromptEditTemplateConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ResultData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.ResultData()
-        value.resultId = try reader["resultId"].readIfPresent() ?? ""
-        value.document = try reader["document"].readIfPresent(with: QConnectClientTypes.Document.read(from:))
-        value.relevanceScore = try reader["relevanceScore"].readIfPresent() ?? 0
-        value.data = try reader["data"].readIfPresent(with: QConnectClientTypes.DataSummary.read(from:))
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.RetrieveResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.RetrieveResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.RetrieveResult()
-        value.associationId = try reader["associationId"].readIfPresent() ?? ""
-        value.sourceId = try reader["sourceId"].readIfPresent() ?? ""
-        value.referenceType = try reader["referenceType"].readIfPresent() ?? .sdkUnknown("")
-        value.contentText = try reader["contentText"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension QConnectClientTypes.MessageTemplateSearchResultData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageTemplateSearchResultData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.MessageTemplateSearchResultData()
-        value.messageTemplateArn = try reader["messageTemplateArn"].readIfPresent() ?? ""
-        value.messageTemplateId = try reader["messageTemplateId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.channel = try reader["channel"].readIfPresent()
-        value.channelSubtype = try reader["channelSubtype"].readIfPresent() ?? .sdkUnknown("")
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent() ?? ""
-        value.isActive = try reader["isActive"].readIfPresent()
-        value.versionNumber = try reader["versionNumber"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.sourceConfigurationSummary = try reader["sourceConfigurationSummary"].readIfPresent(with: QConnectClientTypes.MessageTemplateSourceConfigurationSummary.read(from:))
-        value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: QConnectClientTypes.GroupingConfiguration.read(from:))
-        value.language = try reader["language"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.QuickResponseSearchResultData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.QuickResponseSearchResultData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.QuickResponseSearchResultData()
-        value.quickResponseArn = try reader["quickResponseArn"].readIfPresent() ?? ""
-        value.quickResponseId = try reader["quickResponseId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.contentType = try reader["contentType"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.contents = try reader["contents"].readIfPresent(with: QConnectClientTypes.QuickResponseContents.read(from:))
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.isActive = try reader["isActive"].readIfPresent() ?? false
-        value.description = try reader["description"].readIfPresent()
-        value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: QConnectClientTypes.GroupingConfiguration.read(from:))
-        value.shortcutKey = try reader["shortcutKey"].readIfPresent()
-        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
-        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.language = try reader["language"].readIfPresent()
-        value.attributesNotInterpolated = try reader["attributesNotInterpolated"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.attributesInterpolated = try reader["attributesInterpolated"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension QConnectClientTypes.SessionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SessionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SessionSummary()
-        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
-        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
-        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
-        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension QConnectClientTypes.MessageConfiguration {
-
-    static func write(value: QConnectClientTypes.MessageConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["generateChunkedMessage"].write(value.generateChunkedMessage)
-        try writer["generateFillerMessage"].write(value.generateFillerMessage)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.MessageConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.MessageConfiguration()
-        value.generateFillerMessage = try reader["generateFillerMessage"].readIfPresent()
-        value.generateChunkedMessage = try reader["generateChunkedMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension QConnectClientTypes.AssistantAssociationInputData {
-
-    static func write(value: QConnectClientTypes.AssistantAssociationInputData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .externalbedrockknowledgebaseconfig(externalbedrockknowledgebaseconfig):
-                try writer["externalBedrockKnowledgeBaseConfig"].write(externalbedrockknowledgebaseconfig, with: QConnectClientTypes.ExternalBedrockKnowledgeBaseConfig.write(value:to:))
-            case let .knowledgebaseid(knowledgebaseid):
-                try writer["knowledgeBaseId"].write(knowledgebaseid)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension QConnectClientTypes.QuickResponseDataProvider {
-
-    static func write(value: QConnectClientTypes.QuickResponseDataProvider?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .content(content):
-                try writer["content"].write(content)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension QConnectClientTypes.QueryCondition {
-
-    static func write(value: QConnectClientTypes.QueryCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .single(single):
-                try writer["single"].write(single, with: QConnectClientTypes.QueryConditionItem.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension QConnectClientTypes.QueryConditionItem {
-
-    static func write(value: QConnectClientTypes.QueryConditionItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["comparator"].write(value.comparator)
-        try writer["field"].write(value.field)
-        try writer["value"].write(value.value)
-    }
-}
-
-extension QConnectClientTypes.QueryInputData {
-
-    static func write(value: QConnectClientTypes.QueryInputData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .casesummarizationinputdata(casesummarizationinputdata):
-                try writer["caseSummarizationInputData"].write(casesummarizationinputdata, with: QConnectClientTypes.CaseSummarizationInputData.write(value:to:))
-            case let .intentinputdata(intentinputdata):
-                try writer["intentInputData"].write(intentinputdata, with: QConnectClientTypes.IntentInputData.write(value:to:))
-            case let .querytextinputdata(querytextinputdata):
-                try writer["queryTextInputData"].write(querytextinputdata, with: QConnectClientTypes.QueryTextInputData.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension QConnectClientTypes.CaseSummarizationInputData {
-
-    static func write(value: QConnectClientTypes.CaseSummarizationInputData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["caseArn"].write(value.caseArn)
-    }
-}
-
-extension QConnectClientTypes.IntentInputData {
-
-    static func write(value: QConnectClientTypes.IntentInputData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["intentId"].write(value.intentId)
-    }
-}
-
-extension QConnectClientTypes.QueryTextInputData {
-
-    static func write(value: QConnectClientTypes.QueryTextInputData?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.TextFullAIPromptEditTemplateConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["text"].write(value.text)
     }
-}
 
-extension QConnectClientTypes.RetrievalConfiguration {
-
-    static func write(value: QConnectClientTypes.RetrievalConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filter"].write(value.filter, with: QConnectClientTypes.RetrievalFilterConfiguration.write(value:to:))
-        try writer["knowledgeSource"].write(value.knowledgeSource, with: QConnectClientTypes.KnowledgeSource.write(value:to:))
-        try writer["numberOfResults"].write(value.numberOfResults)
-        try writer["overrideKnowledgeBaseSearchType"].write(value.overrideKnowledgeBaseSearchType)
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TextFullAIPromptEditTemplateConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.TextFullAIPromptEditTemplateConfiguration()
+        value.text = try reader["text"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension QConnectClientTypes.RetrievalFilterConfiguration {
+extension QConnectClientTypes.TextMessage {
 
-    static func write(value: QConnectClientTypes.RetrievalFilterConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.TextMessage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aiGuardrailAssessment"].write(value.aiGuardrailAssessment, with: QConnectClientTypes.AIGuardrailAssessment.write(value:to:))
+        try writer["citations"].writeList(value.citations, memberWritingClosure: QConnectClientTypes.Citation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TextMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.TextMessage()
+        value.value = try reader["value"].readIfPresent()
+        value.citations = try reader["citations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.Citation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aiGuardrailAssessment = try reader["aiGuardrailAssessment"].readIfPresent(with: QConnectClientTypes.AIGuardrailAssessment.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.ToolConfiguration {
+
+    static func write(value: QConnectClientTypes.ToolConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["annotations"].write(value.annotations, with: QConnectClientTypes.Annotation.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["inputSchema"].write(value.inputSchema)
+        try writer["instruction"].write(value.instruction, with: QConnectClientTypes.ToolInstruction.write(value:to:))
+        try writer["outputFilters"].writeList(value.outputFilters, memberWritingClosure: QConnectClientTypes.ToolOutputFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["outputSchema"].write(value.outputSchema)
+        try writer["overrideInputValues"].writeList(value.overrideInputValues, memberWritingClosure: QConnectClientTypes.ToolOverrideInputValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["title"].write(value.title)
+        try writer["toolId"].write(value.toolId)
+        try writer["toolName"].write(value.toolName)
+        try writer["toolType"].write(value.toolType)
+        try writer["userInteractionConfiguration"].write(value.userInteractionConfiguration, with: QConnectClientTypes.UserInteractionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ToolConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ToolConfiguration()
+        value.toolName = try reader["toolName"].readIfPresent() ?? ""
+        value.toolType = try reader["toolType"].readIfPresent() ?? .sdkUnknown("")
+        value.title = try reader["title"].readIfPresent()
+        value.toolId = try reader["toolId"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.instruction = try reader["instruction"].readIfPresent(with: QConnectClientTypes.ToolInstruction.read(from:))
+        value.overrideInputValues = try reader["overrideInputValues"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ToolOverrideInputValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputFilters = try reader["outputFilters"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ToolOutputFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputSchema = try reader["inputSchema"].readIfPresent()
+        value.outputSchema = try reader["outputSchema"].readIfPresent()
+        value.annotations = try reader["annotations"].readIfPresent(with: QConnectClientTypes.Annotation.read(from:))
+        value.userInteractionConfiguration = try reader["userInteractionConfiguration"].readIfPresent(with: QConnectClientTypes.UserInteractionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.ToolInstruction {
+
+    static func write(value: QConnectClientTypes.ToolInstruction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["examples"].writeList(value.examples, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["instruction"].write(value.instruction)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ToolInstruction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ToolInstruction()
+        value.instruction = try reader["instruction"].readIfPresent()
+        value.examples = try reader["examples"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.ToolOutputConfiguration {
+
+    static func write(value: QConnectClientTypes.ToolOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["outputVariableNameOverride"].write(value.outputVariableNameOverride)
+        try writer["sessionDataNamespace"].write(value.sessionDataNamespace)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ToolOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ToolOutputConfiguration()
+        value.outputVariableNameOverride = try reader["outputVariableNameOverride"].readIfPresent()
+        value.sessionDataNamespace = try reader["sessionDataNamespace"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.ToolOutputFilter {
+
+    static func write(value: QConnectClientTypes.ToolOutputFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jsonPath"].write(value.jsonPath)
+        try writer["outputConfiguration"].write(value.outputConfiguration, with: QConnectClientTypes.ToolOutputConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ToolOutputFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ToolOutputFilter()
+        value.jsonPath = try reader["jsonPath"].readIfPresent() ?? ""
+        value.outputConfiguration = try reader["outputConfiguration"].readIfPresent(with: QConnectClientTypes.ToolOutputConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.ToolOverrideConstantInputValue {
+
+    static func write(value: QConnectClientTypes.ToolOverrideConstantInputValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ToolOverrideConstantInputValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ToolOverrideConstantInputValue()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QConnectClientTypes.ToolOverrideInputValue {
+
+    static func write(value: QConnectClientTypes.ToolOverrideInputValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jsonPath"].write(value.jsonPath)
+        try writer["value"].write(value.value, with: QConnectClientTypes.ToolOverrideInputValueConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ToolOverrideInputValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ToolOverrideInputValue()
+        value.jsonPath = try reader["jsonPath"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent(with: QConnectClientTypes.ToolOverrideInputValueConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.ToolOverrideInputValueConfiguration {
+
+    static func write(value: QConnectClientTypes.ToolOverrideInputValueConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .andall(andall):
-                try writer["andAll"].writeList(andall, memberWritingClosure: QConnectClientTypes.RetrievalFilterConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .equals(equals):
-                try writer["equals"].write(equals, with: QConnectClientTypes.FilterAttribute.write(value:to:))
-            case let .greaterthan(greaterthan):
-                try writer["greaterThan"].write(greaterthan, with: QConnectClientTypes.FilterAttribute.write(value:to:))
-            case let .greaterthanorequals(greaterthanorequals):
-                try writer["greaterThanOrEquals"].write(greaterthanorequals, with: QConnectClientTypes.FilterAttribute.write(value:to:))
-            case let .`in`(`in`):
-                try writer["in"].write(`in`, with: QConnectClientTypes.FilterAttribute.write(value:to:))
-            case let .lessthan(lessthan):
-                try writer["lessThan"].write(lessthan, with: QConnectClientTypes.FilterAttribute.write(value:to:))
-            case let .lessthanorequals(lessthanorequals):
-                try writer["lessThanOrEquals"].write(lessthanorequals, with: QConnectClientTypes.FilterAttribute.write(value:to:))
-            case let .listcontains(listcontains):
-                try writer["listContains"].write(listcontains, with: QConnectClientTypes.FilterAttribute.write(value:to:))
-            case let .notequals(notequals):
-                try writer["notEquals"].write(notequals, with: QConnectClientTypes.FilterAttribute.write(value:to:))
-            case let .notin(notin):
-                try writer["notIn"].write(notin, with: QConnectClientTypes.FilterAttribute.write(value:to:))
-            case let .orall(orall):
-                try writer["orAll"].writeList(orall, memberWritingClosure: QConnectClientTypes.RetrievalFilterConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .startswith(startswith):
-                try writer["startsWith"].write(startswith, with: QConnectClientTypes.FilterAttribute.write(value:to:))
-            case let .stringcontains(stringcontains):
-                try writer["stringContains"].write(stringcontains, with: QConnectClientTypes.FilterAttribute.write(value:to:))
+            case let .constant(constant):
+                try writer["constant"].write(constant, with: QConnectClientTypes.ToolOverrideConstantInputValue.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-}
 
-extension QConnectClientTypes.FilterAttribute {
-
-    static func write(value: QConnectClientTypes.FilterAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-}
-
-extension QConnectClientTypes.KnowledgeSource {
-
-    static func write(value: QConnectClientTypes.KnowledgeSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .assistantassociationids(assistantassociationids):
-                try writer["assistantAssociationIds"].writeList(assistantassociationids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ToolOverrideInputValueConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "constant":
+                return .constant(try reader["constant"].read(with: QConnectClientTypes.ToolOverrideConstantInputValue.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension QConnectClientTypes.SearchExpression {
+extension QConnectClientTypes.ToolUseResultData {
 
-    static func write(value: QConnectClientTypes.SearchExpression?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.ToolUseResultData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["filters"].writeList(value.filters, memberWritingClosure: QConnectClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["inputSchema"].write(value.inputSchema)
+        try writer["toolName"].write(value.toolName)
+        try writer["toolResult"].write(value.toolResult)
+        try writer["toolUseId"].write(value.toolUseId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ToolUseResultData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ToolUseResultData()
+        value.toolUseId = try reader["toolUseId"].readIfPresent() ?? ""
+        value.toolName = try reader["toolName"].readIfPresent() ?? ""
+        value.toolResult = try reader["toolResult"].readIfPresent() ?? [:]
+        value.inputSchema = try reader["inputSchema"].readIfPresent()
+        return value
     }
 }
 
-extension QConnectClientTypes.Filter {
+extension QConnectClientTypes.UrlConfiguration {
 
-    static func write(value: QConnectClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.UrlConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["field"].write(value.field)
-        try writer["operator"].write(value.`operator`)
-        try writer["value"].write(value.value)
+        try writer["seedUrls"].writeList(value.seedUrls, memberWritingClosure: QConnectClientTypes.SeedUrl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.UrlConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.UrlConfiguration()
+        value.seedUrls = try reader["seedUrls"].readListIfPresent(memberReadingClosure: QConnectClientTypes.SeedUrl.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension QConnectClientTypes.MessageTemplateSearchExpression {
+extension QConnectClientTypes.UserInteractionConfiguration {
 
-    static func write(value: QConnectClientTypes.MessageTemplateSearchExpression?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.UserInteractionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["filters"].writeList(value.filters, memberWritingClosure: QConnectClientTypes.MessageTemplateFilterField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["orderOnField"].write(value.orderOnField, with: QConnectClientTypes.MessageTemplateOrderField.write(value:to:))
-        try writer["queries"].writeList(value.queries, memberWritingClosure: QConnectClientTypes.MessageTemplateQueryField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["isUserConfirmationRequired"].write(value.isUserConfirmationRequired)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.UserInteractionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.UserInteractionConfiguration()
+        value.isUserConfirmationRequired = try reader["isUserConfirmationRequired"].readIfPresent()
+        return value
     }
 }
 
-extension QConnectClientTypes.MessageTemplateOrderField {
+extension QConnectClientTypes.VectorIngestionConfiguration {
 
-    static func write(value: QConnectClientTypes.MessageTemplateOrderField?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.VectorIngestionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["order"].write(value.order)
+        try writer["chunkingConfiguration"].write(value.chunkingConfiguration, with: QConnectClientTypes.ChunkingConfiguration.write(value:to:))
+        try writer["parsingConfiguration"].write(value.parsingConfiguration, with: QConnectClientTypes.ParsingConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.VectorIngestionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.VectorIngestionConfiguration()
+        value.chunkingConfiguration = try reader["chunkingConfiguration"].readIfPresent(with: QConnectClientTypes.ChunkingConfiguration.read(from:))
+        value.parsingConfiguration = try reader["parsingConfiguration"].readIfPresent(with: QConnectClientTypes.ParsingConfiguration.read(from:))
+        return value
     }
 }
 
-extension QConnectClientTypes.MessageTemplateFilterField {
+extension QConnectClientTypes.WebCrawlerConfiguration {
 
-    static func write(value: QConnectClientTypes.MessageTemplateFilterField?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.WebCrawlerConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["includeNoExistence"].write(value.includeNoExistence)
-        try writer["name"].write(value.name)
-        try writer["operator"].write(value.`operator`)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["crawlerLimits"].write(value.crawlerLimits, with: QConnectClientTypes.WebCrawlerLimits.write(value:to:))
+        try writer["exclusionFilters"].writeList(value.exclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["inclusionFilters"].writeList(value.inclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["scope"].write(value.scope)
+        try writer["urlConfiguration"].write(value.urlConfiguration, with: QConnectClientTypes.UrlConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.WebCrawlerConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.WebCrawlerConfiguration()
+        value.urlConfiguration = try reader["urlConfiguration"].readIfPresent(with: QConnectClientTypes.UrlConfiguration.read(from:))
+        value.crawlerLimits = try reader["crawlerLimits"].readIfPresent(with: QConnectClientTypes.WebCrawlerLimits.read(from:))
+        value.inclusionFilters = try reader["inclusionFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionFilters = try reader["exclusionFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scope = try reader["scope"].readIfPresent()
+        return value
     }
 }
 
-extension QConnectClientTypes.MessageTemplateQueryField {
+extension QConnectClientTypes.WebCrawlerLimits {
 
-    static func write(value: QConnectClientTypes.MessageTemplateQueryField?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.WebCrawlerLimits?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["allowFuzziness"].write(value.allowFuzziness)
-        try writer["name"].write(value.name)
-        try writer["operator"].write(value.`operator`)
-        try writer["priority"].write(value.priority)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["rateLimit"].write(value.rateLimit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.WebCrawlerLimits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.WebCrawlerLimits()
+        value.rateLimit = try reader["rateLimit"].readIfPresent()
+        return value
     }
 }
 
-extension QConnectClientTypes.QuickResponseSearchExpression {
+extension QConnectClientTypes.WhatsAppMessageTemplateContent {
 
-    static func write(value: QConnectClientTypes.QuickResponseSearchExpression?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.WhatsAppMessageTemplateContent?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["filters"].writeList(value.filters, memberWritingClosure: QConnectClientTypes.QuickResponseFilterField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["orderOnField"].write(value.orderOnField, with: QConnectClientTypes.QuickResponseOrderField.write(value:to:))
-        try writer["queries"].writeList(value.queries, memberWritingClosure: QConnectClientTypes.QuickResponseQueryField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["data"].write(value.data)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.WhatsAppMessageTemplateContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.WhatsAppMessageTemplateContent()
+        value.data = try reader["data"].readIfPresent()
+        return value
     }
 }
 
-extension QConnectClientTypes.QuickResponseOrderField {
+extension QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration {
 
-    static func write(value: QConnectClientTypes.QuickResponseOrderField?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["order"].write(value.order)
+        try writer["businessAccountId"].write(value.businessAccountId)
+        try writer["components"].writeList(value.components, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["templateId"].write(value.templateId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.WhatsAppMessageTemplateSourceConfiguration()
+        value.businessAccountId = try reader["businessAccountId"].readIfPresent() ?? ""
+        value.templateId = try reader["templateId"].readIfPresent() ?? ""
+        value.components = try reader["components"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension QConnectClientTypes.QuickResponseFilterField {
+extension QConnectClientTypes.WhatsAppMessageTemplateSourceConfigurationSummary {
 
-    static func write(value: QConnectClientTypes.QuickResponseFilterField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["includeNoExistence"].write(value.includeNoExistence)
-        try writer["name"].write(value.name)
-        try writer["operator"].write(value.`operator`)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension QConnectClientTypes.QuickResponseQueryField {
-
-    static func write(value: QConnectClientTypes.QuickResponseQueryField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowFuzziness"].write(value.allowFuzziness)
-        try writer["name"].write(value.name)
-        try writer["operator"].write(value.`operator`)
-        try writer["priority"].write(value.priority)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension QConnectClientTypes.MessageInput {
-
-    static func write(value: QConnectClientTypes.MessageInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["value"].write(value.value, with: QConnectClientTypes.MessageData.write(value:to:))
-    }
-}
-
-extension QConnectClientTypes.ConversationContext {
-
-    static func write(value: QConnectClientTypes.ConversationContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["selfServiceConversationHistory"].writeList(value.selfServiceConversationHistory, memberWritingClosure: QConnectClientTypes.SelfServiceConversationHistory.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension QConnectClientTypes.SelfServiceConversationHistory {
-
-    static func write(value: QConnectClientTypes.SelfServiceConversationHistory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["botResponse"].write(value.botResponse)
-        try writer["inputTranscript"].write(value.inputTranscript)
-        try writer["timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["turnNumber"].write(value.turnNumber)
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.WhatsAppMessageTemplateSourceConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.WhatsAppMessageTemplateSourceConfigurationSummary()
+        value.businessAccountId = try reader["businessAccountId"].readIfPresent() ?? ""
+        value.templateId = try reader["templateId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.language = try reader["language"].readIfPresent()
+        value.components = try reader["components"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
     }
 }
 

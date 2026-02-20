@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class FSxClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "FSxClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: FSxClient.FSxClientConfig
+    public let config: FSxClient.FSxClientConfig
     let serviceName = "FSx"
 
     @available(*, deprecated, message: "Use FSxClient.FSxClientConfig instead")
     public typealias Config = FSxClient.FSxClientConfiguration
+    public typealias Configuration = FSxClient.FSxClientConfig
 
     public required init(config: FSxClient.FSxClientConfig) {
         ClientRuntime.initialize()

@@ -8508,56 +8508,6 @@ extension PersonalizeClientTypes.Algorithm {
     }
 }
 
-extension PersonalizeClientTypes.DefaultHyperParameterRanges {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DefaultHyperParameterRanges {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DefaultHyperParameterRanges()
-        value.integerHyperParameterRanges = try reader["integerHyperParameterRanges"].readListIfPresent(memberReadingClosure: PersonalizeClientTypes.DefaultIntegerHyperParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.continuousHyperParameterRanges = try reader["continuousHyperParameterRanges"].readListIfPresent(memberReadingClosure: PersonalizeClientTypes.DefaultContinuousHyperParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.categoricalHyperParameterRanges = try reader["categoricalHyperParameterRanges"].readListIfPresent(memberReadingClosure: PersonalizeClientTypes.DefaultCategoricalHyperParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.DefaultCategoricalHyperParameterRange {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DefaultCategoricalHyperParameterRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DefaultCategoricalHyperParameterRange()
-        value.name = try reader["name"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isTunable = try reader["isTunable"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.DefaultContinuousHyperParameterRange {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DefaultContinuousHyperParameterRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DefaultContinuousHyperParameterRange()
-        value.name = try reader["name"].readIfPresent()
-        value.minValue = try reader["minValue"].readIfPresent() ?? 0
-        value.maxValue = try reader["maxValue"].readIfPresent() ?? 0
-        value.isTunable = try reader["isTunable"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.DefaultIntegerHyperParameterRange {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DefaultIntegerHyperParameterRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DefaultIntegerHyperParameterRange()
-        value.name = try reader["name"].readIfPresent()
-        value.minValue = try reader["minValue"].readIfPresent() ?? 0
-        value.maxValue = try reader["maxValue"].readIfPresent() ?? 0
-        value.isTunable = try reader["isTunable"].readIfPresent() ?? false
-        return value
-    }
-}
-
 extension PersonalizeClientTypes.AlgorithmImage {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.AlgorithmImage {
@@ -8565,6 +8515,48 @@ extension PersonalizeClientTypes.AlgorithmImage {
         var value = PersonalizeClientTypes.AlgorithmImage()
         value.name = try reader["name"].readIfPresent()
         value.dockerURI = try reader["dockerURI"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.AutoMLConfig {
+
+    static func write(value: PersonalizeClientTypes.AutoMLConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["metricName"].write(value.metricName)
+        try writer["recipeList"].writeList(value.recipeList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.AutoMLConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.AutoMLConfig()
+        value.metricName = try reader["metricName"].readIfPresent()
+        value.recipeList = try reader["recipeList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.AutoMLResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.AutoMLResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.AutoMLResult()
+        value.bestRecipeArn = try reader["bestRecipeArn"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.AutoTrainingConfig {
+
+    static func write(value: PersonalizeClientTypes.AutoTrainingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["schedulingExpression"].write(value.schedulingExpression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.AutoTrainingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.AutoTrainingConfig()
+        value.schedulingExpression = try reader["schedulingExpression"].readIfPresent()
         return value
     }
 }
@@ -8593,36 +8585,6 @@ extension PersonalizeClientTypes.BatchInferenceJob {
     }
 }
 
-extension PersonalizeClientTypes.ThemeGenerationConfig {
-
-    static func write(value: PersonalizeClientTypes.ThemeGenerationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fieldsForThemeGeneration"].write(value.fieldsForThemeGeneration, with: PersonalizeClientTypes.FieldsForThemeGeneration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.ThemeGenerationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.ThemeGenerationConfig()
-        value.fieldsForThemeGeneration = try reader["fieldsForThemeGeneration"].readIfPresent(with: PersonalizeClientTypes.FieldsForThemeGeneration.read(from:))
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.FieldsForThemeGeneration {
-
-    static func write(value: PersonalizeClientTypes.FieldsForThemeGeneration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["itemName"].write(value.itemName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.FieldsForThemeGeneration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.FieldsForThemeGeneration()
-        value.itemName = try reader["itemName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension PersonalizeClientTypes.BatchInferenceJobConfig {
 
     static func write(value: PersonalizeClientTypes.BatchInferenceJobConfig?, to writer: SmithyJSON.Writer) throws {
@@ -8636,6 +8598,21 @@ extension PersonalizeClientTypes.BatchInferenceJobConfig {
         var value = PersonalizeClientTypes.BatchInferenceJobConfig()
         value.itemExplorationConfig = try reader["itemExplorationConfig"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.rankingInfluence = try reader["rankingInfluence"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.BatchInferenceJobInput {
+
+    static func write(value: PersonalizeClientTypes.BatchInferenceJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3DataSource"].write(value.s3DataSource, with: PersonalizeClientTypes.S3DataConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.BatchInferenceJobInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.BatchInferenceJobInput()
+        value.s3DataSource = try reader["s3DataSource"].readIfPresent(with: PersonalizeClientTypes.S3DataConfig.read(from:))
         return value
     }
 }
@@ -8655,34 +8632,19 @@ extension PersonalizeClientTypes.BatchInferenceJobOutput {
     }
 }
 
-extension PersonalizeClientTypes.S3DataConfig {
+extension PersonalizeClientTypes.BatchInferenceJobSummary {
 
-    static func write(value: PersonalizeClientTypes.S3DataConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-        try writer["path"].write(value.path)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.S3DataConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.BatchInferenceJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.S3DataConfig()
-        value.path = try reader["path"].readIfPresent() ?? ""
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.BatchInferenceJobInput {
-
-    static func write(value: PersonalizeClientTypes.BatchInferenceJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3DataSource"].write(value.s3DataSource, with: PersonalizeClientTypes.S3DataConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.BatchInferenceJobInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.BatchInferenceJobInput()
-        value.s3DataSource = try reader["s3DataSource"].readIfPresent(with: PersonalizeClientTypes.S3DataConfig.read(from:))
+        var value = PersonalizeClientTypes.BatchInferenceJobSummary()
+        value.batchInferenceJobArn = try reader["batchInferenceJobArn"].readIfPresent()
+        value.jobName = try reader["jobName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.solutionVersionArn = try reader["solutionVersionArn"].readIfPresent()
+        value.batchInferenceJobMode = try reader["batchInferenceJobMode"].readIfPresent()
         return value
     }
 }
@@ -8708,6 +8670,21 @@ extension PersonalizeClientTypes.BatchSegmentJob {
     }
 }
 
+extension PersonalizeClientTypes.BatchSegmentJobInput {
+
+    static func write(value: PersonalizeClientTypes.BatchSegmentJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3DataSource"].write(value.s3DataSource, with: PersonalizeClientTypes.S3DataConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.BatchSegmentJobInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.BatchSegmentJobInput()
+        value.s3DataSource = try reader["s3DataSource"].readIfPresent(with: PersonalizeClientTypes.S3DataConfig.read(from:))
+        return value
+    }
+}
+
 extension PersonalizeClientTypes.BatchSegmentJobOutput {
 
     static func write(value: PersonalizeClientTypes.BatchSegmentJobOutput?, to writer: SmithyJSON.Writer) throws {
@@ -8723,17 +8700,18 @@ extension PersonalizeClientTypes.BatchSegmentJobOutput {
     }
 }
 
-extension PersonalizeClientTypes.BatchSegmentJobInput {
+extension PersonalizeClientTypes.BatchSegmentJobSummary {
 
-    static func write(value: PersonalizeClientTypes.BatchSegmentJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3DataSource"].write(value.s3DataSource, with: PersonalizeClientTypes.S3DataConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.BatchSegmentJobInput {
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.BatchSegmentJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.BatchSegmentJobInput()
-        value.s3DataSource = try reader["s3DataSource"].readIfPresent(with: PersonalizeClientTypes.S3DataConfig.read(from:))
+        var value = PersonalizeClientTypes.BatchSegmentJobSummary()
+        value.batchSegmentJobArn = try reader["batchSegmentJobArn"].readIfPresent()
+        value.jobName = try reader["jobName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.solutionVersionArn = try reader["solutionVersionArn"].readIfPresent()
         return value
     }
 }
@@ -8753,22 +8731,6 @@ extension PersonalizeClientTypes.Campaign {
         value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.latestCampaignUpdate = try reader["latestCampaignUpdate"].readIfPresent(with: PersonalizeClientTypes.CampaignUpdateSummary.read(from:))
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.CampaignUpdateSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.CampaignUpdateSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.CampaignUpdateSummary()
-        value.solutionVersionArn = try reader["solutionVersionArn"].readIfPresent()
-        value.minProvisionedTPS = try reader["minProvisionedTPS"].readIfPresent()
-        value.campaignConfig = try reader["campaignConfig"].readIfPresent(with: PersonalizeClientTypes.CampaignConfig.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -8794,203 +8756,13 @@ extension PersonalizeClientTypes.CampaignConfig {
     }
 }
 
-extension PersonalizeClientTypes.DataDeletionJob {
+extension PersonalizeClientTypes.CampaignSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DataDeletionJob {
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.CampaignSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DataDeletionJob()
-        value.jobName = try reader["jobName"].readIfPresent()
-        value.dataDeletionJobArn = try reader["dataDeletionJobArn"].readIfPresent()
-        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
-        value.dataSource = try reader["dataSource"].readIfPresent(with: PersonalizeClientTypes.DataSource.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.numDeleted = try reader["numDeleted"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.DataSource {
-
-    static func write(value: PersonalizeClientTypes.DataSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataLocation"].write(value.dataLocation)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DataSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DataSource()
-        value.dataLocation = try reader["dataLocation"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.Dataset {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Dataset {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.Dataset()
+        var value = PersonalizeClientTypes.CampaignSummary()
         value.name = try reader["name"].readIfPresent()
-        value.datasetArn = try reader["datasetArn"].readIfPresent()
-        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
-        value.datasetType = try reader["datasetType"].readIfPresent()
-        value.schemaArn = try reader["schemaArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.latestDatasetUpdate = try reader["latestDatasetUpdate"].readIfPresent(with: PersonalizeClientTypes.DatasetUpdateSummary.read(from:))
-        value.trackingId = try reader["trackingId"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.DatasetUpdateSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetUpdateSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DatasetUpdateSummary()
-        value.schemaArn = try reader["schemaArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.DatasetExportJob {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetExportJob {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DatasetExportJob()
-        value.jobName = try reader["jobName"].readIfPresent()
-        value.datasetExportJobArn = try reader["datasetExportJobArn"].readIfPresent()
-        value.datasetArn = try reader["datasetArn"].readIfPresent()
-        value.ingestionMode = try reader["ingestionMode"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.jobOutput = try reader["jobOutput"].readIfPresent(with: PersonalizeClientTypes.DatasetExportJobOutput.read(from:))
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.DatasetExportJobOutput {
-
-    static func write(value: PersonalizeClientTypes.DatasetExportJobOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3DataDestination"].write(value.s3DataDestination, with: PersonalizeClientTypes.S3DataConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetExportJobOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DatasetExportJobOutput()
-        value.s3DataDestination = try reader["s3DataDestination"].readIfPresent(with: PersonalizeClientTypes.S3DataConfig.read(from:))
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.DatasetGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DatasetGroup()
-        value.name = try reader["name"].readIfPresent()
-        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        value.domain = try reader["domain"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.DatasetImportJob {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetImportJob {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DatasetImportJob()
-        value.jobName = try reader["jobName"].readIfPresent()
-        value.datasetImportJobArn = try reader["datasetImportJobArn"].readIfPresent()
-        value.datasetArn = try reader["datasetArn"].readIfPresent()
-        value.dataSource = try reader["dataSource"].readIfPresent(with: PersonalizeClientTypes.DataSource.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        value.importMode = try reader["importMode"].readIfPresent()
-        value.publishAttributionMetricsToS3 = try reader["publishAttributionMetricsToS3"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.EventTracker {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.EventTracker {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.EventTracker()
-        value.name = try reader["name"].readIfPresent()
-        value.eventTrackerArn = try reader["eventTrackerArn"].readIfPresent()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.trackingId = try reader["trackingId"].readIfPresent()
-        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.FeatureTransformation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.FeatureTransformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.FeatureTransformation()
-        value.name = try reader["name"].readIfPresent()
-        value.featureTransformationArn = try reader["featureTransformationArn"].readIfPresent()
-        value.defaultParameters = try reader["defaultParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.Filter {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.Filter()
-        value.name = try reader["name"].readIfPresent()
-        value.filterArn = try reader["filterArn"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        value.filterExpression = try reader["filterExpression"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.MetricAttribution {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.MetricAttribution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.MetricAttribution()
-        value.name = try reader["name"].readIfPresent()
-        value.metricAttributionArn = try reader["metricAttributionArn"].readIfPresent()
-        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
-        value.metricsOutputConfig = try reader["metricsOutputConfig"].readIfPresent(with: PersonalizeClientTypes.MetricAttributionOutput.read(from:))
+        value.campaignArn = try reader["campaignArn"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -8999,360 +8771,18 @@ extension PersonalizeClientTypes.MetricAttribution {
     }
 }
 
-extension PersonalizeClientTypes.MetricAttributionOutput {
+extension PersonalizeClientTypes.CampaignUpdateSummary {
 
-    static func write(value: PersonalizeClientTypes.MetricAttributionOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["roleArn"].write(value.roleArn)
-        try writer["s3DataDestination"].write(value.s3DataDestination, with: PersonalizeClientTypes.S3DataConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.MetricAttributionOutput {
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.CampaignUpdateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.MetricAttributionOutput()
-        value.s3DataDestination = try reader["s3DataDestination"].readIfPresent(with: PersonalizeClientTypes.S3DataConfig.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.Recipe {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Recipe {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.Recipe()
-        value.name = try reader["name"].readIfPresent()
-        value.recipeArn = try reader["recipeArn"].readIfPresent()
-        value.algorithmArn = try reader["algorithmArn"].readIfPresent()
-        value.featureTransformationArn = try reader["featureTransformationArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.recipeType = try reader["recipeType"].readIfPresent()
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.Recommender {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Recommender {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.Recommender()
-        value.recommenderArn = try reader["recommenderArn"].readIfPresent()
-        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.recipeArn = try reader["recipeArn"].readIfPresent()
-        value.recommenderConfig = try reader["recommenderConfig"].readIfPresent(with: PersonalizeClientTypes.RecommenderConfig.read(from:))
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        value.latestRecommenderUpdate = try reader["latestRecommenderUpdate"].readIfPresent(with: PersonalizeClientTypes.RecommenderUpdateSummary.read(from:))
-        value.modelMetrics = try reader["modelMetrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.RecommenderUpdateSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.RecommenderUpdateSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.RecommenderUpdateSummary()
-        value.recommenderConfig = try reader["recommenderConfig"].readIfPresent(with: PersonalizeClientTypes.RecommenderConfig.read(from:))
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.RecommenderConfig {
-
-    static func write(value: PersonalizeClientTypes.RecommenderConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enableMetadataWithRecommendations"].write(value.enableMetadataWithRecommendations)
-        try writer["itemExplorationConfig"].writeMap(value.itemExplorationConfig, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["minRecommendationRequestsPerSecond"].write(value.minRecommendationRequestsPerSecond)
-        try writer["trainingDataConfig"].write(value.trainingDataConfig, with: PersonalizeClientTypes.TrainingDataConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.RecommenderConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.RecommenderConfig()
-        value.itemExplorationConfig = try reader["itemExplorationConfig"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.minRecommendationRequestsPerSecond = try reader["minRecommendationRequestsPerSecond"].readIfPresent()
-        value.trainingDataConfig = try reader["trainingDataConfig"].readIfPresent(with: PersonalizeClientTypes.TrainingDataConfig.read(from:))
-        value.enableMetadataWithRecommendations = try reader["enableMetadataWithRecommendations"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.TrainingDataConfig {
-
-    static func write(value: PersonalizeClientTypes.TrainingDataConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["excludedDatasetColumns"].writeMap(value.excludedDatasetColumns, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["includedDatasetColumns"].writeMap(value.includedDatasetColumns, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.TrainingDataConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.TrainingDataConfig()
-        value.excludedDatasetColumns = try reader["excludedDatasetColumns"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.includedDatasetColumns = try reader["includedDatasetColumns"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.DatasetSchema {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetSchema {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DatasetSchema()
-        value.name = try reader["name"].readIfPresent()
-        value.schemaArn = try reader["schemaArn"].readIfPresent()
-        value.schema = try reader["schema"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.domain = try reader["domain"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.Solution {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Solution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.Solution()
-        value.name = try reader["name"].readIfPresent()
-        value.solutionArn = try reader["solutionArn"].readIfPresent()
-        value.performHPO = try reader["performHPO"].readIfPresent() ?? false
-        value.performAutoML = try reader["performAutoML"].readIfPresent() ?? false
-        value.performAutoTraining = try reader["performAutoTraining"].readIfPresent()
-        value.performIncrementalUpdate = try reader["performIncrementalUpdate"].readIfPresent()
-        value.recipeArn = try reader["recipeArn"].readIfPresent()
-        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
-        value.eventType = try reader["eventType"].readIfPresent()
-        value.solutionConfig = try reader["solutionConfig"].readIfPresent(with: PersonalizeClientTypes.SolutionConfig.read(from:))
-        value.autoMLResult = try reader["autoMLResult"].readIfPresent(with: PersonalizeClientTypes.AutoMLResult.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.latestSolutionVersion = try reader["latestSolutionVersion"].readIfPresent(with: PersonalizeClientTypes.SolutionVersionSummary.read(from:))
-        value.latestSolutionUpdate = try reader["latestSolutionUpdate"].readIfPresent(with: PersonalizeClientTypes.SolutionUpdateSummary.read(from:))
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.SolutionUpdateSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.SolutionUpdateSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.SolutionUpdateSummary()
-        value.solutionUpdateConfig = try reader["solutionUpdateConfig"].readIfPresent(with: PersonalizeClientTypes.SolutionUpdateConfig.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        value.performAutoTraining = try reader["performAutoTraining"].readIfPresent()
-        value.performIncrementalUpdate = try reader["performIncrementalUpdate"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.SolutionUpdateConfig {
-
-    static func write(value: PersonalizeClientTypes.SolutionUpdateConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoTrainingConfig"].write(value.autoTrainingConfig, with: PersonalizeClientTypes.AutoTrainingConfig.write(value:to:))
-        try writer["eventsConfig"].write(value.eventsConfig, with: PersonalizeClientTypes.EventsConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.SolutionUpdateConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.SolutionUpdateConfig()
-        value.autoTrainingConfig = try reader["autoTrainingConfig"].readIfPresent(with: PersonalizeClientTypes.AutoTrainingConfig.read(from:))
-        value.eventsConfig = try reader["eventsConfig"].readIfPresent(with: PersonalizeClientTypes.EventsConfig.read(from:))
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.EventsConfig {
-
-    static func write(value: PersonalizeClientTypes.EventsConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventParametersList"].writeList(value.eventParametersList, memberWritingClosure: PersonalizeClientTypes.EventParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.EventsConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.EventsConfig()
-        value.eventParametersList = try reader["eventParametersList"].readListIfPresent(memberReadingClosure: PersonalizeClientTypes.EventParameters.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.EventParameters {
-
-    static func write(value: PersonalizeClientTypes.EventParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventType"].write(value.eventType)
-        try writer["eventValueThreshold"].write(value.eventValueThreshold)
-        try writer["weight"].write(value.weight)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.EventParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.EventParameters()
-        value.eventType = try reader["eventType"].readIfPresent()
-        value.eventValueThreshold = try reader["eventValueThreshold"].readIfPresent()
-        value.weight = try reader["weight"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.AutoTrainingConfig {
-
-    static func write(value: PersonalizeClientTypes.AutoTrainingConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["schedulingExpression"].write(value.schedulingExpression)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.AutoTrainingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.AutoTrainingConfig()
-        value.schedulingExpression = try reader["schedulingExpression"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.SolutionVersionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.SolutionVersionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.SolutionVersionSummary()
+        var value = PersonalizeClientTypes.CampaignUpdateSummary()
         value.solutionVersionArn = try reader["solutionVersionArn"].readIfPresent()
+        value.minProvisionedTPS = try reader["minProvisionedTPS"].readIfPresent()
+        value.campaignConfig = try reader["campaignConfig"].readIfPresent(with: PersonalizeClientTypes.CampaignConfig.read(from:))
         value.status = try reader["status"].readIfPresent()
-        value.trainingMode = try reader["trainingMode"].readIfPresent()
-        value.trainingType = try reader["trainingType"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
         value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.AutoMLResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.AutoMLResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.AutoMLResult()
-        value.bestRecipeArn = try reader["bestRecipeArn"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.SolutionConfig {
-
-    static func write(value: PersonalizeClientTypes.SolutionConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["algorithmHyperParameters"].writeMap(value.algorithmHyperParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["autoMLConfig"].write(value.autoMLConfig, with: PersonalizeClientTypes.AutoMLConfig.write(value:to:))
-        try writer["autoTrainingConfig"].write(value.autoTrainingConfig, with: PersonalizeClientTypes.AutoTrainingConfig.write(value:to:))
-        try writer["eventValueThreshold"].write(value.eventValueThreshold)
-        try writer["eventsConfig"].write(value.eventsConfig, with: PersonalizeClientTypes.EventsConfig.write(value:to:))
-        try writer["featureTransformationParameters"].writeMap(value.featureTransformationParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["hpoConfig"].write(value.hpoConfig, with: PersonalizeClientTypes.HPOConfig.write(value:to:))
-        try writer["optimizationObjective"].write(value.optimizationObjective, with: PersonalizeClientTypes.OptimizationObjective.write(value:to:))
-        try writer["trainingDataConfig"].write(value.trainingDataConfig, with: PersonalizeClientTypes.TrainingDataConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.SolutionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.SolutionConfig()
-        value.eventValueThreshold = try reader["eventValueThreshold"].readIfPresent()
-        value.hpoConfig = try reader["hpoConfig"].readIfPresent(with: PersonalizeClientTypes.HPOConfig.read(from:))
-        value.algorithmHyperParameters = try reader["algorithmHyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.featureTransformationParameters = try reader["featureTransformationParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.autoMLConfig = try reader["autoMLConfig"].readIfPresent(with: PersonalizeClientTypes.AutoMLConfig.read(from:))
-        value.eventsConfig = try reader["eventsConfig"].readIfPresent(with: PersonalizeClientTypes.EventsConfig.read(from:))
-        value.optimizationObjective = try reader["optimizationObjective"].readIfPresent(with: PersonalizeClientTypes.OptimizationObjective.read(from:))
-        value.trainingDataConfig = try reader["trainingDataConfig"].readIfPresent(with: PersonalizeClientTypes.TrainingDataConfig.read(from:))
-        value.autoTrainingConfig = try reader["autoTrainingConfig"].readIfPresent(with: PersonalizeClientTypes.AutoTrainingConfig.read(from:))
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.OptimizationObjective {
-
-    static func write(value: PersonalizeClientTypes.OptimizationObjective?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["itemAttribute"].write(value.itemAttribute)
-        try writer["objectiveSensitivity"].write(value.objectiveSensitivity)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.OptimizationObjective {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.OptimizationObjective()
-        value.itemAttribute = try reader["itemAttribute"].readIfPresent()
-        value.objectiveSensitivity = try reader["objectiveSensitivity"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.AutoMLConfig {
-
-    static func write(value: PersonalizeClientTypes.AutoMLConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["metricName"].write(value.metricName)
-        try writer["recipeList"].writeList(value.recipeList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.AutoMLConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.AutoMLConfig()
-        value.metricName = try reader["metricName"].readIfPresent()
-        value.recipeList = try reader["recipeList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.HPOConfig {
-
-    static func write(value: PersonalizeClientTypes.HPOConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["algorithmHyperParameterRanges"].write(value.algorithmHyperParameterRanges, with: PersonalizeClientTypes.HyperParameterRanges.write(value:to:))
-        try writer["hpoObjective"].write(value.hpoObjective, with: PersonalizeClientTypes.HPOObjective.write(value:to:))
-        try writer["hpoResourceConfig"].write(value.hpoResourceConfig, with: PersonalizeClientTypes.HPOResourceConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.HPOConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.HPOConfig()
-        value.hpoObjective = try reader["hpoObjective"].readIfPresent(with: PersonalizeClientTypes.HPOObjective.read(from:))
-        value.hpoResourceConfig = try reader["hpoResourceConfig"].readIfPresent(with: PersonalizeClientTypes.HPOResourceConfig.read(from:))
-        value.algorithmHyperParameterRanges = try reader["algorithmHyperParameterRanges"].readIfPresent(with: PersonalizeClientTypes.HyperParameterRanges.read(from:))
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.HyperParameterRanges {
-
-    static func write(value: PersonalizeClientTypes.HyperParameterRanges?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["categoricalHyperParameterRanges"].writeList(value.categoricalHyperParameterRanges, memberWritingClosure: PersonalizeClientTypes.CategoricalHyperParameterRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["continuousHyperParameterRanges"].writeList(value.continuousHyperParameterRanges, memberWritingClosure: PersonalizeClientTypes.ContinuousHyperParameterRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["integerHyperParameterRanges"].writeList(value.integerHyperParameterRanges, memberWritingClosure: PersonalizeClientTypes.IntegerHyperParameterRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.HyperParameterRanges {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.HyperParameterRanges()
-        value.integerHyperParameterRanges = try reader["integerHyperParameterRanges"].readListIfPresent(memberReadingClosure: PersonalizeClientTypes.IntegerHyperParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.continuousHyperParameterRanges = try reader["continuousHyperParameterRanges"].readListIfPresent(memberReadingClosure: PersonalizeClientTypes.ContinuousHyperParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.categoricalHyperParameterRanges = try reader["categoricalHyperParameterRanges"].readListIfPresent(memberReadingClosure: PersonalizeClientTypes.CategoricalHyperParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9393,21 +8823,464 @@ extension PersonalizeClientTypes.ContinuousHyperParameterRange {
     }
 }
 
-extension PersonalizeClientTypes.IntegerHyperParameterRange {
+extension PersonalizeClientTypes.DataDeletionJob {
 
-    static func write(value: PersonalizeClientTypes.IntegerHyperParameterRange?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DataDeletionJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DataDeletionJob()
+        value.jobName = try reader["jobName"].readIfPresent()
+        value.dataDeletionJobArn = try reader["dataDeletionJobArn"].readIfPresent()
+        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
+        value.dataSource = try reader["dataSource"].readIfPresent(with: PersonalizeClientTypes.DataSource.read(from:))
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.numDeleted = try reader["numDeleted"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DataDeletionJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DataDeletionJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DataDeletionJobSummary()
+        value.dataDeletionJobArn = try reader["dataDeletionJobArn"].readIfPresent()
+        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
+        value.jobName = try reader["jobName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.Dataset {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Dataset {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.Dataset()
+        value.name = try reader["name"].readIfPresent()
+        value.datasetArn = try reader["datasetArn"].readIfPresent()
+        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
+        value.datasetType = try reader["datasetType"].readIfPresent()
+        value.schemaArn = try reader["schemaArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.latestDatasetUpdate = try reader["latestDatasetUpdate"].readIfPresent(with: PersonalizeClientTypes.DatasetUpdateSummary.read(from:))
+        value.trackingId = try reader["trackingId"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DatasetExportJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetExportJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DatasetExportJob()
+        value.jobName = try reader["jobName"].readIfPresent()
+        value.datasetExportJobArn = try reader["datasetExportJobArn"].readIfPresent()
+        value.datasetArn = try reader["datasetArn"].readIfPresent()
+        value.ingestionMode = try reader["ingestionMode"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.jobOutput = try reader["jobOutput"].readIfPresent(with: PersonalizeClientTypes.DatasetExportJobOutput.read(from:))
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DatasetExportJobOutput {
+
+    static func write(value: PersonalizeClientTypes.DatasetExportJobOutput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["maxValue"].write(value.maxValue)
-        try writer["minValue"].write(value.minValue)
-        try writer["name"].write(value.name)
+        try writer["s3DataDestination"].write(value.s3DataDestination, with: PersonalizeClientTypes.S3DataConfig.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.IntegerHyperParameterRange {
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetExportJobOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.IntegerHyperParameterRange()
+        var value = PersonalizeClientTypes.DatasetExportJobOutput()
+        value.s3DataDestination = try reader["s3DataDestination"].readIfPresent(with: PersonalizeClientTypes.S3DataConfig.read(from:))
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DatasetExportJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetExportJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DatasetExportJobSummary()
+        value.datasetExportJobArn = try reader["datasetExportJobArn"].readIfPresent()
+        value.jobName = try reader["jobName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DatasetGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DatasetGroup()
+        value.name = try reader["name"].readIfPresent()
+        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.domain = try reader["domain"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DatasetGroupSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetGroupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DatasetGroupSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.domain = try reader["domain"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DatasetImportJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetImportJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DatasetImportJob()
+        value.jobName = try reader["jobName"].readIfPresent()
+        value.datasetImportJobArn = try reader["datasetImportJobArn"].readIfPresent()
+        value.datasetArn = try reader["datasetArn"].readIfPresent()
+        value.dataSource = try reader["dataSource"].readIfPresent(with: PersonalizeClientTypes.DataSource.read(from:))
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.importMode = try reader["importMode"].readIfPresent()
+        value.publishAttributionMetricsToS3 = try reader["publishAttributionMetricsToS3"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DatasetImportJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetImportJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DatasetImportJobSummary()
+        value.datasetImportJobArn = try reader["datasetImportJobArn"].readIfPresent()
+        value.jobName = try reader["jobName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.importMode = try reader["importMode"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DatasetSchema {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetSchema {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DatasetSchema()
+        value.name = try reader["name"].readIfPresent()
+        value.schemaArn = try reader["schemaArn"].readIfPresent()
+        value.schema = try reader["schema"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.domain = try reader["domain"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DatasetSchemaSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetSchemaSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DatasetSchemaSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.schemaArn = try reader["schemaArn"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.domain = try reader["domain"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DatasetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DatasetSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.datasetArn = try reader["datasetArn"].readIfPresent()
+        value.datasetType = try reader["datasetType"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DatasetUpdateSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetUpdateSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DatasetUpdateSummary()
+        value.schemaArn = try reader["schemaArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DataSource {
+
+    static func write(value: PersonalizeClientTypes.DataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataLocation"].write(value.dataLocation)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DataSource()
+        value.dataLocation = try reader["dataLocation"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DefaultCategoricalHyperParameterRange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DefaultCategoricalHyperParameterRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DefaultCategoricalHyperParameterRange()
+        value.name = try reader["name"].readIfPresent()
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isTunable = try reader["isTunable"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DefaultContinuousHyperParameterRange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DefaultContinuousHyperParameterRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DefaultContinuousHyperParameterRange()
         value.name = try reader["name"].readIfPresent()
         value.minValue = try reader["minValue"].readIfPresent() ?? 0
         value.maxValue = try reader["maxValue"].readIfPresent() ?? 0
+        value.isTunable = try reader["isTunable"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DefaultHyperParameterRanges {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DefaultHyperParameterRanges {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DefaultHyperParameterRanges()
+        value.integerHyperParameterRanges = try reader["integerHyperParameterRanges"].readListIfPresent(memberReadingClosure: PersonalizeClientTypes.DefaultIntegerHyperParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.continuousHyperParameterRanges = try reader["continuousHyperParameterRanges"].readListIfPresent(memberReadingClosure: PersonalizeClientTypes.DefaultContinuousHyperParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.categoricalHyperParameterRanges = try reader["categoricalHyperParameterRanges"].readListIfPresent(memberReadingClosure: PersonalizeClientTypes.DefaultCategoricalHyperParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.DefaultIntegerHyperParameterRange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DefaultIntegerHyperParameterRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.DefaultIntegerHyperParameterRange()
+        value.name = try reader["name"].readIfPresent()
+        value.minValue = try reader["minValue"].readIfPresent() ?? 0
+        value.maxValue = try reader["maxValue"].readIfPresent() ?? 0
+        value.isTunable = try reader["isTunable"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.EventParameters {
+
+    static func write(value: PersonalizeClientTypes.EventParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventType"].write(value.eventType)
+        try writer["eventValueThreshold"].write(value.eventValueThreshold)
+        try writer["weight"].write(value.weight)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.EventParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.EventParameters()
+        value.eventType = try reader["eventType"].readIfPresent()
+        value.eventValueThreshold = try reader["eventValueThreshold"].readIfPresent()
+        value.weight = try reader["weight"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.EventsConfig {
+
+    static func write(value: PersonalizeClientTypes.EventsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventParametersList"].writeList(value.eventParametersList, memberWritingClosure: PersonalizeClientTypes.EventParameters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.EventsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.EventsConfig()
+        value.eventParametersList = try reader["eventParametersList"].readListIfPresent(memberReadingClosure: PersonalizeClientTypes.EventParameters.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.EventTracker {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.EventTracker {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.EventTracker()
+        value.name = try reader["name"].readIfPresent()
+        value.eventTrackerArn = try reader["eventTrackerArn"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.trackingId = try reader["trackingId"].readIfPresent()
+        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.EventTrackerSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.EventTrackerSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.EventTrackerSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.eventTrackerArn = try reader["eventTrackerArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.FeatureTransformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.FeatureTransformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.FeatureTransformation()
+        value.name = try reader["name"].readIfPresent()
+        value.featureTransformationArn = try reader["featureTransformationArn"].readIfPresent()
+        value.defaultParameters = try reader["defaultParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.FieldsForThemeGeneration {
+
+    static func write(value: PersonalizeClientTypes.FieldsForThemeGeneration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["itemName"].write(value.itemName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.FieldsForThemeGeneration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.FieldsForThemeGeneration()
+        value.itemName = try reader["itemName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.Filter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Filter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.Filter()
+        value.name = try reader["name"].readIfPresent()
+        value.filterArn = try reader["filterArn"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.filterExpression = try reader["filterExpression"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.FilterSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.FilterSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.FilterSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.filterArn = try reader["filterArn"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.HPOConfig {
+
+    static func write(value: PersonalizeClientTypes.HPOConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["algorithmHyperParameterRanges"].write(value.algorithmHyperParameterRanges, with: PersonalizeClientTypes.HyperParameterRanges.write(value:to:))
+        try writer["hpoObjective"].write(value.hpoObjective, with: PersonalizeClientTypes.HPOObjective.write(value:to:))
+        try writer["hpoResourceConfig"].write(value.hpoResourceConfig, with: PersonalizeClientTypes.HPOResourceConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.HPOConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.HPOConfig()
+        value.hpoObjective = try reader["hpoObjective"].readIfPresent(with: PersonalizeClientTypes.HPOObjective.read(from:))
+        value.hpoResourceConfig = try reader["hpoResourceConfig"].readIfPresent(with: PersonalizeClientTypes.HPOResourceConfig.read(from:))
+        value.algorithmHyperParameterRanges = try reader["algorithmHyperParameterRanges"].readIfPresent(with: PersonalizeClientTypes.HyperParameterRanges.read(from:))
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.HPOObjective {
+
+    static func write(value: PersonalizeClientTypes.HPOObjective?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["metricName"].write(value.metricName)
+        try writer["metricRegex"].write(value.metricRegex)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.HPOObjective {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.HPOObjective()
+        value.type = try reader["type"].readIfPresent()
+        value.metricName = try reader["metricName"].readIfPresent()
+        value.metricRegex = try reader["metricRegex"].readIfPresent()
         return value
     }
 }
@@ -9429,21 +9302,351 @@ extension PersonalizeClientTypes.HPOResourceConfig {
     }
 }
 
-extension PersonalizeClientTypes.HPOObjective {
+extension PersonalizeClientTypes.HyperParameterRanges {
 
-    static func write(value: PersonalizeClientTypes.HPOObjective?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PersonalizeClientTypes.HyperParameterRanges?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["metricName"].write(value.metricName)
-        try writer["metricRegex"].write(value.metricRegex)
-        try writer["type"].write(value.type)
+        try writer["categoricalHyperParameterRanges"].writeList(value.categoricalHyperParameterRanges, memberWritingClosure: PersonalizeClientTypes.CategoricalHyperParameterRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["continuousHyperParameterRanges"].writeList(value.continuousHyperParameterRanges, memberWritingClosure: PersonalizeClientTypes.ContinuousHyperParameterRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["integerHyperParameterRanges"].writeList(value.integerHyperParameterRanges, memberWritingClosure: PersonalizeClientTypes.IntegerHyperParameterRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.HPOObjective {
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.HyperParameterRanges {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.HPOObjective()
-        value.type = try reader["type"].readIfPresent()
-        value.metricName = try reader["metricName"].readIfPresent()
-        value.metricRegex = try reader["metricRegex"].readIfPresent()
+        var value = PersonalizeClientTypes.HyperParameterRanges()
+        value.integerHyperParameterRanges = try reader["integerHyperParameterRanges"].readListIfPresent(memberReadingClosure: PersonalizeClientTypes.IntegerHyperParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.continuousHyperParameterRanges = try reader["continuousHyperParameterRanges"].readListIfPresent(memberReadingClosure: PersonalizeClientTypes.ContinuousHyperParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.categoricalHyperParameterRanges = try reader["categoricalHyperParameterRanges"].readListIfPresent(memberReadingClosure: PersonalizeClientTypes.CategoricalHyperParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.IntegerHyperParameterRange {
+
+    static func write(value: PersonalizeClientTypes.IntegerHyperParameterRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxValue"].write(value.maxValue)
+        try writer["minValue"].write(value.minValue)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.IntegerHyperParameterRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.IntegerHyperParameterRange()
+        value.name = try reader["name"].readIfPresent()
+        value.minValue = try reader["minValue"].readIfPresent() ?? 0
+        value.maxValue = try reader["maxValue"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.MetricAttribute {
+
+    static func write(value: PersonalizeClientTypes.MetricAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventType"].write(value.eventType)
+        try writer["expression"].write(value.expression)
+        try writer["metricName"].write(value.metricName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.MetricAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.MetricAttribute()
+        value.eventType = try reader["eventType"].readIfPresent() ?? ""
+        value.metricName = try reader["metricName"].readIfPresent() ?? ""
+        value.expression = try reader["expression"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.MetricAttribution {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.MetricAttribution {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.MetricAttribution()
+        value.name = try reader["name"].readIfPresent()
+        value.metricAttributionArn = try reader["metricAttributionArn"].readIfPresent()
+        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
+        value.metricsOutputConfig = try reader["metricsOutputConfig"].readIfPresent(with: PersonalizeClientTypes.MetricAttributionOutput.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.MetricAttributionOutput {
+
+    static func write(value: PersonalizeClientTypes.MetricAttributionOutput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["roleArn"].write(value.roleArn)
+        try writer["s3DataDestination"].write(value.s3DataDestination, with: PersonalizeClientTypes.S3DataConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.MetricAttributionOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.MetricAttributionOutput()
+        value.s3DataDestination = try reader["s3DataDestination"].readIfPresent(with: PersonalizeClientTypes.S3DataConfig.read(from:))
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.MetricAttributionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.MetricAttributionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.MetricAttributionSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.metricAttributionArn = try reader["metricAttributionArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.OptimizationObjective {
+
+    static func write(value: PersonalizeClientTypes.OptimizationObjective?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["itemAttribute"].write(value.itemAttribute)
+        try writer["objectiveSensitivity"].write(value.objectiveSensitivity)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.OptimizationObjective {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.OptimizationObjective()
+        value.itemAttribute = try reader["itemAttribute"].readIfPresent()
+        value.objectiveSensitivity = try reader["objectiveSensitivity"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.Recipe {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Recipe {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.Recipe()
+        value.name = try reader["name"].readIfPresent()
+        value.recipeArn = try reader["recipeArn"].readIfPresent()
+        value.algorithmArn = try reader["algorithmArn"].readIfPresent()
+        value.featureTransformationArn = try reader["featureTransformationArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.recipeType = try reader["recipeType"].readIfPresent()
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.RecipeSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.RecipeSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.RecipeSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.recipeArn = try reader["recipeArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.domain = try reader["domain"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.Recommender {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Recommender {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.Recommender()
+        value.recommenderArn = try reader["recommenderArn"].readIfPresent()
+        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.recipeArn = try reader["recipeArn"].readIfPresent()
+        value.recommenderConfig = try reader["recommenderConfig"].readIfPresent(with: PersonalizeClientTypes.RecommenderConfig.read(from:))
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.latestRecommenderUpdate = try reader["latestRecommenderUpdate"].readIfPresent(with: PersonalizeClientTypes.RecommenderUpdateSummary.read(from:))
+        value.modelMetrics = try reader["modelMetrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.RecommenderConfig {
+
+    static func write(value: PersonalizeClientTypes.RecommenderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enableMetadataWithRecommendations"].write(value.enableMetadataWithRecommendations)
+        try writer["itemExplorationConfig"].writeMap(value.itemExplorationConfig, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["minRecommendationRequestsPerSecond"].write(value.minRecommendationRequestsPerSecond)
+        try writer["trainingDataConfig"].write(value.trainingDataConfig, with: PersonalizeClientTypes.TrainingDataConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.RecommenderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.RecommenderConfig()
+        value.itemExplorationConfig = try reader["itemExplorationConfig"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.minRecommendationRequestsPerSecond = try reader["minRecommendationRequestsPerSecond"].readIfPresent()
+        value.trainingDataConfig = try reader["trainingDataConfig"].readIfPresent(with: PersonalizeClientTypes.TrainingDataConfig.read(from:))
+        value.enableMetadataWithRecommendations = try reader["enableMetadataWithRecommendations"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.RecommenderSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.RecommenderSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.RecommenderSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.recommenderArn = try reader["recommenderArn"].readIfPresent()
+        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
+        value.recipeArn = try reader["recipeArn"].readIfPresent()
+        value.recommenderConfig = try reader["recommenderConfig"].readIfPresent(with: PersonalizeClientTypes.RecommenderConfig.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.RecommenderUpdateSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.RecommenderUpdateSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.RecommenderUpdateSummary()
+        value.recommenderConfig = try reader["recommenderConfig"].readIfPresent(with: PersonalizeClientTypes.RecommenderConfig.read(from:))
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.S3DataConfig {
+
+    static func write(value: PersonalizeClientTypes.S3DataConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["path"].write(value.path)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.S3DataConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.S3DataConfig()
+        value.path = try reader["path"].readIfPresent() ?? ""
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.Solution {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.Solution {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.Solution()
+        value.name = try reader["name"].readIfPresent()
+        value.solutionArn = try reader["solutionArn"].readIfPresent()
+        value.performHPO = try reader["performHPO"].readIfPresent() ?? false
+        value.performAutoML = try reader["performAutoML"].readIfPresent() ?? false
+        value.performAutoTraining = try reader["performAutoTraining"].readIfPresent()
+        value.performIncrementalUpdate = try reader["performIncrementalUpdate"].readIfPresent()
+        value.recipeArn = try reader["recipeArn"].readIfPresent()
+        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
+        value.eventType = try reader["eventType"].readIfPresent()
+        value.solutionConfig = try reader["solutionConfig"].readIfPresent(with: PersonalizeClientTypes.SolutionConfig.read(from:))
+        value.autoMLResult = try reader["autoMLResult"].readIfPresent(with: PersonalizeClientTypes.AutoMLResult.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.latestSolutionVersion = try reader["latestSolutionVersion"].readIfPresent(with: PersonalizeClientTypes.SolutionVersionSummary.read(from:))
+        value.latestSolutionUpdate = try reader["latestSolutionUpdate"].readIfPresent(with: PersonalizeClientTypes.SolutionUpdateSummary.read(from:))
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.SolutionConfig {
+
+    static func write(value: PersonalizeClientTypes.SolutionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["algorithmHyperParameters"].writeMap(value.algorithmHyperParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["autoMLConfig"].write(value.autoMLConfig, with: PersonalizeClientTypes.AutoMLConfig.write(value:to:))
+        try writer["autoTrainingConfig"].write(value.autoTrainingConfig, with: PersonalizeClientTypes.AutoTrainingConfig.write(value:to:))
+        try writer["eventValueThreshold"].write(value.eventValueThreshold)
+        try writer["eventsConfig"].write(value.eventsConfig, with: PersonalizeClientTypes.EventsConfig.write(value:to:))
+        try writer["featureTransformationParameters"].writeMap(value.featureTransformationParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["hpoConfig"].write(value.hpoConfig, with: PersonalizeClientTypes.HPOConfig.write(value:to:))
+        try writer["optimizationObjective"].write(value.optimizationObjective, with: PersonalizeClientTypes.OptimizationObjective.write(value:to:))
+        try writer["trainingDataConfig"].write(value.trainingDataConfig, with: PersonalizeClientTypes.TrainingDataConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.SolutionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.SolutionConfig()
+        value.eventValueThreshold = try reader["eventValueThreshold"].readIfPresent()
+        value.hpoConfig = try reader["hpoConfig"].readIfPresent(with: PersonalizeClientTypes.HPOConfig.read(from:))
+        value.algorithmHyperParameters = try reader["algorithmHyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.featureTransformationParameters = try reader["featureTransformationParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.autoMLConfig = try reader["autoMLConfig"].readIfPresent(with: PersonalizeClientTypes.AutoMLConfig.read(from:))
+        value.eventsConfig = try reader["eventsConfig"].readIfPresent(with: PersonalizeClientTypes.EventsConfig.read(from:))
+        value.optimizationObjective = try reader["optimizationObjective"].readIfPresent(with: PersonalizeClientTypes.OptimizationObjective.read(from:))
+        value.trainingDataConfig = try reader["trainingDataConfig"].readIfPresent(with: PersonalizeClientTypes.TrainingDataConfig.read(from:))
+        value.autoTrainingConfig = try reader["autoTrainingConfig"].readIfPresent(with: PersonalizeClientTypes.AutoTrainingConfig.read(from:))
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.SolutionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.SolutionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.SolutionSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.solutionArn = try reader["solutionArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.recipeArn = try reader["recipeArn"].readIfPresent()
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.SolutionUpdateConfig {
+
+    static func write(value: PersonalizeClientTypes.SolutionUpdateConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoTrainingConfig"].write(value.autoTrainingConfig, with: PersonalizeClientTypes.AutoTrainingConfig.write(value:to:))
+        try writer["eventsConfig"].write(value.eventsConfig, with: PersonalizeClientTypes.EventsConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.SolutionUpdateConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.SolutionUpdateConfig()
+        value.autoTrainingConfig = try reader["autoTrainingConfig"].readIfPresent(with: PersonalizeClientTypes.AutoTrainingConfig.read(from:))
+        value.eventsConfig = try reader["eventsConfig"].readIfPresent(with: PersonalizeClientTypes.EventsConfig.read(from:))
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.SolutionUpdateSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.SolutionUpdateSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.SolutionUpdateSummary()
+        value.solutionUpdateConfig = try reader["solutionUpdateConfig"].readIfPresent(with: PersonalizeClientTypes.SolutionUpdateConfig.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.performAutoTraining = try reader["performAutoTraining"].readIfPresent()
+        value.performIncrementalUpdate = try reader["performIncrementalUpdate"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["failureReason"].readIfPresent()
         return value
     }
 }
@@ -9475,263 +9678,18 @@ extension PersonalizeClientTypes.SolutionVersion {
     }
 }
 
-extension PersonalizeClientTypes.TunedHPOParams {
+extension PersonalizeClientTypes.SolutionVersionSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.TunedHPOParams {
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.SolutionVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.TunedHPOParams()
-        value.algorithmHyperParameters = try reader["algorithmHyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.BatchInferenceJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.BatchInferenceJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.BatchInferenceJobSummary()
-        value.batchInferenceJobArn = try reader["batchInferenceJobArn"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["failureReason"].readIfPresent()
+        var value = PersonalizeClientTypes.SolutionVersionSummary()
         value.solutionVersionArn = try reader["solutionVersionArn"].readIfPresent()
-        value.batchInferenceJobMode = try reader["batchInferenceJobMode"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.BatchSegmentJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.BatchSegmentJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.BatchSegmentJobSummary()
-        value.batchSegmentJobArn = try reader["batchSegmentJobArn"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
+        value.trainingMode = try reader["trainingMode"].readIfPresent()
+        value.trainingType = try reader["trainingType"].readIfPresent()
         value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.failureReason = try reader["failureReason"].readIfPresent()
-        value.solutionVersionArn = try reader["solutionVersionArn"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.CampaignSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.CampaignSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.CampaignSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.campaignArn = try reader["campaignArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.DataDeletionJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DataDeletionJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DataDeletionJobSummary()
-        value.dataDeletionJobArn = try reader["dataDeletionJobArn"].readIfPresent()
-        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.DatasetExportJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetExportJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DatasetExportJobSummary()
-        value.datasetExportJobArn = try reader["datasetExportJobArn"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.DatasetGroupSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetGroupSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DatasetGroupSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        value.domain = try reader["domain"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.DatasetImportJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetImportJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DatasetImportJobSummary()
-        value.datasetImportJobArn = try reader["datasetImportJobArn"].readIfPresent()
-        value.jobName = try reader["jobName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        value.importMode = try reader["importMode"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.DatasetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DatasetSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.datasetArn = try reader["datasetArn"].readIfPresent()
-        value.datasetType = try reader["datasetType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.EventTrackerSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.EventTrackerSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.EventTrackerSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.eventTrackerArn = try reader["eventTrackerArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.FilterSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.FilterSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.FilterSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.filterArn = try reader["filterArn"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.MetricAttribute {
-
-    static func write(value: PersonalizeClientTypes.MetricAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventType"].write(value.eventType)
-        try writer["expression"].write(value.expression)
-        try writer["metricName"].write(value.metricName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.MetricAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.MetricAttribute()
-        value.eventType = try reader["eventType"].readIfPresent() ?? ""
-        value.metricName = try reader["metricName"].readIfPresent() ?? ""
-        value.expression = try reader["expression"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.MetricAttributionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.MetricAttributionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.MetricAttributionSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.metricAttributionArn = try reader["metricAttributionArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.RecipeSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.RecipeSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.RecipeSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.recipeArn = try reader["recipeArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.domain = try reader["domain"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.RecommenderSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.RecommenderSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.RecommenderSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.recommenderArn = try reader["recommenderArn"].readIfPresent()
-        value.datasetGroupArn = try reader["datasetGroupArn"].readIfPresent()
-        value.recipeArn = try reader["recipeArn"].readIfPresent()
-        value.recommenderConfig = try reader["recommenderConfig"].readIfPresent(with: PersonalizeClientTypes.RecommenderConfig.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.DatasetSchemaSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.DatasetSchemaSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.DatasetSchemaSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.schemaArn = try reader["schemaArn"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.domain = try reader["domain"].readIfPresent()
-        return value
-    }
-}
-
-extension PersonalizeClientTypes.SolutionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.SolutionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PersonalizeClientTypes.SolutionSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.solutionArn = try reader["solutionArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.recipeArn = try reader["recipeArn"].readIfPresent()
         return value
     }
 }
@@ -9749,6 +9707,48 @@ extension PersonalizeClientTypes.Tag {
         var value = PersonalizeClientTypes.Tag()
         value.tagKey = try reader["tagKey"].readIfPresent() ?? ""
         value.tagValue = try reader["tagValue"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.ThemeGenerationConfig {
+
+    static func write(value: PersonalizeClientTypes.ThemeGenerationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fieldsForThemeGeneration"].write(value.fieldsForThemeGeneration, with: PersonalizeClientTypes.FieldsForThemeGeneration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.ThemeGenerationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.ThemeGenerationConfig()
+        value.fieldsForThemeGeneration = try reader["fieldsForThemeGeneration"].readIfPresent(with: PersonalizeClientTypes.FieldsForThemeGeneration.read(from:))
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.TrainingDataConfig {
+
+    static func write(value: PersonalizeClientTypes.TrainingDataConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["excludedDatasetColumns"].writeMap(value.excludedDatasetColumns, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["includedDatasetColumns"].writeMap(value.includedDatasetColumns, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.TrainingDataConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.TrainingDataConfig()
+        value.excludedDatasetColumns = try reader["excludedDatasetColumns"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.includedDatasetColumns = try reader["includedDatasetColumns"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension PersonalizeClientTypes.TunedHPOParams {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PersonalizeClientTypes.TunedHPOParams {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PersonalizeClientTypes.TunedHPOParams()
+        value.algorithmHyperParameters = try reader["algorithmHyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

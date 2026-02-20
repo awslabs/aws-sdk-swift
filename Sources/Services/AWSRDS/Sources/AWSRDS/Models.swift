@@ -1908,12 +1908,46 @@ extension CopyDBClusterSnapshotInput: Swift.CustomDebugStringConvertible {
 
 extension RDSClientTypes {
 
+    public enum StorageEncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cmk
+        case sse
+        case unencrypted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageEncryptionType] {
+            return [
+                .cmk,
+                .sse,
+                .unencrypted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cmk: return "sse-kms"
+            case .sse: return "sse-rds"
+            case .unencrypted: return "none"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     /// Contains the details for an Amazon RDS DB cluster snapshot This data type is used as a response element in the DescribeDBClusterSnapshots action.
     public struct DBClusterSnapshot: Swift.Sendable {
         /// The allocated storage size of the DB cluster snapshot in gibibytes (GiB).
         public var allocatedStorage: Swift.Int?
         /// The list of Availability Zones (AZs) where instances in the DB cluster snapshot can be restored.
         public var availabilityZones: [Swift.String]?
+        /// The number of days for which automatic DB snapshots are retained.
+        public var backupRetentionPeriod: Swift.Int?
         /// The time when the DB cluster was created, in Universal Coordinated Time (UTC).
         public var clusterCreateTime: Foundation.Date?
         /// The DB cluster identifier of the DB cluster that this DB cluster snapshot was created from.
@@ -1944,6 +1978,8 @@ extension RDSClientTypes {
         public var percentProgress: Swift.Int?
         /// The port that the DB cluster was listening on at the time of the snapshot.
         public var port: Swift.Int?
+        /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod.
+        public var preferredBackupWindow: Swift.String?
         /// The time when the snapshot was taken, in Universal Coordinated Time (UTC).
         public var snapshotCreateTime: Foundation.Date?
         /// The type of the DB cluster snapshot.
@@ -1960,6 +1996,14 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// Indicates whether the DB cluster snapshot is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// The type of encryption used to protect data at rest in the DB cluster snapshot. Possible values:
+        ///
+        /// * none - The DB cluster snapshot is not encrypted.
+        ///
+        /// * sse-rds - The DB cluster snapshot is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The DB cluster snapshot is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// The storage throughput for the DB cluster snapshot. The throughput is automatically set based on the IOPS that you provision, and is not configurable. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB cluster snapshot. This setting is only for Aurora DB clusters.
@@ -1972,6 +2016,7 @@ extension RDSClientTypes {
         public init(
             allocatedStorage: Swift.Int? = nil,
             availabilityZones: [Swift.String]? = nil,
+            backupRetentionPeriod: Swift.Int? = nil,
             clusterCreateTime: Foundation.Date? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             dbClusterResourceId: Swift.String? = nil,
@@ -1987,11 +2032,13 @@ extension RDSClientTypes {
             masterUsername: Swift.String? = nil,
             percentProgress: Swift.Int? = nil,
             port: Swift.Int? = nil,
+            preferredBackupWindow: Swift.String? = nil,
             snapshotCreateTime: Foundation.Date? = nil,
             snapshotType: Swift.String? = nil,
             sourceDBClusterSnapshotArn: Swift.String? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -1999,6 +2046,7 @@ extension RDSClientTypes {
         ) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZones = availabilityZones
+            self.backupRetentionPeriod = backupRetentionPeriod
             self.clusterCreateTime = clusterCreateTime
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbClusterResourceId = dbClusterResourceId
@@ -2014,11 +2062,13 @@ extension RDSClientTypes {
             self.masterUsername = masterUsername
             self.percentProgress = percentProgress
             self.port = port
+            self.preferredBackupWindow = preferredBackupWindow
             self.snapshotCreateTime = snapshotCreateTime
             self.snapshotType = snapshotType
             self.sourceDBClusterSnapshotArn = sourceDBClusterSnapshotArn
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
@@ -2335,6 +2385,8 @@ extension RDSClientTypes {
         public var allocatedStorage: Swift.Int?
         /// Specifies the name of the Availability Zone the DB instance was located in at the time of the DB snapshot.
         public var availabilityZone: Swift.String?
+        /// The number of days for which automatic DB snapshots are retained.
+        public var backupRetentionPeriod: Swift.Int?
         /// Specifies the DB instance identifier of the DB instance this DB snapshot was created from.
         public var dbInstanceIdentifier: Swift.String?
         /// The Amazon Resource Name (ARN) for the DB snapshot.
@@ -2375,6 +2427,8 @@ extension RDSClientTypes {
         public var percentProgress: Swift.Int?
         /// Specifies the port that the database engine was listening on at the time of the snapshot.
         public var port: Swift.Int?
+        /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod.
+        public var preferredBackupWindow: Swift.String?
         /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance when the DB snapshot was created.
         public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
         /// Specifies the name of the Availability Zone where RDS stores the DB snapshot. This value is valid only for snapshots that RDS stores on a Dedicated Local Zone.
@@ -2393,6 +2447,14 @@ extension RDSClientTypes {
         public var sourceRegion: Swift.String?
         /// Specifies the status of this DB snapshot.
         public var status: Swift.String?
+        /// The type of encryption used to protect data at rest in the DB snapshot. Possible values:
+        ///
+        /// * none - The DB snapshot is not encrypted.
+        ///
+        /// * sse-rds - The DB snapshot is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The DB snapshot is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// Specifies the storage throughput for the DB snapshot.
         public var storageThroughput: Swift.Int?
         /// Specifies the storage type associated with DB snapshot.
@@ -2410,6 +2472,7 @@ extension RDSClientTypes {
             additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
             allocatedStorage: Swift.Int? = nil,
             availabilityZone: Swift.String? = nil,
+            backupRetentionPeriod: Swift.Int? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
             dbSnapshotArn: Swift.String? = nil,
             dbSnapshotIdentifier: Swift.String? = nil,
@@ -2430,6 +2493,7 @@ extension RDSClientTypes {
             originalSnapshotCreateTime: Foundation.Date? = nil,
             percentProgress: Swift.Int? = nil,
             port: Swift.Int? = nil,
+            preferredBackupWindow: Swift.String? = nil,
             processorFeatures: [RDSClientTypes.ProcessorFeature]? = nil,
             snapshotAvailabilityZone: Swift.String? = nil,
             snapshotCreateTime: Foundation.Date? = nil,
@@ -2439,6 +2503,7 @@ extension RDSClientTypes {
             sourceDBSnapshotIdentifier: Swift.String? = nil,
             sourceRegion: Swift.String? = nil,
             status: Swift.String? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -2449,6 +2514,7 @@ extension RDSClientTypes {
             self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
+            self.backupRetentionPeriod = backupRetentionPeriod
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbSnapshotArn = dbSnapshotArn
             self.dbSnapshotIdentifier = dbSnapshotIdentifier
@@ -2469,6 +2535,7 @@ extension RDSClientTypes {
             self.originalSnapshotCreateTime = originalSnapshotCreateTime
             self.percentProgress = percentProgress
             self.port = port
+            self.preferredBackupWindow = preferredBackupWindow
             self.processorFeatures = processorFeatures
             self.snapshotAvailabilityZone = snapshotAvailabilityZone
             self.snapshotCreateTime = snapshotCreateTime
@@ -2478,6 +2545,7 @@ extension RDSClientTypes {
             self.sourceDBSnapshotIdentifier = sourceDBSnapshotIdentifier
             self.sourceRegion = sourceRegion
             self.status = status
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
@@ -5326,6 +5394,14 @@ extension RDSClientTypes {
         public var statusInfos: [RDSClientTypes.DBClusterStatusInfo]?
         /// Indicates whether the DB cluster is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// The type of encryption used to protect data at rest in the DB cluster. Possible values:
+        ///
+        /// * none - The DB cluster is not encrypted.
+        ///
+        /// * sse-rds - The DB cluster is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The DB cluster is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// The storage throughput for the DB cluster. The throughput is automatically set based on the IOPS that you provision, and is not configurable. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB cluster.
@@ -5424,6 +5500,7 @@ extension RDSClientTypes {
             status: Swift.String? = nil,
             statusInfos: [RDSClientTypes.DBClusterStatusInfo]? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -5510,6 +5587,7 @@ extension RDSClientTypes {
             self.status = status
             self.statusInfos = statusInfos
             self.storageEncrypted = storageEncrypted
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
@@ -7176,6 +7254,14 @@ extension RDSClientTypes {
         public var statusInfos: [RDSClientTypes.DBInstanceStatusInfo]?
         /// Indicates whether the DB instance is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// The type of encryption used to protect data at rest in the DB instance. Possible values:
+        ///
+        /// * none - The DB instance is not encrypted.
+        ///
+        /// * sse-rds - The DB instance is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The DB instance is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// The storage throughput for the DB instance. This setting applies only to the gp3 storage type.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB instance.
@@ -7282,6 +7368,7 @@ extension RDSClientTypes {
             secondaryAvailabilityZone: Swift.String? = nil,
             statusInfos: [RDSClientTypes.DBInstanceStatusInfo]? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             storageVolumeStatus: Swift.String? = nil,
@@ -7373,6 +7460,7 @@ extension RDSClientTypes {
             self.secondaryAvailabilityZone = secondaryAvailabilityZone
             self.statusInfos = statusInfos
             self.storageEncrypted = storageEncrypted
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.storageVolumeStatus = storageVolumeStatus
@@ -9618,6 +9706,14 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// The storage encryption setting for the global database cluster.
         public var storageEncrypted: Swift.Bool?
+        /// The type of encryption used to protect data at rest in the global database cluster. Possible values:
+        ///
+        /// * none - The global database cluster is not encrypted.
+        ///
+        /// * sse-rds - The global database cluster is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The global database cluster is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tagList: [RDSClientTypes.Tag]?
 
@@ -9635,6 +9731,7 @@ extension RDSClientTypes {
             globalClusterResourceId: Swift.String? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             tagList: [RDSClientTypes.Tag]? = nil
         ) {
             self.databaseName = databaseName
@@ -9650,6 +9747,7 @@ extension RDSClientTypes {
             self.globalClusterResourceId = globalClusterResourceId
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageEncryptionType = storageEncryptionType
             self.tagList = tagList
         }
     }
@@ -10596,6 +10694,8 @@ extension RDSClientTypes {
         public var masterUsername: Swift.String?
         /// The port number that the automated backup used for connections. Default: Inherits from the source DB cluster Valid Values: 1150-65535
         public var port: Swift.Int?
+        /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod.
+        public var preferredBackupWindow: Swift.String?
         /// The Amazon Web Services Region associated with the automated backup.
         public var region: Swift.String?
         /// Earliest and latest time an instance can be restored to:
@@ -10606,6 +10706,14 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// Indicates whether the source DB cluster is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// The type of encryption used to protect data at rest in the automated backup. Possible values:
+        ///
+        /// * none - The automated backup is not encrypted.
+        ///
+        /// * sse-rds - The automated backup is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The automated backup is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// The storage throughput for the automated backup. The throughput is automatically set based on the IOPS that you provision, and is not configurable. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB cluster. This setting is only for non-Aurora Multi-AZ DB clusters.
@@ -10634,10 +10742,12 @@ extension RDSClientTypes {
             licenseModel: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
             port: Swift.Int? = nil,
+            preferredBackupWindow: Swift.String? = nil,
             region: Swift.String? = nil,
             restoreWindow: RDSClientTypes.RestoreWindow? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -10661,10 +10771,12 @@ extension RDSClientTypes {
             self.licenseModel = licenseModel
             self.masterUsername = masterUsername
             self.port = port
+            self.preferredBackupWindow = preferredBackupWindow
             self.region = region
             self.restoreWindow = restoreWindow
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
@@ -11027,6 +11139,8 @@ extension RDSClientTypes {
         public var optionGroupName: Swift.String?
         /// The port number that the automated backup used for connections. Default: Inherits from the source DB instance Valid Values: 1150-65535
         public var port: Swift.Int?
+        /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod.
+        public var preferredBackupWindow: Swift.String?
         /// The Amazon Web Services Region associated with the automated backup.
         public var region: Swift.String?
         /// The earliest and latest time a DB instance can be restored to.
@@ -11039,6 +11153,14 @@ extension RDSClientTypes {
         ///
         /// * creating - Automated backups that are waiting for the first automated snapshot to be available.
         public var status: Swift.String?
+        /// The type of encryption used to protect data at rest in the automated backup. Possible values:
+        ///
+        /// * none - The automated backup is not encrypted.
+        ///
+        /// * sse-rds - The automated backup is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The automated backup is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// The storage throughput for the automated backup.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the automated backup.
@@ -11077,9 +11199,11 @@ extension RDSClientTypes {
             multiTenant: Swift.Bool? = nil,
             optionGroupName: Swift.String? = nil,
             port: Swift.Int? = nil,
+            preferredBackupWindow: Swift.String? = nil,
             region: Swift.String? = nil,
             restoreWindow: RDSClientTypes.RestoreWindow? = nil,
             status: Swift.String? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -11111,9 +11235,11 @@ extension RDSClientTypes {
             self.multiTenant = multiTenant
             self.optionGroupName = optionGroupName
             self.port = port
+            self.preferredBackupWindow = preferredBackupWindow
             self.region = region
             self.restoreWindow = restoreWindow
             self.status = status
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
@@ -20345,6 +20471,10 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     ///
     /// Valid for: Aurora DB clusters only
     public var backtrackWindow: Swift.Int?
+    /// The number of days for which automated backups are retained. Specify a minimum value of 1. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Default: Uses existing setting Constraints:
+    ///
+    /// * Must be a value from 1 to 35.
+    public var backupRetentionPeriod: Swift.Int?
     /// Specifies whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
     /// The database name for the restored DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -20447,6 +20577,16 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     public var performanceInsightsRetentionPeriod: Swift.Int?
     /// The port number on which the new DB cluster accepts connections. Constraints: This value must be 1150-65535 Default: The same port as the original DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var port: Swift.Int?
+    /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. To view the time blocks available, see [ Backup window](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html#Aurora.Managing.Backups.BackupWindow) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
+    ///
+    /// * Must be in the format hh24:mi-hh24:mi.
+    ///
+    /// * Must be in Universal Coordinated Time (UTC).
+    ///
+    /// * Must not conflict with the preferred maintenance window.
+    ///
+    /// * Must be at least 30 minutes.
+    public var preferredBackupWindow: Swift.String?
     /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:
     ///
     /// * If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB cluster is private.
@@ -20491,6 +20631,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     public init(
         availabilityZones: [Swift.String]? = nil,
         backtrackWindow: Swift.Int? = nil,
+        backupRetentionPeriod: Swift.Int? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         databaseName: Swift.String? = nil,
         dbClusterIdentifier: Swift.String? = nil,
@@ -20516,6 +20657,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         performanceInsightsKMSKeyId: Swift.String? = nil,
         performanceInsightsRetentionPeriod: Swift.Int? = nil,
         port: Swift.Int? = nil,
+        preferredBackupWindow: Swift.String? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
         scalingConfiguration: RDSClientTypes.ScalingConfiguration? = nil,
@@ -20528,6 +20670,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     ) {
         self.availabilityZones = availabilityZones
         self.backtrackWindow = backtrackWindow
+        self.backupRetentionPeriod = backupRetentionPeriod
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.databaseName = databaseName
         self.dbClusterIdentifier = dbClusterIdentifier
@@ -20553,6 +20696,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
         self.performanceInsightsRetentionPeriod = performanceInsightsRetentionPeriod
         self.port = port
+        self.preferredBackupWindow = preferredBackupWindow
         self.publiclyAccessible = publiclyAccessible
         self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
         self.scalingConfiguration = scalingConfiguration
@@ -20585,6 +20729,10 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     ///
     /// Valid for: Aurora MySQL DB clusters only
     public var backtrackWindow: Swift.Int?
+    /// The number of days for which automated backups are retained. Specify a minimum value of 1. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Default: Uses existing setting Constraints:
+    ///
+    /// * Must be a value from 1 to 35.
+    public var backupRetentionPeriod: Swift.Int?
     /// Specifies whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
     /// The name of the new DB cluster to be created. Constraints:
@@ -20680,6 +20828,16 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     public var performanceInsightsRetentionPeriod: Swift.Int?
     /// The port number on which the new DB cluster accepts connections. Constraints: A value from 1150-65535. Default: The default port for the engine. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var port: Swift.Int?
+    /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. To view the time blocks available, see [ Backup window](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html#Aurora.Managing.Backups.BackupWindow) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
+    ///
+    /// * Must be in the format hh24:mi-hh24:mi.
+    ///
+    /// * Must be in Universal Coordinated Time (UTC).
+    ///
+    /// * Must not conflict with the preferred maintenance window.
+    ///
+    /// * Must be at least 30 minutes.
+    public var preferredBackupWindow: Swift.String?
     /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:
     ///
     /// * If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB cluster is private.
@@ -20748,6 +20906,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
 
     public init(
         backtrackWindow: Swift.Int? = nil,
+        backupRetentionPeriod: Swift.Int? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterInstanceClass: Swift.String? = nil,
@@ -20770,6 +20929,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         performanceInsightsKMSKeyId: Swift.String? = nil,
         performanceInsightsRetentionPeriod: Swift.Int? = nil,
         port: Swift.Int? = nil,
+        preferredBackupWindow: Swift.String? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
         restoreToTime: Foundation.Date? = nil,
@@ -20785,6 +20945,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
         self.backtrackWindow = backtrackWindow
+        self.backupRetentionPeriod = backupRetentionPeriod
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterInstanceClass = dbClusterInstanceClass
@@ -20807,6 +20968,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
         self.performanceInsightsRetentionPeriod = performanceInsightsRetentionPeriod
         self.port = port
+        self.preferredBackupWindow = preferredBackupWindow
         self.publiclyAccessible = publiclyAccessible
         self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
         self.restoreToTime = restoreToTime
@@ -20844,6 +21006,14 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a
     public var availabilityZone: Swift.String?
+    /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Enabling and disabling backups can result in a brief I/O suspension that lasts from a few seconds to a few minutes, depending on the size and class of your DB instance. This setting doesn't apply to Amazon Aurora DB instances. The retention period for automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses existing setting Constraints:
+    ///
+    /// * Must be a value from 0 to 35.
+    ///
+    /// * Can't be set to 0 if the DB instance is a source to read replicas.
+    ///
+    /// * Can't be set to 0 for an RDS Custom for Oracle DB instance.
+    public var backupRetentionPeriod: Swift.Int?
     /// Specifies where automated backups and manual snapshots are stored for the restored DB instance. Possible values are local (Dedicated Local Zone), outposts (Amazon Web Services Outposts), and region (Amazon Web Services Region). The default is region. For more information, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide.
     public var backupTarget: Swift.String?
     /// The CA certificate identifier to use for the DB instance's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
@@ -21030,6 +21200,16 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     public var optionGroupName: Swift.String?
     /// The port number on which the database accepts connections. Default: The same port as the original DB instance Constraints: Value must be 1150-65535
     public var port: Swift.Int?
+    /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod parameter. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. For more information, see [Backup window](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html#USER_WorkingWithAutomatedBackups.BackupWindow) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora DB instances. The daily time range for creating automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:
+    ///
+    /// * Must be in the format hh24:mi-hh24:mi.
+    ///
+    /// * Must be in Universal Coordinated Time (UTC).
+    ///
+    /// * Must not conflict with the preferred maintenance window.
+    ///
+    /// * Must be at least 30 minutes.
+    public var preferredBackupWindow: Swift.String?
     /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance. This setting doesn't apply to RDS Custom.
     public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
     /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB instance's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB instance's VPC. Access to the DB instance is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see [CreateDBInstance].
@@ -21058,6 +21238,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
+        backupRetentionPeriod: Swift.Int? = nil,
         backupTarget: Swift.String? = nil,
         caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
@@ -21090,6 +21271,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         networkType: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
         port: Swift.Int? = nil,
+        preferredBackupWindow: Swift.String? = nil,
         processorFeatures: [RDSClientTypes.ProcessorFeature]? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         storageThroughput: Swift.Int? = nil,
@@ -21105,6 +21287,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
+        self.backupRetentionPeriod = backupRetentionPeriod
         self.backupTarget = backupTarget
         self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
@@ -21137,6 +21320,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         self.networkType = networkType
         self.optionGroupName = optionGroupName
         self.port = port
+        self.preferredBackupWindow = preferredBackupWindow
         self.processorFeatures = processorFeatures
         self.publiclyAccessible = publiclyAccessible
         self.storageThroughput = storageThroughput
@@ -21152,7 +21336,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
 
 extension RestoreDBInstanceFromDBSnapshotInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RestoreDBInstanceFromDBSnapshotInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbClusterSnapshotIdentifier: \(Swift.String(describing: dbClusterSnapshotIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSnapshotIdentifier: \(Swift.String(describing: dbSnapshotIdentifier)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
+        "RestoreDBInstanceFromDBSnapshotInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbClusterSnapshotIdentifier: \(Swift.String(describing: dbClusterSnapshotIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSnapshotIdentifier: \(Swift.String(describing: dbSnapshotIdentifier)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBInstanceFromDBSnapshotOutput: Swift.Sendable {
@@ -21533,6 +21717,14 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     ///
     /// Example: us-east-1a
     public var availabilityZone: Swift.String?
+    /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Enabling and disabling backups can result in a brief I/O suspension that lasts from a few seconds to a few minutes, depending on the size and class of your DB instance. This setting doesn't apply to Amazon Aurora DB instances. The retention period for automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses existing setting Constraints:
+    ///
+    /// * Must be a value from 0 to 35.
+    ///
+    /// * Can't be set to 0 if the DB instance is a source to read replicas.
+    ///
+    /// * Can't be set to 0 for an RDS Custom for Oracle DB instance.
+    public var backupRetentionPeriod: Swift.Int?
     /// The location for storing automated backups and manual snapshots for the restored DB instance. Valid Values:
     ///
     /// * local (Dedicated Local Zone)
@@ -21712,6 +21904,16 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     ///
     /// * The value must be 1150-65535.
     public var port: Swift.Int?
+    /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod parameter. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. For more information, see [Backup window](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html#USER_WorkingWithAutomatedBackups.BackupWindow) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora DB instances. The daily time range for creating automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:
+    ///
+    /// * Must be in the format hh24:mi-hh24:mi.
+    ///
+    /// * Must be in Universal Coordinated Time (UTC).
+    ///
+    /// * Must not conflict with the preferred maintenance window.
+    ///
+    /// * Must be at least 30 minutes.
+    public var preferredBackupWindow: Swift.String?
     /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance. This setting doesn't apply to RDS Custom.
     public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
     /// Specifies whether the DB instance is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see [CreateDBInstance].
@@ -21774,6 +21976,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
+        backupRetentionPeriod: Swift.Int? = nil,
         backupTarget: Swift.String? = nil,
         caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
@@ -21804,6 +22007,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         networkType: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
         port: Swift.Int? = nil,
+        preferredBackupWindow: Swift.String? = nil,
         processorFeatures: [RDSClientTypes.ProcessorFeature]? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         restoreTime: Foundation.Date? = nil,
@@ -21825,6 +22029,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
+        self.backupRetentionPeriod = backupRetentionPeriod
         self.backupTarget = backupTarget
         self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
@@ -21855,6 +22060,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         self.networkType = networkType
         self.optionGroupName = optionGroupName
         self.port = port
+        self.preferredBackupWindow = preferredBackupWindow
         self.processorFeatures = processorFeatures
         self.publiclyAccessible = publiclyAccessible
         self.restoreTime = restoreTime
@@ -21876,7 +22082,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
 
 extension RestoreDBInstanceToPointInTimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RestoreDBInstanceToPointInTimeInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), restoreTime: \(Swift.String(describing: restoreTime)), sourceDBInstanceAutomatedBackupsArn: \(Swift.String(describing: sourceDBInstanceAutomatedBackupsArn)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), sourceDbiResourceId: \(Swift.String(describing: sourceDbiResourceId)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), targetDBInstanceIdentifier: \(Swift.String(describing: targetDBInstanceIdentifier)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), useLatestRestorableTime: \(Swift.String(describing: useLatestRestorableTime)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
+        "RestoreDBInstanceToPointInTimeInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), restoreTime: \(Swift.String(describing: restoreTime)), sourceDBInstanceAutomatedBackupsArn: \(Swift.String(describing: sourceDBInstanceAutomatedBackupsArn)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), sourceDbiResourceId: \(Swift.String(describing: sourceDbiResourceId)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), targetDBInstanceIdentifier: \(Swift.String(describing: targetDBInstanceIdentifier)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), useLatestRestorableTime: \(Swift.String(describing: useLatestRestorableTime)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBInstanceToPointInTimeOutput: Swift.Sendable {
@@ -25894,6 +26100,7 @@ extension RestoreDBClusterFromSnapshotInput {
         guard let value else { return }
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
         try writer["BacktrackWindow"].write(value.backtrackWindow)
+        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
         try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
         try writer["DBClusterInstanceClass"].write(value.dbClusterInstanceClass)
@@ -25919,6 +26126,7 @@ extension RestoreDBClusterFromSnapshotInput {
         try writer["PerformanceInsightsKMSKeyId"].write(value.performanceInsightsKMSKeyId)
         try writer["PerformanceInsightsRetentionPeriod"].write(value.performanceInsightsRetentionPeriod)
         try writer["Port"].write(value.port)
+        try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
         try writer["PubliclyAccessible"].write(value.publiclyAccessible)
         try writer["RdsCustomClusterConfiguration"].write(value.rdsCustomClusterConfiguration, with: RDSClientTypes.RdsCustomClusterConfiguration.write(value:to:))
         try writer["ScalingConfiguration"].write(value.scalingConfiguration, with: RDSClientTypes.ScalingConfiguration.write(value:to:))
@@ -25938,6 +26146,7 @@ extension RestoreDBClusterToPointInTimeInput {
     static func write(value: RestoreDBClusterToPointInTimeInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["BacktrackWindow"].write(value.backtrackWindow)
+        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
         try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
         try writer["DBClusterInstanceClass"].write(value.dbClusterInstanceClass)
@@ -25960,6 +26169,7 @@ extension RestoreDBClusterToPointInTimeInput {
         try writer["PerformanceInsightsKMSKeyId"].write(value.performanceInsightsKMSKeyId)
         try writer["PerformanceInsightsRetentionPeriod"].write(value.performanceInsightsRetentionPeriod)
         try writer["Port"].write(value.port)
+        try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
         try writer["PubliclyAccessible"].write(value.publiclyAccessible)
         try writer["RdsCustomClusterConfiguration"].write(value.rdsCustomClusterConfiguration, with: RDSClientTypes.RdsCustomClusterConfiguration.write(value:to:))
         try writer["RestoreToTime"].writeTimestamp(value.restoreToTime, format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -25986,6 +26196,7 @@ extension RestoreDBInstanceFromDBSnapshotInput {
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
         try writer["BackupTarget"].write(value.backupTarget)
         try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
@@ -26018,6 +26229,7 @@ extension RestoreDBInstanceFromDBSnapshotInput {
         try writer["NetworkType"].write(value.networkType)
         try writer["OptionGroupName"].write(value.optionGroupName)
         try writer["Port"].write(value.port)
+        try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
         try writer["ProcessorFeatures"].writeList(value.processorFeatures, memberWritingClosure: RDSClientTypes.ProcessorFeature.write(value:to:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
         try writer["PubliclyAccessible"].write(value.publiclyAccessible)
         try writer["StorageThroughput"].write(value.storageThroughput)
@@ -26104,6 +26316,7 @@ extension RestoreDBInstanceToPointInTimeInput {
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
         try writer["BackupTarget"].write(value.backupTarget)
         try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
@@ -26134,6 +26347,7 @@ extension RestoreDBInstanceToPointInTimeInput {
         try writer["NetworkType"].write(value.networkType)
         try writer["OptionGroupName"].write(value.optionGroupName)
         try writer["Port"].write(value.port)
+        try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
         try writer["ProcessorFeatures"].writeList(value.processorFeatures, memberWritingClosure: RDSClientTypes.ProcessorFeature.write(value:to:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
         try writer["PubliclyAccessible"].write(value.publiclyAccessible)
         try writer["RestoreTime"].writeTimestamp(value.restoreTime, format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -33235,212 +33449,14 @@ extension InvalidExportSourceStateFault {
     }
 }
 
-extension RDSClientTypes.EventSubscription {
+extension RDSClientTypes.AccountQuota {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EventSubscription {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AccountQuota {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.EventSubscription()
-        value.customerAwsId = try reader["CustomerAwsId"].readIfPresent()
-        value.custSubscriptionId = try reader["CustSubscriptionId"].readIfPresent()
-        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.subscriptionCreationTime = try reader["SubscriptionCreationTime"].readIfPresent()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.sourceIdsList = try reader["SourceIdsList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "SourceId", isFlattened: false)
-        value.eventCategoriesList = try reader["EventCategoriesList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.eventSubscriptionArn = try reader["EventSubscriptionArn"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.ResourcePendingMaintenanceActions {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ResourcePendingMaintenanceActions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ResourcePendingMaintenanceActions()
-        value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
-        value.pendingMaintenanceActionDetails = try reader["PendingMaintenanceActionDetails"].readListIfPresent(memberReadingClosure: RDSClientTypes.PendingMaintenanceAction.read(from:), memberNodeInfo: "PendingMaintenanceAction", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.PendingMaintenanceAction {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingMaintenanceAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.PendingMaintenanceAction()
-        value.action = try reader["Action"].readIfPresent()
-        value.autoAppliedAfterDate = try reader["AutoAppliedAfterDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.forcedApplyDate = try reader["ForcedApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.optInStatus = try reader["OptInStatus"].readIfPresent()
-        value.currentApplyDate = try reader["CurrentApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBSecurityGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSecurityGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBSecurityGroup()
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.dbSecurityGroupName = try reader["DBSecurityGroupName"].readIfPresent()
-        value.dbSecurityGroupDescription = try reader["DBSecurityGroupDescription"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.ec2SecurityGroups = try reader["EC2SecurityGroups"].readListIfPresent(memberReadingClosure: RDSClientTypes.EC2SecurityGroup.read(from:), memberNodeInfo: "EC2SecurityGroup", isFlattened: false)
-        value.ipRanges = try reader["IPRanges"].readListIfPresent(memberReadingClosure: RDSClientTypes.IPRange.read(from:), memberNodeInfo: "IPRange", isFlattened: false)
-        value.dbSecurityGroupArn = try reader["DBSecurityGroupArn"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.IPRange {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.IPRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.IPRange()
-        value.status = try reader["Status"].readIfPresent()
-        value.cidrip = try reader["CIDRIP"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.EC2SecurityGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EC2SecurityGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.EC2SecurityGroup()
-        value.status = try reader["Status"].readIfPresent()
-        value.ec2SecurityGroupName = try reader["EC2SecurityGroupName"].readIfPresent()
-        value.ec2SecurityGroupId = try reader["EC2SecurityGroupId"].readIfPresent()
-        value.ec2SecurityGroupOwnerId = try reader["EC2SecurityGroupOwnerId"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBClusterParameterGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterParameterGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterParameterGroup()
-        value.dbClusterParameterGroupName = try reader["DBClusterParameterGroupName"].readIfPresent()
-        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.dbClusterParameterGroupArn = try reader["DBClusterParameterGroupArn"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBClusterSnapshot {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterSnapshot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterSnapshot()
-        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        value.dbClusterSnapshotIdentifier = try reader["DBClusterSnapshotIdentifier"].readIfPresent()
-        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
-        value.snapshotCreateTime = try reader["SnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.engine = try reader["Engine"].readIfPresent()
-        value.engineMode = try reader["EngineMode"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.clusterCreateTime = try reader["ClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.masterUsername = try reader["MasterUsername"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.licenseModel = try reader["LicenseModel"].readIfPresent()
-        value.snapshotType = try reader["SnapshotType"].readIfPresent()
-        value.percentProgress = try reader["PercentProgress"].readIfPresent()
-        value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.dbClusterSnapshotArn = try reader["DBClusterSnapshotArn"].readIfPresent()
-        value.sourceDBClusterSnapshotArn = try reader["SourceDBClusterSnapshotArn"].readIfPresent()
-        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
-        value.dbClusterResourceId = try reader["DbClusterResourceId"].readIfPresent()
-        value.dbSystemId = try reader["DBSystemId"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.Tag {
-
-    static func write(value: RDSClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBParameterGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBParameterGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBParameterGroup()
-        value.dbParameterGroupName = try reader["DBParameterGroupName"].readIfPresent()
-        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.dbParameterGroupArn = try reader["DBParameterGroupArn"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBSnapshot {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSnapshot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBSnapshot()
-        value.dbSnapshotIdentifier = try reader["DBSnapshotIdentifier"].readIfPresent()
-        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
-        value.snapshotCreateTime = try reader["SnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.engine = try reader["Engine"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.instanceCreateTime = try reader["InstanceCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.masterUsername = try reader["MasterUsername"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.licenseModel = try reader["LicenseModel"].readIfPresent()
-        value.snapshotType = try reader["SnapshotType"].readIfPresent()
-        value.iops = try reader["Iops"].readIfPresent()
-        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
-        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
-        value.percentProgress = try reader["PercentProgress"].readIfPresent()
-        value.sourceRegion = try reader["SourceRegion"].readIfPresent()
-        value.sourceDBSnapshotIdentifier = try reader["SourceDBSnapshotIdentifier"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.tdeCredentialArn = try reader["TdeCredentialArn"].readIfPresent()
-        value.encrypted = try reader["Encrypted"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.dbSnapshotArn = try reader["DBSnapshotArn"].readIfPresent()
-        value.timezone = try reader["Timezone"].readIfPresent()
-        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
-        value.processorFeatures = try reader["ProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.ProcessorFeature.read(from:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
-        value.dbiResourceId = try reader["DbiResourceId"].readIfPresent()
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        value.snapshotTarget = try reader["SnapshotTarget"].readIfPresent()
-        value.originalSnapshotCreateTime = try reader["OriginalSnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.snapshotDatabaseTime = try reader["SnapshotDatabaseTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.dbSystemId = try reader["DBSystemId"].readIfPresent()
-        value.multiTenant = try reader["MultiTenant"].readIfPresent()
-        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
-        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.snapshotAvailabilityZone = try reader["SnapshotAvailabilityZone"].readIfPresent()
+        var value = RDSClientTypes.AccountQuota()
+        value.accountQuotaName = try reader["AccountQuotaName"].readIfPresent()
+        value.used = try reader["Used"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
         return value
     }
 }
@@ -33470,110 +33486,61 @@ extension RDSClientTypes.AdditionalStorageVolume {
     }
 }
 
-extension RDSClientTypes.ProcessorFeature {
+extension RDSClientTypes.AdditionalStorageVolumeOutput {
 
-    static func write(value: RDSClientTypes.ProcessorFeature?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ProcessorFeature {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AdditionalStorageVolumeOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ProcessorFeature()
+        var value = RDSClientTypes.AdditionalStorageVolumeOutput()
+        value.volumeName = try reader["VolumeName"].readIfPresent()
+        value.storageVolumeStatus = try reader["StorageVolumeStatus"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.iops = try reader["IOPS"].readIfPresent()
+        value.maxAllocatedStorage = try reader["MaxAllocatedStorage"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.AvailabilityZone {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailabilityZone {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.AvailabilityZone()
         value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }
 
-extension RDSClientTypes.OptionGroup {
+extension RDSClientTypes.AvailableAdditionalStorageVolumesOption {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionGroup {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailableAdditionalStorageVolumesOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.OptionGroup()
-        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
-        value.optionGroupDescription = try reader["OptionGroupDescription"].readIfPresent()
-        value.engineName = try reader["EngineName"].readIfPresent()
-        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
-        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: RDSClientTypes.Option.read(from:), memberNodeInfo: "Option", isFlattened: false)
-        value.allowsVpcAndNonVpcInstanceMemberships = try reader["AllowsVpcAndNonVpcInstanceMemberships"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.optionGroupArn = try reader["OptionGroupArn"].readIfPresent()
-        value.sourceOptionGroup = try reader["SourceOptionGroup"].readIfPresent()
-        value.sourceAccountId = try reader["SourceAccountId"].readIfPresent()
-        value.copyTimestamp = try reader["CopyTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        var value = RDSClientTypes.AvailableAdditionalStorageVolumesOption()
+        value.supportsStorageAutoscaling = try reader["SupportsStorageAutoscaling"].readIfPresent()
+        value.supportsStorageThroughput = try reader["SupportsStorageThroughput"].readIfPresent()
+        value.supportsIops = try reader["SupportsIops"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.minStorageSize = try reader["MinStorageSize"].readIfPresent()
+        value.maxStorageSize = try reader["MaxStorageSize"].readIfPresent()
+        value.minIops = try reader["MinIops"].readIfPresent()
+        value.maxIops = try reader["MaxIops"].readIfPresent()
+        value.minIopsPerGib = try reader["MinIopsPerGib"].readIfPresent()
+        value.maxIopsPerGib = try reader["MaxIopsPerGib"].readIfPresent()
+        value.minStorageThroughput = try reader["MinStorageThroughput"].readIfPresent()
+        value.maxStorageThroughput = try reader["MaxStorageThroughput"].readIfPresent()
         return value
     }
 }
 
-extension RDSClientTypes.Option {
+extension RDSClientTypes.AvailableProcessorFeature {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Option {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailableProcessorFeature {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Option()
-        value.optionName = try reader["OptionName"].readIfPresent()
-        value.optionDescription = try reader["OptionDescription"].readIfPresent()
-        value.persistent = try reader["Persistent"].readIfPresent()
-        value.permanent = try reader["Permanent"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.optionVersion = try reader["OptionVersion"].readIfPresent()
-        value.optionSettings = try reader["OptionSettings"].readListIfPresent(memberReadingClosure: RDSClientTypes.OptionSetting.read(from:), memberNodeInfo: "OptionSetting", isFlattened: false)
-        value.dbSecurityGroupMemberships = try reader["DBSecurityGroupMemberships"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBSecurityGroupMembership.read(from:), memberNodeInfo: "DBSecurityGroup", isFlattened: false)
-        value.vpcSecurityGroupMemberships = try reader["VpcSecurityGroupMemberships"].readListIfPresent(memberReadingClosure: RDSClientTypes.VpcSecurityGroupMembership.read(from:), memberNodeInfo: "VpcSecurityGroupMembership", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.VpcSecurityGroupMembership {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.VpcSecurityGroupMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.VpcSecurityGroupMembership()
-        value.vpcSecurityGroupId = try reader["VpcSecurityGroupId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBSecurityGroupMembership {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSecurityGroupMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBSecurityGroupMembership()
-        value.dbSecurityGroupName = try reader["DBSecurityGroupName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.OptionSetting {
-
-    static func write(value: RDSClientTypes.OptionSetting?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedValues"].write(value.allowedValues)
-        try writer["ApplyType"].write(value.applyType)
-        try writer["DataType"].write(value.dataType)
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["Description"].write(value.description)
-        try writer["IsCollection"].write(value.isCollection)
-        try writer["IsModifiable"].write(value.isModifiable)
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionSetting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.OptionSetting()
+        var value = RDSClientTypes.AvailableProcessorFeature()
         value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
         value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.applyType = try reader["ApplyType"].readIfPresent()
-        value.dataType = try reader["DataType"].readIfPresent()
         value.allowedValues = try reader["AllowedValues"].readIfPresent()
-        value.isModifiable = try reader["IsModifiable"].readIfPresent()
-        value.isCollection = try reader["IsCollection"].readIfPresent()
         return value
     }
 }
@@ -33609,14 +33576,30 @@ extension RDSClientTypes.BlueGreenDeploymentTask {
     }
 }
 
-extension RDSClientTypes.SwitchoverDetail {
+extension RDSClientTypes.Certificate {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.SwitchoverDetail {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Certificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.SwitchoverDetail()
-        value.sourceMember = try reader["SourceMember"].readIfPresent()
-        value.targetMember = try reader["TargetMember"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        var value = RDSClientTypes.Certificate()
+        value.certificateIdentifier = try reader["CertificateIdentifier"].readIfPresent()
+        value.certificateType = try reader["CertificateType"].readIfPresent()
+        value.thumbprint = try reader["Thumbprint"].readIfPresent()
+        value.validFrom = try reader["ValidFrom"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.validTill = try reader["ValidTill"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.customerOverride = try reader["CustomerOverride"].readIfPresent()
+        value.customerOverrideValidTill = try reader["CustomerOverrideValidTill"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension RDSClientTypes.CertificateDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.CertificateDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.CertificateDetails()
+        value.caIdentifier = try reader["CAIdentifier"].readIfPresent()
+        value.validTill = try reader["ValidTill"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -33632,6 +33615,72 @@ extension RDSClientTypes.CharacterSet {
     }
 }
 
+extension RDSClientTypes.CloudwatchLogsExportConfiguration {
+
+    static func write(value: RDSClientTypes.CloudwatchLogsExportConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DisableLogTypes"].writeList(value.disableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnableLogTypes"].writeList(value.enableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension RDSClientTypes.ClusterPendingModifiedValues {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ClusterPendingModifiedValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ClusterPendingModifiedValues()
+        value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: RDSClientTypes.PendingCloudwatchLogsExports.read(from:))
+        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
+        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.rdsCustomClusterConfiguration = try reader["RdsCustomClusterConfiguration"].readIfPresent(with: RDSClientTypes.RdsCustomClusterConfiguration.read(from:))
+        value.iops = try reader["Iops"].readIfPresent()
+        value.certificateDetails = try reader["CertificateDetails"].readIfPresent(with: RDSClientTypes.CertificateDetails.read(from:))
+        return value
+    }
+}
+
+extension RDSClientTypes.ConnectionPoolConfiguration {
+
+    static func write(value: RDSClientTypes.ConnectionPoolConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionBorrowTimeout"].write(value.connectionBorrowTimeout)
+        try writer["InitQuery"].write(value.initQuery)
+        try writer["MaxConnectionsPercent"].write(value.maxConnectionsPercent)
+        try writer["MaxIdleConnectionsPercent"].write(value.maxIdleConnectionsPercent)
+        try writer["SessionPinningFilters"].writeList(value.sessionPinningFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension RDSClientTypes.ConnectionPoolConfigurationInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ConnectionPoolConfigurationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ConnectionPoolConfigurationInfo()
+        value.maxConnectionsPercent = try reader["MaxConnectionsPercent"].readIfPresent()
+        value.maxIdleConnectionsPercent = try reader["MaxIdleConnectionsPercent"].readIfPresent()
+        value.connectionBorrowTimeout = try reader["ConnectionBorrowTimeout"].readIfPresent()
+        value.sessionPinningFilters = try reader["SessionPinningFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.initQuery = try reader["InitQuery"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.ContextAttribute {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ContextAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ContextAttribute()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
 extension RDSClientTypes.CustomDBEngineVersionAMI {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.CustomDBEngineVersionAMI {
@@ -33639,48 +33688,6 @@ extension RDSClientTypes.CustomDBEngineVersionAMI {
         var value = RDSClientTypes.CustomDBEngineVersionAMI()
         value.imageId = try reader["ImageId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.UpgradeTarget {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.UpgradeTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.UpgradeTarget()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.autoUpgrade = try reader["AutoUpgrade"].readIfPresent()
-        value.isMajorVersionUpgrade = try reader["IsMajorVersionUpgrade"].readIfPresent()
-        value.supportedEngineModes = try reader["SupportedEngineModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportsParallelQuery = try reader["SupportsParallelQuery"].readIfPresent()
-        value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
-        value.supportsBabelfish = try reader["SupportsBabelfish"].readIfPresent()
-        value.supportsLimitlessDatabase = try reader["SupportsLimitlessDatabase"].readIfPresent()
-        value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
-        value.supportsIntegrations = try reader["SupportsIntegrations"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.Timezone {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Timezone {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Timezone()
-        value.timezoneName = try reader["TimezoneName"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.ServerlessV2FeaturesSupport {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ServerlessV2FeaturesSupport {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ServerlessV2FeaturesSupport()
-        value.minCapacity = try reader["MinCapacity"].readIfPresent()
-        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
         return value
     }
 }
@@ -33721,6 +33728,7 @@ extension RDSClientTypes.DBCluster {
         value.vpcSecurityGroups = try reader["VpcSecurityGroups"].readListIfPresent(memberReadingClosure: RDSClientTypes.VpcSecurityGroupMembership.read(from:), memberNodeInfo: "VpcSecurityGroupMembership", isFlattened: false)
         value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
         value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.dbClusterResourceId = try reader["DbClusterResourceId"].readIfPresent()
         value.dbClusterArn = try reader["DBClusterArn"].readIfPresent()
@@ -33779,141 +33787,73 @@ extension RDSClientTypes.DBCluster {
     }
 }
 
-extension RDSClientTypes.CertificateDetails {
+extension RDSClientTypes.DBClusterAutomatedBackup {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.CertificateDetails {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterAutomatedBackup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.CertificateDetails()
-        value.caIdentifier = try reader["CAIdentifier"].readIfPresent()
-        value.validTill = try reader["ValidTill"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension RDSClientTypes.LimitlessDatabase {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.LimitlessDatabase {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.LimitlessDatabase()
-        value.status = try reader["Status"].readIfPresent()
-        value.minRequiredACU = try reader["MinRequiredACU"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.MasterUserSecret {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MasterUserSecret {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.MasterUserSecret()
-        value.secretArn = try reader["SecretArn"].readIfPresent()
-        value.secretStatus = try reader["SecretStatus"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.ServerlessV2ScalingConfigurationInfo {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ServerlessV2ScalingConfigurationInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ServerlessV2ScalingConfigurationInfo()
-        value.minCapacity = try reader["MinCapacity"].readIfPresent()
-        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
-        value.secondsUntilAutoPause = try reader["SecondsUntilAutoPause"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DomainMembership {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DomainMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DomainMembership()
-        value.domain = try reader["Domain"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.fqdn = try reader["FQDN"].readIfPresent()
-        value.iamRoleName = try reader["IAMRoleName"].readIfPresent()
-        value.ou = try reader["OU"].readIfPresent()
-        value.authSecretArn = try reader["AuthSecretArn"].readIfPresent()
-        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.RdsCustomClusterConfiguration {
-
-    static func write(value: RDSClientTypes.RdsCustomClusterConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["InterconnectSubnetId"].write(value.interconnectSubnetId)
-        try writer["ReplicaMode"].write(value.replicaMode)
-        try writer["TransitGatewayMulticastDomainId"].write(value.transitGatewayMulticastDomainId)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RdsCustomClusterConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.RdsCustomClusterConfiguration()
-        value.interconnectSubnetId = try reader["InterconnectSubnetId"].readIfPresent()
-        value.transitGatewayMulticastDomainId = try reader["TransitGatewayMulticastDomainId"].readIfPresent()
-        value.replicaMode = try reader["ReplicaMode"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.ScalingConfigurationInfo {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ScalingConfigurationInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ScalingConfigurationInfo()
-        value.minCapacity = try reader["MinCapacity"].readIfPresent()
-        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
-        value.autoPause = try reader["AutoPause"].readIfPresent()
-        value.secondsUntilAutoPause = try reader["SecondsUntilAutoPause"].readIfPresent()
-        value.timeoutAction = try reader["TimeoutAction"].readIfPresent()
-        value.secondsBeforeTimeout = try reader["SecondsBeforeTimeout"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.ClusterPendingModifiedValues {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ClusterPendingModifiedValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ClusterPendingModifiedValues()
-        value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: RDSClientTypes.PendingCloudwatchLogsExports.read(from:))
+        var value = RDSClientTypes.DBClusterAutomatedBackup()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.dbClusterAutomatedBackupsArn = try reader["DBClusterAutomatedBackupsArn"].readIfPresent()
         value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
-        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
-        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.rdsCustomClusterConfiguration = try reader["RdsCustomClusterConfiguration"].readIfPresent(with: RDSClientTypes.RdsCustomClusterConfiguration.read(from:))
-        value.iops = try reader["Iops"].readIfPresent()
-        value.certificateDetails = try reader["CertificateDetails"].readIfPresent(with: RDSClientTypes.CertificateDetails.read(from:))
-        return value
-    }
-}
-
-extension RDSClientTypes.PendingCloudwatchLogsExports {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingCloudwatchLogsExports {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.PendingCloudwatchLogsExports()
-        value.logTypesToEnable = try reader["LogTypesToEnable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.logTypesToDisable = try reader["LogTypesToDisable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.DBClusterRole {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterRole {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterRole()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.restoreWindow = try reader["RestoreWindow"].readIfPresent(with: RDSClientTypes.RestoreWindow.read(from:))
+        value.masterUsername = try reader["MasterUsername"].readIfPresent()
+        value.dbClusterResourceId = try reader["DbClusterResourceId"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.licenseModel = try reader["LicenseModel"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        value.featureName = try reader["FeatureName"].readIfPresent()
+        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.clusterCreateTime = try reader["ClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.dbClusterArn = try reader["DBClusterArn"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
+        value.engineMode = try reader["EngineMode"].readIfPresent()
+        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
+        value.port = try reader["Port"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.iops = try reader["Iops"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.DBClusterBacktrack {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterBacktrack {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBClusterBacktrack()
+        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+        value.backtrackIdentifier = try reader["BacktrackIdentifier"].readIfPresent()
+        value.backtrackTo = try reader["BacktrackTo"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.backtrackedFrom = try reader["BacktrackedFrom"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.backtrackRequestCreationTime = try reader["BacktrackRequestCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DBClusterEndpoint {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBClusterEndpoint()
+        value.dbClusterEndpointIdentifier = try reader["DBClusterEndpointIdentifier"].readIfPresent()
+        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+        value.dbClusterEndpointResourceIdentifier = try reader["DBClusterEndpointResourceIdentifier"].readIfPresent()
+        value.endpoint = try reader["Endpoint"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.endpointType = try reader["EndpointType"].readIfPresent()
+        value.customEndpointType = try reader["CustomEndpointType"].readIfPresent()
+        value.staticMembers = try reader["StaticMembers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludedMembers = try reader["ExcludedMembers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dbClusterEndpointArn = try reader["DBClusterEndpointArn"].readIfPresent()
         return value
     }
 }
@@ -33931,6 +33871,102 @@ extension RDSClientTypes.DBClusterMember {
     }
 }
 
+extension RDSClientTypes.DBClusterOptionGroupStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterOptionGroupStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBClusterOptionGroupStatus()
+        value.dbClusterOptionGroupName = try reader["DBClusterOptionGroupName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DBClusterParameterGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterParameterGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBClusterParameterGroup()
+        value.dbClusterParameterGroupName = try reader["DBClusterParameterGroupName"].readIfPresent()
+        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.dbClusterParameterGroupArn = try reader["DBClusterParameterGroupArn"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DBClusterRole {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterRole {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBClusterRole()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.featureName = try reader["FeatureName"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DBClusterSnapshot {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterSnapshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBClusterSnapshot()
+        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
+        value.dbClusterSnapshotIdentifier = try reader["DBClusterSnapshotIdentifier"].readIfPresent()
+        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+        value.snapshotCreateTime = try reader["SnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineMode = try reader["EngineMode"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.clusterCreateTime = try reader["ClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.masterUsername = try reader["MasterUsername"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.licenseModel = try reader["LicenseModel"].readIfPresent()
+        value.snapshotType = try reader["SnapshotType"].readIfPresent()
+        value.percentProgress = try reader["PercentProgress"].readIfPresent()
+        value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.dbClusterSnapshotArn = try reader["DBClusterSnapshotArn"].readIfPresent()
+        value.sourceDBClusterSnapshotArn = try reader["SourceDBClusterSnapshotArn"].readIfPresent()
+        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.dbClusterResourceId = try reader["DbClusterResourceId"].readIfPresent()
+        value.dbSystemId = try reader["DBSystemId"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DBClusterSnapshotAttribute {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterSnapshotAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBClusterSnapshotAttribute()
+        value.attributeName = try reader["AttributeName"].readIfPresent()
+        value.attributeValues = try reader["AttributeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AttributeValue", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.DBClusterSnapshotAttributesResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterSnapshotAttributesResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBClusterSnapshotAttributesResult()
+        value.dbClusterSnapshotIdentifier = try reader["DBClusterSnapshotIdentifier"].readIfPresent()
+        value.dbClusterSnapshotAttributes = try reader["DBClusterSnapshotAttributes"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBClusterSnapshotAttribute.read(from:), memberNodeInfo: "DBClusterSnapshotAttribute", isFlattened: false)
+        return value
+    }
+}
+
 extension RDSClientTypes.DBClusterStatusInfo {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterStatusInfo {
@@ -33944,13 +33980,48 @@ extension RDSClientTypes.DBClusterStatusInfo {
     }
 }
 
-extension RDSClientTypes.DBClusterOptionGroupStatus {
+extension RDSClientTypes.DBEngineVersion {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterOptionGroupStatus {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBEngineVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterOptionGroupStatus()
-        value.dbClusterOptionGroupName = try reader["DBClusterOptionGroupName"].readIfPresent()
+        var value = RDSClientTypes.DBEngineVersion()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.databaseInstallationFilesS3BucketName = try reader["DatabaseInstallationFilesS3BucketName"].readIfPresent()
+        value.databaseInstallationFilesS3Prefix = try reader["DatabaseInstallationFilesS3Prefix"].readIfPresent()
+        value.databaseInstallationFiles = try reader["DatabaseInstallationFiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customDBEngineVersionManifest = try reader["CustomDBEngineVersionManifest"].readIfPresent()
+        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.dbEngineDescription = try reader["DBEngineDescription"].readIfPresent()
+        value.dbEngineVersionArn = try reader["DBEngineVersionArn"].readIfPresent()
+        value.dbEngineVersionDescription = try reader["DBEngineVersionDescription"].readIfPresent()
+        value.defaultCharacterSet = try reader["DefaultCharacterSet"].readIfPresent(with: RDSClientTypes.CharacterSet.read(from:))
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
+        value.dbEngineMediaType = try reader["DBEngineMediaType"].readIfPresent()
+        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.supportedCharacterSets = try reader["SupportedCharacterSets"].readListIfPresent(memberReadingClosure: RDSClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
+        value.supportedNcharCharacterSets = try reader["SupportedNcharCharacterSets"].readListIfPresent(memberReadingClosure: RDSClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
+        value.validUpgradeTarget = try reader["ValidUpgradeTarget"].readListIfPresent(memberReadingClosure: RDSClientTypes.UpgradeTarget.read(from:), memberNodeInfo: "UpgradeTarget", isFlattened: false)
+        value.supportedTimezones = try reader["SupportedTimezones"].readListIfPresent(memberReadingClosure: RDSClientTypes.Timezone.read(from:), memberNodeInfo: "Timezone", isFlattened: false)
+        value.exportableLogTypes = try reader["ExportableLogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportsLogExportsToCloudwatchLogs = try reader["SupportsLogExportsToCloudwatchLogs"].readIfPresent()
+        value.supportsReadReplica = try reader["SupportsReadReplica"].readIfPresent()
+        value.supportedEngineModes = try reader["SupportedEngineModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedFeatureNames = try reader["SupportedFeatureNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["Status"].readIfPresent()
+        value.supportsParallelQuery = try reader["SupportsParallelQuery"].readIfPresent()
+        value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.supportsBabelfish = try reader["SupportsBabelfish"].readIfPresent()
+        value.supportsLimitlessDatabase = try reader["SupportsLimitlessDatabase"].readIfPresent()
+        value.supportsCertificateRotationWithoutRestart = try reader["SupportsCertificateRotationWithoutRestart"].readIfPresent()
+        value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
+        value.supportsIntegrations = try reader["SupportsIntegrations"].readIfPresent()
+        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: RDSClientTypes.ServerlessV2FeaturesSupport.read(from:))
         return value
     }
 }
@@ -33997,6 +34068,7 @@ extension RDSClientTypes.DBInstance {
         value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
         value.statusInfos = try reader["StatusInfos"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBInstanceStatusInfo.read(from:), memberNodeInfo: "DBInstanceStatusInfo", isFlattened: false)
         value.storageType = try reader["StorageType"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
         value.tdeCredentialArn = try reader["TdeCredentialArn"].readIfPresent()
         value.dbInstancePort = try reader["DbInstancePort"].readIfPresent()
         value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
@@ -34054,18 +34126,46 @@ extension RDSClientTypes.DBInstance {
     }
 }
 
-extension RDSClientTypes.AdditionalStorageVolumeOutput {
+extension RDSClientTypes.DBInstanceAutomatedBackup {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AdditionalStorageVolumeOutput {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBInstanceAutomatedBackup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.AdditionalStorageVolumeOutput()
-        value.volumeName = try reader["VolumeName"].readIfPresent()
-        value.storageVolumeStatus = try reader["StorageVolumeStatus"].readIfPresent()
+        var value = RDSClientTypes.DBInstanceAutomatedBackup()
+        value.dbInstanceArn = try reader["DBInstanceArn"].readIfPresent()
+        value.dbiResourceId = try reader["DbiResourceId"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
+        value.restoreWindow = try reader["RestoreWindow"].readIfPresent(with: RDSClientTypes.RestoreWindow.read(from:))
         value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.iops = try reader["IOPS"].readIfPresent()
-        value.maxAllocatedStorage = try reader["MaxAllocatedStorage"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.instanceCreateTime = try reader["InstanceCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.masterUsername = try reader["MasterUsername"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.licenseModel = try reader["LicenseModel"].readIfPresent()
+        value.iops = try reader["Iops"].readIfPresent()
         value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
+        value.tdeCredentialArn = try reader["TdeCredentialArn"].readIfPresent()
+        value.encrypted = try reader["Encrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
         value.storageType = try reader["StorageType"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.timezone = try reader["Timezone"].readIfPresent()
+        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
+        value.dbInstanceAutomatedBackupsArn = try reader["DBInstanceAutomatedBackupsArn"].readIfPresent()
+        value.dbInstanceAutomatedBackupsReplications = try reader["DBInstanceAutomatedBackupsReplications"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBInstanceAutomatedBackupsReplication.read(from:), memberNodeInfo: "DBInstanceAutomatedBackupsReplication", isFlattened: false)
+        value.backupTarget = try reader["BackupTarget"].readIfPresent()
+        value.multiTenant = try reader["MultiTenant"].readIfPresent()
+        value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
+        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -34076,18 +34176,6 @@ extension RDSClientTypes.DBInstanceAutomatedBackupsReplication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBInstanceAutomatedBackupsReplication()
         value.dbInstanceAutomatedBackupsArn = try reader["DBInstanceAutomatedBackupsArn"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.Endpoint {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Endpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Endpoint()
-        value.address = try reader["Address"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
         return value
     }
 }
@@ -34117,94 +34205,27 @@ extension RDSClientTypes.DBInstanceStatusInfo {
     }
 }
 
-extension RDSClientTypes.OptionGroupMembership {
+extension RDSClientTypes.DBMajorEngineVersion {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionGroupMembership {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBMajorEngineVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.OptionGroupMembership()
-        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.PendingModifiedValues {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingModifiedValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.PendingModifiedValues()
-        value.dbInstanceClass = try reader["DBInstanceClass"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
-        value.multiAZ = try reader["MultiAZ"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.licenseModel = try reader["LicenseModel"].readIfPresent()
-        value.iops = try reader["Iops"].readIfPresent()
-        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
-        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.caCertificateIdentifier = try reader["CACertificateIdentifier"].readIfPresent()
-        value.dbSubnetGroupName = try reader["DBSubnetGroupName"].readIfPresent()
-        value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: RDSClientTypes.PendingCloudwatchLogsExports.read(from:))
-        value.processorFeatures = try reader["ProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.ProcessorFeature.read(from:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
-        value.automationMode = try reader["AutomationMode"].readIfPresent()
-        value.resumeFullAutomationModeTime = try reader["ResumeFullAutomationModeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.multiTenant = try reader["MultiTenant"].readIfPresent()
-        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
-        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
+        var value = RDSClientTypes.DBMajorEngineVersion()
         value.engine = try reader["Engine"].readIfPresent()
-        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
+        value.supportedEngineLifecycles = try reader["SupportedEngineLifecycles"].readListIfPresent(memberReadingClosure: RDSClientTypes.SupportedEngineLifecycle.read(from:), memberNodeInfo: "SupportedEngineLifecycle", isFlattened: false)
         return value
     }
 }
 
-extension RDSClientTypes.DBSubnetGroup {
+extension RDSClientTypes.DBParameterGroup {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSubnetGroup {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBParameterGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBSubnetGroup()
-        value.dbSubnetGroupName = try reader["DBSubnetGroupName"].readIfPresent()
-        value.dbSubnetGroupDescription = try reader["DBSubnetGroupDescription"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetGroupStatus = try reader["SubnetGroupStatus"].readIfPresent()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: RDSClientTypes.Subnet.read(from:), memberNodeInfo: "Subnet", isFlattened: false)
-        value.dbSubnetGroupArn = try reader["DBSubnetGroupArn"].readIfPresent()
-        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.Subnet {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Subnet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Subnet()
-        value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
-        value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent(with: RDSClientTypes.AvailabilityZone.read(from:))
-        value.subnetOutpost = try reader["SubnetOutpost"].readIfPresent(with: RDSClientTypes.Outpost.read(from:))
-        value.subnetStatus = try reader["SubnetStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.Outpost {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Outpost {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Outpost()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.AvailabilityZone {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailabilityZone {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.AvailabilityZone()
-        value.name = try reader["Name"].readIfPresent()
+        var value = RDSClientTypes.DBParameterGroup()
+        value.dbParameterGroupName = try reader["DBParameterGroupName"].readIfPresent()
+        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.dbParameterGroupArn = try reader["DBParameterGroupArn"].readIfPresent()
         return value
     }
 }
@@ -34247,21 +34268,6 @@ extension RDSClientTypes.DBProxy {
     }
 }
 
-extension RDSClientTypes.UserAuthConfigInfo {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.UserAuthConfigInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.UserAuthConfigInfo()
-        value.description = try reader["Description"].readIfPresent()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.authScheme = try reader["AuthScheme"].readIfPresent()
-        value.secretArn = try reader["SecretArn"].readIfPresent()
-        value.iamAuth = try reader["IAMAuth"].readIfPresent()
-        value.clientPasswordAuthType = try reader["ClientPasswordAuthType"].readIfPresent()
-        return value
-    }
-}
-
 extension RDSClientTypes.DBProxyEndpoint {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBProxyEndpoint {
@@ -34283,422 +34289,6 @@ extension RDSClientTypes.DBProxyEndpoint {
     }
 }
 
-extension RDSClientTypes.GlobalCluster {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.GlobalCluster {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.GlobalCluster()
-        value.globalClusterIdentifier = try reader["GlobalClusterIdentifier"].readIfPresent()
-        value.globalClusterResourceId = try reader["GlobalClusterResourceId"].readIfPresent()
-        value.globalClusterArn = try reader["GlobalClusterArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.engineLifecycleSupport = try reader["EngineLifecycleSupport"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
-        value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
-        value.globalClusterMembers = try reader["GlobalClusterMembers"].readListIfPresent(memberReadingClosure: RDSClientTypes.GlobalClusterMember.read(from:), memberNodeInfo: "GlobalClusterMember", isFlattened: false)
-        value.endpoint = try reader["Endpoint"].readIfPresent()
-        value.failoverState = try reader["FailoverState"].readIfPresent(with: RDSClientTypes.FailoverState.read(from:))
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.FailoverState {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.FailoverState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.FailoverState()
-        value.status = try reader["Status"].readIfPresent()
-        value.fromDbClusterArn = try reader["FromDbClusterArn"].readIfPresent()
-        value.toDbClusterArn = try reader["ToDbClusterArn"].readIfPresent()
-        value.isDataLossAllowed = try reader["IsDataLossAllowed"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.GlobalClusterMember {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.GlobalClusterMember {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.GlobalClusterMember()
-        value.dbClusterArn = try reader["DBClusterArn"].readIfPresent()
-        value.readers = try reader["Readers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isWriter = try reader["IsWriter"].readIfPresent()
-        value.globalWriteForwardingStatus = try reader["GlobalWriteForwardingStatus"].readIfPresent()
-        value.synchronizationStatus = try reader["SynchronizationStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.IntegrationError {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.IntegrationError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.IntegrationError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.TenantDatabase {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.TenantDatabase {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.TenantDatabase()
-        value.tenantDatabaseCreateTime = try reader["TenantDatabaseCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
-        value.tenantDBName = try reader["TenantDBName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.masterUsername = try reader["MasterUsername"].readIfPresent()
-        value.dbiResourceId = try reader["DbiResourceId"].readIfPresent()
-        value.tenantDatabaseResourceId = try reader["TenantDatabaseResourceId"].readIfPresent()
-        value.tenantDatabaseARN = try reader["TenantDatabaseARN"].readIfPresent()
-        value.characterSetName = try reader["CharacterSetName"].readIfPresent()
-        value.ncharCharacterSetName = try reader["NcharCharacterSetName"].readIfPresent()
-        value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
-        value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: RDSClientTypes.TenantDatabasePendingModifiedValues.read(from:))
-        value.masterUserSecret = try reader["MasterUserSecret"].readIfPresent(with: RDSClientTypes.MasterUserSecret.read(from:))
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.TenantDatabasePendingModifiedValues {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.TenantDatabasePendingModifiedValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.TenantDatabasePendingModifiedValues()
-        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
-        value.tenantDBName = try reader["TenantDBName"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBClusterAutomatedBackup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterAutomatedBackup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterAutomatedBackup()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.dbClusterAutomatedBackupsArn = try reader["DBClusterAutomatedBackupsArn"].readIfPresent()
-        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
-        value.restoreWindow = try reader["RestoreWindow"].readIfPresent(with: RDSClientTypes.RestoreWindow.read(from:))
-        value.masterUsername = try reader["MasterUsername"].readIfPresent()
-        value.dbClusterResourceId = try reader["DbClusterResourceId"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.licenseModel = try reader["LicenseModel"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
-        value.clusterCreateTime = try reader["ClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.dbClusterArn = try reader["DBClusterArn"].readIfPresent()
-        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
-        value.engineMode = try reader["EngineMode"].readIfPresent()
-        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        value.port = try reader["Port"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.iops = try reader["Iops"].readIfPresent()
-        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
-        value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.RestoreWindow {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RestoreWindow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.RestoreWindow()
-        value.earliestTime = try reader["EarliestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.latestTime = try reader["LatestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension RDSClientTypes.DBInstanceAutomatedBackup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBInstanceAutomatedBackup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBInstanceAutomatedBackup()
-        value.dbInstanceArn = try reader["DBInstanceArn"].readIfPresent()
-        value.dbiResourceId = try reader["DbiResourceId"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
-        value.restoreWindow = try reader["RestoreWindow"].readIfPresent(with: RDSClientTypes.RestoreWindow.read(from:))
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.instanceCreateTime = try reader["InstanceCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.masterUsername = try reader["MasterUsername"].readIfPresent()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.licenseModel = try reader["LicenseModel"].readIfPresent()
-        value.iops = try reader["Iops"].readIfPresent()
-        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
-        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
-        value.tdeCredentialArn = try reader["TdeCredentialArn"].readIfPresent()
-        value.encrypted = try reader["Encrypted"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.timezone = try reader["Timezone"].readIfPresent()
-        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
-        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
-        value.dbInstanceAutomatedBackupsArn = try reader["DBInstanceAutomatedBackupsArn"].readIfPresent()
-        value.dbInstanceAutomatedBackupsReplications = try reader["DBInstanceAutomatedBackupsReplications"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBInstanceAutomatedBackupsReplication.read(from:), memberNodeInfo: "DBInstanceAutomatedBackupsReplication", isFlattened: false)
-        value.backupTarget = try reader["BackupTarget"].readIfPresent()
-        value.multiTenant = try reader["MultiTenant"].readIfPresent()
-        value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
-        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.AccountQuota {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AccountQuota {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.AccountQuota()
-        value.accountQuotaName = try reader["AccountQuotaName"].readIfPresent()
-        value.used = try reader["Used"].readIfPresent()
-        value.max = try reader["Max"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.Certificate {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Certificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Certificate()
-        value.certificateIdentifier = try reader["CertificateIdentifier"].readIfPresent()
-        value.certificateType = try reader["CertificateType"].readIfPresent()
-        value.thumbprint = try reader["Thumbprint"].readIfPresent()
-        value.validFrom = try reader["ValidFrom"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.validTill = try reader["ValidTill"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
-        value.customerOverride = try reader["CustomerOverride"].readIfPresent()
-        value.customerOverrideValidTill = try reader["CustomerOverrideValidTill"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension RDSClientTypes.DBClusterBacktrack {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterBacktrack {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterBacktrack()
-        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
-        value.backtrackIdentifier = try reader["BacktrackIdentifier"].readIfPresent()
-        value.backtrackTo = try reader["BacktrackTo"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.backtrackedFrom = try reader["BacktrackedFrom"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.backtrackRequestCreationTime = try reader["BacktrackRequestCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBClusterEndpoint {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterEndpoint()
-        value.dbClusterEndpointIdentifier = try reader["DBClusterEndpointIdentifier"].readIfPresent()
-        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
-        value.dbClusterEndpointResourceIdentifier = try reader["DBClusterEndpointResourceIdentifier"].readIfPresent()
-        value.endpoint = try reader["Endpoint"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.endpointType = try reader["EndpointType"].readIfPresent()
-        value.customEndpointType = try reader["CustomEndpointType"].readIfPresent()
-        value.staticMembers = try reader["StaticMembers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludedMembers = try reader["ExcludedMembers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dbClusterEndpointArn = try reader["DBClusterEndpointArn"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.Parameter {
-
-    static func write(value: RDSClientTypes.Parameter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedValues"].write(value.allowedValues)
-        try writer["ApplyMethod"].write(value.applyMethod)
-        try writer["ApplyType"].write(value.applyType)
-        try writer["DataType"].write(value.dataType)
-        try writer["Description"].write(value.description)
-        try writer["IsModifiable"].write(value.isModifiable)
-        try writer["MinimumEngineVersion"].write(value.minimumEngineVersion)
-        try writer["ParameterName"].write(value.parameterName)
-        try writer["ParameterValue"].write(value.parameterValue)
-        try writer["Source"].write(value.source)
-        try writer["SupportedEngineModes"].writeList(value.supportedEngineModes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Parameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Parameter()
-        value.parameterName = try reader["ParameterName"].readIfPresent()
-        value.parameterValue = try reader["ParameterValue"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.source = try reader["Source"].readIfPresent()
-        value.applyType = try reader["ApplyType"].readIfPresent()
-        value.dataType = try reader["DataType"].readIfPresent()
-        value.allowedValues = try reader["AllowedValues"].readIfPresent()
-        value.isModifiable = try reader["IsModifiable"].readIfPresent()
-        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
-        value.applyMethod = try reader["ApplyMethod"].readIfPresent()
-        value.supportedEngineModes = try reader["SupportedEngineModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.DBClusterSnapshotAttributesResult {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterSnapshotAttributesResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterSnapshotAttributesResult()
-        value.dbClusterSnapshotIdentifier = try reader["DBClusterSnapshotIdentifier"].readIfPresent()
-        value.dbClusterSnapshotAttributes = try reader["DBClusterSnapshotAttributes"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBClusterSnapshotAttribute.read(from:), memberNodeInfo: "DBClusterSnapshotAttribute", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.DBClusterSnapshotAttribute {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBClusterSnapshotAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBClusterSnapshotAttribute()
-        value.attributeName = try reader["AttributeName"].readIfPresent()
-        value.attributeValues = try reader["AttributeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AttributeValue", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.DBEngineVersion {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBEngineVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBEngineVersion()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.databaseInstallationFilesS3BucketName = try reader["DatabaseInstallationFilesS3BucketName"].readIfPresent()
-        value.databaseInstallationFilesS3Prefix = try reader["DatabaseInstallationFilesS3Prefix"].readIfPresent()
-        value.databaseInstallationFiles = try reader["DatabaseInstallationFiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.customDBEngineVersionManifest = try reader["CustomDBEngineVersionManifest"].readIfPresent()
-        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
-        value.dbEngineDescription = try reader["DBEngineDescription"].readIfPresent()
-        value.dbEngineVersionArn = try reader["DBEngineVersionArn"].readIfPresent()
-        value.dbEngineVersionDescription = try reader["DBEngineVersionDescription"].readIfPresent()
-        value.defaultCharacterSet = try reader["DefaultCharacterSet"].readIfPresent(with: RDSClientTypes.CharacterSet.read(from:))
-        value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
-        value.dbEngineMediaType = try reader["DBEngineMediaType"].readIfPresent()
-        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.supportedCharacterSets = try reader["SupportedCharacterSets"].readListIfPresent(memberReadingClosure: RDSClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
-        value.supportedNcharCharacterSets = try reader["SupportedNcharCharacterSets"].readListIfPresent(memberReadingClosure: RDSClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
-        value.validUpgradeTarget = try reader["ValidUpgradeTarget"].readListIfPresent(memberReadingClosure: RDSClientTypes.UpgradeTarget.read(from:), memberNodeInfo: "UpgradeTarget", isFlattened: false)
-        value.supportedTimezones = try reader["SupportedTimezones"].readListIfPresent(memberReadingClosure: RDSClientTypes.Timezone.read(from:), memberNodeInfo: "Timezone", isFlattened: false)
-        value.exportableLogTypes = try reader["ExportableLogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportsLogExportsToCloudwatchLogs = try reader["SupportsLogExportsToCloudwatchLogs"].readIfPresent()
-        value.supportsReadReplica = try reader["SupportsReadReplica"].readIfPresent()
-        value.supportedEngineModes = try reader["SupportedEngineModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportedFeatureNames = try reader["SupportedFeatureNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["Status"].readIfPresent()
-        value.supportsParallelQuery = try reader["SupportsParallelQuery"].readIfPresent()
-        value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        value.supportsBabelfish = try reader["SupportsBabelfish"].readIfPresent()
-        value.supportsLimitlessDatabase = try reader["SupportsLimitlessDatabase"].readIfPresent()
-        value.supportsCertificateRotationWithoutRestart = try reader["SupportsCertificateRotationWithoutRestart"].readIfPresent()
-        value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
-        value.supportsIntegrations = try reader["SupportsIntegrations"].readIfPresent()
-        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: RDSClientTypes.ServerlessV2FeaturesSupport.read(from:))
-        return value
-    }
-}
-
-extension RDSClientTypes.DescribeDBLogFilesDetails {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DescribeDBLogFilesDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DescribeDBLogFilesDetails()
-        value.logFileName = try reader["LogFileName"].readIfPresent()
-        value.lastWritten = try reader["LastWritten"].readIfPresent()
-        value.size = try reader["Size"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DBMajorEngineVersion {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBMajorEngineVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBMajorEngineVersion()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
-        value.supportedEngineLifecycles = try reader["SupportedEngineLifecycles"].readListIfPresent(memberReadingClosure: RDSClientTypes.SupportedEngineLifecycle.read(from:), memberNodeInfo: "SupportedEngineLifecycle", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.SupportedEngineLifecycle {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.SupportedEngineLifecycle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.SupportedEngineLifecycle()
-        value.lifecycleSupportName = try reader["LifecycleSupportName"].readIfPresent() ?? .sdkUnknown("")
-        value.lifecycleSupportStartDate = try reader["LifecycleSupportStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lifecycleSupportEndDate = try reader["LifecycleSupportEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension RDSClientTypes.DBProxyTargetGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBProxyTargetGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBProxyTargetGroup()
-        value.dbProxyName = try reader["DBProxyName"].readIfPresent()
-        value.targetGroupName = try reader["TargetGroupName"].readIfPresent()
-        value.targetGroupArn = try reader["TargetGroupArn"].readIfPresent()
-        value.isDefault = try reader["IsDefault"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.connectionPoolConfig = try reader["ConnectionPoolConfig"].readIfPresent(with: RDSClientTypes.ConnectionPoolConfigurationInfo.read(from:))
-        value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedDate = try reader["UpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension RDSClientTypes.ConnectionPoolConfigurationInfo {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ConnectionPoolConfigurationInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ConnectionPoolConfigurationInfo()
-        value.maxConnectionsPercent = try reader["MaxConnectionsPercent"].readIfPresent()
-        value.maxIdleConnectionsPercent = try reader["MaxIdleConnectionsPercent"].readIfPresent()
-        value.connectionBorrowTimeout = try reader["ConnectionBorrowTimeout"].readIfPresent()
-        value.sessionPinningFilters = try reader["SessionPinningFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.initQuery = try reader["InitQuery"].readIfPresent()
-        return value
-    }
-}
-
 extension RDSClientTypes.DBProxyTarget {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBProxyTarget {
@@ -34716,14 +34306,19 @@ extension RDSClientTypes.DBProxyTarget {
     }
 }
 
-extension RDSClientTypes.TargetHealth {
+extension RDSClientTypes.DBProxyTargetGroup {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.TargetHealth {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBProxyTargetGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.TargetHealth()
-        value.state = try reader["State"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
+        var value = RDSClientTypes.DBProxyTargetGroup()
+        value.dbProxyName = try reader["DBProxyName"].readIfPresent()
+        value.targetGroupName = try reader["TargetGroupName"].readIfPresent()
+        value.targetGroupArn = try reader["TargetGroupArn"].readIfPresent()
+        value.isDefault = try reader["IsDefault"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.connectionPoolConfig = try reader["ConnectionPoolConfig"].readIfPresent(with: RDSClientTypes.ConnectionPoolConfigurationInfo.read(from:))
+        value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedDate = try reader["UpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -34757,153 +34352,29 @@ extension RDSClientTypes.DBRecommendation {
     }
 }
 
-extension RDSClientTypes.IssueDetails {
+extension RDSClientTypes.DBSecurityGroup {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.IssueDetails {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSecurityGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.IssueDetails()
-        value.performanceIssueDetails = try reader["PerformanceIssueDetails"].readIfPresent(with: RDSClientTypes.PerformanceIssueDetails.read(from:))
+        var value = RDSClientTypes.DBSecurityGroup()
+        value.ownerId = try reader["OwnerId"].readIfPresent()
+        value.dbSecurityGroupName = try reader["DBSecurityGroupName"].readIfPresent()
+        value.dbSecurityGroupDescription = try reader["DBSecurityGroupDescription"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.ec2SecurityGroups = try reader["EC2SecurityGroups"].readListIfPresent(memberReadingClosure: RDSClientTypes.EC2SecurityGroup.read(from:), memberNodeInfo: "EC2SecurityGroup", isFlattened: false)
+        value.ipRanges = try reader["IPRanges"].readListIfPresent(memberReadingClosure: RDSClientTypes.IPRange.read(from:), memberNodeInfo: "IPRange", isFlattened: false)
+        value.dbSecurityGroupArn = try reader["DBSecurityGroupArn"].readIfPresent()
         return value
     }
 }
 
-extension RDSClientTypes.PerformanceIssueDetails {
+extension RDSClientTypes.DBSecurityGroupMembership {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PerformanceIssueDetails {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.PerformanceIssueDetails()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: RDSClientTypes.Metric.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.analysis = try reader["Analysis"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.Metric {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Metric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Metric()
-        value.name = try reader["Name"].readIfPresent()
-        value.references = try reader["References"].readListIfPresent(memberReadingClosure: RDSClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.statisticsDetails = try reader["StatisticsDetails"].readIfPresent()
-        value.metricQuery = try reader["MetricQuery"].readIfPresent(with: RDSClientTypes.MetricQuery.read(from:))
-        return value
-    }
-}
-
-extension RDSClientTypes.MetricQuery {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MetricQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.MetricQuery()
-        value.performanceInsightsMetricQuery = try reader["PerformanceInsightsMetricQuery"].readIfPresent(with: RDSClientTypes.PerformanceInsightsMetricQuery.read(from:))
-        return value
-    }
-}
-
-extension RDSClientTypes.PerformanceInsightsMetricQuery {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PerformanceInsightsMetricQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.PerformanceInsightsMetricQuery()
-        value.groupBy = try reader["GroupBy"].readIfPresent(with: RDSClientTypes.PerformanceInsightsMetricDimensionGroup.read(from:))
-        value.metric = try reader["Metric"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.PerformanceInsightsMetricDimensionGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PerformanceInsightsMetricDimensionGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.PerformanceInsightsMetricDimensionGroup()
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.group = try reader["Group"].readIfPresent()
-        value.limit = try reader["Limit"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.MetricReference {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MetricReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.MetricReference()
-        value.name = try reader["Name"].readIfPresent()
-        value.referenceDetails = try reader["ReferenceDetails"].readIfPresent(with: RDSClientTypes.ReferenceDetails.read(from:))
-        return value
-    }
-}
-
-extension RDSClientTypes.ReferenceDetails {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ReferenceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ReferenceDetails()
-        value.scalarReferenceDetails = try reader["ScalarReferenceDetails"].readIfPresent(with: RDSClientTypes.ScalarReferenceDetails.read(from:))
-        return value
-    }
-}
-
-extension RDSClientTypes.ScalarReferenceDetails {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ScalarReferenceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ScalarReferenceDetails()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.DocLink {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DocLink {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DocLink()
-        value.text = try reader["Text"].readIfPresent()
-        value.url = try reader["Url"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.RecommendedAction {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RecommendedAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.RecommendedAction()
-        value.actionId = try reader["ActionId"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.operation = try reader["Operation"].readIfPresent()
-        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: RDSClientTypes.RecommendedActionParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.applyModes = try reader["ApplyModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = RDSClientTypes.DBSecurityGroupMembership()
+        value.dbSecurityGroupName = try reader["DBSecurityGroupName"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        value.issueDetails = try reader["IssueDetails"].readIfPresent(with: RDSClientTypes.IssueDetails.read(from:))
-        value.contextAttributes = try reader["ContextAttributes"].readListIfPresent(memberReadingClosure: RDSClientTypes.ContextAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.ContextAttribute {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ContextAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ContextAttribute()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension RDSClientTypes.RecommendedActionParameter {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RecommendedActionParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.RecommendedActionParameter()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }
@@ -34928,13 +34399,52 @@ extension RDSClientTypes.DBShardGroup {
     }
 }
 
-extension RDSClientTypes.DBSnapshotAttributesResult {
+extension RDSClientTypes.DBSnapshot {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSnapshotAttributesResult {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSnapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DBSnapshotAttributesResult()
+        var value = RDSClientTypes.DBSnapshot()
         value.dbSnapshotIdentifier = try reader["DBSnapshotIdentifier"].readIfPresent()
-        value.dbSnapshotAttributes = try reader["DBSnapshotAttributes"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBSnapshotAttribute.read(from:), memberNodeInfo: "DBSnapshotAttribute", isFlattened: false)
+        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
+        value.snapshotCreateTime = try reader["SnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.engine = try reader["Engine"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.instanceCreateTime = try reader["InstanceCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.masterUsername = try reader["MasterUsername"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.licenseModel = try reader["LicenseModel"].readIfPresent()
+        value.snapshotType = try reader["SnapshotType"].readIfPresent()
+        value.iops = try reader["Iops"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
+        value.percentProgress = try reader["PercentProgress"].readIfPresent()
+        value.sourceRegion = try reader["SourceRegion"].readIfPresent()
+        value.sourceDBSnapshotIdentifier = try reader["SourceDBSnapshotIdentifier"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.tdeCredentialArn = try reader["TdeCredentialArn"].readIfPresent()
+        value.encrypted = try reader["Encrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.dbSnapshotArn = try reader["DBSnapshotArn"].readIfPresent()
+        value.timezone = try reader["Timezone"].readIfPresent()
+        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.processorFeatures = try reader["ProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.ProcessorFeature.read(from:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
+        value.dbiResourceId = try reader["DbiResourceId"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.snapshotTarget = try reader["SnapshotTarget"].readIfPresent()
+        value.originalSnapshotCreateTime = try reader["OriginalSnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.snapshotDatabaseTime = try reader["SnapshotDatabaseTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dbSystemId = try reader["DBSystemId"].readIfPresent()
+        value.multiTenant = try reader["MultiTenant"].readIfPresent()
+        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
+        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.snapshotAvailabilityZone = try reader["SnapshotAvailabilityZone"].readIfPresent()
         return value
     }
 }
@@ -34946,6 +34456,17 @@ extension RDSClientTypes.DBSnapshotAttribute {
         var value = RDSClientTypes.DBSnapshotAttribute()
         value.attributeName = try reader["AttributeName"].readIfPresent()
         value.attributeValues = try reader["AttributeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AttributeValue", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.DBSnapshotAttributesResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSnapshotAttributesResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBSnapshotAttributesResult()
+        value.dbSnapshotIdentifier = try reader["DBSnapshotIdentifier"].readIfPresent()
+        value.dbSnapshotAttributes = try reader["DBSnapshotAttributes"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBSnapshotAttribute.read(from:), memberNodeInfo: "DBSnapshotAttribute", isFlattened: false)
         return value
     }
 }
@@ -34972,6 +34493,97 @@ extension RDSClientTypes.DBSnapshotTenantDatabase {
     }
 }
 
+extension RDSClientTypes.DBSubnetGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBSubnetGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBSubnetGroup()
+        value.dbSubnetGroupName = try reader["DBSubnetGroupName"].readIfPresent()
+        value.dbSubnetGroupDescription = try reader["DBSubnetGroupDescription"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnetGroupStatus = try reader["SubnetGroupStatus"].readIfPresent()
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: RDSClientTypes.Subnet.read(from:), memberNodeInfo: "Subnet", isFlattened: false)
+        value.dbSubnetGroupArn = try reader["DBSubnetGroupArn"].readIfPresent()
+        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.DescribeDBLogFilesDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DescribeDBLogFilesDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DescribeDBLogFilesDetails()
+        value.logFileName = try reader["LogFileName"].readIfPresent()
+        value.lastWritten = try reader["LastWritten"].readIfPresent()
+        value.size = try reader["Size"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DocLink {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DocLink {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DocLink()
+        value.text = try reader["Text"].readIfPresent()
+        value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DomainMembership {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DomainMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DomainMembership()
+        value.domain = try reader["Domain"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.fqdn = try reader["FQDN"].readIfPresent()
+        value.iamRoleName = try reader["IAMRoleName"].readIfPresent()
+        value.ou = try reader["OU"].readIfPresent()
+        value.authSecretArn = try reader["AuthSecretArn"].readIfPresent()
+        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.DoubleRange {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DoubleRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DoubleRange()
+        value.from = try reader["From"].readIfPresent()
+        value.to = try reader["To"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.EC2SecurityGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EC2SecurityGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.EC2SecurityGroup()
+        value.status = try reader["Status"].readIfPresent()
+        value.ec2SecurityGroupName = try reader["EC2SecurityGroupName"].readIfPresent()
+        value.ec2SecurityGroupId = try reader["EC2SecurityGroupId"].readIfPresent()
+        value.ec2SecurityGroupOwnerId = try reader["EC2SecurityGroupOwnerId"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.Endpoint {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Endpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.Endpoint()
+        value.address = try reader["Address"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
+        return value
+    }
+}
+
 extension RDSClientTypes.EngineDefaults {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EngineDefaults {
@@ -34980,17 +34592,6 @@ extension RDSClientTypes.EngineDefaults {
         value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
         value.marker = try reader["Marker"].readIfPresent()
         value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: RDSClientTypes.Parameter.read(from:), memberNodeInfo: "Parameter", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.EventCategoriesMap {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EventCategoriesMap {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.EventCategoriesMap()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
         return value
     }
 }
@@ -35006,6 +34607,36 @@ extension RDSClientTypes.Event {
         value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
         value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.sourceArn = try reader["SourceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.EventCategoriesMap {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EventCategoriesMap {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.EventCategoriesMap()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.EventSubscription {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.EventSubscription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.EventSubscription()
+        value.customerAwsId = try reader["CustomerAwsId"].readIfPresent()
+        value.custSubscriptionId = try reader["CustSubscriptionId"].readIfPresent()
+        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.subscriptionCreationTime = try reader["SubscriptionCreationTime"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.sourceIdsList = try reader["SourceIdsList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "SourceId", isFlattened: false)
+        value.eventCategoriesList = try reader["EventCategoriesList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.eventSubscriptionArn = try reader["EventSubscriptionArn"].readIfPresent()
         return value
     }
 }
@@ -35035,6 +34666,66 @@ extension RDSClientTypes.ExportTask {
     }
 }
 
+extension RDSClientTypes.FailoverState {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.FailoverState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.FailoverState()
+        value.status = try reader["Status"].readIfPresent()
+        value.fromDbClusterArn = try reader["FromDbClusterArn"].readIfPresent()
+        value.toDbClusterArn = try reader["ToDbClusterArn"].readIfPresent()
+        value.isDataLossAllowed = try reader["IsDataLossAllowed"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.Filter {
+
+    static func write(value: RDSClientTypes.Filter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Value", isFlattened: false)
+    }
+}
+
+extension RDSClientTypes.GlobalCluster {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.GlobalCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.GlobalCluster()
+        value.globalClusterIdentifier = try reader["GlobalClusterIdentifier"].readIfPresent()
+        value.globalClusterResourceId = try reader["GlobalClusterResourceId"].readIfPresent()
+        value.globalClusterArn = try reader["GlobalClusterArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.engineLifecycleSupport = try reader["EngineLifecycleSupport"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
+        value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
+        value.globalClusterMembers = try reader["GlobalClusterMembers"].readListIfPresent(memberReadingClosure: RDSClientTypes.GlobalClusterMember.read(from:), memberNodeInfo: "GlobalClusterMember", isFlattened: false)
+        value.endpoint = try reader["Endpoint"].readIfPresent()
+        value.failoverState = try reader["FailoverState"].readIfPresent(with: RDSClientTypes.FailoverState.read(from:))
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.GlobalClusterMember {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.GlobalClusterMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.GlobalClusterMember()
+        value.dbClusterArn = try reader["DBClusterArn"].readIfPresent()
+        value.readers = try reader["Readers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isWriter = try reader["IsWriter"].readIfPresent()
+        value.globalWriteForwardingStatus = try reader["GlobalWriteForwardingStatus"].readIfPresent()
+        value.synchronizationStatus = try reader["SynchronizationStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension RDSClientTypes.Integration {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Integration {
@@ -35052,6 +34743,182 @@ extension RDSClientTypes.Integration {
         value.description = try reader["Description"].readIfPresent()
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: RDSClientTypes.IntegrationError.read(from:), memberNodeInfo: "IntegrationError", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.IntegrationError {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.IntegrationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.IntegrationError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.IPRange {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.IPRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.IPRange()
+        value.status = try reader["Status"].readIfPresent()
+        value.cidrip = try reader["CIDRIP"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.IssueDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.IssueDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.IssueDetails()
+        value.performanceIssueDetails = try reader["PerformanceIssueDetails"].readIfPresent(with: RDSClientTypes.PerformanceIssueDetails.read(from:))
+        return value
+    }
+}
+
+extension RDSClientTypes.LimitlessDatabase {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.LimitlessDatabase {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.LimitlessDatabase()
+        value.status = try reader["Status"].readIfPresent()
+        value.minRequiredACU = try reader["MinRequiredACU"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.MasterUserSecret {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MasterUserSecret {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.MasterUserSecret()
+        value.secretArn = try reader["SecretArn"].readIfPresent()
+        value.secretStatus = try reader["SecretStatus"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.Metric {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Metric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.Metric()
+        value.name = try reader["Name"].readIfPresent()
+        value.references = try reader["References"].readListIfPresent(memberReadingClosure: RDSClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statisticsDetails = try reader["StatisticsDetails"].readIfPresent()
+        value.metricQuery = try reader["MetricQuery"].readIfPresent(with: RDSClientTypes.MetricQuery.read(from:))
+        return value
+    }
+}
+
+extension RDSClientTypes.MetricQuery {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MetricQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.MetricQuery()
+        value.performanceInsightsMetricQuery = try reader["PerformanceInsightsMetricQuery"].readIfPresent(with: RDSClientTypes.PerformanceInsightsMetricQuery.read(from:))
+        return value
+    }
+}
+
+extension RDSClientTypes.MetricReference {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MetricReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.MetricReference()
+        value.name = try reader["Name"].readIfPresent()
+        value.referenceDetails = try reader["ReferenceDetails"].readIfPresent(with: RDSClientTypes.ReferenceDetails.read(from:))
+        return value
+    }
+}
+
+extension RDSClientTypes.MinimumEngineVersionPerAllowedValue {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MinimumEngineVersionPerAllowedValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.MinimumEngineVersionPerAllowedValue()
+        value.allowedValue = try reader["AllowedValue"].readIfPresent()
+        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.ModifyAdditionalStorageVolume {
+
+    static func write(value: RDSClientTypes.ModifyAdditionalStorageVolume?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllocatedStorage"].write(value.allocatedStorage)
+        try writer["IOPS"].write(value.iops)
+        try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
+        try writer["SetForDelete"].write(value.setForDelete)
+        try writer["StorageThroughput"].write(value.storageThroughput)
+        try writer["StorageType"].write(value.storageType)
+        try writer["VolumeName"].write(value.volumeName)
+    }
+}
+
+extension RDSClientTypes.Option {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Option {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.Option()
+        value.optionName = try reader["OptionName"].readIfPresent()
+        value.optionDescription = try reader["OptionDescription"].readIfPresent()
+        value.persistent = try reader["Persistent"].readIfPresent()
+        value.permanent = try reader["Permanent"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.optionVersion = try reader["OptionVersion"].readIfPresent()
+        value.optionSettings = try reader["OptionSettings"].readListIfPresent(memberReadingClosure: RDSClientTypes.OptionSetting.read(from:), memberNodeInfo: "OptionSetting", isFlattened: false)
+        value.dbSecurityGroupMemberships = try reader["DBSecurityGroupMemberships"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBSecurityGroupMembership.read(from:), memberNodeInfo: "DBSecurityGroup", isFlattened: false)
+        value.vpcSecurityGroupMemberships = try reader["VpcSecurityGroupMemberships"].readListIfPresent(memberReadingClosure: RDSClientTypes.VpcSecurityGroupMembership.read(from:), memberNodeInfo: "VpcSecurityGroupMembership", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.OptionConfiguration {
+
+    static func write(value: RDSClientTypes.OptionConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DBSecurityGroupMemberships"].writeList(value.dbSecurityGroupMemberships, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "DBSecurityGroupName", isFlattened: false)
+        try writer["OptionName"].write(value.optionName)
+        try writer["OptionSettings"].writeList(value.optionSettings, memberWritingClosure: RDSClientTypes.OptionSetting.write(value:to:), memberNodeInfo: "OptionSetting", isFlattened: false)
+        try writer["OptionVersion"].write(value.optionVersion)
+        try writer["Port"].write(value.port)
+        try writer["VpcSecurityGroupMemberships"].writeList(value.vpcSecurityGroupMemberships, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
+    }
+}
+
+extension RDSClientTypes.OptionGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.OptionGroup()
+        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
+        value.optionGroupDescription = try reader["OptionGroupDescription"].readIfPresent()
+        value.engineName = try reader["EngineName"].readIfPresent()
+        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
+        value.options = try reader["Options"].readListIfPresent(memberReadingClosure: RDSClientTypes.Option.read(from:), memberNodeInfo: "Option", isFlattened: false)
+        value.allowsVpcAndNonVpcInstanceMemberships = try reader["AllowsVpcAndNonVpcInstanceMemberships"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.optionGroupArn = try reader["OptionGroupArn"].readIfPresent()
+        value.sourceOptionGroup = try reader["SourceOptionGroup"].readIfPresent()
+        value.sourceAccountId = try reader["SourceAccountId"].readIfPresent()
+        value.copyTimestamp = try reader["CopyTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension RDSClientTypes.OptionGroupMembership {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionGroupMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.OptionGroupMembership()
+        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -35082,17 +34949,6 @@ extension RDSClientTypes.OptionGroupOption {
     }
 }
 
-extension RDSClientTypes.OptionVersion {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.OptionVersion()
-        value.version = try reader["Version"].readIfPresent()
-        value.isDefault = try reader["IsDefault"].readIfPresent()
-        return value
-    }
-}
-
 extension RDSClientTypes.OptionGroupOptionSetting {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionGroupOptionSetting {
@@ -35110,13 +34966,44 @@ extension RDSClientTypes.OptionGroupOptionSetting {
     }
 }
 
-extension RDSClientTypes.MinimumEngineVersionPerAllowedValue {
+extension RDSClientTypes.OptionSetting {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.MinimumEngineVersionPerAllowedValue {
+    static func write(value: RDSClientTypes.OptionSetting?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedValues"].write(value.allowedValues)
+        try writer["ApplyType"].write(value.applyType)
+        try writer["DataType"].write(value.dataType)
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["Description"].write(value.description)
+        try writer["IsCollection"].write(value.isCollection)
+        try writer["IsModifiable"].write(value.isModifiable)
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.MinimumEngineVersionPerAllowedValue()
-        value.allowedValue = try reader["AllowedValue"].readIfPresent()
-        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
+        var value = RDSClientTypes.OptionSetting()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.applyType = try reader["ApplyType"].readIfPresent()
+        value.dataType = try reader["DataType"].readIfPresent()
+        value.allowedValues = try reader["AllowedValues"].readIfPresent()
+        value.isModifiable = try reader["IsModifiable"].readIfPresent()
+        value.isCollection = try reader["IsCollection"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.OptionVersion {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.OptionVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.OptionVersion()
+        value.version = try reader["Version"].readIfPresent()
+        value.isDefault = try reader["IsDefault"].readIfPresent()
         return value
     }
 }
@@ -35169,35 +35056,248 @@ extension RDSClientTypes.OrderableDBInstanceOption {
     }
 }
 
-extension RDSClientTypes.AvailableAdditionalStorageVolumesOption {
+extension RDSClientTypes.Outpost {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailableAdditionalStorageVolumesOption {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Outpost {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.AvailableAdditionalStorageVolumesOption()
-        value.supportsStorageAutoscaling = try reader["SupportsStorageAutoscaling"].readIfPresent()
-        value.supportsStorageThroughput = try reader["SupportsStorageThroughput"].readIfPresent()
-        value.supportsIops = try reader["SupportsIops"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.minStorageSize = try reader["MinStorageSize"].readIfPresent()
-        value.maxStorageSize = try reader["MaxStorageSize"].readIfPresent()
-        value.minIops = try reader["MinIops"].readIfPresent()
-        value.maxIops = try reader["MaxIops"].readIfPresent()
-        value.minIopsPerGib = try reader["MinIopsPerGib"].readIfPresent()
-        value.maxIopsPerGib = try reader["MaxIopsPerGib"].readIfPresent()
-        value.minStorageThroughput = try reader["MinStorageThroughput"].readIfPresent()
-        value.maxStorageThroughput = try reader["MaxStorageThroughput"].readIfPresent()
+        var value = RDSClientTypes.Outpost()
+        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }
 
-extension RDSClientTypes.AvailableProcessorFeature {
+extension RDSClientTypes.Parameter {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailableProcessorFeature {
+    static func write(value: RDSClientTypes.Parameter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedValues"].write(value.allowedValues)
+        try writer["ApplyMethod"].write(value.applyMethod)
+        try writer["ApplyType"].write(value.applyType)
+        try writer["DataType"].write(value.dataType)
+        try writer["Description"].write(value.description)
+        try writer["IsModifiable"].write(value.isModifiable)
+        try writer["MinimumEngineVersion"].write(value.minimumEngineVersion)
+        try writer["ParameterName"].write(value.parameterName)
+        try writer["ParameterValue"].write(value.parameterValue)
+        try writer["Source"].write(value.source)
+        try writer["SupportedEngineModes"].writeList(value.supportedEngineModes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Parameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.AvailableProcessorFeature()
-        value.name = try reader["Name"].readIfPresent()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        var value = RDSClientTypes.Parameter()
+        value.parameterName = try reader["ParameterName"].readIfPresent()
+        value.parameterValue = try reader["ParameterValue"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent()
+        value.applyType = try reader["ApplyType"].readIfPresent()
+        value.dataType = try reader["DataType"].readIfPresent()
         value.allowedValues = try reader["AllowedValues"].readIfPresent()
+        value.isModifiable = try reader["IsModifiable"].readIfPresent()
+        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
+        value.applyMethod = try reader["ApplyMethod"].readIfPresent()
+        value.supportedEngineModes = try reader["SupportedEngineModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.PendingCloudwatchLogsExports {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingCloudwatchLogsExports {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.PendingCloudwatchLogsExports()
+        value.logTypesToEnable = try reader["LogTypesToEnable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logTypesToDisable = try reader["LogTypesToDisable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.PendingMaintenanceAction {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingMaintenanceAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.PendingMaintenanceAction()
+        value.action = try reader["Action"].readIfPresent()
+        value.autoAppliedAfterDate = try reader["AutoAppliedAfterDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.forcedApplyDate = try reader["ForcedApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.optInStatus = try reader["OptInStatus"].readIfPresent()
+        value.currentApplyDate = try reader["CurrentApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.PendingModifiedValues {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingModifiedValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.PendingModifiedValues()
+        value.dbInstanceClass = try reader["DBInstanceClass"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.multiAZ = try reader["MultiAZ"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.licenseModel = try reader["LicenseModel"].readIfPresent()
+        value.iops = try reader["Iops"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.caCertificateIdentifier = try reader["CACertificateIdentifier"].readIfPresent()
+        value.dbSubnetGroupName = try reader["DBSubnetGroupName"].readIfPresent()
+        value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: RDSClientTypes.PendingCloudwatchLogsExports.read(from:))
+        value.processorFeatures = try reader["ProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.ProcessorFeature.read(from:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
+        value.automationMode = try reader["AutomationMode"].readIfPresent()
+        value.resumeFullAutomationModeTime = try reader["ResumeFullAutomationModeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.multiTenant = try reader["MultiTenant"].readIfPresent()
+        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.PerformanceInsightsMetricDimensionGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PerformanceInsightsMetricDimensionGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.PerformanceInsightsMetricDimensionGroup()
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.group = try reader["Group"].readIfPresent()
+        value.limit = try reader["Limit"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.PerformanceInsightsMetricQuery {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PerformanceInsightsMetricQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.PerformanceInsightsMetricQuery()
+        value.groupBy = try reader["GroupBy"].readIfPresent(with: RDSClientTypes.PerformanceInsightsMetricDimensionGroup.read(from:))
+        value.metric = try reader["Metric"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.PerformanceIssueDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PerformanceIssueDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.PerformanceIssueDetails()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: RDSClientTypes.Metric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.analysis = try reader["Analysis"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.ProcessorFeature {
+
+    static func write(value: RDSClientTypes.ProcessorFeature?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ProcessorFeature {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ProcessorFeature()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.Range {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Range {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.Range()
+        value.from = try reader["From"].readIfPresent()
+        value.to = try reader["To"].readIfPresent()
+        value.step = try reader["Step"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.RdsCustomClusterConfiguration {
+
+    static func write(value: RDSClientTypes.RdsCustomClusterConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["InterconnectSubnetId"].write(value.interconnectSubnetId)
+        try writer["ReplicaMode"].write(value.replicaMode)
+        try writer["TransitGatewayMulticastDomainId"].write(value.transitGatewayMulticastDomainId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RdsCustomClusterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.RdsCustomClusterConfiguration()
+        value.interconnectSubnetId = try reader["InterconnectSubnetId"].readIfPresent()
+        value.transitGatewayMulticastDomainId = try reader["TransitGatewayMulticastDomainId"].readIfPresent()
+        value.replicaMode = try reader["ReplicaMode"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.RecommendedAction {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RecommendedAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.RecommendedAction()
+        value.actionId = try reader["ActionId"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.operation = try reader["Operation"].readIfPresent()
+        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: RDSClientTypes.RecommendedActionParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.applyModes = try reader["ApplyModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent()
+        value.issueDetails = try reader["IssueDetails"].readIfPresent(with: RDSClientTypes.IssueDetails.read(from:))
+        value.contextAttributes = try reader["ContextAttributes"].readListIfPresent(memberReadingClosure: RDSClientTypes.ContextAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.RecommendedActionParameter {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RecommendedActionParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.RecommendedActionParameter()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.RecommendedActionUpdate {
+
+    static func write(value: RDSClientTypes.RecommendedActionUpdate?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ActionId"].write(value.actionId)
+        try writer["Status"].write(value.status)
+    }
+}
+
+extension RDSClientTypes.RecurringCharge {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RecurringCharge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.RecurringCharge()
+        value.recurringChargeAmount = try reader["RecurringChargeAmount"].readIfPresent()
+        value.recurringChargeFrequency = try reader["RecurringChargeFrequency"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.ReferenceDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ReferenceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ReferenceDetails()
+        value.scalarReferenceDetails = try reader["ScalarReferenceDetails"].readIfPresent(with: RDSClientTypes.ScalarReferenceDetails.read(from:))
         return value
     }
 }
@@ -35227,17 +35327,6 @@ extension RDSClientTypes.ReservedDBInstance {
     }
 }
 
-extension RDSClientTypes.RecurringCharge {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RecurringCharge {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.RecurringCharge()
-        value.recurringChargeAmount = try reader["RecurringChargeAmount"].readIfPresent()
-        value.recurringChargeFrequency = try reader["RecurringChargeFrequency"].readIfPresent()
-        return value
-    }
-}
-
 extension RDSClientTypes.ReservedDBInstancesOffering {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ReservedDBInstancesOffering {
@@ -35257,6 +35346,99 @@ extension RDSClientTypes.ReservedDBInstancesOffering {
     }
 }
 
+extension RDSClientTypes.ResourcePendingMaintenanceActions {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ResourcePendingMaintenanceActions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ResourcePendingMaintenanceActions()
+        value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
+        value.pendingMaintenanceActionDetails = try reader["PendingMaintenanceActionDetails"].readListIfPresent(memberReadingClosure: RDSClientTypes.PendingMaintenanceAction.read(from:), memberNodeInfo: "PendingMaintenanceAction", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.RestoreWindow {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.RestoreWindow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.RestoreWindow()
+        value.earliestTime = try reader["EarliestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.latestTime = try reader["LatestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension RDSClientTypes.ScalarReferenceDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ScalarReferenceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ScalarReferenceDetails()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.ScalingConfiguration {
+
+    static func write(value: RDSClientTypes.ScalingConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AutoPause"].write(value.autoPause)
+        try writer["MaxCapacity"].write(value.maxCapacity)
+        try writer["MinCapacity"].write(value.minCapacity)
+        try writer["SecondsBeforeTimeout"].write(value.secondsBeforeTimeout)
+        try writer["SecondsUntilAutoPause"].write(value.secondsUntilAutoPause)
+        try writer["TimeoutAction"].write(value.timeoutAction)
+    }
+}
+
+extension RDSClientTypes.ScalingConfigurationInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ScalingConfigurationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ScalingConfigurationInfo()
+        value.minCapacity = try reader["MinCapacity"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        value.autoPause = try reader["AutoPause"].readIfPresent()
+        value.secondsUntilAutoPause = try reader["SecondsUntilAutoPause"].readIfPresent()
+        value.timeoutAction = try reader["TimeoutAction"].readIfPresent()
+        value.secondsBeforeTimeout = try reader["SecondsBeforeTimeout"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.ServerlessV2FeaturesSupport {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ServerlessV2FeaturesSupport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ServerlessV2FeaturesSupport()
+        value.minCapacity = try reader["MinCapacity"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.ServerlessV2ScalingConfiguration {
+
+    static func write(value: RDSClientTypes.ServerlessV2ScalingConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MaxCapacity"].write(value.maxCapacity)
+        try writer["MinCapacity"].write(value.minCapacity)
+        try writer["SecondsUntilAutoPause"].write(value.secondsUntilAutoPause)
+    }
+}
+
+extension RDSClientTypes.ServerlessV2ScalingConfigurationInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ServerlessV2ScalingConfigurationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ServerlessV2ScalingConfigurationInfo()
+        value.minCapacity = try reader["MinCapacity"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        value.secondsUntilAutoPause = try reader["SecondsUntilAutoPause"].readIfPresent()
+        return value
+    }
+}
+
 extension RDSClientTypes.SourceRegion {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.SourceRegion {
@@ -35270,15 +35452,170 @@ extension RDSClientTypes.SourceRegion {
     }
 }
 
-extension RDSClientTypes.ValidDBInstanceModificationsMessage {
+extension RDSClientTypes.Subnet {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ValidDBInstanceModificationsMessage {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Subnet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ValidDBInstanceModificationsMessage()
-        value.storage = try reader["Storage"].readListIfPresent(memberReadingClosure: RDSClientTypes.ValidStorageOptions.read(from:), memberNodeInfo: "ValidStorageOptions", isFlattened: false)
-        value.validProcessorFeatures = try reader["ValidProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.AvailableProcessorFeature.read(from:), memberNodeInfo: "AvailableProcessorFeature", isFlattened: false)
-        value.supportsDedicatedLogVolume = try reader["SupportsDedicatedLogVolume"].readIfPresent()
-        value.additionalStorage = try reader["AdditionalStorage"].readIfPresent(with: RDSClientTypes.ValidAdditionalStorageOptions.read(from:))
+        var value = RDSClientTypes.Subnet()
+        value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
+        value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent(with: RDSClientTypes.AvailabilityZone.read(from:))
+        value.subnetOutpost = try reader["SubnetOutpost"].readIfPresent(with: RDSClientTypes.Outpost.read(from:))
+        value.subnetStatus = try reader["SubnetStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.SupportedEngineLifecycle {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.SupportedEngineLifecycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.SupportedEngineLifecycle()
+        value.lifecycleSupportName = try reader["LifecycleSupportName"].readIfPresent() ?? .sdkUnknown("")
+        value.lifecycleSupportStartDate = try reader["LifecycleSupportStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lifecycleSupportEndDate = try reader["LifecycleSupportEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension RDSClientTypes.SwitchoverDetail {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.SwitchoverDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.SwitchoverDetail()
+        value.sourceMember = try reader["SourceMember"].readIfPresent()
+        value.targetMember = try reader["TargetMember"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.Tag {
+
+    static func write(value: RDSClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.TagSpecification {
+
+    static func write(value: RDSClientTypes.TagSpecification?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+    }
+}
+
+extension RDSClientTypes.TargetHealth {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.TargetHealth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.TargetHealth()
+        value.state = try reader["State"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.TenantDatabase {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.TenantDatabase {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.TenantDatabase()
+        value.tenantDatabaseCreateTime = try reader["TenantDatabaseCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
+        value.tenantDBName = try reader["TenantDBName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.masterUsername = try reader["MasterUsername"].readIfPresent()
+        value.dbiResourceId = try reader["DbiResourceId"].readIfPresent()
+        value.tenantDatabaseResourceId = try reader["TenantDatabaseResourceId"].readIfPresent()
+        value.tenantDatabaseARN = try reader["TenantDatabaseARN"].readIfPresent()
+        value.characterSetName = try reader["CharacterSetName"].readIfPresent()
+        value.ncharCharacterSetName = try reader["NcharCharacterSetName"].readIfPresent()
+        value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
+        value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: RDSClientTypes.TenantDatabasePendingModifiedValues.read(from:))
+        value.masterUserSecret = try reader["MasterUserSecret"].readIfPresent(with: RDSClientTypes.MasterUserSecret.read(from:))
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.TenantDatabasePendingModifiedValues {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.TenantDatabasePendingModifiedValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.TenantDatabasePendingModifiedValues()
+        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
+        value.tenantDBName = try reader["TenantDBName"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.Timezone {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Timezone {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.Timezone()
+        value.timezoneName = try reader["TimezoneName"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.UpgradeTarget {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.UpgradeTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.UpgradeTarget()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.autoUpgrade = try reader["AutoUpgrade"].readIfPresent()
+        value.isMajorVersionUpgrade = try reader["IsMajorVersionUpgrade"].readIfPresent()
+        value.supportedEngineModes = try reader["SupportedEngineModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportsParallelQuery = try reader["SupportsParallelQuery"].readIfPresent()
+        value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
+        value.supportsBabelfish = try reader["SupportsBabelfish"].readIfPresent()
+        value.supportsLimitlessDatabase = try reader["SupportsLimitlessDatabase"].readIfPresent()
+        value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
+        value.supportsIntegrations = try reader["SupportsIntegrations"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.UserAuthConfig {
+
+    static func write(value: RDSClientTypes.UserAuthConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AuthScheme"].write(value.authScheme)
+        try writer["ClientPasswordAuthType"].write(value.clientPasswordAuthType)
+        try writer["Description"].write(value.description)
+        try writer["IAMAuth"].write(value.iamAuth)
+        try writer["SecretArn"].write(value.secretArn)
+        try writer["UserName"].write(value.userName)
+    }
+}
+
+extension RDSClientTypes.UserAuthConfigInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.UserAuthConfigInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.UserAuthConfigInfo()
+        value.description = try reader["Description"].readIfPresent()
+        value.userName = try reader["UserName"].readIfPresent()
+        value.authScheme = try reader["AuthScheme"].readIfPresent()
+        value.secretArn = try reader["SecretArn"].readIfPresent()
+        value.iamAuth = try reader["IAMAuth"].readIfPresent()
+        value.clientPasswordAuthType = try reader["ClientPasswordAuthType"].readIfPresent()
         return value
     }
 }
@@ -35294,13 +35631,15 @@ extension RDSClientTypes.ValidAdditionalStorageOptions {
     }
 }
 
-extension RDSClientTypes.ValidVolumeOptions {
+extension RDSClientTypes.ValidDBInstanceModificationsMessage {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ValidVolumeOptions {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ValidDBInstanceModificationsMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ValidVolumeOptions()
-        value.volumeName = try reader["VolumeName"].readIfPresent()
+        var value = RDSClientTypes.ValidDBInstanceModificationsMessage()
         value.storage = try reader["Storage"].readListIfPresent(memberReadingClosure: RDSClientTypes.ValidStorageOptions.read(from:), memberNodeInfo: "ValidStorageOptions", isFlattened: false)
+        value.validProcessorFeatures = try reader["ValidProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.AvailableProcessorFeature.read(from:), memberNodeInfo: "AvailableProcessorFeature", isFlattened: false)
+        value.supportsDedicatedLogVolume = try reader["SupportsDedicatedLogVolume"].readIfPresent()
+        value.additionalStorage = try reader["AdditionalStorage"].readIfPresent(with: RDSClientTypes.ValidAdditionalStorageOptions.read(from:))
         return value
     }
 }
@@ -35321,137 +35660,25 @@ extension RDSClientTypes.ValidStorageOptions {
     }
 }
 
-extension RDSClientTypes.DoubleRange {
+extension RDSClientTypes.ValidVolumeOptions {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DoubleRange {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ValidVolumeOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DoubleRange()
-        value.from = try reader["From"].readIfPresent()
-        value.to = try reader["To"].readIfPresent()
+        var value = RDSClientTypes.ValidVolumeOptions()
+        value.volumeName = try reader["VolumeName"].readIfPresent()
+        value.storage = try reader["Storage"].readListIfPresent(memberReadingClosure: RDSClientTypes.ValidStorageOptions.read(from:), memberNodeInfo: "ValidStorageOptions", isFlattened: false)
         return value
     }
 }
 
-extension RDSClientTypes.Range {
+extension RDSClientTypes.VpcSecurityGroupMembership {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.Range {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.VpcSecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.Range()
-        value.from = try reader["From"].readIfPresent()
-        value.to = try reader["To"].readIfPresent()
-        value.step = try reader["Step"].readIfPresent()
+        var value = RDSClientTypes.VpcSecurityGroupMembership()
+        value.vpcSecurityGroupId = try reader["VpcSecurityGroupId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
-    }
-}
-
-extension RDSClientTypes.ScalingConfiguration {
-
-    static func write(value: RDSClientTypes.ScalingConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AutoPause"].write(value.autoPause)
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["MinCapacity"].write(value.minCapacity)
-        try writer["SecondsBeforeTimeout"].write(value.secondsBeforeTimeout)
-        try writer["SecondsUntilAutoPause"].write(value.secondsUntilAutoPause)
-        try writer["TimeoutAction"].write(value.timeoutAction)
-    }
-}
-
-extension RDSClientTypes.ServerlessV2ScalingConfiguration {
-
-    static func write(value: RDSClientTypes.ServerlessV2ScalingConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["MinCapacity"].write(value.minCapacity)
-        try writer["SecondsUntilAutoPause"].write(value.secondsUntilAutoPause)
-    }
-}
-
-extension RDSClientTypes.TagSpecification {
-
-    static func write(value: RDSClientTypes.TagSpecification?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
-    }
-}
-
-extension RDSClientTypes.UserAuthConfig {
-
-    static func write(value: RDSClientTypes.UserAuthConfig?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AuthScheme"].write(value.authScheme)
-        try writer["ClientPasswordAuthType"].write(value.clientPasswordAuthType)
-        try writer["Description"].write(value.description)
-        try writer["IAMAuth"].write(value.iamAuth)
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["UserName"].write(value.userName)
-    }
-}
-
-extension RDSClientTypes.Filter {
-
-    static func write(value: RDSClientTypes.Filter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Value", isFlattened: false)
-    }
-}
-
-extension RDSClientTypes.CloudwatchLogsExportConfiguration {
-
-    static func write(value: RDSClientTypes.CloudwatchLogsExportConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DisableLogTypes"].writeList(value.disableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EnableLogTypes"].writeList(value.enableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension RDSClientTypes.ModifyAdditionalStorageVolume {
-
-    static func write(value: RDSClientTypes.ModifyAdditionalStorageVolume?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedStorage"].write(value.allocatedStorage)
-        try writer["IOPS"].write(value.iops)
-        try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
-        try writer["SetForDelete"].write(value.setForDelete)
-        try writer["StorageThroughput"].write(value.storageThroughput)
-        try writer["StorageType"].write(value.storageType)
-        try writer["VolumeName"].write(value.volumeName)
-    }
-}
-
-extension RDSClientTypes.ConnectionPoolConfiguration {
-
-    static func write(value: RDSClientTypes.ConnectionPoolConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionBorrowTimeout"].write(value.connectionBorrowTimeout)
-        try writer["InitQuery"].write(value.initQuery)
-        try writer["MaxConnectionsPercent"].write(value.maxConnectionsPercent)
-        try writer["MaxIdleConnectionsPercent"].write(value.maxIdleConnectionsPercent)
-        try writer["SessionPinningFilters"].writeList(value.sessionPinningFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension RDSClientTypes.RecommendedActionUpdate {
-
-    static func write(value: RDSClientTypes.RecommendedActionUpdate?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ActionId"].write(value.actionId)
-        try writer["Status"].write(value.status)
-    }
-}
-
-extension RDSClientTypes.OptionConfiguration {
-
-    static func write(value: RDSClientTypes.OptionConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DBSecurityGroupMemberships"].writeList(value.dbSecurityGroupMemberships, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "DBSecurityGroupName", isFlattened: false)
-        try writer["OptionName"].write(value.optionName)
-        try writer["OptionSettings"].writeList(value.optionSettings, memberWritingClosure: RDSClientTypes.OptionSetting.write(value:to:), memberNodeInfo: "OptionSetting", isFlattened: false)
-        try writer["OptionVersion"].write(value.optionVersion)
-        try writer["Port"].write(value.port)
-        try writer["VpcSecurityGroupMemberships"].writeList(value.vpcSecurityGroupMemberships, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
     }
 }
 

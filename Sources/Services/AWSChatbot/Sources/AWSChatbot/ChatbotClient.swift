@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ChatbotClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ChatbotClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ChatbotClient.ChatbotClientConfig
+    public let config: ChatbotClient.ChatbotClientConfig
     let serviceName = "chatbot"
 
     @available(*, deprecated, message: "Use ChatbotClient.ChatbotClientConfig instead")
     public typealias Config = ChatbotClient.ChatbotClientConfiguration
+    public typealias Configuration = ChatbotClient.ChatbotClientConfig
 
     public required init(config: ChatbotClient.ChatbotClientConfig) {
         ClientRuntime.initialize()
