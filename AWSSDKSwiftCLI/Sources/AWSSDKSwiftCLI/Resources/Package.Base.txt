@@ -13,6 +13,7 @@ extension Target.Dependency {
     static var AWSSDKChecksums: Self { "AWSSDKChecksums" }
     static var AWSSDKDynamic: Self { "AWSSDKDynamic" }
     static var AWSSDKRPCv2CBOR: Self { "AWSSDKRPCv2CBOR" }
+    static var AWSSDKAWSJSON: Self { "AWSSDKAWSJSON" }
 
     // CRT module
     static var CRT: Self { .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift") }
@@ -84,6 +85,7 @@ private var runtimeProducts: [Product] {
         "AWSSDKIdentity",
         "AWSSDKChecksums",
         "AWSSDKRPCv2CBOR",
+        "AWSSDKAWSJSON",
     ].map { .library(name: $0, targets: [$0]) }
 }
 
@@ -232,6 +234,17 @@ private var runtimeTargets: [Target] {
                 .SmithySerialization,
             ],
             path: "Sources/Core/AWSSDKRPCv2CBOR/Sources/AWSSDKRPCv2CBOR"
+        ),
+        .target(
+            name: "AWSSDKAWSJSON",
+            dependencies: [
+                .ClientRuntime,
+                .AWSClientRuntime,
+                .Smithy,
+                .SmithyJSON,
+                .SmithySerialization,
+            ],
+            path: "Sources/Core/AWSSDKAWSJSON/Sources/AWSSDKAWSJSON"
         ),
     ] + internalServiceTargets
 }

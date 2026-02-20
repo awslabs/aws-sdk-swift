@@ -2,10 +2,10 @@
   "modelPath": "codegen/sdk-codegen/aws-models/cognito-identity.json",
   "dependencies": [
     "AWSClientRuntime",
+    "AWSSDKAWSJSON",
     "AWSSDKChecksums",
     "AWSSDKHTTPAuth",
     "ClientRuntime",
-    "RPCv2CBOR",
     "Smithy",
     "SmithyHTTPAPI",
     "SmithyHTTPAuthAPI",

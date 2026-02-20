@@ -75,7 +75,6 @@ private var protocolTestTargets: [Target] {
         }
 
         var plugins: [Target.PluginUsage] {
-            guard name.hasPrefix("RPCV2CBOR") else { return [] }
             return [.plugin(name: "SmithyCodeGeneratorPlugin", package: "smithy-swift")]
         }
     }
