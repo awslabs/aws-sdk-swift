@@ -74,8 +74,6 @@ public struct ClientProtocol: SmithySerialization.ClientProtocol {
 
                 // Throw the error to the caller
                 throw modeledError
-
-                throw error as! Error
             } else {
                 throw UnknownHTTPServiceError(httpResponse: response, message: baseError.message, typeName: code)
             }
