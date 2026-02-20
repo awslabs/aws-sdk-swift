@@ -1,5 +1,5 @@
 {
-  "modelPath": "codegen/sdk-codegen/aws-models/ecs.json",
+  "modelPath": "codegen/sdk-codegen/aws-models/signer-data.json",
   "dependencies": [
     "AWSClientRuntime",
     "AWSSDKChecksums",

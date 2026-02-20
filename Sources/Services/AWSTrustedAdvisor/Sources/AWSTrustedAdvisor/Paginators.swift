@@ -168,6 +168,7 @@ extension ListRecommendationResourcesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListRecommendationResourcesInput {
         return ListRecommendationResourcesInput(
             exclusionStatus: self.exclusionStatus,
+            language: self.language,
             maxResults: self.maxResults,
             nextToken: token,
             recommendationIdentifier: self.recommendationIdentifier,
@@ -205,6 +206,7 @@ extension ListRecommendationsInput: ClientRuntime.PaginateToken {
             awsService: self.awsService,
             beforeLastUpdatedAt: self.beforeLastUpdatedAt,
             checkIdentifier: self.checkIdentifier,
+            language: self.language,
             maxResults: self.maxResults,
             nextToken: token,
             pillar: self.pillar,

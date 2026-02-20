@@ -692,9 +692,9 @@ extension ECSClient {
     ///
     /// Creates a new Amazon ECS cluster. By default, your account receives a default cluster when you launch your first container instance. However, you can create your own cluster with a unique name. When you call the [CreateCluster](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCluster.html) API operation, Amazon ECS attempts to create the Amazon ECS service-linked role for your account. This is so that it can manage required resources in other Amazon Web Services services on your behalf. However, if the user that makes the call doesn't have permissions to create the service-linked role, it isn't created. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateClusterInput`)
+    /// - Parameter input: (Type: `CreateClusterInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
+    /// - Returns: (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -919,9 +919,9 @@ extension ECSClient {
     ///
     /// When creating a service that uses the EXTERNAL deployment controller, you can specify only parameters that aren't controlled at the task set level. The only required parameter is the service name. You control your services using the [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). For more information, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide. When the service scheduler launches new tasks, it determines task placement. For information about task placement and task placement strategies, see [Amazon ECS task placement](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement.html) in the Amazon Elastic Container Service Developer Guide
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateServiceInput`)
+    /// - Parameter input: (Type: `CreateServiceInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateServiceOutput`)
+    /// - Returns: (Type: `CreateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1146,9 +1146,9 @@ extension ECSClient {
     ///
     /// Deletes one or more custom attributes from an Amazon ECS resource.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DeleteAttributesInput`)
+    /// - Parameter input: (Type: `DeleteAttributesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DeleteAttributesOutput`)
+    /// - Returns: (Type: `DeleteAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1290,9 +1290,9 @@ extension ECSClient {
     ///
     /// Deletes the specified cluster. The cluster transitions to the INACTIVE state. Clusters with an INACTIVE status might remain discoverable in your account for a period of time. However, this behavior is subject to change in the future. We don't recommend that you rely on INACTIVE clusters persisting. You must deregister all container instances from this cluster before you may delete it. You can list the container instances in a cluster with [ListContainerInstances](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListContainerInstances.html) and deregister them with [DeregisterContainerInstance](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeregisterContainerInstance.html).
     ///
-    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
+    /// - Parameter input: (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
+    /// - Returns: (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1443,9 +1443,9 @@ extension ECSClient {
     ///
     /// Deletes a specified service within a cluster. You can delete a service if you have no running tasks in it and the desired task count is zero. If the service is actively maintaining tasks, you can't delete it, and you must update the service to a desired task count of zero. For more information, see [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html). When you delete a service, if there are still running tasks that require cleanup, the service status moves from ACTIVE to DRAINING, and the service is no longer visible in the console or in the [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html) API operation. After all tasks have transitioned to either STOPPING or STOPPED status, the service status moves from DRAINING to INACTIVE. Services in the DRAINING or INACTIVE status can still be viewed with the [DescribeServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServices.html) API operation. However, in the future, INACTIVE services may be cleaned up and purged from Amazon ECS record keeping, and [DescribeServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServices.html) calls on those services return a ServiceNotFoundException error. If you attempt to create a new service with the same name as an existing service in either ACTIVE or DRAINING status, you receive an error.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DeleteServiceInput`)
+    /// - Parameter input: (Type: `DeleteServiceInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DeleteServiceOutput`)
+    /// - Returns: (Type: `DeleteServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1665,9 +1665,9 @@ extension ECSClient {
     ///
     /// Deregisters an Amazon ECS container instance from the specified cluster. This instance is no longer available to run tasks. If you intend to use the container instance for some other purpose after deregistration, we recommend that you stop all of the tasks running on the container instance before deregistration. That prevents any orphaned tasks from consuming resources. Deregistering a container instance removes the instance from a cluster, but it doesn't terminate the EC2 instance. If you are finished using the instance, be sure to terminate it in the Amazon EC2 console to stop billing. If you terminate a running container instance, Amazon ECS automatically deregisters the instance from your cluster (stopped container instances or instances with disconnected agents aren't automatically deregistered when terminated).
     ///
-    /// - Parameter input: [no documentation found] (Type: `DeregisterContainerInstanceInput`)
+    /// - Parameter input: (Type: `DeregisterContainerInstanceInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DeregisterContainerInstanceOutput`)
+    /// - Returns: (Type: `DeregisterContainerInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1737,9 +1737,9 @@ extension ECSClient {
     ///
     /// Deregisters the specified task definition by family and revision. Upon deregistration, the task definition is marked as INACTIVE. Existing tasks and services that reference an INACTIVE task definition continue to run without disruption. Existing services that reference an INACTIVE task definition can still scale up or down by modifying the service's desired count. If you want to delete a task definition revision, you must first deregister the task definition revision. You can't use an INACTIVE task definition to run new tasks or create new services, and you can't update an existing service to reference an INACTIVE task definition. However, there may be up to a 10-minute window following deregistration where these restrictions have not yet taken effect. At this time, INACTIVE task definitions remain discoverable in your account indefinitely. However, this behavior is subject to change in the future. We don't recommend that you rely on INACTIVE task definitions persisting beyond the lifecycle of any associated tasks and services. You must deregister a task definition revision before you delete it. For more information, see [DeleteTaskDefinitions](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteTaskDefinitions.html).
     ///
-    /// - Parameter input: [no documentation found] (Type: `DeregisterTaskDefinitionInput`)
+    /// - Parameter input: (Type: `DeregisterTaskDefinitionInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DeregisterTaskDefinitionOutput`)
+    /// - Returns: (Type: `DeregisterTaskDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1881,9 +1881,9 @@ extension ECSClient {
     ///
     /// Describes one or more of your clusters. For CLI examples, see [describe-clusters.rst](https://github.com/aws/aws-cli/blob/develop/awscli/examples/ecs/describe-clusters.rst) on GitHub.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DescribeClustersInput`)
+    /// - Parameter input: (Type: `DescribeClustersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DescribeClustersOutput`)
+    /// - Returns: (Type: `DescribeClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1952,9 +1952,9 @@ extension ECSClient {
     ///
     /// Describes one or more container instances. Returns metadata about each container instance requested.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DescribeContainerInstancesInput`)
+    /// - Parameter input: (Type: `DescribeContainerInstancesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DescribeContainerInstancesOutput`)
+    /// - Returns: (Type: `DescribeContainerInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2249,9 +2249,9 @@ extension ECSClient {
     ///
     /// Describes the specified services running in your cluster.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DescribeServicesInput`)
+    /// - Parameter input: (Type: `DescribeServicesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DescribeServicesOutput`)
+    /// - Returns: (Type: `DescribeServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2321,9 +2321,9 @@ extension ECSClient {
     ///
     /// Describes a task definition. You can specify a family and revision to find information about a specific task definition, or you can simply specify the family to find the latest ACTIVE revision in that family. You can only describe INACTIVE task definitions while an active task or service references them.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DescribeTaskDefinitionInput`)
+    /// - Parameter input: (Type: `DescribeTaskDefinitionInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DescribeTaskDefinitionOutput`)
+    /// - Returns: (Type: `DescribeTaskDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2468,9 +2468,9 @@ extension ECSClient {
     ///
     /// Describes a specified task or tasks. Currently, stopped tasks appear in the returned results for at least one hour. If you have tasks with tags, and then delete the cluster, the tagged tasks are returned in the response. If you create a new cluster with the same name as the deleted cluster, the tagged tasks are not included in the response.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DescribeTasksInput`)
+    /// - Parameter input: (Type: `DescribeTasksInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DescribeTasksOutput`)
+    /// - Returns: (Type: `DescribeTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2540,9 +2540,9 @@ extension ECSClient {
     ///
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Returns an endpoint for the Amazon ECS agent to poll for updates.
     ///
-    /// - Parameter input: [no documentation found] (Type: `DiscoverPollEndpointInput`)
+    /// - Parameter input: (Type: `DiscoverPollEndpointInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DiscoverPollEndpointOutput`)
+    /// - Returns: (Type: `DiscoverPollEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2841,7 +2841,7 @@ extension ECSClient {
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAttributesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListAttributesOutput`)
+    /// - Returns: (Type: `ListAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2909,9 +2909,9 @@ extension ECSClient {
     ///
     /// Returns a list of existing clusters.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListClustersInput`)
+    /// - Parameter input: (Type: `ListClustersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListClustersOutput`)
+    /// - Returns: (Type: `ListClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2980,9 +2980,9 @@ extension ECSClient {
     ///
     /// Returns a list of container instances in a specified cluster. You can filter the results of a ListContainerInstances operation with cluster query language statements inside the filter parameter. For more information, see [Cluster Query Language](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListContainerInstancesInput`)
+    /// - Parameter input: (Type: `ListContainerInstancesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListContainerInstancesOutput`)
+    /// - Returns: (Type: `ListContainerInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3126,9 +3126,9 @@ extension ECSClient {
     ///
     /// Returns a list of services. You can filter the results by cluster, launch type, and scheduling strategy.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListServicesInput`)
+    /// - Parameter input: (Type: `ListServicesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListServicesOutput`)
+    /// - Returns: (Type: `ListServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3342,9 +3342,9 @@ extension ECSClient {
     ///
     /// Returns a list of task definition families that are registered to your account. This list includes task definition families that no longer have any ACTIVE task definition revisions. You can filter out task definition families that don't contain any ACTIVE task definition revisions by setting the status parameter to ACTIVE. You can also filter the results with the familyPrefix parameter.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListTaskDefinitionFamiliesInput`)
+    /// - Parameter input: (Type: `ListTaskDefinitionFamiliesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListTaskDefinitionFamiliesOutput`)
+    /// - Returns: (Type: `ListTaskDefinitionFamiliesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3413,9 +3413,9 @@ extension ECSClient {
     ///
     /// Returns a list of task definitions that are registered to your account. You can filter the results by family name with the familyPrefix parameter or by status with the status parameter.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListTaskDefinitionsInput`)
+    /// - Parameter input: (Type: `ListTaskDefinitionsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListTaskDefinitionsOutput`)
+    /// - Returns: (Type: `ListTaskDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3484,9 +3484,9 @@ extension ECSClient {
     ///
     /// Returns a list of tasks. You can filter the results by cluster, task definition family, container instance, launch type, what IAM principal started the task, or by the desired status of the task. Recently stopped tasks might appear in the returned results.
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListTasksInput`)
+    /// - Parameter input: (Type: `ListTasksInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListTasksOutput`)
+    /// - Returns: (Type: `ListTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3699,9 +3699,9 @@ extension ECSClient {
     ///
     /// Create or update an attribute on an Amazon ECS resource. If the attribute doesn't exist, it's created. If the attribute exists, its value is replaced with the specified value. To delete an attribute, use [DeleteAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteAttributes.html). For more information, see [Attributes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html#attributes) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter input: [no documentation found] (Type: `PutAttributesInput`)
+    /// - Parameter input: (Type: `PutAttributesInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `PutAttributesOutput`)
+    /// - Returns: (Type: `PutAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3845,9 +3845,9 @@ extension ECSClient {
     ///
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Registers an EC2 instance into the specified cluster. This instance becomes available to place containers on.
     ///
-    /// - Parameter input: [no documentation found] (Type: `RegisterContainerInstanceInput`)
+    /// - Parameter input: (Type: `RegisterContainerInstanceInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `RegisterContainerInstanceOutput`)
+    /// - Returns: (Type: `RegisterContainerInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3916,9 +3916,9 @@ extension ECSClient {
     ///
     /// Registers a new task definition from the supplied family and containerDefinitions. Optionally, you can add data volumes to your containers with the volumes parameter. For more information about task definition parameters and defaults, see [Amazon ECS Task Definitions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_defintions.html) in the Amazon Elastic Container Service Developer Guide. You can specify a role for your task with the taskRoleArn parameter. When you specify a role for a task, its containers can then use the latest versions of the CLI or SDKs to make API requests to the Amazon Web Services services that are specified in the policy that's associated with the role. For more information, see [IAM Roles for Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) in the Amazon Elastic Container Service Developer Guide. You can specify a Docker networking mode for the containers in your task definition with the networkMode parameter. If you specify the awsvpc network mode, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_NetworkConfiguration.html) when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter input: [no documentation found] (Type: `RegisterTaskDefinitionInput`)
+    /// - Parameter input: (Type: `RegisterTaskDefinitionInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `RegisterTaskDefinitionOutput`)
+    /// - Returns: (Type: `RegisterTaskDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4001,9 +4001,9 @@ extension ECSClient {
     ///
     /// If you get a ClientExceptionerror, the RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
     ///
-    /// - Parameter input: [no documentation found] (Type: `RunTaskInput`)
+    /// - Parameter input: (Type: `RunTaskInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `RunTaskOutput`)
+    /// - Returns: (Type: `RunTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4080,9 +4080,9 @@ extension ECSClient {
     ///
     /// Starts a new task from the specified task definition on the specified container instance or instances. On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition. Amazon Elastic Inference (EI) is no longer available to customers. Alternatively, you can useRunTask to place tasks for you. For more information, see [Scheduling Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html) in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. For more information, see [Amazon EBS volumes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter input: [no documentation found] (Type: `StartTaskInput`)
+    /// - Parameter input: (Type: `StartTaskInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `StartTaskOutput`)
+    /// - Returns: (Type: `StartTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4233,9 +4233,9 @@ extension ECSClient {
     ///
     /// Stops a running task. Any tags associated with the task will be deleted. When you call StopTask on a task, the equivalent of docker stop is issued to the containers running in the task. This results in a stop signal value and a default 30-second timeout, after which the SIGKILL value is sent and the containers are forcibly stopped. This signal can be defined in your container image with the STOPSIGNAL instruction and will default to SIGTERM. If the container handles the SIGTERM value gracefully and exits within 30 seconds from receiving it, no SIGKILL value is sent. For Windows containers, POSIX signals do not work and runtime stops the container by sending a CTRL_SHUTDOWN_EVENT. For more information, see [Unable to react to graceful shutdown of (Windows) container #25982](https://github.com/moby/moby/issues/25982) on GitHub. The default 30-second timeout can be configured on the Amazon ECS container agent with the ECS_CONTAINER_STOP_TIMEOUT variable. For more information, see [Amazon ECS Container Agent Configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter input: [no documentation found] (Type: `StopTaskInput`)
+    /// - Parameter input: (Type: `StopTaskInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `StopTaskOutput`)
+    /// - Returns: (Type: `StopTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4377,9 +4377,9 @@ extension ECSClient {
     ///
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Sent to acknowledge that a container changed states.
     ///
-    /// - Parameter input: [no documentation found] (Type: `SubmitContainerStateChangeInput`)
+    /// - Parameter input: (Type: `SubmitContainerStateChangeInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `SubmitContainerStateChangeOutput`)
+    /// - Returns: (Type: `SubmitContainerStateChangeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4448,9 +4448,9 @@ extension ECSClient {
     ///
     /// This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent. Sent to acknowledge that a task changed states.
     ///
-    /// - Parameter input: [no documentation found] (Type: `SubmitTaskStateChangeInput`)
+    /// - Parameter input: (Type: `SubmitTaskStateChangeInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `SubmitTaskStateChangeOutput`)
+    /// - Returns: (Type: `SubmitTaskStateChangeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4884,9 +4884,9 @@ extension ECSClient {
     ///
     /// Updates the Amazon ECS container agent on a specified container instance. Updating the Amazon ECS container agent doesn't interrupt running tasks or services on the container instance. The process for updating the agent differs depending on whether your container instance was launched with the Amazon ECS-optimized AMI or another operating system. The UpdateContainerAgent API isn't supported for container instances using the Amazon ECS-optimized Amazon Linux 2 (arm64) AMI. To update the container agent, you can update the ecs-init package. This updates the agent. For more information, see [Updating the Amazon ECS container agent](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/agent-update-ecs-ami.html) in the Amazon Elastic Container Service Developer Guide. Agent updates with the UpdateContainerAgent API operation do not apply to Windows container instances. We recommend that you launch new container instances to update the agent version in your Windows clusters. The UpdateContainerAgent API requires an Amazon ECS-optimized AMI or Amazon Linux AMI with the ecs-init service installed and running. For help updating the Amazon ECS container agent on other operating systems, see [Manually updating the Amazon ECS container agent](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html#manually_update_agent) in the Amazon Elastic Container Service Developer Guide.
     ///
-    /// - Parameter input: [no documentation found] (Type: `UpdateContainerAgentInput`)
+    /// - Parameter input: (Type: `UpdateContainerAgentInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `UpdateContainerAgentOutput`)
+    /// - Returns: (Type: `UpdateContainerAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4966,9 +4966,9 @@ extension ECSClient {
     ///
     /// Any PENDING or RUNNING tasks that do not belong to a service aren't affected. You must wait for them to finish or stop them manually. A container instance has completed draining when it has no more RUNNING tasks. You can verify this using [ListTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListTasks.html). When a container instance has been drained, you can set a container instance to ACTIVE status and once it has reached that status the Amazon ECS scheduler can begin scheduling tasks on the instance again.
     ///
-    /// - Parameter input: [no documentation found] (Type: `UpdateContainerInstancesStateInput`)
+    /// - Parameter input: (Type: `UpdateContainerInstancesStateInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `UpdateContainerInstancesStateOutput`)
+    /// - Returns: (Type: `UpdateContainerInstancesStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5139,9 +5139,9 @@ extension ECSClient {
     ///
     /// * Stop the task on a container instance in an optimal Availability Zone (based on the previous steps), favoring container instances with the largest number of running tasks for this service.
     ///
-    /// - Parameter input: [no documentation found] (Type: `UpdateServiceInput`)
+    /// - Parameter input: (Type: `UpdateServiceInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `UpdateServiceOutput`)
+    /// - Returns: (Type: `UpdateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
