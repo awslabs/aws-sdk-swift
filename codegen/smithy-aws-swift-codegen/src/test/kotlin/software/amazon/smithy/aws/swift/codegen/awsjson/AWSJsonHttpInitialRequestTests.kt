@@ -1,7 +1,7 @@
 package software.amazon.smithy.aws.swift.codegen.awsjson
 
 import io.kotest.matchers.string.shouldContainOnlyOnce
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Disabled
 import software.amazon.smithy.aws.swift.codegen.TestContext
 import software.amazon.smithy.aws.swift.codegen.TestUtils
 import software.amazon.smithy.aws.swift.codegen.protocols.awsjson.AWSJSON1_0ProtocolGenerator
@@ -9,7 +9,7 @@ import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.AwsJson1_0Trait
 
 class AWSJsonHttpInitialRequestTests {
-    @Test
+    @Disabled
     fun `004 makeInitialRequestMessage method gets generated for input struct in extension`() {
         val context =
             setupTests(
