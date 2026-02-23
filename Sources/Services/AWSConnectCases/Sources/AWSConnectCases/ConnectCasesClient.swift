@@ -1610,7 +1610,7 @@ extension ConnectCasesClient {
 
     /// Performs the `DeleteField` operation on the `ConnectCases` service.
     ///
-    /// Deletes a field from a cases template. You can delete up to 100 fields per domain. After a field is deleted:
+    /// Deletes a field from a cases template. After a field is deleted:
     ///
     /// * You can still retrieve the field by calling BatchGetField.
     ///

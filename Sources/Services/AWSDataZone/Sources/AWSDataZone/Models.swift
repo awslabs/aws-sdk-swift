@@ -5180,6 +5180,30 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The Amazon MWAA properties.
+    public struct WorkflowsMwaaPropertiesInput: Swift.Sendable {
+        /// The MWAA environment name.
+        public var mwaaEnvironmentName: Swift.String?
+
+        public init(
+            mwaaEnvironmentName: Swift.String? = nil
+        ) {
+            self.mwaaEnvironmentName = mwaaEnvironmentName
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The MWAA serverless properties.
+    public struct WorkflowsServerlessPropertiesInput: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The properties of a connection.
     public enum ConnectionPropertiesInput: Swift.Sendable {
         /// The Amazon Athena properties of a connection.
@@ -5202,6 +5226,10 @@ extension DataZoneClientTypes {
         case amazonqproperties(DataZoneClientTypes.AmazonQPropertiesInput)
         /// The MLflow properties of a connection.
         case mlflowproperties(DataZoneClientTypes.MlflowPropertiesInput)
+        /// The Amazon MWAA properties of a connection.
+        case workflowsmwaaproperties(DataZoneClientTypes.WorkflowsMwaaPropertiesInput)
+        /// The MWAA serverless properties of a connection.
+        case workflowsserverlessproperties(DataZoneClientTypes.WorkflowsServerlessPropertiesInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5633,6 +5661,30 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The Amazon MWAA properties.
+    public struct WorkflowsMwaaPropertiesOutput: Swift.Sendable {
+        /// The MWAA environment name.
+        public var mwaaEnvironmentName: Swift.String?
+
+        public init(
+            mwaaEnvironmentName: Swift.String? = nil
+        ) {
+            self.mwaaEnvironmentName = mwaaEnvironmentName
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The MWAA serverless properties.
+    public struct WorkflowsServerlessPropertiesOutput: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The properties of a connection.
     public enum ConnectionPropertiesOutput: Swift.Sendable {
         /// The Amazon Athena properties of a connection.
@@ -5655,6 +5707,10 @@ extension DataZoneClientTypes {
         case amazonqproperties(DataZoneClientTypes.AmazonQPropertiesOutput)
         /// The MLflow properties of a connection.
         case mlflowproperties(DataZoneClientTypes.MlflowPropertiesOutput)
+        /// The Amazon MWAA properties of a connection.
+        case workflowsmwaaproperties(DataZoneClientTypes.WorkflowsMwaaPropertiesOutput)
+        /// The MWAA serverless properties of a connection.
+        case workflowsserverlessproperties(DataZoneClientTypes.WorkflowsServerlessPropertiesOutput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -35086,6 +35142,10 @@ extension DataZoneClientTypes.ConnectionPropertiesInput {
                 try writer["sparkEmrProperties"].write(sparkemrproperties, with: DataZoneClientTypes.SparkEmrPropertiesInput.write(value:to:))
             case let .sparkglueproperties(sparkglueproperties):
                 try writer["sparkGlueProperties"].write(sparkglueproperties, with: DataZoneClientTypes.SparkGluePropertiesInput.write(value:to:))
+            case let .workflowsmwaaproperties(workflowsmwaaproperties):
+                try writer["workflowsMwaaProperties"].write(workflowsmwaaproperties, with: DataZoneClientTypes.WorkflowsMwaaPropertiesInput.write(value:to:))
+            case let .workflowsserverlessproperties(workflowsserverlessproperties):
+                try writer["workflowsServerlessProperties"].write(workflowsserverlessproperties, with: DataZoneClientTypes.WorkflowsServerlessPropertiesInput.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -35118,6 +35178,10 @@ extension DataZoneClientTypes.ConnectionPropertiesOutput {
                 return .amazonqproperties(try reader["amazonQProperties"].read(with: DataZoneClientTypes.AmazonQPropertiesOutput.read(from:)))
             case "mlflowProperties":
                 return .mlflowproperties(try reader["mlflowProperties"].read(with: DataZoneClientTypes.MlflowPropertiesOutput.read(from:)))
+            case "workflowsMwaaProperties":
+                return .workflowsmwaaproperties(try reader["workflowsMwaaProperties"].read(with: DataZoneClientTypes.WorkflowsMwaaPropertiesOutput.read(from:)))
+            case "workflowsServerlessProperties":
+                return .workflowsserverlessproperties(try reader["workflowsServerlessProperties"].read(with: DataZoneClientTypes.WorkflowsServerlessPropertiesOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -39102,6 +39166,40 @@ extension DataZoneClientTypes.UserProfileSummary {
         value.status = try reader["status"].readIfPresent()
         value.details = try reader["details"].readIfPresent(with: DataZoneClientTypes.UserProfileDetails.read(from:))
         return value
+    }
+}
+
+extension DataZoneClientTypes.WorkflowsMwaaPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.WorkflowsMwaaPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mwaaEnvironmentName"].write(value.mwaaEnvironmentName)
+    }
+}
+
+extension DataZoneClientTypes.WorkflowsMwaaPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.WorkflowsMwaaPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.WorkflowsMwaaPropertiesOutput()
+        value.mwaaEnvironmentName = try reader["mwaaEnvironmentName"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.WorkflowsServerlessPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.WorkflowsServerlessPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
+extension DataZoneClientTypes.WorkflowsServerlessPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.WorkflowsServerlessPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DataZoneClientTypes.WorkflowsServerlessPropertiesOutput()
     }
 }
 

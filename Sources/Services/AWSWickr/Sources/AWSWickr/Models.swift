@@ -261,6 +261,8 @@ extension WickrClientTypes {
 public struct ValidationError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// A message describing the validation error error that occurred.
+        public internal(set) var message: Swift.String? = nil
         /// A list of validation error details, where each item identifies a specific field that failed validation and explains the reason for the failure.
         public internal(set) var reasons: [WickrClientTypes.ErrorDetail]? = nil
     }
@@ -275,8 +277,10 @@ public struct ValidationError: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     public internal(set) var requestID: Swift.String?
 
     public init(
+        message: Swift.String? = nil,
         reasons: [WickrClientTypes.ErrorDetail]? = nil
     ) {
+        self.properties.message = message
         self.properties.reasons = reasons
     }
 }
@@ -2085,6 +2089,50 @@ public struct GetOidcInfoOutput: Swift.Sendable {
     }
 }
 
+public struct GetOpentdfConfigInput: Swift.Sendable {
+    /// The ID of the Wickr network for which OpenTDF integration will be retrieved.
+    /// This member is required.
+    public var networkId: Swift.String?
+
+    public init(
+        networkId: Swift.String? = nil
+    ) {
+        self.networkId = networkId
+    }
+}
+
+public struct GetOpentdfConfigOutput: Swift.Sendable {
+    /// The OIDC client ID used for authenticating with the OpenTDF provider.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// The OIDC client secret used for authenticating with the OpenTDF provider.
+    /// This member is required.
+    public var clientSecret: Swift.String?
+    /// The domain of the OpenTDF server.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The provider of the OpenTDF platform.
+    /// This member is required.
+    public var provider: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        clientSecret: Swift.String? = nil,
+        domain: Swift.String? = nil,
+        provider: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        self.domain = domain
+        self.provider = provider
+    }
+}
+
+extension GetOpentdfConfigOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetOpentdfConfigOutput(clientId: \(Swift.String(describing: clientId)), domain: \(Swift.String(describing: domain)), provider: \(Swift.String(describing: provider)), clientSecret: \"CONTENT_REDACTED\")"}
+}
+
 public struct GetSecurityGroupInput: Swift.Sendable {
     /// The unique identifier of the security group to retrieve.
     /// This member is required.
@@ -2838,16 +2886,20 @@ extension WickrClientTypes {
         public var dataRetention: Swift.Bool?
         /// Allows Wickr clients to send anonymized performance and usage metrics to the Wickr backend server for service improvement and troubleshooting.
         public var enableClientMetrics: Swift.Bool?
+        /// Configuration for OpenTDF integration at the network level, enforcing ABAC decision making when operating in TDF enabled rooms.
+        public var enableTrustedDataFormat: Swift.Bool?
         /// Configuration for read receipts at the network level, controlling the default behavior for whether senders can see when their messages have been read.
         public var readReceiptConfig: WickrClientTypes.ReadReceiptConfig?
 
         public init(
             dataRetention: Swift.Bool? = nil,
             enableClientMetrics: Swift.Bool? = nil,
+            enableTrustedDataFormat: Swift.Bool? = nil,
             readReceiptConfig: WickrClientTypes.ReadReceiptConfig? = nil
         ) {
             self.dataRetention = dataRetention
             self.enableClientMetrics = enableClientMetrics
+            self.enableTrustedDataFormat = enableTrustedDataFormat
             self.readReceiptConfig = readReceiptConfig
         }
     }
@@ -3059,6 +3111,79 @@ public struct RegisterOidcConfigTestOutput: Swift.Sendable {
         self.tokenEndpointAuthMethodsSupported = tokenEndpointAuthMethodsSupported
         self.userinfoEndpoint = userinfoEndpoint
     }
+}
+
+public struct RegisterOpentdfConfigInput: Swift.Sendable {
+    /// The OIDC client ID used for authenticating with the OpenTDF provider.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// The OIDC client secret used for authenticating with the OpenTDF provider
+    /// This member is required.
+    public var clientSecret: Swift.String?
+    /// The domain of the OpenTDF server.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// Perform dry-run test connection of OpenTDF configuration (optional).
+    public var dryRun: Swift.Bool?
+    /// The ID of the Wickr network for which OpenTDF integration will be configured.
+    /// This member is required.
+    public var networkId: Swift.String?
+    /// The provider of the OpenTDF platform. Currently only Virtru is supported as the OpenTDF provider.
+    /// This member is required.
+    public var provider: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        clientSecret: Swift.String? = nil,
+        domain: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        networkId: Swift.String? = nil,
+        provider: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        self.domain = domain
+        self.dryRun = dryRun
+        self.networkId = networkId
+        self.provider = provider
+    }
+}
+
+extension RegisterOpentdfConfigInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegisterOpentdfConfigInput(clientId: \(Swift.String(describing: clientId)), domain: \(Swift.String(describing: domain)), dryRun: \(Swift.String(describing: dryRun)), networkId: \(Swift.String(describing: networkId)), provider: \(Swift.String(describing: provider)), clientSecret: \"CONTENT_REDACTED\")"}
+}
+
+public struct RegisterOpentdfConfigOutput: Swift.Sendable {
+    /// The OIDC client ID used for authenticating with the OpenTDF provider.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// The OIDC client secret used for authenticating with the OpenTDF provider.
+    /// This member is required.
+    public var clientSecret: Swift.String?
+    /// The domain of the OpenTDF server.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The provider of the OpenTDF platform.
+    /// This member is required.
+    public var provider: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        clientSecret: Swift.String? = nil,
+        domain: Swift.String? = nil,
+        provider: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        self.domain = domain
+        self.provider = provider
+    }
+}
+
+extension RegisterOpentdfConfigOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegisterOpentdfConfigOutput(clientId: \(Swift.String(describing: clientId)), domain: \(Swift.String(describing: domain)), provider: \(Swift.String(describing: provider)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateBotInput: Swift.Sendable {
@@ -3772,6 +3897,16 @@ extension GetOidcInfoInput {
     }
 }
 
+extension GetOpentdfConfigInput {
+
+    static func urlPathProvider(_ value: GetOpentdfConfigInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
+            return nil
+        }
+        return "/networks/\(networkId.urlPercentEncoding())/tdf"
+    }
+}
+
 extension GetSecurityGroupInput {
 
     static func urlPathProvider(_ value: GetSecurityGroupInput) -> Swift.String? {
@@ -4171,6 +4306,28 @@ extension RegisterOidcConfigTestInput {
     }
 }
 
+extension RegisterOpentdfConfigInput {
+
+    static func urlPathProvider(_ value: RegisterOpentdfConfigInput) -> Swift.String? {
+        guard let networkId = value.networkId else {
+            return nil
+        }
+        return "/networks/\(networkId.urlPercentEncoding())/tdf"
+    }
+}
+
+extension RegisterOpentdfConfigInput {
+
+    static func queryItemProvider(_ value: RegisterOpentdfConfigInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let dryRun = value.dryRun {
+            let dryRunQueryItem = Smithy.URIQueryItem(name: "dryRun".urlPercentEncoding(), value: Swift.String(dryRun).urlPercentEncoding())
+            items.append(dryRunQueryItem)
+        }
+        return items
+    }
+}
+
 extension UpdateBotInput {
 
     static func urlPathProvider(_ value: UpdateBotInput) -> Swift.String? {
@@ -4363,6 +4520,17 @@ extension RegisterOidcConfigTestInput {
         try writer["extraAuthParams"].write(value.extraAuthParams)
         try writer["issuer"].write(value.issuer)
         try writer["scopes"].write(value.scopes)
+    }
+}
+
+extension RegisterOpentdfConfigInput {
+
+    static func write(value: RegisterOpentdfConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientId"].write(value.clientId)
+        try writer["clientSecret"].write(value.clientSecret)
+        try writer["domain"].write(value.domain)
+        try writer["provider"].write(value.provider)
     }
 }
 
@@ -4738,6 +4906,21 @@ extension GetOidcInfoOutput {
     }
 }
 
+extension GetOpentdfConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetOpentdfConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetOpentdfConfigOutput()
+        value.clientId = try reader["clientId"].readIfPresent() ?? ""
+        value.clientSecret = try reader["clientSecret"].readIfPresent() ?? ""
+        value.domain = try reader["domain"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension GetSecurityGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSecurityGroupOutput {
@@ -4935,6 +5118,21 @@ extension RegisterOidcConfigTestOutput {
         value.tokenEndpoint = try reader["tokenEndpoint"].readIfPresent()
         value.tokenEndpointAuthMethodsSupported = try reader["tokenEndpointAuthMethodsSupported"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.userinfoEndpoint = try reader["userinfoEndpoint"].readIfPresent()
+        return value
+    }
+}
+
+extension RegisterOpentdfConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterOpentdfConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RegisterOpentdfConfigOutput()
+        value.clientId = try reader["clientId"].readIfPresent() ?? ""
+        value.clientSecret = try reader["clientSecret"].readIfPresent() ?? ""
+        value.domain = try reader["domain"].readIfPresent() ?? ""
+        value.provider = try reader["provider"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5474,6 +5672,26 @@ enum GetOidcInfoOutputError {
     }
 }
 
+enum GetOpentdfConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
+            case "ForbiddenError": return try ForbiddenError.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "RateLimitError": return try RateLimitError.makeError(baseError: baseError)
+            case "ResourceNotFoundError": return try ResourceNotFoundError.makeError(baseError: baseError)
+            case "UnauthorizedError": return try UnauthorizedError.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationError.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetSecurityGroupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5733,6 +5951,26 @@ enum RegisterOidcConfigTestOutputError {
     }
 }
 
+enum RegisterOpentdfConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestError": return try BadRequestError.makeError(baseError: baseError)
+            case "ForbiddenError": return try ForbiddenError.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "RateLimitError": return try RateLimitError.makeError(baseError: baseError)
+            case "ResourceNotFoundError": return try ResourceNotFoundError.makeError(baseError: baseError)
+            case "UnauthorizedError": return try UnauthorizedError.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationError.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateBotOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5956,6 +6194,7 @@ extension ValidationError {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationError {
         let reader = baseError.errorBodyReader
         var value = ValidationError()
+        value.properties.message = try reader["message"].readIfPresent()
         value.properties.reasons = try reader["reasons"].readListIfPresent(memberReadingClosure: WickrClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6169,6 +6408,7 @@ extension WickrClientTypes.NetworkSettings {
         guard let value else { return }
         try writer["dataRetention"].write(value.dataRetention)
         try writer["enableClientMetrics"].write(value.enableClientMetrics)
+        try writer["enableTrustedDataFormat"].write(value.enableTrustedDataFormat)
         try writer["readReceiptConfig"].write(value.readReceiptConfig, with: WickrClientTypes.ReadReceiptConfig.write(value:to:))
     }
 }
