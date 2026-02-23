@@ -27,7 +27,7 @@ enum GreetingWithErrorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -51,7 +51,7 @@ enum GreetingWithErrorsOutputError {
             )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-func httpServiceError(baseError: AWSClientRuntime.AWSJSONError) throws -> Swift.Error? {
+func httpServiceError(baseError: ClientRuntime.AWSJSONError) throws -> Swift.Error? {
     switch baseError.code {
         case "ExampleServiceError": return try ExampleServiceError.makeError(baseError: baseError)
         default: return nil

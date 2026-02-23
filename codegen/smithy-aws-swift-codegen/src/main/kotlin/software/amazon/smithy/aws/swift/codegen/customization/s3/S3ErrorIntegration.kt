@@ -20,40 +20,6 @@ import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 import software.amazon.smithy.swift.codegen.utils.errorShapeName
-import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.model.Model
-import software.amazon.smithy.model.shapes.ServiceShape
-import software.amazon.smithy.model.shapes.StructureShape
-import software.amazon.smithy.swift.codegen.SmithyXMLTypes
-import software.amazon.smithy.swift.codegen.StructureGenerator
-import software.amazon.smithy.swift.codegen.SwiftSettings
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.SectionWriter
-import software.amazon.smithy.swift.codegen.integration.SectionWriterBinding
-import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
-import software.amazon.smithy.swift.codegen.integration.httpResponse.HTTPResponseBindingErrorInitGenerator
-import software.amazon.smithy.swift.codegen.model.expectShape
-import software.amazon.smithy.swift.codegen.model.getTrait
-import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
-import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
-import software.amazon.smithy.swift.codegen.utils.errorShapeName
-import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.model.Model
-import software.amazon.smithy.model.shapes.ServiceShape
-import software.amazon.smithy.model.shapes.StructureShape
-import software.amazon.smithy.swift.codegen.SmithyXMLTypes
-import software.amazon.smithy.swift.codegen.StructureGenerator
-import software.amazon.smithy.swift.codegen.SwiftSettings
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.SectionWriter
-import software.amazon.smithy.swift.codegen.integration.SectionWriterBinding
-import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
-import software.amazon.smithy.swift.codegen.integration.httpResponse.HTTPResponseBindingErrorInitGenerator
-import software.amazon.smithy.swift.codegen.model.expectShape
-import software.amazon.smithy.swift.codegen.model.getTrait
-import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
-import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
-import software.amazon.smithy.swift.codegen.utils.errorShapeName
 
 class S3ErrorIntegration : SwiftIntegration {
     override val order: Byte

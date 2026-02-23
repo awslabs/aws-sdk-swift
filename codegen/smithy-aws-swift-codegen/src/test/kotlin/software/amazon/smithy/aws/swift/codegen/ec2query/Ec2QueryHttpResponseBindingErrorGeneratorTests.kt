@@ -29,7 +29,7 @@ enum GreetingWithErrorsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
@@ -51,7 +51,7 @@ enum GreetingWithErrorsOutputError {
         val expectedContents = """
 extension ComplexError {
 
-    static func makeError(baseError: AWSClientRuntime.EC2QueryError) throws -> ComplexError {
+    static func makeError(baseError: ClientRuntime.EC2QueryError) throws -> ComplexError {
         let reader = baseError.errorBodyReader
         var value = ComplexError()
         value.properties.nested = try reader["Nested"].readIfPresent(with: EC2ProtocolClientTypes.ComplexNestedErrorData.read(from:))
@@ -106,7 +106,7 @@ public struct ComplexError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
         val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/AwsEc2+HTTPServiceError.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-func httpServiceError(baseError: AWSClientRuntime.EC2QueryError) throws -> Swift.Error? {
+func httpServiceError(baseError: ClientRuntime.EC2QueryError) throws -> Swift.Error? {
     switch baseError.code {
         case "ExampleServiceError": return try ExampleServiceError.makeError(baseError: baseError)
         default: return nil
