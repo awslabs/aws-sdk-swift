@@ -5816,6 +5816,22 @@ extension DescribeDomainAutoTunesInput {
     }
 }
 
+extension DescribeDomainAutoTunesInput {
+
+    static func queryItemProvider(_ value: DescribeDomainAutoTunesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension DescribeDomainChangeProgressInput {
 
     static func urlPathProvider(_ value: DescribeDomainChangeProgressInput) -> Swift.String? {
@@ -6430,15 +6446,6 @@ extension CreateVpcEndpointInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["DomainArn"].write(value.domainArn)
         try writer["VpcOptions"].write(value.vpcOptions, with: ElasticsearchClientTypes.VPCOptions.write(value:to:))
-    }
-}
-
-extension DescribeDomainAutoTunesInput {
-
-    static func write(value: DescribeDomainAutoTunesInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["NextToken"].write(value.nextToken)
     }
 }
 

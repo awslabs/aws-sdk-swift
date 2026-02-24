@@ -30,6 +30,11 @@ import protocol ClientRuntime.ServiceError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
+public struct DeleteAlarmMuteRuleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteAlarmsOutput: Swift.Sendable {
 
     public init() { }
@@ -41,6 +46,11 @@ public struct DisableAlarmActionsOutput: Swift.Sendable {
 }
 
 public struct EnableAlarmActionsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct PutAlarmMuteRuleOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -233,6 +243,69 @@ extension CloudWatchClientTypes {
             self.historyItemType = historyItemType
             self.historySummary = historySummary
             self.timestamp = timestamp
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    public enum AlarmMuteRuleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case expired
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AlarmMuteRuleStatus] {
+            return [
+                .active,
+                .expired,
+                .scheduled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .expired: return "EXPIRED"
+            case .scheduled: return "SCHEDULED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// Summary information about an alarm mute rule, including its name, status, and configuration details.
+    public struct AlarmMuteRuleSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the alarm mute rule.
+        public var alarmMuteRuleArn: Swift.String?
+        /// The date and time when the mute rule expires and is no longer evaluated. This field is only present if an expiration date was configured.
+        public var expireDate: Foundation.Date?
+        /// The date and time when the mute rule was last updated.
+        public var lastUpdatedTimestamp: Foundation.Date?
+        /// Indicates whether the mute rule is one-time or recurring. Valid values are ONE_TIME or RECURRING.
+        public var muteType: Swift.String?
+        /// The current status of the alarm mute rule. Valid values are SCHEDULED, ACTIVE, or EXPIRED.
+        public var status: CloudWatchClientTypes.AlarmMuteRuleStatus?
+
+        public init(
+            alarmMuteRuleArn: Swift.String? = nil,
+            expireDate: Foundation.Date? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
+            muteType: Swift.String? = nil,
+            status: CloudWatchClientTypes.AlarmMuteRuleStatus? = nil
+        ) {
+            self.alarmMuteRuleArn = alarmMuteRuleArn
+            self.expireDate = expireDate
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.muteType = muteType
+            self.status = status
         }
     }
 }
@@ -1045,6 +1118,18 @@ extension CloudWatchClientTypes {
             self.timestamp = timestamp
             self.unit = unit
         }
+    }
+}
+
+public struct DeleteAlarmMuteRuleInput: Swift.Sendable {
+    /// The name of the alarm mute rule to delete.
+    /// This member is required.
+    public var alarmMuteRuleName: Swift.String?
+
+    public init(
+        alarmMuteRuleName: Swift.String? = nil
+    ) {
+        self.alarmMuteRuleName = alarmMuteRuleName
     }
 }
 
@@ -2127,6 +2212,166 @@ extension CloudWatchClientTypes {
     }
 }
 
+public struct GetAlarmMuteRuleInput: Swift.Sendable {
+    /// The name of the alarm mute rule to retrieve.
+    /// This member is required.
+    public var alarmMuteRuleName: Swift.String?
+
+    public init(
+        alarmMuteRuleName: Swift.String? = nil
+    ) {
+        self.alarmMuteRuleName = alarmMuteRuleName
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// Specifies which alarms an alarm mute rule applies to. You can target up to 100 specific alarms by name. When a mute rule is active, the targeted alarms continue to evaluate metrics and transition between states, but their configured actions are muted.
+    public struct MuteTargets: Swift.Sendable {
+        /// The list of alarm names that this mute rule targets. You can specify up to 100 alarm names. Each alarm name must be between 1 and 255 characters in length. The alarm names must match existing alarms in your Amazon Web Services account and region.
+        /// This member is required.
+        public var alarmNames: [Swift.String]?
+
+        public init(
+            alarmNames: [Swift.String]? = nil
+        ) {
+            self.alarmNames = alarmNames
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// Specifies when and how long an alarm mute rule is active. The schedule uses either a cron expression for recurring mute windows or an at expression for one-time mute windows. When the schedule activates, the mute rule mutes alarm actions for the specified duration.
+    public struct Schedule: Swift.Sendable {
+        /// The length of time that alarms remain muted when the schedule activates. The duration must be between 1 and 50 characters in length. Specify the duration using ISO 8601 duration format with a minimum of 1 minute (PT1M) and maximum of 15 days (P15D). Examples:
+        ///
+        /// * PT4H - 4 hours for weekly system maintenance
+        ///
+        /// * P2DT12H - 2 days and 12 hours for weekend muting from Friday 6:00 PM to Monday 6:00 AM
+        ///
+        /// * PT6H - 6 hours for monthly database maintenance
+        ///
+        /// * PT2H - 2 hours for nightly backup operations
+        ///
+        /// * P7D - 7 days for annual company shutdown
+        ///
+        ///
+        /// The duration begins when the schedule expression time is reached. For recurring schedules, the duration applies to each occurrence.
+        /// This member is required.
+        public var duration: Swift.String?
+        /// The schedule expression that defines when the mute rule activates. The expression must be between 1 and 256 characters in length. You can use one of two expression formats:
+        ///
+        /// * Cron expressions - For recurring mute windows. Format: cron(Minutes Hours Day-of-month Month Day-of-week) Examples:
+        ///
+        /// * cron(0 2 * * *) - Activates daily at 2:00 AM
+        ///
+        /// * cron(0 2 * * SUN) - Activates every Sunday at 2:00 AM for weekly system maintenance
+        ///
+        /// * cron(0 1 1 * *) - Activates on the first day of each month at 1:00 AM for monthly database maintenance
+        ///
+        /// * cron(0 18 * * FRI) - Activates every Friday at 6:00 PM
+        ///
+        /// * cron(0 23 * * *) - Activates every day at 11:00 PM during nightly backup operations
+        ///
+        ///
+        /// The characters *, -, and , are supported in all fields. English names can be used for the month (JAN-DEC) and day of week (SUN-SAT) fields.
+        ///
+        /// * At expressions - For one-time mute windows. Format: at(yyyy-MM-ddThh:mm) Examples:
+        ///
+        /// * at(2024-05-10T14:00) - Activates once on May 10, 2024 at 2:00 PM during an active incident response session
+        ///
+        /// * at(2024-12-23T00:00) - Activates once on December 23, 2024 at midnight during annual company shutdown
+        /// This member is required.
+        public var expression: Swift.String?
+        /// The time zone to use when evaluating the schedule expression. The time zone must be between 1 and 50 characters in length. Specify the time zone using standard timezone identifiers (for example, America/New_York, Europe/London, or Asia/Tokyo). If you don't specify a time zone, UTC is used by default. The time zone affects how cron and at expressions are interpreted, as well as start and expire dates you specify Examples:
+        ///
+        /// * America/New_York - Eastern Time (US)
+        ///
+        /// * America/Los_Angeles - Pacific Time (US)
+        ///
+        /// * Europe/London - British Time
+        ///
+        /// * Asia/Tokyo - Japan Standard Time
+        ///
+        /// * UTC - Coordinated Universal Time
+        public var timezone: Swift.String?
+
+        public init(
+            duration: Swift.String? = nil,
+            expression: Swift.String? = nil,
+            timezone: Swift.String? = nil
+        ) {
+            self.duration = duration
+            self.expression = expression
+            self.timezone = timezone
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// Defines the schedule configuration for an alarm mute rule. The rule contains a schedule that specifies when and how long alarms should be muted. The schedule can be a recurring pattern using cron expressions or a one-time mute window using at expressions.
+    public struct Rule: Swift.Sendable {
+        /// The schedule configuration that defines when the mute rule activates and how long it remains active.
+        /// This member is required.
+        public var schedule: CloudWatchClientTypes.Schedule?
+
+        public init(
+            schedule: CloudWatchClientTypes.Schedule? = nil
+        ) {
+            self.schedule = schedule
+        }
+    }
+}
+
+public struct GetAlarmMuteRuleOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the alarm mute rule.
+    public var alarmMuteRuleArn: Swift.String?
+    /// The description of the alarm mute rule.
+    public var description: Swift.String?
+    /// The date and time when the mute rule expires and is no longer evaluated.
+    public var expireDate: Foundation.Date?
+    /// The date and time when the mute rule was last updated.
+    public var lastUpdatedTimestamp: Foundation.Date?
+    /// Specifies which alarms this rule applies to.
+    public var muteTargets: CloudWatchClientTypes.MuteTargets?
+    /// Indicates whether the mute rule is one-time or recurring. Valid values are ONE_TIME or RECURRING.
+    public var muteType: Swift.String?
+    /// The name of the alarm mute rule.
+    public var name: Swift.String?
+    /// The configuration that defines when and how long alarms are muted.
+    public var rule: CloudWatchClientTypes.Rule?
+    /// The date and time when the mute rule becomes active. If not set, the rule is active immediately.
+    public var startDate: Foundation.Date?
+    /// The current status of the alarm mute rule. Valid values are SCHEDULED, ACTIVE, or EXPIRED.
+    public var status: CloudWatchClientTypes.AlarmMuteRuleStatus?
+
+    public init(
+        alarmMuteRuleArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        expireDate: Foundation.Date? = nil,
+        lastUpdatedTimestamp: Foundation.Date? = nil,
+        muteTargets: CloudWatchClientTypes.MuteTargets? = nil,
+        muteType: Swift.String? = nil,
+        name: Swift.String? = nil,
+        rule: CloudWatchClientTypes.Rule? = nil,
+        startDate: Foundation.Date? = nil,
+        status: CloudWatchClientTypes.AlarmMuteRuleStatus? = nil
+    ) {
+        self.alarmMuteRuleArn = alarmMuteRuleArn
+        self.description = description
+        self.expireDate = expireDate
+        self.lastUpdatedTimestamp = lastUpdatedTimestamp
+        self.muteTargets = muteTargets
+        self.muteType = muteType
+        self.name = name
+        self.rule = rule
+        self.startDate = startDate
+        self.status = status
+    }
+}
+
 public struct GetDashboardInput: Swift.Sendable {
     /// The name of the dashboard to be described.
     /// This member is required.
@@ -2792,6 +3037,44 @@ public struct GetMetricWidgetImageOutput: Swift.Sendable {
     }
 }
 
+public struct ListAlarmMuteRulesInput: Swift.Sendable {
+    /// Filter results to show only mute rules that target the specified alarm name.
+    public var alarmName: Swift.String?
+    /// The maximum number of mute rules to return in one call. The default is 50.
+    public var maxRecords: Swift.Int?
+    /// The token returned from a previous call to indicate where to continue retrieving results.
+    public var nextToken: Swift.String?
+    /// Filter results to show only mute rules with the specified statuses. Valid values are SCHEDULED, ACTIVE, or EXPIRED.
+    public var statuses: [CloudWatchClientTypes.AlarmMuteRuleStatus]?
+
+    public init(
+        alarmName: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        statuses: [CloudWatchClientTypes.AlarmMuteRuleStatus]? = nil
+    ) {
+        self.alarmName = alarmName
+        self.maxRecords = maxRecords
+        self.nextToken = nextToken
+        self.statuses = statuses
+    }
+}
+
+public struct ListAlarmMuteRulesOutput: Swift.Sendable {
+    /// A list of alarm mute rule summaries.
+    public var alarmMuteRuleSummaries: [CloudWatchClientTypes.AlarmMuteRuleSummary]?
+    /// The token to use when requesting the next set of results. If this field is absent, there are no more results to retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        alarmMuteRuleSummaries: [CloudWatchClientTypes.AlarmMuteRuleSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.alarmMuteRuleSummaries = alarmMuteRuleSummaries
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListDashboardsInput: Swift.Sendable {
     /// If you specify this parameter, only the dashboards with names starting with the specified string are listed. The maximum length is 255, and valid characters are A-Z, a-z, 0-9, ".", "-", and "_".
     public var dashboardNamePrefix: Swift.String?
@@ -3094,6 +3377,67 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+/// The quota for alarms for this customer has already been reached.
+public struct LimitExceededFault: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        ///
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceeded" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct PutAlarmMuteRuleInput: Swift.Sendable {
+    /// A description of the alarm mute rule that helps you identify its purpose.
+    public var description: Swift.String?
+    /// The date and time when the mute rule expires and is no longer evaluated. After this time, the rule status becomes EXPIRED and will no longer mute the targeted alarms. This date and time is interpreted according to the schedule timezone, or UTC if no timezone is specified.
+    public var expireDate: Foundation.Date?
+    /// Specifies which alarms this rule applies to.
+    public var muteTargets: CloudWatchClientTypes.MuteTargets?
+    /// The name of the alarm mute rule. This name must be unique within your Amazon Web Services account and region.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The configuration that defines when and how long alarms should be muted.
+    /// This member is required.
+    public var rule: CloudWatchClientTypes.Rule?
+    /// The date and time after which the mute rule takes effect. If not specified, the mute rule takes effect immediately upon creation and the mutes are applied as per the schedule expression. This date and time is interpreted according to the schedule timezone, or UTC if no timezone is specified.
+    public var startDate: Foundation.Date?
+    /// A list of key-value pairs to associate with the alarm mute rule. You can use tags to categorize and manage your mute rules.
+    public var tags: [CloudWatchClientTypes.Tag]?
+
+    public init(
+        description: Swift.String? = nil,
+        expireDate: Foundation.Date? = nil,
+        muteTargets: CloudWatchClientTypes.MuteTargets? = nil,
+        name: Swift.String? = nil,
+        rule: CloudWatchClientTypes.Rule? = nil,
+        startDate: Foundation.Date? = nil,
+        tags: [CloudWatchClientTypes.Tag]? = nil
+    ) {
+        self.description = description
+        self.expireDate = expireDate
+        self.muteTargets = muteTargets
+        self.name = name
+        self.rule = rule
+        self.startDate = startDate
+        self.tags = tags
+    }
+}
+
 public struct PutAnomalyDetectorInput: Swift.Sendable {
     /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude when training and updating the model. You can specify as many as 10 time ranges. The configuration can also include the time zone to use for the metric.
     public var configuration: CloudWatchClientTypes.AnomalyDetectorConfiguration?
@@ -3166,30 +3510,6 @@ public struct PutAnomalyDetectorInput: Swift.Sendable {
 public struct PutAnomalyDetectorOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// The quota for alarms for this customer has already been reached.
-public struct LimitExceededFault: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        ///
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "LimitExceeded" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
 }
 
 public struct PutCompositeAlarmInput: Swift.Sendable {
@@ -3886,6 +4206,13 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+extension DeleteAlarmMuteRuleInput {
+
+    static func urlPathProvider(_ value: DeleteAlarmMuteRuleInput) -> Swift.String? {
+        return "/service/GraniteServiceVersion20100801/operation/DeleteAlarmMuteRule"
+    }
+}
+
 extension DeleteAlarmsInput {
 
     static func urlPathProvider(_ value: DeleteAlarmsInput) -> Swift.String? {
@@ -3991,6 +4318,13 @@ extension EnableInsightRulesInput {
     }
 }
 
+extension GetAlarmMuteRuleInput {
+
+    static func urlPathProvider(_ value: GetAlarmMuteRuleInput) -> Swift.String? {
+        return "/service/GraniteServiceVersion20100801/operation/GetAlarmMuteRule"
+    }
+}
+
 extension GetDashboardInput {
 
     static func urlPathProvider(_ value: GetDashboardInput) -> Swift.String? {
@@ -4033,6 +4367,13 @@ extension GetMetricWidgetImageInput {
     }
 }
 
+extension ListAlarmMuteRulesInput {
+
+    static func urlPathProvider(_ value: ListAlarmMuteRulesInput) -> Swift.String? {
+        return "/service/GraniteServiceVersion20100801/operation/ListAlarmMuteRules"
+    }
+}
+
 extension ListDashboardsInput {
 
     static func urlPathProvider(_ value: ListDashboardsInput) -> Swift.String? {
@@ -4065,6 +4406,13 @@ extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/service/GraniteServiceVersion20100801/operation/ListTagsForResource"
+    }
+}
+
+extension PutAlarmMuteRuleInput {
+
+    static func urlPathProvider(_ value: PutAlarmMuteRuleInput) -> Swift.String? {
+        return "/service/GraniteServiceVersion20100801/operation/PutAlarmMuteRule"
     }
 }
 
@@ -4156,6 +4504,14 @@ extension UntagResourceInput {
 
     static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/service/GraniteServiceVersion20100801/operation/UntagResource"
+    }
+}
+
+extension DeleteAlarmMuteRuleInput {
+
+    static func write(value: DeleteAlarmMuteRuleInput?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["AlarmMuteRuleName"].write(value.alarmMuteRuleName)
     }
 }
 
@@ -4313,6 +4669,14 @@ extension EnableInsightRulesInput {
     }
 }
 
+extension GetAlarmMuteRuleInput {
+
+    static func write(value: GetAlarmMuteRuleInput?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["AlarmMuteRuleName"].write(value.alarmMuteRuleName)
+    }
+}
+
 extension GetDashboardInput {
 
     static func write(value: GetDashboardInput?, to writer: SmithyCBOR.Writer) throws {
@@ -4382,6 +4746,17 @@ extension GetMetricWidgetImageInput {
     }
 }
 
+extension ListAlarmMuteRulesInput {
+
+    static func write(value: ListAlarmMuteRulesInput?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["AlarmName"].write(value.alarmName)
+        try writer["MaxRecords"].write(value.maxRecords)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudWatchClientTypes.AlarmMuteRuleStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ListDashboardsInput {
 
     static func write(value: ListDashboardsInput?, to writer: SmithyCBOR.Writer) throws {
@@ -4429,6 +4804,20 @@ extension ListTagsForResourceInput {
     static func write(value: ListTagsForResourceInput?, to writer: SmithyCBOR.Writer) throws {
         guard let value else { return }
         try writer["ResourceARN"].write(value.resourceARN)
+    }
+}
+
+extension PutAlarmMuteRuleInput {
+
+    static func write(value: PutAlarmMuteRuleInput?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["ExpireDate"].writeTimestamp(value.expireDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["MuteTargets"].write(value.muteTargets, with: CloudWatchClientTypes.MuteTargets.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["Rule"].write(value.rule, with: CloudWatchClientTypes.Rule.write(value:to:))
+        try writer["StartDate"].writeTimestamp(value.startDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: CloudWatchClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4595,6 +4984,13 @@ extension UntagResourceInput {
     }
 }
 
+extension DeleteAlarmMuteRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAlarmMuteRuleOutput {
+        return DeleteAlarmMuteRuleOutput()
+    }
+}
+
 extension DeleteAlarmsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAlarmsOutput {
@@ -4751,6 +5147,27 @@ extension EnableInsightRulesOutput {
     }
 }
 
+extension GetAlarmMuteRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAlarmMuteRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAlarmMuteRuleOutput()
+        value.alarmMuteRuleArn = try reader["AlarmMuteRuleArn"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.expireDate = try reader["ExpireDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.muteTargets = try reader["MuteTargets"].readIfPresent(with: CloudWatchClientTypes.MuteTargets.read(from:))
+        value.muteType = try reader["MuteType"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.rule = try reader["Rule"].readIfPresent(with: CloudWatchClientTypes.Rule.read(from:))
+        value.startDate = try reader["StartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension GetDashboardOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDashboardOutput {
@@ -4844,6 +5261,19 @@ extension GetMetricWidgetImageOutput {
     }
 }
 
+extension ListAlarmMuteRulesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAlarmMuteRulesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAlarmMuteRulesOutput()
+        value.alarmMuteRuleSummaries = try reader["AlarmMuteRuleSummaries"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.AlarmMuteRuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListDashboardsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDashboardsOutput {
@@ -4906,6 +5336,13 @@ extension ListTagsForResourceOutput {
         var value = ListTagsForResourceOutput()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension PutAlarmMuteRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAlarmMuteRuleOutput {
+        return PutAlarmMuteRuleOutput()
     }
 }
 
@@ -5012,6 +5449,20 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+enum DeleteAlarmMuteRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
+        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -5254,6 +5705,21 @@ enum EnableInsightRulesOutputError {
     }
 }
 
+enum GetAlarmMuteRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
+        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetDashboardOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5354,6 +5820,22 @@ enum GetMetricWidgetImageOutputError {
     }
 }
 
+enum ListAlarmMuteRulesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
+        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListDashboardsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5433,6 +5915,21 @@ enum ListTagsForResourceOutputError {
             case "InternalServiceError": return try InternalServiceFault.makeError(baseError: baseError)
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutAlarmMuteRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyCBOR.Reader.from(data: data)
+        let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
+        let baseError: ClientRuntime.RpcV2CborError = try AWSClientRuntime.AWSQueryCompatibleUtils.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "LimitExceeded": return try LimitExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5873,6 +6370,20 @@ extension CloudWatchClientTypes.AlarmHistoryItem {
         value.historySummary = try reader["HistorySummary"].readIfPresent()
         value.historyData = try reader["HistoryData"].readIfPresent()
         value.alarmContributorAttributes = try reader["AlarmContributorAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.AlarmMuteRuleSummary {
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.AlarmMuteRuleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.AlarmMuteRuleSummary()
+        value.alarmMuteRuleArn = try reader["AlarmMuteRuleArn"].readIfPresent()
+        value.expireDate = try reader["ExpireDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.muteType = try reader["MuteType"].readIfPresent()
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -6365,6 +6876,21 @@ extension CloudWatchClientTypes.MetricStreamStatisticsMetric {
     }
 }
 
+extension CloudWatchClientTypes.MuteTargets {
+
+    static func write(value: CloudWatchClientTypes.MuteTargets?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["AlarmNames"].writeList(value.alarmNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.MuteTargets {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.MuteTargets()
+        value.alarmNames = try reader["AlarmNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension CloudWatchClientTypes.PartialFailure {
 
     static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.PartialFailure {
@@ -6391,6 +6917,40 @@ extension CloudWatchClientTypes.Range {
         var value = CloudWatchClientTypes.Range()
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.Rule {
+
+    static func write(value: CloudWatchClientTypes.Rule?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["Schedule"].write(value.schedule, with: CloudWatchClientTypes.Schedule.write(value:to:))
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.Rule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.Rule()
+        value.schedule = try reader["Schedule"].readIfPresent(with: CloudWatchClientTypes.Schedule.read(from:))
+        return value
+    }
+}
+
+extension CloudWatchClientTypes.Schedule {
+
+    static func write(value: CloudWatchClientTypes.Schedule?, to writer: SmithyCBOR.Writer) throws {
+        guard let value else { return }
+        try writer["Duration"].write(value.duration)
+        try writer["Expression"].write(value.expression)
+        try writer["Timezone"].write(value.timezone)
+    }
+
+    static func read(from reader: SmithyCBOR.Reader) throws -> CloudWatchClientTypes.Schedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchClientTypes.Schedule()
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
+        value.duration = try reader["Duration"].readIfPresent() ?? ""
+        value.timezone = try reader["Timezone"].readIfPresent()
         return value
     }
 }
