@@ -4480,7 +4480,7 @@ extension BatchClientTypes {
 
     /// The capacity usage for a service job, including the unit of measure and quantity of resources being consumed.
     public struct ServiceJobCapacityUsageDetail: Swift.Sendable {
-        /// The unit of measure for the service job capacity usage. For service jobs, this is NUM_INSTANCES.
+        /// The unit of measure for the service job capacity usage. For service jobs, this is the instance type.
         public var capacityUnit: Swift.String?
         /// The quantity of capacity being used by the service job, measured in the units specified by capacityUnit.
         public var quantity: Swift.Double?
@@ -4817,7 +4817,7 @@ extension BatchClientTypes {
 
     /// The capacity usage for a fairshare scheduling job queue.
     public struct FairshareCapacityUsage: Swift.Sendable {
-        /// The unit of measure for the capacity usage. For compute jobs, this is VCPU for Amazon EC2 and cpu for Amazon EKS. For service jobs, this is NUM_INSTANCES.
+        /// The unit of measure for the capacity usage. For compute jobs, this is VCPU for Amazon EC2 and cpu for Amazon EKS. For service jobs, this is the instance type.
         public var capacityUnit: Swift.String?
         /// The quantity of capacity being used, measured in the units specified by capacityUnit.
         public var quantity: Swift.Double?
@@ -4874,7 +4874,7 @@ extension BatchClientTypes {
 
     /// The configured capacity usage for a job queue snapshot, including the unit of measure and quantity of resources being used.
     public struct QueueSnapshotCapacityUsage: Swift.Sendable {
-        /// The unit of measure for the capacity usage. For compute jobs, this is VCPU for Amazon EC2 and cpu for Amazon EKS. For service jobs, this is NUM_INSTANCES.
+        /// The unit of measure for the capacity usage. For compute jobs, this is VCPU for Amazon EC2 and cpu for Amazon EKS. For service jobs, this is the instance type.
         public var capacityUnit: Swift.String?
         /// The quantity of capacity being used in the queue snapshot, measured in the units specified by capacityUnit.
         public var quantity: Swift.Double?
@@ -5412,7 +5412,7 @@ extension BatchClientTypes {
 
     /// The capacity usage for a service job, including the unit of measure and quantity of resources being used.
     public struct ServiceJobCapacityUsageSummary: Swift.Sendable {
-        /// The unit of measure for the service job capacity usage. For service jobs, this is NUM_INSTANCES.
+        /// The unit of measure for the service job capacity usage. For service jobs, this is the instance type.
         public var capacityUnit: Swift.String?
         /// The quantity of capacity being used by the service job, measured in the units specified by capacityUnit.
         public var quantity: Swift.Double?

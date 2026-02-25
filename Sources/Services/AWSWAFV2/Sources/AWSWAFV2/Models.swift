@@ -6551,6 +6551,166 @@ public struct GetSampledRequestsOutput: Swift.Sendable {
     }
 }
 
+public struct GetTopPathStatisticsByTrafficInput: Swift.Sendable {
+    /// Filters the results to include only traffic from bots in the specified category. For example, you can filter by ai to see only AI crawler traffic, or search_engine to see only search engine bot traffic. When you apply this filter, the Source field is populated in the response.
+    public var botCategory: Swift.String?
+    /// Filters the results to include only traffic from the specified bot. For example, you can filter by gptbot or googlebot. When you apply this filter, the Source field is populated in the response.
+    public var botName: Swift.String?
+    /// Filters the results to include only traffic from bots belonging to the specified organization. For example, you can filter by openai or google. When you apply this filter, the Source field is populated in the response.
+    public var botOrganization: Swift.String?
+    /// The maximum number of path statistics to return. Valid values are 1 to 100.
+    /// This member is required.
+    public var limit: Swift.Int?
+    /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+    public var nextMarker: Swift.String?
+    /// The maximum number of top bots to include in the statistics for each path. Valid values are 1 to 10.
+    /// This member is required.
+    public var numberOfTopTrafficBotsPerPath: Swift.Int?
+    /// Specifies whether the web ACL is for an Amazon Web Services CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an Amazon Web Services App Runner service, or an Amazon Web Services Verified Access instance.
+    /// This member is required.
+    public var scope: WAFV2ClientTypes.Scope?
+    /// The time window for which you want to retrieve path statistics. The time window must be within the data retention period for your web ACL.
+    /// This member is required.
+    public var timeWindow: WAFV2ClientTypes.TimeWindow?
+    /// A URI path prefix to filter the results. When you specify this parameter, the operation returns statistics for individual URIs within the specified path prefix. For example, if you specify /api, the response includes statistics for paths like /api/v1/users and /api/v2/orders. If you don't specify this parameter, the operation returns top-level path statistics.
+    public var uriPathPrefix: Swift.String?
+    /// The Amazon Resource Name (ARN) of the web ACL for which you want to retrieve path statistics.
+    /// This member is required.
+    public var webAclArn: Swift.String?
+
+    public init(
+        botCategory: Swift.String? = nil,
+        botName: Swift.String? = nil,
+        botOrganization: Swift.String? = nil,
+        limit: Swift.Int? = nil,
+        nextMarker: Swift.String? = nil,
+        numberOfTopTrafficBotsPerPath: Swift.Int? = nil,
+        scope: WAFV2ClientTypes.Scope? = nil,
+        timeWindow: WAFV2ClientTypes.TimeWindow? = nil,
+        uriPathPrefix: Swift.String? = nil,
+        webAclArn: Swift.String? = nil
+    ) {
+        self.botCategory = botCategory
+        self.botName = botName
+        self.botOrganization = botOrganization
+        self.limit = limit
+        self.nextMarker = nextMarker
+        self.numberOfTopTrafficBotsPerPath = numberOfTopTrafficBotsPerPath
+        self.scope = scope
+        self.timeWindow = timeWindow
+        self.uriPathPrefix = uriPathPrefix
+        self.webAclArn = webAclArn
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Information about the bot filter that was applied to the request. This structure is populated in the response when you filter by bot category, organization, or name.
+    public struct FilterSource: Swift.Sendable {
+        /// The bot category that was used to filter the results. For example, ai or search_engine.
+        public var botCategory: Swift.String?
+        /// The bot name that was used to filter the results. For example, gptbot or googlebot.
+        public var botName: Swift.String?
+        /// The bot organization that was used to filter the results. For example, OpenAI or Google.
+        public var botOrganization: Swift.String?
+
+        public init(
+            botCategory: Swift.String? = nil,
+            botName: Swift.String? = nil,
+            botOrganization: Swift.String? = nil
+        ) {
+            self.botCategory = botCategory
+            self.botName = botName
+            self.botOrganization = botOrganization
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Statistics about a specific bot's traffic to a path, including the bot name, request count, and percentage of traffic.
+    public struct BotStatistics: Swift.Sendable {
+        /// The name of the bot. For example, gptbot or googlebot.
+        /// This member is required.
+        public var botName: Swift.String?
+        /// The percentage of total requests to the associated path that came from this bot.
+        /// This member is required.
+        public var percentage: Swift.Double
+        /// The number of requests from this bot to the associated path within the specified time window.
+        /// This member is required.
+        public var requestCount: Swift.Int
+
+        public init(
+            botName: Swift.String? = nil,
+            percentage: Swift.Double = 0.0,
+            requestCount: Swift.Int = 0
+        ) {
+            self.botName = botName
+            self.percentage = percentage
+            self.requestCount = requestCount
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Statistics about bot traffic to a specific URI path, including the path, request count, percentage of total traffic, and the top bots accessing that path.
+    public struct PathStatistics: Swift.Sendable {
+        /// The URI path. For example, /api/ or /api/v1/users.
+        /// This member is required.
+        public var path: Swift.String?
+        /// The percentage of total requests that were made to this path.
+        /// This member is required.
+        public var percentage: Swift.Double
+        /// The number of requests to this path within the specified time window.
+        /// This member is required.
+        public var requestCount: Swift.Int
+        /// Information about the bot filter that was applied to generate these statistics. This field is only populated when you filter by bot category, organization, or name.
+        public var source: WAFV2ClientTypes.FilterSource?
+        /// The list of top bots accessing this path, ordered by request count. The number of bots included is determined by the NumberOfTopTrafficBotsPerPath parameter in the request.
+        public var topBots: [WAFV2ClientTypes.BotStatistics]?
+
+        public init(
+            path: Swift.String? = nil,
+            percentage: Swift.Double = 0.0,
+            requestCount: Swift.Int = 0,
+            source: WAFV2ClientTypes.FilterSource? = nil,
+            topBots: [WAFV2ClientTypes.BotStatistics]? = nil
+        ) {
+            self.path = path
+            self.percentage = percentage
+            self.requestCount = requestCount
+            self.source = source
+            self.topBots = topBots
+        }
+    }
+}
+
+public struct GetTopPathStatisticsByTrafficOutput: Swift.Sendable {
+    /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+    public var nextMarker: Swift.String?
+    /// The list of path statistics, ordered by request count. Each entry includes the path, request count, percentage of total traffic, and the top bots accessing that path.
+    /// This member is required.
+    public var pathStatistics: [WAFV2ClientTypes.PathStatistics]?
+    /// Category-level aggregations for visualizing bot category to path relationships. This field is only populated when no bot filters are applied to the request. Each entry includes the bot category and the paths accessed by bots in that category.
+    public var topCategories: [WAFV2ClientTypes.PathStatistics]?
+    /// The total number of requests that match the query criteria within the specified time window.
+    /// This member is required.
+    public var totalRequestCount: Swift.Int
+
+    public init(
+        nextMarker: Swift.String? = nil,
+        pathStatistics: [WAFV2ClientTypes.PathStatistics]? = nil,
+        topCategories: [WAFV2ClientTypes.PathStatistics]? = nil,
+        totalRequestCount: Swift.Int = 0
+    ) {
+        self.nextMarker = nextMarker
+        self.pathStatistics = pathStatistics
+        self.topCategories = topCategories
+        self.totalRequestCount = totalRequestCount
+    }
+}
+
 public struct GetWebACLInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the web ACL that you want to retrieve.
     public var arn: Swift.String?
@@ -8831,6 +8991,13 @@ extension GetSampledRequestsInput {
     }
 }
 
+extension GetTopPathStatisticsByTrafficInput {
+
+    static func urlPathProvider(_ value: GetTopPathStatisticsByTrafficInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetWebACLInput {
 
     static func urlPathProvider(_ value: GetWebACLInput) -> Swift.String? {
@@ -9310,6 +9477,23 @@ extension GetSampledRequestsInput {
         try writer["RuleMetricName"].write(value.ruleMetricName)
         try writer["Scope"].write(value.scope)
         try writer["TimeWindow"].write(value.timeWindow, with: WAFV2ClientTypes.TimeWindow.write(value:to:))
+        try writer["WebAclArn"].write(value.webAclArn)
+    }
+}
+
+extension GetTopPathStatisticsByTrafficInput {
+
+    static func write(value: GetTopPathStatisticsByTrafficInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BotCategory"].write(value.botCategory)
+        try writer["BotName"].write(value.botName)
+        try writer["BotOrganization"].write(value.botOrganization)
+        try writer["Limit"].write(value.limit)
+        try writer["NextMarker"].write(value.nextMarker)
+        try writer["NumberOfTopTrafficBotsPerPath"].write(value.numberOfTopTrafficBotsPerPath)
+        try writer["Scope"].write(value.scope)
+        try writer["TimeWindow"].write(value.timeWindow, with: WAFV2ClientTypes.TimeWindow.write(value:to:))
+        try writer["UriPathPrefix"].write(value.uriPathPrefix)
         try writer["WebAclArn"].write(value.webAclArn)
     }
 }
@@ -9905,6 +10089,21 @@ extension GetSampledRequestsOutput {
         value.populationSize = try reader["PopulationSize"].readIfPresent() ?? 0
         value.sampledRequests = try reader["SampledRequests"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.SampledHTTPRequest.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.timeWindow = try reader["TimeWindow"].readIfPresent(with: WAFV2ClientTypes.TimeWindow.read(from:))
+        return value
+    }
+}
+
+extension GetTopPathStatisticsByTrafficOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTopPathStatisticsByTrafficOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTopPathStatisticsByTrafficOutput()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.pathStatistics = try reader["PathStatistics"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.PathStatistics.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.topCategories = try reader["TopCategories"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.PathStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalRequestCount = try reader["TotalRequestCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -10753,6 +10952,24 @@ enum GetSampledRequestsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
+            case "WAFInvalidParameterException": return try WAFInvalidParameterException.makeError(baseError: baseError)
+            case "WAFNonexistentItemException": return try WAFNonexistentItemException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTopPathStatisticsByTrafficOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "WAFFeatureNotIncludedInPricingPlanException": return try WAFFeatureNotIncludedInPricingPlanException.makeError(baseError: baseError)
+            case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
+            case "WAFInvalidOperationException": return try WAFInvalidOperationException.makeError(baseError: baseError)
             case "WAFInvalidParameterException": return try WAFInvalidParameterException.makeError(baseError: baseError)
             case "WAFNonexistentItemException": return try WAFNonexistentItemException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -11732,6 +11949,18 @@ extension WAFV2ClientTypes.Body {
     }
 }
 
+extension WAFV2ClientTypes.BotStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.BotStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.BotStatistics()
+        value.botName = try reader["BotName"].readIfPresent() ?? ""
+        value.requestCount = try reader["RequestCount"].readIfPresent() ?? 0
+        value.percentage = try reader["Percentage"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension WAFV2ClientTypes.ByteMatchStatement {
 
     static func write(value: WAFV2ClientTypes.ByteMatchStatement?, to writer: SmithyJSON.Writer) throws {
@@ -12176,6 +12405,18 @@ extension WAFV2ClientTypes.Filter {
         value.behavior = try reader["Behavior"].readIfPresent() ?? .sdkUnknown("")
         value.requirement = try reader["Requirement"].readIfPresent() ?? .sdkUnknown("")
         value.conditions = try reader["Conditions"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Condition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.FilterSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.FilterSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.FilterSource()
+        value.botCategory = try reader["BotCategory"].readIfPresent()
+        value.botOrganization = try reader["BotOrganization"].readIfPresent()
+        value.botName = try reader["BotName"].readIfPresent()
         return value
     }
 }
@@ -12823,6 +13064,20 @@ extension WAFV2ClientTypes.PasswordField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.PasswordField()
         value.identifier = try reader["Identifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.PathStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.PathStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.PathStatistics()
+        value.source = try reader["Source"].readIfPresent(with: WAFV2ClientTypes.FilterSource.read(from:))
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.requestCount = try reader["RequestCount"].readIfPresent() ?? 0
+        value.percentage = try reader["Percentage"].readIfPresent() ?? 0
+        value.topBots = try reader["TopBots"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.BotStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

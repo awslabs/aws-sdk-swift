@@ -3086,6 +3086,87 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetTopPathStatisticsByTraffic` operation on the `WAFV2` service.
+    ///
+    /// Retrieves aggregated statistics about the top URI paths accessed by bot traffic for a specified web ACL and time window. You can use this operation to analyze which paths on your web application receive the most bot traffic and identify the specific bots accessing those paths. The operation supports filtering by bot category, organization, or name, and allows you to drill down into specific path prefixes to view detailed URI-level statistics.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetTopPathStatisticsByTrafficInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetTopPathStatisticsByTrafficOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `WAFFeatureNotIncludedInPricingPlanException` : The operation failed because the specified WAF feature isn't supported by the CloudFront pricing plan associated with the web ACL.
+    /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `WAFInvalidOperationException` : The operation isn't valid.
+    /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
+    ///
+    /// * You specified a parameter name or value that isn't valid.
+    ///
+    /// * Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.
+    ///
+    /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
+    /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
+    public func getTopPathStatisticsByTraffic(input: GetTopPathStatisticsByTrafficInput) async throws -> GetTopPathStatisticsByTrafficOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTopPathStatisticsByTraffic")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wafv2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTopPathStatisticsByTrafficInput, GetTopPathStatisticsByTrafficOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTopPathStatisticsByTrafficInput, GetTopPathStatisticsByTrafficOutput>(GetTopPathStatisticsByTrafficInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTopPathStatisticsByTrafficInput, GetTopPathStatisticsByTrafficOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTopPathStatisticsByTrafficInput, GetTopPathStatisticsByTrafficOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTopPathStatisticsByTrafficOutput>(GetTopPathStatisticsByTrafficOutput.httpOutput(from:), GetTopPathStatisticsByTrafficOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTopPathStatisticsByTrafficInput, GetTopPathStatisticsByTrafficOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTopPathStatisticsByTrafficOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTopPathStatisticsByTrafficOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTopPathStatisticsByTrafficInput, GetTopPathStatisticsByTrafficOutput>(xAmzTarget: "AWSWAF_20190729.GetTopPathStatisticsByTraffic"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetTopPathStatisticsByTrafficInput, GetTopPathStatisticsByTrafficOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTopPathStatisticsByTrafficInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTopPathStatisticsByTrafficInput, GetTopPathStatisticsByTrafficOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTopPathStatisticsByTrafficOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTopPathStatisticsByTrafficInput, GetTopPathStatisticsByTrafficOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTopPathStatisticsByTrafficInput, GetTopPathStatisticsByTrafficOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTopPathStatisticsByTrafficInput, GetTopPathStatisticsByTrafficOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTopPathStatisticsByTraffic")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetWebACL` operation on the `WAFV2` service.
     ///
     /// Retrieves the specified [WebACL].
