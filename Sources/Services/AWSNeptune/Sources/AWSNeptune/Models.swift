@@ -3464,6 +3464,8 @@ public struct GlobalClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 }
 
 public struct CreateGlobalClusterInput: Swift.Sendable {
+    /// The name for the new global database (up to 64 alpha-numeric characters.
+    public var databaseName: Swift.String?
     /// The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is enabled.
     public var deletionProtection: Swift.Bool?
     /// The name of the database engine to be used in the global database. Valid values: neptune
@@ -3477,21 +3479,27 @@ public struct CreateGlobalClusterInput: Swift.Sendable {
     public var sourceDBClusterIdentifier: Swift.String?
     /// The storage encryption setting for the new global database cluster.
     public var storageEncrypted: Swift.Bool?
+    /// Tags to assign to the global cluster.
+    public var tags: [NeptuneClientTypes.Tag]?
 
     public init(
+        databaseName: Swift.String? = nil,
         deletionProtection: Swift.Bool? = nil,
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         globalClusterIdentifier: Swift.String? = nil,
         sourceDBClusterIdentifier: Swift.String? = nil,
-        storageEncrypted: Swift.Bool? = nil
+        storageEncrypted: Swift.Bool? = nil,
+        tags: [NeptuneClientTypes.Tag]? = nil
     ) {
+        self.databaseName = databaseName
         self.deletionProtection = deletionProtection
         self.engine = engine
         self.engineVersion = engineVersion
         self.globalClusterIdentifier = globalClusterIdentifier
         self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
         self.storageEncrypted = storageEncrypted
+        self.tags = tags
     }
 }
 
@@ -3589,6 +3597,8 @@ extension NeptuneClientTypes {
 
     /// Contains the details of an Amazon Neptune global database. This data type is used as a response element for the [CreateGlobalCluster], [DescribeGlobalClusters], [ModifyGlobalCluster], [DeleteGlobalCluster], [FailoverGlobalCluster], and [RemoveFromGlobalCluster] actions.
     public struct GlobalCluster: Swift.Sendable {
+        /// The default database name within the new global database cluster.
+        public var databaseName: Swift.String?
         /// The deletion protection setting for the global database.
         public var deletionProtection: Swift.Bool?
         /// The Neptune database engine used by the global database ("neptune").
@@ -3609,8 +3619,11 @@ extension NeptuneClientTypes {
         public var status: Swift.String?
         /// The storage encryption setting for the global database.
         public var storageEncrypted: Swift.Bool?
+        /// A list of global cluster tags.
+        public var tagList: [NeptuneClientTypes.Tag]?
 
         public init(
+            databaseName: Swift.String? = nil,
             deletionProtection: Swift.Bool? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
@@ -3620,8 +3633,10 @@ extension NeptuneClientTypes {
             globalClusterMembers: [NeptuneClientTypes.GlobalClusterMember]? = nil,
             globalClusterResourceId: Swift.String? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool? = nil
+            storageEncrypted: Swift.Bool? = nil,
+            tagList: [NeptuneClientTypes.Tag]? = nil
         ) {
+            self.databaseName = databaseName
             self.deletionProtection = deletionProtection
             self.engine = engine
             self.engineVersion = engineVersion
@@ -3632,6 +3647,7 @@ extension NeptuneClientTypes {
             self.globalClusterResourceId = globalClusterResourceId
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.tagList = tagList
         }
     }
 }
@@ -7781,12 +7797,14 @@ extension CreateGlobalClusterInput {
 
     static func write(value: CreateGlobalClusterInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["DatabaseName"].write(value.databaseName)
         try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["Engine"].write(value.engine)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["GlobalClusterIdentifier"].write(value.globalClusterIdentifier)
         try writer["SourceDBClusterIdentifier"].write(value.sourceDBClusterIdentifier)
         try writer["StorageEncrypted"].write(value.storageEncrypted)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: NeptuneClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["Action"].write("CreateGlobalCluster")
         try writer["Version"].write("2014-10-31")
     }
@@ -10304,7 +10322,10 @@ enum ModifyGlobalClusterOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "GlobalClusterAlreadyExistsFault": return try GlobalClusterAlreadyExistsFault.makeError(baseError: baseError)
             case "GlobalClusterNotFoundFault": return try GlobalClusterNotFoundFault.makeError(baseError: baseError)
+            case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
+            case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
             case "InvalidGlobalClusterStateFault": return try InvalidGlobalClusterStateFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11907,10 +11928,12 @@ extension NeptuneClientTypes.GlobalCluster {
         value.status = try reader["Status"].readIfPresent()
         value.engine = try reader["Engine"].readIfPresent()
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
         value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
         value.globalClusterMembers = try reader["GlobalClusterMembers"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.GlobalClusterMember.read(from:), memberNodeInfo: "GlobalClusterMember", isFlattened: false)
         value.failoverState = try reader["FailoverState"].readIfPresent(with: NeptuneClientTypes.FailoverState.read(from:))
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
     }
 }
