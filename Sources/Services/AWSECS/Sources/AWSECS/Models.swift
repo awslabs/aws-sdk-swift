@@ -1585,6 +1585,246 @@ public struct CreateCapacityProviderOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteCapacityProviderInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the capacity provider to delete.
+    /// This member is required.
+    public var capacityProvider: Swift.String?
+    /// The name of the cluster that contains the capacity provider to delete. Managed instances capacity providers are cluster-scoped and can only be deleted from their associated cluster.
+    public var cluster: Swift.String?
+
+    public init(
+        capacityProvider: Swift.String? = nil,
+        cluster: Swift.String? = nil
+    ) {
+        self.capacityProvider = capacityProvider
+        self.cluster = cluster
+    }
+}
+
+public struct DeleteCapacityProviderOutput: Swift.Sendable {
+    /// The details of the capacity provider.
+    public var capacityProvider: ECSClientTypes.CapacityProvider?
+
+    public init(
+        capacityProvider: ECSClientTypes.CapacityProvider? = nil
+    ) {
+        self.capacityProvider = capacityProvider
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum CapacityProviderField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tags
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityProviderField] {
+            return [
+                .tags
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tags: return "TAGS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeCapacityProvidersInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of one or more capacity providers. Up to 100 capacity providers can be described in an action.
+    public var capacityProviders: [Swift.String]?
+    /// The name of the cluster to describe capacity providers for. When specified, only capacity providers associated with this cluster are returned, including Amazon ECS Managed Instances capacity providers.
+    public var cluster: Swift.String?
+    /// Specifies whether or not you want to see the resource tags for the capacity provider. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response.
+    public var include: [ECSClientTypes.CapacityProviderField]?
+    /// The maximum number of account setting results returned by DescribeCapacityProviders in paginated output. When this parameter is used, DescribeCapacityProviders only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeCapacityProviders request with the returned nextToken value. This value can be between 1 and 10. If this parameter is not used, then DescribeCapacityProviders returns up to 10 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated DescribeCapacityProviders request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+
+    public init(
+        capacityProviders: [Swift.String]? = nil,
+        cluster: Swift.String? = nil,
+        include: [ECSClientTypes.CapacityProviderField]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.capacityProviders = capacityProviders
+        self.cluster = cluster
+        self.include = include
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A failed resource. For a list of common causes, see [API failure reasons](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct Failure: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the failed resource.
+        public var arn: Swift.String?
+        /// The details of the failure.
+        public var detail: Swift.String?
+        /// The reason for the failure.
+        public var reason: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            detail: Swift.String? = nil,
+            reason: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.detail = detail
+            self.reason = reason
+        }
+    }
+}
+
+public struct DescribeCapacityProvidersOutput: Swift.Sendable {
+    /// The list of capacity providers.
+    public var capacityProviders: [ECSClientTypes.CapacityProvider]?
+    /// Any failures associated with the call.
+    public var failures: [ECSClientTypes.Failure]?
+    /// The nextToken value to include in a future DescribeCapacityProviders request. When the results of a DescribeCapacityProviders request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        capacityProviders: [ECSClientTypes.CapacityProvider]? = nil,
+        failures: [ECSClientTypes.Failure]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.capacityProviders = capacityProviders
+        self.failures = failures
+        self.nextToken = nextToken
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The details of the Auto Scaling group capacity provider to update.
+    public struct AutoScalingGroupProviderUpdate: Swift.Sendable {
+        /// The managed draining option for the Auto Scaling group capacity provider. When you enable this, Amazon ECS manages and gracefully drains the EC2 container instances that are in the Auto Scaling group capacity provider.
+        public var managedDraining: ECSClientTypes.ManagedDraining?
+        /// The managed scaling settings for the Auto Scaling group capacity provider.
+        public var managedScaling: ECSClientTypes.ManagedScaling?
+        /// The managed termination protection setting to use for the Auto Scaling group capacity provider. This determines whether the Auto Scaling group has managed termination protection. When using managed termination protection, managed scaling must also be used otherwise managed termination protection doesn't work. When managed termination protection is on, Amazon ECS prevents the Amazon EC2 instances in an Auto Scaling group that contain tasks from being terminated during a scale-in action. The Auto Scaling group and each instance in the Auto Scaling group must have instance protection from scale-in actions on. For more information, see [Instance Protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html#instance-protection) in the Auto Scaling User Guide. When managed termination protection is off, your Amazon EC2 instances aren't protected from termination when the Auto Scaling group scales in.
+        public var managedTerminationProtection: ECSClientTypes.ManagedTerminationProtection?
+
+        public init(
+            managedDraining: ECSClientTypes.ManagedDraining? = nil,
+            managedScaling: ECSClientTypes.ManagedScaling? = nil,
+            managedTerminationProtection: ECSClientTypes.ManagedTerminationProtection? = nil
+        ) {
+            self.managedDraining = managedDraining
+            self.managedScaling = managedScaling
+            self.managedTerminationProtection = managedTerminationProtection
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The updated launch template configuration for Amazon ECS Managed Instances. You can modify the instance profile, network configuration, storage settings, and instance requirements. Changes apply to new instances launched after the update. For more information, see [Store instance launch parameters in Amazon EC2 launch templates](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) in the Amazon EC2 User Guide.
+    public struct InstanceLaunchTemplateUpdate: Swift.Sendable {
+        /// The updated Amazon Resource Name (ARN) of the instance profile. The new instance profile must have the necessary permissions for your tasks. For more information, see [Amazon ECS instance profile for Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/managed-instances-instance-profile.html) in the Amazon ECS Developer Guide.
+        public var ec2InstanceProfileArn: Swift.String?
+        /// The updated instance requirements for attribute-based instance type selection. Changes to instance requirements affect which instance types Amazon ECS selects for new instances.
+        public var instanceRequirements: ECSClientTypes.InstanceRequirementsRequest?
+        /// CloudWatch provides two categories of monitoring: basic monitoring and detailed monitoring. By default, your managed instance is configured for basic monitoring. You can optionally enable detailed monitoring to help you more quickly identify and act on operational issues. You can enable or turn off detailed monitoring at launch or when the managed instance is running or stopped. For more information, see [Detailed monitoring for Amazon ECS Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/detailed-monitoring-managed-instances.html) in the Amazon ECS Developer Guide.
+        public var monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions?
+        /// The updated network configuration for Amazon ECS Managed Instances. Changes to subnets and security groups affect new instances launched after the update.
+        public var networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration?
+        /// The updated storage configuration for Amazon ECS Managed Instances. Changes to storage settings apply to new instances launched after the update.
+        public var storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration?
+
+        public init(
+            ec2InstanceProfileArn: Swift.String? = nil,
+            instanceRequirements: ECSClientTypes.InstanceRequirementsRequest? = nil,
+            monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions? = nil,
+            networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration? = nil,
+            storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration? = nil
+        ) {
+            self.ec2InstanceProfileArn = ec2InstanceProfileArn
+            self.instanceRequirements = instanceRequirements
+            self.monitoring = monitoring
+            self.networkConfiguration = networkConfiguration
+            self.storageConfiguration = storageConfiguration
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The updated configuration for a Amazon ECS Managed Instances provider. You can modify the infrastructure role, instance launch template, and tag propagation settings. Changes apply to new instances launched after the update.
+    public struct UpdateManagedInstancesProviderConfiguration: Swift.Sendable {
+        /// The updated infrastructure optimization configuration. Changes to this setting affect how Amazon ECS optimizes instances going forward.
+        public var infrastructureOptimization: ECSClientTypes.InfrastructureOptimization?
+        /// The updated Amazon Resource Name (ARN) of the infrastructure role. The new role must have the necessary permissions to manage instances and access required Amazon Web Services services. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
+        /// This member is required.
+        public var infrastructureRoleArn: Swift.String?
+        /// The updated launch template configuration. Changes to the launch template affect new instances launched after the update, while existing instances continue to use their original configuration.
+        /// This member is required.
+        public var instanceLaunchTemplate: ECSClientTypes.InstanceLaunchTemplateUpdate?
+        /// The updated tag propagation setting. When changed, this affects only new instances launched after the update.
+        public var propagateTags: ECSClientTypes.PropagateMITags?
+
+        public init(
+            infrastructureOptimization: ECSClientTypes.InfrastructureOptimization? = nil,
+            infrastructureRoleArn: Swift.String? = nil,
+            instanceLaunchTemplate: ECSClientTypes.InstanceLaunchTemplateUpdate? = nil,
+            propagateTags: ECSClientTypes.PropagateMITags? = nil
+        ) {
+            self.infrastructureOptimization = infrastructureOptimization
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.instanceLaunchTemplate = instanceLaunchTemplate
+            self.propagateTags = propagateTags
+        }
+    }
+}
+
+public struct UpdateCapacityProviderInput: Swift.Sendable {
+    /// An object that represent the parameters to update for the Auto Scaling group capacity provider.
+    public var autoScalingGroupProvider: ECSClientTypes.AutoScalingGroupProviderUpdate?
+    /// The name of the cluster that contains the capacity provider to update. Managed instances capacity providers are cluster-scoped and can only be updated within their associated cluster.
+    public var cluster: Swift.String?
+    /// The updated configuration for the Amazon ECS Managed Instances provider. You can modify the infrastructure role, instance launch template, and tag propagation settings. Changes take effect for new instances launched after the update.
+    public var managedInstancesProvider: ECSClientTypes.UpdateManagedInstancesProviderConfiguration?
+    /// The name of the capacity provider to update.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        autoScalingGroupProvider: ECSClientTypes.AutoScalingGroupProviderUpdate? = nil,
+        cluster: Swift.String? = nil,
+        managedInstancesProvider: ECSClientTypes.UpdateManagedInstancesProviderConfiguration? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.autoScalingGroupProvider = autoScalingGroupProvider
+        self.cluster = cluster
+        self.managedInstancesProvider = managedInstancesProvider
+        self.name = name
+    }
+}
+
+public struct UpdateCapacityProviderOutput: Swift.Sendable {
+    /// Details about the capacity provider.
+    public var capacityProvider: ECSClientTypes.CapacityProvider?
+
+    public init(
+        capacityProvider: ECSClientTypes.CapacityProvider? = nil
+    ) {
+        self.capacityProvider = capacityProvider
+    }
+}
+
 /// The specified namespace wasn't found.
 public struct NamespaceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1852,6 +2092,7 @@ extension ECSClientTypes {
     }
 }
 
+///
 public struct CreateClusterInput: Swift.Sendable {
     /// The short name of one or more capacity providers to associate with the cluster. A capacity provider must be associated with a cluster before it can be included as part of the default capacity provider strategy of the cluster or used in a capacity provider strategy when calling the [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html) or [RunTask](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_RunTask.html) actions. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must be created but not associated with another cluster. New Auto Scaling group capacity providers can be created with the [CreateCapacityProvider](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCapacityProvider.html) API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The [PutCapacityProvider](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutCapacityProvider.html) API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
     public var capacityProviders: [Swift.String]?
@@ -2067,6 +2308,7 @@ extension ECSClientTypes {
     }
 }
 
+///
 public struct CreateClusterOutput: Swift.Sendable {
     /// The full description of your new cluster.
     public var cluster: ECSClientTypes.Cluster?
@@ -2078,8 +2320,8 @@ public struct CreateClusterOutput: Swift.Sendable {
     }
 }
 
-/// The specified platform version doesn't satisfy the required capabilities of the task definition.
-public struct PlatformTaskDefinitionIncompatibilityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+/// The cluster contains one or more capacity providers that prevent the requested operation. This exception occurs when you try to delete a cluster that still has active capacity providers, including Amazon ECS Managed Instances capacity providers. You must first delete all capacity providers from the cluster before you can delete the cluster itself.
+public struct ClusterContainsCapacityProviderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
@@ -2087,7 +2329,7 @@ public struct PlatformTaskDefinitionIncompatibilityException: ClientRuntime.Mode
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "PlatformTaskDefinitionIncompatibilityException" }
+    public static var typeName: Swift.String { "ClusterContainsCapacityProviderException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -2102,8 +2344,8 @@ public struct PlatformTaskDefinitionIncompatibilityException: ClientRuntime.Mode
     }
 }
 
-/// The specified platform version doesn't exist.
-public struct PlatformUnknownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+/// You can't delete a cluster that has registered container instances. First, deregister the container instances before you can delete the cluster. For more information, see [DeregisterContainerInstance](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeregisterContainerInstance.html).
+public struct ClusterContainsContainerInstancesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
@@ -2111,7 +2353,7 @@ public struct PlatformUnknownException: ClientRuntime.ModeledError, AWSClientRun
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "PlatformUnknownException" }
+    public static var typeName: Swift.String { "ClusterContainsContainerInstancesException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -2126,142 +2368,109 @@ public struct PlatformUnknownException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-extension ECSClientTypes {
+/// You can't delete a cluster that contains services. First, update the service to reduce its desired task count to 0, and then delete the service. For more information, see [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html) and [DeleteService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteService.html).
+public struct ClusterContainsServicesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    /// The network configuration for an Express service. By default, an Express service utilizes subnets and security groups associated with the default VPC.
-    public struct ExpressGatewayServiceNetworkConfiguration: Swift.Sendable {
-        /// The IDs of the security groups associated with the Express service.
-        public var securityGroups: [Swift.String]?
-        /// The IDs of the subnets associated with the Express service.
-        public var subnets: [Swift.String]?
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
 
-        public init(
-            securityGroups: [Swift.String]? = nil,
-            subnets: [Swift.String]? = nil
-        ) {
-            self.securityGroups = securityGroups
-            self.subnets = subnets
-        }
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ClusterContainsServicesException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// You can't delete a cluster that has active tasks.
+public struct ClusterContainsTasksException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ClusterContainsTasksException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+///
+public struct DeleteClusterInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster to delete.
+    /// This member is required.
+    public var cluster: Swift.String?
+
+    public init(
+        cluster: Swift.String? = nil
+    ) {
+        self.cluster = cluster
+    }
+}
+
+///
+public struct DeleteClusterOutput: Swift.Sendable {
+    /// The full description of the deleted cluster.
+    public var cluster: ECSClientTypes.Cluster?
+
+    public init(
+        cluster: ECSClientTypes.Cluster? = nil
+    ) {
+        self.cluster = cluster
+    }
+}
+
+///
+public struct DeregisterContainerInstanceInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to deregister. If you do not specify a cluster, the default cluster is assumed.
+    public var cluster: Swift.String?
+    /// The container instance ID or full ARN of the container instance to deregister. For more information about the ARN format, see [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#ecs-resource-ids) in the Amazon ECS Developer Guide.
+    /// This member is required.
+    public var containerInstance: Swift.String?
+    /// Forces the container instance to be deregistered. If you have tasks running on the container instance when you deregister it with the force option, these tasks remain running until you terminate the instance or the tasks stop through some other means, but they're orphaned (no longer monitored or accounted for by Amazon ECS). If an orphaned task on your container instance is part of an Amazon ECS service, then the service scheduler starts another copy of that task, on a different container instance if possible. Any containers in orphaned service tasks that are registered with a Classic Load Balancer or an Application Load Balancer target group are deregistered. They begin connection draining according to the settings on the load balancer or target group.
+    public var force: Swift.Bool?
+
+    public init(
+        cluster: Swift.String? = nil,
+        containerInstance: Swift.String? = nil,
+        force: Swift.Bool? = nil
+    ) {
+        self.cluster = cluster
+        self.containerInstance = containerInstance
+        self.force = force
     }
 }
 
 extension ECSClientTypes {
 
-    /// Specifies the Amazon CloudWatch Logs configuration for the Express service container.
-    public struct ExpressGatewayServiceAwsLogsConfiguration: Swift.Sendable {
-        /// The name of the CloudWatch Logs log group to send container logs to.
-        /// This member is required.
-        public var logGroup: Swift.String?
-        /// The prefix for the CloudWatch Logs log stream names. The default for an Express service is ecs.
-        /// This member is required.
-        public var logStreamPrefix: Swift.String?
-
-        public init(
-            logGroup: Swift.String? = nil,
-            logStreamPrefix: Swift.String? = nil
-        ) {
-            self.logGroup = logGroup
-            self.logStreamPrefix = logStreamPrefix
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The repository credentials for private registry authentication to pass to the container.
-    public struct ExpressGatewayRepositoryCredentials: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the secret containing the private repository credentials.
-        public var credentialsParameter: Swift.String?
-
-        public init(
-            credentialsParameter: Swift.String? = nil
-        ) {
-            self.credentialsParameter = credentialsParameter
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// An object representing the secret to expose to your container. Secrets can be exposed to a container in the following ways:
-    ///
-    /// * To inject sensitive data into your containers as environment variables, use the secrets container definition parameter.
-    ///
-    /// * To reference sensitive information in the log configuration of a container, use the secretOptions container definition parameter.
-    ///
-    ///
-    /// For more information, see [Specifying sensitive data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct Secret: Swift.Sendable {
-        /// The name of the secret.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The secret to expose to the container. The supported values are either the full ARN of the Secrets Manager secret or the full ARN of the parameter in the SSM Parameter Store. For information about the require Identity and Access Management permissions, see [Required IAM permissions for Amazon ECS secrets](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-secrets.html#secrets-iam) (for Secrets Manager) or [Required IAM permissions for Amazon ECS secrets](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-parameters.html) (for Systems Manager Parameter store) in the Amazon Elastic Container Service Developer Guide. If the SSM Parameter Store parameter exists in the same Region as the task you're launching, then you can use either the full ARN or name of the parameter. If the parameter exists in a different Region, then the full ARN must be specified.
-        /// This member is required.
-        public var valueFrom: Swift.String?
-
-        public init(
-            name: Swift.String? = nil,
-            valueFrom: Swift.String? = nil
-        ) {
-            self.name = name
-            self.valueFrom = valueFrom
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// Defines the configuration for the primary container in an Express service. This container receives traffic from the Application Load Balancer and runs your application code. The container configuration includes the container image, port mapping, logging settings, environment variables, and secrets. The container image is the only required parameter, with sensible defaults provided for other settings.
-    public struct ExpressGatewayContainer: Swift.Sendable {
-        /// The log configuration for the container.
-        public var awsLogsConfiguration: ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration?
-        /// The command that is passed to the container.
-        public var command: [Swift.String]?
-        /// The port number on the container that receives traffic from the load balancer. Default is 80.
-        public var containerPort: Swift.Int?
-        /// The environment variables to pass to the container.
-        public var environment: [ECSClientTypes.KeyValuePair]?
-        /// The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with either repository-url/image:tag or repository-url/image@digest. For Express services, the image typically contains a web application that listens on the specified container port. The image can be stored in Amazon ECR, Docker Hub, or any other container registry accessible to your execution role.
-        /// This member is required.
-        public var image: Swift.String?
-        /// The configuration for repository credentials for private registry authentication.
-        public var repositoryCredentials: ECSClientTypes.ExpressGatewayRepositoryCredentials?
-        /// The secrets to pass to the container.
-        public var secrets: [ECSClientTypes.Secret]?
-
-        public init(
-            awsLogsConfiguration: ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration? = nil,
-            command: [Swift.String]? = nil,
-            containerPort: Swift.Int? = nil,
-            environment: [ECSClientTypes.KeyValuePair]? = nil,
-            image: Swift.String? = nil,
-            repositoryCredentials: ECSClientTypes.ExpressGatewayRepositoryCredentials? = nil,
-            secrets: [ECSClientTypes.Secret]? = nil
-        ) {
-            self.awsLogsConfiguration = awsLogsConfiguration
-            self.command = command
-            self.containerPort = containerPort
-            self.environment = environment
-            self.image = image
-            self.repositoryCredentials = repositoryCredentials
-            self.secrets = secrets
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum ExpressGatewayServiceScalingMetric: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case averagecpuutilization
-        case averagememoryutilization
-        case requestcountpertarget
+    public enum TargetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case containerInstance
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [ExpressGatewayServiceScalingMetric] {
+        public static var allCases: [TargetType] {
             return [
-                .averagecpuutilization,
-                .averagememoryutilization,
-                .requestcountpertarget
+                .containerInstance
             ]
         }
 
@@ -2272,9 +2481,7 @@ extension ECSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .averagecpuutilization: return "AVERAGE_CPU"
-            case .averagememoryutilization: return "AVERAGE_MEMORY"
-            case .requestcountpertarget: return "REQUEST_COUNT_PER_TARGET"
+            case .containerInstance: return "container-instance"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2283,178 +2490,595 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// Defines the auto-scaling configuration for an Express service. This determines how the service automatically adjusts the number of running tasks based on demand metrics such as CPU utilization, memory utilization, or request count per target. Auto-scaling helps ensure your application can handle varying levels of traffic while optimizing costs by scaling down during low-demand periods. You can specify the minimum and maximum number of tasks, the scaling metric, and the target value for that metric.
-    public struct ExpressGatewayScalingTarget: Swift.Sendable {
-        /// The metric used for auto-scaling decisions. The default metric used for an Express service is CPUUtilization.
-        public var autoScalingMetric: ECSClientTypes.ExpressGatewayServiceScalingMetric?
-        /// The target value for the auto-scaling metric. The default value for an Express service is 60.
-        public var autoScalingTargetValue: Swift.Int?
-        /// The maximum number of tasks to run in the Express service.
-        public var maxTaskCount: Swift.Int?
-        /// The minimum number of tasks to run in the Express service.
-        public var minTaskCount: Swift.Int?
+    /// An attribute is a name-value pair that's associated with an Amazon ECS object. Use attributes to extend the Amazon ECS data model by adding custom metadata to your resources. For more information, see [Attributes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html#attributes) in the Amazon Elastic Container Service Developer Guide.
+    public struct Attribute: Swift.Sendable {
+        /// The name of the attribute. The name must contain between 1 and 128 characters. The name may contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), forward slashes (/), back slashes (\), or periods (.).
+        /// This member is required.
+        public var name: Swift.String?
+        /// The ID of the target. You can specify the short form ID for a resource or the full Amazon Resource Name (ARN).
+        public var targetId: Swift.String?
+        /// The type of the target to attach the attribute with. This parameter is required if you use the short form ID for a resource instead of the full ARN.
+        public var targetType: ECSClientTypes.TargetType?
+        /// The value of the attribute. The value must contain between 1 and 128 characters. It can contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), periods (.), at signs (@), forward slashes (/), back slashes (\), colons (:), or spaces. The value can't start or end with a space.
+        public var value: Swift.String?
 
         public init(
-            autoScalingMetric: ECSClientTypes.ExpressGatewayServiceScalingMetric? = nil,
-            autoScalingTargetValue: Swift.Int? = nil,
-            maxTaskCount: Swift.Int? = nil,
-            minTaskCount: Swift.Int? = nil
+            name: Swift.String? = nil,
+            targetId: Swift.String? = nil,
+            targetType: ECSClientTypes.TargetType? = nil,
+            value: Swift.String? = nil
         ) {
-            self.autoScalingMetric = autoScalingMetric
-            self.autoScalingTargetValue = autoScalingTargetValue
-            self.maxTaskCount = maxTaskCount
-            self.minTaskCount = minTaskCount
+            self.name = name
+            self.targetId = targetId
+            self.targetType = targetType
+            self.value = value
         }
     }
 }
 
-public struct CreateExpressGatewayServiceInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of the cluster on which to create the Express service. If you do not specify a cluster, the default cluster is assumed.
+extension ECSClientTypes {
+
+    public enum InstanceHealthCheckState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case impaired
+        case initializing
+        case insufficientData
+        case ok
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceHealthCheckState] {
+            return [
+                .impaired,
+                .initializing,
+                .insufficientData,
+                .ok
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .impaired: return "IMPAIRED"
+            case .initializing: return "INITIALIZING"
+            case .insufficientData: return "INSUFFICIENT_DATA"
+            case .ok: return "OK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum InstanceHealthCheckType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case containerRuntime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceHealthCheckType] {
+            return [
+                .containerRuntime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .containerRuntime: return "CONTAINER_RUNTIME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An object representing the result of a container instance health status check.
+    public struct InstanceHealthCheckResult: Swift.Sendable {
+        /// The Unix timestamp for when the container instance health status last changed.
+        public var lastStatusChange: Foundation.Date?
+        /// The Unix timestamp for when the container instance health status was last updated.
+        public var lastUpdated: Foundation.Date?
+        /// The container instance health status.
+        public var status: ECSClientTypes.InstanceHealthCheckState?
+        /// The type of container instance health status that was verified.
+        public var type: ECSClientTypes.InstanceHealthCheckType?
+
+        public init(
+            lastStatusChange: Foundation.Date? = nil,
+            lastUpdated: Foundation.Date? = nil,
+            status: ECSClientTypes.InstanceHealthCheckState? = nil,
+            type: ECSClientTypes.InstanceHealthCheckType? = nil
+        ) {
+            self.lastStatusChange = lastStatusChange
+            self.lastUpdated = lastUpdated
+            self.status = status
+            self.type = type
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An object representing the health status of the container instance.
+    public struct ContainerInstanceHealthStatus: Swift.Sendable {
+        /// An array of objects representing the details of the container instance health status.
+        public var details: [ECSClientTypes.InstanceHealthCheckResult]?
+        /// The overall health status of the container instance. This is an aggregate status of all container instance health checks.
+        public var overallStatus: ECSClientTypes.InstanceHealthCheckState?
+
+        public init(
+            details: [ECSClientTypes.InstanceHealthCheckResult]? = nil,
+            overallStatus: ECSClientTypes.InstanceHealthCheckState? = nil
+        ) {
+            self.details = details
+            self.overallStatus = overallStatus
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Describes the resources available for a container instance.
+    public struct Resource: Swift.Sendable {
+        /// When the doubleValue type is set, the value of the resource must be a double precision floating-point type.
+        public var doubleValue: Swift.Double
+        /// When the integerValue type is set, the value of the resource must be an integer.
+        public var integerValue: Swift.Int
+        /// When the longValue type is set, the value of the resource must be an extended precision floating-point type.
+        public var longValue: Swift.Int
+        /// The name of the resource, such as CPU, MEMORY, PORTS, PORTS_UDP, or a user-defined resource.
+        public var name: Swift.String?
+        /// When the stringSetValue type is set, the value of the resource must be a string type.
+        public var stringSetValue: [Swift.String]?
+        /// The type of the resource. Valid values: INTEGER, DOUBLE, LONG, or STRINGSET.
+        public var type: Swift.String?
+
+        public init(
+            doubleValue: Swift.Double = 0.0,
+            integerValue: Swift.Int = 0,
+            longValue: Swift.Int = 0,
+            name: Swift.String? = nil,
+            stringSetValue: [Swift.String]? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.doubleValue = doubleValue
+            self.integerValue = integerValue
+            self.longValue = longValue
+            self.name = name
+            self.stringSetValue = stringSetValue
+            self.type = type
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The Docker and Amazon ECS container agent version information about a container instance.
+    public struct VersionInfo: Swift.Sendable {
+        /// The Git commit hash for the Amazon ECS container agent build on the [amazon-ecs-agent ](https://github.com/aws/amazon-ecs-agent) GitHub repository.
+        public var agentHash: Swift.String?
+        /// The version number of the Amazon ECS container agent.
+        public var agentVersion: Swift.String?
+        /// The Docker version that's running on the container instance.
+        public var dockerVersion: Swift.String?
+
+        public init(
+            agentHash: Swift.String? = nil,
+            agentVersion: Swift.String? = nil,
+            dockerVersion: Swift.String? = nil
+        ) {
+            self.agentHash = agentHash
+            self.agentVersion = agentVersion
+            self.dockerVersion = dockerVersion
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An Amazon EC2 or External instance that's running the Amazon ECS agent and has been registered with a cluster.
+    public struct ContainerInstance: Swift.Sendable {
+        /// This parameter returns true if the agent is connected to Amazon ECS. An instance with an agent that may be unhealthy or stopped return false. Only instances connected to an agent can accept task placement requests.
+        public var agentConnected: Swift.Bool
+        /// The status of the most recent agent update. If an update wasn't ever requested, this value is NULL.
+        public var agentUpdateStatus: ECSClientTypes.AgentUpdateStatus?
+        /// The resources attached to a container instance, such as an elastic network interface.
+        public var attachments: [ECSClientTypes.Attachment]?
+        /// The attributes set for the container instance, either by the Amazon ECS container agent at instance registration or manually with the [PutAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAttributes.html) operation.
+        public var attributes: [ECSClientTypes.Attribute]?
+        /// The capacity provider that's associated with the container instance.
+        public var capacityProviderName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the container instance. For more information about the ARN format, see [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#ecs-resource-ids) in the Amazon ECS Developer Guide.
+        public var containerInstanceArn: Swift.String?
+        /// The ID of the container instance. For Amazon EC2 instances, this value is the Amazon EC2 instance ID. For external instances, this value is the Amazon Web Services Systems Manager managed instance ID.
+        public var ec2InstanceId: Swift.String?
+        /// An object representing the health status of the container instance.
+        public var healthStatus: ECSClientTypes.ContainerInstanceHealthStatus?
+        /// The number of tasks on the container instance that are in the PENDING status.
+        public var pendingTasksCount: Swift.Int
+        /// The Unix timestamp for the time when the container instance was registered.
+        public var registeredAt: Foundation.Date?
+        /// For CPU and memory resource types, this parameter describes the amount of each resource that was available on the container instance when the container agent registered it with Amazon ECS. This value represents the total amount of CPU and memory that can be allocated on this container instance to tasks. For port resource types, this parameter describes the ports that were reserved by the Amazon ECS container agent when it registered the container instance with Amazon ECS.
+        public var registeredResources: [ECSClientTypes.Resource]?
+        /// For CPU and memory resource types, this parameter describes the remaining CPU and memory that wasn't already allocated to tasks and is therefore available for new tasks. For port resource types, this parameter describes the ports that were reserved by the Amazon ECS container agent (at instance registration time) and any task containers that have reserved port mappings on the host (with the host or bridge network mode). Any port that's not specified here is available for new tasks.
+        public var remainingResources: [ECSClientTypes.Resource]?
+        /// The number of tasks on the container instance that have a desired status (desiredStatus) of RUNNING.
+        public var runningTasksCount: Swift.Int
+        /// The status of the container instance. The valid values are REGISTERING, REGISTRATION_FAILED, ACTIVE, INACTIVE, DEREGISTERING, or DRAINING. If your account has opted in to the awsvpcTrunking account setting, then any newly registered container instance will transition to a REGISTERING status while the trunk elastic network interface is provisioned for the instance. If the registration fails, the instance will transition to a REGISTRATION_FAILED status. You can describe the container instance and see the reason for failure in the statusReason parameter. Once the container instance is terminated, the instance transitions to a DEREGISTERING status while the trunk elastic network interface is deprovisioned. The instance then transitions to an INACTIVE status. The ACTIVE status indicates that the container instance can accept tasks. The DRAINING indicates that new tasks aren't placed on the container instance and any service tasks running on the container instance are removed if possible. For more information, see [Container instance draining](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-draining.html) in the Amazon Elastic Container Service Developer Guide.
+        public var status: Swift.String?
+        /// The reason that the container instance reached its current status.
+        public var statusReason: Swift.String?
+        /// The metadata that you apply to the container instance to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:
+        ///
+        /// * Maximum number of tags per resource - 50
+        ///
+        /// * For each resource, each tag key must be unique, and each tag key can have only one value.
+        ///
+        /// * Maximum key length - 128 Unicode characters in UTF-8
+        ///
+        /// * Maximum value length - 256 Unicode characters in UTF-8
+        ///
+        /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
+        ///
+        /// * Tag keys and values are case-sensitive.
+        ///
+        /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+        public var tags: [ECSClientTypes.Tag]?
+        /// The version counter for the container instance. Every time a container instance experiences a change that triggers a CloudWatch event, the version counter is incremented. If you're replicating your Amazon ECS container instance state with CloudWatch Events, you can compare the version of a container instance reported by the Amazon ECS APIs with the version reported in CloudWatch Events for the container instance (inside the detail object) to verify that the version in your event stream is current.
+        public var version: Swift.Int
+        /// The version information for the Amazon ECS container agent and Docker daemon running on the container instance.
+        public var versionInfo: ECSClientTypes.VersionInfo?
+
+        public init(
+            agentConnected: Swift.Bool = false,
+            agentUpdateStatus: ECSClientTypes.AgentUpdateStatus? = nil,
+            attachments: [ECSClientTypes.Attachment]? = nil,
+            attributes: [ECSClientTypes.Attribute]? = nil,
+            capacityProviderName: Swift.String? = nil,
+            containerInstanceArn: Swift.String? = nil,
+            ec2InstanceId: Swift.String? = nil,
+            healthStatus: ECSClientTypes.ContainerInstanceHealthStatus? = nil,
+            pendingTasksCount: Swift.Int = 0,
+            registeredAt: Foundation.Date? = nil,
+            registeredResources: [ECSClientTypes.Resource]? = nil,
+            remainingResources: [ECSClientTypes.Resource]? = nil,
+            runningTasksCount: Swift.Int = 0,
+            status: Swift.String? = nil,
+            statusReason: Swift.String? = nil,
+            tags: [ECSClientTypes.Tag]? = nil,
+            version: Swift.Int = 0,
+            versionInfo: ECSClientTypes.VersionInfo? = nil
+        ) {
+            self.agentConnected = agentConnected
+            self.agentUpdateStatus = agentUpdateStatus
+            self.attachments = attachments
+            self.attributes = attributes
+            self.capacityProviderName = capacityProviderName
+            self.containerInstanceArn = containerInstanceArn
+            self.ec2InstanceId = ec2InstanceId
+            self.healthStatus = healthStatus
+            self.pendingTasksCount = pendingTasksCount
+            self.registeredAt = registeredAt
+            self.registeredResources = registeredResources
+            self.remainingResources = remainingResources
+            self.runningTasksCount = runningTasksCount
+            self.status = status
+            self.statusReason = statusReason
+            self.tags = tags
+            self.version = version
+            self.versionInfo = versionInfo
+        }
+    }
+}
+
+///
+public struct DeregisterContainerInstanceOutput: Swift.Sendable {
+    /// The container instance that was deregistered.
+    public var containerInstance: ECSClientTypes.ContainerInstance?
+
+    public init(
+        containerInstance: ECSClientTypes.ContainerInstance? = nil
+    ) {
+        self.containerInstance = containerInstance
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ClusterField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attachments
+        case configurations
+        case settings
+        case statistics
+        case tags
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterField] {
+            return [
+                .attachments,
+                .configurations,
+                .settings,
+                .statistics,
+                .tags
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attachments: return "ATTACHMENTS"
+            case .configurations: return "CONFIGURATIONS"
+            case .settings: return "SETTINGS"
+            case .statistics: return "STATISTICS"
+            case .tags: return "TAGS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+///
+public struct DescribeClustersInput: Swift.Sendable {
+    /// A list of up to 100 cluster names or full cluster Amazon Resource Name (ARN) entries. If you do not specify a cluster, the default cluster is assumed.
+    public var clusters: [Swift.String]?
+    /// Determines whether to include additional information about the clusters in the response. If this field is omitted, this information isn't included. If ATTACHMENTS is specified, the attachments for the container instances or tasks within the cluster are included, for example the capacity providers. If SETTINGS is specified, the settings for the cluster are included. If CONFIGURATIONS is specified, the configuration for the cluster is included. If STATISTICS is specified, the task and service count is included, separated by launch type. If TAGS is specified, the metadata tags associated with the cluster are included.
+    public var include: [ECSClientTypes.ClusterField]?
+
+    public init(
+        clusters: [Swift.String]? = nil,
+        include: [ECSClientTypes.ClusterField]? = nil
+    ) {
+        self.clusters = clusters
+        self.include = include
+    }
+}
+
+///
+public struct DescribeClustersOutput: Swift.Sendable {
+    /// The list of clusters.
+    public var clusters: [ECSClientTypes.Cluster]?
+    /// Any failures associated with the call.
+    public var failures: [ECSClientTypes.Failure]?
+
+    public init(
+        clusters: [ECSClientTypes.Cluster]? = nil,
+        failures: [ECSClientTypes.Failure]? = nil
+    ) {
+        self.clusters = clusters
+        self.failures = failures
+    }
+}
+
+/// The execute command cannot run. This error can be caused by any of the following configuration issues:
+///
+/// * Incorrect IAM permissions
+///
+/// * The SSM agent is not installed or is not running
+///
+/// * There is an interface Amazon VPC endpoint for Amazon ECS, but there is not one for Systems Manager Session Manager
+///
+///
+/// For information about how to troubleshoot the issues, see [Troubleshooting issues with ECS Exec](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-exec.html) in the Amazon Elastic Container Service Developer Guide.
+public struct TargetNotConnectedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TargetNotConnectedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct ExecuteCommandInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) or short name of the cluster the task is running in. If you do not specify a cluster, the default cluster is assumed.
     public var cluster: Swift.String?
-    /// The number of CPU units used by the task. This parameter determines the CPU allocation for each task in the Express service. The default value for an Express service is 256 (.25 vCPU).
-    public var cpu: Swift.String?
-    /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. This role is required for Amazon ECS to pull container images from Amazon ECR, send container logs to Amazon CloudWatch Logs, and retrieve sensitive data from Amazon Web Services Systems Manager Parameter Store or Amazon Web Services Secrets Manager. The execution role must include the AmazonECSTaskExecutionRolePolicy managed policy or equivalent permissions. For Express services, this role is used during task startup and runtime for container management operations.
+    /// The command to run on the container.
     /// This member is required.
-    public var executionRoleArn: Swift.String?
-    /// The path on the container that the Application Load Balancer uses for health checks. This should be a valid HTTP endpoint that returns a successful response (HTTP 200) when the application is healthy. If not specified, the default health check path is /ping. The health check path must start with a forward slash and can include query parameters. Examples: /health, /api/status, /ping?format=json.
-    public var healthCheckPath: Swift.String?
-    /// The Amazon Resource Name (ARN) of the infrastructure role that grants Amazon ECS permission to create and manage Amazon Web Services resources on your behalf for the Express service. This role is used to provision and manage Application Load Balancers, target groups, security groups, auto-scaling policies, and other Amazon Web Services infrastructure components. The infrastructure role must include permissions for Elastic Load Balancing, Application Auto Scaling, Amazon EC2 (for security groups), and other services required for managed infrastructure. This role is only used during Express service creation, updates, and deletion operations.
+    public var command: Swift.String?
+    /// The name of the container to execute the command on. A container name only needs to be specified for tasks containing multiple containers.
+    public var container: Swift.String?
+    /// Use this flag to run your command in interactive mode.
     /// This member is required.
-    public var infrastructureRoleArn: Swift.String?
-    /// The amount of memory (in MiB) used by the task. This parameter determines the memory allocation for each task in the Express service. The default value for an express service is 512 MiB.
-    public var memory: Swift.String?
-    /// The network configuration for the Express service tasks. This specifies the VPC subnets and security groups for the tasks. For Express services, you can specify custom security groups and subnets. If not provided, Amazon ECS will use the default VPC configuration and create appropriate security groups automatically. The network configuration determines how your service integrates with your VPC and what network access it has.
-    public var networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration?
-    /// The primary container configuration for the Express service. This defines the main application container that will receive traffic from the Application Load Balancer. The primary container must specify at minimum a container image. You can also configure the container port (defaults to 80), logging configuration, environment variables, secrets, and startup commands. The container image can be from Amazon ECR, Docker Hub, or any other container registry accessible to your execution role.
+    public var interactive: Swift.Bool?
+    /// The Amazon Resource Name (ARN) or ID of the task the container is part of.
     /// This member is required.
-    public var primaryContainer: ECSClientTypes.ExpressGatewayContainer?
-    /// The auto-scaling configuration for the Express service. This defines how the service automatically adjusts the number of running tasks based on demand. You can specify the minimum and maximum number of tasks, the scaling metric (CPU utilization, memory utilization, or request count per target), and the target value for the metric. If not specified, the default target value for an Express service is 60.
-    public var scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget?
-    /// The name of the Express service. This name must be unique within the specified cluster and can contain up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens. The name is used to identify the service in the Amazon ECS console and API operations. If you don't specify a service name, Amazon ECS generates a unique name for the service. The service name becomes part of the service ARN and cannot be changed after the service is created.
-    public var serviceName: Swift.String?
-    /// The metadata that you apply to the Express service to help categorize and organize it. Each tag consists of a key and an optional value. You can apply up to 50 tags to a service.
-    public var tags: [ECSClientTypes.Tag]?
-    /// The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. This role allows your application code to access other Amazon Web Services services securely. The task role is different from the execution role. While the execution role is used by the Amazon ECS agent to set up the task, the task role is used by your application code running inside the container to make Amazon Web Services API calls. If your application doesn't need to access Amazon Web Services services, you can omit this parameter.
-    public var taskRoleArn: Swift.String?
+    public var task: Swift.String?
 
     public init(
         cluster: Swift.String? = nil,
-        cpu: Swift.String? = nil,
-        executionRoleArn: Swift.String? = nil,
-        healthCheckPath: Swift.String? = nil,
-        infrastructureRoleArn: Swift.String? = nil,
-        memory: Swift.String? = nil,
-        networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration? = nil,
-        primaryContainer: ECSClientTypes.ExpressGatewayContainer? = nil,
-        scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget? = nil,
-        serviceName: Swift.String? = nil,
-        tags: [ECSClientTypes.Tag]? = nil,
-        taskRoleArn: Swift.String? = nil
+        command: Swift.String? = nil,
+        container: Swift.String? = nil,
+        interactive: Swift.Bool? = false,
+        task: Swift.String? = nil
     ) {
         self.cluster = cluster
-        self.cpu = cpu
-        self.executionRoleArn = executionRoleArn
-        self.healthCheckPath = healthCheckPath
-        self.infrastructureRoleArn = infrastructureRoleArn
-        self.memory = memory
-        self.networkConfiguration = networkConfiguration
-        self.primaryContainer = primaryContainer
-        self.scalingTarget = scalingTarget
-        self.serviceName = serviceName
-        self.tags = tags
-        self.taskRoleArn = taskRoleArn
+        self.command = command
+        self.container = container
+        self.interactive = interactive
+        self.task = task
     }
 }
 
 extension ECSClientTypes {
 
-    /// The entry point into an Express service.
-    public struct IngressPathSummary: Swift.Sendable {
-        /// The type of access to the endpoint for the Express service.
-        /// This member is required.
-        public var accessType: ECSClientTypes.AccessType?
-        /// The endpoint for access to the service.
-        /// This member is required.
-        public var endpoint: Swift.String?
+    /// The details for the execute command session.
+    public struct Session: Swift.Sendable {
+        /// The ID of the execute command session.
+        public var sessionId: Swift.String?
+        /// A URL to the managed agent on the container that the SSM Session Manager client uses to send commands and receive output from the container.
+        public var streamUrl: Swift.String?
+        /// An encrypted token value containing session and caller information. It's used to authenticate the connection to the container.
+        public var tokenValue: Swift.String?
 
         public init(
-            accessType: ECSClientTypes.AccessType? = nil,
-            endpoint: Swift.String? = nil
+            sessionId: Swift.String? = nil,
+            streamUrl: Swift.String? = nil,
+            tokenValue: Swift.String? = nil
         ) {
-            self.accessType = accessType
-            self.endpoint = endpoint
+            self.sessionId = sessionId
+            self.streamUrl = streamUrl
+            self.tokenValue = tokenValue
         }
     }
 }
 
-extension ECSClientTypes {
+extension ECSClientTypes.Session: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Session(sessionId: \(Swift.String(describing: sessionId)), streamUrl: \(Swift.String(describing: streamUrl)), tokenValue: \"CONTENT_REDACTED\")"}
+}
 
-    /// Represents a specific configuration revision of an Express service, containing all the settings and parameters for that revision.
-    public struct ExpressGatewayServiceConfiguration: Swift.Sendable {
-        /// The CPU allocation for tasks in this service revision.
-        public var cpu: Swift.String?
-        /// The Unix timestamp for when this service revision was created.
-        public var createdAt: Foundation.Date?
-        /// The ARN of the task execution role for the service revision.
-        public var executionRoleArn: Swift.String?
-        /// The health check path for this service revision.
-        public var healthCheckPath: Swift.String?
-        /// The entry point into this service revision.
-        public var ingressPaths: [ECSClientTypes.IngressPathSummary]?
-        /// The memory allocation for tasks in this service revision.
-        public var memory: Swift.String?
-        /// The network configuration for tasks in this service revision.
-        public var networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration?
-        /// The primary container configuration for this service revision.
-        public var primaryContainer: ECSClientTypes.ExpressGatewayContainer?
-        /// The auto-scaling configuration for this service revision.
-        public var scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget?
-        /// The ARN of the service revision.
-        public var serviceRevisionArn: Swift.String?
-        /// The ARN of the task role for the service revision.
-        public var taskRoleArn: Swift.String?
+public struct ExecuteCommandOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cluster.
+    public var clusterArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the container.
+    public var containerArn: Swift.String?
+    /// The name of the container.
+    public var containerName: Swift.String?
+    /// Determines whether the execute command session is running in interactive mode. Amazon ECS only supports initiating interactive sessions, so you must specify true for this value.
+    public var interactive: Swift.Bool
+    /// The details of the SSM session that was created for this instance of execute-command.
+    public var session: ECSClientTypes.Session?
+    /// The Amazon Resource Name (ARN) of the task.
+    public var taskArn: Swift.String?
 
-        public init(
-            cpu: Swift.String? = nil,
-            createdAt: Foundation.Date? = nil,
-            executionRoleArn: Swift.String? = nil,
-            healthCheckPath: Swift.String? = nil,
-            ingressPaths: [ECSClientTypes.IngressPathSummary]? = nil,
-            memory: Swift.String? = nil,
-            networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration? = nil,
-            primaryContainer: ECSClientTypes.ExpressGatewayContainer? = nil,
-            scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget? = nil,
-            serviceRevisionArn: Swift.String? = nil,
-            taskRoleArn: Swift.String? = nil
-        ) {
-            self.cpu = cpu
-            self.createdAt = createdAt
-            self.executionRoleArn = executionRoleArn
-            self.healthCheckPath = healthCheckPath
-            self.ingressPaths = ingressPaths
-            self.memory = memory
-            self.networkConfiguration = networkConfiguration
-            self.primaryContainer = primaryContainer
-            self.scalingTarget = scalingTarget
-            self.serviceRevisionArn = serviceRevisionArn
-            self.taskRoleArn = taskRoleArn
-        }
+    public init(
+        clusterArn: Swift.String? = nil,
+        containerArn: Swift.String? = nil,
+        containerName: Swift.String? = nil,
+        interactive: Swift.Bool = false,
+        session: ECSClientTypes.Session? = nil,
+        taskArn: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.containerArn = containerArn
+        self.containerName = containerName
+        self.interactive = interactive
+        self.session = session
+        self.taskArn = taskArn
+    }
+}
+
+public struct ListAttributesInput: Swift.Sendable {
+    /// The name of the attribute to filter the results with.
+    public var attributeName: Swift.String?
+    /// The value of the attribute to filter results with. You must also specify an attribute name to use this parameter.
+    public var attributeValue: Swift.String?
+    /// The short name or full Amazon Resource Name (ARN) of the cluster to list attributes. If you do not specify a cluster, the default cluster is assumed.
+    public var cluster: Swift.String?
+    /// The maximum number of cluster results that ListAttributes returned in paginated output. When this parameter is used, ListAttributes only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListAttributes request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListAttributes returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a ListAttributes request indicating that more results are available to fulfill the request and further calls are needed. If maxResults was provided, it's possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+    /// The type of the target to list attributes with.
+    /// This member is required.
+    public var targetType: ECSClientTypes.TargetType?
+
+    public init(
+        attributeName: Swift.String? = nil,
+        attributeValue: Swift.String? = nil,
+        cluster: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        targetType: ECSClientTypes.TargetType? = nil
+    ) {
+        self.attributeName = attributeName
+        self.attributeValue = attributeValue
+        self.cluster = cluster
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.targetType = targetType
+    }
+}
+
+///
+public struct ListAttributesOutput: Swift.Sendable {
+    /// A list of attribute objects that meet the criteria of the request.
+    public var attributes: [ECSClientTypes.Attribute]?
+    /// The nextToken value to include in a future ListAttributes request. When the results of a ListAttributes request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        attributes: [ECSClientTypes.Attribute]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.attributes = attributes
+        self.nextToken = nextToken
+    }
+}
+
+///
+public struct ListClustersInput: Swift.Sendable {
+    /// The maximum number of cluster results that ListClusters returned in paginated output. When this parameter is used, ListClusters only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListClusters request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListClusters returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a ListClusters request indicating that more results are available to fulfill the request and further calls are needed. If maxResults was provided, it's possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+///
+public struct ListClustersOutput: Swift.Sendable {
+    /// The list of full Amazon Resource Name (ARN) entries for each cluster that's associated with your account.
+    public var clusterArns: [Swift.String]?
+    /// The nextToken value to include in a future ListClusters request. When the results of a ListClusters request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterArns: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.clusterArns = clusterArns
+        self.nextToken = nextToken
     }
 }
 
 extension ECSClientTypes {
 
-    public enum ExpressGatewayServiceStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ContainerInstanceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
+        case deregistering
         case draining
-        case inactive
+        case registering
+        case registrationFailed
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [ExpressGatewayServiceStatusCode] {
+        public static var allCases: [ContainerInstanceStatus] {
             return [
                 .active,
+                .deregistering,
                 .draining,
-                .inactive
+                .registering,
+                .registrationFailed
             ]
         }
 
@@ -2466,106 +3090,176 @@ extension ECSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .deregistering: return "DEREGISTERING"
             case .draining: return "DRAINING"
-            case .inactive: return "INACTIVE"
+            case .registering: return "REGISTERING"
+            case .registrationFailed: return "REGISTRATION_FAILED"
             case let .sdkUnknown(s): return s
             }
         }
     }
 }
 
-extension ECSClientTypes {
-
-    /// An object that defines the status of Express service creation and information about the status of the service.
-    public struct ExpressGatewayServiceStatus: Swift.Sendable {
-        /// The status of the Express service.
-        public var statusCode: ECSClientTypes.ExpressGatewayServiceStatusCode?
-        /// Information about why the Express service is in the current status.
-        public var statusReason: Swift.String?
-
-        public init(
-            statusCode: ECSClientTypes.ExpressGatewayServiceStatusCode? = nil,
-            statusReason: Swift.String? = nil
-        ) {
-            self.statusCode = statusCode
-            self.statusReason = statusReason
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// Represents an Express service, which provides a simplified way to deploy containerized web applications on Amazon ECS with managed Amazon Web Services infrastructure. An Express service automatically provisions and manages Application Load Balancers, target groups, security groups, and auto-scaling policies. Express services use a service revision architecture where each service can have multiple active configurations, enabling blue-green deployments and gradual rollouts. The service maintains a list of active configurations and manages the lifecycle of the underlying Amazon Web Services resources.
-    public struct ECSExpressGatewayService: Swift.Sendable {
-        /// The list of active service configurations for the Express service.
-        public var activeConfigurations: [ECSClientTypes.ExpressGatewayServiceConfiguration]?
-        /// The short name or full ARN of the cluster that hosts the Express service.
-        public var cluster: Swift.String?
-        /// The Unix timestamp for when the Express service was created.
-        public var createdAt: Foundation.Date?
-        /// The current deployment configuration for the Express service.
-        public var currentDeployment: Swift.String?
-        /// The ARN of the infrastructure role that manages Amazon Web Services resources for the Express service.
-        public var infrastructureRoleArn: Swift.String?
-        /// The ARN that identifies the Express service.
-        public var serviceArn: Swift.String?
-        /// The name of the Express service.
-        public var serviceName: Swift.String?
-        /// The current status of the Express service.
-        public var status: ECSClientTypes.ExpressGatewayServiceStatus?
-        /// The metadata applied to the Express service.
-        public var tags: [ECSClientTypes.Tag]?
-        /// The Unix timestamp for when the Express service was last updated.
-        public var updatedAt: Foundation.Date?
-
-        public init(
-            activeConfigurations: [ECSClientTypes.ExpressGatewayServiceConfiguration]? = nil,
-            cluster: Swift.String? = nil,
-            createdAt: Foundation.Date? = nil,
-            currentDeployment: Swift.String? = nil,
-            infrastructureRoleArn: Swift.String? = nil,
-            serviceArn: Swift.String? = nil,
-            serviceName: Swift.String? = nil,
-            status: ECSClientTypes.ExpressGatewayServiceStatus? = nil,
-            tags: [ECSClientTypes.Tag]? = nil,
-            updatedAt: Foundation.Date? = nil
-        ) {
-            self.activeConfigurations = activeConfigurations
-            self.cluster = cluster
-            self.createdAt = createdAt
-            self.currentDeployment = currentDeployment
-            self.infrastructureRoleArn = infrastructureRoleArn
-            self.serviceArn = serviceArn
-            self.serviceName = serviceName
-            self.status = status
-            self.tags = tags
-            self.updatedAt = updatedAt
-        }
-    }
-}
-
-public struct CreateExpressGatewayServiceOutput: Swift.Sendable {
-    /// The full description of your Express service following the create operation.
-    public var service: ECSClientTypes.ECSExpressGatewayService?
+///
+public struct ListContainerInstancesInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instances to list. If you do not specify a cluster, the default cluster is assumed.
+    public var cluster: Swift.String?
+    /// You can filter the results of a ListContainerInstances operation with cluster query language statements. For more information, see [Cluster Query Language](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html) in the Amazon Elastic Container Service Developer Guide.
+    public var filter: Swift.String?
+    /// The maximum number of container instance results that ListContainerInstances returned in paginated output. When this parameter is used, ListContainerInstances only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListContainerInstances request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListContainerInstances returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a ListContainerInstances request indicating that more results are available to fulfill the request and further calls are needed. If maxResults was provided, it's possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+    /// Filters the container instances by status. For example, if you specify the DRAINING status, the results include only container instances that have been set to DRAINING using [UpdateContainerInstancesState](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateContainerInstancesState.html). If you don't specify this parameter, the The default is to include container instances set to all states other than INACTIVE.
+    public var status: ECSClientTypes.ContainerInstanceStatus?
 
     public init(
-        service: ECSClientTypes.ECSExpressGatewayService? = nil
+        cluster: Swift.String? = nil,
+        filter: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: ECSClientTypes.ContainerInstanceStatus? = nil
     ) {
-        self.service = service
+        self.cluster = cluster
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+///
+public struct ListContainerInstancesOutput: Swift.Sendable {
+    /// The list of container instances with full ARN entries for each container instance associated with the specified cluster.
+    public var containerInstanceArns: [Swift.String]?
+    /// The nextToken value to include in a future ListContainerInstances request. When the results of a ListContainerInstances request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        containerInstanceArns: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.containerInstanceArns = containerInstanceArns
+        self.nextToken = nextToken
+    }
+}
+
+/// The specified resource is in-use and can't be removed.
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceInUseException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct PutClusterCapacityProvidersInput: Swift.Sendable {
+    /// The name of one or more capacity providers to associate with the cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the [CreateCapacityProvider](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCapacityProvider.html) API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used.
+    /// This member is required.
+    public var capacityProviders: [Swift.String]?
+    /// The short name or full Amazon Resource Name (ARN) of the cluster to modify the capacity provider settings for. If you don't specify a cluster, the default cluster is assumed.
+    /// This member is required.
+    public var cluster: Swift.String?
+    /// The capacity provider strategy to use by default for the cluster. When creating a service or running a task on a cluster, if no capacity provider or launch type is specified then the default capacity provider strategy for the cluster is used. A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capacity provider must be associated with the cluster to be used in a capacity provider strategy. The [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html) API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the [CreateCapacityProvider](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCapacityProvider.html) API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used.
+    /// This member is required.
+    public var defaultCapacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
+
+    public init(
+        capacityProviders: [Swift.String]? = nil,
+        cluster: Swift.String? = nil,
+        defaultCapacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil
+    ) {
+        self.capacityProviders = capacityProviders
+        self.cluster = cluster
+        self.defaultCapacityProviderStrategy = defaultCapacityProviderStrategy
+    }
+}
+
+public struct PutClusterCapacityProvidersOutput: Swift.Sendable {
+    /// Details about the cluster.
+    public var cluster: ECSClientTypes.Cluster?
+
+    public init(
+        cluster: ECSClientTypes.Cluster? = nil
+    ) {
+        self.cluster = cluster
     }
 }
 
 extension ECSClientTypes {
 
-    public enum AvailabilityZoneRebalancing: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
+    /// An object representing a change in state for a task attachment.
+    public struct AttachmentStateChange: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the attachment.
+        /// This member is required.
+        public var attachmentArn: Swift.String?
+        /// The status of the attachment.
+        /// This member is required.
+        public var status: Swift.String?
+
+        public init(
+            attachmentArn: Swift.String? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.attachmentArn = attachmentArn
+            self.status = status
+        }
+    }
+}
+
+public struct SubmitAttachmentStateChangesInput: Swift.Sendable {
+    /// Any attachments associated with the state change request.
+    /// This member is required.
+    public var attachments: [ECSClientTypes.AttachmentStateChange]?
+    /// The short name or full ARN of the cluster that hosts the container instance the attachment belongs to.
+    public var cluster: Swift.String?
+
+    public init(
+        attachments: [ECSClientTypes.AttachmentStateChange]? = nil,
+        cluster: Swift.String? = nil
+    ) {
+        self.attachments = attachments
+        self.cluster = cluster
+    }
+}
+
+public struct SubmitAttachmentStateChangesOutput: Swift.Sendable {
+    /// Acknowledgement of the state change.
+    public var acknowledgment: Swift.String?
+
+    public init(
+        acknowledgment: Swift.String? = nil
+    ) {
+        self.acknowledgment = acknowledgment
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum TransportProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tcp
+        case udp
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [AvailabilityZoneRebalancing] {
+        public static var allCases: [TransportProtocol] {
             return [
-                .disabled,
-                .enabled
+                .tcp,
+                .udp
             ]
         }
 
@@ -2576,8 +3270,8 @@ extension ECSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
+            case .tcp: return "tcp"
+            case .udp: return "udp"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2586,91 +3280,171 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// One of the methods which provide a way for you to quickly identify when a deployment has failed, and then to optionally roll back the failure to the last working deployment. When the alarms are generated, Amazon ECS sets the service deployment to failed. Set the rollback parameter to have Amazon ECS to roll back your service to the last completed deployment after a failure. You can only use the DeploymentAlarms method to detect failures when the DeploymentController is set to ECS. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide .
-    public struct DeploymentAlarms: Swift.Sendable {
-        /// One or more CloudWatch alarm names. Use a "," to separate the alarms.
-        /// This member is required.
-        public var alarmNames: [Swift.String]?
-        /// Determines whether to use the CloudWatch alarm option in the service deployment process.
-        /// This member is required.
-        public var enable: Swift.Bool
-        /// Determines whether to configure Amazon ECS to roll back the service if a service deployment fails. If rollback is used, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
-        /// This member is required.
-        public var rollback: Swift.Bool
+    /// Details on the network bindings between a container and its host container instance. After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the networkBindings section of [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html) API responses.
+    public struct NetworkBinding: Swift.Sendable {
+        /// The IP address that the container is bound to on the container instance.
+        public var bindIP: Swift.String?
+        /// The port number on the container that's used with the network binding.
+        public var containerPort: Swift.Int?
+        /// The port number range on the container that's bound to the dynamically mapped host port range. The following rules apply when you specify a containerPortRange:
+        ///
+        /// * You must use either the bridge network mode or the awsvpc network mode.
+        ///
+        /// * This parameter is available for both the EC2 and Fargate launch types.
+        ///
+        /// * This parameter is available for both the Linux and Windows operating systems.
+        ///
+        /// * The container instance must have at least version 1.67.0 of the container agent and at least version 1.67.0-1 of the ecs-init package
+        ///
+        /// * You can specify a maximum of 100 port ranges per container.
+        ///
+        /// * You do not specify a hostPortRange. The value of the hostPortRange is set as follows:
+        ///
+        /// * For containers in a task with the awsvpc network mode, the hostPortRange is set to the same value as the containerPortRange. This is a static mapping strategy.
+        ///
+        /// * For containers in a task with the bridge network mode, the Amazon ECS agent finds open host ports from the default ephemeral range and passes it to docker to bind them to the container ports.
+        ///
+        ///
+        ///
+        ///
+        /// * The containerPortRange valid values are between 1 and 65535.
+        ///
+        /// * A port can only be included in one port mapping per container.
+        ///
+        /// * You cannot specify overlapping port ranges.
+        ///
+        /// * The first port in the range must be less than last port in the range.
+        ///
+        /// * Docker recommends that you turn off the docker-proxy in the Docker daemon config file when you have a large number of ports. For more information, see [ Issue #11185](https://github.com/moby/moby/issues/11185) on the Github website. For information about how to turn off the docker-proxy in the Docker daemon config file, see [Docker daemon](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/bootstrap_container_instance.html#bootstrap_docker_daemon) in the Amazon ECS Developer Guide.
+        ///
+        ///
+        /// You can call [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html) to view the hostPortRange which are the host ports that are bound to the container ports.
+        public var containerPortRange: Swift.String?
+        /// The port number on the host that's used with the network binding.
+        public var hostPort: Swift.Int?
+        /// The port number range on the host that's used with the network binding. This is assigned is assigned by Docker and delivered by the Amazon ECS agent.
+        public var hostPortRange: Swift.String?
+        /// The protocol used for the network binding.
+        public var `protocol`: ECSClientTypes.TransportProtocol?
 
         public init(
-            alarmNames: [Swift.String]? = nil,
-            enable: Swift.Bool = false,
-            rollback: Swift.Bool = false
+            bindIP: Swift.String? = nil,
+            containerPort: Swift.Int? = nil,
+            containerPortRange: Swift.String? = nil,
+            hostPort: Swift.Int? = nil,
+            hostPortRange: Swift.String? = nil,
+            `protocol`: ECSClientTypes.TransportProtocol? = nil
         ) {
-            self.alarmNames = alarmNames
-            self.enable = enable
-            self.rollback = rollback
+            self.bindIP = bindIP
+            self.containerPort = containerPort
+            self.containerPortRange = containerPortRange
+            self.hostPort = hostPort
+            self.hostPortRange = hostPortRange
+            self.`protocol` = `protocol`
+        }
+    }
+}
+
+///
+public struct SubmitContainerStateChangeInput: Swift.Sendable {
+    /// The short name or full ARN of the cluster that hosts the container.
+    public var cluster: Swift.String?
+    /// The name of the container.
+    public var containerName: Swift.String?
+    /// The exit code that's returned for the state change request.
+    public var exitCode: Swift.Int?
+    /// The network bindings of the container.
+    public var networkBindings: [ECSClientTypes.NetworkBinding]?
+    /// The reason for the state change request.
+    public var reason: Swift.String?
+    /// The ID of the Docker container.
+    public var runtimeId: Swift.String?
+    /// The status of the state change request.
+    public var status: Swift.String?
+    /// The task ID or full Amazon Resource Name (ARN) of the task that hosts the container.
+    public var task: Swift.String?
+
+    public init(
+        cluster: Swift.String? = nil,
+        containerName: Swift.String? = nil,
+        exitCode: Swift.Int? = nil,
+        networkBindings: [ECSClientTypes.NetworkBinding]? = nil,
+        reason: Swift.String? = nil,
+        runtimeId: Swift.String? = nil,
+        status: Swift.String? = nil,
+        task: Swift.String? = nil
+    ) {
+        self.cluster = cluster
+        self.containerName = containerName
+        self.exitCode = exitCode
+        self.networkBindings = networkBindings
+        self.reason = reason
+        self.runtimeId = runtimeId
+        self.status = status
+        self.task = task
+    }
+}
+
+///
+public struct SubmitContainerStateChangeOutput: Swift.Sendable {
+    /// Acknowledgement of the state change.
+    public var acknowledgment: Swift.String?
+
+    public init(
+        acknowledgment: Swift.String? = nil
+    ) {
+        self.acknowledgment = acknowledgment
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An object that represents a change in state for a container.
+    public struct ContainerStateChange: Swift.Sendable {
+        /// The name of the container.
+        public var containerName: Swift.String?
+        /// The exit code for the container, if the state change is a result of the container exiting.
+        public var exitCode: Swift.Int?
+        /// The container image SHA 256 digest.
+        public var imageDigest: Swift.String?
+        /// Any network bindings that are associated with the container.
+        public var networkBindings: [ECSClientTypes.NetworkBinding]?
+        /// The reason for the state change.
+        public var reason: Swift.String?
+        /// The ID of the Docker container.
+        public var runtimeId: Swift.String?
+        /// The status of the container.
+        public var status: Swift.String?
+
+        public init(
+            containerName: Swift.String? = nil,
+            exitCode: Swift.Int? = nil,
+            imageDigest: Swift.String? = nil,
+            networkBindings: [ECSClientTypes.NetworkBinding]? = nil,
+            reason: Swift.String? = nil,
+            runtimeId: Swift.String? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.containerName = containerName
+            self.exitCode = exitCode
+            self.imageDigest = imageDigest
+            self.networkBindings = networkBindings
+            self.reason = reason
+            self.runtimeId = runtimeId
+            self.status = status
         }
     }
 }
 
 extension ECSClientTypes {
 
-    /// Configuration for a canary deployment strategy that shifts a fixed percentage of traffic to the new service revision, waits for a specified bake time, then shifts the remaining traffic. This is only valid when you run CreateService or UpdateService with deploymentController set to ECS and a deploymentConfiguration with a strategy set to CANARY.
-    public struct CanaryConfiguration: Swift.Sendable {
-        /// The amount of time in minutes to wait during the canary phase before shifting the remaining production traffic to the new service revision. Valid values are 0 to 1440 minutes (24 hours). The default value is 10.
-        public var canaryBakeTimeInMinutes: Swift.Int?
-        /// The percentage of production traffic to shift to the new service revision during the canary phase. Valid values are multiples of 0.1 from 0.1 to 100.0. The default value is 5.0.
-        public var canaryPercent: Swift.Double?
-
-        public init(
-            canaryBakeTimeInMinutes: Swift.Int? = 0,
-            canaryPercent: Swift.Double? = 0.0
-        ) {
-            self.canaryBakeTimeInMinutes = canaryBakeTimeInMinutes
-            self.canaryPercent = canaryPercent
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type. The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If it is turned on, a service deployment will transition to a failed state and stop launching new tasks. You can also configure Amazon ECS to roll back your service to the last completed deployment after a failure. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide. For more information about API failure reasons, see [API failure reasons](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct DeploymentCircuitBreaker: Swift.Sendable {
-        /// Determines whether to use the deployment circuit breaker logic for the service.
-        /// This member is required.
-        public var enable: Swift.Bool
-        /// Determines whether to configure Amazon ECS to roll back the service if a service deployment fails. If rollback is on, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
-        /// This member is required.
-        public var rollback: Swift.Bool
-
-        public init(
-            enable: Swift.Bool = false,
-            rollback: Swift.Bool = false
-        ) {
-            self.enable = enable
-            self.rollback = rollback
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum DeploymentLifecycleHookStage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case postProductionTrafficShift
-        case postScaleUp
-        case postTestTrafficShift
-        case preScaleUp
-        case productionTrafficShift
-        case reconcileService
-        case testTrafficShift
+    public enum ManagedAgentName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case executecommandagent
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [DeploymentLifecycleHookStage] {
+        public static var allCases: [ManagedAgentName] {
             return [
-                .postProductionTrafficShift,
-                .postScaleUp,
-                .postTestTrafficShift,
-                .preScaleUp,
-                .productionTrafficShift,
-                .reconcileService,
-                .testTrafficShift
+                .executecommandagent
             ]
         }
 
@@ -2681,13 +3455,7 @@ extension ECSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .postProductionTrafficShift: return "POST_PRODUCTION_TRAFFIC_SHIFT"
-            case .postScaleUp: return "POST_SCALE_UP"
-            case .postTestTrafficShift: return "POST_TEST_TRAFFIC_SHIFT"
-            case .preScaleUp: return "PRE_SCALE_UP"
-            case .productionTrafficShift: return "PRODUCTION_TRAFFIC_SHIFT"
-            case .reconcileService: return "RECONCILE_SERVICE"
-            case .testTrafficShift: return "TEST_TRAFFIC_SHIFT"
+            case .executecommandagent: return "ExecuteCommandAgent"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2696,260 +3464,328 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// A deployment lifecycle hook runs custom logic at specific stages of the deployment process. Currently, you can use Lambda functions as hook targets. For more information, see [Lifecycle hooks for Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-lifecycle-hooks.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct DeploymentLifecycleHook: Swift.Sendable {
-        /// Use this field to specify custom parameters that Amazon ECS will pass to your hook target invocations (such as a Lambda function).
-        public var hookDetails: Smithy.Document?
-        /// The Amazon Resource Name (ARN) of the hook target. Currently, only Lambda function ARNs are supported. You must provide this parameter when configuring a deployment lifecycle hook.
-        public var hookTargetArn: Swift.String?
-        /// The lifecycle stages at which to run the hook. Choose from these valid values:
-        ///
-        /// * RECONCILE_SERVICE The reconciliation stage that only happens when you start a new service deployment with more than 1 service revision in an ACTIVE state. You can use a lifecycle hook for this stage.
-        ///
-        /// * PRE_SCALE_UP The green service revision has not started. The blue service revision is handling 100% of the production traffic. There is no test traffic. You can use a lifecycle hook for this stage.
-        ///
-        /// * POST_SCALE_UP The green service revision has started. The blue service revision is handling 100% of the production traffic. There is no test traffic. You can use a lifecycle hook for this stage.
-        ///
-        /// * TEST_TRAFFIC_SHIFT The blue and green service revisions are running. The blue service revision handles 100% of the production traffic. The green service revision is migrating from 0% to 100% of test traffic. You can use a lifecycle hook for this stage.
-        ///
-        /// * POST_TEST_TRAFFIC_SHIFT The test traffic shift is complete. The green service revision handles 100% of the test traffic. You can use a lifecycle hook for this stage.
-        ///
-        /// * PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic. You can use a lifecycle hook for this stage.
-        ///
-        /// * POST_PRODUCTION_TRAFFIC_SHIFT The production traffic shift is complete. You can use a lifecycle hook for this stage.
-        ///
-        ///
-        /// You must provide this parameter when configuring a deployment lifecycle hook.
-        public var lifecycleStages: [ECSClientTypes.DeploymentLifecycleHookStage]?
-        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon ECS permission to call Lambda functions on your behalf. For more information, see [Permissions required for Lambda functions in Amazon ECS blue/green deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/blue-green-permissions.html) in the Amazon Elastic Container Service Developer Guide.
-        public var roleArn: Swift.String?
-
-        public init(
-            hookDetails: Smithy.Document? = nil,
-            hookTargetArn: Swift.String? = nil,
-            lifecycleStages: [ECSClientTypes.DeploymentLifecycleHookStage]? = nil,
-            roleArn: Swift.String? = nil
-        ) {
-            self.hookDetails = hookDetails
-            self.hookTargetArn = hookTargetArn
-            self.lifecycleStages = lifecycleStages
-            self.roleArn = roleArn
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// Configuration for linear deployment strategy that shifts production traffic in equal percentage increments with configurable wait times between each step until 100% of traffic is shifted to the new service revision. This is only valid when you run CreateService or UpdateService with deploymentController set to ECS and a deploymentConfiguration with a strategy set to LINEAR.
-    public struct LinearConfiguration: Swift.Sendable {
-        /// The amount of time in minutes to wait between each traffic shifting step during a linear deployment. Valid values are 0 to 1440 minutes (24 hours). The default value is 6. This bake time is not applied after reaching 100 percent traffic.
-        public var stepBakeTimeInMinutes: Swift.Int?
-        /// The percentage of production traffic to shift in each step during a linear deployment. Valid values are multiples of 0.1 from 3.0 to 100.0. The default value is 10.0.
-        public var stepPercent: Swift.Double?
-
-        public init(
-            stepBakeTimeInMinutes: Swift.Int? = 0,
-            stepPercent: Swift.Double? = 0.0
-        ) {
-            self.stepBakeTimeInMinutes = stepBakeTimeInMinutes
-            self.stepPercent = stepPercent
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum DeploymentStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case blueGreen
-        case canary
-        case linear
-        case rolling
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DeploymentStrategy] {
-            return [
-                .blueGreen,
-                .canary,
-                .linear,
-                .rolling
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .blueGreen: return "BLUE_GREEN"
-            case .canary: return "CANARY"
-            case .linear: return "LINEAR"
-            case .rolling: return "ROLLING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// Optional deployment parameters that control how many tasks run during a deployment and the ordering of stopping and starting tasks.
-    public struct DeploymentConfiguration: Swift.Sendable {
-        /// Information about the CloudWatch alarms.
-        public var alarms: ECSClientTypes.DeploymentAlarms?
-        /// The time period when both blue and green service revisions are running simultaneously after the production traffic has shifted. You must provide this parameter when you use the BLUE_GREEN deployment strategy.
-        public var bakeTimeInMinutes: Swift.Int?
-        /// Configuration for canary deployment strategy. Only valid when the deployment strategy is CANARY. This configuration enables shifting a fixed percentage of traffic for testing, followed by shifting the remaining traffic after a bake period.
-        public var canaryConfiguration: ECSClientTypes.CanaryConfiguration?
-        /// The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type. The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If you use the deployment circuit breaker, a service deployment will transition to a failed state and stop launching new tasks. If you use the rollback option, when a service deployment fails, the service is rolled back to the last deployment that completed successfully. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide
-        public var deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker?
-        /// An array of deployment lifecycle hook objects to run custom logic at specific stages of the deployment lifecycle.
-        public var lifecycleHooks: [ECSClientTypes.DeploymentLifecycleHook]?
-        /// Configuration for linear deployment strategy. Only valid when the deployment strategy is LINEAR. This configuration enables progressive traffic shifting in equal percentage increments with configurable bake times between each step.
-        public var linearConfiguration: ECSClientTypes.LinearConfiguration?
-        /// If a service is using the rolling update (ECS) deployment type, the maximumPercent parameter represents an upper limit on the number of your service's tasks that are allowed in the RUNNING or PENDING state during a deployment, as a percentage of the desiredCount (rounded down to the nearest integer). This parameter enables you to define the deployment batch size. For example, if your service is using the REPLICA service scheduler and has a desiredCount of four tasks and a maximumPercent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default maximumPercent value for a service using the REPLICA service scheduler is 200%. The Amazon ECS scheduler uses this parameter to replace unhealthy tasks by starting replacement tasks first and then stopping the unhealthy tasks, as long as cluster resources for starting replacement tasks are available. For more information about how the scheduler replaces unhealthy tasks, see [Amazon ECS services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html). If a service is using either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types, and tasks in the service use the EC2 launch type, the maximum percent value is set to the default value. The maximum percent value is used to define the upper limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. You can't specify a custom maximumPercent value for a service that uses either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and has tasks that use the EC2 launch type. If the service uses either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types, and the tasks in the service use the Fargate launch type, the maximum percent value is not used. The value is still returned when describing your service.
-        public var maximumPercent: Swift.Int?
-        /// If a service is using the rolling update (ECS) deployment type, the minimumHealthyPercent represents a lower limit on the number of your service's tasks that must remain in the RUNNING state during a deployment, as a percentage of the desiredCount (rounded up to the nearest integer). This parameter enables you to deploy without using additional cluster capacity. For example, if your service has a desiredCount of four tasks and a minimumHealthyPercent of 50%, the service scheduler may stop two existing tasks to free up cluster capacity before starting two new tasks. If any tasks are unhealthy and if maximumPercent doesn't allow the Amazon ECS scheduler to start replacement tasks, the scheduler stops the unhealthy tasks one-by-one — using the minimumHealthyPercent as a constraint — to clear up capacity to launch replacement tasks. For more information about how the scheduler replaces unhealthy tasks, see [Amazon ECS services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html). For services that do not use a load balancer, the following should be noted:
-        ///
-        /// * A service is considered healthy if all essential containers within the tasks in the service pass their health checks.
-        ///
-        /// * If a task has no essential containers with a health check defined, the service scheduler will wait for 40 seconds after a task reaches a RUNNING state before the task is counted towards the minimum healthy percent total.
-        ///
-        /// * If a task has one or more essential containers with a health check defined, the service scheduler will wait for the task to reach a healthy status before counting it towards the minimum healthy percent total. A task is considered healthy when all essential containers within the task have passed their health checks. The amount of time the service scheduler can wait for is determined by the container health check settings.
-        ///
-        ///
-        /// For services that do use a load balancer, the following should be noted:
-        ///
-        /// * If a task has no essential containers with a health check defined, the service scheduler will wait for the load balancer target group health check to return a healthy status before counting the task towards the minimum healthy percent total.
-        ///
-        /// * If a task has an essential container with a health check defined, the service scheduler will wait for both the task to reach a healthy status and the load balancer target group health check to return a healthy status before counting the task towards the minimum healthy percent total.
-        ///
-        ///
-        /// The default value for a replica service for minimumHealthyPercent is 100%. The default minimumHealthyPercent value for a service using the DAEMON service schedule is 0% for the CLI, the Amazon Web Services SDKs, and the APIs and 50% for the Amazon Web Services Management Console. The minimum number of healthy tasks during a deployment is the desiredCount multiplied by the minimumHealthyPercent/100, rounded up to the nearest integer value. If a service is using either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and is running tasks that use the EC2 launch type, the minimum healthy percent value is set to the default value. The minimum healthy percent value is used to define the lower limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. You can't specify a custom minimumHealthyPercent value for a service that uses either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and has tasks that use the EC2 launch type. If a service is using either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and is running tasks that use the Fargate launch type, the minimum healthy percent value is not used, although it is returned when describing your service.
-        public var minimumHealthyPercent: Swift.Int?
-        /// The deployment strategy for the service. Choose from these valid values:
-        ///
-        /// * ROLLING - When you create a service which uses the rolling update (ROLLING) deployment strategy, the Amazon ECS service scheduler replaces the currently running tasks with new tasks. The number of tasks that Amazon ECS adds or removes from the service during a rolling update is controlled by the service deployment configuration.
-        ///
-        /// * BLUE_GREEN - A blue/green deployment strategy (BLUE_GREEN) is a release methodology that reduces downtime and risk by running two identical production environments called blue and green. With Amazon ECS blue/green deployments, you can validate new service revisions before directing production traffic to them. This approach provides a safer way to deploy changes with the ability to quickly roll back if needed.
-        ///
-        /// * LINEAR - A linear deployment strategy (LINEAR) gradually shifts traffic from the current production environment to a new environment in equal percentages over time. With Amazon ECS linear deployments, you can control the pace of traffic shifting and validate new service revisions with increasing amounts of production traffic.
-        ///
-        /// * CANARY - A canary deployment strategy (CANARY) shifts a small percentage of traffic to the new service revision first, then shifts the remaining traffic all at once after a specified time period. This allows you to test the new version with a subset of users before full deployment.
-        public var strategy: ECSClientTypes.DeploymentStrategy?
-
-        public init(
-            alarms: ECSClientTypes.DeploymentAlarms? = nil,
-            bakeTimeInMinutes: Swift.Int? = nil,
-            canaryConfiguration: ECSClientTypes.CanaryConfiguration? = nil,
-            deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker? = nil,
-            lifecycleHooks: [ECSClientTypes.DeploymentLifecycleHook]? = nil,
-            linearConfiguration: ECSClientTypes.LinearConfiguration? = nil,
-            maximumPercent: Swift.Int? = nil,
-            minimumHealthyPercent: Swift.Int? = nil,
-            strategy: ECSClientTypes.DeploymentStrategy? = nil
-        ) {
-            self.alarms = alarms
-            self.bakeTimeInMinutes = bakeTimeInMinutes
-            self.canaryConfiguration = canaryConfiguration
-            self.deploymentCircuitBreaker = deploymentCircuitBreaker
-            self.lifecycleHooks = lifecycleHooks
-            self.linearConfiguration = linearConfiguration
-            self.maximumPercent = maximumPercent
-            self.minimumHealthyPercent = minimumHealthyPercent
-            self.strategy = strategy
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum DeploymentControllerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case codeDeploy
-        case ecs
-        case external
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DeploymentControllerType] {
-            return [
-                .codeDeploy,
-                .ecs,
-                .external
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .codeDeploy: return "CODE_DEPLOY"
-            case .ecs: return "ECS"
-            case .external: return "EXTERNAL"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The deployment controller to use for the service.
-    public struct DeploymentController: Swift.Sendable {
-        /// The deployment controller type to use. The deployment controller is the mechanism that determines how tasks are deployed for your service. The valid options are:
-        ///
-        /// * ECS When you create a service which uses the ECS deployment controller, you can choose between the following deployment strategies:
-        ///
-        /// * ROLLING: When you create a service which uses the rolling update (ROLLING) deployment strategy, the Amazon ECS service scheduler replaces the currently running tasks with new tasks. The number of tasks that Amazon ECS adds or removes from the service during a rolling update is controlled by the service deployment configuration. Rolling update deployments are best suited for the following scenarios:
-        ///
-        /// * Gradual service updates: You need to update your service incrementally without taking the entire service offline at once.
-        ///
-        /// * Limited resource requirements: You want to avoid the additional resource costs of running two complete environments simultaneously (as required by blue/green deployments).
-        ///
-        /// * Acceptable deployment time: Your application can tolerate a longer deployment process, as rolling updates replace tasks one by one.
-        ///
-        /// * No need for instant roll back: Your service can tolerate a rollback process that takes minutes rather than seconds.
-        ///
-        /// * Simple deployment process: You prefer a straightforward deployment approach without the complexity of managing multiple environments, target groups, and listeners.
-        ///
-        /// * No load balancer requirement: Your service doesn't use or require a load balancer, Application Load Balancer, Network Load Balancer, or Service Connect (which are required for blue/green deployments).
-        ///
-        /// * Stateful applications: Your application maintains state that makes it difficult to run two parallel environments.
-        ///
-        /// * Cost sensitivity: You want to minimize deployment costs by not running duplicate environments during deployment.
-        ///
-        ///
-        /// Rolling updates are the default deployment strategy for services and provide a balance between deployment safety and resource efficiency for many common application scenarios.
-        ///
-        /// * BLUE_GREEN: A blue/green deployment strategy (BLUE_GREEN) is a release methodology that reduces downtime and risk by running two identical production environments called blue and green. With Amazon ECS blue/green deployments, you can validate new service revisions before directing production traffic to them. This approach provides a safer way to deploy changes with the ability to quickly roll back if needed. Amazon ECS blue/green deployments are best suited for the following scenarios:
-        ///
-        /// * Service validation: When you need to validate new service revisions before directing production traffic to them
-        ///
-        /// * Zero downtime: When your service requires zero-downtime deployments
-        ///
-        /// * Instant roll back: When you need the ability to quickly roll back if issues are detected
-        ///
-        /// * Load balancer requirement: When your service uses Application Load Balancer, Network Load Balancer, or Service Connect
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        /// * External Use a third-party deployment controller.
-        ///
-        /// * Blue/green deployment (powered by CodeDeploy) CodeDeploy installs an updated version of the application as a new replacement task set and reroutes production traffic from the original application task set to the replacement task set. The original task set is terminated after a successful deployment. Use this deployment controller to verify a new deployment of a service before sending production traffic to it.
+    /// An object representing a change in state for a managed agent.
+    public struct ManagedAgentStateChange: Swift.Sendable {
+        /// The name of the container that's associated with the managed agent.
         /// This member is required.
-        public var type: ECSClientTypes.DeploymentControllerType?
+        public var containerName: Swift.String?
+        /// The name of the managed agent.
+        /// This member is required.
+        public var managedAgentName: ECSClientTypes.ManagedAgentName?
+        /// The reason for the status of the managed agent.
+        public var reason: Swift.String?
+        /// The status of the managed agent.
+        /// This member is required.
+        public var status: Swift.String?
 
         public init(
-            type: ECSClientTypes.DeploymentControllerType? = nil
+            containerName: Swift.String? = nil,
+            managedAgentName: ECSClientTypes.ManagedAgentName? = nil,
+            reason: Swift.String? = nil,
+            status: Swift.String? = nil
         ) {
-            self.type = type
+            self.containerName = containerName
+            self.managedAgentName = managedAgentName
+            self.reason = reason
+            self.status = status
+        }
+    }
+}
+
+///
+public struct SubmitTaskStateChangeInput: Swift.Sendable {
+    /// Any attachments associated with the state change request.
+    public var attachments: [ECSClientTypes.AttachmentStateChange]?
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task.
+    public var cluster: Swift.String?
+    /// Any containers that's associated with the state change request.
+    public var containers: [ECSClientTypes.ContainerStateChange]?
+    /// The Unix timestamp for the time when the task execution stopped.
+    public var executionStoppedAt: Foundation.Date?
+    /// The details for the managed agent that's associated with the task.
+    public var managedAgents: [ECSClientTypes.ManagedAgentStateChange]?
+    /// The Unix timestamp for the time when the container image pull started.
+    public var pullStartedAt: Foundation.Date?
+    /// The Unix timestamp for the time when the container image pull completed.
+    public var pullStoppedAt: Foundation.Date?
+    /// The reason for the state change request.
+    public var reason: Swift.String?
+    /// The status of the state change request.
+    public var status: Swift.String?
+    /// The task ID or full ARN of the task in the state change request.
+    public var task: Swift.String?
+
+    public init(
+        attachments: [ECSClientTypes.AttachmentStateChange]? = nil,
+        cluster: Swift.String? = nil,
+        containers: [ECSClientTypes.ContainerStateChange]? = nil,
+        executionStoppedAt: Foundation.Date? = nil,
+        managedAgents: [ECSClientTypes.ManagedAgentStateChange]? = nil,
+        pullStartedAt: Foundation.Date? = nil,
+        pullStoppedAt: Foundation.Date? = nil,
+        reason: Swift.String? = nil,
+        status: Swift.String? = nil,
+        task: Swift.String? = nil
+    ) {
+        self.attachments = attachments
+        self.cluster = cluster
+        self.containers = containers
+        self.executionStoppedAt = executionStoppedAt
+        self.managedAgents = managedAgents
+        self.pullStartedAt = pullStartedAt
+        self.pullStoppedAt = pullStoppedAt
+        self.reason = reason
+        self.status = status
+        self.task = task
+    }
+}
+
+///
+public struct SubmitTaskStateChangeOutput: Swift.Sendable {
+    /// Acknowledgement of the state change.
+    public var acknowledgment: Swift.String?
+
+    public init(
+        acknowledgment: Swift.String? = nil
+    ) {
+        self.acknowledgment = acknowledgment
+    }
+}
+
+public struct UpdateClusterInput: Swift.Sendable {
+    /// The name of the cluster to modify the settings for.
+    /// This member is required.
+    public var cluster: Swift.String?
+    /// The execute command configuration for the cluster.
+    public var configuration: ECSClientTypes.ClusterConfiguration?
+    /// Use this parameter to set a default Service Connect namespace. After you set a default Service Connect namespace, any new services with Service Connect turned on that are created in the cluster are added as client services in the namespace. This setting only applies to new services that set the enabled parameter to true in the ServiceConnectConfiguration. You can set the namespace of each service individually in the ServiceConnectConfiguration to override this default parameter. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    public var serviceConnectDefaults: ECSClientTypes.ClusterServiceConnectDefaultsRequest?
+    /// The cluster settings for your cluster.
+    public var settings: [ECSClientTypes.ClusterSetting]?
+
+    public init(
+        cluster: Swift.String? = nil,
+        configuration: ECSClientTypes.ClusterConfiguration? = nil,
+        serviceConnectDefaults: ECSClientTypes.ClusterServiceConnectDefaultsRequest? = nil,
+        settings: [ECSClientTypes.ClusterSetting]? = nil
+    ) {
+        self.cluster = cluster
+        self.configuration = configuration
+        self.serviceConnectDefaults = serviceConnectDefaults
+        self.settings = settings
+    }
+}
+
+public struct UpdateClusterOutput: Swift.Sendable {
+    /// Details about the cluster.
+    public var cluster: ECSClientTypes.Cluster?
+
+    public init(
+        cluster: ECSClientTypes.Cluster? = nil
+    ) {
+        self.cluster = cluster
+    }
+}
+
+public struct UpdateClusterSettingsInput: Swift.Sendable {
+    /// The name of the cluster to modify the settings for.
+    /// This member is required.
+    public var cluster: Swift.String?
+    /// The setting to use by default for a cluster. This parameter is used to turn on CloudWatch Container Insights for a cluster. If this value is specified, it overrides the containerInsights value set with [PutAccountSetting](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAccountSetting.html) or [PutAccountSettingDefault](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAccountSettingDefault.html). Currently, if you delete an existing cluster that does not have Container Insights turned on, and then create a new cluster with the same name with Container Insights tuned on, Container Insights will not actually be turned on. If you want to preserve the same name for your existing cluster and turn on Container Insights, you must wait 7 days before you can re-create it.
+    /// This member is required.
+    public var settings: [ECSClientTypes.ClusterSetting]?
+
+    public init(
+        cluster: Swift.String? = nil,
+        settings: [ECSClientTypes.ClusterSetting]? = nil
+    ) {
+        self.cluster = cluster
+        self.settings = settings
+    }
+}
+
+public struct UpdateClusterSettingsOutput: Swift.Sendable {
+    /// Details about the cluster
+    public var cluster: ECSClientTypes.Cluster?
+
+    public init(
+        cluster: ECSClientTypes.Cluster? = nil
+    ) {
+        self.cluster = cluster
+    }
+}
+
+/// The specified target wasn't found. You can view your available container instances with [ListContainerInstances](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListContainerInstances.html). Amazon ECS container instances are cluster-specific and Region-specific.
+public struct TargetNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TargetNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+///
+public struct DeleteAttributesInput: Swift.Sendable {
+    /// The attributes to delete from your resource. You can specify up to 10 attributes for each request. For custom attributes, specify the attribute name and target ID, but don't specify the value. If you specify the target ID using the short form, you must also specify the target type.
+    /// This member is required.
+    public var attributes: [ECSClientTypes.Attribute]?
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to delete attributes. If you do not specify a cluster, the default cluster is assumed.
+    public var cluster: Swift.String?
+
+    public init(
+        attributes: [ECSClientTypes.Attribute]? = nil,
+        cluster: Swift.String? = nil
+    ) {
+        self.attributes = attributes
+        self.cluster = cluster
+    }
+}
+
+///
+public struct DeleteAttributesOutput: Swift.Sendable {
+    /// A list of attribute objects that were successfully deleted from your resource.
+    public var attributes: [ECSClientTypes.Attribute]?
+
+    public init(
+        attributes: [ECSClientTypes.Attribute]? = nil
+    ) {
+        self.attributes = attributes
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ContainerInstanceField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case containerInstanceHealth
+        case tags
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContainerInstanceField] {
+            return [
+                .containerInstanceHealth,
+                .tags
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .containerInstanceHealth: return "CONTAINER_INSTANCE_HEALTH"
+            case .tags: return "TAGS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+///
+public struct DescribeContainerInstancesInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instances to describe. If you do not specify a cluster, the default cluster is assumed. This parameter is required if the container instance or container instances you are describing were launched in any cluster other than the default cluster.
+    public var cluster: Swift.String?
+    /// A list of up to 100 container instance IDs or full Amazon Resource Name (ARN) entries.
+    /// This member is required.
+    public var containerInstances: [Swift.String]?
+    /// Specifies whether you want to see the resource tags for the container instance. If TAGS is specified, the tags are included in the response. If CONTAINER_INSTANCE_HEALTH is specified, the container instance health is included in the response. If this field is omitted, tags and container instance health status aren't included in the response.
+    public var include: [ECSClientTypes.ContainerInstanceField]?
+
+    public init(
+        cluster: Swift.String? = nil,
+        containerInstances: [Swift.String]? = nil,
+        include: [ECSClientTypes.ContainerInstanceField]? = nil
+    ) {
+        self.cluster = cluster
+        self.containerInstances = containerInstances
+        self.include = include
+    }
+}
+
+///
+public struct DescribeContainerInstancesOutput: Swift.Sendable {
+    /// The list of container instances.
+    public var containerInstances: [ECSClientTypes.ContainerInstance]?
+    /// Any failures associated with the call.
+    public var failures: [ECSClientTypes.Failure]?
+
+    public init(
+        containerInstances: [ECSClientTypes.ContainerInstance]? = nil,
+        failures: [ECSClientTypes.Failure]? = nil
+    ) {
+        self.containerInstances = containerInstances
+        self.failures = failures
+    }
+}
+
+/// The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
+public struct ServiceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum DesiredStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case pending
+        case running
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DesiredStatus] {
+            return [
+                .pending,
+                .running,
+                .stopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .pending: return "PENDING"
+            case .running: return "RUNNING"
+            case .stopped: return "STOPPED"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -2989,1656 +3825,68 @@ extension ECSClientTypes {
     }
 }
 
-extension ECSClientTypes {
-
-    /// The load balancer configuration to use with a service or task set. When you add, update, or remove a load balancer configuration, Amazon ECS starts a new deployment with the updated Elastic Load Balancing configuration. This causes tasks to register to and deregister from load balancers. We recommend that you verify this on a test environment before you update the Elastic Load Balancing configuration. A service-linked role is required for services that use multiple target groups. For more information, see [Using service-linked roles](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct LoadBalancer: Swift.Sendable {
-        /// The advanced settings for the load balancer used in blue/green deployments. Specify the alternate target group, listener rules, and IAM role required for traffic shifting during blue/green deployments.
-        public var advancedConfiguration: ECSClientTypes.AdvancedConfiguration?
-        /// The name of the container (as it appears in a container definition) to associate with the load balancer. You need to specify the container name when configuring the target group for an Amazon ECS load balancer.
-        public var containerName: Swift.String?
-        /// The port on the container to associate with the load balancer. This port must correspond to a containerPort in the task definition the tasks in the service are using. For tasks that use the EC2 launch type, the container instance they're launched on must allow ingress traffic on the hostPort of the port mapping.
-        public var containerPort: Swift.Int?
-        /// The name of the load balancer to associate with the Amazon ECS service or task set. If you are using an Application Load Balancer or a Network Load Balancer the load balancer name parameter should be omitted.
-        public var loadBalancerName: Swift.String?
-        /// The full Amazon Resource Name (ARN) of the Elastic Load Balancing target group or groups associated with a service or task set. A target group ARN is only specified when using an Application Load Balancer or Network Load Balancer. For services using the ECS deployment controller, you can specify one or multiple target groups. For more information, see [Registering multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. For services using the CODE_DEPLOY deployment controller, you're required to define two target groups for the load balancer. For more information, see [Blue/green deployment with CodeDeploy](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-bluegreen.html) in the Amazon Elastic Container Service Developer Guide. If your service's task definition uses the awsvpc network mode, you must choose ip as the target type, not instance. Do this when creating your target groups because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance. This network mode is required for the Fargate launch type.
-        public var targetGroupArn: Swift.String?
-
-        public init(
-            advancedConfiguration: ECSClientTypes.AdvancedConfiguration? = nil,
-            containerName: Swift.String? = nil,
-            containerPort: Swift.Int? = nil,
-            loadBalancerName: Swift.String? = nil,
-            targetGroupArn: Swift.String? = nil
-        ) {
-            self.advancedConfiguration = advancedConfiguration
-            self.containerName = containerName
-            self.containerPort = containerPort
-            self.loadBalancerName = loadBalancerName
-            self.targetGroupArn = targetGroupArn
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum AssignPublicIp: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [AssignPublicIp] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// An object representing the networking details for a task or service. For example awsVpcConfiguration={subnets=["subnet-12344321"],securityGroups=["sg-12344321"]}.
-    public struct AwsVpcConfiguration: Swift.Sendable {
-        /// Whether the task's elastic network interface receives a public IP address. Consider the following when you set this value:
-        ///
-        /// * When you use create-service or update-service, the default is DISABLED.
-        ///
-        /// * When the service deploymentController is ECS, the value must be DISABLED.
-        public var assignPublicIp: ECSClientTypes.AssignPublicIp?
-        /// The IDs of the security groups associated with the task or service. If you don't specify a security group, the default security group for the VPC is used. There's a limit of 5 security groups that can be specified. All specified security groups must be from the same VPC.
-        public var securityGroups: [Swift.String]?
-        /// The IDs of the subnets associated with the task or service. There's a limit of 16 subnets that can be specified. All specified subnets must be from the same VPC.
-        /// This member is required.
-        public var subnets: [Swift.String]?
-
-        public init(
-            assignPublicIp: ECSClientTypes.AssignPublicIp? = nil,
-            securityGroups: [Swift.String]? = nil,
-            subnets: [Swift.String]? = nil
-        ) {
-            self.assignPublicIp = assignPublicIp
-            self.securityGroups = securityGroups
-            self.subnets = subnets
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The network configuration for a task or service.
-    public struct NetworkConfiguration: Swift.Sendable {
-        /// The VPC subnets and security groups that are associated with a task. All specified subnets and security groups must be from the same VPC.
-        public var awsvpcConfiguration: ECSClientTypes.AwsVpcConfiguration?
-
-        public init(
-            awsvpcConfiguration: ECSClientTypes.AwsVpcConfiguration? = nil
-        ) {
-            self.awsvpcConfiguration = awsvpcConfiguration
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum PlacementConstraintType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case distinctInstance
-        case memberOf
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [PlacementConstraintType] {
-            return [
-                .distinctInstance,
-                .memberOf
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .distinctInstance: return "distinctInstance"
-            case .memberOf: return "memberOf"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// An object representing a constraint on task placement. For more information, see [Task placement constraints](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html) in the Amazon Elastic Container Service Developer Guide. If you're using the Fargate launch type, task placement constraints aren't supported.
-    public struct PlacementConstraint: Swift.Sendable {
-        /// A cluster query language expression to apply to the constraint. The expression can have a maximum length of 2000 characters. You can't specify an expression if the constraint type is distinctInstance. For more information, see [Cluster query language](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html) in the Amazon Elastic Container Service Developer Guide.
-        public var expression: Swift.String?
-        /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict the selection to a group of valid candidates.
-        public var type: ECSClientTypes.PlacementConstraintType?
-
-        public init(
-            expression: Swift.String? = nil,
-            type: ECSClientTypes.PlacementConstraintType? = nil
-        ) {
-            self.expression = expression
-            self.type = type
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum PlacementStrategyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case binpack
-        case random
-        case spread
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [PlacementStrategyType] {
-            return [
-                .binpack,
-                .random,
-                .spread
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .binpack: return "binpack"
-            case .random: return "random"
-            case .spread: return "spread"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The task placement strategy for a task or service. For more information, see [Task placement strategies](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct PlacementStrategy: Swift.Sendable {
-        /// The field to apply the placement strategy against. For the spread placement strategy, valid values are instanceId (or host, which has the same effect), or any platform or custom attribute that's applied to a container instance, such as attribute:ecs.availability-zone. For the binpack placement strategy, valid values are cpu and memory. For the random placement strategy, this field is not used.
-        public var field: Swift.String?
-        /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that's specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory but still enough to run the task.
-        public var type: ECSClientTypes.PlacementStrategyType?
-
-        public init(
-            field: Swift.String? = nil,
-            type: ECSClientTypes.PlacementStrategyType? = nil
-        ) {
-            self.field = field
-            self.type = type
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum PropagateTags: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case `none`
-        case service
-        case taskDefinition
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [PropagateTags] {
-            return [
-                .none,
-                .service,
-                .taskDefinition
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .none: return "NONE"
-            case .service: return "SERVICE"
-            case .taskDefinition: return "TASK_DEFINITION"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum SchedulingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case daemon
-        case replica
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SchedulingStrategy] {
-            return [
-                .daemon,
-                .replica
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .daemon: return "DAEMON"
-            case .replica: return "REPLICA"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The format for Service Connect access log output. Choose TEXT for human-readable logs or JSON for structured data that integrates well with log analysis tools.
-    public enum ServiceConnectAccessLoggingFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case json
-        case text
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ServiceConnectAccessLoggingFormat] {
-            return [
-                .json,
-                .text
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .json: return "JSON"
-            case .text: return "TEXT"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// Controls whether query parameters are included in Service Connect access logs. Consider security and privacy implications when enabling this feature. By default, this parameter is DISABLED.
-    public enum ServiceConnectIncludeQueryParameters: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ServiceConnectIncludeQueryParameters] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// Configuration for Service Connect access logging. Access logs provide detailed information about requests made to your service, including request patterns, response codes, and timing data for debugging and monitoring purposes. To enable access logs, you must also specify a logConfiguration in the serviceConnectConfiguration.
-    public struct ServiceConnectAccessLogConfiguration: Swift.Sendable {
-        /// The format for Service Connect access log output. Choose TEXT for human-readable logs or JSON for structured data that integrates well with log analysis tools.
-        /// This member is required.
-        public var format: ECSClientTypes.ServiceConnectAccessLoggingFormat?
-        /// Specifies whether to include query parameters in Service Connect access logs. When enabled, query parameters from HTTP requests are included in the access logs. Consider security and privacy implications when enabling this feature, as query parameters may contain sensitive information such as request IDs and tokens. By default, this parameter is DISABLED.
-        public var includeQueryParameters: ECSClientTypes.ServiceConnectIncludeQueryParameters?
-
-        public init(
-            format: ECSClientTypes.ServiceConnectAccessLoggingFormat? = nil,
-            includeQueryParameters: ECSClientTypes.ServiceConnectIncludeQueryParameters? = nil
-        ) {
-            self.format = format
-            self.includeQueryParameters = includeQueryParameters
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum LogDriver: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case awsfirelens
-        case awslogs
-        case fluentd
-        case gelf
-        case journald
-        case jsonFile
-        case splunk
-        case syslog
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [LogDriver] {
-            return [
-                .awsfirelens,
-                .awslogs,
-                .fluentd,
-                .gelf,
-                .journald,
-                .jsonFile,
-                .splunk,
-                .syslog
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .awsfirelens: return "awsfirelens"
-            case .awslogs: return "awslogs"
-            case .fluentd: return "fluentd"
-            case .gelf: return "gelf"
-            case .journald: return "journald"
-            case .jsonFile: return "json-file"
-            case .splunk: return "splunk"
-            case .syslog: return "syslog"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The log configuration for the container. This parameter maps to LogConfig in the docker container create command and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses. However, the container might use a different logging driver than the Docker daemon by specifying a log driver configuration in the container definition. Understand the following when specifying a log configuration for your containers.
-    ///
-    /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens.
-    ///
-    /// * This parameter requires version 1.18 of the Docker Remote API or greater on your container instance.
-    ///
-    /// * For tasks that are hosted on Amazon EC2 instances, the Amazon ECS container agent must register the available logging drivers with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
-    ///
-    /// * For tasks that are on Fargate, because you don't have access to the underlying infrastructure your tasks are hosted on, any additional software needed must be installed outside of the task. For example, the Fluentd output aggregators or a remote host running Logstash to send Gelf logs to.
-    public struct LogConfiguration: Swift.Sendable {
-        /// The log driver to use for the container. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald, syslog, splunk, and awsfirelens. For more information about using the awslogs log driver, see [Send Amazon ECS logs to CloudWatch](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_awslogs.html) in the Amazon Elastic Container Service Developer Guide. For more information about using the awsfirelens log driver, see [Send Amazon ECS logs to an Amazon Web Services service or Amazon Web Services Partner](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html). If you have a custom driver that isn't listed, you can fork the Amazon ECS container agent project that's [available on GitHub](https://github.com/aws/amazon-ecs-agent) and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, we don't currently provide support for running modified copies of this software.
-        /// This member is required.
-        public var logDriver: ECSClientTypes.LogDriver?
-        /// The configuration options to send to the log driver. The options you can specify depend on the log driver. Some of the options you can specify when you use the awslogs log driver to route logs to Amazon CloudWatch include the following: awslogs-create-group Required: No Specify whether you want the log group to be created automatically. If this option isn't specified, it defaults to false. Your IAM policy must include the logs:CreateLogGroup permission before you attempt to use awslogs-create-group. awslogs-region Required: Yes Specify the Amazon Web Services Region that the awslogs log driver is to send your Docker logs to. You can choose to send all of your logs from clusters in different Regions to a single region in CloudWatch Logs. This is so that they're all visible in one location. Otherwise, you can separate them by Region for more granularity. Make sure that the specified log group exists in the Region that you specify with this option. awslogs-group Required: Yes Make sure to specify a log group that the awslogs log driver sends its log streams to. awslogs-stream-prefix Required: Yes, when using Fargate.Optional when using EC2. Use the awslogs-stream-prefix option to associate a log stream with the specified prefix, the container name, and the ID of the Amazon ECS task that the container belongs to. If you specify a prefix with this option, then the log stream takes the format prefix-name/container-name/ecs-task-id. If you don't specify a prefix with this option, then the log stream is named after the container ID that's assigned by the Docker daemon on the container instance. Because it's difficult to trace logs back to the container that sent them with just the Docker container ID (which is only available on the container instance), we recommend that you specify a prefix with this option. For Amazon ECS services, you can use the service name as the prefix. Doing so, you can trace log streams to the service that the container belongs to, the name of the container that sent them, and the ID of the task that the container belongs to. You must specify a stream-prefix for your logs to have your logs appear in the Log pane when using the Amazon ECS console. awslogs-datetime-format Required: No This option defines a multiline start pattern in Python strftime format. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern. The matched line is the delimiter between log messages. One example of a use case for using this format is for parsing output such as a stack dump, which might otherwise be logged in multiple entries. The correct pattern allows it to be captured in a single entry. For more information, see [awslogs-datetime-format](https://docs.docker.com/config/containers/logging/awslogs/#awslogs-datetime-format). You cannot configure both the awslogs-datetime-format and awslogs-multiline-pattern options. Multiline logging performs regular expression parsing and matching of all log messages. This might have a negative impact on logging performance. awslogs-multiline-pattern Required: No This option defines a multiline start pattern that uses a regular expression. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern. The matched line is the delimiter between log messages. For more information, see [awslogs-multiline-pattern](https://docs.docker.com/config/containers/logging/awslogs/#awslogs-multiline-pattern). This option is ignored if awslogs-datetime-format is also configured. You cannot configure both the awslogs-datetime-format and awslogs-multiline-pattern options. Multiline logging performs regular expression parsing and matching of all log messages. This might have a negative impact on logging performance. The following options apply to all supported log drivers. mode Required: No Valid values: non-blocking | blocking This option defines the delivery mode of log messages from the container to the log driver specified using logDriver. The delivery mode you choose affects application availability when the flow of logs from container is interrupted. If you use the blocking mode and the flow of logs is interrupted, calls from container code to write to the stdout and stderr streams will block. The logging thread of the application will block as a result. This may cause the application to become unresponsive and lead to container healthcheck failure. If you use the non-blocking mode, the container's logs are instead stored in an in-memory intermediate buffer configured with the max-buffer-size option. This prevents the application from becoming unresponsive when logs cannot be sent. We recommend using this mode if you want to ensure service availability and are okay with some log loss. For more information, see [Preventing log loss with non-blocking mode in the ]awslogs container log driver(http://aws.amazon.com/blogs/containers/preventing-log-loss-with-non-blocking-mode-in-the-awslogs-container-log-driver/). You can set a default mode for all containers in a specific Amazon Web Services Region by using the defaultLogDriverMode account setting. If you don't specify the mode option or configure the account setting, Amazon ECS will default to the non-blocking mode. For more information about the account setting, see [Default log driver mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#default-log-driver-mode) in the Amazon Elastic Container Service Developer Guide. On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:
-        ///
-        /// * Set the mode option in your container definition's logConfiguration as blocking.
-        ///
-        /// * Set the defaultLogDriverMode account setting to blocking.
-        ///
-        ///
-        /// max-buffer-size Required: No Default value: 10m When non-blocking mode is used, the max-buffer-size log option controls the size of the buffer that's used for intermediate message storage. Make sure to specify an adequate buffer size based on your application. When the buffer fills up, further logs cannot be stored. Logs that cannot be stored are lost. To route logs using the splunk log router, you need to specify a splunk-token and a splunk-url. When you use the awsfirelens log router to route logs to an Amazon Web Services Service or Amazon Web Services Partner Network destination for log storage and analytics, you can set the log-driver-buffer-limit option to limit the number of events that are buffered in memory, before being sent to the log router container. It can help to resolve potential log loss issue because high throughput might result in memory running out for the buffer inside of Docker. Other options you can specify when using awsfirelens to route logs depend on the destination. When you export logs to Amazon Data Firehose, you can specify the Amazon Web Services Region with region and a name for the log stream with delivery_stream. When you export logs to Amazon Kinesis Data Streams, you can specify an Amazon Web Services Region with region and a data stream name with stream. When you export logs to Amazon OpenSearch Service, you can specify options like Name, Host (OpenSearch Service endpoint without protocol), Port, Index, Type, Aws_auth, Aws_region, Suppress_Type_Name, and tls. For more information, see [Under the hood: FireLens for Amazon ECS Tasks](http://aws.amazon.com/blogs/containers/under-the-hood-firelens-for-amazon-ecs-tasks/). When you export logs to Amazon S3, you can specify the bucket using the bucket option. You can also specify region, total_file_size, upload_timeout, and use_put_object as options. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
-        public var options: [Swift.String: Swift.String]?
-        /// The secrets to pass to the log configuration. For more information, see [Specifying sensitive data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
-        public var secretOptions: [ECSClientTypes.Secret]?
-
-        public init(
-            logDriver: ECSClientTypes.LogDriver? = nil,
-            options: [Swift.String: Swift.String]? = nil,
-            secretOptions: [ECSClientTypes.Secret]? = nil
-        ) {
-            self.logDriver = logDriver
-            self.options = options
-            self.secretOptions = secretOptions
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The header matching rules for test traffic routing in Amazon ECS blue/green deployments. These rules determine how incoming requests are matched based on HTTP headers to route test traffic to the new service revision.
-    public struct ServiceConnectTestTrafficHeaderMatchRules: Swift.Sendable {
-        /// The exact value that the HTTP header must match for the test traffic routing rule to apply. This provides precise control over which requests are routed to the new service revision during blue/green deployments.
-        /// This member is required.
-        public var exact: Swift.String?
-
-        public init(
-            exact: Swift.String? = nil
-        ) {
-            self.exact = exact
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The HTTP header rules used to identify and route test traffic during Amazon ECS blue/green deployments. These rules specify which HTTP headers to examine and what values to match for routing decisions. For more information, see [Service Connect for Amazon ECS blue/green deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect-blue-green.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct ServiceConnectTestTrafficHeaderRules: Swift.Sendable {
-        /// The name of the HTTP header to examine for test traffic routing. Common examples include custom headers like X-Test-Version or X-Canary-Request that can be used to identify test traffic.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The header value matching configuration that determines how the HTTP header value is evaluated for test traffic routing decisions.
-        public var value: ECSClientTypes.ServiceConnectTestTrafficHeaderMatchRules?
-
-        public init(
-            name: Swift.String? = nil,
-            value: ECSClientTypes.ServiceConnectTestTrafficHeaderMatchRules? = nil
-        ) {
-            self.name = name
-            self.value = value
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The test traffic routing configuration for Amazon ECS blue/green deployments. This configuration allows you to define rules for routing specific traffic to the new service revision during the deployment process, allowing for safe testing before full production traffic shift. For more information, see [Service Connect for Amazon ECS blue/green deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect-blue-green.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct ServiceConnectTestTrafficRules: Swift.Sendable {
-        /// The HTTP header-based routing rules that determine which requests should be routed to the new service version during blue/green deployment testing. These rules provide fine-grained control over test traffic routing based on request headers.
-        /// This member is required.
-        public var header: ECSClientTypes.ServiceConnectTestTrafficHeaderRules?
-
-        public init(
-            header: ECSClientTypes.ServiceConnectTestTrafficHeaderRules? = nil
-        ) {
-            self.header = header
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// Each alias ("endpoint") is a fully-qualified name and port number that other tasks ("clients") can use to connect to this service. Each name and port mapping must be unique within the namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct ServiceConnectClientAlias: Swift.Sendable {
-        /// The dnsName is the name that you use in the applications of client tasks to connect to this service. The name must be a valid DNS name but doesn't need to be fully-qualified. The name can include up to 127 characters. The name can include lowercase letters, numbers, underscores (_), hyphens (-), and periods (.). The name can't start with a hyphen. If this parameter isn't specified, the default value of discoveryName.namespace is used. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace. To avoid changing your applications in client Amazon ECS services, set this to the same name that the client application uses by default. For example, a few common names are database, db, or the lowercase name of a database, such as mysql or redis. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
-        public var dnsName: Swift.String?
-        /// The listening port number for the Service Connect proxy. This port is available inside of all of the tasks within the same namespace. To avoid changing your applications in client Amazon ECS services, set this to the same port that the client application uses by default. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
-        /// This member is required.
-        public var port: Swift.Int?
-        /// The configuration for test traffic routing rules used during blue/green deployments with Amazon ECS Service Connect. This allows you to route a portion of traffic to the new service revision of your service for testing before shifting all production traffic.
-        public var testTrafficRules: ECSClientTypes.ServiceConnectTestTrafficRules?
-
-        public init(
-            dnsName: Swift.String? = nil,
-            port: Swift.Int? = nil,
-            testTrafficRules: ECSClientTypes.ServiceConnectTestTrafficRules? = nil
-        ) {
-            self.dnsName = dnsName
-            self.port = port
-            self.testTrafficRules = testTrafficRules
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// An object that represents the timeout configurations for Service Connect. If idleTimeout is set to a time that is less than perRequestTimeout, the connection will close when the idleTimeout is reached and not the perRequestTimeout.
-    public struct TimeoutConfiguration: Swift.Sendable {
-        /// The amount of time in seconds a connection will stay active while idle. A value of 0 can be set to disable idleTimeout. The idleTimeout default for HTTP/HTTP2/GRPC is 5 minutes. The idleTimeout default for TCP is 1 hour.
-        public var idleTimeoutSeconds: Swift.Int?
-        /// The amount of time waiting for the upstream to respond with a complete response per request. A value of 0 can be set to disable perRequestTimeout. perRequestTimeout can only be set if Service Connect appProtocol isn't TCP. Only idleTimeout is allowed for TCPappProtocol.
-        public var perRequestTimeoutSeconds: Swift.Int?
-
-        public init(
-            idleTimeoutSeconds: Swift.Int? = nil,
-            perRequestTimeoutSeconds: Swift.Int? = nil
-        ) {
-            self.idleTimeoutSeconds = idleTimeoutSeconds
-            self.perRequestTimeoutSeconds = perRequestTimeoutSeconds
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The certificate root authority that secures your service.
-    public struct ServiceConnectTlsCertificateAuthority: Swift.Sendable {
-        /// The ARN of the Amazon Web Services Private Certificate Authority certificate.
-        public var awsPcaAuthorityArn: Swift.String?
-
-        public init(
-            awsPcaAuthorityArn: Swift.String? = nil
-        ) {
-            self.awsPcaAuthorityArn = awsPcaAuthorityArn
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The key that encrypts and decrypts your resources for Service Connect TLS.
-    public struct ServiceConnectTlsConfiguration: Swift.Sendable {
-        /// The signer certificate authority.
-        /// This member is required.
-        public var issuerCertificateAuthority: ECSClientTypes.ServiceConnectTlsCertificateAuthority?
-        /// The Amazon Web Services Key Management Service key.
-        public var kmsKey: Swift.String?
-        /// The Amazon Resource Name (ARN) of the IAM role that's associated with the Service Connect TLS.
-        public var roleArn: Swift.String?
-
-        public init(
-            issuerCertificateAuthority: ECSClientTypes.ServiceConnectTlsCertificateAuthority? = nil,
-            kmsKey: Swift.String? = nil,
-            roleArn: Swift.String? = nil
-        ) {
-            self.issuerCertificateAuthority = issuerCertificateAuthority
-            self.kmsKey = kmsKey
-            self.roleArn = roleArn
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The Service Connect service object configuration. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct ServiceConnectService: Swift.Sendable {
-        /// The list of client aliases for this Service Connect service. You use these to assign names that can be used by client applications. The maximum number of client aliases that you can have in this list is 1. Each alias ("endpoint") is a fully-qualified name and port number that other Amazon ECS tasks ("clients") can use to connect to this service. Each name and port mapping must be unique within the namespace. For each ServiceConnectService, you must provide at least one clientAlias with one port.
-        public var clientAliases: [ECSClientTypes.ServiceConnectClientAlias]?
-        /// The discoveryName is the name of the new Cloud Map service that Amazon ECS creates for this Amazon ECS service. This must be unique within the Cloud Map namespace. The name can contain up to 64 characters. The name can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace.
-        public var discoveryName: Swift.String?
-        /// The port number for the Service Connect proxy to listen on. Use the value of this field to bypass the proxy for traffic on the port number specified in the named portMapping in the task definition of this application, and then use it in your VPC security groups to allow traffic into the proxy for this Amazon ECS service. In awsvpc mode and Fargate, the default value is the container port number. The container port number is in the portMapping in the task definition. In bridge mode, the default value is the ephemeral port of the Service Connect proxy.
-        public var ingressPortOverride: Swift.Int?
-        /// The portName must match the name of one of the portMappings from all the containers in the task definition of this Amazon ECS service.
-        /// This member is required.
-        public var portName: Swift.String?
-        /// A reference to an object that represents the configured timeouts for Service Connect.
-        public var timeout: ECSClientTypes.TimeoutConfiguration?
-        /// A reference to an object that represents a Transport Layer Security (TLS) configuration.
-        public var tls: ECSClientTypes.ServiceConnectTlsConfiguration?
-
-        public init(
-            clientAliases: [ECSClientTypes.ServiceConnectClientAlias]? = nil,
-            discoveryName: Swift.String? = nil,
-            ingressPortOverride: Swift.Int? = nil,
-            portName: Swift.String? = nil,
-            timeout: ECSClientTypes.TimeoutConfiguration? = nil,
-            tls: ECSClientTypes.ServiceConnectTlsConfiguration? = nil
-        ) {
-            self.clientAliases = clientAliases
-            self.discoveryName = discoveryName
-            self.ingressPortOverride = ingressPortOverride
-            self.portName = portName
-            self.timeout = timeout
-            self.tls = tls
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The Service Connect configuration of your Amazon ECS service. The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct ServiceConnectConfiguration: Swift.Sendable {
-        /// The configuration for Service Connect access logging. Access logs capture detailed information about requests made to your service, including request patterns, response codes, and timing data. They can be useful for debugging connectivity issues, monitoring service performance, and auditing service-to-service communication for security and compliance purposes. To enable access logs, you must also specify a logConfiguration in the serviceConnectConfiguration.
-        public var accessLogConfiguration: ECSClientTypes.ServiceConnectAccessLogConfiguration?
-        /// Specifies whether to use Service Connect with this service.
-        /// This member is required.
-        public var enabled: Swift.Bool
-        /// The log configuration for the container. This parameter maps to LogConfig in the docker container create command and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses. However, the container might use a different logging driver than the Docker daemon by specifying a log driver configuration in the container definition. Understand the following when specifying a log configuration for your containers.
-        ///
-        /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens.
-        ///
-        /// * This parameter requires version 1.18 of the Docker Remote API or greater on your container instance.
-        ///
-        /// * For tasks that are hosted on Amazon EC2 instances, the Amazon ECS container agent must register the available logging drivers with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
-        ///
-        /// * For tasks that are on Fargate, because you don't have access to the underlying infrastructure your tasks are hosted on, any additional software needed must be installed outside of the task. For example, the Fluentd output aggregators or a remote host running Logstash to send Gelf logs to.
-        public var logConfiguration: ECSClientTypes.LogConfiguration?
-        /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map namespace for use with Service Connect. The namespace must be in the same Amazon Web Services Region as the Amazon ECS service and cluster. The type of namespace doesn't affect Service Connect. For more information about Cloud Map, see [Working with Services](https://docs.aws.amazon.com/cloud-map/latest/dg/working-with-services.html) in the Cloud Map Developer Guide.
-        public var namespace: Swift.String?
-        /// The list of Service Connect service objects. These are names and aliases (also known as endpoints) that are used by other Amazon ECS services to connect to this service. This field is not required for a "client" Amazon ECS service that's a member of a namespace only to connect to other services within the namespace. An example of this would be a frontend application that accepts incoming requests from either a load balancer that's attached to the service or by other means. An object selects a port from the task definition, assigns a name for the Cloud Map service, and a list of aliases (endpoints) and ports for client applications to refer to this service.
-        public var services: [ECSClientTypes.ServiceConnectService]?
-
-        public init(
-            accessLogConfiguration: ECSClientTypes.ServiceConnectAccessLogConfiguration? = nil,
-            enabled: Swift.Bool = false,
-            logConfiguration: ECSClientTypes.LogConfiguration? = nil,
-            namespace: Swift.String? = nil,
-            services: [ECSClientTypes.ServiceConnectService]? = nil
-        ) {
-            self.accessLogConfiguration = accessLogConfiguration
-            self.enabled = enabled
-            self.logConfiguration = logConfiguration
-            self.namespace = namespace
-            self.services = services
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The details for the service registry. Each service may be associated with one service registry. Multiple service registries for each service are not supported. When you add, update, or remove the service registries configuration, Amazon ECS starts a new deployment. New tasks are registered and deregistered to the updated service registry configuration.
-    public struct ServiceRegistry: Swift.Sendable {
-        /// The container name value to be used for your service discovery service. It's already specified in the task definition. If the task definition that your service task specifies uses the bridge or host network mode, you must specify a containerName and containerPort combination from the task definition. If the task definition that your service task specifies uses the awsvpc network mode and a type SRV DNS record is used, you must specify either a containerName and containerPort combination or a port value. However, you can't specify both.
-        public var containerName: Swift.String?
-        /// The port value to be used for your service discovery service. It's already specified in the task definition. If the task definition your service task specifies uses the bridge or host network mode, you must specify a containerName and containerPort combination from the task definition. If the task definition your service task specifies uses the awsvpc network mode and a type SRV DNS record is used, you must specify either a containerName and containerPort combination or a port value. However, you can't specify both.
-        public var containerPort: Swift.Int?
-        /// The port value used if your service discovery service specified an SRV record. This field might be used if both the awsvpc network mode and SRV records are used.
-        public var port: Swift.Int?
-        /// The Amazon Resource Name (ARN) of the service registry. The currently supported service registry is Cloud Map. For more information, see [CreateService](https://docs.aws.amazon.com/cloud-map/latest/api/API_CreateService.html).
-        public var registryArn: Swift.String?
-
-        public init(
-            containerName: Swift.String? = nil,
-            containerPort: Swift.Int? = nil,
-            port: Swift.Int? = nil,
-            registryArn: Swift.String? = nil
-        ) {
-            self.containerName = containerName
-            self.containerPort = containerPort
-            self.port = port
-            self.registryArn = registryArn
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum TaskFilesystemType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case ext3
-        case ext4
-        case ntfs
-        case xfs
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TaskFilesystemType] {
-            return [
-                .ext3,
-                .ext4,
-                .ntfs,
-                .xfs
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .ext3: return "ext3"
-            case .ext4: return "ext4"
-            case .ntfs: return "ntfs"
-            case .xfs: return "xfs"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum EBSResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case volume
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [EBSResourceType] {
-            return [
-                .volume
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .volume: return "volume"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The tag specifications of an Amazon EBS volume.
-    public struct EBSTagSpecification: Swift.Sendable {
-        /// Determines whether to propagate the tags from the task definition to  the Amazon EBS volume. Tags can only propagate to a SERVICE specified in  ServiceVolumeConfiguration. If no value is specified, the tags aren't  propagated.
-        public var propagateTags: ECSClientTypes.PropagateTags?
-        /// The type of volume resource.
-        /// This member is required.
-        public var resourceType: ECSClientTypes.EBSResourceType?
-        /// The tags applied to this Amazon EBS volume. AmazonECSCreated and AmazonECSManaged are reserved tags that can't be used.
-        public var tags: [ECSClientTypes.Tag]?
-
-        public init(
-            propagateTags: ECSClientTypes.PropagateTags? = nil,
-            resourceType: ECSClientTypes.EBSResourceType? = nil,
-            tags: [ECSClientTypes.Tag]? = nil
-        ) {
-            self.propagateTags = propagateTags
-            self.resourceType = resourceType
-            self.tags = tags
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The configuration for the Amazon EBS volume that Amazon ECS creates and manages on your behalf. These settings are used to create each Amazon EBS volume, with one volume created for each task in the service. For information about the supported launch types and operating systems, see [Supported operating systems and launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volumes-configuration) in the Amazon Elastic Container Service Developer Guide. Many of these parameters map 1:1 with the Amazon EBS CreateVolume API request parameters.
-    public struct ServiceManagedEBSVolumeConfiguration: Swift.Sendable {
-        /// Indicates whether the volume should be encrypted. If you turn on Region-level Amazon EBS encryption by default but set this value as false, the setting is overridden and the volume is encrypted with the KMS key specified for Amazon EBS encryption by default. This parameter maps 1:1 with the Encrypted parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
-        public var encrypted: Swift.Bool?
-        /// The filesystem type for the volume. For volumes created from a snapshot, you must specify the same filesystem type that the volume was using when the snapshot was created. If there is a filesystem type mismatch, the tasks will fail to start. The available Linux filesystem types are  ext3, ext4, and xfs. If no value is specified, the xfs filesystem type is used by default. The available Windows filesystem types are NTFS.
-        public var filesystemType: ECSClientTypes.TaskFilesystemType?
-        /// The number of I/O operations per second (IOPS). For gp3, io1, and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. The following are the supported values for each volume type.
-        ///
-        /// * gp3: 3,000 - 16,000 IOPS
-        ///
-        /// * io1: 100 - 64,000 IOPS
-        ///
-        /// * io2: 100 - 256,000 IOPS
-        ///
-        ///
-        /// This parameter is required for io1 and io2 volume types. The default for gp3 volumes is 3,000 IOPS. This parameter is not supported for st1, sc1, or standard volume types. This parameter maps 1:1 with the Iops parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
-        public var iops: Swift.Int?
-        /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When a key is specified using this parameter, it overrides Amazon EBS default encryption or any KMS key that you specified for cluster-level managed storage encryption. This parameter maps 1:1 with the KmsKeyId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. For more information about encrypting Amazon EBS volumes attached to tasks, see [Encrypt data stored in Amazon EBS volumes attached to Amazon ECS tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-kms-encryption.html). Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an ID, alias, or ARN that is invalid, the action can appear to complete, but eventually fails.
-        public var kmsKeyId: Swift.String?
-        /// The ARN of the IAM role to associate with this volume. This is the Amazon ECS infrastructure IAM role that is used to manage your Amazon Web Services infrastructure. We recommend using the Amazon ECS-managed AmazonECSInfrastructureRolePolicyForVolumes IAM policy with this role. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
-        /// This member is required.
-        public var roleArn: Swift.String?
-        /// The size of the volume in GiB. You must specify either a volume size or a snapshot ID. If you specify a snapshot ID, the snapshot size is used for the volume size by default. You can optionally specify a volume size greater than or equal to the snapshot size. This parameter maps 1:1 with the Size parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. The following are the supported volume size values for each volume type.
-        ///
-        /// * gp2 and gp3: 1-16,384
-        ///
-        /// * io1 and io2: 4-16,384
-        ///
-        /// * st1 and sc1: 125-16,384
-        ///
-        /// * standard: 1-1,024
-        public var sizeInGiB: Swift.Int?
-        /// The snapshot that Amazon ECS uses to create volumes for attachment to tasks maintained by the service. You must specify either snapshotId or sizeInGiB in your volume configuration. This parameter maps 1:1 with the SnapshotId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
-        public var snapshotId: Swift.String?
-        /// The tags to apply to the volume. Amazon ECS applies service-managed tags by default. This parameter maps 1:1 with the TagSpecifications.N parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
-        public var tagSpecifications: [ECSClientTypes.EBSTagSpecification]?
-        /// The throughput to provision for a volume, in MiB/s, with a maximum of 1,000 MiB/s. This parameter maps 1:1 with the Throughput parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. This parameter is only supported for the gp3 volume type.
-        public var throughput: Swift.Int?
-        /// The rate, in MiB/s, at which data is fetched from a snapshot of an existing EBS volume to create new volumes for attachment to the tasks maintained by the service. This property can be specified only if you specify a snapshotId. For more information, see [Initialize Amazon EBS volumes](https://docs.aws.amazon.com/ebs/latest/userguide/initalize-volume.html) in the Amazon EBS User Guide.
-        public var volumeInitializationRate: Swift.Int?
-        /// The volume type. This parameter maps 1:1 with the VolumeType parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. For more information, see [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html) in the Amazon EC2 User Guide. The following are the supported volume types.
-        ///
-        /// * General Purpose SSD: gp2|gp3
-        ///
-        /// * Provisioned IOPS SSD: io1|io2
-        ///
-        /// * Throughput Optimized HDD: st1
-        ///
-        /// * Cold HDD: sc1
-        ///
-        /// * Magnetic: standard The magnetic volume type is not supported on Fargate.
-        public var volumeType: Swift.String?
-
-        public init(
-            encrypted: Swift.Bool? = nil,
-            filesystemType: ECSClientTypes.TaskFilesystemType? = nil,
-            iops: Swift.Int? = nil,
-            kmsKeyId: Swift.String? = nil,
-            roleArn: Swift.String? = nil,
-            sizeInGiB: Swift.Int? = nil,
-            snapshotId: Swift.String? = nil,
-            tagSpecifications: [ECSClientTypes.EBSTagSpecification]? = nil,
-            throughput: Swift.Int? = nil,
-            volumeInitializationRate: Swift.Int? = nil,
-            volumeType: Swift.String? = nil
-        ) {
-            self.encrypted = encrypted
-            self.filesystemType = filesystemType
-            self.iops = iops
-            self.kmsKeyId = kmsKeyId
-            self.roleArn = roleArn
-            self.sizeInGiB = sizeInGiB
-            self.snapshotId = snapshotId
-            self.tagSpecifications = tagSpecifications
-            self.throughput = throughput
-            self.volumeInitializationRate = volumeInitializationRate
-            self.volumeType = volumeType
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The configuration for a volume specified in the task definition as a volume that is configured at launch time. Currently, the only supported volume type is an Amazon EBS volume.
-    public struct ServiceVolumeConfiguration: Swift.Sendable {
-        /// The configuration for the Amazon EBS volume that Amazon ECS creates and manages on your behalf. These settings are used to create each Amazon EBS volume, with one volume created for each task in the service. The Amazon EBS volumes are visible in your account in the Amazon EC2 console once they are created.
-        public var managedEBSVolume: ECSClientTypes.ServiceManagedEBSVolumeConfiguration?
-        /// The name of the volume. This value must match the volume name from the Volume object in the task definition.
-        /// This member is required.
-        public var name: Swift.String?
-
-        public init(
-            managedEBSVolume: ECSClientTypes.ServiceManagedEBSVolumeConfiguration? = nil,
-            name: Swift.String? = nil
-        ) {
-            self.managedEBSVolume = managedEBSVolume
-            self.name = name
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The VPC Lattice configuration for your service that holds the information for the target group(s) Amazon ECS tasks will be registered to.
-    public struct VpcLatticeConfiguration: Swift.Sendable {
-        /// The name of the port mapping to register in the VPC Lattice target group. This is the name of the portMapping you defined in your task definition.
-        /// This member is required.
-        public var portName: Swift.String?
-        /// The ARN of the IAM role to associate with this VPC Lattice configuration. This is the Amazon ECS  infrastructure IAM role that is used to manage your VPC Lattice infrastructure.
-        /// This member is required.
-        public var roleArn: Swift.String?
-        /// The full Amazon Resource Name (ARN) of the target group or groups associated with the VPC Lattice configuration that the Amazon ECS tasks will be registered to.
-        /// This member is required.
-        public var targetGroupArn: Swift.String?
-
-        public init(
-            portName: Swift.String? = nil,
-            roleArn: Swift.String? = nil,
-            targetGroupArn: Swift.String? = nil
-        ) {
-            self.portName = portName
-            self.roleArn = roleArn
-            self.targetGroupArn = targetGroupArn
-        }
-    }
-}
-
-public struct CreateServiceInput: Swift.Sendable {
-    /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide . The default behavior of AvailabilityZoneRebalancing differs between create and update requests:
-    ///
-    /// * For create service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to ENABLED.
-    ///
-    /// * For update service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults to the existing service’s AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as DISABLED.
-    public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
-    /// The capacity provider strategy to use for the service. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. A capacity provider strategy can contain a maximum of 20 capacity providers.
-    public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
-    /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126 (inclusive) are allowed.
-    public var clientToken: Swift.String?
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that you run your service on. If you do not specify a cluster, the default cluster is assumed.
+///
+public struct ListTasksInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster to use when filtering the ListTasks results. If you do not specify a cluster, the default cluster is assumed.
     public var cluster: Swift.String?
-    /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
-    public var deploymentConfiguration: ECSClientTypes.DeploymentConfiguration?
-    /// The deployment controller to use for the service. If no deployment controller is specified, the default value of ECS is used.
-    public var deploymentController: ECSClientTypes.DeploymentController?
-    /// The number of instantiations of the specified task definition to place and keep running in your service. This is required if schedulingStrategy is REPLICA or isn't specified. If schedulingStrategy is DAEMON then this isn't required.
-    public var desiredCount: Swift.Int?
-    /// Specifies whether to turn on Amazon ECS managed tags for the tasks within the service. For more information, see [Tagging your Amazon ECS resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide. When you use Amazon ECS managed tags, you must set the propagateTags request parameter.
-    public var enableECSManagedTags: Swift.Bool?
-    /// Determines whether the execute command functionality is turned on for the service. If true, this enables execute command functionality on all containers in the service tasks.
-    public var enableExecuteCommand: Swift.Bool?
-    /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you do not specify a health check grace period value, the default value of 0 is used. If you do not use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count.
-    public var healthCheckGracePeriodSeconds: Swift.Int?
-    /// The infrastructure that you run your service on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html) in the Amazon ECS Developer Guide. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A service can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
+    /// The container instance ID or full ARN of the container instance to use when filtering the ListTasks results. Specifying a containerInstance limits the results to tasks that belong to that container instance.
+    public var containerInstance: Swift.String?
+    /// The task desired status to use when filtering the ListTasks results. Specifying a desiredStatus of STOPPED limits the results to tasks that Amazon ECS has set the desired status to STOPPED. This can be useful for debugging tasks that aren't starting properly or have died or finished. The default status filter is RUNNING, which shows tasks that Amazon ECS has set the desired status to RUNNING. Although you can filter results based on a desired status of PENDING, this doesn't return any results. Amazon ECS never sets the desired status of a task to that value (only a task's lastStatus may have a value of PENDING).
+    public var desiredStatus: ECSClientTypes.DesiredStatus?
+    /// The name of the task definition family to use when filtering the ListTasks results. Specifying a family limits the results to tasks that belong to that family.
+    public var family: Swift.String?
+    /// The launch type to use when filtering the ListTasks results.
     public var launchType: ECSClientTypes.LaunchType?
-    /// A load balancer object representing the load balancers to use with your service. For more information, see [Service load balancing](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html) in the Amazon Elastic Container Service Developer Guide. If the service uses the ECS deployment controller and using either an Application Load Balancer or Network Load Balancer, you must specify one or more target group ARNs to attach to the service. The service-linked role is required for services that use multiple target groups. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide. If the service uses the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, CodeDeploy determines which task set in your service has the status PRIMARY, and it associates one target group with it. Then, it also associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that you can use to perform validation tests with Lambda functions before routing production traffic to it. If you use the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name, and the container port to access from the load balancer. The container name must be as it appears in a container definition. The load balancer name parameter must be omitted. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group that's specified here. For Classic Load Balancers, this object must contain the load balancer name, the container name , and the container port to access from the load balancer. The container name must be as it appears in a container definition. The target group ARN parameter must be omitted. When a task from this service is placed on a container instance, the container instance is registered with the load balancer that's specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers aren't supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance. This is because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
-    public var loadBalancers: [ECSClientTypes.LoadBalancer]?
-    /// The network configuration for the service. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it isn't supported for other network modes. For more information, see [Task networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide.
-    public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
-    /// An array of placement constraint objects to use for tasks in your service. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime.
-    public var placementConstraints: [ECSClientTypes.PlacementConstraint]?
-    /// The placement strategy objects to use for tasks in your service. You can specify a maximum of 5 strategy rules for each service.
-    public var placementStrategy: [ECSClientTypes.PlacementStrategy]?
-    /// The platform version that your tasks in the service are running on. A platform version is specified only for tasks using the Fargate launch type. If one isn't specified, the LATEST platform version is used. For more information, see [Fargate platform versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide.
-    public var platformVersion: Swift.String?
-    /// Specifies whether to propagate the tags from the task definition to the task. If no value is specified, the tags aren't propagated. Tags can only be propagated to the task during task creation. To add tags to a task after task creation, use the [TagResource](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TagResource.html) API action. You must set this to a value other than NONE when you use Cost Explorer. For more information, see [Amazon ECS usage reports](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/usage-reports.html) in the Amazon Elastic Container Service Developer Guide. The default is NONE.
-    public var propagateTags: ECSClientTypes.PropagateTags?
-    /// The name or full Amazon Resource Name (ARN) of the IAM role that allows Amazon ECS to make calls to your load balancer on your behalf. This parameter is only permitted if you are using a load balancer with your service and your task definition doesn't use the awsvpc network mode. If you specify the role parameter, you must also specify a load balancer object with the loadBalancers parameter. If your account has already created the Amazon ECS service-linked role, that role is used for your service unless you specify a role here. The service-linked role is required if your task definition uses the awsvpc network mode or if the service is configured to use service discovery, an external deployment controller, multiple target groups, or Elastic Inference accelerators in which case you don't specify a role here. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide. If your specified role has a path other than /, then you must either specify the full role ARN (this is recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/ then you would specify /foo/bar as the role name. For more information, see [Friendly names and paths](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) in the IAM User Guide.
-    public var role: Swift.String?
-    /// The scheduling strategy to use for the service. For more information, see [Services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html). There are two service scheduler strategies available:
-    ///
-    /// * REPLICA-The replica scheduling strategy places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions. This scheduler strategy is required if the service uses the CODE_DEPLOY or EXTERNAL deployment controller types.
-    ///
-    /// * DAEMON-The daemon scheduling strategy deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. The service scheduler also evaluates the task placement constraints for running tasks and will stop tasks that don't meet the placement constraints. When you're using this strategy, you don't need to specify a desired number of tasks, a task placement strategy, or use Service Auto Scaling policies. Tasks using the Fargate launch type or the CODE_DEPLOY or EXTERNAL deployment controller types don't support the DAEMON scheduling strategy.
-    public var schedulingStrategy: ECSClientTypes.SchedulingStrategy?
-    /// The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
-    public var serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration?
-    /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. Service names must be unique within a cluster, but you can have similarly named services in multiple clusters within a Region or across multiple Regions.
-    /// This member is required.
+    /// The maximum number of task results that ListTasks returned in paginated output. When this parameter is used, ListTasks only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListTasks request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListTasks returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a ListTasks request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it's possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+    /// The name of the service to use when filtering the ListTasks results. Specifying a serviceName limits the results to tasks that belong to that service.
     public var serviceName: Swift.String?
-    /// The details of the service discovery registry to associate with this service. For more information, see [Service discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html). Each service may be associated with one service registry. Multiple service registries for each service isn't supported.
-    public var serviceRegistries: [ECSClientTypes.ServiceRegistry]?
-    /// The metadata that you apply to the service to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. When a service is deleted, the tags are deleted as well. The following basic restrictions apply to tags:
-    ///
-    /// * Maximum number of tags per resource - 50
-    ///
-    /// * For each resource, each tag key must be unique, and each tag key can have only one value.
-    ///
-    /// * Maximum key length - 128 Unicode characters in UTF-8
-    ///
-    /// * Maximum value length - 256 Unicode characters in UTF-8
-    ///
-    /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
-    ///
-    /// * Tag keys and values are case-sensitive.
-    ///
-    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
-    public var tags: [ECSClientTypes.Tag]?
-    /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision isn't specified, the latest ACTIVE revision is used. A task definition must be specified if the service uses either the ECS or CODE_DEPLOY deployment controllers. For more information about deployment types, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html).
-    public var taskDefinition: Swift.String?
-    /// The configuration for a volume specified in the task definition as a volume that is configured at launch time. Currently, the only supported volume type is an Amazon EBS volume.
-    public var volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]?
-    /// The VPC Lattice configuration for the service being created.
-    public var vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]?
+    /// The startedBy value to filter the task results with. Specifying a startedBy value limits the results to tasks that were started with that value. When you specify startedBy as the filter, it must be the only filter that you use.
+    public var startedBy: Swift.String?
 
     public init(
-        availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing? = nil,
-        capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
-        clientToken: Swift.String? = nil,
         cluster: Swift.String? = nil,
-        deploymentConfiguration: ECSClientTypes.DeploymentConfiguration? = nil,
-        deploymentController: ECSClientTypes.DeploymentController? = nil,
-        desiredCount: Swift.Int? = nil,
-        enableECSManagedTags: Swift.Bool? = false,
-        enableExecuteCommand: Swift.Bool? = false,
-        healthCheckGracePeriodSeconds: Swift.Int? = nil,
+        containerInstance: Swift.String? = nil,
+        desiredStatus: ECSClientTypes.DesiredStatus? = nil,
+        family: Swift.String? = nil,
         launchType: ECSClientTypes.LaunchType? = nil,
-        loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
-        networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
-        placementConstraints: [ECSClientTypes.PlacementConstraint]? = nil,
-        placementStrategy: [ECSClientTypes.PlacementStrategy]? = nil,
-        platformVersion: Swift.String? = nil,
-        propagateTags: ECSClientTypes.PropagateTags? = nil,
-        role: Swift.String? = nil,
-        schedulingStrategy: ECSClientTypes.SchedulingStrategy? = nil,
-        serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
         serviceName: Swift.String? = nil,
-        serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
-        tags: [ECSClientTypes.Tag]? = nil,
-        taskDefinition: Swift.String? = nil,
-        volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil,
-        vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]? = nil
+        startedBy: Swift.String? = nil
     ) {
-        self.availabilityZoneRebalancing = availabilityZoneRebalancing
-        self.capacityProviderStrategy = capacityProviderStrategy
-        self.clientToken = clientToken
         self.cluster = cluster
-        self.deploymentConfiguration = deploymentConfiguration
-        self.deploymentController = deploymentController
-        self.desiredCount = desiredCount
-        self.enableECSManagedTags = enableECSManagedTags
-        self.enableExecuteCommand = enableExecuteCommand
-        self.healthCheckGracePeriodSeconds = healthCheckGracePeriodSeconds
+        self.containerInstance = containerInstance
+        self.desiredStatus = desiredStatus
+        self.family = family
         self.launchType = launchType
-        self.loadBalancers = loadBalancers
-        self.networkConfiguration = networkConfiguration
-        self.placementConstraints = placementConstraints
-        self.placementStrategy = placementStrategy
-        self.platformVersion = platformVersion
-        self.propagateTags = propagateTags
-        self.role = role
-        self.schedulingStrategy = schedulingStrategy
-        self.serviceConnectConfiguration = serviceConnectConfiguration
+        self.maxResults = maxResults
+        self.nextToken = nextToken
         self.serviceName = serviceName
-        self.serviceRegistries = serviceRegistries
-        self.tags = tags
-        self.taskDefinition = taskDefinition
-        self.volumeConfigurations = volumeConfigurations
-        self.vpcLatticeConfigurations = vpcLatticeConfigurations
+        self.startedBy = startedBy
     }
 }
 
-extension ECSClientTypes {
-
-    /// The summary of the current service revision configuration
-    public struct ServiceCurrentRevisionSummary: Swift.Sendable {
-        /// The ARN of the current service revision.
-        public var arn: Swift.String?
-        /// The number of pending tasks in the current service revision
-        public var pendingTaskCount: Swift.Int
-        /// The number of requested tasks in the current service revision
-        public var requestedTaskCount: Swift.Int
-        /// The number of running tasks of the current service revision
-        public var runningTaskCount: Swift.Int
-
-        public init(
-            arn: Swift.String? = nil,
-            pendingTaskCount: Swift.Int = 0,
-            requestedTaskCount: Swift.Int = 0,
-            runningTaskCount: Swift.Int = 0
-        ) {
-            self.arn = arn
-            self.pendingTaskCount = pendingTaskCount
-            self.requestedTaskCount = requestedTaskCount
-            self.runningTaskCount = runningTaskCount
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The amount of ephemeral storage to allocate for the deployment.
-    public struct DeploymentEphemeralStorage: Swift.Sendable {
-        /// Specify an Key Management Service key ID to encrypt the ephemeral storage for deployment.
-        public var kmsKeyId: Swift.String?
-
-        public init(
-            kmsKeyId: Swift.String? = nil
-        ) {
-            self.kmsKeyId = kmsKeyId
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum DeploymentRolloutState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case completed
-        case failed
-        case inProgress
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DeploymentRolloutState] {
-            return [
-                .completed,
-                .failed,
-                .inProgress
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .completed: return "COMPLETED"
-            case .failed: return "FAILED"
-            case .inProgress: return "IN_PROGRESS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The Service Connect resource. Each configuration maps a discovery name to a Cloud Map service name. The data is stored in Cloud Map as part of the Service Connect configuration for each discovery name of this Amazon ECS service. A task can resolve the dnsName for each of the clientAliases of a service. However a task can't resolve the discovery names. If you want to connect to a service, refer to the ServiceConnectConfiguration of that service for the list of clientAliases that you can use.
-    public struct ServiceConnectServiceResource: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) for the service in Cloud Map that matches the discovery name for this Service Connect resource. You can use this ARN in other integrations with Cloud Map. However, Service Connect can't ensure connectivity outside of Amazon ECS.
-        public var discoveryArn: Swift.String?
-        /// The discovery name of this Service Connect resource. The discoveryName is the name of the new Cloud Map service that Amazon ECS creates for this Amazon ECS service. This must be unique within the Cloud Map namespace. The name can contain up to 64 characters. The name can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace.
-        public var discoveryName: Swift.String?
-
-        public init(
-            discoveryArn: Swift.String? = nil,
-            discoveryName: Swift.String? = nil
-        ) {
-            self.discoveryArn = discoveryArn
-            self.discoveryName = discoveryName
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The details of an Amazon ECS service deployment. This is used only when a service uses the ECS deployment controller type.
-    public struct Deployment: Swift.Sendable {
-        /// The capacity provider strategy that the deployment is using.
-        public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
-        /// The Unix timestamp for the time when the service deployment was created.
-        public var createdAt: Foundation.Date?
-        /// The most recent desired count of tasks that was specified for the service to deploy or maintain.
-        public var desiredCount: Swift.Int
-        /// The number of consecutively failed tasks in the deployment. A task is considered a failure if the service scheduler can't launch the task, the task doesn't transition to a RUNNING state, or if it fails any of its defined health checks and is stopped. Once a service deployment has one or more successfully running tasks, the failed task count resets to zero and stops being evaluated.
-        public var failedTasks: Swift.Int
-        /// The Fargate ephemeral storage settings for the deployment.
-        public var fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage?
-        /// The ID of the deployment.
-        public var id: Swift.String?
-        /// The launch type the tasks in the service are using. For more information, see [Amazon ECS Launch Types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide.
-        public var launchType: ECSClientTypes.LaunchType?
-        /// The VPC subnet and security group configuration for tasks that receive their own elastic network interface by using the awsvpc networking mode.
-        public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
-        /// The number of tasks in the deployment that are in the PENDING status.
-        public var pendingCount: Swift.Int
-        /// The operating system that your tasks in the service, or tasks are running on. A platform family is specified only for tasks using the Fargate launch type. All tasks that run as part of this service must use the same platformFamily value as the service, for example,  LINUX..
-        public var platformFamily: Swift.String?
-        /// The platform version that your tasks in the service run on. A platform version is only specified for tasks using the Fargate launch type. If one isn't specified, the LATEST platform version is used. For more information, see [Fargate Platform Versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide.
-        public var platformVersion: Swift.String?
-        /// The rolloutState of a service is only returned for services that use the rolling update (ECS) deployment type that aren't behind a Classic Load Balancer. The rollout state of the deployment. When a service deployment is started, it begins in an IN_PROGRESS state. When the service reaches a steady state, the deployment transitions to a COMPLETED state. If the service fails to reach a steady state and circuit breaker is turned on, the deployment transitions to a FAILED state. A deployment in FAILED state doesn't launch any new tasks. For more information, see [DeploymentCircuitBreaker](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeploymentCircuitBreaker.html).
-        public var rolloutState: ECSClientTypes.DeploymentRolloutState?
-        /// A description of the rollout state of a deployment.
-        public var rolloutStateReason: Swift.String?
-        /// The number of tasks in the deployment that are in the RUNNING status.
-        public var runningCount: Swift.Int
-        /// The details of the Service Connect configuration that's used by this deployment. Compare the configuration between multiple deployments when troubleshooting issues with new deployments. The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
-        public var serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration?
-        /// The list of Service Connect resources that are associated with this deployment. Each list entry maps a discovery name to a Cloud Map service name.
-        public var serviceConnectResources: [ECSClientTypes.ServiceConnectServiceResource]?
-        /// The status of the deployment. The following describes each state. PRIMARY The most recent deployment of a service. ACTIVE A service deployment that still has running tasks, but are in the process of being replaced with a new PRIMARY deployment. INACTIVE A deployment that has been completely replaced.
-        public var status: Swift.String?
-        /// The most recent task definition that was specified for the tasks in the service to use.
-        public var taskDefinition: Swift.String?
-        /// The Unix timestamp for the time when the service deployment was last updated.
-        public var updatedAt: Foundation.Date?
-        /// The details of the volume that was configuredAtLaunch. You can configure different settings like the size, throughput, volumeType, and ecryption in [ServiceManagedEBSVolumeConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ServiceManagedEBSVolumeConfiguration.html). The name of the volume must match the name from the task definition.
-        public var volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]?
-        /// The VPC Lattice configuration for the service deployment.
-        public var vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]?
-
-        public init(
-            capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
-            createdAt: Foundation.Date? = nil,
-            desiredCount: Swift.Int = 0,
-            failedTasks: Swift.Int = 0,
-            fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage? = nil,
-            id: Swift.String? = nil,
-            launchType: ECSClientTypes.LaunchType? = nil,
-            networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
-            pendingCount: Swift.Int = 0,
-            platformFamily: Swift.String? = nil,
-            platformVersion: Swift.String? = nil,
-            rolloutState: ECSClientTypes.DeploymentRolloutState? = nil,
-            rolloutStateReason: Swift.String? = nil,
-            runningCount: Swift.Int = 0,
-            serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration? = nil,
-            serviceConnectResources: [ECSClientTypes.ServiceConnectServiceResource]? = nil,
-            status: Swift.String? = nil,
-            taskDefinition: Swift.String? = nil,
-            updatedAt: Foundation.Date? = nil,
-            volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil,
-            vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]? = nil
-        ) {
-            self.capacityProviderStrategy = capacityProviderStrategy
-            self.createdAt = createdAt
-            self.desiredCount = desiredCount
-            self.failedTasks = failedTasks
-            self.fargateEphemeralStorage = fargateEphemeralStorage
-            self.id = id
-            self.launchType = launchType
-            self.networkConfiguration = networkConfiguration
-            self.pendingCount = pendingCount
-            self.platformFamily = platformFamily
-            self.platformVersion = platformVersion
-            self.rolloutState = rolloutState
-            self.rolloutStateReason = rolloutStateReason
-            self.runningCount = runningCount
-            self.serviceConnectConfiguration = serviceConnectConfiguration
-            self.serviceConnectResources = serviceConnectResources
-            self.status = status
-            self.taskDefinition = taskDefinition
-            self.updatedAt = updatedAt
-            self.volumeConfigurations = volumeConfigurations
-            self.vpcLatticeConfigurations = vpcLatticeConfigurations
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The details for an event that's associated with a service.
-    public struct ServiceEvent: Swift.Sendable {
-        /// The Unix timestamp for the time when the event was triggered.
-        public var createdAt: Foundation.Date?
-        /// The ID string for the event.
-        public var id: Swift.String?
-        /// The event message.
-        public var message: Swift.String?
-
-        public init(
-            createdAt: Foundation.Date? = nil,
-            id: Swift.String? = nil,
-            message: Swift.String? = nil
-        ) {
-            self.createdAt = createdAt
-            self.id = id
-            self.message = message
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum ResourceManagementType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case customer
-        case ecs
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourceManagementType] {
-            return [
-                .customer,
-                .ecs
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .customer: return "CUSTOMER"
-            case .ecs: return "ECS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum ScaleUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case percent
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ScaleUnit] {
-            return [
-                .percent
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .percent: return "PERCENT"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// A floating-point percentage of the desired number of tasks to place and keep running in the task set.
-    public struct Scale: Swift.Sendable {
-        /// The unit of measure for the scale value.
-        public var unit: ECSClientTypes.ScaleUnit?
-        /// The value, specified as a percent total of a service's desiredCount, to scale the task set. Accepted values are numbers between 0 and 100.
-        public var value: Swift.Double
-
-        public init(
-            unit: ECSClientTypes.ScaleUnit? = nil,
-            value: Swift.Double = 0.0
-        ) {
-            self.unit = unit
-            self.value = value
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum StabilityStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case stabilizing
-        case steadyState
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [StabilityStatus] {
-            return [
-                .stabilizing,
-                .steadyState
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .stabilizing: return "STABILIZING"
-            case .steadyState: return "STEADY_STATE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// Information about a set of Amazon ECS tasks in either an CodeDeploy or an EXTERNAL deployment. An Amazon ECS task set includes details such as the desired number of tasks, how many tasks are running, and whether the task set serves production traffic.
-    public struct TaskSet: Swift.Sendable {
-        /// The capacity provider strategy that are associated with the task set.
-        public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
-        /// The Amazon Resource Name (ARN) of the cluster that the service that hosts the task set exists in.
-        public var clusterArn: Swift.String?
-        /// The computed desired count for the task set. This is calculated by multiplying the service's desiredCount by the task set's scale percentage. The result is always rounded up. For example, if the computed desired count is 1.2, it rounds up to 2 tasks.
-        public var computedDesiredCount: Swift.Int
-        /// The Unix timestamp for the time when the task set was created.
-        public var createdAt: Foundation.Date?
-        /// The external ID associated with the task set. If an CodeDeploy deployment created a task set, the externalId parameter contains the CodeDeploy deployment ID. If a task set is created for an external deployment and is associated with a service discovery registry, the externalId parameter contains the ECS_TASK_SET_EXTERNAL_ID Cloud Map attribute.
-        public var externalId: Swift.String?
-        /// The Fargate ephemeral storage settings for the task set.
-        public var fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage?
-        /// The ID of the task set.
-        public var id: Swift.String?
-        /// The launch type the tasks in the task set are using. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide.
-        public var launchType: ECSClientTypes.LaunchType?
-        /// Details on a load balancer that are used with a task set.
-        public var loadBalancers: [ECSClientTypes.LoadBalancer]?
-        /// The network configuration for the task set.
-        public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
-        /// The number of tasks in the task set that are in the PENDING status during a deployment. A task in the PENDING state is preparing to enter the RUNNING state. A task set enters the PENDING status when it launches for the first time or when it's restarted after being in the STOPPED state.
-        public var pendingCount: Swift.Int
-        /// The operating system that your tasks in the set are running on. A platform family is specified only for tasks that use the Fargate launch type. All tasks in the set must have the same value.
-        public var platformFamily: Swift.String?
-        /// The Fargate platform version where the tasks in the task set are running. A platform version is only specified for tasks run on Fargate. For more information, see [Fargate platform versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide.
-        public var platformVersion: Swift.String?
-        /// The number of tasks in the task set that are in the RUNNING status during a deployment. A task in the RUNNING state is running and ready for use.
-        public var runningCount: Swift.Int
-        /// A floating-point percentage of your desired number of tasks to place and keep running in the task set.
-        public var scale: ECSClientTypes.Scale?
-        /// The Amazon Resource Name (ARN) of the service the task set exists in.
-        public var serviceArn: Swift.String?
-        /// The details for the service discovery registries to assign to this task set. For more information, see [Service discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html).
-        public var serviceRegistries: [ECSClientTypes.ServiceRegistry]?
-        /// The stability status. This indicates whether the task set has reached a steady state. If the following conditions are met, the task set are in STEADY_STATE:
-        ///
-        /// * The task runningCount is equal to the computedDesiredCount.
-        ///
-        /// * The pendingCount is 0.
-        ///
-        /// * There are no tasks that are running on container instances in the DRAINING status.
-        ///
-        /// * All tasks are reporting a healthy status from the load balancers, service discovery, and container health checks.
-        ///
-        ///
-        /// If any of those conditions aren't met, the stability status returns STABILIZING.
-        public var stabilityStatus: ECSClientTypes.StabilityStatus?
-        /// The Unix timestamp for the time when the task set stability status was retrieved.
-        public var stabilityStatusAt: Foundation.Date?
-        /// The tag specified when a task set is started. If an CodeDeploy deployment created the task set, the startedBy parameter is CODE_DEPLOY. If an external deployment created the task set, the startedBy field isn't used.
-        public var startedBy: Swift.String?
-        /// The status of the task set. The following describes each state. PRIMARY The task set is serving production traffic. ACTIVE The task set isn't serving production traffic. DRAINING The tasks in the task set are being stopped, and their corresponding targets are being deregistered from their target group.
-        public var status: Swift.String?
-        /// The metadata that you apply to the task set to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:
-        ///
-        /// * Maximum number of tags per resource - 50
-        ///
-        /// * For each resource, each tag key must be unique, and each tag key can have only one value.
-        ///
-        /// * Maximum key length - 128 Unicode characters in UTF-8
-        ///
-        /// * Maximum value length - 256 Unicode characters in UTF-8
-        ///
-        /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
-        ///
-        /// * Tag keys and values are case-sensitive.
-        ///
-        /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
-        public var tags: [ECSClientTypes.Tag]?
-        /// The task definition that the task set is using.
-        public var taskDefinition: Swift.String?
-        /// The Amazon Resource Name (ARN) of the task set.
-        public var taskSetArn: Swift.String?
-        /// The Unix timestamp for the time when the task set was last updated.
-        public var updatedAt: Foundation.Date?
-
-        public init(
-            capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
-            clusterArn: Swift.String? = nil,
-            computedDesiredCount: Swift.Int = 0,
-            createdAt: Foundation.Date? = nil,
-            externalId: Swift.String? = nil,
-            fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage? = nil,
-            id: Swift.String? = nil,
-            launchType: ECSClientTypes.LaunchType? = nil,
-            loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
-            networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
-            pendingCount: Swift.Int = 0,
-            platformFamily: Swift.String? = nil,
-            platformVersion: Swift.String? = nil,
-            runningCount: Swift.Int = 0,
-            scale: ECSClientTypes.Scale? = nil,
-            serviceArn: Swift.String? = nil,
-            serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
-            stabilityStatus: ECSClientTypes.StabilityStatus? = nil,
-            stabilityStatusAt: Foundation.Date? = nil,
-            startedBy: Swift.String? = nil,
-            status: Swift.String? = nil,
-            tags: [ECSClientTypes.Tag]? = nil,
-            taskDefinition: Swift.String? = nil,
-            taskSetArn: Swift.String? = nil,
-            updatedAt: Foundation.Date? = nil
-        ) {
-            self.capacityProviderStrategy = capacityProviderStrategy
-            self.clusterArn = clusterArn
-            self.computedDesiredCount = computedDesiredCount
-            self.createdAt = createdAt
-            self.externalId = externalId
-            self.fargateEphemeralStorage = fargateEphemeralStorage
-            self.id = id
-            self.launchType = launchType
-            self.loadBalancers = loadBalancers
-            self.networkConfiguration = networkConfiguration
-            self.pendingCount = pendingCount
-            self.platformFamily = platformFamily
-            self.platformVersion = platformVersion
-            self.runningCount = runningCount
-            self.scale = scale
-            self.serviceArn = serviceArn
-            self.serviceRegistries = serviceRegistries
-            self.stabilityStatus = stabilityStatus
-            self.stabilityStatusAt = stabilityStatusAt
-            self.startedBy = startedBy
-            self.status = status
-            self.tags = tags
-            self.taskDefinition = taskDefinition
-            self.taskSetArn = taskSetArn
-            self.updatedAt = updatedAt
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// Details on a service within a cluster.
-    public struct Service: Swift.Sendable {
-        /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide . The default behavior of AvailabilityZoneRebalancing differs between create and update requests:
-        ///
-        /// * For create service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to ENABLED.
-        ///
-        /// * For update service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults to the existing service’s AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as DISABLED.
-        public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
-        /// The capacity provider strategy the service uses. When using the DescribeServices API, this field is omitted if the service was created using a launch type.
-        public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
-        /// The Amazon Resource Name (ARN) of the cluster that hosts the service.
-        public var clusterArn: Swift.String?
-        /// The Unix timestamp for the time when the service was created.
-        public var createdAt: Foundation.Date?
-        /// The principal that created the service.
-        public var createdBy: Swift.String?
-        /// The ARN of the current service deployment.
-        public var currentServiceDeployment: Swift.String?
-        /// The list of the service revisions.
-        public var currentServiceRevisions: [ECSClientTypes.ServiceCurrentRevisionSummary]?
-        /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
-        public var deploymentConfiguration: ECSClientTypes.DeploymentConfiguration?
-        /// The deployment controller type the service is using.
-        public var deploymentController: ECSClientTypes.DeploymentController?
-        /// The current state of deployments for the service.
-        public var deployments: [ECSClientTypes.Deployment]?
-        /// The desired number of instantiations of the task definition to keep running on the service. This value is specified when the service is created with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html) , and it can be modified with [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html).
-        public var desiredCount: Swift.Int
-        /// Determines whether to use Amazon ECS managed tags for the tasks in the service. For more information, see [Tagging Your Amazon ECS Resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide.
-        public var enableECSManagedTags: Swift.Bool
-        /// Determines whether the execute command functionality is turned on for the service. If true, the execute command functionality is turned on for all containers in tasks as part of the service.
-        public var enableExecuteCommand: Swift.Bool
-        /// The event stream for your service. A maximum of 100 of the latest events are displayed.
-        public var events: [ECSClientTypes.ServiceEvent]?
-        /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count.
-        public var healthCheckGracePeriodSeconds: Swift.Int?
-        /// The launch type the service is using. When using the DescribeServices API, this field is omitted if the service was created using a capacity provider strategy.
-        public var launchType: ECSClientTypes.LaunchType?
-        /// A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition.
-        public var loadBalancers: [ECSClientTypes.LoadBalancer]?
-        /// The VPC subnet and security group configuration for tasks that receive their own elastic network interface by using the awsvpc networking mode.
-        public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
-        /// The number of tasks in the cluster that are in the PENDING state.
-        public var pendingCount: Swift.Int
-        /// The placement constraints for the tasks in the service.
-        public var placementConstraints: [ECSClientTypes.PlacementConstraint]?
-        /// The placement strategy that determines how tasks for the service are placed.
-        public var placementStrategy: [ECSClientTypes.PlacementStrategy]?
-        /// The operating system that your tasks in the service run on. A platform family is specified only for tasks using the Fargate launch type. All tasks that run as part of this service must use the same platformFamily value as the service (for example, LINUX).
-        public var platformFamily: Swift.String?
-        /// The platform version to run your service on. A platform version is only specified for tasks that are hosted on Fargate. If one isn't specified, the LATEST platform version is used. For more information, see [Fargate Platform Versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide.
-        public var platformVersion: Swift.String?
-        /// Determines whether to propagate the tags from the task definition or the service to the task. If no value is specified, the tags aren't propagated.
-        public var propagateTags: ECSClientTypes.PropagateTags?
-        /// Identifies whether an ECS Service is an Express Service managed by ECS, or managed by the customer. The valid values are ECS and CUSTOMER
-        public var resourceManagementType: ECSClientTypes.ResourceManagementType?
-        /// The ARN of the IAM role that's associated with the service. It allows the Amazon ECS container agent to register container instances with an Elastic Load Balancing load balancer.
-        public var roleArn: Swift.String?
-        /// The number of tasks in the cluster that are in the RUNNING state.
-        public var runningCount: Swift.Int
-        /// The scheduling strategy to use for the service. For more information, see [Services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html). There are two service scheduler strategies available.
-        ///
-        /// * REPLICA-The replica scheduling strategy places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions.
-        ///
-        /// * DAEMON-The daemon scheduling strategy deploys exactly one task on each active container instance. This task meets all of the task placement constraints that you specify in your cluster. The service scheduler also evaluates the task placement constraints for running tasks. It stop tasks that don't meet the placement constraints. Fargate tasks don't support the DAEMON scheduling strategy.
-        public var schedulingStrategy: ECSClientTypes.SchedulingStrategy?
-        /// The ARN that identifies the service. For more information about the ARN format, see [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#ecs-resource-ids) in the Amazon ECS Developer Guide.
-        public var serviceArn: Swift.String?
-        /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. Service names must be unique within a cluster. However, you can have similarly named services in multiple clusters within a Region or across multiple Regions.
-        public var serviceName: Swift.String?
-        /// The details for the service discovery registries to assign to this service. For more information, see [Service Discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html).
-        public var serviceRegistries: [ECSClientTypes.ServiceRegistry]?
-        /// The status of the service. The valid values are ACTIVE, DRAINING, or INACTIVE.
-        public var status: Swift.String?
-        /// The metadata that you apply to the service to help you categorize and organize them. Each tag consists of a key and an optional value. You define bot the key and value. The following basic restrictions apply to tags:
-        ///
-        /// * Maximum number of tags per resource - 50
-        ///
-        /// * For each resource, each tag key must be unique, and each tag key can have only one value.
-        ///
-        /// * Maximum key length - 128 Unicode characters in UTF-8
-        ///
-        /// * Maximum value length - 256 Unicode characters in UTF-8
-        ///
-        /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
-        ///
-        /// * Tag keys and values are case-sensitive.
-        ///
-        /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
-        public var tags: [ECSClientTypes.Tag]?
-        /// The task definition to use for tasks in the service. This value is specified when the service is created with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html), and it can be modified with [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html).
-        public var taskDefinition: Swift.String?
-        /// Information about a set of Amazon ECS tasks in either an CodeDeploy or an EXTERNAL deployment. An Amazon ECS task set includes details such as the desired number of tasks, how many tasks are running, and whether the task set serves production traffic.
-        public var taskSets: [ECSClientTypes.TaskSet]?
-
-        public init(
-            availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing? = nil,
-            capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
-            clusterArn: Swift.String? = nil,
-            createdAt: Foundation.Date? = nil,
-            createdBy: Swift.String? = nil,
-            currentServiceDeployment: Swift.String? = nil,
-            currentServiceRevisions: [ECSClientTypes.ServiceCurrentRevisionSummary]? = nil,
-            deploymentConfiguration: ECSClientTypes.DeploymentConfiguration? = nil,
-            deploymentController: ECSClientTypes.DeploymentController? = nil,
-            deployments: [ECSClientTypes.Deployment]? = nil,
-            desiredCount: Swift.Int = 0,
-            enableECSManagedTags: Swift.Bool = false,
-            enableExecuteCommand: Swift.Bool = false,
-            events: [ECSClientTypes.ServiceEvent]? = nil,
-            healthCheckGracePeriodSeconds: Swift.Int? = nil,
-            launchType: ECSClientTypes.LaunchType? = nil,
-            loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
-            networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
-            pendingCount: Swift.Int = 0,
-            placementConstraints: [ECSClientTypes.PlacementConstraint]? = nil,
-            placementStrategy: [ECSClientTypes.PlacementStrategy]? = nil,
-            platformFamily: Swift.String? = nil,
-            platformVersion: Swift.String? = nil,
-            propagateTags: ECSClientTypes.PropagateTags? = nil,
-            resourceManagementType: ECSClientTypes.ResourceManagementType? = nil,
-            roleArn: Swift.String? = nil,
-            runningCount: Swift.Int = 0,
-            schedulingStrategy: ECSClientTypes.SchedulingStrategy? = nil,
-            serviceArn: Swift.String? = nil,
-            serviceName: Swift.String? = nil,
-            serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
-            status: Swift.String? = nil,
-            tags: [ECSClientTypes.Tag]? = nil,
-            taskDefinition: Swift.String? = nil,
-            taskSets: [ECSClientTypes.TaskSet]? = nil
-        ) {
-            self.availabilityZoneRebalancing = availabilityZoneRebalancing
-            self.capacityProviderStrategy = capacityProviderStrategy
-            self.clusterArn = clusterArn
-            self.createdAt = createdAt
-            self.createdBy = createdBy
-            self.currentServiceDeployment = currentServiceDeployment
-            self.currentServiceRevisions = currentServiceRevisions
-            self.deploymentConfiguration = deploymentConfiguration
-            self.deploymentController = deploymentController
-            self.deployments = deployments
-            self.desiredCount = desiredCount
-            self.enableECSManagedTags = enableECSManagedTags
-            self.enableExecuteCommand = enableExecuteCommand
-            self.events = events
-            self.healthCheckGracePeriodSeconds = healthCheckGracePeriodSeconds
-            self.launchType = launchType
-            self.loadBalancers = loadBalancers
-            self.networkConfiguration = networkConfiguration
-            self.pendingCount = pendingCount
-            self.placementConstraints = placementConstraints
-            self.placementStrategy = placementStrategy
-            self.platformFamily = platformFamily
-            self.platformVersion = platformVersion
-            self.propagateTags = propagateTags
-            self.resourceManagementType = resourceManagementType
-            self.roleArn = roleArn
-            self.runningCount = runningCount
-            self.schedulingStrategy = schedulingStrategy
-            self.serviceArn = serviceArn
-            self.serviceName = serviceName
-            self.serviceRegistries = serviceRegistries
-            self.status = status
-            self.tags = tags
-            self.taskDefinition = taskDefinition
-            self.taskSets = taskSets
-        }
-    }
-}
-
-public struct CreateServiceOutput: Swift.Sendable {
-    /// The full description of your service following the create call. A service will return either a capacityProviderStrategy or launchType parameter, but not both, depending where one was specified when it was created. If a service is using the ECS deployment controller, the deploymentController and taskSets parameters will not be returned. if the service uses the CODE_DEPLOY deployment controller, the deploymentController, taskSets and deployments parameters will be returned, however the deployments parameter will be an empty list.
-    public var service: ECSClientTypes.Service?
+///
+public struct ListTasksOutput: Swift.Sendable {
+    /// The nextToken value to include in a future ListTasks request. When the results of a ListTasks request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The list of task ARN entries for the ListTasks request.
+    public var taskArns: [Swift.String]?
 
     public init(
-        service: ECSClientTypes.Service? = nil
+        nextToken: Swift.String? = nil,
+        taskArns: [Swift.String]? = nil
     ) {
-        self.service = service
+        self.nextToken = nextToken
+        self.taskArns = taskArns
     }
 }
 
-/// The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html).
-public struct ServiceNotActiveException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+/// You can apply up to 10 custom attributes for each resource. You can view the attributes of a resource with [ListAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListAttributes.html). You can remove existing attributes on a resource with [DeleteAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteAttributes.html).
+public struct AttributeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
@@ -4646,7 +3894,7 @@ public struct ServiceNotActiveException: ClientRuntime.ModeledError, AWSClientRu
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceNotActiveException" }
+    public static var typeName: Swift.String { "AttributeLimitExceededException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -4661,56 +3909,97 @@ public struct ServiceNotActiveException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
-public struct ServiceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-public struct CreateTaskSetInput: Swift.Sendable {
-    /// The capacity provider strategy to use for the task set. A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capacity provider must be associated with the cluster to be used in a capacity provider strategy. The [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html) API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the [CreateCapacityProviderProvider](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCapacityProviderProvider.html)API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html) API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
-    public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
-    /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126 (inclusive) are allowed.
-    public var clientToken: Swift.String?
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service to create the task set in.
+///
+public struct PutAttributesInput: Swift.Sendable {
+    /// The attributes to apply to your resource. You can specify up to 10 custom attributes for each resource. You can specify up to 10 attributes in a single call.
     /// This member is required.
+    public var attributes: [ECSClientTypes.Attribute]?
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
     public var cluster: Swift.String?
-    /// An optional non-unique tag that identifies this task set in external systems. If the task set is associated with a service discovery registry, the tasks in this task set will have the ECS_TASK_SET_EXTERNAL_ID Cloud Map attribute set to the provided value.
-    public var externalId: Swift.String?
-    /// The launch type that new tasks in the task set uses. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
-    public var launchType: ECSClientTypes.LaunchType?
-    /// A load balancer object representing the load balancer to use with the task set. The supported load balancer types are either an Application Load Balancer or a Network Load Balancer.
-    public var loadBalancers: [ECSClientTypes.LoadBalancer]?
-    /// An object representing the network configuration for a task set.
-    public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
-    /// The platform version that the tasks in the task set uses. A platform version is specified only for tasks using the Fargate launch type. If one isn't specified, the LATEST platform version is used.
-    public var platformVersion: Swift.String?
-    /// A floating-point percentage of the desired number of tasks to place and keep running in the task set.
-    public var scale: ECSClientTypes.Scale?
-    /// The short name or full Amazon Resource Name (ARN) of the service to create the task set in.
-    /// This member is required.
-    public var service: Swift.String?
-    /// The details of the service discovery registries to assign to this task set. For more information, see [Service discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html).
-    public var serviceRegistries: [ECSClientTypes.ServiceRegistry]?
-    /// The metadata that you apply to the task set to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. When a service is deleted, the tags are deleted. The following basic restrictions apply to tags:
+
+    public init(
+        attributes: [ECSClientTypes.Attribute]? = nil,
+        cluster: Swift.String? = nil
+    ) {
+        self.attributes = attributes
+        self.cluster = cluster
+    }
+}
+
+///
+public struct PutAttributesOutput: Swift.Sendable {
+    /// The attributes applied to your resource.
+    public var attributes: [ECSClientTypes.Attribute]?
+
+    public init(
+        attributes: [ECSClientTypes.Attribute]? = nil
+    ) {
+        self.attributes = attributes
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum PlatformDeviceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gpu
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PlatformDeviceType] {
+            return [
+                .gpu
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gpu: return "GPU"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The devices that are available on the container instance. The only supported device type is a GPU.
+    public struct PlatformDevice: Swift.Sendable {
+        /// The ID for the GPUs on the container instance. The available GPU IDs can also be obtained on the container instance in the /var/lib/ecs/gpu/nvidia_gpu_info.json file.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The type of device that's available on the container instance. The only supported value is GPU.
+        /// This member is required.
+        public var type: ECSClientTypes.PlatformDeviceType?
+
+        public init(
+            id: Swift.String? = nil,
+            type: ECSClientTypes.PlatformDeviceType? = nil
+        ) {
+            self.id = id
+            self.type = type
+        }
+    }
+}
+
+///
+public struct RegisterContainerInstanceInput: Swift.Sendable {
+    /// The container instance attributes that this container instance supports.
+    public var attributes: [ECSClientTypes.Attribute]?
+    /// The short name or full Amazon Resource Name (ARN) of the cluster to register your container instance with. If you do not specify a cluster, the default cluster is assumed.
+    public var cluster: Swift.String?
+    /// The ARN of the container instance (if it was previously registered).
+    public var containerInstanceArn: Swift.String?
+    /// The instance identity document for the EC2 instance to register. This document can be found by running the following command from the instance: curl http://169.254.169.254/latest/dynamic/instance-identity/document/
+    public var instanceIdentityDocument: Swift.String?
+    /// The instance identity document signature for the EC2 instance to register. This signature can be found by running the following command from the instance: curl http://169.254.169.254/latest/dynamic/instance-identity/signature/
+    public var instanceIdentityDocumentSignature: Swift.String?
+    /// The devices that are available on the container instance. The only supported device type is a GPU.
+    public var platformDevices: [ECSClientTypes.PlatformDevice]?
+    /// The metadata that you apply to the container instance to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:
     ///
     /// * Maximum number of tags per resource - 50
     ///
@@ -4726,49 +4015,158 @@ public struct CreateTaskSetInput: Swift.Sendable {
     ///
     /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
     public var tags: [ECSClientTypes.Tag]?
-    /// The task definition for the tasks in the task set to use. If a revision isn't specified, the latest ACTIVE revision is used.
-    /// This member is required.
-    public var taskDefinition: Swift.String?
+    /// The resources available on the instance.
+    public var totalResources: [ECSClientTypes.Resource]?
+    /// The version information for the Amazon ECS container agent and Docker daemon that runs on the container instance.
+    public var versionInfo: ECSClientTypes.VersionInfo?
 
     public init(
-        capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
-        clientToken: Swift.String? = nil,
+        attributes: [ECSClientTypes.Attribute]? = nil,
         cluster: Swift.String? = nil,
-        externalId: Swift.String? = nil,
-        launchType: ECSClientTypes.LaunchType? = nil,
-        loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
-        networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
-        platformVersion: Swift.String? = nil,
-        scale: ECSClientTypes.Scale? = nil,
-        service: Swift.String? = nil,
-        serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
+        containerInstanceArn: Swift.String? = nil,
+        instanceIdentityDocument: Swift.String? = nil,
+        instanceIdentityDocumentSignature: Swift.String? = nil,
+        platformDevices: [ECSClientTypes.PlatformDevice]? = nil,
         tags: [ECSClientTypes.Tag]? = nil,
-        taskDefinition: Swift.String? = nil
+        totalResources: [ECSClientTypes.Resource]? = nil,
+        versionInfo: ECSClientTypes.VersionInfo? = nil
     ) {
-        self.capacityProviderStrategy = capacityProviderStrategy
-        self.clientToken = clientToken
+        self.attributes = attributes
         self.cluster = cluster
-        self.externalId = externalId
-        self.launchType = launchType
-        self.loadBalancers = loadBalancers
-        self.networkConfiguration = networkConfiguration
-        self.platformVersion = platformVersion
-        self.scale = scale
-        self.service = service
-        self.serviceRegistries = serviceRegistries
+        self.containerInstanceArn = containerInstanceArn
+        self.instanceIdentityDocument = instanceIdentityDocument
+        self.instanceIdentityDocumentSignature = instanceIdentityDocumentSignature
+        self.platformDevices = platformDevices
         self.tags = tags
-        self.taskDefinition = taskDefinition
+        self.totalResources = totalResources
+        self.versionInfo = versionInfo
     }
 }
 
-public struct CreateTaskSetOutput: Swift.Sendable {
-    /// Information about a set of Amazon ECS tasks in either an CodeDeploy or an EXTERNAL deployment. A task set includes details such as the desired number of tasks, how many tasks are running, and whether the task set serves production traffic.
-    public var taskSet: ECSClientTypes.TaskSet?
+///
+public struct RegisterContainerInstanceOutput: Swift.Sendable {
+    /// The container instance that was registered.
+    public var containerInstance: ECSClientTypes.ContainerInstance?
 
     public init(
-        taskSet: ECSClientTypes.TaskSet? = nil
+        containerInstance: ECSClientTypes.ContainerInstance? = nil
     ) {
-        self.taskSet = taskSet
+        self.containerInstance = containerInstance
+    }
+}
+
+/// Amazon ECS can't determine the current version of the Amazon ECS container agent on the container instance and doesn't have enough information to proceed with an update. This could be because the agent running on the container instance is a previous or custom version that doesn't use our version information.
+public struct MissingVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MissingVersionException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// There's no update available for this Amazon ECS container agent. This might be because the agent is already running the latest version or because it's so old that there's no update path to the current version.
+public struct NoUpdateAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoUpdateAvailableException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+///
+public struct UpdateContainerAgentInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that your container instance is running on. If you do not specify a cluster, the default cluster is assumed.
+    public var cluster: Swift.String?
+    /// The container instance ID or full ARN entries for the container instance where you would like to update the Amazon ECS container agent.
+    /// This member is required.
+    public var containerInstance: Swift.String?
+
+    public init(
+        cluster: Swift.String? = nil,
+        containerInstance: Swift.String? = nil
+    ) {
+        self.cluster = cluster
+        self.containerInstance = containerInstance
+    }
+}
+
+///
+public struct UpdateContainerAgentOutput: Swift.Sendable {
+    /// The container instance that the container agent was updated for.
+    public var containerInstance: ECSClientTypes.ContainerInstance?
+
+    public init(
+        containerInstance: ECSClientTypes.ContainerInstance? = nil
+    ) {
+        self.containerInstance = containerInstance
+    }
+}
+
+///
+public struct UpdateContainerInstancesStateInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to update. If you do not specify a cluster, the default cluster is assumed.
+    public var cluster: Swift.String?
+    /// A list of up to 10 container instance IDs or full ARN entries.
+    /// This member is required.
+    public var containerInstances: [Swift.String]?
+    /// The container instance state to update the container instance with. The only valid values for this action are ACTIVE and DRAINING. A container instance can only be updated to DRAINING status once it has reached an ACTIVE state. If a container instance is in REGISTERING, DEREGISTERING, or REGISTRATION_FAILED state you can describe the container instance but can't update the container instance state.
+    /// This member is required.
+    public var status: ECSClientTypes.ContainerInstanceStatus?
+
+    public init(
+        cluster: Swift.String? = nil,
+        containerInstances: [Swift.String]? = nil,
+        status: ECSClientTypes.ContainerInstanceStatus? = nil
+    ) {
+        self.cluster = cluster
+        self.containerInstances = containerInstances
+        self.status = status
+    }
+}
+
+///
+public struct UpdateContainerInstancesStateOutput: Swift.Sendable {
+    /// The list of container instances.
+    public var containerInstances: [ECSClientTypes.ContainerInstance]?
+    /// Any failures associated with the call.
+    public var failures: [ECSClientTypes.Failure]?
+
+    public init(
+        containerInstances: [ECSClientTypes.ContainerInstance]? = nil,
+        failures: [ECSClientTypes.Failure]? = nil
+    ) {
+        self.containerInstances = containerInstances
+        self.failures = failures
     }
 }
 
@@ -4911,343 +4309,16 @@ public struct DeleteAccountSettingOutput: Swift.Sendable {
     }
 }
 
-/// The specified target wasn't found. You can view your available container instances with [ListContainerInstances](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListContainerInstances.html). Amazon ECS container instances are cluster-specific and Region-specific.
-public struct TargetNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "TargetNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum TargetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case containerInstance
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TargetType] {
-            return [
-                .containerInstance
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .containerInstance: return "container-instance"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// An attribute is a name-value pair that's associated with an Amazon ECS object. Use attributes to extend the Amazon ECS data model by adding custom metadata to your resources. For more information, see [Attributes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html#attributes) in the Amazon Elastic Container Service Developer Guide.
-    public struct Attribute: Swift.Sendable {
-        /// The name of the attribute. The name must contain between 1 and 128 characters. The name may contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), forward slashes (/), back slashes (\), or periods (.).
-        /// This member is required.
-        public var name: Swift.String?
-        /// The ID of the target. You can specify the short form ID for a resource or the full Amazon Resource Name (ARN).
-        public var targetId: Swift.String?
-        /// The type of the target to attach the attribute with. This parameter is required if you use the short form ID for a resource instead of the full ARN.
-        public var targetType: ECSClientTypes.TargetType?
-        /// The value of the attribute. The value must contain between 1 and 128 characters. It can contain letters (uppercase and lowercase), numbers, hyphens (-), underscores (_), periods (.), at signs (@), forward slashes (/), back slashes (\), colons (:), or spaces. The value can't start or end with a space.
-        public var value: Swift.String?
-
-        public init(
-            name: Swift.String? = nil,
-            targetId: Swift.String? = nil,
-            targetType: ECSClientTypes.TargetType? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.name = name
-            self.targetId = targetId
-            self.targetType = targetType
-            self.value = value
-        }
-    }
-}
-
-public struct DeleteAttributesInput: Swift.Sendable {
-    /// The attributes to delete from your resource. You can specify up to 10 attributes for each request. For custom attributes, specify the attribute name and target ID, but don't specify the value. If you specify the target ID using the short form, you must also specify the target type.
+///
+public struct DeregisterTaskDefinitionInput: Swift.Sendable {
+    /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to deregister. You must specify a revision.
     /// This member is required.
-    public var attributes: [ECSClientTypes.Attribute]?
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to delete attributes. If you do not specify a cluster, the default cluster is assumed.
-    public var cluster: Swift.String?
+    public var taskDefinition: Swift.String?
 
     public init(
-        attributes: [ECSClientTypes.Attribute]? = nil,
-        cluster: Swift.String? = nil
+        taskDefinition: Swift.String? = nil
     ) {
-        self.attributes = attributes
-        self.cluster = cluster
-    }
-}
-
-public struct DeleteAttributesOutput: Swift.Sendable {
-    /// A list of attribute objects that were successfully deleted from your resource.
-    public var attributes: [ECSClientTypes.Attribute]?
-
-    public init(
-        attributes: [ECSClientTypes.Attribute]? = nil
-    ) {
-        self.attributes = attributes
-    }
-}
-
-public struct DeleteCapacityProviderInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of the capacity provider to delete.
-    /// This member is required.
-    public var capacityProvider: Swift.String?
-    /// The name of the cluster that contains the capacity provider to delete. Managed instances capacity providers are cluster-scoped and can only be deleted from their associated cluster.
-    public var cluster: Swift.String?
-
-    public init(
-        capacityProvider: Swift.String? = nil,
-        cluster: Swift.String? = nil
-    ) {
-        self.capacityProvider = capacityProvider
-        self.cluster = cluster
-    }
-}
-
-public struct DeleteCapacityProviderOutput: Swift.Sendable {
-    /// The details of the capacity provider.
-    public var capacityProvider: ECSClientTypes.CapacityProvider?
-
-    public init(
-        capacityProvider: ECSClientTypes.CapacityProvider? = nil
-    ) {
-        self.capacityProvider = capacityProvider
-    }
-}
-
-/// The cluster contains one or more capacity providers that prevent the requested operation. This exception occurs when you try to delete a cluster that still has active capacity providers, including Amazon ECS Managed Instances capacity providers. You must first delete all capacity providers from the cluster before you can delete the cluster itself.
-public struct ClusterContainsCapacityProviderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ClusterContainsCapacityProviderException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// You can't delete a cluster that has registered container instances. First, deregister the container instances before you can delete the cluster. For more information, see [DeregisterContainerInstance](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeregisterContainerInstance.html).
-public struct ClusterContainsContainerInstancesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ClusterContainsContainerInstancesException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// You can't delete a cluster that contains services. First, update the service to reduce its desired task count to 0, and then delete the service. For more information, see [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html) and [DeleteService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteService.html).
-public struct ClusterContainsServicesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ClusterContainsServicesException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// You can't delete a cluster that has active tasks.
-public struct ClusterContainsTasksException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ClusterContainsTasksException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-public struct DeleteClusterInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of the cluster to delete.
-    /// This member is required.
-    public var cluster: Swift.String?
-
-    public init(
-        cluster: Swift.String? = nil
-    ) {
-        self.cluster = cluster
-    }
-}
-
-public struct DeleteClusterOutput: Swift.Sendable {
-    /// The full description of the deleted cluster.
-    public var cluster: ECSClientTypes.Cluster?
-
-    public init(
-        cluster: ECSClientTypes.Cluster? = nil
-    ) {
-        self.cluster = cluster
-    }
-}
-
-public struct DeleteExpressGatewayServiceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the Express service to delete. The ARN uniquely identifies the service within your Amazon Web Services account and region.
-    /// This member is required.
-    public var serviceArn: Swift.String?
-
-    public init(
-        serviceArn: Swift.String? = nil
-    ) {
-        self.serviceArn = serviceArn
-    }
-}
-
-public struct DeleteExpressGatewayServiceOutput: Swift.Sendable {
-    /// The full description of the deleted express service.
-    public var service: ECSClientTypes.ECSExpressGatewayService?
-
-    public init(
-        service: ECSClientTypes.ECSExpressGatewayService? = nil
-    ) {
-        self.service = service
-    }
-}
-
-public struct DeleteServiceInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service to delete. If you do not specify a cluster, the default cluster is assumed.
-    public var cluster: Swift.String?
-    /// If true, allows you to delete a service even if it wasn't scaled down to zero tasks. It's only necessary to use this if the service uses the REPLICA scheduling strategy.
-    public var force: Swift.Bool?
-    /// The name of the service to delete.
-    /// This member is required.
-    public var service: Swift.String?
-
-    public init(
-        cluster: Swift.String? = nil,
-        force: Swift.Bool? = nil,
-        service: Swift.String? = nil
-    ) {
-        self.cluster = cluster
-        self.force = force
-        self.service = service
-    }
-}
-
-public struct DeleteServiceOutput: Swift.Sendable {
-    /// The full description of the deleted service.
-    public var service: ECSClientTypes.Service?
-
-    public init(
-        service: ECSClientTypes.Service? = nil
-    ) {
-        self.service = service
-    }
-}
-
-public struct DeleteTaskDefinitionsInput: Swift.Sendable {
-    /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to delete. You must specify a revision. You can specify up to 10 task definitions as a comma separated list.
-    /// This member is required.
-    public var taskDefinitions: [Swift.String]?
-
-    public init(
-        taskDefinitions: [Swift.String]? = nil
-    ) {
-        self.taskDefinitions = taskDefinitions
-    }
-}
-
-extension ECSClientTypes {
-
-    /// A failed resource. For a list of common causes, see [API failure reasons](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct Failure: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the failed resource.
-        public var arn: Swift.String?
-        /// The details of the failure.
-        public var detail: Swift.String?
-        /// The reason for the failure.
-        public var reason: Swift.String?
-
-        public init(
-            arn: Swift.String? = nil,
-            detail: Swift.String? = nil,
-            reason: Swift.String? = nil
-        ) {
-            self.arn = arn
-            self.detail = detail
-            self.reason = reason
-        }
+        self.taskDefinition = taskDefinition
     }
 }
 
@@ -5756,6 +4827,120 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    public enum LogDriver: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsfirelens
+        case awslogs
+        case fluentd
+        case gelf
+        case journald
+        case jsonFile
+        case splunk
+        case syslog
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogDriver] {
+            return [
+                .awsfirelens,
+                .awslogs,
+                .fluentd,
+                .gelf,
+                .journald,
+                .jsonFile,
+                .splunk,
+                .syslog
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsfirelens: return "awsfirelens"
+            case .awslogs: return "awslogs"
+            case .fluentd: return "fluentd"
+            case .gelf: return "gelf"
+            case .journald: return "journald"
+            case .jsonFile: return "json-file"
+            case .splunk: return "splunk"
+            case .syslog: return "syslog"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An object representing the secret to expose to your container. Secrets can be exposed to a container in the following ways:
+    ///
+    /// * To inject sensitive data into your containers as environment variables, use the secrets container definition parameter.
+    ///
+    /// * To reference sensitive information in the log configuration of a container, use the secretOptions container definition parameter.
+    ///
+    ///
+    /// For more information, see [Specifying sensitive data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct Secret: Swift.Sendable {
+        /// The name of the secret.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The secret to expose to the container. The supported values are either the full ARN of the Secrets Manager secret or the full ARN of the parameter in the SSM Parameter Store. For information about the require Identity and Access Management permissions, see [Required IAM permissions for Amazon ECS secrets](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-secrets.html#secrets-iam) (for Secrets Manager) or [Required IAM permissions for Amazon ECS secrets](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-parameters.html) (for Systems Manager Parameter store) in the Amazon Elastic Container Service Developer Guide. If the SSM Parameter Store parameter exists in the same Region as the task you're launching, then you can use either the full ARN or name of the parameter. If the parameter exists in a different Region, then the full ARN must be specified.
+        /// This member is required.
+        public var valueFrom: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            valueFrom: Swift.String? = nil
+        ) {
+            self.name = name
+            self.valueFrom = valueFrom
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The log configuration for the container. This parameter maps to LogConfig in the docker container create command and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses. However, the container might use a different logging driver than the Docker daemon by specifying a log driver configuration in the container definition. Understand the following when specifying a log configuration for your containers.
+    ///
+    /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens.
+    ///
+    /// * This parameter requires version 1.18 of the Docker Remote API or greater on your container instance.
+    ///
+    /// * For tasks that are hosted on Amazon EC2 instances, the Amazon ECS container agent must register the available logging drivers with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
+    ///
+    /// * For tasks that are on Fargate, because you don't have access to the underlying infrastructure your tasks are hosted on, any additional software needed must be installed outside of the task. For example, the Fluentd output aggregators or a remote host running Logstash to send Gelf logs to.
+    public struct LogConfiguration: Swift.Sendable {
+        /// The log driver to use for the container. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald, syslog, splunk, and awsfirelens. For more information about using the awslogs log driver, see [Send Amazon ECS logs to CloudWatch](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_awslogs.html) in the Amazon Elastic Container Service Developer Guide. For more information about using the awsfirelens log driver, see [Send Amazon ECS logs to an Amazon Web Services service or Amazon Web Services Partner](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html). If you have a custom driver that isn't listed, you can fork the Amazon ECS container agent project that's [available on GitHub](https://github.com/aws/amazon-ecs-agent) and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, we don't currently provide support for running modified copies of this software.
+        /// This member is required.
+        public var logDriver: ECSClientTypes.LogDriver?
+        /// The configuration options to send to the log driver. The options you can specify depend on the log driver. Some of the options you can specify when you use the awslogs log driver to route logs to Amazon CloudWatch include the following: awslogs-create-group Required: No Specify whether you want the log group to be created automatically. If this option isn't specified, it defaults to false. Your IAM policy must include the logs:CreateLogGroup permission before you attempt to use awslogs-create-group. awslogs-region Required: Yes Specify the Amazon Web Services Region that the awslogs log driver is to send your Docker logs to. You can choose to send all of your logs from clusters in different Regions to a single region in CloudWatch Logs. This is so that they're all visible in one location. Otherwise, you can separate them by Region for more granularity. Make sure that the specified log group exists in the Region that you specify with this option. awslogs-group Required: Yes Make sure to specify a log group that the awslogs log driver sends its log streams to. awslogs-stream-prefix Required: Yes, when using Fargate.Optional when using EC2. Use the awslogs-stream-prefix option to associate a log stream with the specified prefix, the container name, and the ID of the Amazon ECS task that the container belongs to. If you specify a prefix with this option, then the log stream takes the format prefix-name/container-name/ecs-task-id. If you don't specify a prefix with this option, then the log stream is named after the container ID that's assigned by the Docker daemon on the container instance. Because it's difficult to trace logs back to the container that sent them with just the Docker container ID (which is only available on the container instance), we recommend that you specify a prefix with this option. For Amazon ECS services, you can use the service name as the prefix. Doing so, you can trace log streams to the service that the container belongs to, the name of the container that sent them, and the ID of the task that the container belongs to. You must specify a stream-prefix for your logs to have your logs appear in the Log pane when using the Amazon ECS console. awslogs-datetime-format Required: No This option defines a multiline start pattern in Python strftime format. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern. The matched line is the delimiter between log messages. One example of a use case for using this format is for parsing output such as a stack dump, which might otherwise be logged in multiple entries. The correct pattern allows it to be captured in a single entry. For more information, see [awslogs-datetime-format](https://docs.docker.com/config/containers/logging/awslogs/#awslogs-datetime-format). You cannot configure both the awslogs-datetime-format and awslogs-multiline-pattern options. Multiline logging performs regular expression parsing and matching of all log messages. This might have a negative impact on logging performance. awslogs-multiline-pattern Required: No This option defines a multiline start pattern that uses a regular expression. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern. The matched line is the delimiter between log messages. For more information, see [awslogs-multiline-pattern](https://docs.docker.com/config/containers/logging/awslogs/#awslogs-multiline-pattern). This option is ignored if awslogs-datetime-format is also configured. You cannot configure both the awslogs-datetime-format and awslogs-multiline-pattern options. Multiline logging performs regular expression parsing and matching of all log messages. This might have a negative impact on logging performance. The following options apply to all supported log drivers. mode Required: No Valid values: non-blocking | blocking This option defines the delivery mode of log messages from the container to the log driver specified using logDriver. The delivery mode you choose affects application availability when the flow of logs from container is interrupted. If you use the blocking mode and the flow of logs is interrupted, calls from container code to write to the stdout and stderr streams will block. The logging thread of the application will block as a result. This may cause the application to become unresponsive and lead to container healthcheck failure. If you use the non-blocking mode, the container's logs are instead stored in an in-memory intermediate buffer configured with the max-buffer-size option. This prevents the application from becoming unresponsive when logs cannot be sent. We recommend using this mode if you want to ensure service availability and are okay with some log loss. For more information, see [Preventing log loss with non-blocking mode in the ]awslogs container log driver(http://aws.amazon.com/blogs/containers/preventing-log-loss-with-non-blocking-mode-in-the-awslogs-container-log-driver/). You can set a default mode for all containers in a specific Amazon Web Services Region by using the defaultLogDriverMode account setting. If you don't specify the mode option or configure the account setting, Amazon ECS will default to the non-blocking mode. For more information about the account setting, see [Default log driver mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#default-log-driver-mode) in the Amazon Elastic Container Service Developer Guide. On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:
+        ///
+        /// * Set the mode option in your container definition's logConfiguration as blocking.
+        ///
+        /// * Set the defaultLogDriverMode account setting to blocking.
+        ///
+        ///
+        /// max-buffer-size Required: No Default value: 10m When non-blocking mode is used, the max-buffer-size log option controls the size of the buffer that's used for intermediate message storage. Make sure to specify an adequate buffer size based on your application. When the buffer fills up, further logs cannot be stored. Logs that cannot be stored are lost. To route logs using the splunk log router, you need to specify a splunk-token and a splunk-url. When you use the awsfirelens log router to route logs to an Amazon Web Services Service or Amazon Web Services Partner Network destination for log storage and analytics, you can set the log-driver-buffer-limit option to limit the number of events that are buffered in memory, before being sent to the log router container. It can help to resolve potential log loss issue because high throughput might result in memory running out for the buffer inside of Docker. Other options you can specify when using awsfirelens to route logs depend on the destination. When you export logs to Amazon Data Firehose, you can specify the Amazon Web Services Region with region and a name for the log stream with delivery_stream. When you export logs to Amazon Kinesis Data Streams, you can specify an Amazon Web Services Region with region and a data stream name with stream. When you export logs to Amazon OpenSearch Service, you can specify options like Name, Host (OpenSearch Service endpoint without protocol), Port, Index, Type, Aws_auth, Aws_region, Suppress_Type_Name, and tls. For more information, see [Under the hood: FireLens for Amazon ECS Tasks](http://aws.amazon.com/blogs/containers/under-the-hood-firelens-for-amazon-ecs-tasks/). When you export logs to Amazon S3, you can specify the bucket using the bucket option. You can also specify region, total_file_size, upload_timeout, and use_put_object as options. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
+        public var options: [Swift.String: Swift.String]?
+        /// The secrets to pass to the log configuration. For more information, see [Specifying sensitive data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
+        public var secretOptions: [ECSClientTypes.Secret]?
+
+        public init(
+            logDriver: ECSClientTypes.LogDriver? = nil,
+            options: [Swift.String: Swift.String]? = nil,
+            secretOptions: [ECSClientTypes.Secret]? = nil
+        ) {
+            self.logDriver = logDriver
+            self.options = options
+            self.secretOptions = secretOptions
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// The details for a volume mount point that's used in a container definition.
     public struct MountPoint: Swift.Sendable {
         /// The path on the container to mount the host volume at.
@@ -5803,35 +4988,6 @@ extension ECSClientTypes {
             case .grpc: return "grpc"
             case .http: return "http"
             case .http2: return "http2"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum TransportProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case tcp
-        case udp
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TransportProtocol] {
-            return [
-                .tcp,
-                .udp
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .tcp: return "tcp"
-            case .udp: return "udp"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6232,7 +5388,7 @@ extension ECSClientTypes {
         ///
         /// * When a new task starts, the Amazon ECS container agent pulls the latest version of the specified image and tag for the container to use. However, subsequent updates to a repository image aren't propagated to already running tasks.
         ///
-        /// * Images in Amazon ECR repositories can be specified by either using the full registry/repository:tag or registry/repository@digest. For example, 012345678910.dkr.ecr..amazonaws.com/:latest or 012345678910.dkr.ecr..amazonaws.com/@sha256:94afd1f2e64d908bc90dbca0035a5b567EXAMPLE.
+        /// * Images in Amazon ECR repositories can be specified by either using the full registry/repository:tag or registry/repository@digest. For example, 012345678910.dkr.ecr.<region-name>.amazonaws.com/<repository-name>:latest or 012345678910.dkr.ecr.<region-name>.amazonaws.com/<repository-name>@sha256:94afd1f2e64d908bc90dbca0035a5b567EXAMPLE.
         ///
         /// * Images in official repositories on Docker Hub use a single name (for example, ubuntu or mongo).
         ///
@@ -7100,7 +6256,7 @@ extension ECSClientTypes {
         ///
         /// * Between 32GB and 120 GB in 8 GB increments - Available cpu values: 16384 (16 vCPU) This option requires Linux platform 1.4.0 or later.
         public var memory: Swift.String?
-        /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required. For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used. For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings. When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user. If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_NetworkConfiguration.html) value when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used.
+        /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required. For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used. For Amazon ECS tasks on Amazon EC2 Windows instances, <default> or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings. When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user. If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_NetworkConfiguration.html) value when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used.
         public var networkMode: ECSClientTypes.NetworkMode?
         /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the The default is a private namespace for each container. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
         public var pidMode: ECSClientTypes.PidMode?
@@ -7185,387 +6341,7 @@ extension ECSClientTypes {
     }
 }
 
-public struct DeleteTaskDefinitionsOutput: Swift.Sendable {
-    /// Any failures associated with the call.
-    public var failures: [ECSClientTypes.Failure]?
-    /// The list of deleted task definitions.
-    public var taskDefinitions: [ECSClientTypes.TaskDefinition]?
-
-    public init(
-        failures: [ECSClientTypes.Failure]? = nil,
-        taskDefinitions: [ECSClientTypes.TaskDefinition]? = nil
-    ) {
-        self.failures = failures
-        self.taskDefinitions = taskDefinitions
-    }
-}
-
-/// The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTaskSets.html). Task sets are specific to each cluster, service and Region.
-public struct TaskSetNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "TaskSetNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-public struct DeleteTaskSetInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set found in to delete.
-    /// This member is required.
-    public var cluster: Swift.String?
-    /// If true, you can delete a task set even if it hasn't been scaled down to zero.
-    public var force: Swift.Bool?
-    /// The short name or full Amazon Resource Name (ARN) of the service that hosts the task set to delete.
-    /// This member is required.
-    public var service: Swift.String?
-    /// The task set ID or full Amazon Resource Name (ARN) of the task set to delete.
-    /// This member is required.
-    public var taskSet: Swift.String?
-
-    public init(
-        cluster: Swift.String? = nil,
-        force: Swift.Bool? = nil,
-        service: Swift.String? = nil,
-        taskSet: Swift.String? = nil
-    ) {
-        self.cluster = cluster
-        self.force = force
-        self.service = service
-        self.taskSet = taskSet
-    }
-}
-
-public struct DeleteTaskSetOutput: Swift.Sendable {
-    /// Details about the task set.
-    public var taskSet: ECSClientTypes.TaskSet?
-
-    public init(
-        taskSet: ECSClientTypes.TaskSet? = nil
-    ) {
-        self.taskSet = taskSet
-    }
-}
-
-public struct DeregisterContainerInstanceInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to deregister. If you do not specify a cluster, the default cluster is assumed.
-    public var cluster: Swift.String?
-    /// The container instance ID or full ARN of the container instance to deregister. For more information about the ARN format, see [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#ecs-resource-ids) in the Amazon ECS Developer Guide.
-    /// This member is required.
-    public var containerInstance: Swift.String?
-    /// Forces the container instance to be deregistered. If you have tasks running on the container instance when you deregister it with the force option, these tasks remain running until you terminate the instance or the tasks stop through some other means, but they're orphaned (no longer monitored or accounted for by Amazon ECS). If an orphaned task on your container instance is part of an Amazon ECS service, then the service scheduler starts another copy of that task, on a different container instance if possible. Any containers in orphaned service tasks that are registered with a Classic Load Balancer or an Application Load Balancer target group are deregistered. They begin connection draining according to the settings on the load balancer or target group.
-    public var force: Swift.Bool?
-
-    public init(
-        cluster: Swift.String? = nil,
-        containerInstance: Swift.String? = nil,
-        force: Swift.Bool? = nil
-    ) {
-        self.cluster = cluster
-        self.containerInstance = containerInstance
-        self.force = force
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum InstanceHealthCheckState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case impaired
-        case initializing
-        case insufficientData
-        case ok
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [InstanceHealthCheckState] {
-            return [
-                .impaired,
-                .initializing,
-                .insufficientData,
-                .ok
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .impaired: return "IMPAIRED"
-            case .initializing: return "INITIALIZING"
-            case .insufficientData: return "INSUFFICIENT_DATA"
-            case .ok: return "OK"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum InstanceHealthCheckType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case containerRuntime
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [InstanceHealthCheckType] {
-            return [
-                .containerRuntime
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .containerRuntime: return "CONTAINER_RUNTIME"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// An object representing the result of a container instance health status check.
-    public struct InstanceHealthCheckResult: Swift.Sendable {
-        /// The Unix timestamp for when the container instance health status last changed.
-        public var lastStatusChange: Foundation.Date?
-        /// The Unix timestamp for when the container instance health status was last updated.
-        public var lastUpdated: Foundation.Date?
-        /// The container instance health status.
-        public var status: ECSClientTypes.InstanceHealthCheckState?
-        /// The type of container instance health status that was verified.
-        public var type: ECSClientTypes.InstanceHealthCheckType?
-
-        public init(
-            lastStatusChange: Foundation.Date? = nil,
-            lastUpdated: Foundation.Date? = nil,
-            status: ECSClientTypes.InstanceHealthCheckState? = nil,
-            type: ECSClientTypes.InstanceHealthCheckType? = nil
-        ) {
-            self.lastStatusChange = lastStatusChange
-            self.lastUpdated = lastUpdated
-            self.status = status
-            self.type = type
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// An object representing the health status of the container instance.
-    public struct ContainerInstanceHealthStatus: Swift.Sendable {
-        /// An array of objects representing the details of the container instance health status.
-        public var details: [ECSClientTypes.InstanceHealthCheckResult]?
-        /// The overall health status of the container instance. This is an aggregate status of all container instance health checks.
-        public var overallStatus: ECSClientTypes.InstanceHealthCheckState?
-
-        public init(
-            details: [ECSClientTypes.InstanceHealthCheckResult]? = nil,
-            overallStatus: ECSClientTypes.InstanceHealthCheckState? = nil
-        ) {
-            self.details = details
-            self.overallStatus = overallStatus
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// Describes the resources available for a container instance.
-    public struct Resource: Swift.Sendable {
-        /// When the doubleValue type is set, the value of the resource must be a double precision floating-point type.
-        public var doubleValue: Swift.Double
-        /// When the integerValue type is set, the value of the resource must be an integer.
-        public var integerValue: Swift.Int
-        /// When the longValue type is set, the value of the resource must be an extended precision floating-point type.
-        public var longValue: Swift.Int
-        /// The name of the resource, such as CPU, MEMORY, PORTS, PORTS_UDP, or a user-defined resource.
-        public var name: Swift.String?
-        /// When the stringSetValue type is set, the value of the resource must be a string type.
-        public var stringSetValue: [Swift.String]?
-        /// The type of the resource. Valid values: INTEGER, DOUBLE, LONG, or STRINGSET.
-        public var type: Swift.String?
-
-        public init(
-            doubleValue: Swift.Double = 0.0,
-            integerValue: Swift.Int = 0,
-            longValue: Swift.Int = 0,
-            name: Swift.String? = nil,
-            stringSetValue: [Swift.String]? = nil,
-            type: Swift.String? = nil
-        ) {
-            self.doubleValue = doubleValue
-            self.integerValue = integerValue
-            self.longValue = longValue
-            self.name = name
-            self.stringSetValue = stringSetValue
-            self.type = type
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The Docker and Amazon ECS container agent version information about a container instance.
-    public struct VersionInfo: Swift.Sendable {
-        /// The Git commit hash for the Amazon ECS container agent build on the [amazon-ecs-agent ](https://github.com/aws/amazon-ecs-agent) GitHub repository.
-        public var agentHash: Swift.String?
-        /// The version number of the Amazon ECS container agent.
-        public var agentVersion: Swift.String?
-        /// The Docker version that's running on the container instance.
-        public var dockerVersion: Swift.String?
-
-        public init(
-            agentHash: Swift.String? = nil,
-            agentVersion: Swift.String? = nil,
-            dockerVersion: Swift.String? = nil
-        ) {
-            self.agentHash = agentHash
-            self.agentVersion = agentVersion
-            self.dockerVersion = dockerVersion
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// An Amazon EC2 or External instance that's running the Amazon ECS agent and has been registered with a cluster.
-    public struct ContainerInstance: Swift.Sendable {
-        /// This parameter returns true if the agent is connected to Amazon ECS. An instance with an agent that may be unhealthy or stopped return false. Only instances connected to an agent can accept task placement requests.
-        public var agentConnected: Swift.Bool
-        /// The status of the most recent agent update. If an update wasn't ever requested, this value is NULL.
-        public var agentUpdateStatus: ECSClientTypes.AgentUpdateStatus?
-        /// The resources attached to a container instance, such as an elastic network interface.
-        public var attachments: [ECSClientTypes.Attachment]?
-        /// The attributes set for the container instance, either by the Amazon ECS container agent at instance registration or manually with the [PutAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAttributes.html) operation.
-        public var attributes: [ECSClientTypes.Attribute]?
-        /// The capacity provider that's associated with the container instance.
-        public var capacityProviderName: Swift.String?
-        /// The Amazon Resource Name (ARN) of the container instance. For more information about the ARN format, see [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#ecs-resource-ids) in the Amazon ECS Developer Guide.
-        public var containerInstanceArn: Swift.String?
-        /// The ID of the container instance. For Amazon EC2 instances, this value is the Amazon EC2 instance ID. For external instances, this value is the Amazon Web Services Systems Manager managed instance ID.
-        public var ec2InstanceId: Swift.String?
-        /// An object representing the health status of the container instance.
-        public var healthStatus: ECSClientTypes.ContainerInstanceHealthStatus?
-        /// The number of tasks on the container instance that are in the PENDING status.
-        public var pendingTasksCount: Swift.Int
-        /// The Unix timestamp for the time when the container instance was registered.
-        public var registeredAt: Foundation.Date?
-        /// For CPU and memory resource types, this parameter describes the amount of each resource that was available on the container instance when the container agent registered it with Amazon ECS. This value represents the total amount of CPU and memory that can be allocated on this container instance to tasks. For port resource types, this parameter describes the ports that were reserved by the Amazon ECS container agent when it registered the container instance with Amazon ECS.
-        public var registeredResources: [ECSClientTypes.Resource]?
-        /// For CPU and memory resource types, this parameter describes the remaining CPU and memory that wasn't already allocated to tasks and is therefore available for new tasks. For port resource types, this parameter describes the ports that were reserved by the Amazon ECS container agent (at instance registration time) and any task containers that have reserved port mappings on the host (with the host or bridge network mode). Any port that's not specified here is available for new tasks.
-        public var remainingResources: [ECSClientTypes.Resource]?
-        /// The number of tasks on the container instance that have a desired status (desiredStatus) of RUNNING.
-        public var runningTasksCount: Swift.Int
-        /// The status of the container instance. The valid values are REGISTERING, REGISTRATION_FAILED, ACTIVE, INACTIVE, DEREGISTERING, or DRAINING. If your account has opted in to the awsvpcTrunking account setting, then any newly registered container instance will transition to a REGISTERING status while the trunk elastic network interface is provisioned for the instance. If the registration fails, the instance will transition to a REGISTRATION_FAILED status. You can describe the container instance and see the reason for failure in the statusReason parameter. Once the container instance is terminated, the instance transitions to a DEREGISTERING status while the trunk elastic network interface is deprovisioned. The instance then transitions to an INACTIVE status. The ACTIVE status indicates that the container instance can accept tasks. The DRAINING indicates that new tasks aren't placed on the container instance and any service tasks running on the container instance are removed if possible. For more information, see [Container instance draining](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-draining.html) in the Amazon Elastic Container Service Developer Guide.
-        public var status: Swift.String?
-        /// The reason that the container instance reached its current status.
-        public var statusReason: Swift.String?
-        /// The metadata that you apply to the container instance to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:
-        ///
-        /// * Maximum number of tags per resource - 50
-        ///
-        /// * For each resource, each tag key must be unique, and each tag key can have only one value.
-        ///
-        /// * Maximum key length - 128 Unicode characters in UTF-8
-        ///
-        /// * Maximum value length - 256 Unicode characters in UTF-8
-        ///
-        /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
-        ///
-        /// * Tag keys and values are case-sensitive.
-        ///
-        /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
-        public var tags: [ECSClientTypes.Tag]?
-        /// The version counter for the container instance. Every time a container instance experiences a change that triggers a CloudWatch event, the version counter is incremented. If you're replicating your Amazon ECS container instance state with CloudWatch Events, you can compare the version of a container instance reported by the Amazon ECS APIs with the version reported in CloudWatch Events for the container instance (inside the detail object) to verify that the version in your event stream is current.
-        public var version: Swift.Int
-        /// The version information for the Amazon ECS container agent and Docker daemon running on the container instance.
-        public var versionInfo: ECSClientTypes.VersionInfo?
-
-        public init(
-            agentConnected: Swift.Bool = false,
-            agentUpdateStatus: ECSClientTypes.AgentUpdateStatus? = nil,
-            attachments: [ECSClientTypes.Attachment]? = nil,
-            attributes: [ECSClientTypes.Attribute]? = nil,
-            capacityProviderName: Swift.String? = nil,
-            containerInstanceArn: Swift.String? = nil,
-            ec2InstanceId: Swift.String? = nil,
-            healthStatus: ECSClientTypes.ContainerInstanceHealthStatus? = nil,
-            pendingTasksCount: Swift.Int = 0,
-            registeredAt: Foundation.Date? = nil,
-            registeredResources: [ECSClientTypes.Resource]? = nil,
-            remainingResources: [ECSClientTypes.Resource]? = nil,
-            runningTasksCount: Swift.Int = 0,
-            status: Swift.String? = nil,
-            statusReason: Swift.String? = nil,
-            tags: [ECSClientTypes.Tag]? = nil,
-            version: Swift.Int = 0,
-            versionInfo: ECSClientTypes.VersionInfo? = nil
-        ) {
-            self.agentConnected = agentConnected
-            self.agentUpdateStatus = agentUpdateStatus
-            self.attachments = attachments
-            self.attributes = attributes
-            self.capacityProviderName = capacityProviderName
-            self.containerInstanceArn = containerInstanceArn
-            self.ec2InstanceId = ec2InstanceId
-            self.healthStatus = healthStatus
-            self.pendingTasksCount = pendingTasksCount
-            self.registeredAt = registeredAt
-            self.registeredResources = registeredResources
-            self.remainingResources = remainingResources
-            self.runningTasksCount = runningTasksCount
-            self.status = status
-            self.statusReason = statusReason
-            self.tags = tags
-            self.version = version
-            self.versionInfo = versionInfo
-        }
-    }
-}
-
-public struct DeregisterContainerInstanceOutput: Swift.Sendable {
-    /// The container instance that was deregistered.
-    public var containerInstance: ECSClientTypes.ContainerInstance?
-
-    public init(
-        containerInstance: ECSClientTypes.ContainerInstance? = nil
-    ) {
-        self.containerInstance = containerInstance
-    }
-}
-
-public struct DeregisterTaskDefinitionInput: Swift.Sendable {
-    /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to deregister. You must specify a revision.
-    /// This member is required.
-    public var taskDefinition: Swift.String?
-
-    public init(
-        taskDefinition: Swift.String? = nil
-    ) {
-        self.taskDefinition = taskDefinition
-    }
-}
-
+///
 public struct DeregisterTaskDefinitionOutput: Swift.Sendable {
     /// The full description of the deregistered task.
     public var taskDefinition: ECSClientTypes.TaskDefinition?
@@ -7579,11 +6355,11 @@ public struct DeregisterTaskDefinitionOutput: Swift.Sendable {
 
 extension ECSClientTypes {
 
-    public enum CapacityProviderField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TaskDefinitionField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case tags
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [CapacityProviderField] {
+        public static var allCases: [TaskDefinitionField] {
             return [
                 .tags
             ]
@@ -7603,258 +6379,394 @@ extension ECSClientTypes {
     }
 }
 
-public struct DescribeCapacityProvidersInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of one or more capacity providers. Up to 100 capacity providers can be described in an action.
-    public var capacityProviders: [Swift.String]?
-    /// The name of the cluster to describe capacity providers for. When specified, only capacity providers associated with this cluster are returned, including Amazon ECS Managed Instances capacity providers.
+///
+public struct DescribeTaskDefinitionInput: Swift.Sendable {
+    /// Determines whether to see the resource tags for the task definition. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response.
+    public var include: [ECSClientTypes.TaskDefinitionField]?
+    /// The family for the latest ACTIVE revision, family and revision (family:revision) for a specific revision in the family, or full Amazon Resource Name (ARN) of the task definition to describe.
+    /// This member is required.
+    public var taskDefinition: Swift.String?
+
+    public init(
+        include: [ECSClientTypes.TaskDefinitionField]? = nil,
+        taskDefinition: Swift.String? = nil
+    ) {
+        self.include = include
+        self.taskDefinition = taskDefinition
+    }
+}
+
+///
+public struct DescribeTaskDefinitionOutput: Swift.Sendable {
+    /// The metadata that's applied to the task definition to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:
+    ///
+    /// * Maximum number of tags per resource - 50
+    ///
+    /// * For each resource, each tag key must be unique, and each tag key can have only one value.
+    ///
+    /// * Maximum key length - 128 Unicode characters in UTF-8
+    ///
+    /// * Maximum value length - 256 Unicode characters in UTF-8
+    ///
+    /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
+    ///
+    /// * Tag keys and values are case-sensitive.
+    ///
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+    public var tags: [ECSClientTypes.Tag]?
+    /// The full task definition description.
+    public var taskDefinition: ECSClientTypes.TaskDefinition?
+
+    public init(
+        tags: [ECSClientTypes.Tag]? = nil,
+        taskDefinition: ECSClientTypes.TaskDefinition? = nil
+    ) {
+        self.tags = tags
+        self.taskDefinition = taskDefinition
+    }
+}
+
+///
+public struct DiscoverPollEndpointInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that the container instance belongs to.
     public var cluster: Swift.String?
-    /// Specifies whether or not you want to see the resource tags for the capacity provider. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response.
-    public var include: [ECSClientTypes.CapacityProviderField]?
-    /// The maximum number of account setting results returned by DescribeCapacityProviders in paginated output. When this parameter is used, DescribeCapacityProviders only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeCapacityProviders request with the returned nextToken value. This value can be between 1 and 10. If this parameter is not used, then DescribeCapacityProviders returns up to 10 results and a nextToken value if applicable.
+    /// The container instance ID or full ARN of the container instance. For more information about the ARN format, see [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#ecs-resource-ids) in the Amazon ECS Developer Guide.
+    public var containerInstance: Swift.String?
+
+    public init(
+        cluster: Swift.String? = nil,
+        containerInstance: Swift.String? = nil
+    ) {
+        self.cluster = cluster
+        self.containerInstance = containerInstance
+    }
+}
+
+///
+public struct DiscoverPollEndpointOutput: Swift.Sendable {
+    /// The endpoint for the Amazon ECS agent to poll.
+    public var endpoint: Swift.String?
+    /// The endpoint for the Amazon ECS agent to poll for Service Connect configuration. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    public var serviceConnectEndpoint: Swift.String?
+    /// The telemetry endpoint for the Amazon ECS agent.
+    public var telemetryEndpoint: Swift.String?
+
+    public init(
+        endpoint: Swift.String? = nil,
+        serviceConnectEndpoint: Swift.String? = nil,
+        telemetryEndpoint: Swift.String? = nil
+    ) {
+        self.endpoint = endpoint
+        self.serviceConnectEndpoint = serviceConnectEndpoint
+        self.telemetryEndpoint = telemetryEndpoint
+    }
+}
+
+public struct ListAccountSettingsInput: Swift.Sendable {
+    /// Determines whether to return the effective settings. If true, the account settings for the root user or the default setting for the principalArn are returned. If false, the account settings for the principalArn are returned if they're set. Otherwise, no account settings are returned.
+    public var effectiveSettings: Swift.Bool?
+    /// The maximum number of account setting results returned by ListAccountSettings in paginated output. When this parameter is used, ListAccountSettings only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListAccountSettings request with the returned nextToken value. This value can be between 1 and 10. If this parameter isn't used, then ListAccountSettings returns up to 10 results and a nextToken value if applicable.
     public var maxResults: Swift.Int?
-    /// The nextToken value returned from a previous paginated DescribeCapacityProviders request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    /// The name of the account setting you want to list the settings for.
+    public var name: ECSClientTypes.SettingName?
+    /// The nextToken value returned from a ListAccountSettings request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it's possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+    /// The ARN of the principal, which can be a user, role, or the root user. If this field is omitted, the account settings are listed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal. Federated users assume the account setting of the root user and can't have explicit account settings set for them.
+    public var principalArn: Swift.String?
+    /// The value of the account settings to filter results with. You must also specify an account setting name to use this parameter.
+    public var value: Swift.String?
+
+    public init(
+        effectiveSettings: Swift.Bool? = false,
+        maxResults: Swift.Int? = 0,
+        name: ECSClientTypes.SettingName? = nil,
+        nextToken: Swift.String? = nil,
+        principalArn: Swift.String? = nil,
+        value: Swift.String? = nil
+    ) {
+        self.effectiveSettings = effectiveSettings
+        self.maxResults = maxResults
+        self.name = name
+        self.nextToken = nextToken
+        self.principalArn = principalArn
+        self.value = value
+    }
+}
+
+public struct ListAccountSettingsOutput: Swift.Sendable {
+    /// The nextToken value to include in a future ListAccountSettings request. When the results of a ListAccountSettings request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The account settings for the resource.
+    public var settings: [ECSClientTypes.Setting]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        settings: [ECSClientTypes.Setting]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.settings = settings
+    }
+}
+
+public struct ListServicesByNamespaceInput: Swift.Sendable {
+    /// The maximum number of service results that ListServicesByNamespace returns in paginated output. When this parameter is used, ListServicesByNamespace only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListServicesByNamespace request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListServicesByNamespace returns up to 10 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map namespace to list the services in. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The nextToken value that's returned from a ListServicesByNamespace request. It indicates that more results are available to fulfill the request and further calls are needed. If maxResults is returned, it is possible the number of results is less than maxResults.
     public var nextToken: Swift.String?
 
     public init(
-        capacityProviders: [Swift.String]? = nil,
-        cluster: Swift.String? = nil,
-        include: [ECSClientTypes.CapacityProviderField]? = nil,
         maxResults: Swift.Int? = nil,
+        namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil
     ) {
-        self.capacityProviders = capacityProviders
-        self.cluster = cluster
-        self.include = include
+        self.maxResults = maxResults
+        self.namespace = namespace
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListServicesByNamespaceOutput: Swift.Sendable {
+    /// The nextToken value to include in a future ListServicesByNamespace request. When the results of a ListServicesByNamespace request exceed maxResults, this value can be used to retrieve the next page of results. When there are no more results to return, this value is null.
+    public var nextToken: Swift.String?
+    /// The list of full ARN entries for each service that's associated with the specified namespace.
+    public var serviceArns: [Swift.String]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        serviceArns: [Swift.String]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.serviceArns = serviceArns
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon ECS tasks, services, task definitions, clusters, and container instances.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Sendable {
+    /// The tags for the resource.
+    public var tags: [ECSClientTypes.Tag]?
+
+    public init(
+        tags: [ECSClientTypes.Tag]? = nil
+    ) {
+        self.tags = tags
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum TaskDefinitionFamilyStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case all
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TaskDefinitionFamilyStatus] {
+            return [
+                .active,
+                .all,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .all: return "ALL"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+///
+public struct ListTaskDefinitionFamiliesInput: Swift.Sendable {
+    /// The familyPrefix is a string that's used to filter the results of ListTaskDefinitionFamilies. If you specify a familyPrefix, only task definition family names that begin with the familyPrefix string are returned.
+    public var familyPrefix: Swift.String?
+    /// The maximum number of task definition family results that ListTaskDefinitionFamilies returned in paginated output. When this parameter is used, ListTaskDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListTaskDefinitionFamilies request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListTaskDefinitionFamilies returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a ListTaskDefinitionFamilies request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it is possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+    /// The task definition family status to filter the ListTaskDefinitionFamilies results with. By default, both ACTIVE and INACTIVE task definition families are listed. If this parameter is set to ACTIVE, only task definition families that have an ACTIVE task definition revision are returned. If this parameter is set to INACTIVE, only task definition families that do not have any ACTIVE task definition revisions are returned. If you paginate the resulting output, be sure to keep the status value constant in each subsequent request.
+    public var status: ECSClientTypes.TaskDefinitionFamilyStatus?
+
+    public init(
+        familyPrefix: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: ECSClientTypes.TaskDefinitionFamilyStatus? = nil
+    ) {
+        self.familyPrefix = familyPrefix
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.status = status
     }
 }
 
-public struct DescribeCapacityProvidersOutput: Swift.Sendable {
-    /// The list of capacity providers.
-    public var capacityProviders: [ECSClientTypes.CapacityProvider]?
-    /// Any failures associated with the call.
-    public var failures: [ECSClientTypes.Failure]?
-    /// The nextToken value to include in a future DescribeCapacityProviders request. When the results of a DescribeCapacityProviders request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+///
+public struct ListTaskDefinitionFamiliesOutput: Swift.Sendable {
+    /// The list of task definition family names that match the ListTaskDefinitionFamilies request.
+    public var families: [Swift.String]?
+    /// The nextToken value to include in a future ListTaskDefinitionFamilies request. When the results of a ListTaskDefinitionFamilies request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
     public init(
-        capacityProviders: [ECSClientTypes.CapacityProvider]? = nil,
-        failures: [ECSClientTypes.Failure]? = nil,
+        families: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     ) {
-        self.capacityProviders = capacityProviders
-        self.failures = failures
+        self.families = families
         self.nextToken = nextToken
     }
 }
 
-extension ECSClientTypes {
-
-    public enum ClusterField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case attachments
-        case configurations
-        case settings
-        case statistics
-        case tags
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ClusterField] {
-            return [
-                .attachments,
-                .configurations,
-                .settings,
-                .statistics,
-                .tags
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .attachments: return "ATTACHMENTS"
-            case .configurations: return "CONFIGURATIONS"
-            case .settings: return "SETTINGS"
-            case .statistics: return "STATISTICS"
-            case .tags: return "TAGS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct DescribeClustersInput: Swift.Sendable {
-    /// A list of up to 100 cluster names or full cluster Amazon Resource Name (ARN) entries. If you do not specify a cluster, the default cluster is assumed.
-    public var clusters: [Swift.String]?
-    /// Determines whether to include additional information about the clusters in the response. If this field is omitted, this information isn't included. If ATTACHMENTS is specified, the attachments for the container instances or tasks within the cluster are included, for example the capacity providers. If SETTINGS is specified, the settings for the cluster are included. If CONFIGURATIONS is specified, the configuration for the cluster is included. If STATISTICS is specified, the task and service count is included, separated by launch type. If TAGS is specified, the metadata tags associated with the cluster are included.
-    public var include: [ECSClientTypes.ClusterField]?
-
-    public init(
-        clusters: [Swift.String]? = nil,
-        include: [ECSClientTypes.ClusterField]? = nil
-    ) {
-        self.clusters = clusters
-        self.include = include
-    }
-}
-
-public struct DescribeClustersOutput: Swift.Sendable {
-    /// The list of clusters.
-    public var clusters: [ECSClientTypes.Cluster]?
-    /// Any failures associated with the call.
-    public var failures: [ECSClientTypes.Failure]?
-
-    public init(
-        clusters: [ECSClientTypes.Cluster]? = nil,
-        failures: [ECSClientTypes.Failure]? = nil
-    ) {
-        self.clusters = clusters
-        self.failures = failures
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum ContainerInstanceField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case containerInstanceHealth
-        case tags
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ContainerInstanceField] {
-            return [
-                .containerInstanceHealth,
-                .tags
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .containerInstanceHealth: return "CONTAINER_INSTANCE_HEALTH"
-            case .tags: return "TAGS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct DescribeContainerInstancesInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instances to describe. If you do not specify a cluster, the default cluster is assumed. This parameter is required if the container instance or container instances you are describing were launched in any cluster other than the default cluster.
-    public var cluster: Swift.String?
-    /// A list of up to 100 container instance IDs or full Amazon Resource Name (ARN) entries.
+public struct PutAccountSettingInput: Swift.Sendable {
+    /// The Amazon ECS account setting name to modify. The following are the valid values for the account setting name.
+    ///
+    /// * serviceLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
+    ///
+    /// * taskLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
+    ///
+    /// * containerInstanceLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
+    ///
+    /// * awsvpcTrunking - When modified, the elastic network interface (ENI) limit for any new container instances that support the feature is changed. If awsvpcTrunking is turned on, any new container instances that support the feature are launched have the increased ENI limits available to them. For more information, see [Elastic Network Interface Trunking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html) in the Amazon Elastic Container Service Developer Guide.
+    ///
+    /// * containerInsights - Container Insights with enhanced observability provides all the Container Insights metrics, plus additional task and container metrics. This version supports enhanced observability for Amazon ECS clusters using the Amazon EC2 and Fargate launch types. After you configure Container Insights with enhanced observability on Amazon ECS, Container Insights auto-collects detailed infrastructure telemetry from the cluster level down to the container level in your environment and displays these critical performance data in curated dashboards removing the heavy lifting in observability set-up. To use Container Insights with enhanced observability, set the containerInsights account setting to enhanced. To use Container Insights, set the containerInsights account setting to enabled. For more information, see [Monitor Amazon ECS containers using Container Insights with enhanced observability](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cloudwatch-container-insights.html) in the Amazon Elastic Container Service Developer Guide.
+    ///
+    /// * dualStackIPv6 - When turned on, when using a VPC in dual stack mode, your tasks using the awsvpc network mode can have an IPv6 address assigned. For more information on using IPv6 with tasks launched on Amazon EC2 instances, see [Using a VPC in dual-stack mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking-awsvpc.html#task-networking-vpc-dual-stack). For more information on using IPv6 with tasks launched on Fargate, see [Using a VPC in dual-stack mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-task-networking.html#fargate-task-networking-vpc-dual-stack).
+    ///
+    /// * fargateTaskRetirementWaitPeriod - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to configure the wait time to retire a Fargate task. For information about the Fargate tasks maintenance, see [Amazon Web Services Fargate task maintenance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html) in the Amazon ECS Developer Guide.
+    ///
+    /// * fargateEventWindows - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateEventWindows to use EC2 Event Windows associated with Fargate tasks to configure time windows for task retirement.
+    ///
+    /// * tagResourceAuthorization - Amazon ECS is introducing tagging authorization for resource creation. Users must have permissions for actions that create the resource, such as ecsCreateCluster. If tags are specified when you create a resource, Amazon Web Services performs additional authorization to verify if users or roles have permissions to create tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For more information, see [Grant permission to tag resources on creation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html) in the Amazon ECS Developer Guide.
+    ///
+    /// * defaultLogDriverMode - Amazon ECS supports setting a default delivery mode of log messages from a container to the logDriver that you specify in the container's logConfiguration. The delivery mode affects application stability when the flow of logs from the container to the log driver is interrupted. The defaultLogDriverMode setting supports two values: blocking and non-blocking. If you don't specify a delivery mode in your container definition's logConfiguration, the mode you specify using this account setting will be used as the default. For more information about log delivery modes, see [LogConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_LogConfiguration.html). On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:
+    ///
+    /// * Set the mode option in your container definition's logConfiguration as blocking.
+    ///
+    /// * Set the defaultLogDriverMode account setting to blocking.
+    ///
+    ///
+    ///
+    ///
+    /// * guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see [Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
     /// This member is required.
-    public var containerInstances: [Swift.String]?
-    /// Specifies whether you want to see the resource tags for the container instance. If TAGS is specified, the tags are included in the response. If CONTAINER_INSTANCE_HEALTH is specified, the container instance health is included in the response. If this field is omitted, tags and container instance health status aren't included in the response.
-    public var include: [ECSClientTypes.ContainerInstanceField]?
-
-    public init(
-        cluster: Swift.String? = nil,
-        containerInstances: [Swift.String]? = nil,
-        include: [ECSClientTypes.ContainerInstanceField]? = nil
-    ) {
-        self.cluster = cluster
-        self.containerInstances = containerInstances
-        self.include = include
-    }
-}
-
-public struct DescribeContainerInstancesOutput: Swift.Sendable {
-    /// The list of container instances.
-    public var containerInstances: [ECSClientTypes.ContainerInstance]?
-    /// Any failures associated with the call.
-    public var failures: [ECSClientTypes.Failure]?
-
-    public init(
-        containerInstances: [ECSClientTypes.ContainerInstance]? = nil,
-        failures: [ECSClientTypes.Failure]? = nil
-    ) {
-        self.containerInstances = containerInstances
-        self.failures = failures
-    }
-}
-
-/// The specified resource wasn't found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum ExpressGatewayServiceInclude: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case tags
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ExpressGatewayServiceInclude] {
-            return [
-                .tags
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .tags: return "TAGS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct DescribeExpressGatewayServiceInput: Swift.Sendable {
-    /// Specifies additional information to include in the response. Valid values are TAGS to include resource tags associated with the Express service.
-    public var include: [ECSClientTypes.ExpressGatewayServiceInclude]?
-    /// The Amazon Resource Name (ARN) of the Express service to describe. The ARN uniquely identifies the service within your Amazon Web Services account and region.
+    public var name: ECSClientTypes.SettingName?
+    /// The ARN of the principal, which can be a user, role, or the root user. If you specify the root user, it modifies the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal. You must use the root user when you set the Fargate wait time (fargateTaskRetirementWaitPeriod). Federated users assume the account setting of the root user and can't have explicit account settings set for them.
+    public var principalArn: Swift.String?
+    /// The account setting value for the specified principal ARN. Accepted values are enabled, disabled, enhanced, on, and off. When you specify fargateTaskRetirementWaitPeriod for the name, the following are the valid values:
+    ///
+    /// * 0 - Amazon Web Services sends the notification, and immediately retires the affected tasks.
+    ///
+    /// * 7 - Amazon Web Services sends the notification, and waits 7 calendar days to retire the tasks.
+    ///
+    /// * 14 - Amazon Web Services sends the notification, and waits 14 calendar days to retire the tasks.
     /// This member is required.
-    public var serviceArn: Swift.String?
+    public var value: Swift.String?
 
     public init(
-        include: [ECSClientTypes.ExpressGatewayServiceInclude]? = nil,
-        serviceArn: Swift.String? = nil
+        name: ECSClientTypes.SettingName? = nil,
+        principalArn: Swift.String? = nil,
+        value: Swift.String? = nil
     ) {
-        self.include = include
-        self.serviceArn = serviceArn
+        self.name = name
+        self.principalArn = principalArn
+        self.value = value
     }
 }
 
-public struct DescribeExpressGatewayServiceOutput: Swift.Sendable {
-    /// The full description of the described express service.
-    public var service: ECSClientTypes.ECSExpressGatewayService?
+public struct PutAccountSettingOutput: Swift.Sendable {
+    /// The current account setting for a resource.
+    public var setting: ECSClientTypes.Setting?
 
     public init(
-        service: ECSClientTypes.ECSExpressGatewayService? = nil
+        setting: ECSClientTypes.Setting? = nil
     ) {
-        self.service = service
+        self.setting = setting
+    }
+}
+
+public struct PutAccountSettingDefaultInput: Swift.Sendable {
+    /// The resource name for which to modify the account setting. The following are the valid values for the account setting name.
+    ///
+    /// * serviceLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
+    ///
+    /// * taskLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
+    ///
+    /// * containerInstanceLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
+    ///
+    /// * awsvpcTrunking - When modified, the elastic network interface (ENI) limit for any new container instances that support the feature is changed. If awsvpcTrunking is turned on, any new container instances that support the feature are launched have the increased ENI limits available to them. For more information, see [Elastic Network Interface Trunking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html) in the Amazon Elastic Container Service Developer Guide.
+    ///
+    /// * containerInsights - Container Insights with enhanced observability provides all the Container Insights metrics, plus additional task and container metrics. This version supports enhanced observability for Amazon ECS clusters using the Amazon EC2 and Fargate launch types. After you configure Container Insights with enhanced observability on Amazon ECS, Container Insights auto-collects detailed infrastructure telemetry from the cluster level down to the container level in your environment and displays these critical performance data in curated dashboards removing the heavy lifting in observability set-up. To use Container Insights with enhanced observability, set the containerInsights account setting to enhanced. To use Container Insights, set the containerInsights account setting to enabled. For more information, see [Monitor Amazon ECS containers using Container Insights with enhanced observability](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cloudwatch-container-insights.html) in the Amazon Elastic Container Service Developer Guide.
+    ///
+    /// * dualStackIPv6 - When turned on, when using a VPC in dual stack mode, your tasks using the awsvpc network mode can have an IPv6 address assigned. For more information on using IPv6 with tasks launched on Amazon EC2 instances, see [Using a VPC in dual-stack mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking-awsvpc.html#task-networking-vpc-dual-stack). For more information on using IPv6 with tasks launched on Fargate, see [Using a VPC in dual-stack mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-task-networking.html#fargate-task-networking-vpc-dual-stack).
+    ///
+    /// * fargateFIPSMode - If you specify fargateFIPSMode, Fargate FIPS 140 compliance is affected.
+    ///
+    /// * fargateTaskRetirementWaitPeriod - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to configure the wait time to retire a Fargate task. For information about the Fargate tasks maintenance, see [Amazon Web Services Fargate task maintenance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html) in the Amazon ECS Developer Guide.
+    ///
+    /// * fargateEventWindows - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateEventWindows to use EC2 Event Windows associated with Fargate tasks to configure time windows for task retirement.
+    ///
+    /// * tagResourceAuthorization - Amazon ECS is introducing tagging authorization for resource creation. Users must have permissions for actions that create the resource, such as ecsCreateCluster. If tags are specified when you create a resource, Amazon Web Services performs additional authorization to verify if users or roles have permissions to create tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For more information, see [Grant permission to tag resources on creation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html) in the Amazon ECS Developer Guide.
+    ///
+    /// * defaultLogDriverMode -Amazon ECS supports setting a default delivery mode of log messages from a container to the logDriver that you specify in the container's logConfiguration. The delivery mode affects application stability when the flow of logs from the container to the log driver is interrupted. The defaultLogDriverMode setting supports two values: blocking and non-blocking. If you don't specify a delivery mode in your container definition's logConfiguration, the mode you specify using this account setting will be used as the default. For more information about log delivery modes, see [LogConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_LogConfiguration.html). On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:
+    ///
+    /// * Set the mode option in your container definition's logConfiguration as blocking.
+    ///
+    /// * Set the defaultLogDriverMode account setting to blocking.
+    ///
+    ///
+    ///
+    ///
+    /// * guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see [Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
+    /// This member is required.
+    public var name: ECSClientTypes.SettingName?
+    /// The account setting value for the specified principal ARN. Accepted values are enabled, disabled, on, enhanced, and off. When you specify fargateTaskRetirementWaitPeriod for the name, the following are the valid values:
+    ///
+    /// * 0 - Amazon Web Services sends the notification, and immediately retires the affected tasks.
+    ///
+    /// * 7 - Amazon Web Services sends the notification, and waits 7 calendar days to retire the tasks.
+    ///
+    /// * 14 - Amazon Web Services sends the notification, and waits 14 calendar days to retire the tasks.
+    /// This member is required.
+    public var value: Swift.String?
+
+    public init(
+        name: ECSClientTypes.SettingName? = nil,
+        value: Swift.String? = nil
+    ) {
+        self.name = name
+        self.value = value
+    }
+}
+
+public struct PutAccountSettingDefaultOutput: Swift.Sendable {
+    /// The current setting for a resource.
+    public var setting: ECSClientTypes.Setting?
+
+    public init(
+        setting: ECSClientTypes.Setting? = nil
+    ) {
+        self.setting = setting
     }
 }
 
@@ -7947,6 +6859,285 @@ extension ECSClientTypes {
             self.failureCount = failureCount
             self.status = status
             self.threshold = threshold
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// One of the methods which provide a way for you to quickly identify when a deployment has failed, and then to optionally roll back the failure to the last working deployment. When the alarms are generated, Amazon ECS sets the service deployment to failed. Set the rollback parameter to have Amazon ECS to roll back your service to the last completed deployment after a failure. You can only use the DeploymentAlarms method to detect failures when the DeploymentController is set to ECS. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide .
+    public struct DeploymentAlarms: Swift.Sendable {
+        /// One or more CloudWatch alarm names. Use a "," to separate the alarms.
+        /// This member is required.
+        public var alarmNames: [Swift.String]?
+        /// Determines whether to use the CloudWatch alarm option in the service deployment process.
+        /// This member is required.
+        public var enable: Swift.Bool
+        /// Determines whether to configure Amazon ECS to roll back the service if a service deployment fails. If rollback is used, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
+        /// This member is required.
+        public var rollback: Swift.Bool
+
+        public init(
+            alarmNames: [Swift.String]? = nil,
+            enable: Swift.Bool = false,
+            rollback: Swift.Bool = false
+        ) {
+            self.alarmNames = alarmNames
+            self.enable = enable
+            self.rollback = rollback
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Configuration for a canary deployment strategy that shifts a fixed percentage of traffic to the new service revision, waits for a specified bake time, then shifts the remaining traffic. This is only valid when you run CreateService or UpdateService with deploymentController set to ECS and a deploymentConfiguration with a strategy set to CANARY.
+    public struct CanaryConfiguration: Swift.Sendable {
+        /// The amount of time in minutes to wait during the canary phase before shifting the remaining production traffic to the new service revision. Valid values are 0 to 1440 minutes (24 hours). The default value is 10.
+        public var canaryBakeTimeInMinutes: Swift.Int?
+        /// The percentage of production traffic to shift to the new service revision during the canary phase. Valid values are multiples of 0.1 from 0.1 to 100.0. The default value is 5.0.
+        public var canaryPercent: Swift.Double?
+
+        public init(
+            canaryBakeTimeInMinutes: Swift.Int? = 0,
+            canaryPercent: Swift.Double? = 0.0
+        ) {
+            self.canaryBakeTimeInMinutes = canaryBakeTimeInMinutes
+            self.canaryPercent = canaryPercent
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type. The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If it is turned on, a service deployment will transition to a failed state and stop launching new tasks. You can also configure Amazon ECS to roll back your service to the last completed deployment after a failure. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide. For more information about API failure reasons, see [API failure reasons](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct DeploymentCircuitBreaker: Swift.Sendable {
+        /// Determines whether to use the deployment circuit breaker logic for the service.
+        /// This member is required.
+        public var enable: Swift.Bool
+        /// Determines whether to configure Amazon ECS to roll back the service if a service deployment fails. If rollback is on, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
+        /// This member is required.
+        public var rollback: Swift.Bool
+
+        public init(
+            enable: Swift.Bool = false,
+            rollback: Swift.Bool = false
+        ) {
+            self.enable = enable
+            self.rollback = rollback
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum DeploymentLifecycleHookStage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case postProductionTrafficShift
+        case postScaleUp
+        case postTestTrafficShift
+        case preScaleUp
+        case productionTrafficShift
+        case reconcileService
+        case testTrafficShift
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentLifecycleHookStage] {
+            return [
+                .postProductionTrafficShift,
+                .postScaleUp,
+                .postTestTrafficShift,
+                .preScaleUp,
+                .productionTrafficShift,
+                .reconcileService,
+                .testTrafficShift
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .postProductionTrafficShift: return "POST_PRODUCTION_TRAFFIC_SHIFT"
+            case .postScaleUp: return "POST_SCALE_UP"
+            case .postTestTrafficShift: return "POST_TEST_TRAFFIC_SHIFT"
+            case .preScaleUp: return "PRE_SCALE_UP"
+            case .productionTrafficShift: return "PRODUCTION_TRAFFIC_SHIFT"
+            case .reconcileService: return "RECONCILE_SERVICE"
+            case .testTrafficShift: return "TEST_TRAFFIC_SHIFT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A deployment lifecycle hook runs custom logic at specific stages of the deployment process. Currently, you can use Lambda functions as hook targets. For more information, see [Lifecycle hooks for Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-lifecycle-hooks.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct DeploymentLifecycleHook: Swift.Sendable {
+        /// Use this field to specify custom parameters that Amazon ECS will pass to your hook target invocations (such as a Lambda function).
+        public var hookDetails: Smithy.Document?
+        /// The Amazon Resource Name (ARN) of the hook target. Currently, only Lambda function ARNs are supported. You must provide this parameter when configuring a deployment lifecycle hook.
+        public var hookTargetArn: Swift.String?
+        /// The lifecycle stages at which to run the hook. Choose from these valid values:
+        ///
+        /// * RECONCILE_SERVICE The reconciliation stage that only happens when you start a new service deployment with more than 1 service revision in an ACTIVE state. You can use a lifecycle hook for this stage.
+        ///
+        /// * PRE_SCALE_UP The green service revision has not started. The blue service revision is handling 100% of the production traffic. There is no test traffic. You can use a lifecycle hook for this stage.
+        ///
+        /// * POST_SCALE_UP The green service revision has started. The blue service revision is handling 100% of the production traffic. There is no test traffic. You can use a lifecycle hook for this stage.
+        ///
+        /// * TEST_TRAFFIC_SHIFT The blue and green service revisions are running. The blue service revision handles 100% of the production traffic. The green service revision is migrating from 0% to 100% of test traffic. You can use a lifecycle hook for this stage.
+        ///
+        /// * POST_TEST_TRAFFIC_SHIFT The test traffic shift is complete. The green service revision handles 100% of the test traffic. You can use a lifecycle hook for this stage.
+        ///
+        /// * PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic. You can use a lifecycle hook for this stage.
+        ///
+        /// * POST_PRODUCTION_TRAFFIC_SHIFT The production traffic shift is complete. You can use a lifecycle hook for this stage.
+        ///
+        ///
+        /// You must provide this parameter when configuring a deployment lifecycle hook.
+        public var lifecycleStages: [ECSClientTypes.DeploymentLifecycleHookStage]?
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon ECS permission to call Lambda functions on your behalf. For more information, see [Permissions required for Lambda functions in Amazon ECS blue/green deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/blue-green-permissions.html) in the Amazon Elastic Container Service Developer Guide.
+        public var roleArn: Swift.String?
+
+        public init(
+            hookDetails: Smithy.Document? = nil,
+            hookTargetArn: Swift.String? = nil,
+            lifecycleStages: [ECSClientTypes.DeploymentLifecycleHookStage]? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.hookDetails = hookDetails
+            self.hookTargetArn = hookTargetArn
+            self.lifecycleStages = lifecycleStages
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Configuration for linear deployment strategy that shifts production traffic in equal percentage increments with configurable wait times between each step until 100% of traffic is shifted to the new service revision. This is only valid when you run CreateService or UpdateService with deploymentController set to ECS and a deploymentConfiguration with a strategy set to LINEAR.
+    public struct LinearConfiguration: Swift.Sendable {
+        /// The amount of time in minutes to wait between each traffic shifting step during a linear deployment. Valid values are 0 to 1440 minutes (24 hours). The default value is 6. This bake time is not applied after reaching 100 percent traffic.
+        public var stepBakeTimeInMinutes: Swift.Int?
+        /// The percentage of production traffic to shift in each step during a linear deployment. Valid values are multiples of 0.1 from 3.0 to 100.0. The default value is 10.0.
+        public var stepPercent: Swift.Double?
+
+        public init(
+            stepBakeTimeInMinutes: Swift.Int? = 0,
+            stepPercent: Swift.Double? = 0.0
+        ) {
+            self.stepBakeTimeInMinutes = stepBakeTimeInMinutes
+            self.stepPercent = stepPercent
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum DeploymentStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case blueGreen
+        case canary
+        case linear
+        case rolling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentStrategy] {
+            return [
+                .blueGreen,
+                .canary,
+                .linear,
+                .rolling
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .blueGreen: return "BLUE_GREEN"
+            case .canary: return "CANARY"
+            case .linear: return "LINEAR"
+            case .rolling: return "ROLLING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Optional deployment parameters that control how many tasks run during a deployment and the ordering of stopping and starting tasks.
+    public struct DeploymentConfiguration: Swift.Sendable {
+        /// Information about the CloudWatch alarms.
+        public var alarms: ECSClientTypes.DeploymentAlarms?
+        /// The time period when both blue and green service revisions are running simultaneously after the production traffic has shifted. You must provide this parameter when you use the BLUE_GREEN deployment strategy.
+        public var bakeTimeInMinutes: Swift.Int?
+        /// Configuration for canary deployment strategy. Only valid when the deployment strategy is CANARY. This configuration enables shifting a fixed percentage of traffic for testing, followed by shifting the remaining traffic after a bake period.
+        public var canaryConfiguration: ECSClientTypes.CanaryConfiguration?
+        /// The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type. The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If you use the deployment circuit breaker, a service deployment will transition to a failed state and stop launching new tasks. If you use the rollback option, when a service deployment fails, the service is rolled back to the last deployment that completed successfully. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide
+        public var deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker?
+        /// An array of deployment lifecycle hook objects to run custom logic at specific stages of the deployment lifecycle.
+        public var lifecycleHooks: [ECSClientTypes.DeploymentLifecycleHook]?
+        /// Configuration for linear deployment strategy. Only valid when the deployment strategy is LINEAR. This configuration enables progressive traffic shifting in equal percentage increments with configurable bake times between each step.
+        public var linearConfiguration: ECSClientTypes.LinearConfiguration?
+        /// If a service is using the rolling update (ECS) deployment type, the maximumPercent parameter represents an upper limit on the number of your service's tasks that are allowed in the RUNNING or PENDING state during a deployment, as a percentage of the desiredCount (rounded down to the nearest integer). This parameter enables you to define the deployment batch size. For example, if your service is using the REPLICA service scheduler and has a desiredCount of four tasks and a maximumPercent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default maximumPercent value for a service using the REPLICA service scheduler is 200%. The Amazon ECS scheduler uses this parameter to replace unhealthy tasks by starting replacement tasks first and then stopping the unhealthy tasks, as long as cluster resources for starting replacement tasks are available. For more information about how the scheduler replaces unhealthy tasks, see [Amazon ECS services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html). If a service is using either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types, and tasks in the service use the EC2 launch type, the maximum percent value is set to the default value. The maximum percent value is used to define the upper limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. You can't specify a custom maximumPercent value for a service that uses either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and has tasks that use the EC2 launch type. If the service uses either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types, and the tasks in the service use the Fargate launch type, the maximum percent value is not used. The value is still returned when describing your service.
+        public var maximumPercent: Swift.Int?
+        /// If a service is using the rolling update (ECS) deployment type, the minimumHealthyPercent represents a lower limit on the number of your service's tasks that must remain in the RUNNING state during a deployment, as a percentage of the desiredCount (rounded up to the nearest integer). This parameter enables you to deploy without using additional cluster capacity. For example, if your service has a desiredCount of four tasks and a minimumHealthyPercent of 50%, the service scheduler may stop two existing tasks to free up cluster capacity before starting two new tasks. If any tasks are unhealthy and if maximumPercent doesn't allow the Amazon ECS scheduler to start replacement tasks, the scheduler stops the unhealthy tasks one-by-one — using the minimumHealthyPercent as a constraint — to clear up capacity to launch replacement tasks. For more information about how the scheduler replaces unhealthy tasks, see [Amazon ECS services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html). For services that do not use a load balancer, the following should be noted:
+        ///
+        /// * A service is considered healthy if all essential containers within the tasks in the service pass their health checks.
+        ///
+        /// * If a task has no essential containers with a health check defined, the service scheduler will wait for 40 seconds after a task reaches a RUNNING state before the task is counted towards the minimum healthy percent total.
+        ///
+        /// * If a task has one or more essential containers with a health check defined, the service scheduler will wait for the task to reach a healthy status before counting it towards the minimum healthy percent total. A task is considered healthy when all essential containers within the task have passed their health checks. The amount of time the service scheduler can wait for is determined by the container health check settings.
+        ///
+        ///
+        /// For services that do use a load balancer, the following should be noted:
+        ///
+        /// * If a task has no essential containers with a health check defined, the service scheduler will wait for the load balancer target group health check to return a healthy status before counting the task towards the minimum healthy percent total.
+        ///
+        /// * If a task has an essential container with a health check defined, the service scheduler will wait for both the task to reach a healthy status and the load balancer target group health check to return a healthy status before counting the task towards the minimum healthy percent total.
+        ///
+        ///
+        /// The default value for a replica service for minimumHealthyPercent is 100%. The default minimumHealthyPercent value for a service using the DAEMON service schedule is 0% for the CLI, the Amazon Web Services SDKs, and the APIs and 50% for the Amazon Web Services Management Console. The minimum number of healthy tasks during a deployment is the desiredCount multiplied by the minimumHealthyPercent/100, rounded up to the nearest integer value. If a service is using either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and is running tasks that use the EC2 launch type, the minimum healthy percent value is set to the default value. The minimum healthy percent value is used to define the lower limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. You can't specify a custom minimumHealthyPercent value for a service that uses either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and has tasks that use the EC2 launch type. If a service is using either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and is running tasks that use the Fargate launch type, the minimum healthy percent value is not used, although it is returned when describing your service.
+        public var minimumHealthyPercent: Swift.Int?
+        /// The deployment strategy for the service. Choose from these valid values:
+        ///
+        /// * ROLLING - When you create a service which uses the rolling update (ROLLING) deployment strategy, the Amazon ECS service scheduler replaces the currently running tasks with new tasks. The number of tasks that Amazon ECS adds or removes from the service during a rolling update is controlled by the service deployment configuration.
+        ///
+        /// * BLUE_GREEN - A blue/green deployment strategy (BLUE_GREEN) is a release methodology that reduces downtime and risk by running two identical production environments called blue and green. With Amazon ECS blue/green deployments, you can validate new service revisions before directing production traffic to them. This approach provides a safer way to deploy changes with the ability to quickly roll back if needed.
+        ///
+        /// * LINEAR - A linear deployment strategy (LINEAR) gradually shifts traffic from the current production environment to a new environment in equal percentages over time. With Amazon ECS linear deployments, you can control the pace of traffic shifting and validate new service revisions with increasing amounts of production traffic.
+        ///
+        /// * CANARY - A canary deployment strategy (CANARY) shifts a small percentage of traffic to the new service revision first, then shifts the remaining traffic all at once after a specified time period. This allows you to test the new version with a subset of users before full deployment.
+        public var strategy: ECSClientTypes.DeploymentStrategy?
+
+        public init(
+            alarms: ECSClientTypes.DeploymentAlarms? = nil,
+            bakeTimeInMinutes: Swift.Int? = nil,
+            canaryConfiguration: ECSClientTypes.CanaryConfiguration? = nil,
+            deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker? = nil,
+            lifecycleHooks: [ECSClientTypes.DeploymentLifecycleHook]? = nil,
+            linearConfiguration: ECSClientTypes.LinearConfiguration? = nil,
+            maximumPercent: Swift.Int? = nil,
+            minimumHealthyPercent: Swift.Int? = nil,
+            strategy: ECSClientTypes.DeploymentStrategy? = nil
+        ) {
+            self.alarms = alarms
+            self.bakeTimeInMinutes = bakeTimeInMinutes
+            self.canaryConfiguration = canaryConfiguration
+            self.deploymentCircuitBreaker = deploymentCircuitBreaker
+            self.lifecycleHooks = lifecycleHooks
+            self.linearConfiguration = linearConfiguration
+            self.maximumPercent = maximumPercent
+            self.minimumHealthyPercent = minimumHealthyPercent
+            self.strategy = strategy
         }
     }
 }
@@ -8227,6 +7418,2924 @@ public struct DescribeServiceDeploymentsOutput: Swift.Sendable {
     ) {
         self.failures = failures
         self.serviceDeployments = serviceDeployments
+    }
+}
+
+/// The specified platform version doesn't satisfy the required capabilities of the task definition.
+public struct PlatformTaskDefinitionIncompatibilityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PlatformTaskDefinitionIncompatibilityException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The specified platform version doesn't exist.
+public struct PlatformUnknownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PlatformUnknownException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The network configuration for an Express service. By default, an Express service utilizes subnets and security groups associated with the default VPC.
+    public struct ExpressGatewayServiceNetworkConfiguration: Swift.Sendable {
+        /// The IDs of the security groups associated with the Express service.
+        public var securityGroups: [Swift.String]?
+        /// The IDs of the subnets associated with the Express service.
+        public var subnets: [Swift.String]?
+
+        public init(
+            securityGroups: [Swift.String]? = nil,
+            subnets: [Swift.String]? = nil
+        ) {
+            self.securityGroups = securityGroups
+            self.subnets = subnets
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Specifies the Amazon CloudWatch Logs configuration for the Express service container.
+    public struct ExpressGatewayServiceAwsLogsConfiguration: Swift.Sendable {
+        /// The name of the CloudWatch Logs log group to send container logs to.
+        /// This member is required.
+        public var logGroup: Swift.String?
+        /// The prefix for the CloudWatch Logs log stream names. The default for an Express service is ecs.
+        /// This member is required.
+        public var logStreamPrefix: Swift.String?
+
+        public init(
+            logGroup: Swift.String? = nil,
+            logStreamPrefix: Swift.String? = nil
+        ) {
+            self.logGroup = logGroup
+            self.logStreamPrefix = logStreamPrefix
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The repository credentials for private registry authentication to pass to the container.
+    public struct ExpressGatewayRepositoryCredentials: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the secret containing the private repository credentials.
+        public var credentialsParameter: Swift.String?
+
+        public init(
+            credentialsParameter: Swift.String? = nil
+        ) {
+            self.credentialsParameter = credentialsParameter
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Defines the configuration for the primary container in an Express service. This container receives traffic from the Application Load Balancer and runs your application code. The container configuration includes the container image, port mapping, logging settings, environment variables, and secrets. The container image is the only required parameter, with sensible defaults provided for other settings.
+    public struct ExpressGatewayContainer: Swift.Sendable {
+        /// The log configuration for the container.
+        public var awsLogsConfiguration: ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration?
+        /// The command that is passed to the container.
+        public var command: [Swift.String]?
+        /// The port number on the container that receives traffic from the load balancer. Default is 80.
+        public var containerPort: Swift.Int?
+        /// The environment variables to pass to the container.
+        public var environment: [ECSClientTypes.KeyValuePair]?
+        /// The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with either repository-url/image:tag or repository-url/image@digest. For Express services, the image typically contains a web application that listens on the specified container port. The image can be stored in Amazon ECR, Docker Hub, or any other container registry accessible to your execution role.
+        /// This member is required.
+        public var image: Swift.String?
+        /// The configuration for repository credentials for private registry authentication.
+        public var repositoryCredentials: ECSClientTypes.ExpressGatewayRepositoryCredentials?
+        /// The secrets to pass to the container.
+        public var secrets: [ECSClientTypes.Secret]?
+
+        public init(
+            awsLogsConfiguration: ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration? = nil,
+            command: [Swift.String]? = nil,
+            containerPort: Swift.Int? = nil,
+            environment: [ECSClientTypes.KeyValuePair]? = nil,
+            image: Swift.String? = nil,
+            repositoryCredentials: ECSClientTypes.ExpressGatewayRepositoryCredentials? = nil,
+            secrets: [ECSClientTypes.Secret]? = nil
+        ) {
+            self.awsLogsConfiguration = awsLogsConfiguration
+            self.command = command
+            self.containerPort = containerPort
+            self.environment = environment
+            self.image = image
+            self.repositoryCredentials = repositoryCredentials
+            self.secrets = secrets
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ExpressGatewayServiceScalingMetric: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case averagecpuutilization
+        case averagememoryutilization
+        case requestcountpertarget
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpressGatewayServiceScalingMetric] {
+            return [
+                .averagecpuutilization,
+                .averagememoryutilization,
+                .requestcountpertarget
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .averagecpuutilization: return "AVERAGE_CPU"
+            case .averagememoryutilization: return "AVERAGE_MEMORY"
+            case .requestcountpertarget: return "REQUEST_COUNT_PER_TARGET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Defines the auto-scaling configuration for an Express service. This determines how the service automatically adjusts the number of running tasks based on demand metrics such as CPU utilization, memory utilization, or request count per target. Auto-scaling helps ensure your application can handle varying levels of traffic while optimizing costs by scaling down during low-demand periods. You can specify the minimum and maximum number of tasks, the scaling metric, and the target value for that metric.
+    public struct ExpressGatewayScalingTarget: Swift.Sendable {
+        /// The metric used for auto-scaling decisions. The default metric used for an Express service is CPUUtilization.
+        public var autoScalingMetric: ECSClientTypes.ExpressGatewayServiceScalingMetric?
+        /// The target value for the auto-scaling metric. The default value for an Express service is 60.
+        public var autoScalingTargetValue: Swift.Int?
+        /// The maximum number of tasks to run in the Express service.
+        public var maxTaskCount: Swift.Int?
+        /// The minimum number of tasks to run in the Express service.
+        public var minTaskCount: Swift.Int?
+
+        public init(
+            autoScalingMetric: ECSClientTypes.ExpressGatewayServiceScalingMetric? = nil,
+            autoScalingTargetValue: Swift.Int? = nil,
+            maxTaskCount: Swift.Int? = nil,
+            minTaskCount: Swift.Int? = nil
+        ) {
+            self.autoScalingMetric = autoScalingMetric
+            self.autoScalingTargetValue = autoScalingTargetValue
+            self.maxTaskCount = maxTaskCount
+            self.minTaskCount = minTaskCount
+        }
+    }
+}
+
+public struct CreateExpressGatewayServiceInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster on which to create the Express service. If you do not specify a cluster, the default cluster is assumed.
+    public var cluster: Swift.String?
+    /// The number of CPU units used by the task. This parameter determines the CPU allocation for each task in the Express service. The default value for an Express service is 256 (.25 vCPU).
+    public var cpu: Swift.String?
+    /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. This role is required for Amazon ECS to pull container images from Amazon ECR, send container logs to Amazon CloudWatch Logs, and retrieve sensitive data from Amazon Web Services Systems Manager Parameter Store or Amazon Web Services Secrets Manager. The execution role must include the AmazonECSTaskExecutionRolePolicy managed policy or equivalent permissions. For Express services, this role is used during task startup and runtime for container management operations.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The path on the container that the Application Load Balancer uses for health checks. This should be a valid HTTP endpoint that returns a successful response (HTTP 200) when the application is healthy. If not specified, the default health check path is /ping. The health check path must start with a forward slash and can include query parameters. Examples: /health, /api/status, /ping?format=json.
+    public var healthCheckPath: Swift.String?
+    /// The Amazon Resource Name (ARN) of the infrastructure role that grants Amazon ECS permission to create and manage Amazon Web Services resources on your behalf for the Express service. This role is used to provision and manage Application Load Balancers, target groups, security groups, auto-scaling policies, and other Amazon Web Services infrastructure components. The infrastructure role must include permissions for Elastic Load Balancing, Application Auto Scaling, Amazon EC2 (for security groups), and other services required for managed infrastructure. This role is only used during Express service creation, updates, and deletion operations.
+    /// This member is required.
+    public var infrastructureRoleArn: Swift.String?
+    /// The amount of memory (in MiB) used by the task. This parameter determines the memory allocation for each task in the Express service. The default value for an express service is 512 MiB.
+    public var memory: Swift.String?
+    /// The network configuration for the Express service tasks. This specifies the VPC subnets and security groups for the tasks. For Express services, you can specify custom security groups and subnets. If not provided, Amazon ECS will use the default VPC configuration and create appropriate security groups automatically. The network configuration determines how your service integrates with your VPC and what network access it has.
+    public var networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration?
+    /// The primary container configuration for the Express service. This defines the main application container that will receive traffic from the Application Load Balancer. The primary container must specify at minimum a container image. You can also configure the container port (defaults to 80), logging configuration, environment variables, secrets, and startup commands. The container image can be from Amazon ECR, Docker Hub, or any other container registry accessible to your execution role.
+    /// This member is required.
+    public var primaryContainer: ECSClientTypes.ExpressGatewayContainer?
+    /// The auto-scaling configuration for the Express service. This defines how the service automatically adjusts the number of running tasks based on demand. You can specify the minimum and maximum number of tasks, the scaling metric (CPU utilization, memory utilization, or request count per target), and the target value for the metric. If not specified, the default target value for an Express service is 60.
+    public var scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget?
+    /// The name of the Express service. This name must be unique within the specified cluster and can contain up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens. The name is used to identify the service in the Amazon ECS console and API operations. If you don't specify a service name, Amazon ECS generates a unique name for the service. The service name becomes part of the service ARN and cannot be changed after the service is created.
+    public var serviceName: Swift.String?
+    /// The metadata that you apply to the Express service to help categorize and organize it. Each tag consists of a key and an optional value. You can apply up to 50 tags to a service.
+    public var tags: [ECSClientTypes.Tag]?
+    /// The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. This role allows your application code to access other Amazon Web Services services securely. The task role is different from the execution role. While the execution role is used by the Amazon ECS agent to set up the task, the task role is used by your application code running inside the container to make Amazon Web Services API calls. If your application doesn't need to access Amazon Web Services services, you can omit this parameter.
+    public var taskRoleArn: Swift.String?
+
+    public init(
+        cluster: Swift.String? = nil,
+        cpu: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        healthCheckPath: Swift.String? = nil,
+        infrastructureRoleArn: Swift.String? = nil,
+        memory: Swift.String? = nil,
+        networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration? = nil,
+        primaryContainer: ECSClientTypes.ExpressGatewayContainer? = nil,
+        scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget? = nil,
+        serviceName: Swift.String? = nil,
+        tags: [ECSClientTypes.Tag]? = nil,
+        taskRoleArn: Swift.String? = nil
+    ) {
+        self.cluster = cluster
+        self.cpu = cpu
+        self.executionRoleArn = executionRoleArn
+        self.healthCheckPath = healthCheckPath
+        self.infrastructureRoleArn = infrastructureRoleArn
+        self.memory = memory
+        self.networkConfiguration = networkConfiguration
+        self.primaryContainer = primaryContainer
+        self.scalingTarget = scalingTarget
+        self.serviceName = serviceName
+        self.tags = tags
+        self.taskRoleArn = taskRoleArn
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The entry point into an Express service.
+    public struct IngressPathSummary: Swift.Sendable {
+        /// The type of access to the endpoint for the Express service.
+        /// This member is required.
+        public var accessType: ECSClientTypes.AccessType?
+        /// The endpoint for access to the service.
+        /// This member is required.
+        public var endpoint: Swift.String?
+
+        public init(
+            accessType: ECSClientTypes.AccessType? = nil,
+            endpoint: Swift.String? = nil
+        ) {
+            self.accessType = accessType
+            self.endpoint = endpoint
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Represents a specific configuration revision of an Express service, containing all the settings and parameters for that revision.
+    public struct ExpressGatewayServiceConfiguration: Swift.Sendable {
+        /// The CPU allocation for tasks in this service revision.
+        public var cpu: Swift.String?
+        /// The Unix timestamp for when this service revision was created.
+        public var createdAt: Foundation.Date?
+        /// The ARN of the task execution role for the service revision.
+        public var executionRoleArn: Swift.String?
+        /// The health check path for this service revision.
+        public var healthCheckPath: Swift.String?
+        /// The entry point into this service revision.
+        public var ingressPaths: [ECSClientTypes.IngressPathSummary]?
+        /// The memory allocation for tasks in this service revision.
+        public var memory: Swift.String?
+        /// The network configuration for tasks in this service revision.
+        public var networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration?
+        /// The primary container configuration for this service revision.
+        public var primaryContainer: ECSClientTypes.ExpressGatewayContainer?
+        /// The auto-scaling configuration for this service revision.
+        public var scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget?
+        /// The ARN of the service revision.
+        public var serviceRevisionArn: Swift.String?
+        /// The ARN of the task role for the service revision.
+        public var taskRoleArn: Swift.String?
+
+        public init(
+            cpu: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            executionRoleArn: Swift.String? = nil,
+            healthCheckPath: Swift.String? = nil,
+            ingressPaths: [ECSClientTypes.IngressPathSummary]? = nil,
+            memory: Swift.String? = nil,
+            networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration? = nil,
+            primaryContainer: ECSClientTypes.ExpressGatewayContainer? = nil,
+            scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget? = nil,
+            serviceRevisionArn: Swift.String? = nil,
+            taskRoleArn: Swift.String? = nil
+        ) {
+            self.cpu = cpu
+            self.createdAt = createdAt
+            self.executionRoleArn = executionRoleArn
+            self.healthCheckPath = healthCheckPath
+            self.ingressPaths = ingressPaths
+            self.memory = memory
+            self.networkConfiguration = networkConfiguration
+            self.primaryContainer = primaryContainer
+            self.scalingTarget = scalingTarget
+            self.serviceRevisionArn = serviceRevisionArn
+            self.taskRoleArn = taskRoleArn
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ExpressGatewayServiceStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case draining
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpressGatewayServiceStatusCode] {
+            return [
+                .active,
+                .draining,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .draining: return "DRAINING"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An object that defines the status of Express service creation and information about the status of the service.
+    public struct ExpressGatewayServiceStatus: Swift.Sendable {
+        /// The status of the Express service.
+        public var statusCode: ECSClientTypes.ExpressGatewayServiceStatusCode?
+        /// Information about why the Express service is in the current status.
+        public var statusReason: Swift.String?
+
+        public init(
+            statusCode: ECSClientTypes.ExpressGatewayServiceStatusCode? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Represents an Express service, which provides a simplified way to deploy containerized web applications on Amazon ECS with managed Amazon Web Services infrastructure. An Express service automatically provisions and manages Application Load Balancers, target groups, security groups, and auto-scaling policies. Express services use a service revision architecture where each service can have multiple active configurations, enabling blue-green deployments and gradual rollouts. The service maintains a list of active configurations and manages the lifecycle of the underlying Amazon Web Services resources.
+    public struct ECSExpressGatewayService: Swift.Sendable {
+        /// The list of active service configurations for the Express service.
+        public var activeConfigurations: [ECSClientTypes.ExpressGatewayServiceConfiguration]?
+        /// The short name or full ARN of the cluster that hosts the Express service.
+        public var cluster: Swift.String?
+        /// The Unix timestamp for when the Express service was created.
+        public var createdAt: Foundation.Date?
+        /// The current deployment configuration for the Express service.
+        public var currentDeployment: Swift.String?
+        /// The ARN of the infrastructure role that manages Amazon Web Services resources for the Express service.
+        public var infrastructureRoleArn: Swift.String?
+        /// The ARN that identifies the Express service.
+        public var serviceArn: Swift.String?
+        /// The name of the Express service.
+        public var serviceName: Swift.String?
+        /// The current status of the Express service.
+        public var status: ECSClientTypes.ExpressGatewayServiceStatus?
+        /// The metadata applied to the Express service.
+        public var tags: [ECSClientTypes.Tag]?
+        /// The Unix timestamp for when the Express service was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            activeConfigurations: [ECSClientTypes.ExpressGatewayServiceConfiguration]? = nil,
+            cluster: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            currentDeployment: Swift.String? = nil,
+            infrastructureRoleArn: Swift.String? = nil,
+            serviceArn: Swift.String? = nil,
+            serviceName: Swift.String? = nil,
+            status: ECSClientTypes.ExpressGatewayServiceStatus? = nil,
+            tags: [ECSClientTypes.Tag]? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.activeConfigurations = activeConfigurations
+            self.cluster = cluster
+            self.createdAt = createdAt
+            self.currentDeployment = currentDeployment
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.serviceArn = serviceArn
+            self.serviceName = serviceName
+            self.status = status
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct CreateExpressGatewayServiceOutput: Swift.Sendable {
+    /// The full description of your Express service following the create operation.
+    public var service: ECSClientTypes.ECSExpressGatewayService?
+
+    public init(
+        service: ECSClientTypes.ECSExpressGatewayService? = nil
+    ) {
+        self.service = service
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum AvailabilityZoneRebalancing: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AvailabilityZoneRebalancing] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum DeploymentControllerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case codeDeploy
+        case ecs
+        case external
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentControllerType] {
+            return [
+                .codeDeploy,
+                .ecs,
+                .external
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .codeDeploy: return "CODE_DEPLOY"
+            case .ecs: return "ECS"
+            case .external: return "EXTERNAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The deployment controller to use for the service.
+    public struct DeploymentController: Swift.Sendable {
+        /// The deployment controller type to use. The deployment controller is the mechanism that determines how tasks are deployed for your service. The valid options are:
+        ///
+        /// * ECS When you create a service which uses the ECS deployment controller, you can choose between the following deployment strategies:
+        ///
+        /// * ROLLING: When you create a service which uses the rolling update (ROLLING) deployment strategy, the Amazon ECS service scheduler replaces the currently running tasks with new tasks. The number of tasks that Amazon ECS adds or removes from the service during a rolling update is controlled by the service deployment configuration. Rolling update deployments are best suited for the following scenarios:
+        ///
+        /// * Gradual service updates: You need to update your service incrementally without taking the entire service offline at once.
+        ///
+        /// * Limited resource requirements: You want to avoid the additional resource costs of running two complete environments simultaneously (as required by blue/green deployments).
+        ///
+        /// * Acceptable deployment time: Your application can tolerate a longer deployment process, as rolling updates replace tasks one by one.
+        ///
+        /// * No need for instant roll back: Your service can tolerate a rollback process that takes minutes rather than seconds.
+        ///
+        /// * Simple deployment process: You prefer a straightforward deployment approach without the complexity of managing multiple environments, target groups, and listeners.
+        ///
+        /// * No load balancer requirement: Your service doesn't use or require a load balancer, Application Load Balancer, Network Load Balancer, or Service Connect (which are required for blue/green deployments).
+        ///
+        /// * Stateful applications: Your application maintains state that makes it difficult to run two parallel environments.
+        ///
+        /// * Cost sensitivity: You want to minimize deployment costs by not running duplicate environments during deployment.
+        ///
+        ///
+        /// Rolling updates are the default deployment strategy for services and provide a balance between deployment safety and resource efficiency for many common application scenarios.
+        ///
+        /// * BLUE_GREEN: A blue/green deployment strategy (BLUE_GREEN) is a release methodology that reduces downtime and risk by running two identical production environments called blue and green. With Amazon ECS blue/green deployments, you can validate new service revisions before directing production traffic to them. This approach provides a safer way to deploy changes with the ability to quickly roll back if needed. Amazon ECS blue/green deployments are best suited for the following scenarios:
+        ///
+        /// * Service validation: When you need to validate new service revisions before directing production traffic to them
+        ///
+        /// * Zero downtime: When your service requires zero-downtime deployments
+        ///
+        /// * Instant roll back: When you need the ability to quickly roll back if issues are detected
+        ///
+        /// * Load balancer requirement: When your service uses Application Load Balancer, Network Load Balancer, or Service Connect
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// * External Use a third-party deployment controller.
+        ///
+        /// * Blue/green deployment (powered by CodeDeploy) CodeDeploy installs an updated version of the application as a new replacement task set and reroutes production traffic from the original application task set to the replacement task set. The original task set is terminated after a successful deployment. Use this deployment controller to verify a new deployment of a service before sending production traffic to it.
+        /// This member is required.
+        public var type: ECSClientTypes.DeploymentControllerType?
+
+        public init(
+            type: ECSClientTypes.DeploymentControllerType? = nil
+        ) {
+            self.type = type
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The load balancer configuration to use with a service or task set. When you add, update, or remove a load balancer configuration, Amazon ECS starts a new deployment with the updated Elastic Load Balancing configuration. This causes tasks to register to and deregister from load balancers. We recommend that you verify this on a test environment before you update the Elastic Load Balancing configuration. A service-linked role is required for services that use multiple target groups. For more information, see [Using service-linked roles](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct LoadBalancer: Swift.Sendable {
+        /// The advanced settings for the load balancer used in blue/green deployments. Specify the alternate target group, listener rules, and IAM role required for traffic shifting during blue/green deployments.
+        public var advancedConfiguration: ECSClientTypes.AdvancedConfiguration?
+        /// The name of the container (as it appears in a container definition) to associate with the load balancer. You need to specify the container name when configuring the target group for an Amazon ECS load balancer.
+        public var containerName: Swift.String?
+        /// The port on the container to associate with the load balancer. This port must correspond to a containerPort in the task definition the tasks in the service are using. For tasks that use the EC2 launch type, the container instance they're launched on must allow ingress traffic on the hostPort of the port mapping.
+        public var containerPort: Swift.Int?
+        /// The name of the load balancer to associate with the Amazon ECS service or task set. If you are using an Application Load Balancer or a Network Load Balancer the load balancer name parameter should be omitted.
+        public var loadBalancerName: Swift.String?
+        /// The full Amazon Resource Name (ARN) of the Elastic Load Balancing target group or groups associated with a service or task set. A target group ARN is only specified when using an Application Load Balancer or Network Load Balancer. For services using the ECS deployment controller, you can specify one or multiple target groups. For more information, see [Registering multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. For services using the CODE_DEPLOY deployment controller, you're required to define two target groups for the load balancer. For more information, see [Blue/green deployment with CodeDeploy](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-bluegreen.html) in the Amazon Elastic Container Service Developer Guide. If your service's task definition uses the awsvpc network mode, you must choose ip as the target type, not instance. Do this when creating your target groups because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance. This network mode is required for the Fargate launch type.
+        public var targetGroupArn: Swift.String?
+
+        public init(
+            advancedConfiguration: ECSClientTypes.AdvancedConfiguration? = nil,
+            containerName: Swift.String? = nil,
+            containerPort: Swift.Int? = nil,
+            loadBalancerName: Swift.String? = nil,
+            targetGroupArn: Swift.String? = nil
+        ) {
+            self.advancedConfiguration = advancedConfiguration
+            self.containerName = containerName
+            self.containerPort = containerPort
+            self.loadBalancerName = loadBalancerName
+            self.targetGroupArn = targetGroupArn
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum AssignPublicIp: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssignPublicIp] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An object representing the networking details for a task or service. For example awsVpcConfiguration={subnets=["subnet-12344321"],securityGroups=["sg-12344321"]}.
+    public struct AwsVpcConfiguration: Swift.Sendable {
+        /// Whether the task's elastic network interface receives a public IP address. Consider the following when you set this value:
+        ///
+        /// * When you use create-service or update-service, the default is DISABLED.
+        ///
+        /// * When the service deploymentController is ECS, the value must be DISABLED.
+        public var assignPublicIp: ECSClientTypes.AssignPublicIp?
+        /// The IDs of the security groups associated with the task or service. If you don't specify a security group, the default security group for the VPC is used. There's a limit of 5 security groups that can be specified. All specified security groups must be from the same VPC.
+        public var securityGroups: [Swift.String]?
+        /// The IDs of the subnets associated with the task or service. There's a limit of 16 subnets that can be specified. All specified subnets must be from the same VPC.
+        /// This member is required.
+        public var subnets: [Swift.String]?
+
+        public init(
+            assignPublicIp: ECSClientTypes.AssignPublicIp? = nil,
+            securityGroups: [Swift.String]? = nil,
+            subnets: [Swift.String]? = nil
+        ) {
+            self.assignPublicIp = assignPublicIp
+            self.securityGroups = securityGroups
+            self.subnets = subnets
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The network configuration for a task or service.
+    public struct NetworkConfiguration: Swift.Sendable {
+        /// The VPC subnets and security groups that are associated with a task. All specified subnets and security groups must be from the same VPC.
+        public var awsvpcConfiguration: ECSClientTypes.AwsVpcConfiguration?
+
+        public init(
+            awsvpcConfiguration: ECSClientTypes.AwsVpcConfiguration? = nil
+        ) {
+            self.awsvpcConfiguration = awsvpcConfiguration
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum PlacementConstraintType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case distinctInstance
+        case memberOf
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PlacementConstraintType] {
+            return [
+                .distinctInstance,
+                .memberOf
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .distinctInstance: return "distinctInstance"
+            case .memberOf: return "memberOf"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An object representing a constraint on task placement. For more information, see [Task placement constraints](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html) in the Amazon Elastic Container Service Developer Guide. If you're using the Fargate launch type, task placement constraints aren't supported.
+    public struct PlacementConstraint: Swift.Sendable {
+        /// A cluster query language expression to apply to the constraint. The expression can have a maximum length of 2000 characters. You can't specify an expression if the constraint type is distinctInstance. For more information, see [Cluster query language](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html) in the Amazon Elastic Container Service Developer Guide.
+        public var expression: Swift.String?
+        /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict the selection to a group of valid candidates.
+        public var type: ECSClientTypes.PlacementConstraintType?
+
+        public init(
+            expression: Swift.String? = nil,
+            type: ECSClientTypes.PlacementConstraintType? = nil
+        ) {
+            self.expression = expression
+            self.type = type
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum PlacementStrategyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case binpack
+        case random
+        case spread
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PlacementStrategyType] {
+            return [
+                .binpack,
+                .random,
+                .spread
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .binpack: return "binpack"
+            case .random: return "random"
+            case .spread: return "spread"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The task placement strategy for a task or service. For more information, see [Task placement strategies](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct PlacementStrategy: Swift.Sendable {
+        /// The field to apply the placement strategy against. For the spread placement strategy, valid values are instanceId (or host, which has the same effect), or any platform or custom attribute that's applied to a container instance, such as attribute:ecs.availability-zone. For the binpack placement strategy, valid values are cpu and memory. For the random placement strategy, this field is not used.
+        public var field: Swift.String?
+        /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that's specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory but still enough to run the task.
+        public var type: ECSClientTypes.PlacementStrategyType?
+
+        public init(
+            field: Swift.String? = nil,
+            type: ECSClientTypes.PlacementStrategyType? = nil
+        ) {
+            self.field = field
+            self.type = type
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum PropagateTags: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case service
+        case taskDefinition
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PropagateTags] {
+            return [
+                .none,
+                .service,
+                .taskDefinition
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .service: return "SERVICE"
+            case .taskDefinition: return "TASK_DEFINITION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum SchedulingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case daemon
+        case replica
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SchedulingStrategy] {
+            return [
+                .daemon,
+                .replica
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .daemon: return "DAEMON"
+            case .replica: return "REPLICA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The format for Service Connect access log output. Choose TEXT for human-readable logs or JSON for structured data that integrates well with log analysis tools.
+    public enum ServiceConnectAccessLoggingFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case json
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceConnectAccessLoggingFormat] {
+            return [
+                .json,
+                .text
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .json: return "JSON"
+            case .text: return "TEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Controls whether query parameters are included in Service Connect access logs. Consider security and privacy implications when enabling this feature. By default, this parameter is DISABLED.
+    public enum ServiceConnectIncludeQueryParameters: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceConnectIncludeQueryParameters] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Configuration for Service Connect access logging. Access logs provide detailed information about requests made to your service, including request patterns, response codes, and timing data for debugging and monitoring purposes. To enable access logs, you must also specify a logConfiguration in the serviceConnectConfiguration.
+    public struct ServiceConnectAccessLogConfiguration: Swift.Sendable {
+        /// The format for Service Connect access log output. Choose TEXT for human-readable logs or JSON for structured data that integrates well with log analysis tools.
+        /// This member is required.
+        public var format: ECSClientTypes.ServiceConnectAccessLoggingFormat?
+        /// Specifies whether to include query parameters in Service Connect access logs. When enabled, query parameters from HTTP requests are included in the access logs. Consider security and privacy implications when enabling this feature, as query parameters may contain sensitive information such as request IDs and tokens. By default, this parameter is DISABLED.
+        public var includeQueryParameters: ECSClientTypes.ServiceConnectIncludeQueryParameters?
+
+        public init(
+            format: ECSClientTypes.ServiceConnectAccessLoggingFormat? = nil,
+            includeQueryParameters: ECSClientTypes.ServiceConnectIncludeQueryParameters? = nil
+        ) {
+            self.format = format
+            self.includeQueryParameters = includeQueryParameters
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The header matching rules for test traffic routing in Amazon ECS blue/green deployments. These rules determine how incoming requests are matched based on HTTP headers to route test traffic to the new service revision.
+    public struct ServiceConnectTestTrafficHeaderMatchRules: Swift.Sendable {
+        /// The exact value that the HTTP header must match for the test traffic routing rule to apply. This provides precise control over which requests are routed to the new service revision during blue/green deployments.
+        /// This member is required.
+        public var exact: Swift.String?
+
+        public init(
+            exact: Swift.String? = nil
+        ) {
+            self.exact = exact
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The HTTP header rules used to identify and route test traffic during Amazon ECS blue/green deployments. These rules specify which HTTP headers to examine and what values to match for routing decisions. For more information, see [Service Connect for Amazon ECS blue/green deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect-blue-green.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct ServiceConnectTestTrafficHeaderRules: Swift.Sendable {
+        /// The name of the HTTP header to examine for test traffic routing. Common examples include custom headers like X-Test-Version or X-Canary-Request that can be used to identify test traffic.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The header value matching configuration that determines how the HTTP header value is evaluated for test traffic routing decisions.
+        public var value: ECSClientTypes.ServiceConnectTestTrafficHeaderMatchRules?
+
+        public init(
+            name: Swift.String? = nil,
+            value: ECSClientTypes.ServiceConnectTestTrafficHeaderMatchRules? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The test traffic routing configuration for Amazon ECS blue/green deployments. This configuration allows you to define rules for routing specific traffic to the new service revision during the deployment process, allowing for safe testing before full production traffic shift. For more information, see [Service Connect for Amazon ECS blue/green deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect-blue-green.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct ServiceConnectTestTrafficRules: Swift.Sendable {
+        /// The HTTP header-based routing rules that determine which requests should be routed to the new service version during blue/green deployment testing. These rules provide fine-grained control over test traffic routing based on request headers.
+        /// This member is required.
+        public var header: ECSClientTypes.ServiceConnectTestTrafficHeaderRules?
+
+        public init(
+            header: ECSClientTypes.ServiceConnectTestTrafficHeaderRules? = nil
+        ) {
+            self.header = header
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Each alias ("endpoint") is a fully-qualified name and port number that other tasks ("clients") can use to connect to this service. Each name and port mapping must be unique within the namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct ServiceConnectClientAlias: Swift.Sendable {
+        /// The dnsName is the name that you use in the applications of client tasks to connect to this service. The name must be a valid DNS name but doesn't need to be fully-qualified. The name can include up to 127 characters. The name can include lowercase letters, numbers, underscores (_), hyphens (-), and periods (.). The name can't start with a hyphen. If this parameter isn't specified, the default value of discoveryName.namespace is used. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace. To avoid changing your applications in client Amazon ECS services, set this to the same name that the client application uses by default. For example, a few common names are database, db, or the lowercase name of a database, such as mysql or redis. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+        public var dnsName: Swift.String?
+        /// The listening port number for the Service Connect proxy. This port is available inside of all of the tasks within the same namespace. To avoid changing your applications in client Amazon ECS services, set this to the same port that the client application uses by default. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+        /// This member is required.
+        public var port: Swift.Int?
+        /// The configuration for test traffic routing rules used during blue/green deployments with Amazon ECS Service Connect. This allows you to route a portion of traffic to the new service revision of your service for testing before shifting all production traffic.
+        public var testTrafficRules: ECSClientTypes.ServiceConnectTestTrafficRules?
+
+        public init(
+            dnsName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            testTrafficRules: ECSClientTypes.ServiceConnectTestTrafficRules? = nil
+        ) {
+            self.dnsName = dnsName
+            self.port = port
+            self.testTrafficRules = testTrafficRules
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An object that represents the timeout configurations for Service Connect. If idleTimeout is set to a time that is less than perRequestTimeout, the connection will close when the idleTimeout is reached and not the perRequestTimeout.
+    public struct TimeoutConfiguration: Swift.Sendable {
+        /// The amount of time in seconds a connection will stay active while idle. A value of 0 can be set to disable idleTimeout. The idleTimeout default for HTTP/HTTP2/GRPC is 5 minutes. The idleTimeout default for TCP is 1 hour.
+        public var idleTimeoutSeconds: Swift.Int?
+        /// The amount of time waiting for the upstream to respond with a complete response per request. A value of 0 can be set to disable perRequestTimeout. perRequestTimeout can only be set if Service Connect appProtocol isn't TCP. Only idleTimeout is allowed for TCPappProtocol.
+        public var perRequestTimeoutSeconds: Swift.Int?
+
+        public init(
+            idleTimeoutSeconds: Swift.Int? = nil,
+            perRequestTimeoutSeconds: Swift.Int? = nil
+        ) {
+            self.idleTimeoutSeconds = idleTimeoutSeconds
+            self.perRequestTimeoutSeconds = perRequestTimeoutSeconds
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The certificate root authority that secures your service.
+    public struct ServiceConnectTlsCertificateAuthority: Swift.Sendable {
+        /// The ARN of the Amazon Web Services Private Certificate Authority certificate.
+        public var awsPcaAuthorityArn: Swift.String?
+
+        public init(
+            awsPcaAuthorityArn: Swift.String? = nil
+        ) {
+            self.awsPcaAuthorityArn = awsPcaAuthorityArn
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The key that encrypts and decrypts your resources for Service Connect TLS.
+    public struct ServiceConnectTlsConfiguration: Swift.Sendable {
+        /// The signer certificate authority.
+        /// This member is required.
+        public var issuerCertificateAuthority: ECSClientTypes.ServiceConnectTlsCertificateAuthority?
+        /// The Amazon Web Services Key Management Service key.
+        public var kmsKey: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role that's associated with the Service Connect TLS.
+        public var roleArn: Swift.String?
+
+        public init(
+            issuerCertificateAuthority: ECSClientTypes.ServiceConnectTlsCertificateAuthority? = nil,
+            kmsKey: Swift.String? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.issuerCertificateAuthority = issuerCertificateAuthority
+            self.kmsKey = kmsKey
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The Service Connect service object configuration. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct ServiceConnectService: Swift.Sendable {
+        /// The list of client aliases for this Service Connect service. You use these to assign names that can be used by client applications. The maximum number of client aliases that you can have in this list is 1. Each alias ("endpoint") is a fully-qualified name and port number that other Amazon ECS tasks ("clients") can use to connect to this service. Each name and port mapping must be unique within the namespace. For each ServiceConnectService, you must provide at least one clientAlias with one port.
+        public var clientAliases: [ECSClientTypes.ServiceConnectClientAlias]?
+        /// The discoveryName is the name of the new Cloud Map service that Amazon ECS creates for this Amazon ECS service. This must be unique within the Cloud Map namespace. The name can contain up to 64 characters. The name can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace.
+        public var discoveryName: Swift.String?
+        /// The port number for the Service Connect proxy to listen on. Use the value of this field to bypass the proxy for traffic on the port number specified in the named portMapping in the task definition of this application, and then use it in your VPC security groups to allow traffic into the proxy for this Amazon ECS service. In awsvpc mode and Fargate, the default value is the container port number. The container port number is in the portMapping in the task definition. In bridge mode, the default value is the ephemeral port of the Service Connect proxy.
+        public var ingressPortOverride: Swift.Int?
+        /// The portName must match the name of one of the portMappings from all the containers in the task definition of this Amazon ECS service.
+        /// This member is required.
+        public var portName: Swift.String?
+        /// A reference to an object that represents the configured timeouts for Service Connect.
+        public var timeout: ECSClientTypes.TimeoutConfiguration?
+        /// A reference to an object that represents a Transport Layer Security (TLS) configuration.
+        public var tls: ECSClientTypes.ServiceConnectTlsConfiguration?
+
+        public init(
+            clientAliases: [ECSClientTypes.ServiceConnectClientAlias]? = nil,
+            discoveryName: Swift.String? = nil,
+            ingressPortOverride: Swift.Int? = nil,
+            portName: Swift.String? = nil,
+            timeout: ECSClientTypes.TimeoutConfiguration? = nil,
+            tls: ECSClientTypes.ServiceConnectTlsConfiguration? = nil
+        ) {
+            self.clientAliases = clientAliases
+            self.discoveryName = discoveryName
+            self.ingressPortOverride = ingressPortOverride
+            self.portName = portName
+            self.timeout = timeout
+            self.tls = tls
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The Service Connect configuration of your Amazon ECS service. The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct ServiceConnectConfiguration: Swift.Sendable {
+        /// The configuration for Service Connect access logging. Access logs capture detailed information about requests made to your service, including request patterns, response codes, and timing data. They can be useful for debugging connectivity issues, monitoring service performance, and auditing service-to-service communication for security and compliance purposes. To enable access logs, you must also specify a logConfiguration in the serviceConnectConfiguration.
+        public var accessLogConfiguration: ECSClientTypes.ServiceConnectAccessLogConfiguration?
+        /// Specifies whether to use Service Connect with this service.
+        /// This member is required.
+        public var enabled: Swift.Bool
+        /// The log configuration for the container. This parameter maps to LogConfig in the docker container create command and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses. However, the container might use a different logging driver than the Docker daemon by specifying a log driver configuration in the container definition. Understand the following when specifying a log configuration for your containers.
+        ///
+        /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens.
+        ///
+        /// * This parameter requires version 1.18 of the Docker Remote API or greater on your container instance.
+        ///
+        /// * For tasks that are hosted on Amazon EC2 instances, the Amazon ECS container agent must register the available logging drivers with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
+        ///
+        /// * For tasks that are on Fargate, because you don't have access to the underlying infrastructure your tasks are hosted on, any additional software needed must be installed outside of the task. For example, the Fluentd output aggregators or a remote host running Logstash to send Gelf logs to.
+        public var logConfiguration: ECSClientTypes.LogConfiguration?
+        /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map namespace for use with Service Connect. The namespace must be in the same Amazon Web Services Region as the Amazon ECS service and cluster. The type of namespace doesn't affect Service Connect. For more information about Cloud Map, see [Working with Services](https://docs.aws.amazon.com/cloud-map/latest/dg/working-with-services.html) in the Cloud Map Developer Guide.
+        public var namespace: Swift.String?
+        /// The list of Service Connect service objects. These are names and aliases (also known as endpoints) that are used by other Amazon ECS services to connect to this service. This field is not required for a "client" Amazon ECS service that's a member of a namespace only to connect to other services within the namespace. An example of this would be a frontend application that accepts incoming requests from either a load balancer that's attached to the service or by other means. An object selects a port from the task definition, assigns a name for the Cloud Map service, and a list of aliases (endpoints) and ports for client applications to refer to this service.
+        public var services: [ECSClientTypes.ServiceConnectService]?
+
+        public init(
+            accessLogConfiguration: ECSClientTypes.ServiceConnectAccessLogConfiguration? = nil,
+            enabled: Swift.Bool = false,
+            logConfiguration: ECSClientTypes.LogConfiguration? = nil,
+            namespace: Swift.String? = nil,
+            services: [ECSClientTypes.ServiceConnectService]? = nil
+        ) {
+            self.accessLogConfiguration = accessLogConfiguration
+            self.enabled = enabled
+            self.logConfiguration = logConfiguration
+            self.namespace = namespace
+            self.services = services
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The details for the service registry. Each service may be associated with one service registry. Multiple service registries for each service are not supported. When you add, update, or remove the service registries configuration, Amazon ECS starts a new deployment. New tasks are registered and deregistered to the updated service registry configuration.
+    public struct ServiceRegistry: Swift.Sendable {
+        /// The container name value to be used for your service discovery service. It's already specified in the task definition. If the task definition that your service task specifies uses the bridge or host network mode, you must specify a containerName and containerPort combination from the task definition. If the task definition that your service task specifies uses the awsvpc network mode and a type SRV DNS record is used, you must specify either a containerName and containerPort combination or a port value. However, you can't specify both.
+        public var containerName: Swift.String?
+        /// The port value to be used for your service discovery service. It's already specified in the task definition. If the task definition your service task specifies uses the bridge or host network mode, you must specify a containerName and containerPort combination from the task definition. If the task definition your service task specifies uses the awsvpc network mode and a type SRV DNS record is used, you must specify either a containerName and containerPort combination or a port value. However, you can't specify both.
+        public var containerPort: Swift.Int?
+        /// The port value used if your service discovery service specified an SRV record. This field might be used if both the awsvpc network mode and SRV records are used.
+        public var port: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the service registry. The currently supported service registry is Cloud Map. For more information, see [CreateService](https://docs.aws.amazon.com/cloud-map/latest/api/API_CreateService.html).
+        public var registryArn: Swift.String?
+
+        public init(
+            containerName: Swift.String? = nil,
+            containerPort: Swift.Int? = nil,
+            port: Swift.Int? = nil,
+            registryArn: Swift.String? = nil
+        ) {
+            self.containerName = containerName
+            self.containerPort = containerPort
+            self.port = port
+            self.registryArn = registryArn
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum TaskFilesystemType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ext3
+        case ext4
+        case ntfs
+        case xfs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TaskFilesystemType] {
+            return [
+                .ext3,
+                .ext4,
+                .ntfs,
+                .xfs
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ext3: return "ext3"
+            case .ext4: return "ext4"
+            case .ntfs: return "ntfs"
+            case .xfs: return "xfs"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum EBSResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case volume
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EBSResourceType] {
+            return [
+                .volume
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .volume: return "volume"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The tag specifications of an Amazon EBS volume.
+    public struct EBSTagSpecification: Swift.Sendable {
+        /// Determines whether to propagate the tags from the task definition to the Amazon EBS volume. Tags can only propagate to a SERVICE specified in ServiceVolumeConfiguration. If no value is specified, the tags aren't propagated.
+        public var propagateTags: ECSClientTypes.PropagateTags?
+        /// The type of volume resource.
+        /// This member is required.
+        public var resourceType: ECSClientTypes.EBSResourceType?
+        /// The tags applied to this Amazon EBS volume. AmazonECSCreated and AmazonECSManaged are reserved tags that can't be used.
+        public var tags: [ECSClientTypes.Tag]?
+
+        public init(
+            propagateTags: ECSClientTypes.PropagateTags? = nil,
+            resourceType: ECSClientTypes.EBSResourceType? = nil,
+            tags: [ECSClientTypes.Tag]? = nil
+        ) {
+            self.propagateTags = propagateTags
+            self.resourceType = resourceType
+            self.tags = tags
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The configuration for the Amazon EBS volume that Amazon ECS creates and manages on your behalf. These settings are used to create each Amazon EBS volume, with one volume created for each task in the service. For information about the supported launch types and operating systems, see [Supported operating systems and launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volumes-configuration) in the Amazon Elastic Container Service Developer Guide. Many of these parameters map 1:1 with the Amazon EBS CreateVolume API request parameters.
+    public struct ServiceManagedEBSVolumeConfiguration: Swift.Sendable {
+        /// Indicates whether the volume should be encrypted. If you turn on Region-level Amazon EBS encryption by default but set this value as false, the setting is overridden and the volume is encrypted with the KMS key specified for Amazon EBS encryption by default. This parameter maps 1:1 with the Encrypted parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        public var encrypted: Swift.Bool?
+        /// The filesystem type for the volume. For volumes created from a snapshot, you must specify the same filesystem type that the volume was using when the snapshot was created. If there is a filesystem type mismatch, the tasks will fail to start. The available Linux filesystem types are ext3, ext4, and xfs. If no value is specified, the xfs filesystem type is used by default. The available Windows filesystem types are NTFS.
+        public var filesystemType: ECSClientTypes.TaskFilesystemType?
+        /// The number of I/O operations per second (IOPS). For gp3, io1, and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. The following are the supported values for each volume type.
+        ///
+        /// * gp3: 3,000 - 16,000 IOPS
+        ///
+        /// * io1: 100 - 64,000 IOPS
+        ///
+        /// * io2: 100 - 256,000 IOPS
+        ///
+        ///
+        /// This parameter is required for io1 and io2 volume types. The default for gp3 volumes is 3,000 IOPS. This parameter is not supported for st1, sc1, or standard volume types. This parameter maps 1:1 with the Iops parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        public var iops: Swift.Int?
+        /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When a key is specified using this parameter, it overrides Amazon EBS default encryption or any KMS key that you specified for cluster-level managed storage encryption. This parameter maps 1:1 with the KmsKeyId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. For more information about encrypting Amazon EBS volumes attached to tasks, see [Encrypt data stored in Amazon EBS volumes attached to Amazon ECS tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-kms-encryption.html). Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an ID, alias, or ARN that is invalid, the action can appear to complete, but eventually fails.
+        public var kmsKeyId: Swift.String?
+        /// The ARN of the IAM role to associate with this volume. This is the Amazon ECS infrastructure IAM role that is used to manage your Amazon Web Services infrastructure. We recommend using the Amazon ECS-managed AmazonECSInfrastructureRolePolicyForVolumes IAM policy with this role. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The size of the volume in GiB. You must specify either a volume size or a snapshot ID. If you specify a snapshot ID, the snapshot size is used for the volume size by default. You can optionally specify a volume size greater than or equal to the snapshot size. This parameter maps 1:1 with the Size parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. The following are the supported volume size values for each volume type.
+        ///
+        /// * gp2 and gp3: 1-16,384
+        ///
+        /// * io1 and io2: 4-16,384
+        ///
+        /// * st1 and sc1: 125-16,384
+        ///
+        /// * standard: 1-1,024
+        public var sizeInGiB: Swift.Int?
+        /// The snapshot that Amazon ECS uses to create volumes for attachment to tasks maintained by the service. You must specify either snapshotId or sizeInGiB in your volume configuration. This parameter maps 1:1 with the SnapshotId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        public var snapshotId: Swift.String?
+        /// The tags to apply to the volume. Amazon ECS applies service-managed tags by default. This parameter maps 1:1 with the TagSpecifications.N parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        public var tagSpecifications: [ECSClientTypes.EBSTagSpecification]?
+        /// The throughput to provision for a volume, in MiB/s, with a maximum of 1,000 MiB/s. This parameter maps 1:1 with the Throughput parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. This parameter is only supported for the gp3 volume type.
+        public var throughput: Swift.Int?
+        /// The rate, in MiB/s, at which data is fetched from a snapshot of an existing EBS volume to create new volumes for attachment to the tasks maintained by the service. This property can be specified only if you specify a snapshotId. For more information, see [Initialize Amazon EBS volumes](https://docs.aws.amazon.com/ebs/latest/userguide/initalize-volume.html) in the Amazon EBS User Guide.
+        public var volumeInitializationRate: Swift.Int?
+        /// The volume type. This parameter maps 1:1 with the VolumeType parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. For more information, see [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html) in the Amazon EC2 User Guide. The following are the supported volume types.
+        ///
+        /// * General Purpose SSD: gp2|gp3
+        ///
+        /// * Provisioned IOPS SSD: io1|io2
+        ///
+        /// * Throughput Optimized HDD: st1
+        ///
+        /// * Cold HDD: sc1
+        ///
+        /// * Magnetic: standard The magnetic volume type is not supported on Fargate.
+        public var volumeType: Swift.String?
+
+        public init(
+            encrypted: Swift.Bool? = nil,
+            filesystemType: ECSClientTypes.TaskFilesystemType? = nil,
+            iops: Swift.Int? = nil,
+            kmsKeyId: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            sizeInGiB: Swift.Int? = nil,
+            snapshotId: Swift.String? = nil,
+            tagSpecifications: [ECSClientTypes.EBSTagSpecification]? = nil,
+            throughput: Swift.Int? = nil,
+            volumeInitializationRate: Swift.Int? = nil,
+            volumeType: Swift.String? = nil
+        ) {
+            self.encrypted = encrypted
+            self.filesystemType = filesystemType
+            self.iops = iops
+            self.kmsKeyId = kmsKeyId
+            self.roleArn = roleArn
+            self.sizeInGiB = sizeInGiB
+            self.snapshotId = snapshotId
+            self.tagSpecifications = tagSpecifications
+            self.throughput = throughput
+            self.volumeInitializationRate = volumeInitializationRate
+            self.volumeType = volumeType
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The configuration for a volume specified in the task definition as a volume that is configured at launch time. Currently, the only supported volume type is an Amazon EBS volume.
+    public struct ServiceVolumeConfiguration: Swift.Sendable {
+        /// The configuration for the Amazon EBS volume that Amazon ECS creates and manages on your behalf. These settings are used to create each Amazon EBS volume, with one volume created for each task in the service. The Amazon EBS volumes are visible in your account in the Amazon EC2 console once they are created.
+        public var managedEBSVolume: ECSClientTypes.ServiceManagedEBSVolumeConfiguration?
+        /// The name of the volume. This value must match the volume name from the Volume object in the task definition.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            managedEBSVolume: ECSClientTypes.ServiceManagedEBSVolumeConfiguration? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.managedEBSVolume = managedEBSVolume
+            self.name = name
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The VPC Lattice configuration for your service that holds the information for the target group(s) Amazon ECS tasks will be registered to.
+    public struct VpcLatticeConfiguration: Swift.Sendable {
+        /// The name of the port mapping to register in the VPC Lattice target group. This is the name of the portMapping you defined in your task definition.
+        /// This member is required.
+        public var portName: Swift.String?
+        /// The ARN of the IAM role to associate with this VPC Lattice configuration. This is the Amazon ECS infrastructure IAM role that is used to manage your VPC Lattice infrastructure.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The full Amazon Resource Name (ARN) of the target group or groups associated with the VPC Lattice configuration that the Amazon ECS tasks will be registered to.
+        /// This member is required.
+        public var targetGroupArn: Swift.String?
+
+        public init(
+            portName: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            targetGroupArn: Swift.String? = nil
+        ) {
+            self.portName = portName
+            self.roleArn = roleArn
+            self.targetGroupArn = targetGroupArn
+        }
+    }
+}
+
+///
+public struct CreateServiceInput: Swift.Sendable {
+    /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide . The default behavior of AvailabilityZoneRebalancing differs between create and update requests:
+    ///
+    /// * For create service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to ENABLED.
+    ///
+    /// * For update service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults to the existing service’s AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as DISABLED.
+    public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
+    /// The capacity provider strategy to use for the service. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. A capacity provider strategy can contain a maximum of 20 capacity providers.
+    public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
+    /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126 (inclusive) are allowed.
+    public var clientToken: Swift.String?
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that you run your service on. If you do not specify a cluster, the default cluster is assumed.
+    public var cluster: Swift.String?
+    /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
+    public var deploymentConfiguration: ECSClientTypes.DeploymentConfiguration?
+    /// The deployment controller to use for the service. If no deployment controller is specified, the default value of ECS is used.
+    public var deploymentController: ECSClientTypes.DeploymentController?
+    /// The number of instantiations of the specified task definition to place and keep running in your service. This is required if schedulingStrategy is REPLICA or isn't specified. If schedulingStrategy is DAEMON then this isn't required.
+    public var desiredCount: Swift.Int?
+    /// Specifies whether to turn on Amazon ECS managed tags for the tasks within the service. For more information, see [Tagging your Amazon ECS resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide. When you use Amazon ECS managed tags, you must set the propagateTags request parameter.
+    public var enableECSManagedTags: Swift.Bool?
+    /// Determines whether the execute command functionality is turned on for the service. If true, this enables execute command functionality on all containers in the service tasks.
+    public var enableExecuteCommand: Swift.Bool?
+    /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you do not specify a health check grace period value, the default value of 0 is used. If you do not use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count.
+    public var healthCheckGracePeriodSeconds: Swift.Int?
+    /// The infrastructure that you run your service on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html) in the Amazon ECS Developer Guide. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A service can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
+    public var launchType: ECSClientTypes.LaunchType?
+    /// A load balancer object representing the load balancers to use with your service. For more information, see [Service load balancing](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html) in the Amazon Elastic Container Service Developer Guide. If the service uses the ECS deployment controller and using either an Application Load Balancer or Network Load Balancer, you must specify one or more target group ARNs to attach to the service. The service-linked role is required for services that use multiple target groups. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide. If the service uses the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, CodeDeploy determines which task set in your service has the status PRIMARY, and it associates one target group with it. Then, it also associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that you can use to perform validation tests with Lambda functions before routing production traffic to it. If you use the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name, and the container port to access from the load balancer. The container name must be as it appears in a container definition. The load balancer name parameter must be omitted. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group that's specified here. For Classic Load Balancers, this object must contain the load balancer name, the container name , and the container port to access from the load balancer. The container name must be as it appears in a container definition. The target group ARN parameter must be omitted. When a task from this service is placed on a container instance, the container instance is registered with the load balancer that's specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers aren't supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance. This is because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
+    public var loadBalancers: [ECSClientTypes.LoadBalancer]?
+    /// The network configuration for the service. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it isn't supported for other network modes. For more information, see [Task networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide.
+    public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
+    /// An array of placement constraint objects to use for tasks in your service. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime.
+    public var placementConstraints: [ECSClientTypes.PlacementConstraint]?
+    /// The placement strategy objects to use for tasks in your service. You can specify a maximum of 5 strategy rules for each service.
+    public var placementStrategy: [ECSClientTypes.PlacementStrategy]?
+    /// The platform version that your tasks in the service are running on. A platform version is specified only for tasks using the Fargate launch type. If one isn't specified, the LATEST platform version is used. For more information, see [Fargate platform versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide.
+    public var platformVersion: Swift.String?
+    /// Specifies whether to propagate the tags from the task definition to the task. If no value is specified, the tags aren't propagated. Tags can only be propagated to the task during task creation. To add tags to a task after task creation, use the [TagResource](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TagResource.html) API action. You must set this to a value other than NONE when you use Cost Explorer. For more information, see [Amazon ECS usage reports](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/usage-reports.html) in the Amazon Elastic Container Service Developer Guide. The default is NONE.
+    public var propagateTags: ECSClientTypes.PropagateTags?
+    /// The name or full Amazon Resource Name (ARN) of the IAM role that allows Amazon ECS to make calls to your load balancer on your behalf. This parameter is only permitted if you are using a load balancer with your service and your task definition doesn't use the awsvpc network mode. If you specify the role parameter, you must also specify a load balancer object with the loadBalancers parameter. If your account has already created the Amazon ECS service-linked role, that role is used for your service unless you specify a role here. The service-linked role is required if your task definition uses the awsvpc network mode or if the service is configured to use service discovery, an external deployment controller, multiple target groups, or Elastic Inference accelerators in which case you don't specify a role here. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide. If your specified role has a path other than /, then you must either specify the full role ARN (this is recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/ then you would specify /foo/bar as the role name. For more information, see [Friendly names and paths](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) in the IAM User Guide.
+    public var role: Swift.String?
+    /// The scheduling strategy to use for the service. For more information, see [Services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html). There are two service scheduler strategies available:
+    ///
+    /// * REPLICA-The replica scheduling strategy places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions. This scheduler strategy is required if the service uses the CODE_DEPLOY or EXTERNAL deployment controller types.
+    ///
+    /// * DAEMON-The daemon scheduling strategy deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. The service scheduler also evaluates the task placement constraints for running tasks and will stop tasks that don't meet the placement constraints. When you're using this strategy, you don't need to specify a desired number of tasks, a task placement strategy, or use Service Auto Scaling policies. Tasks using the Fargate launch type or the CODE_DEPLOY or EXTERNAL deployment controller types don't support the DAEMON scheduling strategy.
+    public var schedulingStrategy: ECSClientTypes.SchedulingStrategy?
+    /// The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    public var serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration?
+    /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. Service names must be unique within a cluster, but you can have similarly named services in multiple clusters within a Region or across multiple Regions.
+    /// This member is required.
+    public var serviceName: Swift.String?
+    /// The details of the service discovery registry to associate with this service. For more information, see [Service discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html). Each service may be associated with one service registry. Multiple service registries for each service isn't supported.
+    public var serviceRegistries: [ECSClientTypes.ServiceRegistry]?
+    /// The metadata that you apply to the service to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. When a service is deleted, the tags are deleted as well. The following basic restrictions apply to tags:
+    ///
+    /// * Maximum number of tags per resource - 50
+    ///
+    /// * For each resource, each tag key must be unique, and each tag key can have only one value.
+    ///
+    /// * Maximum key length - 128 Unicode characters in UTF-8
+    ///
+    /// * Maximum value length - 256 Unicode characters in UTF-8
+    ///
+    /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
+    ///
+    /// * Tag keys and values are case-sensitive.
+    ///
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+    public var tags: [ECSClientTypes.Tag]?
+    /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision isn't specified, the latest ACTIVE revision is used. A task definition must be specified if the service uses either the ECS or CODE_DEPLOY deployment controllers. For more information about deployment types, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html).
+    public var taskDefinition: Swift.String?
+    /// The configuration for a volume specified in the task definition as a volume that is configured at launch time. Currently, the only supported volume type is an Amazon EBS volume.
+    public var volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]?
+    /// The VPC Lattice configuration for the service being created.
+    public var vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]?
+
+    public init(
+        availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing? = nil,
+        capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
+        clientToken: Swift.String? = nil,
+        cluster: Swift.String? = nil,
+        deploymentConfiguration: ECSClientTypes.DeploymentConfiguration? = nil,
+        deploymentController: ECSClientTypes.DeploymentController? = nil,
+        desiredCount: Swift.Int? = nil,
+        enableECSManagedTags: Swift.Bool? = false,
+        enableExecuteCommand: Swift.Bool? = false,
+        healthCheckGracePeriodSeconds: Swift.Int? = nil,
+        launchType: ECSClientTypes.LaunchType? = nil,
+        loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
+        networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
+        placementConstraints: [ECSClientTypes.PlacementConstraint]? = nil,
+        placementStrategy: [ECSClientTypes.PlacementStrategy]? = nil,
+        platformVersion: Swift.String? = nil,
+        propagateTags: ECSClientTypes.PropagateTags? = nil,
+        role: Swift.String? = nil,
+        schedulingStrategy: ECSClientTypes.SchedulingStrategy? = nil,
+        serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration? = nil,
+        serviceName: Swift.String? = nil,
+        serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
+        tags: [ECSClientTypes.Tag]? = nil,
+        taskDefinition: Swift.String? = nil,
+        volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil,
+        vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]? = nil
+    ) {
+        self.availabilityZoneRebalancing = availabilityZoneRebalancing
+        self.capacityProviderStrategy = capacityProviderStrategy
+        self.clientToken = clientToken
+        self.cluster = cluster
+        self.deploymentConfiguration = deploymentConfiguration
+        self.deploymentController = deploymentController
+        self.desiredCount = desiredCount
+        self.enableECSManagedTags = enableECSManagedTags
+        self.enableExecuteCommand = enableExecuteCommand
+        self.healthCheckGracePeriodSeconds = healthCheckGracePeriodSeconds
+        self.launchType = launchType
+        self.loadBalancers = loadBalancers
+        self.networkConfiguration = networkConfiguration
+        self.placementConstraints = placementConstraints
+        self.placementStrategy = placementStrategy
+        self.platformVersion = platformVersion
+        self.propagateTags = propagateTags
+        self.role = role
+        self.schedulingStrategy = schedulingStrategy
+        self.serviceConnectConfiguration = serviceConnectConfiguration
+        self.serviceName = serviceName
+        self.serviceRegistries = serviceRegistries
+        self.tags = tags
+        self.taskDefinition = taskDefinition
+        self.volumeConfigurations = volumeConfigurations
+        self.vpcLatticeConfigurations = vpcLatticeConfigurations
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The summary of the current service revision configuration
+    public struct ServiceCurrentRevisionSummary: Swift.Sendable {
+        /// The ARN of the current service revision.
+        public var arn: Swift.String?
+        /// The number of pending tasks in the current service revision
+        public var pendingTaskCount: Swift.Int
+        /// The number of requested tasks in the current service revision
+        public var requestedTaskCount: Swift.Int
+        /// The number of running tasks of the current service revision
+        public var runningTaskCount: Swift.Int
+
+        public init(
+            arn: Swift.String? = nil,
+            pendingTaskCount: Swift.Int = 0,
+            requestedTaskCount: Swift.Int = 0,
+            runningTaskCount: Swift.Int = 0
+        ) {
+            self.arn = arn
+            self.pendingTaskCount = pendingTaskCount
+            self.requestedTaskCount = requestedTaskCount
+            self.runningTaskCount = runningTaskCount
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The amount of ephemeral storage to allocate for the deployment.
+    public struct DeploymentEphemeralStorage: Swift.Sendable {
+        /// Specify an Key Management Service key ID to encrypt the ephemeral storage for deployment.
+        public var kmsKeyId: Swift.String?
+
+        public init(
+            kmsKeyId: Swift.String? = nil
+        ) {
+            self.kmsKeyId = kmsKeyId
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum DeploymentRolloutState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentRolloutState] {
+            return [
+                .completed,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The Service Connect resource. Each configuration maps a discovery name to a Cloud Map service name. The data is stored in Cloud Map as part of the Service Connect configuration for each discovery name of this Amazon ECS service. A task can resolve the dnsName for each of the clientAliases of a service. However a task can't resolve the discovery names. If you want to connect to a service, refer to the ServiceConnectConfiguration of that service for the list of clientAliases that you can use.
+    public struct ServiceConnectServiceResource: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for the service in Cloud Map that matches the discovery name for this Service Connect resource. You can use this ARN in other integrations with Cloud Map. However, Service Connect can't ensure connectivity outside of Amazon ECS.
+        public var discoveryArn: Swift.String?
+        /// The discovery name of this Service Connect resource. The discoveryName is the name of the new Cloud Map service that Amazon ECS creates for this Amazon ECS service. This must be unique within the Cloud Map namespace. The name can contain up to 64 characters. The name can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace.
+        public var discoveryName: Swift.String?
+
+        public init(
+            discoveryArn: Swift.String? = nil,
+            discoveryName: Swift.String? = nil
+        ) {
+            self.discoveryArn = discoveryArn
+            self.discoveryName = discoveryName
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The details of an Amazon ECS service deployment. This is used only when a service uses the ECS deployment controller type.
+    public struct Deployment: Swift.Sendable {
+        /// The capacity provider strategy that the deployment is using.
+        public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
+        /// The Unix timestamp for the time when the service deployment was created.
+        public var createdAt: Foundation.Date?
+        /// The most recent desired count of tasks that was specified for the service to deploy or maintain.
+        public var desiredCount: Swift.Int
+        /// The number of consecutively failed tasks in the deployment. A task is considered a failure if the service scheduler can't launch the task, the task doesn't transition to a RUNNING state, or if it fails any of its defined health checks and is stopped. Once a service deployment has one or more successfully running tasks, the failed task count resets to zero and stops being evaluated.
+        public var failedTasks: Swift.Int
+        /// The Fargate ephemeral storage settings for the deployment.
+        public var fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage?
+        /// The ID of the deployment.
+        public var id: Swift.String?
+        /// The launch type the tasks in the service are using. For more information, see [Amazon ECS Launch Types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide.
+        public var launchType: ECSClientTypes.LaunchType?
+        /// The VPC subnet and security group configuration for tasks that receive their own elastic network interface by using the awsvpc networking mode.
+        public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
+        /// The number of tasks in the deployment that are in the PENDING status.
+        public var pendingCount: Swift.Int
+        /// The operating system that your tasks in the service, or tasks are running on. A platform family is specified only for tasks using the Fargate launch type. All tasks that run as part of this service must use the same platformFamily value as the service, for example,  LINUX..
+        public var platformFamily: Swift.String?
+        /// The platform version that your tasks in the service run on. A platform version is only specified for tasks using the Fargate launch type. If one isn't specified, the LATEST platform version is used. For more information, see [Fargate Platform Versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide.
+        public var platformVersion: Swift.String?
+        /// The rolloutState of a service is only returned for services that use the rolling update (ECS) deployment type that aren't behind a Classic Load Balancer. The rollout state of the deployment. When a service deployment is started, it begins in an IN_PROGRESS state. When the service reaches a steady state, the deployment transitions to a COMPLETED state. If the service fails to reach a steady state and circuit breaker is turned on, the deployment transitions to a FAILED state. A deployment in FAILED state doesn't launch any new tasks. For more information, see [DeploymentCircuitBreaker](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeploymentCircuitBreaker.html).
+        public var rolloutState: ECSClientTypes.DeploymentRolloutState?
+        /// A description of the rollout state of a deployment.
+        public var rolloutStateReason: Swift.String?
+        /// The number of tasks in the deployment that are in the RUNNING status.
+        public var runningCount: Swift.Int
+        /// The details of the Service Connect configuration that's used by this deployment. Compare the configuration between multiple deployments when troubleshooting issues with new deployments. The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+        public var serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration?
+        /// The list of Service Connect resources that are associated with this deployment. Each list entry maps a discovery name to a Cloud Map service name.
+        public var serviceConnectResources: [ECSClientTypes.ServiceConnectServiceResource]?
+        /// The status of the deployment. The following describes each state. PRIMARY The most recent deployment of a service. ACTIVE A service deployment that still has running tasks, but are in the process of being replaced with a new PRIMARY deployment. INACTIVE A deployment that has been completely replaced.
+        public var status: Swift.String?
+        /// The most recent task definition that was specified for the tasks in the service to use.
+        public var taskDefinition: Swift.String?
+        /// The Unix timestamp for the time when the service deployment was last updated.
+        public var updatedAt: Foundation.Date?
+        /// The details of the volume that was configuredAtLaunch. You can configure different settings like the size, throughput, volumeType, and ecryption in [ServiceManagedEBSVolumeConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ServiceManagedEBSVolumeConfiguration.html). The name of the volume must match the name from the task definition.
+        public var volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]?
+        /// The VPC Lattice configuration for the service deployment.
+        public var vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]?
+
+        public init(
+            capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
+            createdAt: Foundation.Date? = nil,
+            desiredCount: Swift.Int = 0,
+            failedTasks: Swift.Int = 0,
+            fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage? = nil,
+            id: Swift.String? = nil,
+            launchType: ECSClientTypes.LaunchType? = nil,
+            networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
+            pendingCount: Swift.Int = 0,
+            platformFamily: Swift.String? = nil,
+            platformVersion: Swift.String? = nil,
+            rolloutState: ECSClientTypes.DeploymentRolloutState? = nil,
+            rolloutStateReason: Swift.String? = nil,
+            runningCount: Swift.Int = 0,
+            serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration? = nil,
+            serviceConnectResources: [ECSClientTypes.ServiceConnectServiceResource]? = nil,
+            status: Swift.String? = nil,
+            taskDefinition: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil,
+            volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil,
+            vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]? = nil
+        ) {
+            self.capacityProviderStrategy = capacityProviderStrategy
+            self.createdAt = createdAt
+            self.desiredCount = desiredCount
+            self.failedTasks = failedTasks
+            self.fargateEphemeralStorage = fargateEphemeralStorage
+            self.id = id
+            self.launchType = launchType
+            self.networkConfiguration = networkConfiguration
+            self.pendingCount = pendingCount
+            self.platformFamily = platformFamily
+            self.platformVersion = platformVersion
+            self.rolloutState = rolloutState
+            self.rolloutStateReason = rolloutStateReason
+            self.runningCount = runningCount
+            self.serviceConnectConfiguration = serviceConnectConfiguration
+            self.serviceConnectResources = serviceConnectResources
+            self.status = status
+            self.taskDefinition = taskDefinition
+            self.updatedAt = updatedAt
+            self.volumeConfigurations = volumeConfigurations
+            self.vpcLatticeConfigurations = vpcLatticeConfigurations
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The details for an event that's associated with a service.
+    public struct ServiceEvent: Swift.Sendable {
+        /// The Unix timestamp for the time when the event was triggered.
+        public var createdAt: Foundation.Date?
+        /// The ID string for the event.
+        public var id: Swift.String?
+        /// The event message.
+        public var message: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.id = id
+            self.message = message
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ResourceManagementType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customer
+        case ecs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceManagementType] {
+            return [
+                .customer,
+                .ecs
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customer: return "CUSTOMER"
+            case .ecs: return "ECS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ScaleUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case percent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScaleUnit] {
+            return [
+                .percent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .percent: return "PERCENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A floating-point percentage of the desired number of tasks to place and keep running in the task set.
+    public struct Scale: Swift.Sendable {
+        /// The unit of measure for the scale value.
+        public var unit: ECSClientTypes.ScaleUnit?
+        /// The value, specified as a percent total of a service's desiredCount, to scale the task set. Accepted values are numbers between 0 and 100.
+        public var value: Swift.Double
+
+        public init(
+            unit: ECSClientTypes.ScaleUnit? = nil,
+            value: Swift.Double = 0.0
+        ) {
+            self.unit = unit
+            self.value = value
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum StabilityStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case stabilizing
+        case steadyState
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StabilityStatus] {
+            return [
+                .stabilizing,
+                .steadyState
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .stabilizing: return "STABILIZING"
+            case .steadyState: return "STEADY_STATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Information about a set of Amazon ECS tasks in either an CodeDeploy or an EXTERNAL deployment. An Amazon ECS task set includes details such as the desired number of tasks, how many tasks are running, and whether the task set serves production traffic.
+    public struct TaskSet: Swift.Sendable {
+        /// The capacity provider strategy that are associated with the task set.
+        public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
+        /// The Amazon Resource Name (ARN) of the cluster that the service that hosts the task set exists in.
+        public var clusterArn: Swift.String?
+        /// The computed desired count for the task set. This is calculated by multiplying the service's desiredCount by the task set's scale percentage. The result is always rounded up. For example, if the computed desired count is 1.2, it rounds up to 2 tasks.
+        public var computedDesiredCount: Swift.Int
+        /// The Unix timestamp for the time when the task set was created.
+        public var createdAt: Foundation.Date?
+        /// The external ID associated with the task set. If an CodeDeploy deployment created a task set, the externalId parameter contains the CodeDeploy deployment ID. If a task set is created for an external deployment and is associated with a service discovery registry, the externalId parameter contains the ECS_TASK_SET_EXTERNAL_ID Cloud Map attribute.
+        public var externalId: Swift.String?
+        /// The Fargate ephemeral storage settings for the task set.
+        public var fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage?
+        /// The ID of the task set.
+        public var id: Swift.String?
+        /// The launch type the tasks in the task set are using. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide.
+        public var launchType: ECSClientTypes.LaunchType?
+        /// Details on a load balancer that are used with a task set.
+        public var loadBalancers: [ECSClientTypes.LoadBalancer]?
+        /// The network configuration for the task set.
+        public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
+        /// The number of tasks in the task set that are in the PENDING status during a deployment. A task in the PENDING state is preparing to enter the RUNNING state. A task set enters the PENDING status when it launches for the first time or when it's restarted after being in the STOPPED state.
+        public var pendingCount: Swift.Int
+        /// The operating system that your tasks in the set are running on. A platform family is specified only for tasks that use the Fargate launch type. All tasks in the set must have the same value.
+        public var platformFamily: Swift.String?
+        /// The Fargate platform version where the tasks in the task set are running. A platform version is only specified for tasks run on Fargate. For more information, see [Fargate platform versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide.
+        public var platformVersion: Swift.String?
+        /// The number of tasks in the task set that are in the RUNNING status during a deployment. A task in the RUNNING state is running and ready for use.
+        public var runningCount: Swift.Int
+        /// A floating-point percentage of your desired number of tasks to place and keep running in the task set.
+        public var scale: ECSClientTypes.Scale?
+        /// The Amazon Resource Name (ARN) of the service the task set exists in.
+        public var serviceArn: Swift.String?
+        /// The details for the service discovery registries to assign to this task set. For more information, see [Service discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html).
+        public var serviceRegistries: [ECSClientTypes.ServiceRegistry]?
+        /// The stability status. This indicates whether the task set has reached a steady state. If the following conditions are met, the task set are in STEADY_STATE:
+        ///
+        /// * The task runningCount is equal to the computedDesiredCount.
+        ///
+        /// * The pendingCount is 0.
+        ///
+        /// * There are no tasks that are running on container instances in the DRAINING status.
+        ///
+        /// * All tasks are reporting a healthy status from the load balancers, service discovery, and container health checks.
+        ///
+        ///
+        /// If any of those conditions aren't met, the stability status returns STABILIZING.
+        public var stabilityStatus: ECSClientTypes.StabilityStatus?
+        /// The Unix timestamp for the time when the task set stability status was retrieved.
+        public var stabilityStatusAt: Foundation.Date?
+        /// The tag specified when a task set is started. If an CodeDeploy deployment created the task set, the startedBy parameter is CODE_DEPLOY. If an external deployment created the task set, the startedBy field isn't used.
+        public var startedBy: Swift.String?
+        /// The status of the task set. The following describes each state. PRIMARY The task set is serving production traffic. ACTIVE The task set isn't serving production traffic. DRAINING The tasks in the task set are being stopped, and their corresponding targets are being deregistered from their target group.
+        public var status: Swift.String?
+        /// The metadata that you apply to the task set to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:
+        ///
+        /// * Maximum number of tags per resource - 50
+        ///
+        /// * For each resource, each tag key must be unique, and each tag key can have only one value.
+        ///
+        /// * Maximum key length - 128 Unicode characters in UTF-8
+        ///
+        /// * Maximum value length - 256 Unicode characters in UTF-8
+        ///
+        /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
+        ///
+        /// * Tag keys and values are case-sensitive.
+        ///
+        /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+        public var tags: [ECSClientTypes.Tag]?
+        /// The task definition that the task set is using.
+        public var taskDefinition: Swift.String?
+        /// The Amazon Resource Name (ARN) of the task set.
+        public var taskSetArn: Swift.String?
+        /// The Unix timestamp for the time when the task set was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
+            clusterArn: Swift.String? = nil,
+            computedDesiredCount: Swift.Int = 0,
+            createdAt: Foundation.Date? = nil,
+            externalId: Swift.String? = nil,
+            fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage? = nil,
+            id: Swift.String? = nil,
+            launchType: ECSClientTypes.LaunchType? = nil,
+            loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
+            networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
+            pendingCount: Swift.Int = 0,
+            platformFamily: Swift.String? = nil,
+            platformVersion: Swift.String? = nil,
+            runningCount: Swift.Int = 0,
+            scale: ECSClientTypes.Scale? = nil,
+            serviceArn: Swift.String? = nil,
+            serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
+            stabilityStatus: ECSClientTypes.StabilityStatus? = nil,
+            stabilityStatusAt: Foundation.Date? = nil,
+            startedBy: Swift.String? = nil,
+            status: Swift.String? = nil,
+            tags: [ECSClientTypes.Tag]? = nil,
+            taskDefinition: Swift.String? = nil,
+            taskSetArn: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.capacityProviderStrategy = capacityProviderStrategy
+            self.clusterArn = clusterArn
+            self.computedDesiredCount = computedDesiredCount
+            self.createdAt = createdAt
+            self.externalId = externalId
+            self.fargateEphemeralStorage = fargateEphemeralStorage
+            self.id = id
+            self.launchType = launchType
+            self.loadBalancers = loadBalancers
+            self.networkConfiguration = networkConfiguration
+            self.pendingCount = pendingCount
+            self.platformFamily = platformFamily
+            self.platformVersion = platformVersion
+            self.runningCount = runningCount
+            self.scale = scale
+            self.serviceArn = serviceArn
+            self.serviceRegistries = serviceRegistries
+            self.stabilityStatus = stabilityStatus
+            self.stabilityStatusAt = stabilityStatusAt
+            self.startedBy = startedBy
+            self.status = status
+            self.tags = tags
+            self.taskDefinition = taskDefinition
+            self.taskSetArn = taskSetArn
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Details on a service within a cluster.
+    public struct Service: Swift.Sendable {
+        /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide . The default behavior of AvailabilityZoneRebalancing differs between create and update requests:
+        ///
+        /// * For create service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to ENABLED.
+        ///
+        /// * For update service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults to the existing service’s AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as DISABLED.
+        public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
+        /// The capacity provider strategy the service uses. When using the DescribeServices API, this field is omitted if the service was created using a launch type.
+        public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
+        /// The Amazon Resource Name (ARN) of the cluster that hosts the service.
+        public var clusterArn: Swift.String?
+        /// The Unix timestamp for the time when the service was created.
+        public var createdAt: Foundation.Date?
+        /// The principal that created the service.
+        public var createdBy: Swift.String?
+        /// The ARN of the current service deployment.
+        public var currentServiceDeployment: Swift.String?
+        /// The list of the service revisions.
+        public var currentServiceRevisions: [ECSClientTypes.ServiceCurrentRevisionSummary]?
+        /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
+        public var deploymentConfiguration: ECSClientTypes.DeploymentConfiguration?
+        /// The deployment controller type the service is using.
+        public var deploymentController: ECSClientTypes.DeploymentController?
+        /// The current state of deployments for the service.
+        public var deployments: [ECSClientTypes.Deployment]?
+        /// The desired number of instantiations of the task definition to keep running on the service. This value is specified when the service is created with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html) , and it can be modified with [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html).
+        public var desiredCount: Swift.Int
+        /// Determines whether to use Amazon ECS managed tags for the tasks in the service. For more information, see [Tagging Your Amazon ECS Resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide.
+        public var enableECSManagedTags: Swift.Bool
+        /// Determines whether the execute command functionality is turned on for the service. If true, the execute command functionality is turned on for all containers in tasks as part of the service.
+        public var enableExecuteCommand: Swift.Bool
+        /// The event stream for your service. A maximum of 100 of the latest events are displayed.
+        public var events: [ECSClientTypes.ServiceEvent]?
+        /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count.
+        public var healthCheckGracePeriodSeconds: Swift.Int?
+        /// The launch type the service is using. When using the DescribeServices API, this field is omitted if the service was created using a capacity provider strategy.
+        public var launchType: ECSClientTypes.LaunchType?
+        /// A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition.
+        public var loadBalancers: [ECSClientTypes.LoadBalancer]?
+        /// The VPC subnet and security group configuration for tasks that receive their own elastic network interface by using the awsvpc networking mode.
+        public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
+        /// The number of tasks in the cluster that are in the PENDING state.
+        public var pendingCount: Swift.Int
+        /// The placement constraints for the tasks in the service.
+        public var placementConstraints: [ECSClientTypes.PlacementConstraint]?
+        /// The placement strategy that determines how tasks for the service are placed.
+        public var placementStrategy: [ECSClientTypes.PlacementStrategy]?
+        /// The operating system that your tasks in the service run on. A platform family is specified only for tasks using the Fargate launch type. All tasks that run as part of this service must use the same platformFamily value as the service (for example, LINUX).
+        public var platformFamily: Swift.String?
+        /// The platform version to run your service on. A platform version is only specified for tasks that are hosted on Fargate. If one isn't specified, the LATEST platform version is used. For more information, see [Fargate Platform Versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide.
+        public var platformVersion: Swift.String?
+        /// Determines whether to propagate the tags from the task definition or the service to the task. If no value is specified, the tags aren't propagated.
+        public var propagateTags: ECSClientTypes.PropagateTags?
+        /// Identifies whether an ECS Service is an Express Service managed by ECS, or managed by the customer. The valid values are ECS and CUSTOMER
+        public var resourceManagementType: ECSClientTypes.ResourceManagementType?
+        /// The ARN of the IAM role that's associated with the service. It allows the Amazon ECS container agent to register container instances with an Elastic Load Balancing load balancer.
+        public var roleArn: Swift.String?
+        /// The number of tasks in the cluster that are in the RUNNING state.
+        public var runningCount: Swift.Int
+        /// The scheduling strategy to use for the service. For more information, see [Services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html). There are two service scheduler strategies available.
+        ///
+        /// * REPLICA-The replica scheduling strategy places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions.
+        ///
+        /// * DAEMON-The daemon scheduling strategy deploys exactly one task on each active container instance. This task meets all of the task placement constraints that you specify in your cluster. The service scheduler also evaluates the task placement constraints for running tasks. It stop tasks that don't meet the placement constraints. Fargate tasks don't support the DAEMON scheduling strategy.
+        public var schedulingStrategy: ECSClientTypes.SchedulingStrategy?
+        /// The ARN that identifies the service. For more information about the ARN format, see [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#ecs-resource-ids) in the Amazon ECS Developer Guide.
+        public var serviceArn: Swift.String?
+        /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. Service names must be unique within a cluster. However, you can have similarly named services in multiple clusters within a Region or across multiple Regions.
+        public var serviceName: Swift.String?
+        /// The details for the service discovery registries to assign to this service. For more information, see [Service Discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html).
+        public var serviceRegistries: [ECSClientTypes.ServiceRegistry]?
+        /// The status of the service. The valid values are ACTIVE, DRAINING, or INACTIVE.
+        public var status: Swift.String?
+        /// The metadata that you apply to the service to help you categorize and organize them. Each tag consists of a key and an optional value. You define bot the key and value. The following basic restrictions apply to tags:
+        ///
+        /// * Maximum number of tags per resource - 50
+        ///
+        /// * For each resource, each tag key must be unique, and each tag key can have only one value.
+        ///
+        /// * Maximum key length - 128 Unicode characters in UTF-8
+        ///
+        /// * Maximum value length - 256 Unicode characters in UTF-8
+        ///
+        /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
+        ///
+        /// * Tag keys and values are case-sensitive.
+        ///
+        /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+        public var tags: [ECSClientTypes.Tag]?
+        /// The task definition to use for tasks in the service. This value is specified when the service is created with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html), and it can be modified with [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html).
+        public var taskDefinition: Swift.String?
+        /// Information about a set of Amazon ECS tasks in either an CodeDeploy or an EXTERNAL deployment. An Amazon ECS task set includes details such as the desired number of tasks, how many tasks are running, and whether the task set serves production traffic.
+        public var taskSets: [ECSClientTypes.TaskSet]?
+
+        public init(
+            availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing? = nil,
+            capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
+            clusterArn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            currentServiceDeployment: Swift.String? = nil,
+            currentServiceRevisions: [ECSClientTypes.ServiceCurrentRevisionSummary]? = nil,
+            deploymentConfiguration: ECSClientTypes.DeploymentConfiguration? = nil,
+            deploymentController: ECSClientTypes.DeploymentController? = nil,
+            deployments: [ECSClientTypes.Deployment]? = nil,
+            desiredCount: Swift.Int = 0,
+            enableECSManagedTags: Swift.Bool = false,
+            enableExecuteCommand: Swift.Bool = false,
+            events: [ECSClientTypes.ServiceEvent]? = nil,
+            healthCheckGracePeriodSeconds: Swift.Int? = nil,
+            launchType: ECSClientTypes.LaunchType? = nil,
+            loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
+            networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
+            pendingCount: Swift.Int = 0,
+            placementConstraints: [ECSClientTypes.PlacementConstraint]? = nil,
+            placementStrategy: [ECSClientTypes.PlacementStrategy]? = nil,
+            platformFamily: Swift.String? = nil,
+            platformVersion: Swift.String? = nil,
+            propagateTags: ECSClientTypes.PropagateTags? = nil,
+            resourceManagementType: ECSClientTypes.ResourceManagementType? = nil,
+            roleArn: Swift.String? = nil,
+            runningCount: Swift.Int = 0,
+            schedulingStrategy: ECSClientTypes.SchedulingStrategy? = nil,
+            serviceArn: Swift.String? = nil,
+            serviceName: Swift.String? = nil,
+            serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
+            status: Swift.String? = nil,
+            tags: [ECSClientTypes.Tag]? = nil,
+            taskDefinition: Swift.String? = nil,
+            taskSets: [ECSClientTypes.TaskSet]? = nil
+        ) {
+            self.availabilityZoneRebalancing = availabilityZoneRebalancing
+            self.capacityProviderStrategy = capacityProviderStrategy
+            self.clusterArn = clusterArn
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.currentServiceDeployment = currentServiceDeployment
+            self.currentServiceRevisions = currentServiceRevisions
+            self.deploymentConfiguration = deploymentConfiguration
+            self.deploymentController = deploymentController
+            self.deployments = deployments
+            self.desiredCount = desiredCount
+            self.enableECSManagedTags = enableECSManagedTags
+            self.enableExecuteCommand = enableExecuteCommand
+            self.events = events
+            self.healthCheckGracePeriodSeconds = healthCheckGracePeriodSeconds
+            self.launchType = launchType
+            self.loadBalancers = loadBalancers
+            self.networkConfiguration = networkConfiguration
+            self.pendingCount = pendingCount
+            self.placementConstraints = placementConstraints
+            self.placementStrategy = placementStrategy
+            self.platformFamily = platformFamily
+            self.platformVersion = platformVersion
+            self.propagateTags = propagateTags
+            self.resourceManagementType = resourceManagementType
+            self.roleArn = roleArn
+            self.runningCount = runningCount
+            self.schedulingStrategy = schedulingStrategy
+            self.serviceArn = serviceArn
+            self.serviceName = serviceName
+            self.serviceRegistries = serviceRegistries
+            self.status = status
+            self.tags = tags
+            self.taskDefinition = taskDefinition
+            self.taskSets = taskSets
+        }
+    }
+}
+
+///
+public struct CreateServiceOutput: Swift.Sendable {
+    /// The full description of your service following the create call. A service will return either a capacityProviderStrategy or launchType parameter, but not both, depending where one was specified when it was created. If a service is using the ECS deployment controller, the deploymentController and taskSets parameters will not be returned. if the service uses the CODE_DEPLOY deployment controller, the deploymentController, taskSets and deployments parameters will be returned, however the deployments parameter will be an empty list.
+    public var service: ECSClientTypes.Service?
+
+    public init(
+        service: ECSClientTypes.Service? = nil
+    ) {
+        self.service = service
+    }
+}
+
+/// The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html).
+public struct ServiceNotActiveException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceNotActiveException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteExpressGatewayServiceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Express service to delete. The ARN uniquely identifies the service within your Amazon Web Services account and region.
+    /// This member is required.
+    public var serviceArn: Swift.String?
+
+    public init(
+        serviceArn: Swift.String? = nil
+    ) {
+        self.serviceArn = serviceArn
+    }
+}
+
+public struct DeleteExpressGatewayServiceOutput: Swift.Sendable {
+    /// The full description of the deleted express service.
+    public var service: ECSClientTypes.ECSExpressGatewayService?
+
+    public init(
+        service: ECSClientTypes.ECSExpressGatewayService? = nil
+    ) {
+        self.service = service
+    }
+}
+
+///
+public struct DeleteServiceInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service to delete. If you do not specify a cluster, the default cluster is assumed.
+    public var cluster: Swift.String?
+    /// If true, allows you to delete a service even if it wasn't scaled down to zero tasks. It's only necessary to use this if the service uses the REPLICA scheduling strategy.
+    public var force: Swift.Bool?
+    /// The name of the service to delete.
+    /// This member is required.
+    public var service: Swift.String?
+
+    public init(
+        cluster: Swift.String? = nil,
+        force: Swift.Bool? = nil,
+        service: Swift.String? = nil
+    ) {
+        self.cluster = cluster
+        self.force = force
+        self.service = service
+    }
+}
+
+///
+public struct DeleteServiceOutput: Swift.Sendable {
+    /// The full description of the deleted service.
+    public var service: ECSClientTypes.Service?
+
+    public init(
+        service: ECSClientTypes.Service? = nil
+    ) {
+        self.service = service
+    }
+}
+
+/// The specified resource wasn't found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ExpressGatewayServiceInclude: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tags
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpressGatewayServiceInclude] {
+            return [
+                .tags
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tags: return "TAGS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeExpressGatewayServiceInput: Swift.Sendable {
+    /// Specifies additional information to include in the response. Valid values are TAGS to include resource tags associated with the Express service.
+    public var include: [ECSClientTypes.ExpressGatewayServiceInclude]?
+    /// The Amazon Resource Name (ARN) of the Express service to describe. The ARN uniquely identifies the service within your Amazon Web Services account and region.
+    /// This member is required.
+    public var serviceArn: Swift.String?
+
+    public init(
+        include: [ECSClientTypes.ExpressGatewayServiceInclude]? = nil,
+        serviceArn: Swift.String? = nil
+    ) {
+        self.include = include
+        self.serviceArn = serviceArn
+    }
+}
+
+public struct DescribeExpressGatewayServiceOutput: Swift.Sendable {
+    /// The full description of the described express service.
+    public var service: ECSClientTypes.ECSExpressGatewayService?
+
+    public init(
+        service: ECSClientTypes.ECSExpressGatewayService? = nil
+    ) {
+        self.service = service
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ServiceField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tags
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceField] {
+            return [
+                .tags
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tags: return "TAGS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+///
+public struct DescribeServicesInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN)the cluster that hosts the service to describe. If you do not specify a cluster, the default cluster is assumed. This parameter is required if the service or services you are describing were launched in any cluster other than the default cluster.
+    public var cluster: Swift.String?
+    /// Determines whether you want to see the resource tags for the service. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response.
+    public var include: [ECSClientTypes.ServiceField]?
+    /// A list of services to describe. You may specify up to 10 services to describe in a single operation.
+    /// This member is required.
+    public var services: [Swift.String]?
+
+    public init(
+        cluster: Swift.String? = nil,
+        include: [ECSClientTypes.ServiceField]? = nil,
+        services: [Swift.String]? = nil
+    ) {
+        self.cluster = cluster
+        self.include = include
+        self.services = services
+    }
+}
+
+///
+public struct DescribeServicesOutput: Swift.Sendable {
+    /// Any failures associated with the call.
+    public var failures: [ECSClientTypes.Failure]?
+    /// The list of services described.
+    public var services: [ECSClientTypes.Service]?
+
+    public init(
+        failures: [ECSClientTypes.Failure]? = nil,
+        services: [ECSClientTypes.Service]? = nil
+    ) {
+        self.failures = failures
+        self.services = services
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The optional filter to narrow the ListServiceDeployment results. If you do not specify a value, service deployments that were created before the current time are included in the result.
+    public struct CreatedAt: Swift.Sendable {
+        /// Include service deployments in the result that were created after this time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public var after: Foundation.Date?
+        /// Include service deployments in the result that were created before this time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public var before: Foundation.Date?
+
+        public init(
+            after: Foundation.Date? = nil,
+            before: Foundation.Date? = nil
+        ) {
+            self.after = after
+            self.before = before
+        }
+    }
+}
+
+public struct ListServiceDeploymentsInput: Swift.Sendable {
+    /// The cluster that hosts the service. This can either be the cluster name or ARN. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. If you don't specify a cluster, default is used.
+    public var cluster: Swift.String?
+    /// An optional filter you can use to narrow the results by the service creation date. If you do not specify a value, the result includes all services created before the current time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+    public var createdAt: ECSClientTypes.CreatedAt?
+    /// The maximum number of service deployment results that ListServiceDeployments returned in paginated output. When this parameter is used, ListServiceDeployments only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListServiceDeployments request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListServiceDeployments returns up to 20 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a ListServiceDeployments request indicating that more results are available to fulfill the request and further calls are needed. If you provided maxResults, it's possible the number of results is fewer than maxResults.
+    public var nextToken: Swift.String?
+    /// The ARN or name of the service
+    /// This member is required.
+    public var service: Swift.String?
+    /// An optional filter you can use to narrow the results. If you do not specify a status, then all status values are included in the result.
+    public var status: [ECSClientTypes.ServiceDeploymentStatus]?
+
+    public init(
+        cluster: Swift.String? = nil,
+        createdAt: ECSClientTypes.CreatedAt? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        service: Swift.String? = nil,
+        status: [ECSClientTypes.ServiceDeploymentStatus]? = nil
+    ) {
+        self.cluster = cluster
+        self.createdAt = createdAt
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.service = service
+        self.status = status
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The service deployment properties that are retured when you call ListServiceDeployments. This provides a high-level overview of the service deployment.
+    public struct ServiceDeploymentBrief: Swift.Sendable {
+        /// The ARN of the cluster that hosts the service.
+        public var clusterArn: Swift.String?
+        /// The time that the service deployment was created. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public var createdAt: Foundation.Date?
+        /// The time that the service deployment completed. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public var finishedAt: Foundation.Date?
+        /// The ARN of the service for this service deployment.
+        public var serviceArn: Swift.String?
+        /// The ARN of the service deployment.
+        public var serviceDeploymentArn: Swift.String?
+        /// The time that the service deployment statred. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public var startedAt: Foundation.Date?
+        /// The status of the service deployment
+        public var status: ECSClientTypes.ServiceDeploymentStatus?
+        /// Information about why the service deployment is in the current status. For example, the circuit breaker detected a deployment failure.
+        public var statusReason: Swift.String?
+        /// The ARN of the service revision being deplyed.
+        public var targetServiceRevisionArn: Swift.String?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            finishedAt: Foundation.Date? = nil,
+            serviceArn: Swift.String? = nil,
+            serviceDeploymentArn: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: ECSClientTypes.ServiceDeploymentStatus? = nil,
+            statusReason: Swift.String? = nil,
+            targetServiceRevisionArn: Swift.String? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.createdAt = createdAt
+            self.finishedAt = finishedAt
+            self.serviceArn = serviceArn
+            self.serviceDeploymentArn = serviceDeploymentArn
+            self.startedAt = startedAt
+            self.status = status
+            self.statusReason = statusReason
+            self.targetServiceRevisionArn = targetServiceRevisionArn
+        }
+    }
+}
+
+public struct ListServiceDeploymentsOutput: Swift.Sendable {
+    /// The nextToken value to include in a future ListServiceDeployments request. When the results of a ListServiceDeployments request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// An overview of the service deployment, including the following properties:
+    ///
+    /// * The ARN of the service deployment.
+    ///
+    /// * The ARN of the service being deployed.
+    ///
+    /// * The ARN of the cluster that hosts the service in the service deployment.
+    ///
+    /// * The time that the service deployment started.
+    ///
+    /// * The time that the service deployment completed.
+    ///
+    /// * The service deployment status.
+    ///
+    /// * Information about why the service deployment is in the current state.
+    ///
+    /// * The ARN of the service revision that is being deployed.
+    public var serviceDeployments: [ECSClientTypes.ServiceDeploymentBrief]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        serviceDeployments: [ECSClientTypes.ServiceDeploymentBrief]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.serviceDeployments = serviceDeployments
+    }
+}
+
+///
+public struct ListServicesInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster to use when filtering the ListServices results. If you do not specify a cluster, the default cluster is assumed.
+    public var cluster: Swift.String?
+    /// The launch type to use when filtering the ListServices results.
+    public var launchType: ECSClientTypes.LaunchType?
+    /// The maximum number of service results that ListServices returned in paginated output. When this parameter is used, ListServices only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListServices request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListServices returns up to 10 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a ListServices request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it is possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+    /// The resourceManagementType type to use when filtering the ListServices results.
+    public var resourceManagementType: ECSClientTypes.ResourceManagementType?
+    /// The scheduling strategy to use when filtering the ListServices results.
+    public var schedulingStrategy: ECSClientTypes.SchedulingStrategy?
+
+    public init(
+        cluster: Swift.String? = nil,
+        launchType: ECSClientTypes.LaunchType? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceManagementType: ECSClientTypes.ResourceManagementType? = nil,
+        schedulingStrategy: ECSClientTypes.SchedulingStrategy? = nil
+    ) {
+        self.cluster = cluster
+        self.launchType = launchType
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceManagementType = resourceManagementType
+        self.schedulingStrategy = schedulingStrategy
+    }
+}
+
+///
+public struct ListServicesOutput: Swift.Sendable {
+    /// The nextToken value to include in a future ListServices request. When the results of a ListServices request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The list of full ARN entries for each service that's associated with the specified cluster.
+    public var serviceArns: [Swift.String]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        serviceArns: [Swift.String]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.serviceArns = serviceArns
+    }
+}
+
+/// The request could not be processed because of conflict in the current state of the resource.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+        /// The existing task ARNs which are already associated with the clientToken.
+        public internal(set) var resourceIds: [Swift.String]? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceIds: [Swift.String]? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceIds = resourceIds
+    }
+}
+
+/// The service deploy ARN that you specified in the StopServiceDeployment doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs.
+public struct ServiceDeploymentNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceDeploymentNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum StopServiceDeploymentStopType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case abort
+        case rollback
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StopServiceDeploymentStopType] {
+            return [
+                .abort,
+                .rollback
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .abort: return "ABORT"
+            case .rollback: return "ROLLBACK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct StopServiceDeploymentInput: Swift.Sendable {
+    /// The ARN of the service deployment that you want to stop.
+    /// This member is required.
+    public var serviceDeploymentArn: Swift.String?
+    /// How you want Amazon ECS to stop the service. The valid values are ROLLBACK.
+    public var stopType: ECSClientTypes.StopServiceDeploymentStopType?
+
+    public init(
+        serviceDeploymentArn: Swift.String? = nil,
+        stopType: ECSClientTypes.StopServiceDeploymentStopType? = nil
+    ) {
+        self.serviceDeploymentArn = serviceDeploymentArn
+        self.stopType = stopType
+    }
+}
+
+public struct StopServiceDeploymentOutput: Swift.Sendable {
+    /// The ARN of the stopped service deployment.
+    public var serviceDeploymentArn: Swift.String?
+
+    public init(
+        serviceDeploymentArn: Swift.String? = nil
+    ) {
+        self.serviceDeploymentArn = serviceDeploymentArn
+    }
+}
+
+public struct UpdateExpressGatewayServiceInput: Swift.Sendable {
+    /// The number of CPU units used by the task.
+    public var cpu: Swift.String?
+    /// The Amazon Resource Name (ARN) of the task execution role for the Express service.
+    public var executionRoleArn: Swift.String?
+    /// The path on the container for Application Load Balancer health checks.
+    public var healthCheckPath: Swift.String?
+    /// The amount of memory (in MiB) used by the task.
+    public var memory: Swift.String?
+    /// The network configuration for the Express service tasks. By default, the network configuration for an Express service uses the default VPC.
+    public var networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration?
+    /// The primary container configuration for the Express service.
+    public var primaryContainer: ECSClientTypes.ExpressGatewayContainer?
+    /// The auto-scaling configuration for the Express service.
+    public var scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget?
+    /// The Amazon Resource Name (ARN) of the Express service to update.
+    /// This member is required.
+    public var serviceArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role for containers in this task.
+    public var taskRoleArn: Swift.String?
+
+    public init(
+        cpu: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        healthCheckPath: Swift.String? = nil,
+        memory: Swift.String? = nil,
+        networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration? = nil,
+        primaryContainer: ECSClientTypes.ExpressGatewayContainer? = nil,
+        scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget? = nil,
+        serviceArn: Swift.String? = nil,
+        taskRoleArn: Swift.String? = nil
+    ) {
+        self.cpu = cpu
+        self.executionRoleArn = executionRoleArn
+        self.healthCheckPath = healthCheckPath
+        self.memory = memory
+        self.networkConfiguration = networkConfiguration
+        self.primaryContainer = primaryContainer
+        self.scalingTarget = scalingTarget
+        self.serviceArn = serviceArn
+        self.taskRoleArn = taskRoleArn
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An object that describes an Express service to be updated.
+    public struct UpdatedExpressGatewayService: Swift.Sendable {
+        /// The cluster associated with the Express service that is being updated.
+        public var cluster: Swift.String?
+        /// The Unix timestamp for when the Express service that is being updated was created.
+        public var createdAt: Foundation.Date?
+        /// The ARN of the Express service that is being updated.
+        public var serviceArn: Swift.String?
+        /// The name of the Express service that is being updated.
+        public var serviceName: Swift.String?
+        /// The status of the Express service that is being updated.
+        public var status: ECSClientTypes.ExpressGatewayServiceStatus?
+        /// The configuration to which the current Express service is being updated to.
+        public var targetConfiguration: ECSClientTypes.ExpressGatewayServiceConfiguration?
+        /// The Unix timestamp for when the Express service that is being updated was most recently updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            cluster: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            serviceArn: Swift.String? = nil,
+            serviceName: Swift.String? = nil,
+            status: ECSClientTypes.ExpressGatewayServiceStatus? = nil,
+            targetConfiguration: ECSClientTypes.ExpressGatewayServiceConfiguration? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.cluster = cluster
+            self.createdAt = createdAt
+            self.serviceArn = serviceArn
+            self.serviceName = serviceName
+            self.status = status
+            self.targetConfiguration = targetConfiguration
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct UpdateExpressGatewayServiceOutput: Swift.Sendable {
+    /// The full description of your express gateway service following the update call.
+    public var service: ECSClientTypes.UpdatedExpressGatewayService?
+
+    public init(
+        service: ECSClientTypes.UpdatedExpressGatewayService? = nil
+    ) {
+        self.service = service
+    }
+}
+
+///
+public struct UpdateServiceInput: Swift.Sendable {
+    /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide . The default behavior of AvailabilityZoneRebalancing differs between create and update requests:
+    ///
+    /// * For create service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to ENABLED.
+    ///
+    /// * For update service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults to the existing service’s AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as DISABLED.
+    ///
+    ///
+    /// This parameter doesn't trigger a new service deployment.
+    public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
+    /// The details of a capacity provider strategy. You can set a capacity provider when you create a cluster, run a task, or update a service. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter. When you use Fargate, the capacity providers are FARGATE or FARGATE_SPOT. When you use Amazon EC2, the capacity providers are Auto Scaling groups. You can change capacity providers for rolling deployments and blue/green deployments. The following list provides the valid transitions:
+    ///
+    /// * Update the Fargate launch type to an Auto Scaling group capacity provider.
+    ///
+    /// * Update the Amazon EC2 launch type to a Fargate capacity provider.
+    ///
+    /// * Update the Fargate capacity provider to an Auto Scaling group capacity provider.
+    ///
+    /// * Update the Amazon EC2 capacity provider to a Fargate capacity provider.
+    ///
+    /// * Update the Auto Scaling group or Fargate capacity provider back to the launch type. Pass an empty list in the capacityProviderStrategy parameter.
+    ///
+    ///
+    /// For information about Amazon Web Services CDK considerations, see [Amazon Web Services CDK considerations](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/update-service-parameters.html). This parameter doesn't trigger a new service deployment.
+    public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that your service runs on. If you do not specify a cluster, the default cluster is assumed. You can't change the cluster name.
+    public var cluster: Swift.String?
+    /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks. This parameter doesn't trigger a new service deployment.
+    public var deploymentConfiguration: ECSClientTypes.DeploymentConfiguration?
+    /// The deployment controller to use for the service.
+    public var deploymentController: ECSClientTypes.DeploymentController?
+    /// The number of instantiations of the task to place and keep running in your service. This parameter doesn't trigger a new service deployment.
+    public var desiredCount: Swift.Int?
+    /// Determines whether to turn on Amazon ECS managed tags for the tasks in the service. For more information, see [Tagging Your Amazon ECS Resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide. Only tasks launched after the update will reflect the update. To update the tags on all tasks, set forceNewDeployment to true, so that Amazon ECS starts new tasks with the updated tags. This parameter doesn't trigger a new service deployment.
+    public var enableECSManagedTags: Swift.Bool?
+    /// If true, this enables execute command functionality on all task containers. If you do not want to override the value that was set when the service was created, you can set this to null when performing this action. This parameter doesn't trigger a new service deployment.
+    public var enableExecuteCommand: Swift.Bool?
+    /// Determines whether to force a new deployment of the service. By default, deployments aren't forced. You can use this option to start a new deployment with no service definition changes. For example, you can update a service's tasks to use a newer Docker image with the same image/tag combination (my_image:latest) or to roll Fargate tasks onto a newer platform version.
+    public var forceNewDeployment: Swift.Bool?
+    /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you don't specify a health check grace period value, the default value of 0 is used. If you don't use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service's tasks take a while to start and respond to health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count. This parameter doesn't trigger a new service deployment.
+    public var healthCheckGracePeriodSeconds: Swift.Int?
+    /// You must have a service-linked role when you update this property A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition. When you add, update, or remove a load balancer configuration, Amazon ECS starts new tasks with the updated Elastic Load Balancing configuration, and then stops the old tasks when the new tasks are running. For services that use rolling updates, you can add, update, or remove Elastic Load Balancing target groups. You can update from a single target group to multiple target groups and from multiple target groups to a single target group. For services that use blue/green deployments, you can update Elastic Load Balancing target groups by using [CreateDeployment](https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html) through CodeDeploy. Note that multiple target groups are not supported for blue/green deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. For services that use the external deployment controller, you can add, update, or remove load balancers by using [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). Note that multiple target groups are not supported for external deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. You can remove existing loadBalancers by passing an empty list. This parameter triggers a new service deployment.
+    public var loadBalancers: [ECSClientTypes.LoadBalancer]?
+    /// An object representing the network configuration for the service. This parameter triggers a new service deployment.
+    public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
+    /// An array of task placement constraint objects to update the service to use. If no value is specified, the existing placement constraints for the service will remain unchanged. If this value is specified, it will override any existing placement constraints defined for the service. To remove all existing placement constraints, specify an empty array. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime. This parameter doesn't trigger a new service deployment.
+    public var placementConstraints: [ECSClientTypes.PlacementConstraint]?
+    /// The task placement strategy objects to update the service to use. If no value is specified, the existing placement strategy for the service will remain unchanged. If this value is specified, it will override the existing placement strategy defined for the service. To remove an existing placement strategy, specify an empty object. You can specify a maximum of five strategy rules for each service. This parameter doesn't trigger a new service deployment.
+    public var placementStrategy: [ECSClientTypes.PlacementStrategy]?
+    /// The platform version that your tasks in the service run on. A platform version is only specified for tasks using the Fargate launch type. If a platform version is not specified, the LATEST platform version is used. For more information, see [Fargate Platform Versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide. This parameter triggers a new service deployment.
+    public var platformVersion: Swift.String?
+    /// Determines whether to propagate the tags from the task definition or the service to the task. If no value is specified, the tags aren't propagated. Only tasks launched after the update will reflect the update. To update the tags on all tasks, set forceNewDeployment to true, so that Amazon ECS starts new tasks with the updated tags. This parameter doesn't trigger a new service deployment.
+    public var propagateTags: ECSClientTypes.PropagateTags?
+    /// The name of the service to update.
+    /// This member is required.
+    public var service: Swift.String?
+    /// The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide. This parameter triggers a new service deployment.
+    public var serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration?
+    /// You must have a service-linked role when you update this property. For more information about the role see the CreateService request parameter [role](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html#ECS-CreateService-request-role). The details for the service discovery registries to assign to this service. For more information, see [Service Discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html). When you add, update, or remove the service registries configuration, Amazon ECS starts new tasks with the updated service registries configuration, and then stops the old tasks when the new tasks are running. You can remove existing serviceRegistries by passing an empty list. This parameter triggers a new service deployment.
+    public var serviceRegistries: [ECSClientTypes.ServiceRegistry]?
+    /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used. If you modify the task definition with UpdateService, Amazon ECS spawns a task with the new version of the task definition and then stops an old task after the new version is running. This parameter triggers a new service deployment.
+    public var taskDefinition: Swift.String?
+    /// The details of the volume that was configuredAtLaunch. You can configure the size, volumeType, IOPS, throughput, snapshot and encryption in [ServiceManagedEBSVolumeConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ServiceManagedEBSVolumeConfiguration.html). The name of the volume must match the name from the task definition. If set to null, no new deployment is triggered. Otherwise, if this configuration differs from the existing one, it triggers a new deployment. This parameter triggers a new service deployment.
+    public var volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]?
+    /// An object representing the VPC Lattice configuration for the service being updated. This parameter triggers a new service deployment.
+    public var vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]?
+
+    public init(
+        availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing? = nil,
+        capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
+        cluster: Swift.String? = nil,
+        deploymentConfiguration: ECSClientTypes.DeploymentConfiguration? = nil,
+        deploymentController: ECSClientTypes.DeploymentController? = nil,
+        desiredCount: Swift.Int? = nil,
+        enableECSManagedTags: Swift.Bool? = nil,
+        enableExecuteCommand: Swift.Bool? = nil,
+        forceNewDeployment: Swift.Bool? = false,
+        healthCheckGracePeriodSeconds: Swift.Int? = nil,
+        loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
+        networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
+        placementConstraints: [ECSClientTypes.PlacementConstraint]? = nil,
+        placementStrategy: [ECSClientTypes.PlacementStrategy]? = nil,
+        platformVersion: Swift.String? = nil,
+        propagateTags: ECSClientTypes.PropagateTags? = nil,
+        service: Swift.String? = nil,
+        serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration? = nil,
+        serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
+        taskDefinition: Swift.String? = nil,
+        volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil,
+        vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]? = nil
+    ) {
+        self.availabilityZoneRebalancing = availabilityZoneRebalancing
+        self.capacityProviderStrategy = capacityProviderStrategy
+        self.cluster = cluster
+        self.deploymentConfiguration = deploymentConfiguration
+        self.deploymentController = deploymentController
+        self.desiredCount = desiredCount
+        self.enableECSManagedTags = enableECSManagedTags
+        self.enableExecuteCommand = enableExecuteCommand
+        self.forceNewDeployment = forceNewDeployment
+        self.healthCheckGracePeriodSeconds = healthCheckGracePeriodSeconds
+        self.loadBalancers = loadBalancers
+        self.networkConfiguration = networkConfiguration
+        self.placementConstraints = placementConstraints
+        self.placementStrategy = placementStrategy
+        self.platformVersion = platformVersion
+        self.propagateTags = propagateTags
+        self.service = service
+        self.serviceConnectConfiguration = serviceConnectConfiguration
+        self.serviceRegistries = serviceRegistries
+        self.taskDefinition = taskDefinition
+        self.volumeConfigurations = volumeConfigurations
+        self.vpcLatticeConfigurations = vpcLatticeConfigurations
+    }
+}
+
+///
+public struct UpdateServiceOutput: Swift.Sendable {
+    /// The full description of your service following the update call.
+    public var service: ECSClientTypes.Service?
+
+    public init(
+        service: ECSClientTypes.Service? = nil
+    ) {
+        self.service = service
+    }
+}
+
+/// The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTaskSets.html). Task sets are specific to each cluster, service and Region.
+public struct TaskSetNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TaskSetNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct UpdateServicePrimaryTaskSetInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set exists in.
+    /// This member is required.
+    public var cluster: Swift.String?
+    /// The short name or full Amazon Resource Name (ARN) of the task set to set as the primary task set in the deployment.
+    /// This member is required.
+    public var primaryTaskSet: Swift.String?
+    /// The short name or full Amazon Resource Name (ARN) of the service that the task set exists in.
+    /// This member is required.
+    public var service: Swift.String?
+
+    public init(
+        cluster: Swift.String? = nil,
+        primaryTaskSet: Swift.String? = nil,
+        service: Swift.String? = nil
+    ) {
+        self.cluster = cluster
+        self.primaryTaskSet = primaryTaskSet
+        self.service = service
+    }
+}
+
+public struct UpdateServicePrimaryTaskSetOutput: Swift.Sendable {
+    /// The details about the task set.
+    public var taskSet: ECSClientTypes.TaskSet?
+
+    public init(
+        taskSet: ECSClientTypes.TaskSet? = nil
+    ) {
+        self.taskSet = taskSet
     }
 }
 
@@ -8891,76 +11000,80 @@ public struct DescribeServiceRevisionsOutput: Swift.Sendable {
     }
 }
 
-extension ECSClientTypes {
-
-    public enum ServiceField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case tags
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ServiceField] {
-            return [
-                .tags
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .tags: return "TAGS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct DescribeServicesInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN)the cluster that hosts the service to describe. If you do not specify a cluster, the default cluster is assumed. This parameter is required if the service or services you are describing were launched in any cluster other than the default cluster.
-    public var cluster: Swift.String?
-    /// Determines whether you want to see the resource tags for the service. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response.
-    public var include: [ECSClientTypes.ServiceField]?
-    /// A list of services to describe. You may specify up to 10 services to describe in a single operation.
+public struct TagResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource to add tags to. Currently, the supported resources are Amazon ECS capacity providers, tasks, services, task definitions, clusters, and container instances. In order to tag a service that has the following ARN format, you need to migrate the service to the long ARN. For more information, see [Migrate an Amazon ECS short service ARN to a long ARN](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-arn-migration.html) in the Amazon Elastic Container Service Developer Guide. arn:aws:ecs:region:aws_account_id:service/service-name After the migration is complete, the service has the long ARN format, as shown below. Use this ARN to tag the service. arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name If you try to tag a service with a short ARN, you receive an InvalidParameterException error.
     /// This member is required.
-    public var services: [Swift.String]?
+    public var resourceArn: Swift.String?
+    /// The tags to add to the resource. A tag is an array of key-value pairs. The following basic restrictions apply to tags:
+    ///
+    /// * Maximum number of tags per resource - 50
+    ///
+    /// * For each resource, each tag key must be unique, and each tag key can have only one value.
+    ///
+    /// * Maximum key length - 128 Unicode characters in UTF-8
+    ///
+    /// * Maximum value length - 256 Unicode characters in UTF-8
+    ///
+    /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
+    ///
+    /// * Tag keys and values are case-sensitive.
+    ///
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+    /// This member is required.
+    public var tags: [ECSClientTypes.Tag]?
 
     public init(
-        cluster: Swift.String? = nil,
-        include: [ECSClientTypes.ServiceField]? = nil,
-        services: [Swift.String]? = nil
+        resourceArn: Swift.String? = nil,
+        tags: [ECSClientTypes.Tag]? = nil
     ) {
-        self.cluster = cluster
-        self.include = include
-        self.services = services
+        self.resourceArn = resourceArn
+        self.tags = tags
     }
 }
 
-public struct DescribeServicesOutput: Swift.Sendable {
+public struct TagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteTaskDefinitionsInput: Swift.Sendable {
+    /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to delete. You must specify a revision. You can specify up to 10 task definitions as a comma separated list.
+    /// This member is required.
+    public var taskDefinitions: [Swift.String]?
+
+    public init(
+        taskDefinitions: [Swift.String]? = nil
+    ) {
+        self.taskDefinitions = taskDefinitions
+    }
+}
+
+public struct DeleteTaskDefinitionsOutput: Swift.Sendable {
     /// Any failures associated with the call.
     public var failures: [ECSClientTypes.Failure]?
-    /// The list of services described.
-    public var services: [ECSClientTypes.Service]?
+    /// The list of deleted task definitions.
+    public var taskDefinitions: [ECSClientTypes.TaskDefinition]?
 
     public init(
         failures: [ECSClientTypes.Failure]? = nil,
-        services: [ECSClientTypes.Service]? = nil
+        taskDefinitions: [ECSClientTypes.TaskDefinition]? = nil
     ) {
         self.failures = failures
-        self.services = services
+        self.taskDefinitions = taskDefinitions
     }
 }
 
 extension ECSClientTypes {
 
-    public enum TaskDefinitionField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case tags
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asc
+        case desc
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [TaskDefinitionField] {
+        public static var allCases: [SortOrder] {
             return [
-                .tags
+                .asc,
+                .desc
             ]
         }
 
@@ -8971,31 +11084,118 @@ extension ECSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .tags: return "TAGS"
+            case .asc: return "ASC"
+            case .desc: return "DESC"
             case let .sdkUnknown(s): return s
             }
         }
     }
 }
 
-public struct DescribeTaskDefinitionInput: Swift.Sendable {
-    /// Determines whether to see the resource tags for the task definition. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response.
-    public var include: [ECSClientTypes.TaskDefinitionField]?
-    /// The family for the latest ACTIVE revision, family and revision (family:revision) for a specific revision in the family, or full Amazon Resource Name (ARN) of the task definition to describe.
-    /// This member is required.
-    public var taskDefinition: Swift.String?
+///
+public struct ListTaskDefinitionsInput: Swift.Sendable {
+    /// The full family name to filter the ListTaskDefinitions results with. Specifying a familyPrefix limits the listed task definitions to task definition revisions that belong to that family.
+    public var familyPrefix: Swift.String?
+    /// The maximum number of task definition results that ListTaskDefinitions returned in paginated output. When this parameter is used, ListTaskDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListTaskDefinitions request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListTaskDefinitions returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a ListTaskDefinitions request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it is possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+    /// The order to sort the results in. Valid values are ASC and DESC. By default, (ASC) task definitions are listed lexicographically by family name and in ascending numerical order by revision so that the newest task definitions in a family are listed last. Setting this parameter to DESC reverses the sort order on family name and revision. This is so that the newest task definitions in a family are listed first.
+    public var sort: ECSClientTypes.SortOrder?
+    /// The task definition status to filter the ListTaskDefinitions results with. By default, only ACTIVE task definitions are listed. By setting this parameter to INACTIVE, you can view task definitions that are INACTIVE as long as an active task or service still references them. If you paginate the resulting output, be sure to keep the status value constant in each subsequent request.
+    public var status: ECSClientTypes.TaskDefinitionStatus?
 
     public init(
-        include: [ECSClientTypes.TaskDefinitionField]? = nil,
-        taskDefinition: Swift.String? = nil
+        familyPrefix: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sort: ECSClientTypes.SortOrder? = nil,
+        status: ECSClientTypes.TaskDefinitionStatus? = nil
     ) {
-        self.include = include
-        self.taskDefinition = taskDefinition
+        self.familyPrefix = familyPrefix
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sort = sort
+        self.status = status
     }
 }
 
-public struct DescribeTaskDefinitionOutput: Swift.Sendable {
-    /// The metadata that's applied to the task definition to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:
+///
+public struct ListTaskDefinitionsOutput: Swift.Sendable {
+    /// The nextToken value to include in a future ListTaskDefinitions request. When the results of a ListTaskDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The list of task definition Amazon Resource Name (ARN) entries for the ListTaskDefinitions request.
+    public var taskDefinitionArns: [Swift.String]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        taskDefinitionArns: [Swift.String]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.taskDefinitionArns = taskDefinitionArns
+    }
+}
+
+///
+public struct RegisterTaskDefinitionInput: Swift.Sendable {
+    /// A list of container definitions in JSON format that describe the different containers that make up your task.
+    /// This member is required.
+    public var containerDefinitions: [ECSClientTypes.ContainerDefinition]?
+    /// The number of CPU units used by the task. It can be expressed as an integer using CPU units (for example, 1024) or as a string using vCPUs (for example, 1 vCPU or 1 vcpu) in a task definition. String values are converted to an integer indicating the CPU units when the task definition is registered. Task-level CPU and memory parameters are ignored for Windows containers. We recommend specifying container-level resources for Windows containers. If you're using the EC2 launch type or external launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 196608 CPU units (192 vCPUs). If you do not specify a value, the parameter is ignored. This field is required for Fargate. For information about the valid values, see [Task size](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size) in the Amazon Elastic Container Service Developer Guide.
+    public var cpu: Swift.String?
+    /// Enables fault injection when you register your task definition and allows for fault injection requests to be accepted from the task's containers. The default value is false.
+    public var enableFaultInjection: Swift.Bool?
+    /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html) in the Amazon ECS Developer Guide. For tasks using the Fargate launch type, the task requires the following platforms:
+    ///
+    /// * Linux platform version 1.4.0 or later.
+    ///
+    /// * Windows platform version 1.0.0 or later.
+    public var ephemeralStorage: ECSClientTypes.EphemeralStorage?
+    /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. For informationabout the required IAM roles for Amazon ECS, see [IAM roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security-ecs-iam-role-overview.html) in the Amazon Elastic Container Service Developer Guide.
+    public var executionRoleArn: Swift.String?
+    /// You must specify a family for a task definition. You can use it track multiple versions of the same task definition. The family is used as a name for your task definition. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
+    /// This member is required.
+    public var family: Swift.String?
+    /// The Elastic Inference accelerators to use for the containers in the task.
+    public var inferenceAccelerators: [ECSClientTypes.InferenceAccelerator]?
+    /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see [System Controls](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html) in the Amazon Elastic Container Service Developer Guide.
+    ///
+    /// * For tasks that use the host IPC mode, IPC namespace related systemControls are not supported.
+    ///
+    /// * For tasks that use the task IPC mode, IPC namespace related systemControls will apply to all containers within a task.
+    ///
+    ///
+    /// This parameter is not supported for Windows containers or tasks run on Fargate.
+    public var ipcMode: ECSClientTypes.IpcMode?
+    /// The amount of memory (in MiB) used by the task. It can be expressed as an integer using MiB (for example ,1024) or as a string using GB (for example, 1GB or 1 GB) in a task definition. String values are converted to an integer indicating the MiB when the task definition is registered. Task-level CPU and memory parameters are ignored for Windows containers. We recommend specifying container-level resources for Windows containers. If using the EC2 launch type, this field is optional. If using the Fargate launch type, this field is required and you must use one of the following values. This determines your range of supported values for the cpu parameter. The CPU units cannot be less than 1 vCPU when you use Windows containers on Fargate.
+    ///
+    /// * 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)
+    ///
+    /// * 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)
+    ///
+    /// * 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)
+    ///
+    /// * Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)
+    ///
+    /// * Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)
+    ///
+    /// * Between 16 GB and 60 GB in 4 GB increments - Available cpu values: 8192 (8 vCPU) This option requires Linux platform 1.4.0 or later.
+    ///
+    /// * Between 32GB and 120 GB in 8 GB increments - Available cpu values: 16384 (16 vCPU) This option requires Linux platform 1.4.0 or later.
+    public var memory: Swift.String?
+    /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required. For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used. For Amazon ECS tasks on Amazon EC2 Windows instances, <default> or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings. When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user. If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_NetworkConfiguration.html) value when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used.
+    public var networkMode: ECSClientTypes.NetworkMode?
+    /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the The default is a private namespace for each container. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
+    public var pidMode: ECSClientTypes.PidMode?
+    /// An array of placement constraint objects to use for the task. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime.
+    public var placementConstraints: [ECSClientTypes.TaskDefinitionPlacementConstraint]?
+    /// The configuration details for the App Mesh proxy. For tasks hosted on Amazon EC2 instances, the container instances require at least version 1.26.0 of the container agent and at least version 1.26.0-1 of the ecs-init package to use a proxy configuration. If your container instances are launched from the Amazon ECS-optimized AMI version 20190301 or later, then they contain the required versions of the container agent and ecs-init. For more information, see [Amazon ECS-optimized AMI versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-ami-versions.html) in the Amazon Elastic Container Service Developer Guide.
+    public var proxyConfiguration: ECSClientTypes.ProxyConfiguration?
+    /// The task launch type that Amazon ECS validates the task definition against. A client exception is returned if the task definition doesn't validate against the compatibilities specified. If no value is specified, the parameter is omitted from the response.
+    public var requiresCompatibilities: [ECSClientTypes.Compatibility]?
+    /// The operating system that your tasks definitions run on.
+    public var runtimePlatform: ECSClientTypes.RuntimePlatform?
+    /// The metadata that you apply to the task definition to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags:
     ///
     /// * Maximum number of tags per resource - 50
     ///
@@ -9011,7 +11211,57 @@ public struct DescribeTaskDefinitionOutput: Swift.Sendable {
     ///
     /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
     public var tags: [ECSClientTypes.Tag]?
-    /// The full task definition description.
+    /// The short name or full Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role. For more information, see [IAM Roles for Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) in the Amazon Elastic Container Service Developer Guide.
+    public var taskRoleArn: Swift.String?
+    /// A list of volume definitions in JSON format that containers in your task might use.
+    public var volumes: [ECSClientTypes.Volume]?
+
+    public init(
+        containerDefinitions: [ECSClientTypes.ContainerDefinition]? = nil,
+        cpu: Swift.String? = nil,
+        enableFaultInjection: Swift.Bool? = nil,
+        ephemeralStorage: ECSClientTypes.EphemeralStorage? = nil,
+        executionRoleArn: Swift.String? = nil,
+        family: Swift.String? = nil,
+        inferenceAccelerators: [ECSClientTypes.InferenceAccelerator]? = nil,
+        ipcMode: ECSClientTypes.IpcMode? = nil,
+        memory: Swift.String? = nil,
+        networkMode: ECSClientTypes.NetworkMode? = nil,
+        pidMode: ECSClientTypes.PidMode? = nil,
+        placementConstraints: [ECSClientTypes.TaskDefinitionPlacementConstraint]? = nil,
+        proxyConfiguration: ECSClientTypes.ProxyConfiguration? = nil,
+        requiresCompatibilities: [ECSClientTypes.Compatibility]? = nil,
+        runtimePlatform: ECSClientTypes.RuntimePlatform? = nil,
+        tags: [ECSClientTypes.Tag]? = nil,
+        taskRoleArn: Swift.String? = nil,
+        volumes: [ECSClientTypes.Volume]? = nil
+    ) {
+        self.containerDefinitions = containerDefinitions
+        self.cpu = cpu
+        self.enableFaultInjection = enableFaultInjection
+        self.ephemeralStorage = ephemeralStorage
+        self.executionRoleArn = executionRoleArn
+        self.family = family
+        self.inferenceAccelerators = inferenceAccelerators
+        self.ipcMode = ipcMode
+        self.memory = memory
+        self.networkMode = networkMode
+        self.pidMode = pidMode
+        self.placementConstraints = placementConstraints
+        self.proxyConfiguration = proxyConfiguration
+        self.requiresCompatibilities = requiresCompatibilities
+        self.runtimePlatform = runtimePlatform
+        self.tags = tags
+        self.taskRoleArn = taskRoleArn
+        self.volumes = volumes
+    }
+}
+
+///
+public struct RegisterTaskDefinitionOutput: Swift.Sendable {
+    /// The list of tags associated with the task definition.
+    public var tags: [ECSClientTypes.Tag]?
+    /// The full description of the registered task definition.
     public var taskDefinition: ECSClientTypes.TaskDefinition?
 
     public init(
@@ -9049,6 +11299,7 @@ extension ECSClientTypes {
     }
 }
 
+///
 public struct DescribeTasksInput: Swift.Sendable {
     /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task or tasks to describe. If you do not specify a cluster, the default cluster is assumed.
     public var cluster: Swift.String?
@@ -9132,32 +11383,6 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    public enum ManagedAgentName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case executecommandagent
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ManagedAgentName] {
-            return [
-                .executecommandagent
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .executecommandagent: return "ExecuteCommandAgent"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
     /// Details about the managed agent status for the container.
     public struct ManagedAgent: Swift.Sendable {
         /// The Unix timestamp for the time when the managed agent was last started.
@@ -9179,73 +11404,6 @@ extension ECSClientTypes {
             self.lastStatus = lastStatus
             self.name = name
             self.reason = reason
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// Details on the network bindings between a container and its host container instance. After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the networkBindings section of [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html) API responses.
-    public struct NetworkBinding: Swift.Sendable {
-        /// The IP address that the container is bound to on the container instance.
-        public var bindIP: Swift.String?
-        /// The port number on the container that's used with the network binding.
-        public var containerPort: Swift.Int?
-        /// The port number range on the container that's bound to the dynamically mapped host port range. The following rules apply when you specify a containerPortRange:
-        ///
-        /// * You must use either the bridge network mode or the awsvpc network mode.
-        ///
-        /// * This parameter is available for both the EC2 and Fargate launch types.
-        ///
-        /// * This parameter is available for both the Linux and Windows operating systems.
-        ///
-        /// * The container instance must have at least version 1.67.0 of the container agent and at least version 1.67.0-1 of the ecs-init package
-        ///
-        /// * You can specify a maximum of 100 port ranges per container.
-        ///
-        /// * You do not specify a hostPortRange. The value of the hostPortRange is set as follows:
-        ///
-        /// * For containers in a task with the awsvpc network mode, the hostPortRange is set to the same value as the containerPortRange. This is a static mapping strategy.
-        ///
-        /// * For containers in a task with the bridge network mode, the Amazon ECS agent finds open host ports from the default ephemeral range and passes it to docker to bind them to the container ports.
-        ///
-        ///
-        ///
-        ///
-        /// * The containerPortRange valid values are between 1 and 65535.
-        ///
-        /// * A port can only be included in one port mapping per container.
-        ///
-        /// * You cannot specify overlapping port ranges.
-        ///
-        /// * The first port in the range must be less than last port in the range.
-        ///
-        /// * Docker recommends that you turn off the docker-proxy in the Docker daemon config file when you have a large number of ports. For more information, see [ Issue #11185](https://github.com/moby/moby/issues/11185) on the Github website. For information about how to turn off the docker-proxy in the Docker daemon config file, see [Docker daemon](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/bootstrap_container_instance.html#bootstrap_docker_daemon) in the Amazon ECS Developer Guide.
-        ///
-        ///
-        /// You can call [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html) to view the hostPortRange which are the host ports that are bound to the container ports.
-        public var containerPortRange: Swift.String?
-        /// The port number on the host that's used with the network binding.
-        public var hostPort: Swift.Int?
-        /// The port number range on the host that's used with the network binding. This is assigned is assigned by Docker and delivered by the Amazon ECS agent.
-        public var hostPortRange: Swift.String?
-        /// The protocol used for the network binding.
-        public var `protocol`: ECSClientTypes.TransportProtocol?
-
-        public init(
-            bindIP: Swift.String? = nil,
-            containerPort: Swift.Int? = nil,
-            containerPortRange: Swift.String? = nil,
-            hostPort: Swift.Int? = nil,
-            hostPortRange: Swift.String? = nil,
-            `protocol`: ECSClientTypes.TransportProtocol? = nil
-        ) {
-            self.bindIP = bindIP
-            self.containerPort = containerPort
-            self.containerPortRange = containerPortRange
-            self.hostPort = hostPort
-            self.hostPortRange = hostPortRange
-            self.`protocol` = `protocol`
         }
     }
 }
@@ -9358,7 +11516,7 @@ extension ECSClientTypes {
     public struct TaskEphemeralStorage: Swift.Sendable {
         /// Specify an Key Management Service key ID to encrypt the ephemeral storage for the task.
         public var kmsKeyId: Swift.String?
-        /// The total amount, in GiB, of the ephemeral storage to set for the task. The minimum supported value is 20 GiB and the maximum supported value is  200 GiB.
+        /// The total amount, in GiB, of the ephemeral storage to set for the task. The minimum supported value is 20 GiB and the maximum supported value is 200 GiB.
         public var sizeInGiB: Swift.Int
 
         public init(
@@ -9704,6 +11862,7 @@ extension ECSClientTypes {
     }
 }
 
+///
 public struct DescribeTasksOutput: Swift.Sendable {
     /// Any failures associated with the call.
     public var failures: [ECSClientTypes.Failure]?
@@ -9716,228 +11875,6 @@ public struct DescribeTasksOutput: Swift.Sendable {
     ) {
         self.failures = failures
         self.tasks = tasks
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum TaskSetField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case tags
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TaskSetField] {
-            return [
-                .tags
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .tags: return "TAGS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct DescribeTaskSetsInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task sets exist in.
-    /// This member is required.
-    public var cluster: Swift.String?
-    /// Specifies whether to see the resource tags for the task set. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response.
-    public var include: [ECSClientTypes.TaskSetField]?
-    /// The short name or full Amazon Resource Name (ARN) of the service that the task sets exist in.
-    /// This member is required.
-    public var service: Swift.String?
-    /// The ID or full Amazon Resource Name (ARN) of task sets to describe.
-    public var taskSets: [Swift.String]?
-
-    public init(
-        cluster: Swift.String? = nil,
-        include: [ECSClientTypes.TaskSetField]? = nil,
-        service: Swift.String? = nil,
-        taskSets: [Swift.String]? = nil
-    ) {
-        self.cluster = cluster
-        self.include = include
-        self.service = service
-        self.taskSets = taskSets
-    }
-}
-
-public struct DescribeTaskSetsOutput: Swift.Sendable {
-    /// Any failures associated with the call.
-    public var failures: [ECSClientTypes.Failure]?
-    /// The list of task sets described.
-    public var taskSets: [ECSClientTypes.TaskSet]?
-
-    public init(
-        failures: [ECSClientTypes.Failure]? = nil,
-        taskSets: [ECSClientTypes.TaskSet]? = nil
-    ) {
-        self.failures = failures
-        self.taskSets = taskSets
-    }
-}
-
-public struct DiscoverPollEndpointInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that the container instance belongs to.
-    public var cluster: Swift.String?
-    /// The container instance ID or full ARN of the container instance. For more information about the ARN format, see [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#ecs-resource-ids) in the Amazon ECS Developer Guide.
-    public var containerInstance: Swift.String?
-
-    public init(
-        cluster: Swift.String? = nil,
-        containerInstance: Swift.String? = nil
-    ) {
-        self.cluster = cluster
-        self.containerInstance = containerInstance
-    }
-}
-
-public struct DiscoverPollEndpointOutput: Swift.Sendable {
-    /// The endpoint for the Amazon ECS agent to poll.
-    public var endpoint: Swift.String?
-    /// The endpoint for the Amazon ECS agent to poll for Service Connect configuration. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
-    public var serviceConnectEndpoint: Swift.String?
-    /// The telemetry endpoint for the Amazon ECS agent.
-    public var telemetryEndpoint: Swift.String?
-
-    public init(
-        endpoint: Swift.String? = nil,
-        serviceConnectEndpoint: Swift.String? = nil,
-        telemetryEndpoint: Swift.String? = nil
-    ) {
-        self.endpoint = endpoint
-        self.serviceConnectEndpoint = serviceConnectEndpoint
-        self.telemetryEndpoint = telemetryEndpoint
-    }
-}
-
-/// The execute command cannot run. This error can be caused by any of the following configuration issues:
-///
-/// * Incorrect IAM permissions
-///
-/// * The SSM agent is not installed or is not running
-///
-/// * There is an interface Amazon VPC endpoint for Amazon ECS, but there is not one for Systems Manager Session Manager
-///
-///
-/// For information about how to troubleshoot the issues, see [Troubleshooting issues with ECS Exec](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-exec.html) in the Amazon Elastic Container Service Developer Guide.
-public struct TargetNotConnectedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "TargetNotConnectedException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-public struct ExecuteCommandInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) or short name of the cluster the task is running in. If you do not specify a cluster, the default cluster is assumed.
-    public var cluster: Swift.String?
-    /// The command to run on the container.
-    /// This member is required.
-    public var command: Swift.String?
-    /// The name of the container to execute the command on. A container name only needs to be specified for tasks containing multiple containers.
-    public var container: Swift.String?
-    /// Use this flag to run your command in interactive mode.
-    /// This member is required.
-    public var interactive: Swift.Bool?
-    /// The Amazon Resource Name (ARN) or ID of the task the container is part of.
-    /// This member is required.
-    public var task: Swift.String?
-
-    public init(
-        cluster: Swift.String? = nil,
-        command: Swift.String? = nil,
-        container: Swift.String? = nil,
-        interactive: Swift.Bool? = false,
-        task: Swift.String? = nil
-    ) {
-        self.cluster = cluster
-        self.command = command
-        self.container = container
-        self.interactive = interactive
-        self.task = task
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The details for the execute command session.
-    public struct Session: Swift.Sendable {
-        /// The ID of the execute command session.
-        public var sessionId: Swift.String?
-        /// A URL to the managed agent on the container that the SSM Session Manager client uses to send commands and receive output from the container.
-        public var streamUrl: Swift.String?
-        /// An encrypted token value containing session and caller information. It's used to authenticate the connection to the container.
-        public var tokenValue: Swift.String?
-
-        public init(
-            sessionId: Swift.String? = nil,
-            streamUrl: Swift.String? = nil,
-            tokenValue: Swift.String? = nil
-        ) {
-            self.sessionId = sessionId
-            self.streamUrl = streamUrl
-            self.tokenValue = tokenValue
-        }
-    }
-}
-
-extension ECSClientTypes.Session: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "Session(sessionId: \(Swift.String(describing: sessionId)), streamUrl: \(Swift.String(describing: streamUrl)), tokenValue: \"CONTENT_REDACTED\")"}
-}
-
-public struct ExecuteCommandOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the cluster.
-    public var clusterArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of the container.
-    public var containerArn: Swift.String?
-    /// The name of the container.
-    public var containerName: Swift.String?
-    /// Determines whether the execute command session is running in interactive mode. Amazon ECS only supports initiating interactive sessions, so you must specify true for this value.
-    public var interactive: Swift.Bool
-    /// The details of the SSM session that was created for this instance of execute-command.
-    public var session: ECSClientTypes.Session?
-    /// The Amazon Resource Name (ARN) of the task.
-    public var taskArn: Swift.String?
-
-    public init(
-        clusterArn: Swift.String? = nil,
-        containerArn: Swift.String? = nil,
-        containerName: Swift.String? = nil,
-        interactive: Swift.Bool = false,
-        session: ECSClientTypes.Session? = nil,
-        taskArn: Swift.String? = nil
-    ) {
-        self.clusterArn = clusterArn
-        self.containerArn = containerArn
-        self.containerName = containerName
-        self.interactive = interactive
-        self.session = session
-        self.taskArn = taskArn
     }
 }
 
@@ -10001,1163 +11938,6 @@ public struct GetTaskProtectionOutput: Swift.Sendable {
     }
 }
 
-public struct ListAccountSettingsInput: Swift.Sendable {
-    /// Determines whether to return the effective settings. If true, the account settings for the root user or the default setting for the principalArn are returned. If false, the account settings for the principalArn are returned if they're set. Otherwise, no account settings are returned.
-    public var effectiveSettings: Swift.Bool?
-    /// The maximum number of account setting results returned by ListAccountSettings in paginated output. When this parameter is used, ListAccountSettings only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListAccountSettings request with the returned nextToken value. This value can be between 1 and 10. If this parameter isn't used, then ListAccountSettings returns up to 10 results and a nextToken value if applicable.
-    public var maxResults: Swift.Int?
-    /// The name of the account setting you want to list the settings for.
-    public var name: ECSClientTypes.SettingName?
-    /// The nextToken value returned from a ListAccountSettings request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it's possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
-    public var nextToken: Swift.String?
-    /// The ARN of the principal, which can be a user, role, or the root user. If this field is omitted, the account settings are listed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal. Federated users assume the account setting of the root user and can't have explicit account settings set for them.
-    public var principalArn: Swift.String?
-    /// The value of the account settings to filter results with. You must also specify an account setting name to use this parameter.
-    public var value: Swift.String?
-
-    public init(
-        effectiveSettings: Swift.Bool? = false,
-        maxResults: Swift.Int? = 0,
-        name: ECSClientTypes.SettingName? = nil,
-        nextToken: Swift.String? = nil,
-        principalArn: Swift.String? = nil,
-        value: Swift.String? = nil
-    ) {
-        self.effectiveSettings = effectiveSettings
-        self.maxResults = maxResults
-        self.name = name
-        self.nextToken = nextToken
-        self.principalArn = principalArn
-        self.value = value
-    }
-}
-
-public struct ListAccountSettingsOutput: Swift.Sendable {
-    /// The nextToken value to include in a future ListAccountSettings request. When the results of a ListAccountSettings request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-    public var nextToken: Swift.String?
-    /// The account settings for the resource.
-    public var settings: [ECSClientTypes.Setting]?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        settings: [ECSClientTypes.Setting]? = nil
-    ) {
-        self.nextToken = nextToken
-        self.settings = settings
-    }
-}
-
-public struct ListAttributesInput: Swift.Sendable {
-    /// The name of the attribute to filter the results with.
-    public var attributeName: Swift.String?
-    /// The value of the attribute to filter results with. You must also specify an attribute name to use this parameter.
-    public var attributeValue: Swift.String?
-    /// The short name or full Amazon Resource Name (ARN) of the cluster to list attributes. If you do not specify a cluster, the default cluster is assumed.
-    public var cluster: Swift.String?
-    /// The maximum number of cluster results that ListAttributes returned in paginated output. When this parameter is used, ListAttributes only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListAttributes request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListAttributes returns up to 100 results and a nextToken value if applicable.
-    public var maxResults: Swift.Int?
-    /// The nextToken value returned from a ListAttributes request indicating that more results are available to fulfill the request and further calls are needed. If maxResults was provided, it's possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
-    public var nextToken: Swift.String?
-    /// The type of the target to list attributes with.
-    /// This member is required.
-    public var targetType: ECSClientTypes.TargetType?
-
-    public init(
-        attributeName: Swift.String? = nil,
-        attributeValue: Swift.String? = nil,
-        cluster: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil,
-        targetType: ECSClientTypes.TargetType? = nil
-    ) {
-        self.attributeName = attributeName
-        self.attributeValue = attributeValue
-        self.cluster = cluster
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.targetType = targetType
-    }
-}
-
-public struct ListAttributesOutput: Swift.Sendable {
-    /// A list of attribute objects that meet the criteria of the request.
-    public var attributes: [ECSClientTypes.Attribute]?
-    /// The nextToken value to include in a future ListAttributes request. When the results of a ListAttributes request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-    public var nextToken: Swift.String?
-
-    public init(
-        attributes: [ECSClientTypes.Attribute]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.attributes = attributes
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListClustersInput: Swift.Sendable {
-    /// The maximum number of cluster results that ListClusters returned in paginated output. When this parameter is used, ListClusters only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListClusters request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListClusters returns up to 100 results and a nextToken value if applicable.
-    public var maxResults: Swift.Int?
-    /// The nextToken value returned from a ListClusters request indicating that more results are available to fulfill the request and further calls are needed. If maxResults was provided, it's possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
-    public var nextToken: Swift.String?
-
-    public init(
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListClustersOutput: Swift.Sendable {
-    /// The list of full Amazon Resource Name (ARN) entries for each cluster that's associated with your account.
-    public var clusterArns: [Swift.String]?
-    /// The nextToken value to include in a future ListClusters request. When the results of a ListClusters request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-    public var nextToken: Swift.String?
-
-    public init(
-        clusterArns: [Swift.String]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.clusterArns = clusterArns
-        self.nextToken = nextToken
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum ContainerInstanceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case active
-        case deregistering
-        case draining
-        case registering
-        case registrationFailed
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ContainerInstanceStatus] {
-            return [
-                .active,
-                .deregistering,
-                .draining,
-                .registering,
-                .registrationFailed
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .active: return "ACTIVE"
-            case .deregistering: return "DEREGISTERING"
-            case .draining: return "DRAINING"
-            case .registering: return "REGISTERING"
-            case .registrationFailed: return "REGISTRATION_FAILED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct ListContainerInstancesInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instances to list. If you do not specify a cluster, the default cluster is assumed.
-    public var cluster: Swift.String?
-    /// You can filter the results of a ListContainerInstances operation with cluster query language statements. For more information, see [Cluster Query Language](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html) in the Amazon Elastic Container Service Developer Guide.
-    public var filter: Swift.String?
-    /// The maximum number of container instance results that ListContainerInstances returned in paginated output. When this parameter is used, ListContainerInstances only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListContainerInstances request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListContainerInstances returns up to 100 results and a nextToken value if applicable.
-    public var maxResults: Swift.Int?
-    /// The nextToken value returned from a ListContainerInstances request indicating that more results are available to fulfill the request and further calls are needed. If maxResults was provided, it's possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
-    public var nextToken: Swift.String?
-    /// Filters the container instances by status. For example, if you specify the DRAINING status, the results include only container instances that have been set to DRAINING using [UpdateContainerInstancesState](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateContainerInstancesState.html). If you don't specify this parameter, the The default is to include container instances set to all states other than INACTIVE.
-    public var status: ECSClientTypes.ContainerInstanceStatus?
-
-    public init(
-        cluster: Swift.String? = nil,
-        filter: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil,
-        status: ECSClientTypes.ContainerInstanceStatus? = nil
-    ) {
-        self.cluster = cluster
-        self.filter = filter
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.status = status
-    }
-}
-
-public struct ListContainerInstancesOutput: Swift.Sendable {
-    /// The list of container instances with full ARN entries for each container instance associated with the specified cluster.
-    public var containerInstanceArns: [Swift.String]?
-    /// The nextToken value to include in a future ListContainerInstances request. When the results of a ListContainerInstances request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-    public var nextToken: Swift.String?
-
-    public init(
-        containerInstanceArns: [Swift.String]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.containerInstanceArns = containerInstanceArns
-        self.nextToken = nextToken
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The optional filter to narrow the ListServiceDeployment results. If you do not specify a value, service deployments that were created before the current time are included in the result.
-    public struct CreatedAt: Swift.Sendable {
-        /// Include service deployments in the result that were created after this time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
-        public var after: Foundation.Date?
-        /// Include service deployments in the result that were created before this time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
-        public var before: Foundation.Date?
-
-        public init(
-            after: Foundation.Date? = nil,
-            before: Foundation.Date? = nil
-        ) {
-            self.after = after
-            self.before = before
-        }
-    }
-}
-
-public struct ListServiceDeploymentsInput: Swift.Sendable {
-    /// The cluster that hosts the service. This can either be the cluster name or ARN. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. If you don't specify a cluster, default is used.
-    public var cluster: Swift.String?
-    /// An optional filter you can use to narrow the results by the service creation date. If you do not specify a value, the result includes all services created before the current time. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
-    public var createdAt: ECSClientTypes.CreatedAt?
-    /// The maximum number of service deployment results that ListServiceDeployments returned in paginated output. When this parameter is used, ListServiceDeployments only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListServiceDeployments request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListServiceDeployments returns up to 20 results and a nextToken value if applicable.
-    public var maxResults: Swift.Int?
-    /// The nextToken value returned from a ListServiceDeployments request indicating that more results are available to fulfill the request and further calls are needed. If you provided maxResults, it's possible the number of results is fewer than maxResults.
-    public var nextToken: Swift.String?
-    /// The ARN or name of the service
-    /// This member is required.
-    public var service: Swift.String?
-    /// An optional filter you can use to narrow the results. If you do not specify a status, then all status values are included in the result.
-    public var status: [ECSClientTypes.ServiceDeploymentStatus]?
-
-    public init(
-        cluster: Swift.String? = nil,
-        createdAt: ECSClientTypes.CreatedAt? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil,
-        service: Swift.String? = nil,
-        status: [ECSClientTypes.ServiceDeploymentStatus]? = nil
-    ) {
-        self.cluster = cluster
-        self.createdAt = createdAt
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.service = service
-        self.status = status
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The service deployment properties that are retured when you call ListServiceDeployments. This provides a high-level overview of the service deployment.
-    public struct ServiceDeploymentBrief: Swift.Sendable {
-        /// The ARN of the cluster that hosts the service.
-        public var clusterArn: Swift.String?
-        /// The time that the service deployment was created. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
-        public var createdAt: Foundation.Date?
-        /// The time that the service deployment completed. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
-        public var finishedAt: Foundation.Date?
-        /// The ARN of the service for this service deployment.
-        public var serviceArn: Swift.String?
-        /// The ARN of the service deployment.
-        public var serviceDeploymentArn: Swift.String?
-        /// The time that the service deployment statred. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
-        public var startedAt: Foundation.Date?
-        /// The status of the service deployment
-        public var status: ECSClientTypes.ServiceDeploymentStatus?
-        /// Information about why the service deployment is in the current status. For example, the circuit breaker detected a deployment failure.
-        public var statusReason: Swift.String?
-        /// The ARN of the service revision being deplyed.
-        public var targetServiceRevisionArn: Swift.String?
-
-        public init(
-            clusterArn: Swift.String? = nil,
-            createdAt: Foundation.Date? = nil,
-            finishedAt: Foundation.Date? = nil,
-            serviceArn: Swift.String? = nil,
-            serviceDeploymentArn: Swift.String? = nil,
-            startedAt: Foundation.Date? = nil,
-            status: ECSClientTypes.ServiceDeploymentStatus? = nil,
-            statusReason: Swift.String? = nil,
-            targetServiceRevisionArn: Swift.String? = nil
-        ) {
-            self.clusterArn = clusterArn
-            self.createdAt = createdAt
-            self.finishedAt = finishedAt
-            self.serviceArn = serviceArn
-            self.serviceDeploymentArn = serviceDeploymentArn
-            self.startedAt = startedAt
-            self.status = status
-            self.statusReason = statusReason
-            self.targetServiceRevisionArn = targetServiceRevisionArn
-        }
-    }
-}
-
-public struct ListServiceDeploymentsOutput: Swift.Sendable {
-    /// The nextToken value to include in a future ListServiceDeployments request. When the results of a ListServiceDeployments request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-    public var nextToken: Swift.String?
-    /// An overview of the service deployment, including the following properties:
-    ///
-    /// * The ARN of the service deployment.
-    ///
-    /// * The ARN of the service being deployed.
-    ///
-    /// * The ARN of the cluster that hosts the service in the service deployment.
-    ///
-    /// * The time that the service deployment started.
-    ///
-    /// * The time that the service deployment completed.
-    ///
-    /// * The service deployment status.
-    ///
-    /// * Information about why the service deployment is in the current state.
-    ///
-    /// * The ARN of the service revision that is being deployed.
-    public var serviceDeployments: [ECSClientTypes.ServiceDeploymentBrief]?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        serviceDeployments: [ECSClientTypes.ServiceDeploymentBrief]? = nil
-    ) {
-        self.nextToken = nextToken
-        self.serviceDeployments = serviceDeployments
-    }
-}
-
-public struct ListServicesInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of the cluster to use when filtering the ListServices results. If you do not specify a cluster, the default cluster is assumed.
-    public var cluster: Swift.String?
-    /// The launch type to use when filtering the ListServices results.
-    public var launchType: ECSClientTypes.LaunchType?
-    /// The maximum number of service results that ListServices returned in paginated output. When this parameter is used, ListServices only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListServices request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListServices returns up to 10 results and a nextToken value if applicable.
-    public var maxResults: Swift.Int?
-    /// The nextToken value returned from a ListServices request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it is possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
-    public var nextToken: Swift.String?
-    /// The resourceManagementType type to use when filtering the ListServices results.
-    public var resourceManagementType: ECSClientTypes.ResourceManagementType?
-    /// The scheduling strategy to use when filtering the ListServices results.
-    public var schedulingStrategy: ECSClientTypes.SchedulingStrategy?
-
-    public init(
-        cluster: Swift.String? = nil,
-        launchType: ECSClientTypes.LaunchType? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil,
-        resourceManagementType: ECSClientTypes.ResourceManagementType? = nil,
-        schedulingStrategy: ECSClientTypes.SchedulingStrategy? = nil
-    ) {
-        self.cluster = cluster
-        self.launchType = launchType
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.resourceManagementType = resourceManagementType
-        self.schedulingStrategy = schedulingStrategy
-    }
-}
-
-public struct ListServicesOutput: Swift.Sendable {
-    /// The nextToken value to include in a future ListServices request. When the results of a ListServices request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-    public var nextToken: Swift.String?
-    /// The list of full ARN entries for each service that's associated with the specified cluster.
-    public var serviceArns: [Swift.String]?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        serviceArns: [Swift.String]? = nil
-    ) {
-        self.nextToken = nextToken
-        self.serviceArns = serviceArns
-    }
-}
-
-public struct ListServicesByNamespaceInput: Swift.Sendable {
-    /// The maximum number of service results that ListServicesByNamespace returns in paginated output. When this parameter is used, ListServicesByNamespace only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListServicesByNamespace request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListServicesByNamespace returns up to 10 results and a nextToken value if applicable.
-    public var maxResults: Swift.Int?
-    /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map namespace to list the services in. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
-    /// This member is required.
-    public var namespace: Swift.String?
-    /// The nextToken value that's returned from a ListServicesByNamespace request. It indicates that more results are available to fulfill the request and further calls are needed. If maxResults is returned, it is possible the number of results is less than maxResults.
-    public var nextToken: Swift.String?
-
-    public init(
-        maxResults: Swift.Int? = nil,
-        namespace: Swift.String? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.maxResults = maxResults
-        self.namespace = namespace
-        self.nextToken = nextToken
-    }
-}
-
-public struct ListServicesByNamespaceOutput: Swift.Sendable {
-    /// The nextToken value to include in a future ListServicesByNamespace request. When the results of a ListServicesByNamespace request exceed maxResults, this value can be used to retrieve the next page of results. When there are no more results to return, this value is null.
-    public var nextToken: Swift.String?
-    /// The list of full ARN entries for each service that's associated with the specified namespace.
-    public var serviceArns: [Swift.String]?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        serviceArns: [Swift.String]? = nil
-    ) {
-        self.nextToken = nextToken
-        self.serviceArns = serviceArns
-    }
-}
-
-public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resources are Amazon ECS tasks, services, task definitions, clusters, and container instances.
-    /// This member is required.
-    public var resourceArn: Swift.String?
-
-    public init(
-        resourceArn: Swift.String? = nil
-    ) {
-        self.resourceArn = resourceArn
-    }
-}
-
-public struct ListTagsForResourceOutput: Swift.Sendable {
-    /// The tags for the resource.
-    public var tags: [ECSClientTypes.Tag]?
-
-    public init(
-        tags: [ECSClientTypes.Tag]? = nil
-    ) {
-        self.tags = tags
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum TaskDefinitionFamilyStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case active
-        case all
-        case inactive
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TaskDefinitionFamilyStatus] {
-            return [
-                .active,
-                .all,
-                .inactive
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .active: return "ACTIVE"
-            case .all: return "ALL"
-            case .inactive: return "INACTIVE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct ListTaskDefinitionFamiliesInput: Swift.Sendable {
-    /// The familyPrefix is a string that's used to filter the results of ListTaskDefinitionFamilies. If you specify a familyPrefix, only task definition family names that begin with the familyPrefix string are returned.
-    public var familyPrefix: Swift.String?
-    /// The maximum number of task definition family results that ListTaskDefinitionFamilies returned in paginated output. When this parameter is used, ListTaskDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListTaskDefinitionFamilies request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListTaskDefinitionFamilies returns up to 100 results and a nextToken value if applicable.
-    public var maxResults: Swift.Int?
-    /// The nextToken value returned from a ListTaskDefinitionFamilies request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it is possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
-    public var nextToken: Swift.String?
-    /// The task definition family status to filter the ListTaskDefinitionFamilies results with. By default, both ACTIVE and INACTIVE task definition families are listed. If this parameter is set to ACTIVE, only task definition families that have an ACTIVE task definition revision are returned. If this parameter is set to INACTIVE, only task definition families that do not have any ACTIVE task definition revisions are returned. If you paginate the resulting output, be sure to keep the status value constant in each subsequent request.
-    public var status: ECSClientTypes.TaskDefinitionFamilyStatus?
-
-    public init(
-        familyPrefix: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil,
-        status: ECSClientTypes.TaskDefinitionFamilyStatus? = nil
-    ) {
-        self.familyPrefix = familyPrefix
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.status = status
-    }
-}
-
-public struct ListTaskDefinitionFamiliesOutput: Swift.Sendable {
-    /// The list of task definition family names that match the ListTaskDefinitionFamilies request.
-    public var families: [Swift.String]?
-    /// The nextToken value to include in a future ListTaskDefinitionFamilies request. When the results of a ListTaskDefinitionFamilies request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-    public var nextToken: Swift.String?
-
-    public init(
-        families: [Swift.String]? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.families = families
-        self.nextToken = nextToken
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case asc
-        case desc
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SortOrder] {
-            return [
-                .asc,
-                .desc
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .asc: return "ASC"
-            case .desc: return "DESC"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct ListTaskDefinitionsInput: Swift.Sendable {
-    /// The full family name to filter the ListTaskDefinitions results with. Specifying a familyPrefix limits the listed task definitions to task definition revisions that belong to that family.
-    public var familyPrefix: Swift.String?
-    /// The maximum number of task definition results that ListTaskDefinitions returned in paginated output. When this parameter is used, ListTaskDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListTaskDefinitions request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListTaskDefinitions returns up to 100 results and a nextToken value if applicable.
-    public var maxResults: Swift.Int?
-    /// The nextToken value returned from a ListTaskDefinitions request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it is possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
-    public var nextToken: Swift.String?
-    /// The order to sort the results in. Valid values are ASC and DESC. By default, (ASC) task definitions are listed lexicographically by family name and in ascending numerical order by revision so that the newest task definitions in a family are listed last. Setting this parameter to DESC reverses the sort order on family name and revision. This is so that the newest task definitions in a family are listed first.
-    public var sort: ECSClientTypes.SortOrder?
-    /// The task definition status to filter the ListTaskDefinitions results with. By default, only ACTIVE task definitions are listed. By setting this parameter to INACTIVE, you can view task definitions that are INACTIVE as long as an active task or service still references them. If you paginate the resulting output, be sure to keep the status value constant in each subsequent request.
-    public var status: ECSClientTypes.TaskDefinitionStatus?
-
-    public init(
-        familyPrefix: Swift.String? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil,
-        sort: ECSClientTypes.SortOrder? = nil,
-        status: ECSClientTypes.TaskDefinitionStatus? = nil
-    ) {
-        self.familyPrefix = familyPrefix
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.sort = sort
-        self.status = status
-    }
-}
-
-public struct ListTaskDefinitionsOutput: Swift.Sendable {
-    /// The nextToken value to include in a future ListTaskDefinitions request. When the results of a ListTaskDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-    public var nextToken: Swift.String?
-    /// The list of task definition Amazon Resource Name (ARN) entries for the ListTaskDefinitions request.
-    public var taskDefinitionArns: [Swift.String]?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        taskDefinitionArns: [Swift.String]? = nil
-    ) {
-        self.nextToken = nextToken
-        self.taskDefinitionArns = taskDefinitionArns
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum DesiredStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case pending
-        case running
-        case stopped
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DesiredStatus] {
-            return [
-                .pending,
-                .running,
-                .stopped
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .pending: return "PENDING"
-            case .running: return "RUNNING"
-            case .stopped: return "STOPPED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct ListTasksInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of the cluster to use when filtering the ListTasks results. If you do not specify a cluster, the default cluster is assumed.
-    public var cluster: Swift.String?
-    /// The container instance ID or full ARN of the container instance to use when filtering the ListTasks results. Specifying a containerInstance limits the results to tasks that belong to that container instance.
-    public var containerInstance: Swift.String?
-    /// The task desired status to use when filtering the ListTasks results. Specifying a desiredStatus of STOPPED limits the results to tasks that Amazon ECS has set the desired status to STOPPED. This can be useful for debugging tasks that aren't starting properly or have died or finished. The default status filter is RUNNING, which shows tasks that Amazon ECS has set the desired status to RUNNING. Although you can filter results based on a desired status of PENDING, this doesn't return any results. Amazon ECS never sets the desired status of a task to that value (only a task's lastStatus may have a value of PENDING).
-    public var desiredStatus: ECSClientTypes.DesiredStatus?
-    /// The name of the task definition family to use when filtering the ListTasks results. Specifying a family limits the results to tasks that belong to that family.
-    public var family: Swift.String?
-    /// The launch type to use when filtering the ListTasks results.
-    public var launchType: ECSClientTypes.LaunchType?
-    /// The maximum number of task results that ListTasks returned in paginated output. When this parameter is used, ListTasks only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListTasks request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListTasks returns up to 100 results and a nextToken value if applicable.
-    public var maxResults: Swift.Int?
-    /// The nextToken value returned from a ListTasks request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it's possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
-    public var nextToken: Swift.String?
-    /// The name of the service to use when filtering the ListTasks results. Specifying a serviceName limits the results to tasks that belong to that service.
-    public var serviceName: Swift.String?
-    /// The startedBy value to filter the task results with. Specifying a startedBy value limits the results to tasks that were started with that value. When you specify startedBy as the filter, it must be the only filter that you use.
-    public var startedBy: Swift.String?
-
-    public init(
-        cluster: Swift.String? = nil,
-        containerInstance: Swift.String? = nil,
-        desiredStatus: ECSClientTypes.DesiredStatus? = nil,
-        family: Swift.String? = nil,
-        launchType: ECSClientTypes.LaunchType? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil,
-        serviceName: Swift.String? = nil,
-        startedBy: Swift.String? = nil
-    ) {
-        self.cluster = cluster
-        self.containerInstance = containerInstance
-        self.desiredStatus = desiredStatus
-        self.family = family
-        self.launchType = launchType
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.serviceName = serviceName
-        self.startedBy = startedBy
-    }
-}
-
-public struct ListTasksOutput: Swift.Sendable {
-    /// The nextToken value to include in a future ListTasks request. When the results of a ListTasks request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-    public var nextToken: Swift.String?
-    /// The list of task ARN entries for the ListTasks request.
-    public var taskArns: [Swift.String]?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        taskArns: [Swift.String]? = nil
-    ) {
-        self.nextToken = nextToken
-        self.taskArns = taskArns
-    }
-}
-
-public struct PutAccountSettingInput: Swift.Sendable {
-    /// The Amazon ECS account setting name to modify. The following are the valid values for the account setting name.
-    ///
-    /// * serviceLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
-    ///
-    /// * taskLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
-    ///
-    /// * containerInstanceLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
-    ///
-    /// * awsvpcTrunking - When modified, the elastic network interface (ENI) limit for any new container instances that support the feature is changed. If awsvpcTrunking is turned on, any new container instances that support the feature are launched have the increased ENI limits available to them. For more information, see [Elastic Network Interface Trunking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html) in the Amazon Elastic Container Service Developer Guide.
-    ///
-    /// * containerInsights - Container Insights with enhanced observability provides all the Container Insights metrics, plus additional task and container metrics. This version supports enhanced observability for Amazon ECS clusters using the Amazon EC2 and Fargate launch types. After you configure Container Insights with enhanced observability on Amazon ECS, Container Insights auto-collects detailed infrastructure telemetry from the cluster level down to the container level in your environment and displays these critical performance data in curated dashboards removing the heavy lifting in observability set-up. To use Container Insights with enhanced observability, set the containerInsights account setting to enhanced. To use Container Insights, set the containerInsights account setting to enabled. For more information, see [Monitor Amazon ECS containers using Container Insights with enhanced observability](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cloudwatch-container-insights.html) in the Amazon Elastic Container Service Developer Guide.
-    ///
-    /// * dualStackIPv6 - When turned on, when using a VPC in dual stack mode, your tasks using the awsvpc network mode can have an IPv6 address assigned. For more information on using IPv6 with tasks launched on Amazon EC2 instances, see [Using a VPC in dual-stack mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking-awsvpc.html#task-networking-vpc-dual-stack). For more information on using IPv6 with tasks launched on Fargate, see [Using a VPC in dual-stack mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-task-networking.html#fargate-task-networking-vpc-dual-stack).
-    ///
-    /// * fargateTaskRetirementWaitPeriod - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to configure the wait time to retire a Fargate task. For information about the Fargate tasks maintenance, see [Amazon Web Services Fargate task maintenance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html) in the Amazon ECS Developer Guide.
-    ///
-    /// * fargateEventWindows - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateEventWindows to use EC2 Event Windows associated with Fargate tasks to configure time windows for task retirement.
-    ///
-    /// * tagResourceAuthorization - Amazon ECS is introducing tagging authorization for resource creation. Users must have permissions for actions that create the resource, such as ecsCreateCluster. If tags are specified when you create a resource, Amazon Web Services performs additional authorization to verify if users or roles have permissions to create tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For more information, see [Grant permission to tag resources on creation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html) in the Amazon ECS Developer Guide.
-    ///
-    /// * defaultLogDriverMode - Amazon ECS supports setting a default delivery mode of log messages from a container to the logDriver that you specify in the container's logConfiguration. The delivery mode affects application stability when the flow of logs from the container to the log driver is interrupted. The defaultLogDriverMode setting supports two values: blocking and non-blocking. If you don't specify a delivery mode in your container definition's logConfiguration, the mode you specify using this account setting will be used as the default. For more information about log delivery modes, see [LogConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_LogConfiguration.html). On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:
-    ///
-    /// * Set the mode option in your container definition's logConfiguration as blocking.
-    ///
-    /// * Set the defaultLogDriverMode account setting to blocking.
-    ///
-    ///
-    ///
-    ///
-    /// * guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see [Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
-    /// This member is required.
-    public var name: ECSClientTypes.SettingName?
-    /// The ARN of the principal, which can be a user, role, or the root user. If you specify the root user, it modifies the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user. In order to use this parameter, you must be the root user, or the principal. You must use the root user when you set the Fargate wait time (fargateTaskRetirementWaitPeriod). Federated users assume the account setting of the root user and can't have explicit account settings set for them.
-    public var principalArn: Swift.String?
-    /// The account setting value for the specified principal ARN. Accepted values are enabled, disabled, enhanced, on, and off. When you specify fargateTaskRetirementWaitPeriod for the name, the following are the valid values:
-    ///
-    /// * 0 - Amazon Web Services sends the notification, and immediately retires the affected tasks.
-    ///
-    /// * 7 - Amazon Web Services sends the notification, and waits 7 calendar days to retire the tasks.
-    ///
-    /// * 14 - Amazon Web Services sends the notification, and waits 14 calendar days to retire the tasks.
-    /// This member is required.
-    public var value: Swift.String?
-
-    public init(
-        name: ECSClientTypes.SettingName? = nil,
-        principalArn: Swift.String? = nil,
-        value: Swift.String? = nil
-    ) {
-        self.name = name
-        self.principalArn = principalArn
-        self.value = value
-    }
-}
-
-public struct PutAccountSettingOutput: Swift.Sendable {
-    /// The current account setting for a resource.
-    public var setting: ECSClientTypes.Setting?
-
-    public init(
-        setting: ECSClientTypes.Setting? = nil
-    ) {
-        self.setting = setting
-    }
-}
-
-public struct PutAccountSettingDefaultInput: Swift.Sendable {
-    /// The resource name for which to modify the account setting. The following are the valid values for the account setting name.
-    ///
-    /// * serviceLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
-    ///
-    /// * taskLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
-    ///
-    /// * containerInstanceLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
-    ///
-    /// * awsvpcTrunking - When modified, the elastic network interface (ENI) limit for any new container instances that support the feature is changed. If awsvpcTrunking is turned on, any new container instances that support the feature are launched have the increased ENI limits available to them. For more information, see [Elastic Network Interface Trunking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html) in the Amazon Elastic Container Service Developer Guide.
-    ///
-    /// * containerInsights - Container Insights with enhanced observability provides all the Container Insights metrics, plus additional task and container metrics. This version supports enhanced observability for Amazon ECS clusters using the Amazon EC2 and Fargate launch types. After you configure Container Insights with enhanced observability on Amazon ECS, Container Insights auto-collects detailed infrastructure telemetry from the cluster level down to the container level in your environment and displays these critical performance data in curated dashboards removing the heavy lifting in observability set-up. To use Container Insights with enhanced observability, set the containerInsights account setting to enhanced. To use Container Insights, set the containerInsights account setting to enabled. For more information, see [Monitor Amazon ECS containers using Container Insights with enhanced observability](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cloudwatch-container-insights.html) in the Amazon Elastic Container Service Developer Guide.
-    ///
-    /// * dualStackIPv6 - When turned on, when using a VPC in dual stack mode, your tasks using the awsvpc network mode can have an IPv6 address assigned. For more information on using IPv6 with tasks launched on Amazon EC2 instances, see [Using a VPC in dual-stack mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking-awsvpc.html#task-networking-vpc-dual-stack). For more information on using IPv6 with tasks launched on Fargate, see [Using a VPC in dual-stack mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-task-networking.html#fargate-task-networking-vpc-dual-stack).
-    ///
-    /// * fargateFIPSMode - If you specify fargateFIPSMode, Fargate FIPS 140 compliance is affected.
-    ///
-    /// * fargateTaskRetirementWaitPeriod - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to configure the wait time to retire a Fargate task. For information about the Fargate tasks maintenance, see [Amazon Web Services Fargate task maintenance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html) in the Amazon ECS Developer Guide.
-    ///
-    /// * fargateEventWindows - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateEventWindows to use EC2 Event Windows associated with Fargate tasks to configure time windows for task retirement.
-    ///
-    /// * tagResourceAuthorization - Amazon ECS is introducing tagging authorization for resource creation. Users must have permissions for actions that create the resource, such as ecsCreateCluster. If tags are specified when you create a resource, Amazon Web Services performs additional authorization to verify if users or roles have permissions to create tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For more information, see [Grant permission to tag resources on creation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html) in the Amazon ECS Developer Guide.
-    ///
-    /// * defaultLogDriverMode -Amazon ECS supports setting a default delivery mode of log messages from a container to the logDriver that you specify in the container's logConfiguration. The delivery mode affects application stability when the flow of logs from the container to the log driver is interrupted. The defaultLogDriverMode setting supports two values: blocking and non-blocking. If you don't specify a delivery mode in your container definition's logConfiguration, the mode you specify using this account setting will be used as the default. For more information about log delivery modes, see [LogConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_LogConfiguration.html). On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:
-    ///
-    /// * Set the mode option in your container definition's logConfiguration as blocking.
-    ///
-    /// * Set the defaultLogDriverMode account setting to blocking.
-    ///
-    ///
-    ///
-    ///
-    /// * guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see [Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
-    /// This member is required.
-    public var name: ECSClientTypes.SettingName?
-    /// The account setting value for the specified principal ARN. Accepted values are enabled, disabled, on, enhanced, and off. When you specify fargateTaskRetirementWaitPeriod for the name, the following are the valid values:
-    ///
-    /// * 0 - Amazon Web Services sends the notification, and immediately retires the affected tasks.
-    ///
-    /// * 7 - Amazon Web Services sends the notification, and waits 7 calendar days to retire the tasks.
-    ///
-    /// * 14 - Amazon Web Services sends the notification, and waits 14 calendar days to retire the tasks.
-    /// This member is required.
-    public var value: Swift.String?
-
-    public init(
-        name: ECSClientTypes.SettingName? = nil,
-        value: Swift.String? = nil
-    ) {
-        self.name = name
-        self.value = value
-    }
-}
-
-public struct PutAccountSettingDefaultOutput: Swift.Sendable {
-    /// The current setting for a resource.
-    public var setting: ECSClientTypes.Setting?
-
-    public init(
-        setting: ECSClientTypes.Setting? = nil
-    ) {
-        self.setting = setting
-    }
-}
-
-/// You can apply up to 10 custom attributes for each resource. You can view the attributes of a resource with [ListAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListAttributes.html). You can remove existing attributes on a resource with [DeleteAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteAttributes.html).
-public struct AttributeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "AttributeLimitExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-public struct PutAttributesInput: Swift.Sendable {
-    /// The attributes to apply to your resource. You can specify up to 10 custom attributes for each resource. You can specify up to 10 attributes in a single call.
-    /// This member is required.
-    public var attributes: [ECSClientTypes.Attribute]?
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
-    public var cluster: Swift.String?
-
-    public init(
-        attributes: [ECSClientTypes.Attribute]? = nil,
-        cluster: Swift.String? = nil
-    ) {
-        self.attributes = attributes
-        self.cluster = cluster
-    }
-}
-
-public struct PutAttributesOutput: Swift.Sendable {
-    /// The attributes applied to your resource.
-    public var attributes: [ECSClientTypes.Attribute]?
-
-    public init(
-        attributes: [ECSClientTypes.Attribute]? = nil
-    ) {
-        self.attributes = attributes
-    }
-}
-
-/// The specified resource is in-use and can't be removed.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceInUseException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-public struct PutClusterCapacityProvidersInput: Swift.Sendable {
-    /// The name of one or more capacity providers to associate with the cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the [CreateCapacityProvider](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCapacityProvider.html) API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used.
-    /// This member is required.
-    public var capacityProviders: [Swift.String]?
-    /// The short name or full Amazon Resource Name (ARN) of the cluster to modify the capacity provider settings for. If you don't specify a cluster, the default cluster is assumed.
-    /// This member is required.
-    public var cluster: Swift.String?
-    /// The capacity provider strategy to use by default for the cluster. When creating a service or running a task on a cluster, if no capacity provider or launch type is specified then the default capacity provider strategy for the cluster is used. A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capacity provider must be associated with the cluster to be used in a capacity provider strategy. The [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html) API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the [CreateCapacityProvider](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCapacityProvider.html) API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used.
-    /// This member is required.
-    public var defaultCapacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
-
-    public init(
-        capacityProviders: [Swift.String]? = nil,
-        cluster: Swift.String? = nil,
-        defaultCapacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil
-    ) {
-        self.capacityProviders = capacityProviders
-        self.cluster = cluster
-        self.defaultCapacityProviderStrategy = defaultCapacityProviderStrategy
-    }
-}
-
-public struct PutClusterCapacityProvidersOutput: Swift.Sendable {
-    /// Details about the cluster.
-    public var cluster: ECSClientTypes.Cluster?
-
-    public init(
-        cluster: ECSClientTypes.Cluster? = nil
-    ) {
-        self.cluster = cluster
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum PlatformDeviceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case gpu
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [PlatformDeviceType] {
-            return [
-                .gpu
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .gpu: return "GPU"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The devices that are available on the container instance. The only supported device type is a GPU.
-    public struct PlatformDevice: Swift.Sendable {
-        /// The ID for the GPUs on the container instance. The available GPU IDs can also be obtained on the container instance in the /var/lib/ecs/gpu/nvidia_gpu_info.json file.
-        /// This member is required.
-        public var id: Swift.String?
-        /// The type of device that's available on the container instance. The only supported value is GPU.
-        /// This member is required.
-        public var type: ECSClientTypes.PlatformDeviceType?
-
-        public init(
-            id: Swift.String? = nil,
-            type: ECSClientTypes.PlatformDeviceType? = nil
-        ) {
-            self.id = id
-            self.type = type
-        }
-    }
-}
-
-public struct RegisterContainerInstanceInput: Swift.Sendable {
-    /// The container instance attributes that this container instance supports.
-    public var attributes: [ECSClientTypes.Attribute]?
-    /// The short name or full Amazon Resource Name (ARN) of the cluster to register your container instance with. If you do not specify a cluster, the default cluster is assumed.
-    public var cluster: Swift.String?
-    /// The ARN of the container instance (if it was previously registered).
-    public var containerInstanceArn: Swift.String?
-    /// The instance identity document for the EC2 instance to register. This document can be found by running the following command from the instance: curl http://169.254.169.254/latest/dynamic/instance-identity/document/
-    public var instanceIdentityDocument: Swift.String?
-    /// The instance identity document signature for the EC2 instance to register. This signature can be found by running the following command from the instance: curl http://169.254.169.254/latest/dynamic/instance-identity/signature/
-    public var instanceIdentityDocumentSignature: Swift.String?
-    /// The devices that are available on the container instance. The only supported device type is a GPU.
-    public var platformDevices: [ECSClientTypes.PlatformDevice]?
-    /// The metadata that you apply to the container instance to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:
-    ///
-    /// * Maximum number of tags per resource - 50
-    ///
-    /// * For each resource, each tag key must be unique, and each tag key can have only one value.
-    ///
-    /// * Maximum key length - 128 Unicode characters in UTF-8
-    ///
-    /// * Maximum value length - 256 Unicode characters in UTF-8
-    ///
-    /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
-    ///
-    /// * Tag keys and values are case-sensitive.
-    ///
-    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
-    public var tags: [ECSClientTypes.Tag]?
-    /// The resources available on the instance.
-    public var totalResources: [ECSClientTypes.Resource]?
-    /// The version information for the Amazon ECS container agent and Docker daemon that runs on the container instance.
-    public var versionInfo: ECSClientTypes.VersionInfo?
-
-    public init(
-        attributes: [ECSClientTypes.Attribute]? = nil,
-        cluster: Swift.String? = nil,
-        containerInstanceArn: Swift.String? = nil,
-        instanceIdentityDocument: Swift.String? = nil,
-        instanceIdentityDocumentSignature: Swift.String? = nil,
-        platformDevices: [ECSClientTypes.PlatformDevice]? = nil,
-        tags: [ECSClientTypes.Tag]? = nil,
-        totalResources: [ECSClientTypes.Resource]? = nil,
-        versionInfo: ECSClientTypes.VersionInfo? = nil
-    ) {
-        self.attributes = attributes
-        self.cluster = cluster
-        self.containerInstanceArn = containerInstanceArn
-        self.instanceIdentityDocument = instanceIdentityDocument
-        self.instanceIdentityDocumentSignature = instanceIdentityDocumentSignature
-        self.platformDevices = platformDevices
-        self.tags = tags
-        self.totalResources = totalResources
-        self.versionInfo = versionInfo
-    }
-}
-
-public struct RegisterContainerInstanceOutput: Swift.Sendable {
-    /// The container instance that was registered.
-    public var containerInstance: ECSClientTypes.ContainerInstance?
-
-    public init(
-        containerInstance: ECSClientTypes.ContainerInstance? = nil
-    ) {
-        self.containerInstance = containerInstance
-    }
-}
-
-public struct RegisterTaskDefinitionInput: Swift.Sendable {
-    /// A list of container definitions in JSON format that describe the different containers that make up your task.
-    /// This member is required.
-    public var containerDefinitions: [ECSClientTypes.ContainerDefinition]?
-    /// The number of CPU units used by the task. It can be expressed as an integer using CPU units (for example, 1024) or as a string using vCPUs (for example, 1 vCPU or 1 vcpu) in a task definition. String values are converted to an integer indicating the CPU units when the task definition is registered. Task-level CPU and memory parameters are ignored for Windows containers. We recommend specifying container-level resources for Windows containers. If you're using the EC2 launch type or external launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 196608 CPU units (192 vCPUs). If you do not specify a value, the parameter is ignored. This field is required for Fargate. For information about the valid values, see [Task size](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size) in the Amazon Elastic Container Service Developer Guide.
-    public var cpu: Swift.String?
-    /// Enables fault injection when you register your task definition and allows for fault injection requests to be accepted from the task's containers. The default value is false.
-    public var enableFaultInjection: Swift.Bool?
-    /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html) in the Amazon ECS Developer Guide. For tasks using the Fargate launch type, the task requires the following platforms:
-    ///
-    /// * Linux platform version 1.4.0 or later.
-    ///
-    /// * Windows platform version 1.0.0 or later.
-    public var ephemeralStorage: ECSClientTypes.EphemeralStorage?
-    /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. For informationabout the required IAM roles for Amazon ECS, see [IAM roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security-ecs-iam-role-overview.html) in the Amazon Elastic Container Service Developer Guide.
-    public var executionRoleArn: Swift.String?
-    /// You must specify a family for a task definition. You can use it track multiple versions of the same task definition. The family is used as a name for your task definition. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
-    /// This member is required.
-    public var family: Swift.String?
-    /// The Elastic Inference accelerators to use for the containers in the task.
-    public var inferenceAccelerators: [ECSClientTypes.InferenceAccelerator]?
-    /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see [System Controls](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html) in the Amazon Elastic Container Service Developer Guide.
-    ///
-    /// * For tasks that use the host IPC mode, IPC namespace related systemControls are not supported.
-    ///
-    /// * For tasks that use the task IPC mode, IPC namespace related systemControls will apply to all containers within a task.
-    ///
-    ///
-    /// This parameter is not supported for Windows containers or tasks run on Fargate.
-    public var ipcMode: ECSClientTypes.IpcMode?
-    /// The amount of memory (in MiB) used by the task. It can be expressed as an integer using MiB (for example ,1024) or as a string using GB (for example, 1GB or 1 GB) in a task definition. String values are converted to an integer indicating the MiB when the task definition is registered. Task-level CPU and memory parameters are ignored for Windows containers. We recommend specifying container-level resources for Windows containers. If using the EC2 launch type, this field is optional. If using the Fargate launch type, this field is required and you must use one of the following values. This determines your range of supported values for the cpu parameter. The CPU units cannot be less than 1 vCPU when you use Windows containers on Fargate.
-    ///
-    /// * 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)
-    ///
-    /// * 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)
-    ///
-    /// * 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)
-    ///
-    /// * Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)
-    ///
-    /// * Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)
-    ///
-    /// * Between 16 GB and 60 GB in 4 GB increments - Available cpu values: 8192 (8 vCPU) This option requires Linux platform 1.4.0 or later.
-    ///
-    /// * Between 32GB and 120 GB in 8 GB increments - Available cpu values: 16384 (16 vCPU) This option requires Linux platform 1.4.0 or later.
-    public var memory: Swift.String?
-    /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required. For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used. For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings. When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user. If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_NetworkConfiguration.html) value when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used.
-    public var networkMode: ECSClientTypes.NetworkMode?
-    /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the The default is a private namespace for each container. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
-    public var pidMode: ECSClientTypes.PidMode?
-    /// An array of placement constraint objects to use for the task. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime.
-    public var placementConstraints: [ECSClientTypes.TaskDefinitionPlacementConstraint]?
-    /// The configuration details for the App Mesh proxy. For tasks hosted on Amazon EC2 instances, the container instances require at least version 1.26.0 of the container agent and at least version 1.26.0-1 of the ecs-init package to use a proxy configuration. If your container instances are launched from the Amazon ECS-optimized AMI version 20190301 or later, then they contain the required versions of the container agent and ecs-init. For more information, see [Amazon ECS-optimized AMI versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-ami-versions.html) in the Amazon Elastic Container Service Developer Guide.
-    public var proxyConfiguration: ECSClientTypes.ProxyConfiguration?
-    /// The task launch type that Amazon ECS validates the task definition against. A client exception is returned if the task definition doesn't validate against the compatibilities specified. If no value is specified, the parameter is omitted from the response.
-    public var requiresCompatibilities: [ECSClientTypes.Compatibility]?
-    /// The operating system that your tasks definitions run on.
-    public var runtimePlatform: ECSClientTypes.RuntimePlatform?
-    /// The metadata that you apply to the task definition to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags:
-    ///
-    /// * Maximum number of tags per resource - 50
-    ///
-    /// * For each resource, each tag key must be unique, and each tag key can have only one value.
-    ///
-    /// * Maximum key length - 128 Unicode characters in UTF-8
-    ///
-    /// * Maximum value length - 256 Unicode characters in UTF-8
-    ///
-    /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
-    ///
-    /// * Tag keys and values are case-sensitive.
-    ///
-    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
-    public var tags: [ECSClientTypes.Tag]?
-    /// The short name or full Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role. For more information, see [IAM Roles for Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) in the Amazon Elastic Container Service Developer Guide.
-    public var taskRoleArn: Swift.String?
-    /// A list of volume definitions in JSON format that containers in your task might use.
-    public var volumes: [ECSClientTypes.Volume]?
-
-    public init(
-        containerDefinitions: [ECSClientTypes.ContainerDefinition]? = nil,
-        cpu: Swift.String? = nil,
-        enableFaultInjection: Swift.Bool? = nil,
-        ephemeralStorage: ECSClientTypes.EphemeralStorage? = nil,
-        executionRoleArn: Swift.String? = nil,
-        family: Swift.String? = nil,
-        inferenceAccelerators: [ECSClientTypes.InferenceAccelerator]? = nil,
-        ipcMode: ECSClientTypes.IpcMode? = nil,
-        memory: Swift.String? = nil,
-        networkMode: ECSClientTypes.NetworkMode? = nil,
-        pidMode: ECSClientTypes.PidMode? = nil,
-        placementConstraints: [ECSClientTypes.TaskDefinitionPlacementConstraint]? = nil,
-        proxyConfiguration: ECSClientTypes.ProxyConfiguration? = nil,
-        requiresCompatibilities: [ECSClientTypes.Compatibility]? = nil,
-        runtimePlatform: ECSClientTypes.RuntimePlatform? = nil,
-        tags: [ECSClientTypes.Tag]? = nil,
-        taskRoleArn: Swift.String? = nil,
-        volumes: [ECSClientTypes.Volume]? = nil
-    ) {
-        self.containerDefinitions = containerDefinitions
-        self.cpu = cpu
-        self.enableFaultInjection = enableFaultInjection
-        self.ephemeralStorage = ephemeralStorage
-        self.executionRoleArn = executionRoleArn
-        self.family = family
-        self.inferenceAccelerators = inferenceAccelerators
-        self.ipcMode = ipcMode
-        self.memory = memory
-        self.networkMode = networkMode
-        self.pidMode = pidMode
-        self.placementConstraints = placementConstraints
-        self.proxyConfiguration = proxyConfiguration
-        self.requiresCompatibilities = requiresCompatibilities
-        self.runtimePlatform = runtimePlatform
-        self.tags = tags
-        self.taskRoleArn = taskRoleArn
-        self.volumes = volumes
-    }
-}
-
-public struct RegisterTaskDefinitionOutput: Swift.Sendable {
-    /// The list of tags associated with the task definition.
-    public var tags: [ECSClientTypes.Tag]?
-    /// The full description of the registered task definition.
-    public var taskDefinition: ECSClientTypes.TaskDefinition?
-
-    public init(
-        tags: [ECSClientTypes.Tag]? = nil,
-        taskDefinition: ECSClientTypes.TaskDefinition? = nil
-    ) {
-        self.tags = tags
-        self.taskDefinition = taskDefinition
-    }
-}
-
 /// Your Amazon Web Services account was blocked. For more information, contact [ Amazon Web Services Support](http://aws.amazon.com/contact-us/).
 public struct BlockedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -11182,39 +11962,11 @@ public struct BlockedException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-/// The request could not be processed because of conflict in the current state of the resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-        /// The existing task ARNs which are already associated with the clientToken.
-        public internal(set) var resourceIds: [Swift.String]? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceIds: [Swift.String]? = nil
-    ) {
-        self.properties.message = message
-        self.properties.resourceIds = resourceIds
-    }
-}
-
 extension ECSClientTypes {
 
     /// The termination policy for the Amazon EBS volume when the task exits. For more information, see [Amazon ECS volume termination policy](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types).
     public struct TaskManagedEBSVolumeTerminationPolicy: Swift.Sendable {
-        /// Indicates whether the volume should be deleted on when the task stops. If a value of true is specified,  Amazon ECS deletes the Amazon EBS volume on your behalf when the task goes into the STOPPED state. If no value is specified, the  default value is true is used. When set to false, Amazon ECS leaves the volume in your  account.
+        /// Indicates whether the volume should be deleted on when the task stops. If a value of true is specified, Amazon ECS deletes the Amazon EBS volume on your behalf when the task goes into the STOPPED state. If no value is specified, the default value is true is used. When set to false, Amazon ECS leaves the volume in your account.
         /// This member is required.
         public var deleteOnTermination: Swift.Bool?
 
@@ -11232,7 +11984,7 @@ extension ECSClientTypes {
     public struct TaskManagedEBSVolumeConfiguration: Swift.Sendable {
         /// Indicates whether the volume should be encrypted. If you turn on Region-level Amazon EBS encryption by default but set this value as false, the setting is overridden and the volume is encrypted with the KMS key specified for Amazon EBS encryption by default. This parameter maps 1:1 with the Encrypted parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
         public var encrypted: Swift.Bool?
-        /// The Linux filesystem type for the volume. For volumes created from a snapshot, you must specify the same filesystem type that the volume was using when the snapshot was created. If there is a filesystem type mismatch, the task will fail to start. The available filesystem types are  ext3, ext4, and xfs. If no value is specified, the xfs filesystem type is used by default.
+        /// The Linux filesystem type for the volume. For volumes created from a snapshot, you must specify the same filesystem type that the volume was using when the snapshot was created. If there is a filesystem type mismatch, the task will fail to start. The available filesystem types are ext3, ext4, and xfs. If no value is specified, the xfs filesystem type is used by default.
         public var filesystemType: ECSClientTypes.TaskFilesystemType?
         /// The number of I/O operations per second (IOPS). For gp3, io1, and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. The following are the supported values for each volume type.
         ///
@@ -11333,6 +12085,7 @@ extension ECSClientTypes {
     }
 }
 
+///
 public struct RunTaskInput: Swift.Sendable {
     /// The capacity provider strategy to use for the task. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. When you use cluster auto scaling, you must specify capacityProviderStrategy and not launchType. A capacity provider strategy can contain a maximum of 20 capacity providers.
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
@@ -11431,6 +12184,7 @@ public struct RunTaskInput: Swift.Sendable {
     }
 }
 
+///
 public struct RunTaskOutput: Swift.Sendable {
     /// Any failures associated with the call. For information about how to address failures, see [Service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages.html#service-event-messages-list) and [API failure reasons](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html) in the Amazon Elastic Container Service Developer Guide.
     public var failures: [ECSClientTypes.Failure]?
@@ -11446,6 +12200,7 @@ public struct RunTaskOutput: Swift.Sendable {
     }
 }
 
+///
 public struct StartTaskInput: Swift.Sendable {
     /// The short name or full Amazon Resource Name (ARN) of the cluster where to start your task. If you do not specify a cluster, the default cluster is assumed.
     public var cluster: Swift.String?
@@ -11521,6 +12276,7 @@ public struct StartTaskInput: Swift.Sendable {
     }
 }
 
+///
 public struct StartTaskOutput: Swift.Sendable {
     /// Any failures associated with the call.
     public var failures: [ECSClientTypes.Failure]?
@@ -11536,86 +12292,7 @@ public struct StartTaskOutput: Swift.Sendable {
     }
 }
 
-/// The service deploy ARN that you specified in the StopServiceDeployment doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs.
-public struct ServiceDeploymentNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceDeploymentNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-extension ECSClientTypes {
-
-    public enum StopServiceDeploymentStopType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case abort
-        case rollback
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [StopServiceDeploymentStopType] {
-            return [
-                .abort,
-                .rollback
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .abort: return "ABORT"
-            case .rollback: return "ROLLBACK"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct StopServiceDeploymentInput: Swift.Sendable {
-    /// The ARN of the service deployment that you want to stop.
-    /// This member is required.
-    public var serviceDeploymentArn: Swift.String?
-    /// How you want Amazon ECS to stop the service. The valid values are ROLLBACK.
-    public var stopType: ECSClientTypes.StopServiceDeploymentStopType?
-
-    public init(
-        serviceDeploymentArn: Swift.String? = nil,
-        stopType: ECSClientTypes.StopServiceDeploymentStopType? = nil
-    ) {
-        self.serviceDeploymentArn = serviceDeploymentArn
-        self.stopType = stopType
-    }
-}
-
-public struct StopServiceDeploymentOutput: Swift.Sendable {
-    /// The ARN of the stopped service deployment.
-    public var serviceDeploymentArn: Swift.String?
-
-    public init(
-        serviceDeploymentArn: Swift.String? = nil
-    ) {
-        self.serviceDeploymentArn = serviceDeploymentArn
-    }
-}
-
+///
 public struct StopTaskInput: Swift.Sendable {
     /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task to stop. If you do not specify a cluster, the default cluster is assumed.
     public var cluster: Swift.String?
@@ -11636,6 +12313,7 @@ public struct StopTaskInput: Swift.Sendable {
     }
 }
 
+///
 public struct StopTaskOutput: Swift.Sendable {
     /// The task that was stopped.
     public var task: ECSClientTypes.Task?
@@ -11644,835 +12322,6 @@ public struct StopTaskOutput: Swift.Sendable {
         task: ECSClientTypes.Task? = nil
     ) {
         self.task = task
-    }
-}
-
-extension ECSClientTypes {
-
-    /// An object representing a change in state for a task attachment.
-    public struct AttachmentStateChange: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the attachment.
-        /// This member is required.
-        public var attachmentArn: Swift.String?
-        /// The status of the attachment.
-        /// This member is required.
-        public var status: Swift.String?
-
-        public init(
-            attachmentArn: Swift.String? = nil,
-            status: Swift.String? = nil
-        ) {
-            self.attachmentArn = attachmentArn
-            self.status = status
-        }
-    }
-}
-
-public struct SubmitAttachmentStateChangesInput: Swift.Sendable {
-    /// Any attachments associated with the state change request.
-    /// This member is required.
-    public var attachments: [ECSClientTypes.AttachmentStateChange]?
-    /// The short name or full ARN of the cluster that hosts the container instance the attachment belongs to.
-    public var cluster: Swift.String?
-
-    public init(
-        attachments: [ECSClientTypes.AttachmentStateChange]? = nil,
-        cluster: Swift.String? = nil
-    ) {
-        self.attachments = attachments
-        self.cluster = cluster
-    }
-}
-
-public struct SubmitAttachmentStateChangesOutput: Swift.Sendable {
-    /// Acknowledgement of the state change.
-    public var acknowledgment: Swift.String?
-
-    public init(
-        acknowledgment: Swift.String? = nil
-    ) {
-        self.acknowledgment = acknowledgment
-    }
-}
-
-public struct SubmitContainerStateChangeInput: Swift.Sendable {
-    /// The short name or full ARN of the cluster that hosts the container.
-    public var cluster: Swift.String?
-    /// The name of the container.
-    public var containerName: Swift.String?
-    /// The exit code that's returned for the state change request.
-    public var exitCode: Swift.Int?
-    /// The network bindings of the container.
-    public var networkBindings: [ECSClientTypes.NetworkBinding]?
-    /// The reason for the state change request.
-    public var reason: Swift.String?
-    /// The ID of the Docker container.
-    public var runtimeId: Swift.String?
-    /// The status of the state change request.
-    public var status: Swift.String?
-    /// The task ID or full Amazon Resource Name (ARN) of the task that hosts the container.
-    public var task: Swift.String?
-
-    public init(
-        cluster: Swift.String? = nil,
-        containerName: Swift.String? = nil,
-        exitCode: Swift.Int? = nil,
-        networkBindings: [ECSClientTypes.NetworkBinding]? = nil,
-        reason: Swift.String? = nil,
-        runtimeId: Swift.String? = nil,
-        status: Swift.String? = nil,
-        task: Swift.String? = nil
-    ) {
-        self.cluster = cluster
-        self.containerName = containerName
-        self.exitCode = exitCode
-        self.networkBindings = networkBindings
-        self.reason = reason
-        self.runtimeId = runtimeId
-        self.status = status
-        self.task = task
-    }
-}
-
-public struct SubmitContainerStateChangeOutput: Swift.Sendable {
-    /// Acknowledgement of the state change.
-    public var acknowledgment: Swift.String?
-
-    public init(
-        acknowledgment: Swift.String? = nil
-    ) {
-        self.acknowledgment = acknowledgment
-    }
-}
-
-extension ECSClientTypes {
-
-    /// An object that represents a change in state for a container.
-    public struct ContainerStateChange: Swift.Sendable {
-        /// The name of the container.
-        public var containerName: Swift.String?
-        /// The exit code for the container, if the state change is a result of the container exiting.
-        public var exitCode: Swift.Int?
-        /// The container image SHA 256 digest.
-        public var imageDigest: Swift.String?
-        /// Any network bindings that are associated with the container.
-        public var networkBindings: [ECSClientTypes.NetworkBinding]?
-        /// The reason for the state change.
-        public var reason: Swift.String?
-        /// The ID of the Docker container.
-        public var runtimeId: Swift.String?
-        /// The status of the container.
-        public var status: Swift.String?
-
-        public init(
-            containerName: Swift.String? = nil,
-            exitCode: Swift.Int? = nil,
-            imageDigest: Swift.String? = nil,
-            networkBindings: [ECSClientTypes.NetworkBinding]? = nil,
-            reason: Swift.String? = nil,
-            runtimeId: Swift.String? = nil,
-            status: Swift.String? = nil
-        ) {
-            self.containerName = containerName
-            self.exitCode = exitCode
-            self.imageDigest = imageDigest
-            self.networkBindings = networkBindings
-            self.reason = reason
-            self.runtimeId = runtimeId
-            self.status = status
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// An object representing a change in state for a managed agent.
-    public struct ManagedAgentStateChange: Swift.Sendable {
-        /// The name of the container that's associated with the managed agent.
-        /// This member is required.
-        public var containerName: Swift.String?
-        /// The name of the managed agent.
-        /// This member is required.
-        public var managedAgentName: ECSClientTypes.ManagedAgentName?
-        /// The reason for the status of the managed agent.
-        public var reason: Swift.String?
-        /// The status of the managed agent.
-        /// This member is required.
-        public var status: Swift.String?
-
-        public init(
-            containerName: Swift.String? = nil,
-            managedAgentName: ECSClientTypes.ManagedAgentName? = nil,
-            reason: Swift.String? = nil,
-            status: Swift.String? = nil
-        ) {
-            self.containerName = containerName
-            self.managedAgentName = managedAgentName
-            self.reason = reason
-            self.status = status
-        }
-    }
-}
-
-public struct SubmitTaskStateChangeInput: Swift.Sendable {
-    /// Any attachments associated with the state change request.
-    public var attachments: [ECSClientTypes.AttachmentStateChange]?
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task.
-    public var cluster: Swift.String?
-    /// Any containers that's associated with the state change request.
-    public var containers: [ECSClientTypes.ContainerStateChange]?
-    /// The Unix timestamp for the time when the task execution stopped.
-    public var executionStoppedAt: Foundation.Date?
-    /// The details for the managed agent that's associated with the task.
-    public var managedAgents: [ECSClientTypes.ManagedAgentStateChange]?
-    /// The Unix timestamp for the time when the container image pull started.
-    public var pullStartedAt: Foundation.Date?
-    /// The Unix timestamp for the time when the container image pull completed.
-    public var pullStoppedAt: Foundation.Date?
-    /// The reason for the state change request.
-    public var reason: Swift.String?
-    /// The status of the state change request.
-    public var status: Swift.String?
-    /// The task ID or full ARN of the task in the state change request.
-    public var task: Swift.String?
-
-    public init(
-        attachments: [ECSClientTypes.AttachmentStateChange]? = nil,
-        cluster: Swift.String? = nil,
-        containers: [ECSClientTypes.ContainerStateChange]? = nil,
-        executionStoppedAt: Foundation.Date? = nil,
-        managedAgents: [ECSClientTypes.ManagedAgentStateChange]? = nil,
-        pullStartedAt: Foundation.Date? = nil,
-        pullStoppedAt: Foundation.Date? = nil,
-        reason: Swift.String? = nil,
-        status: Swift.String? = nil,
-        task: Swift.String? = nil
-    ) {
-        self.attachments = attachments
-        self.cluster = cluster
-        self.containers = containers
-        self.executionStoppedAt = executionStoppedAt
-        self.managedAgents = managedAgents
-        self.pullStartedAt = pullStartedAt
-        self.pullStoppedAt = pullStoppedAt
-        self.reason = reason
-        self.status = status
-        self.task = task
-    }
-}
-
-public struct SubmitTaskStateChangeOutput: Swift.Sendable {
-    /// Acknowledgement of the state change.
-    public var acknowledgment: Swift.String?
-
-    public init(
-        acknowledgment: Swift.String? = nil
-    ) {
-        self.acknowledgment = acknowledgment
-    }
-}
-
-public struct TagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource to add tags to. Currently, the supported resources are Amazon ECS capacity providers, tasks, services, task definitions, clusters, and container instances. In order to tag a service that has the following ARN format, you need to migrate the service to the long ARN. For more information, see [Migrate an Amazon ECS short service ARN to a long ARN](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-arn-migration.html) in the Amazon Elastic Container Service Developer Guide. arn:aws:ecs:region:aws_account_id:service/service-name After the migration is complete, the service has the long ARN format, as shown below. Use this ARN to tag the service. arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name If you try to tag a service with a short ARN, you receive an InvalidParameterException error.
-    /// This member is required.
-    public var resourceArn: Swift.String?
-    /// The tags to add to the resource. A tag is an array of key-value pairs. The following basic restrictions apply to tags:
-    ///
-    /// * Maximum number of tags per resource - 50
-    ///
-    /// * For each resource, each tag key must be unique, and each tag key can have only one value.
-    ///
-    /// * Maximum key length - 128 Unicode characters in UTF-8
-    ///
-    /// * Maximum value length - 256 Unicode characters in UTF-8
-    ///
-    /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
-    ///
-    /// * Tag keys and values are case-sensitive.
-    ///
-    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
-    /// This member is required.
-    public var tags: [ECSClientTypes.Tag]?
-
-    public init(
-        resourceArn: Swift.String? = nil,
-        tags: [ECSClientTypes.Tag]? = nil
-    ) {
-        self.resourceArn = resourceArn
-        self.tags = tags
-    }
-}
-
-public struct TagResourceOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct UntagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource to delete tags from. Currently, the supported resources are Amazon ECS capacity providers, tasks, services, task definitions, clusters, and container instances.
-    /// This member is required.
-    public var resourceArn: Swift.String?
-    /// The keys of the tags to be removed.
-    /// This member is required.
-    public var tagKeys: [Swift.String]?
-
-    public init(
-        resourceArn: Swift.String? = nil,
-        tagKeys: [Swift.String]? = nil
-    ) {
-        self.resourceArn = resourceArn
-        self.tagKeys = tagKeys
-    }
-}
-
-public struct UntagResourceOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-extension ECSClientTypes {
-
-    /// The details of the Auto Scaling group capacity provider to update.
-    public struct AutoScalingGroupProviderUpdate: Swift.Sendable {
-        /// The managed draining option for the Auto Scaling group capacity provider. When you enable this, Amazon ECS manages and gracefully drains the EC2 container instances that are in the Auto Scaling group capacity provider.
-        public var managedDraining: ECSClientTypes.ManagedDraining?
-        /// The managed scaling settings for the Auto Scaling group capacity provider.
-        public var managedScaling: ECSClientTypes.ManagedScaling?
-        /// The managed termination protection setting to use for the Auto Scaling group capacity provider. This determines whether the Auto Scaling group has managed termination protection. When using managed termination protection, managed scaling must also be used otherwise managed termination protection doesn't work. When managed termination protection is on, Amazon ECS prevents the Amazon EC2 instances in an Auto Scaling group that contain tasks from being terminated during a scale-in action. The Auto Scaling group and each instance in the Auto Scaling group must have instance protection from scale-in actions on. For more information, see [Instance Protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html#instance-protection) in the Auto Scaling User Guide. When managed termination protection is off, your Amazon EC2 instances aren't protected from termination when the Auto Scaling group scales in.
-        public var managedTerminationProtection: ECSClientTypes.ManagedTerminationProtection?
-
-        public init(
-            managedDraining: ECSClientTypes.ManagedDraining? = nil,
-            managedScaling: ECSClientTypes.ManagedScaling? = nil,
-            managedTerminationProtection: ECSClientTypes.ManagedTerminationProtection? = nil
-        ) {
-            self.managedDraining = managedDraining
-            self.managedScaling = managedScaling
-            self.managedTerminationProtection = managedTerminationProtection
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The updated launch template configuration for Amazon ECS Managed Instances. You can modify the instance profile, network configuration, storage settings, and instance requirements. Changes apply to new instances launched after the update. For more information, see [Store instance launch parameters in Amazon EC2 launch templates](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) in the Amazon EC2 User Guide.
-    public struct InstanceLaunchTemplateUpdate: Swift.Sendable {
-        /// The updated Amazon Resource Name (ARN) of the instance profile. The new instance profile must have the necessary permissions for your tasks. For more information, see [Amazon ECS instance profile for Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/managed-instances-instance-profile.html) in the Amazon ECS Developer Guide.
-        public var ec2InstanceProfileArn: Swift.String?
-        /// The updated instance requirements for attribute-based instance type selection. Changes to instance requirements affect which instance types Amazon ECS selects for new instances.
-        public var instanceRequirements: ECSClientTypes.InstanceRequirementsRequest?
-        /// CloudWatch provides two categories of monitoring: basic monitoring and detailed monitoring. By default, your managed instance is configured for basic monitoring. You can optionally enable detailed monitoring to help you more quickly identify and act on operational issues. You can enable or turn off detailed monitoring at launch or when the managed instance is running or stopped. For more information, see [Detailed monitoring for Amazon ECS Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/detailed-monitoring-managed-instances.html) in the Amazon ECS Developer Guide.
-        public var monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions?
-        /// The updated network configuration for Amazon ECS Managed Instances. Changes to subnets and security groups affect new instances launched after the update.
-        public var networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration?
-        /// The updated storage configuration for Amazon ECS Managed Instances. Changes to storage settings apply to new instances launched after the update.
-        public var storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration?
-
-        public init(
-            ec2InstanceProfileArn: Swift.String? = nil,
-            instanceRequirements: ECSClientTypes.InstanceRequirementsRequest? = nil,
-            monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions? = nil,
-            networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration? = nil,
-            storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration? = nil
-        ) {
-            self.ec2InstanceProfileArn = ec2InstanceProfileArn
-            self.instanceRequirements = instanceRequirements
-            self.monitoring = monitoring
-            self.networkConfiguration = networkConfiguration
-            self.storageConfiguration = storageConfiguration
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// The updated configuration for a Amazon ECS Managed Instances provider. You can modify the infrastructure role, instance launch template, and tag propagation settings. Changes apply to new instances launched after the update.
-    public struct UpdateManagedInstancesProviderConfiguration: Swift.Sendable {
-        /// The updated infrastructure optimization configuration. Changes to this setting affect how Amazon ECS optimizes instances going forward.
-        public var infrastructureOptimization: ECSClientTypes.InfrastructureOptimization?
-        /// The updated Amazon Resource Name (ARN) of the infrastructure role. The new role must have the necessary permissions to manage instances and access required Amazon Web Services services. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
-        /// This member is required.
-        public var infrastructureRoleArn: Swift.String?
-        /// The updated launch template configuration. Changes to the launch template affect new instances launched after the update, while existing instances continue to use their original configuration.
-        /// This member is required.
-        public var instanceLaunchTemplate: ECSClientTypes.InstanceLaunchTemplateUpdate?
-        /// The updated tag propagation setting. When changed, this affects only new instances launched after the update.
-        public var propagateTags: ECSClientTypes.PropagateMITags?
-
-        public init(
-            infrastructureOptimization: ECSClientTypes.InfrastructureOptimization? = nil,
-            infrastructureRoleArn: Swift.String? = nil,
-            instanceLaunchTemplate: ECSClientTypes.InstanceLaunchTemplateUpdate? = nil,
-            propagateTags: ECSClientTypes.PropagateMITags? = nil
-        ) {
-            self.infrastructureOptimization = infrastructureOptimization
-            self.infrastructureRoleArn = infrastructureRoleArn
-            self.instanceLaunchTemplate = instanceLaunchTemplate
-            self.propagateTags = propagateTags
-        }
-    }
-}
-
-public struct UpdateCapacityProviderInput: Swift.Sendable {
-    /// An object that represent the parameters to update for the Auto Scaling group capacity provider.
-    public var autoScalingGroupProvider: ECSClientTypes.AutoScalingGroupProviderUpdate?
-    /// The name of the cluster that contains the capacity provider to update. Managed instances capacity providers are cluster-scoped and can only be updated within their associated cluster.
-    public var cluster: Swift.String?
-    /// The updated configuration for the Amazon ECS Managed Instances provider. You can modify the infrastructure role, instance launch template, and tag propagation settings. Changes take effect for new instances launched after the update.
-    public var managedInstancesProvider: ECSClientTypes.UpdateManagedInstancesProviderConfiguration?
-    /// The name of the capacity provider to update.
-    /// This member is required.
-    public var name: Swift.String?
-
-    public init(
-        autoScalingGroupProvider: ECSClientTypes.AutoScalingGroupProviderUpdate? = nil,
-        cluster: Swift.String? = nil,
-        managedInstancesProvider: ECSClientTypes.UpdateManagedInstancesProviderConfiguration? = nil,
-        name: Swift.String? = nil
-    ) {
-        self.autoScalingGroupProvider = autoScalingGroupProvider
-        self.cluster = cluster
-        self.managedInstancesProvider = managedInstancesProvider
-        self.name = name
-    }
-}
-
-public struct UpdateCapacityProviderOutput: Swift.Sendable {
-    /// Details about the capacity provider.
-    public var capacityProvider: ECSClientTypes.CapacityProvider?
-
-    public init(
-        capacityProvider: ECSClientTypes.CapacityProvider? = nil
-    ) {
-        self.capacityProvider = capacityProvider
-    }
-}
-
-public struct UpdateClusterInput: Swift.Sendable {
-    /// The name of the cluster to modify the settings for.
-    /// This member is required.
-    public var cluster: Swift.String?
-    /// The execute command configuration for the cluster.
-    public var configuration: ECSClientTypes.ClusterConfiguration?
-    /// Use this parameter to set a default Service Connect namespace. After you set a default Service Connect namespace, any new services with Service Connect turned on that are created in the cluster are added as client services in the namespace. This setting only applies to new services that set the enabled parameter to true in the ServiceConnectConfiguration. You can set the namespace of each service individually in the ServiceConnectConfiguration to override this default parameter. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
-    public var serviceConnectDefaults: ECSClientTypes.ClusterServiceConnectDefaultsRequest?
-    /// The cluster settings for your cluster.
-    public var settings: [ECSClientTypes.ClusterSetting]?
-
-    public init(
-        cluster: Swift.String? = nil,
-        configuration: ECSClientTypes.ClusterConfiguration? = nil,
-        serviceConnectDefaults: ECSClientTypes.ClusterServiceConnectDefaultsRequest? = nil,
-        settings: [ECSClientTypes.ClusterSetting]? = nil
-    ) {
-        self.cluster = cluster
-        self.configuration = configuration
-        self.serviceConnectDefaults = serviceConnectDefaults
-        self.settings = settings
-    }
-}
-
-public struct UpdateClusterOutput: Swift.Sendable {
-    /// Details about the cluster.
-    public var cluster: ECSClientTypes.Cluster?
-
-    public init(
-        cluster: ECSClientTypes.Cluster? = nil
-    ) {
-        self.cluster = cluster
-    }
-}
-
-public struct UpdateClusterSettingsInput: Swift.Sendable {
-    /// The name of the cluster to modify the settings for.
-    /// This member is required.
-    public var cluster: Swift.String?
-    /// The setting to use by default for a cluster. This parameter is used to turn on CloudWatch Container Insights for a cluster. If this value is specified, it overrides the containerInsights value set with [PutAccountSetting](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAccountSetting.html) or [PutAccountSettingDefault](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAccountSettingDefault.html). Currently, if you delete an existing cluster that does not have Container Insights turned on, and then create a new cluster with the same name with Container Insights tuned on, Container Insights will not actually be turned on. If you want to preserve the same name for your existing cluster and turn on Container Insights, you must wait 7 days before you can re-create it.
-    /// This member is required.
-    public var settings: [ECSClientTypes.ClusterSetting]?
-
-    public init(
-        cluster: Swift.String? = nil,
-        settings: [ECSClientTypes.ClusterSetting]? = nil
-    ) {
-        self.cluster = cluster
-        self.settings = settings
-    }
-}
-
-public struct UpdateClusterSettingsOutput: Swift.Sendable {
-    /// Details about the cluster
-    public var cluster: ECSClientTypes.Cluster?
-
-    public init(
-        cluster: ECSClientTypes.Cluster? = nil
-    ) {
-        self.cluster = cluster
-    }
-}
-
-/// Amazon ECS can't determine the current version of the Amazon ECS container agent on the container instance and doesn't have enough information to proceed with an update. This could be because the agent running on the container instance is a previous or custom version that doesn't use our version information.
-public struct MissingVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "MissingVersionException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// There's no update available for this Amazon ECS container agent. This might be because the agent is already running the latest version or because it's so old that there's no update path to the current version.
-public struct NoUpdateAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "NoUpdateAvailableException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-public struct UpdateContainerAgentInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that your container instance is running on. If you do not specify a cluster, the default cluster is assumed.
-    public var cluster: Swift.String?
-    /// The container instance ID or full ARN entries for the container instance where you would like to update the Amazon ECS container agent.
-    /// This member is required.
-    public var containerInstance: Swift.String?
-
-    public init(
-        cluster: Swift.String? = nil,
-        containerInstance: Swift.String? = nil
-    ) {
-        self.cluster = cluster
-        self.containerInstance = containerInstance
-    }
-}
-
-public struct UpdateContainerAgentOutput: Swift.Sendable {
-    /// The container instance that the container agent was updated for.
-    public var containerInstance: ECSClientTypes.ContainerInstance?
-
-    public init(
-        containerInstance: ECSClientTypes.ContainerInstance? = nil
-    ) {
-        self.containerInstance = containerInstance
-    }
-}
-
-public struct UpdateContainerInstancesStateInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to update. If you do not specify a cluster, the default cluster is assumed.
-    public var cluster: Swift.String?
-    /// A list of up to 10 container instance IDs or full ARN entries.
-    /// This member is required.
-    public var containerInstances: [Swift.String]?
-    /// The container instance state to update the container instance with. The only valid values for this action are ACTIVE and DRAINING. A container instance can only be updated to DRAINING status once it has reached an ACTIVE state. If a container instance is in REGISTERING, DEREGISTERING, or REGISTRATION_FAILED state you can describe the container instance but can't update the container instance state.
-    /// This member is required.
-    public var status: ECSClientTypes.ContainerInstanceStatus?
-
-    public init(
-        cluster: Swift.String? = nil,
-        containerInstances: [Swift.String]? = nil,
-        status: ECSClientTypes.ContainerInstanceStatus? = nil
-    ) {
-        self.cluster = cluster
-        self.containerInstances = containerInstances
-        self.status = status
-    }
-}
-
-public struct UpdateContainerInstancesStateOutput: Swift.Sendable {
-    /// The list of container instances.
-    public var containerInstances: [ECSClientTypes.ContainerInstance]?
-    /// Any failures associated with the call.
-    public var failures: [ECSClientTypes.Failure]?
-
-    public init(
-        containerInstances: [ECSClientTypes.ContainerInstance]? = nil,
-        failures: [ECSClientTypes.Failure]? = nil
-    ) {
-        self.containerInstances = containerInstances
-        self.failures = failures
-    }
-}
-
-public struct UpdateExpressGatewayServiceInput: Swift.Sendable {
-    /// The number of CPU units used by the task.
-    public var cpu: Swift.String?
-    /// The Amazon Resource Name (ARN) of the task execution role for the Express service.
-    public var executionRoleArn: Swift.String?
-    /// The path on the container for Application Load Balancer health checks.
-    public var healthCheckPath: Swift.String?
-    /// The amount of memory (in MiB) used by the task.
-    public var memory: Swift.String?
-    /// The network configuration for the Express service tasks. By default, the network configuration for an Express service uses the default VPC.
-    public var networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration?
-    /// The primary container configuration for the Express service.
-    public var primaryContainer: ECSClientTypes.ExpressGatewayContainer?
-    /// The auto-scaling configuration for the Express service.
-    public var scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget?
-    /// The Amazon Resource Name (ARN) of the Express service to update.
-    /// This member is required.
-    public var serviceArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM role for containers in this task.
-    public var taskRoleArn: Swift.String?
-
-    public init(
-        cpu: Swift.String? = nil,
-        executionRoleArn: Swift.String? = nil,
-        healthCheckPath: Swift.String? = nil,
-        memory: Swift.String? = nil,
-        networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration? = nil,
-        primaryContainer: ECSClientTypes.ExpressGatewayContainer? = nil,
-        scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget? = nil,
-        serviceArn: Swift.String? = nil,
-        taskRoleArn: Swift.String? = nil
-    ) {
-        self.cpu = cpu
-        self.executionRoleArn = executionRoleArn
-        self.healthCheckPath = healthCheckPath
-        self.memory = memory
-        self.networkConfiguration = networkConfiguration
-        self.primaryContainer = primaryContainer
-        self.scalingTarget = scalingTarget
-        self.serviceArn = serviceArn
-        self.taskRoleArn = taskRoleArn
-    }
-}
-
-extension ECSClientTypes {
-
-    /// An object that describes an Express service to be updated.
-    public struct UpdatedExpressGatewayService: Swift.Sendable {
-        /// The cluster associated with the Express service that is being updated.
-        public var cluster: Swift.String?
-        /// The Unix timestamp for when the Express service that is being updated was created.
-        public var createdAt: Foundation.Date?
-        /// The ARN of the Express service that is being updated.
-        public var serviceArn: Swift.String?
-        /// The name of the Express service that is being updated.
-        public var serviceName: Swift.String?
-        /// The status of the Express service that is being updated.
-        public var status: ECSClientTypes.ExpressGatewayServiceStatus?
-        /// The configuration to which the current Express service is being updated to.
-        public var targetConfiguration: ECSClientTypes.ExpressGatewayServiceConfiguration?
-        /// The Unix timestamp for when the Express service that is being updated was most recently updated.
-        public var updatedAt: Foundation.Date?
-
-        public init(
-            cluster: Swift.String? = nil,
-            createdAt: Foundation.Date? = nil,
-            serviceArn: Swift.String? = nil,
-            serviceName: Swift.String? = nil,
-            status: ECSClientTypes.ExpressGatewayServiceStatus? = nil,
-            targetConfiguration: ECSClientTypes.ExpressGatewayServiceConfiguration? = nil,
-            updatedAt: Foundation.Date? = nil
-        ) {
-            self.cluster = cluster
-            self.createdAt = createdAt
-            self.serviceArn = serviceArn
-            self.serviceName = serviceName
-            self.status = status
-            self.targetConfiguration = targetConfiguration
-            self.updatedAt = updatedAt
-        }
-    }
-}
-
-public struct UpdateExpressGatewayServiceOutput: Swift.Sendable {
-    /// The full description of your express gateway service following the update call.
-    public var service: ECSClientTypes.UpdatedExpressGatewayService?
-
-    public init(
-        service: ECSClientTypes.UpdatedExpressGatewayService? = nil
-    ) {
-        self.service = service
-    }
-}
-
-public struct UpdateServiceInput: Swift.Sendable {
-    /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide . The default behavior of AvailabilityZoneRebalancing differs between create and update requests:
-    ///
-    /// * For create service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to ENABLED.
-    ///
-    /// * For update service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults to the existing service’s AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as DISABLED.
-    ///
-    ///
-    /// This parameter doesn't trigger a new service deployment.
-    public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
-    /// The details of a capacity provider strategy. You can set a capacity provider when you create a cluster, run a task, or update a service. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter. When you use Fargate, the capacity providers are FARGATE or FARGATE_SPOT. When you use Amazon EC2, the capacity providers are Auto Scaling groups. You can change capacity providers for rolling deployments and blue/green deployments. The following list provides the valid transitions:
-    ///
-    /// * Update the Fargate launch type to an Auto Scaling group capacity provider.
-    ///
-    /// * Update the Amazon EC2 launch type to a Fargate capacity provider.
-    ///
-    /// * Update the Fargate capacity provider to an Auto Scaling group capacity provider.
-    ///
-    /// * Update the Amazon EC2 capacity provider to a Fargate capacity provider.
-    ///
-    /// * Update the Auto Scaling group or Fargate capacity provider back to the launch type. Pass an empty list in the capacityProviderStrategy parameter.
-    ///
-    ///
-    /// For information about Amazon Web Services CDK considerations, see [Amazon Web Services CDK considerations](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/update-service-parameters.html). This parameter doesn't trigger a new service deployment.
-    public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that your service runs on. If you do not specify a cluster, the default cluster is assumed. You can't change the cluster name.
-    public var cluster: Swift.String?
-    /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks. This parameter doesn't trigger a new service deployment.
-    public var deploymentConfiguration: ECSClientTypes.DeploymentConfiguration?
-    /// The deployment controller to use for the service.
-    public var deploymentController: ECSClientTypes.DeploymentController?
-    /// The number of instantiations of the task to place and keep running in your service. This parameter doesn't trigger a new service deployment.
-    public var desiredCount: Swift.Int?
-    /// Determines whether to turn on Amazon ECS managed tags for the tasks in the service. For more information, see [Tagging Your Amazon ECS Resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide. Only tasks launched after the update will reflect the update. To update the tags on all tasks, set forceNewDeployment to true, so that Amazon ECS starts new tasks with the updated tags. This parameter doesn't trigger a new service deployment.
-    public var enableECSManagedTags: Swift.Bool?
-    /// If true, this enables execute command functionality on all task containers. If you do not want to override the value that was set when the service was created, you can set this to null when performing this action. This parameter doesn't trigger a new service deployment.
-    public var enableExecuteCommand: Swift.Bool?
-    /// Determines whether to force a new deployment of the service. By default, deployments aren't forced. You can use this option to start a new deployment with no service definition changes. For example, you can update a service's tasks to use a newer Docker image with the same image/tag combination (my_image:latest) or to roll Fargate tasks onto a newer platform version.
-    public var forceNewDeployment: Swift.Bool?
-    /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you don't specify a health check grace period value, the default value of 0 is used. If you don't use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service's tasks take a while to start and respond to health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count. This parameter doesn't trigger a new service deployment.
-    public var healthCheckGracePeriodSeconds: Swift.Int?
-    /// You must have a service-linked role when you update this property A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition. When you add, update, or remove a load balancer configuration, Amazon ECS starts new tasks with the updated Elastic Load Balancing configuration, and then stops the old tasks when the new tasks are running. For services that use rolling updates, you can add, update, or remove Elastic Load Balancing target groups. You can update from a single target group to multiple target groups and from multiple target groups to a single target group. For services that use blue/green deployments, you can update Elastic Load Balancing target groups by using [CreateDeployment](https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html) through CodeDeploy. Note that multiple target groups are not supported for blue/green deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. For services that use the external deployment controller, you can add, update, or remove load balancers by using [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). Note that multiple target groups are not supported for external deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. You can remove existing loadBalancers by passing an empty list. This parameter triggers a new service deployment.
-    public var loadBalancers: [ECSClientTypes.LoadBalancer]?
-    /// An object representing the network configuration for the service. This parameter triggers a new service deployment.
-    public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
-    /// An array of task placement constraint objects to update the service to use. If no value is specified, the existing placement constraints for the service will remain unchanged. If this value is specified, it will override any existing placement constraints defined for the service. To remove all existing placement constraints, specify an empty array. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime. This parameter doesn't trigger a new service deployment.
-    public var placementConstraints: [ECSClientTypes.PlacementConstraint]?
-    /// The task placement strategy objects to update the service to use. If no value is specified, the existing placement strategy for the service will remain unchanged. If this value is specified, it will override the existing placement strategy defined for the service. To remove an existing placement strategy, specify an empty object. You can specify a maximum of five strategy rules for each service. This parameter doesn't trigger a new service deployment.
-    public var placementStrategy: [ECSClientTypes.PlacementStrategy]?
-    /// The platform version that your tasks in the service run on. A platform version is only specified for tasks using the Fargate launch type. If a platform version is not specified, the LATEST platform version is used. For more information, see [Fargate Platform Versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide. This parameter triggers a new service deployment.
-    public var platformVersion: Swift.String?
-    /// Determines whether to propagate the tags from the task definition or the service to the task. If no value is specified, the tags aren't propagated. Only tasks launched after the update will reflect the update. To update the tags on all tasks, set forceNewDeployment to true, so that Amazon ECS starts new tasks with the updated tags. This parameter doesn't trigger a new service deployment.
-    public var propagateTags: ECSClientTypes.PropagateTags?
-    /// The name of the service to update.
-    /// This member is required.
-    public var service: Swift.String?
-    /// The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide. This parameter triggers a new service deployment.
-    public var serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration?
-    /// You must have a service-linked role when you update this property. For more information about the role see the CreateService request parameter [role](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html#ECS-CreateService-request-role). The details for the service discovery registries to assign to this service. For more information, see [Service Discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html). When you add, update, or remove the service registries configuration, Amazon ECS starts new tasks with the updated service registries configuration, and then stops the old tasks when the new tasks are running. You can remove existing serviceRegistries by passing an empty list. This parameter triggers a new service deployment.
-    public var serviceRegistries: [ECSClientTypes.ServiceRegistry]?
-    /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used. If you modify the task definition with UpdateService, Amazon ECS spawns a task with the new version of the task definition and then stops an old task after the new version is running. This parameter triggers a new service deployment.
-    public var taskDefinition: Swift.String?
-    /// The details of the volume that was configuredAtLaunch. You can configure the size, volumeType, IOPS, throughput, snapshot and encryption in [ServiceManagedEBSVolumeConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ServiceManagedEBSVolumeConfiguration.html). The name of the volume must match the name from the task definition. If set to null, no new deployment is triggered. Otherwise, if this configuration differs from the existing one, it triggers a new deployment. This parameter triggers a new service deployment.
-    public var volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]?
-    /// An object representing the VPC Lattice configuration for the service being updated. This parameter triggers a new service deployment.
-    public var vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]?
-
-    public init(
-        availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing? = nil,
-        capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
-        cluster: Swift.String? = nil,
-        deploymentConfiguration: ECSClientTypes.DeploymentConfiguration? = nil,
-        deploymentController: ECSClientTypes.DeploymentController? = nil,
-        desiredCount: Swift.Int? = nil,
-        enableECSManagedTags: Swift.Bool? = nil,
-        enableExecuteCommand: Swift.Bool? = nil,
-        forceNewDeployment: Swift.Bool? = false,
-        healthCheckGracePeriodSeconds: Swift.Int? = nil,
-        loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
-        networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
-        placementConstraints: [ECSClientTypes.PlacementConstraint]? = nil,
-        placementStrategy: [ECSClientTypes.PlacementStrategy]? = nil,
-        platformVersion: Swift.String? = nil,
-        propagateTags: ECSClientTypes.PropagateTags? = nil,
-        service: Swift.String? = nil,
-        serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration? = nil,
-        serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
-        taskDefinition: Swift.String? = nil,
-        volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil,
-        vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]? = nil
-    ) {
-        self.availabilityZoneRebalancing = availabilityZoneRebalancing
-        self.capacityProviderStrategy = capacityProviderStrategy
-        self.cluster = cluster
-        self.deploymentConfiguration = deploymentConfiguration
-        self.deploymentController = deploymentController
-        self.desiredCount = desiredCount
-        self.enableECSManagedTags = enableECSManagedTags
-        self.enableExecuteCommand = enableExecuteCommand
-        self.forceNewDeployment = forceNewDeployment
-        self.healthCheckGracePeriodSeconds = healthCheckGracePeriodSeconds
-        self.loadBalancers = loadBalancers
-        self.networkConfiguration = networkConfiguration
-        self.placementConstraints = placementConstraints
-        self.placementStrategy = placementStrategy
-        self.platformVersion = platformVersion
-        self.propagateTags = propagateTags
-        self.service = service
-        self.serviceConnectConfiguration = serviceConnectConfiguration
-        self.serviceRegistries = serviceRegistries
-        self.taskDefinition = taskDefinition
-        self.volumeConfigurations = volumeConfigurations
-        self.vpcLatticeConfigurations = vpcLatticeConfigurations
-    }
-}
-
-public struct UpdateServiceOutput: Swift.Sendable {
-    /// The full description of your service following the update call.
-    public var service: ECSClientTypes.Service?
-
-    public init(
-        service: ECSClientTypes.Service? = nil
-    ) {
-        self.service = service
-    }
-}
-
-public struct UpdateServicePrimaryTaskSetInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set exists in.
-    /// This member is required.
-    public var cluster: Swift.String?
-    /// The short name or full Amazon Resource Name (ARN) of the task set to set as the primary task set in the deployment.
-    /// This member is required.
-    public var primaryTaskSet: Swift.String?
-    /// The short name or full Amazon Resource Name (ARN) of the service that the task set exists in.
-    /// This member is required.
-    public var service: Swift.String?
-
-    public init(
-        cluster: Swift.String? = nil,
-        primaryTaskSet: Swift.String? = nil,
-        service: Swift.String? = nil
-    ) {
-        self.cluster = cluster
-        self.primaryTaskSet = primaryTaskSet
-        self.service = service
-    }
-}
-
-public struct UpdateServicePrimaryTaskSetOutput: Swift.Sendable {
-    /// The details about the task set.
-    public var taskSet: ECSClientTypes.TaskSet?
-
-    public init(
-        taskSet: ECSClientTypes.TaskSet? = nil
-    ) {
-        self.taskSet = taskSet
     }
 }
 
@@ -12523,6 +12372,196 @@ public struct UpdateTaskProtectionOutput: Swift.Sendable {
     }
 }
 
+public struct CreateTaskSetInput: Swift.Sendable {
+    /// The capacity provider strategy to use for the task set. A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capacity provider must be associated with the cluster to be used in a capacity provider strategy. The [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html) API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the [CreateCapacityProviderProvider](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCapacityProviderProvider.html)API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html) API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
+    public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
+    /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126 (inclusive) are allowed.
+    public var clientToken: Swift.String?
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service to create the task set in.
+    /// This member is required.
+    public var cluster: Swift.String?
+    /// An optional non-unique tag that identifies this task set in external systems. If the task set is associated with a service discovery registry, the tasks in this task set will have the ECS_TASK_SET_EXTERNAL_ID Cloud Map attribute set to the provided value.
+    public var externalId: Swift.String?
+    /// The launch type that new tasks in the task set uses. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
+    public var launchType: ECSClientTypes.LaunchType?
+    /// A load balancer object representing the load balancer to use with the task set. The supported load balancer types are either an Application Load Balancer or a Network Load Balancer.
+    public var loadBalancers: [ECSClientTypes.LoadBalancer]?
+    /// An object representing the network configuration for a task set.
+    public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
+    /// The platform version that the tasks in the task set uses. A platform version is specified only for tasks using the Fargate launch type. If one isn't specified, the LATEST platform version is used.
+    public var platformVersion: Swift.String?
+    /// A floating-point percentage of the desired number of tasks to place and keep running in the task set.
+    public var scale: ECSClientTypes.Scale?
+    /// The short name or full Amazon Resource Name (ARN) of the service to create the task set in.
+    /// This member is required.
+    public var service: Swift.String?
+    /// The details of the service discovery registries to assign to this task set. For more information, see [Service discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html).
+    public var serviceRegistries: [ECSClientTypes.ServiceRegistry]?
+    /// The metadata that you apply to the task set to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. When a service is deleted, the tags are deleted. The following basic restrictions apply to tags:
+    ///
+    /// * Maximum number of tags per resource - 50
+    ///
+    /// * For each resource, each tag key must be unique, and each tag key can have only one value.
+    ///
+    /// * Maximum key length - 128 Unicode characters in UTF-8
+    ///
+    /// * Maximum value length - 256 Unicode characters in UTF-8
+    ///
+    /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
+    ///
+    /// * Tag keys and values are case-sensitive.
+    ///
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+    public var tags: [ECSClientTypes.Tag]?
+    /// The task definition for the tasks in the task set to use. If a revision isn't specified, the latest ACTIVE revision is used.
+    /// This member is required.
+    public var taskDefinition: Swift.String?
+
+    public init(
+        capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
+        clientToken: Swift.String? = nil,
+        cluster: Swift.String? = nil,
+        externalId: Swift.String? = nil,
+        launchType: ECSClientTypes.LaunchType? = nil,
+        loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
+        networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
+        platformVersion: Swift.String? = nil,
+        scale: ECSClientTypes.Scale? = nil,
+        service: Swift.String? = nil,
+        serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
+        tags: [ECSClientTypes.Tag]? = nil,
+        taskDefinition: Swift.String? = nil
+    ) {
+        self.capacityProviderStrategy = capacityProviderStrategy
+        self.clientToken = clientToken
+        self.cluster = cluster
+        self.externalId = externalId
+        self.launchType = launchType
+        self.loadBalancers = loadBalancers
+        self.networkConfiguration = networkConfiguration
+        self.platformVersion = platformVersion
+        self.scale = scale
+        self.service = service
+        self.serviceRegistries = serviceRegistries
+        self.tags = tags
+        self.taskDefinition = taskDefinition
+    }
+}
+
+public struct CreateTaskSetOutput: Swift.Sendable {
+    /// Information about a set of Amazon ECS tasks in either an CodeDeploy or an EXTERNAL deployment. A task set includes details such as the desired number of tasks, how many tasks are running, and whether the task set serves production traffic.
+    public var taskSet: ECSClientTypes.TaskSet?
+
+    public init(
+        taskSet: ECSClientTypes.TaskSet? = nil
+    ) {
+        self.taskSet = taskSet
+    }
+}
+
+public struct DeleteTaskSetInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set found in to delete.
+    /// This member is required.
+    public var cluster: Swift.String?
+    /// If true, you can delete a task set even if it hasn't been scaled down to zero.
+    public var force: Swift.Bool?
+    /// The short name or full Amazon Resource Name (ARN) of the service that hosts the task set to delete.
+    /// This member is required.
+    public var service: Swift.String?
+    /// The task set ID or full Amazon Resource Name (ARN) of the task set to delete.
+    /// This member is required.
+    public var taskSet: Swift.String?
+
+    public init(
+        cluster: Swift.String? = nil,
+        force: Swift.Bool? = nil,
+        service: Swift.String? = nil,
+        taskSet: Swift.String? = nil
+    ) {
+        self.cluster = cluster
+        self.force = force
+        self.service = service
+        self.taskSet = taskSet
+    }
+}
+
+public struct DeleteTaskSetOutput: Swift.Sendable {
+    /// Details about the task set.
+    public var taskSet: ECSClientTypes.TaskSet?
+
+    public init(
+        taskSet: ECSClientTypes.TaskSet? = nil
+    ) {
+        self.taskSet = taskSet
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum TaskSetField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tags
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TaskSetField] {
+            return [
+                .tags
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tags: return "TAGS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeTaskSetsInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task sets exist in.
+    /// This member is required.
+    public var cluster: Swift.String?
+    /// Specifies whether to see the resource tags for the task set. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response.
+    public var include: [ECSClientTypes.TaskSetField]?
+    /// The short name or full Amazon Resource Name (ARN) of the service that the task sets exist in.
+    /// This member is required.
+    public var service: Swift.String?
+    /// The ID or full Amazon Resource Name (ARN) of task sets to describe.
+    public var taskSets: [Swift.String]?
+
+    public init(
+        cluster: Swift.String? = nil,
+        include: [ECSClientTypes.TaskSetField]? = nil,
+        service: Swift.String? = nil,
+        taskSets: [Swift.String]? = nil
+    ) {
+        self.cluster = cluster
+        self.include = include
+        self.service = service
+        self.taskSets = taskSets
+    }
+}
+
+public struct DescribeTaskSetsOutput: Swift.Sendable {
+    /// Any failures associated with the call.
+    public var failures: [ECSClientTypes.Failure]?
+    /// The list of task sets described.
+    public var taskSets: [ECSClientTypes.TaskSet]?
+
+    public init(
+        failures: [ECSClientTypes.Failure]? = nil,
+        taskSets: [ECSClientTypes.TaskSet]? = nil
+    ) {
+        self.failures = failures
+        self.taskSets = taskSets
+    }
+}
+
 public struct UpdateTaskSetInput: Swift.Sendable {
     /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set is found in.
     /// This member is required.
@@ -12559,6 +12598,28 @@ public struct UpdateTaskSetOutput: Swift.Sendable {
     ) {
         self.taskSet = taskSet
     }
+}
+
+public struct UntagResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource to delete tags from. Currently, the supported resources are Amazon ECS capacity providers, tasks, services, task definitions, clusters, and container instances.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The keys of the tags to be removed.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
+    }
+}
+
+public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension CreateCapacityProviderInput {

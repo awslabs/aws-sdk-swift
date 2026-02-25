@@ -296,6 +296,8 @@ public struct InvokeEndpointAsyncInput: Swift.Sendable {
     /// The name of the endpoint that you specified when you created the endpoint using the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html) API.
     /// This member is required.
     public var endpointName: Swift.String?
+    /// The filename for the inference response payload stored in Amazon S3. If not specified, Amazon SageMaker AI generates a filename based on the inference ID.
+    public var filename: Swift.String?
     /// The identifier for the inference request. Amazon SageMaker AI will generate an identifier for you if none is specified.
     public var inferenceId: Swift.String?
     /// The Amazon S3 URI where the inference request payload is stored.
@@ -305,31 +307,37 @@ public struct InvokeEndpointAsyncInput: Swift.Sendable {
     public var invocationTimeoutSeconds: Swift.Int?
     /// Maximum age in seconds a request can be in the queue before it is marked as expired. The default is 6 hours, or 21,600 seconds.
     public var requestTTLSeconds: Swift.Int?
+    /// The path extension that is appended to the Amazon S3 output path where the inference response payload is stored.
+    public var s3OutputPathExtension: Swift.String?
 
     public init(
         accept: Swift.String? = nil,
         contentType: Swift.String? = nil,
         customAttributes: Swift.String? = nil,
         endpointName: Swift.String? = nil,
+        filename: Swift.String? = nil,
         inferenceId: Swift.String? = nil,
         inputLocation: Swift.String? = nil,
         invocationTimeoutSeconds: Swift.Int? = nil,
-        requestTTLSeconds: Swift.Int? = nil
+        requestTTLSeconds: Swift.Int? = nil,
+        s3OutputPathExtension: Swift.String? = nil
     ) {
         self.accept = accept
         self.contentType = contentType
         self.customAttributes = customAttributes
         self.endpointName = endpointName
+        self.filename = filename
         self.inferenceId = inferenceId
         self.inputLocation = inputLocation
         self.invocationTimeoutSeconds = invocationTimeoutSeconds
         self.requestTTLSeconds = requestTTLSeconds
+        self.s3OutputPathExtension = s3OutputPathExtension
     }
 }
 
 extension InvokeEndpointAsyncInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeEndpointAsyncInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), endpointName: \(Swift.String(describing: endpointName)), inferenceId: \(Swift.String(describing: inferenceId)), inputLocation: \(Swift.String(describing: inputLocation)), invocationTimeoutSeconds: \(Swift.String(describing: invocationTimeoutSeconds)), requestTTLSeconds: \(Swift.String(describing: requestTTLSeconds)), customAttributes: \"CONTENT_REDACTED\")"}
+        "InvokeEndpointAsyncInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), endpointName: \(Swift.String(describing: endpointName)), filename: \(Swift.String(describing: filename)), inferenceId: \(Swift.String(describing: inferenceId)), inputLocation: \(Swift.String(describing: inputLocation)), invocationTimeoutSeconds: \(Swift.String(describing: invocationTimeoutSeconds)), requestTTLSeconds: \(Swift.String(describing: requestTTLSeconds)), s3OutputPathExtension: \(Swift.String(describing: s3OutputPathExtension)), customAttributes: \"CONTENT_REDACTED\")"}
 }
 
 public struct InvokeEndpointAsyncOutput: Swift.Sendable {
@@ -585,6 +593,9 @@ extension InvokeEndpointAsyncInput {
         if let customAttributes = value.customAttributes {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-SageMaker-Custom-Attributes", value: Swift.String(customAttributes)))
         }
+        if let filename = value.filename {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-SageMaker-Filename", value: Swift.String(filename)))
+        }
         if let inferenceId = value.inferenceId {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-SageMaker-Inference-Id", value: Swift.String(inferenceId)))
         }
@@ -596,6 +607,9 @@ extension InvokeEndpointAsyncInput {
         }
         if let requestTTLSeconds = value.requestTTLSeconds {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-SageMaker-RequestTTLSeconds", value: Swift.String(requestTTLSeconds)))
+        }
+        if let s3OutputPathExtension = value.s3OutputPathExtension {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-SageMaker-S3OutputPathExtension", value: Swift.String(s3OutputPathExtension)))
         }
         return items
     }

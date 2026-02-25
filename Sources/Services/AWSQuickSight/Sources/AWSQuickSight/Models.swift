@@ -29684,6 +29684,7 @@ extension QuickSightClientTypes {
         case decimal
         case integer
         case json
+        case semistruct
         case string
         case sdkUnknown(Swift.String)
 
@@ -29695,6 +29696,7 @@ extension QuickSightClientTypes {
                 .decimal,
                 .integer,
                 .json,
+                .semistruct,
                 .string
             ]
         }
@@ -29712,6 +29714,7 @@ extension QuickSightClientTypes {
             case .decimal: return "DECIMAL"
             case .integer: return "INTEGER"
             case .json: return "JSON"
+            case .semistruct: return "SEMISTRUCT"
             case .string: return "STRING"
             case let .sdkUnknown(s): return s
             }
@@ -29730,7 +29733,7 @@ extension QuickSightClientTypes {
         public var name: Swift.String?
         /// The sub data type of the column. Sub types are only available for decimal columns that are part of a SPICE dataset.
         public var subType: QuickSightClientTypes.ColumnDataSubType?
-        /// The data type of the column.
+        /// The data type of the column. Note: SEMISTRUCT represents Athena's map, row, and struct data types. It is supported when using the new data preparation experience.
         /// This member is required.
         public var type: QuickSightClientTypes.InputColumnDataType?
 
@@ -42565,7 +42568,18 @@ public struct GenerateEmbedUrlForAnonymousUserInput: Swift.Sendable {
     public var namespace: Swift.String?
     /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
     public var sessionLifetimeInMinutes: Swift.Int?
-    /// Session tags are user-specified strings that identify a session in your application. You can use these tags to implement row-level security (RLS) controls. Before you use the SessionTags parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. When using session tags, you must call GenerateEmbedUrlForAnonymousUser from a secure, trusted environment. The API call passes session tags that enable server-side data redaction by using the row-level security (RLS) rules configured in your datasets. A secure, trusted environment has access controls that you implement. These controls ensure that only your server or authorized users can add or modify session tags. Besides, these are not the tags used for the Amazon Web Services resource tagging feature. For more information, see [Using Row-Level Security (RLS) with Tags](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-rls-tags.html) in the Amazon Quick Suite User Guide.
+    /// Session tags are user-specified strings that identify a session in your application. You can use these tags to implement row-level security (RLS) controls. Before you use the SessionTags parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. When using SessionTags in GenerateEmbedUrlForAnonymousUser,
+    ///
+    /// * Treat SessionTags as security credentials. Do not expose SessionTags to end users or client-side code.
+    ///
+    /// * Implement server-side controls. Ensure that SessionTags are set exclusively by your trusted backend services, not by parameters that end users can modify.
+    ///
+    /// * Protect SessionTags from enumeration. Ensure that users in one tenant cannot discover or guess sessionTag values belonging to other tenants.
+    ///
+    /// * Review your architecture. If downstream customers or partners are allowed to call the GenerateEmbedUrlForAnonymousUser API directly, evaluate whether those parties could specify sessionTag values for tenants they should not access.
+    ///
+    ///
+    /// Besides, these are not the tags used for the Amazon Web Services resource tagging feature. For more information, see [Using Row-Level Security (RLS) with Tags](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-rls-tags.html) in the Amazon Quick Suite User Guide.
     public var sessionTags: [QuickSightClientTypes.SessionTag]?
 
     public init(

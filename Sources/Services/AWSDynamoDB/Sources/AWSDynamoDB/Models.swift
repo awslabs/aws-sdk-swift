@@ -6763,6 +6763,12 @@ public struct UpdateTableInput: Swift.Sendable {
     ///
     /// You can create or delete only one global secondary index per UpdateTable operation. For more information, see [Managing Global Secondary Indexes](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.OnlineOps.html) in the Amazon DynamoDB Developer Guide.
     public var globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexUpdate]?
+    /// Controls the settings replication mode for a global table replica. This attribute can be defined using UpdateTable operation only on a regional table with values:
+    ///
+    /// * ENABLED: Defines settings replication on a regional table to be used as a source table for creating Multi-Account Global Table.
+    ///
+    /// * DISABLED: Remove settings replication on a regional table. Settings replication needs to be defined to ENABLED again in order to create a Multi-Account Global Table using this table.
+    public var globalTableSettingsReplicationMode: DynamoDBClientTypes.GlobalTableSettingsReplicationMode?
     /// A list of witness updates for a MRSC global table. A witness provides a cost-effective alternative to a full replica in a MRSC global table by maintaining replicated change data written to global table replicas. You cannot perform read or write operations on a witness. For each witness, you can request one action:
     ///
     /// * Create - add a new witness to the global table.
@@ -6804,6 +6810,7 @@ public struct UpdateTableInput: Swift.Sendable {
         billingMode: DynamoDBClientTypes.BillingMode? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
         globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexUpdate]? = nil,
+        globalTableSettingsReplicationMode: DynamoDBClientTypes.GlobalTableSettingsReplicationMode? = nil,
         globalTableWitnessUpdates: [DynamoDBClientTypes.GlobalTableWitnessGroupUpdate]? = nil,
         multiRegionConsistency: DynamoDBClientTypes.MultiRegionConsistency? = nil,
         onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
@@ -6819,6 +6826,7 @@ public struct UpdateTableInput: Swift.Sendable {
         self.billingMode = billingMode
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
+        self.globalTableSettingsReplicationMode = globalTableSettingsReplicationMode
         self.globalTableWitnessUpdates = globalTableWitnessUpdates
         self.multiRegionConsistency = multiRegionConsistency
         self.onDemandThroughput = onDemandThroughput
@@ -8971,9 +8979,9 @@ public struct UpdateItemInput: Swift.Sendable {
     /// * If the existing data type is a set and if Value is also a set, then Value is added to the existing set. For example, if the attribute value is the set [1,2], and the ADD action specified [3], then the final attribute value is [1,2,3]. An error occurs if an ADD action is specified for a set attribute and the attribute type specified does not match the existing set type. Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, the Value must also be a set of strings.
     ///
     ///
-    /// The ADD action only supports Number and set data types. In addition, ADD can only be used on top-level attributes, not nested attributes.
+    /// The ADD action only supports Number and set data types.
     ///
-    /// * DELETE - Deletes an element from a set. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specifies [a,c], then the final attribute value is [b]. Specifying an empty set is an error. The DELETE action only supports set data types. In addition, DELETE can only be used on top-level attributes, not nested attributes.
+    /// * DELETE - Deletes an element from a set. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specifies [a,c], then the final attribute value is [b]. Specifying an empty set is an error. The DELETE action only supports set data types.
     ///
     ///
     /// You can have many actions in a single expression, such as the following: SET a=:value1, b=:value2 DELETE :value3, :value4, :value5 For more information on update expressions, see [Modifying Items and Attributes](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.Modifying.html) in the Amazon DynamoDB Developer Guide.
@@ -10079,6 +10087,7 @@ extension UpdateTableInput {
         try writer["BillingMode"].write(value.billingMode)
         try writer["DeletionProtectionEnabled"].write(value.deletionProtectionEnabled)
         try writer["GlobalSecondaryIndexUpdates"].writeList(value.globalSecondaryIndexUpdates, memberWritingClosure: DynamoDBClientTypes.GlobalSecondaryIndexUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["GlobalTableSettingsReplicationMode"].write(value.globalTableSettingsReplicationMode)
         try writer["GlobalTableWitnessUpdates"].writeList(value.globalTableWitnessUpdates, memberWritingClosure: DynamoDBClientTypes.GlobalTableWitnessGroupUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MultiRegionConsistency"].write(value.multiRegionConsistency)
         try writer["OnDemandThroughput"].write(value.onDemandThroughput, with: DynamoDBClientTypes.OnDemandThroughput.write(value:to:))
