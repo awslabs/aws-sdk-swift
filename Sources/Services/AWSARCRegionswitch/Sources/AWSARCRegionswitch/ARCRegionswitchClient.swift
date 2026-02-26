@@ -20,7 +20,6 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-@_spi(SmithyReadWrite) import class SmithyCBOR.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 import enum AWSClientRuntime.AWSRetryMode
@@ -45,24 +44,20 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
-@_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
-import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
@@ -647,11 +642,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ApprovePlanExecutionStepInput, ApprovePlanExecutionStepOutput>(ApprovePlanExecutionStepInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ApprovePlanExecutionStepInput, ApprovePlanExecutionStepOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ApprovePlanExecutionStepInput, ApprovePlanExecutionStepOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApprovePlanExecutionStepInput, ApprovePlanExecutionStepOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ApprovePlanExecutionStepOutput>(ApprovePlanExecutionStepOutput.httpOutput(from:), ApprovePlanExecutionStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApprovePlanExecutionStepInput, ApprovePlanExecutionStepOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -662,7 +655,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ApprovePlanExecutionStepOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<ApprovePlanExecutionStepInput, ApprovePlanExecutionStepOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ApprovePlanExecutionStepInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ApprovePlanExecutionStepInput, ApprovePlanExecutionStepOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ApprovePlanExecutionStepInput, ApprovePlanExecutionStepOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ApprovePlanExecutionStepInput, ApprovePlanExecutionStepOutput>(contentType: "application/cbor"))
@@ -720,11 +712,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelPlanExecutionInput, CancelPlanExecutionOutput>(CancelPlanExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelPlanExecutionInput, CancelPlanExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelPlanExecutionInput, CancelPlanExecutionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelPlanExecutionInput, CancelPlanExecutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelPlanExecutionOutput>(CancelPlanExecutionOutput.httpOutput(from:), CancelPlanExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelPlanExecutionInput, CancelPlanExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -735,7 +725,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelPlanExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<CancelPlanExecutionInput, CancelPlanExecutionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CancelPlanExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelPlanExecutionInput, CancelPlanExecutionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CancelPlanExecutionInput, CancelPlanExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelPlanExecutionInput, CancelPlanExecutionOutput>(contentType: "application/cbor"))
@@ -787,11 +776,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePlanInput, CreatePlanOutput>(CreatePlanInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePlanInput, CreatePlanOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePlanInput, CreatePlanOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePlanInput, CreatePlanOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePlanOutput>(CreatePlanOutput.httpOutput(from:), CreatePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePlanInput, CreatePlanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -802,7 +789,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useControlPlaneEndpoint: true, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<CreatePlanInput, CreatePlanOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePlanInput, CreatePlanOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreatePlanInput, CreatePlanOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePlanInput, CreatePlanOutput>(contentType: "application/cbor"))
@@ -860,11 +846,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePlanInput, DeletePlanOutput>(DeletePlanInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePlanInput, DeletePlanOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePlanInput, DeletePlanOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePlanInput, DeletePlanOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePlanOutput>(DeletePlanOutput.httpOutput(from:), DeletePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePlanInput, DeletePlanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -875,7 +859,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useControlPlaneEndpoint: true, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<DeletePlanInput, DeletePlanOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePlanInput, DeletePlanOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeletePlanInput, DeletePlanOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePlanInput, DeletePlanOutput>(contentType: "application/cbor"))
@@ -932,11 +915,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPlanInput, GetPlanOutput>(GetPlanInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPlanInput, GetPlanOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPlanInput, GetPlanOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlanInput, GetPlanOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlanOutput>(GetPlanOutput.httpOutput(from:), GetPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlanInput, GetPlanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -947,7 +928,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useControlPlaneEndpoint: true, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetPlanInput, GetPlanOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPlanInput, GetPlanOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetPlanInput, GetPlanOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPlanInput, GetPlanOutput>(contentType: "application/cbor"))
@@ -1005,11 +985,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPlanEvaluationStatusInput, GetPlanEvaluationStatusOutput>(GetPlanEvaluationStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPlanEvaluationStatusInput, GetPlanEvaluationStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPlanEvaluationStatusInput, GetPlanEvaluationStatusOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlanEvaluationStatusInput, GetPlanEvaluationStatusOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlanEvaluationStatusOutput>(GetPlanEvaluationStatusOutput.httpOutput(from:), GetPlanEvaluationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlanEvaluationStatusInput, GetPlanEvaluationStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1020,7 +998,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPlanEvaluationStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetPlanEvaluationStatusInput, GetPlanEvaluationStatusOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetPlanEvaluationStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPlanEvaluationStatusInput, GetPlanEvaluationStatusOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetPlanEvaluationStatusInput, GetPlanEvaluationStatusOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPlanEvaluationStatusInput, GetPlanEvaluationStatusOutput>(contentType: "application/cbor"))
@@ -1078,11 +1055,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPlanExecutionInput, GetPlanExecutionOutput>(GetPlanExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPlanExecutionInput, GetPlanExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPlanExecutionInput, GetPlanExecutionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlanExecutionInput, GetPlanExecutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlanExecutionOutput>(GetPlanExecutionOutput.httpOutput(from:), GetPlanExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlanExecutionInput, GetPlanExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1093,7 +1068,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPlanExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetPlanExecutionInput, GetPlanExecutionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetPlanExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPlanExecutionInput, GetPlanExecutionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetPlanExecutionInput, GetPlanExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPlanExecutionInput, GetPlanExecutionOutput>(contentType: "application/cbor"))
@@ -1151,11 +1125,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPlanInRegionInput, GetPlanInRegionOutput>(GetPlanInRegionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPlanInRegionInput, GetPlanInRegionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPlanInRegionInput, GetPlanInRegionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlanInRegionInput, GetPlanInRegionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlanInRegionOutput>(GetPlanInRegionOutput.httpOutput(from:), GetPlanInRegionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlanInRegionInput, GetPlanInRegionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1166,7 +1138,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPlanInRegionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<GetPlanInRegionInput, GetPlanInRegionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetPlanInRegionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPlanInRegionInput, GetPlanInRegionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetPlanInRegionInput, GetPlanInRegionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPlanInRegionInput, GetPlanInRegionOutput>(contentType: "application/cbor"))
@@ -1224,11 +1195,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPlanExecutionEventsInput, ListPlanExecutionEventsOutput>(ListPlanExecutionEventsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPlanExecutionEventsInput, ListPlanExecutionEventsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPlanExecutionEventsInput, ListPlanExecutionEventsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlanExecutionEventsInput, ListPlanExecutionEventsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlanExecutionEventsOutput>(ListPlanExecutionEventsOutput.httpOutput(from:), ListPlanExecutionEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlanExecutionEventsInput, ListPlanExecutionEventsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1239,7 +1208,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPlanExecutionEventsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListPlanExecutionEventsInput, ListPlanExecutionEventsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListPlanExecutionEventsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPlanExecutionEventsInput, ListPlanExecutionEventsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListPlanExecutionEventsInput, ListPlanExecutionEventsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPlanExecutionEventsInput, ListPlanExecutionEventsOutput>(contentType: "application/cbor"))
@@ -1297,11 +1265,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPlanExecutionsInput, ListPlanExecutionsOutput>(ListPlanExecutionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPlanExecutionsInput, ListPlanExecutionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPlanExecutionsInput, ListPlanExecutionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlanExecutionsInput, ListPlanExecutionsOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlanExecutionsOutput>(ListPlanExecutionsOutput.httpOutput(from:), ListPlanExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlanExecutionsInput, ListPlanExecutionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1312,7 +1278,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPlanExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListPlanExecutionsInput, ListPlanExecutionsOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListPlanExecutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPlanExecutionsInput, ListPlanExecutionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListPlanExecutionsInput, ListPlanExecutionsOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPlanExecutionsInput, ListPlanExecutionsOutput>(contentType: "application/cbor"))
@@ -1364,11 +1329,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPlansInput, ListPlansOutput>(ListPlansInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPlansInput, ListPlansOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPlansInput, ListPlansOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlansInput, ListPlansOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlansOutput>(ListPlansOutput.httpOutput(from:), ListPlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlansInput, ListPlansOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1379,7 +1342,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useControlPlaneEndpoint: true, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPlansOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListPlansInput, ListPlansOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListPlansInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPlansInput, ListPlansOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListPlansInput, ListPlansOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPlansInput, ListPlansOutput>(contentType: "application/cbor"))
@@ -1436,11 +1398,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPlansInRegionInput, ListPlansInRegionOutput>(ListPlansInRegionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPlansInRegionInput, ListPlansInRegionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPlansInRegionInput, ListPlansInRegionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlansInRegionInput, ListPlansInRegionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlansInRegionOutput>(ListPlansInRegionOutput.httpOutput(from:), ListPlansInRegionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlansInRegionInput, ListPlansInRegionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1451,7 +1411,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPlansInRegionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListPlansInRegionInput, ListPlansInRegionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListPlansInRegionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPlansInRegionInput, ListPlansInRegionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListPlansInRegionInput, ListPlansInRegionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPlansInRegionInput, ListPlansInRegionOutput>(contentType: "application/cbor"))
@@ -1510,11 +1469,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRoute53HealthChecksInput, ListRoute53HealthChecksOutput>(ListRoute53HealthChecksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRoute53HealthChecksInput, ListRoute53HealthChecksOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRoute53HealthChecksInput, ListRoute53HealthChecksOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRoute53HealthChecksInput, ListRoute53HealthChecksOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoute53HealthChecksOutput>(ListRoute53HealthChecksOutput.httpOutput(from:), ListRoute53HealthChecksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoute53HealthChecksInput, ListRoute53HealthChecksOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1525,7 +1482,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useControlPlaneEndpoint: true, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRoute53HealthChecksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRoute53HealthChecksInput, ListRoute53HealthChecksOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListRoute53HealthChecksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRoute53HealthChecksInput, ListRoute53HealthChecksOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListRoute53HealthChecksInput, ListRoute53HealthChecksOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRoute53HealthChecksInput, ListRoute53HealthChecksOutput>(contentType: "application/cbor"))
@@ -1585,11 +1541,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(ListRoute53HealthChecksInRegionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoute53HealthChecksInRegionOutput>(ListRoute53HealthChecksInRegionOutput.httpOutput(from:), ListRoute53HealthChecksInRegionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1600,7 +1554,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRoute53HealthChecksInRegionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListRoute53HealthChecksInRegionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(contentType: "application/cbor"))
@@ -1658,11 +1611,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1673,7 +1624,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useControlPlaneEndpoint: true, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
@@ -1733,11 +1683,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput>(StartPlanExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPlanExecutionOutput>(StartPlanExecutionOutput.httpOutput(from:), StartPlanExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1748,7 +1696,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartPlanExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: StartPlanExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput>(contentType: "application/cbor"))
@@ -1806,11 +1753,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1821,7 +1766,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useControlPlaneEndpoint: true, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
@@ -1879,11 +1823,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1894,7 +1836,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useControlPlaneEndpoint: true, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
@@ -1951,11 +1892,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePlanInput, UpdatePlanOutput>(UpdatePlanInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePlanInput, UpdatePlanOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePlanInput, UpdatePlanOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePlanInput, UpdatePlanOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePlanOutput>(UpdatePlanOutput.httpOutput(from:), UpdatePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePlanInput, UpdatePlanOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1966,7 +1905,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useControlPlaneEndpoint: true, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdatePlanInput, UpdatePlanOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePlanInput, UpdatePlanOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdatePlanInput, UpdatePlanOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePlanInput, UpdatePlanOutput>(contentType: "application/cbor"))
@@ -2025,11 +1963,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePlanExecutionInput, UpdatePlanExecutionOutput>(UpdatePlanExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePlanExecutionInput, UpdatePlanExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePlanExecutionInput, UpdatePlanExecutionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePlanExecutionInput, UpdatePlanExecutionOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePlanExecutionOutput>(UpdatePlanExecutionOutput.httpOutput(from:), UpdatePlanExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePlanExecutionInput, UpdatePlanExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2040,7 +1976,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePlanExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdatePlanExecutionInput, UpdatePlanExecutionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePlanExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePlanExecutionInput, UpdatePlanExecutionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdatePlanExecutionInput, UpdatePlanExecutionOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePlanExecutionInput, UpdatePlanExecutionOutput>(contentType: "application/cbor"))
@@ -2098,11 +2033,9 @@ extension ARCRegionswitchClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePlanExecutionStepInput, UpdatePlanExecutionStepOutput>(UpdatePlanExecutionStepInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePlanExecutionStepInput, UpdatePlanExecutionStepOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePlanExecutionStepInput, UpdatePlanExecutionStepOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePlanExecutionStepInput, UpdatePlanExecutionStepOutput>())
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePlanExecutionStepOutput>(UpdatePlanExecutionStepOutput.httpOutput(from:), UpdatePlanExecutionStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePlanExecutionStepInput, UpdatePlanExecutionStepOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2113,7 +2046,6 @@ extension ARCRegionswitchClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePlanExecutionStepOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.serialize(ClientRuntime.BodyMiddleware<UpdatePlanExecutionStepInput, UpdatePlanExecutionStepOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePlanExecutionStepInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePlanExecutionStepInput, UpdatePlanExecutionStepOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
         builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdatePlanExecutionStepInput, UpdatePlanExecutionStepOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePlanExecutionStepInput, UpdatePlanExecutionStepOutput>(contentType: "application/cbor"))
