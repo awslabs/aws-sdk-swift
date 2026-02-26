@@ -4371,6 +4371,21 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Configures Elemental Inference features in a channel.
+    public struct DescribeInferenceSettings: Swift.Sendable {
+        /// The ARN of the feed resource that is associated with this channel. The feed is a resource in the Elemental Inference service.
+        public var feedArn: Swift.String?
+
+        public init(
+            feedArn: Swift.String? = nil
+        ) {
+            self.feedArn = feedArn
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Placeholder documentation for AudioSilenceFailoverSettings
     public struct AudioSilenceFailoverSettings: Swift.Sendable {
         /// The name of the audio selector in the input that MediaLive should monitor to detect silence. Select your most important rendition. If you didn't create an audio selector in this input, leave blank.
@@ -5502,6 +5517,8 @@ extension MediaLiveClientTypes {
         public var egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]?
         /// The unique id of the channel.
         public var id: Swift.String?
+        /// Include this setting to include Elemental Inference features in this channel.
+        public var inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings?
         /// List of input attachments for channel.
         public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
         /// Specification of network and file inputs for this channel
@@ -5537,6 +5554,7 @@ extension MediaLiveClientTypes {
             destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
             egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
             id: Swift.String? = nil,
+            inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings? = nil,
             inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
             inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
             linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
@@ -5559,6 +5577,7 @@ extension MediaLiveClientTypes {
             self.destinations = destinations
             self.egressEndpoints = egressEndpoints
             self.id = id
+            self.inferenceSettings = inferenceSettings
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
             self.linkedChannelSettings = linkedChannelSettings
@@ -18969,12 +18988,14 @@ extension MediaLiveClientTypes {
     /// Video Description Scaling Behavior
     public enum VideoDescriptionScalingBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `default`
+        case smartCrop
         case stretchToOutput
         case sdkUnknown(Swift.String)
 
         public static var allCases: [VideoDescriptionScalingBehavior] {
             return [
                 .default,
+                .smartCrop,
                 .stretchToOutput
             ]
         }
@@ -18987,6 +19008,7 @@ extension MediaLiveClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .default: return "DEFAULT"
+            case .smartCrop: return "SMART_CROP"
             case .stretchToOutput: return "STRETCH_TO_OUTPUT"
             case let .sdkUnknown(s): return s
             }
@@ -20714,6 +20736,8 @@ extension MediaLiveClientTypes {
         public var encoderSettings: MediaLiveClientTypes.EncoderSettings?
         /// The unique id of the channel.
         public var id: Swift.String?
+        /// Include this setting to include Elemental Inference features in this channel.
+        public var inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings?
         /// List of input attachments for channel.
         public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
         /// Specification of network and file inputs for this channel
@@ -20750,6 +20774,7 @@ extension MediaLiveClientTypes {
             egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
             encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
             id: Swift.String? = nil,
+            inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings? = nil,
             inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
             inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
             linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
@@ -20773,6 +20798,7 @@ extension MediaLiveClientTypes {
             self.egressEndpoints = egressEndpoints
             self.encoderSettings = encoderSettings
             self.id = id
+            self.inferenceSettings = inferenceSettings
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
             self.linkedChannelSettings = linkedChannelSettings
@@ -20883,6 +20909,21 @@ extension MediaLiveClientTypes {
             case .imageJpeg: return "image/jpeg"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Configures Elemental Inference features in a channel.
+    public struct InferenceSettings: Swift.Sendable {
+        /// The ARN of the feed resource that is associated with this channel. The feed is a resource in the Elemental Inference service.
+        public var feedArn: Swift.String?
+
+        public init(
+            feedArn: Swift.String? = nil
+        ) {
+            self.feedArn = feedArn
         }
     }
 }
@@ -21001,6 +21042,8 @@ public struct CreateChannelInput: Swift.Sendable {
     public var dryRun: Swift.Bool?
     /// Encoder Settings
     public var encoderSettings: MediaLiveClientTypes.EncoderSettings?
+    /// Include this setting to include Elemental Inference features in this channel.
+    public var inferenceSettings: MediaLiveClientTypes.InferenceSettings?
     /// List of input attachments for channel.
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
@@ -21034,6 +21077,7 @@ public struct CreateChannelInput: Swift.Sendable {
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
         dryRun: Swift.Bool? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
+        inferenceSettings: MediaLiveClientTypes.InferenceSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
         linkedChannelSettings: MediaLiveClientTypes.LinkedChannelSettings? = nil,
@@ -21054,6 +21098,7 @@ public struct CreateChannelInput: Swift.Sendable {
         self.destinations = destinations
         self.dryRun = dryRun
         self.encoderSettings = encoderSettings
+        self.inferenceSettings = inferenceSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
         self.linkedChannelSettings = linkedChannelSettings
@@ -22757,6 +22802,8 @@ public struct DeleteChannelOutput: Swift.Sendable {
     public var encoderSettings: MediaLiveClientTypes.EncoderSettings?
     /// The unique id of the channel.
     public var id: Swift.String?
+    /// Include this setting to include Elemental Inference features in this channel.
+    public var inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings?
     /// List of input attachments for channel.
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
@@ -22793,6 +22840,7 @@ public struct DeleteChannelOutput: Swift.Sendable {
         egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
         id: Swift.String? = nil,
+        inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
         linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
@@ -22816,6 +22864,7 @@ public struct DeleteChannelOutput: Swift.Sendable {
         self.egressEndpoints = egressEndpoints
         self.encoderSettings = encoderSettings
         self.id = id
+        self.inferenceSettings = inferenceSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
         self.linkedChannelSettings = linkedChannelSettings
@@ -23479,6 +23528,8 @@ public struct DescribeChannelOutput: Swift.Sendable {
     public var encoderSettings: MediaLiveClientTypes.EncoderSettings?
     /// The unique id of the channel.
     public var id: Swift.String?
+    /// Include this setting to include Elemental Inference features in this channel.
+    public var inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings?
     /// List of input attachments for channel.
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
@@ -23515,6 +23566,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
         egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
         id: Swift.String? = nil,
+        inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
         linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
@@ -23538,6 +23590,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
         self.egressEndpoints = egressEndpoints
         self.encoderSettings = encoderSettings
         self.id = id
+        self.inferenceSettings = inferenceSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
         self.linkedChannelSettings = linkedChannelSettings
@@ -25931,6 +25984,8 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
     public var encoderSettings: MediaLiveClientTypes.EncoderSettings?
     /// The unique id of the channel.
     public var id: Swift.String?
+    /// Include this setting to include Elemental Inference features in this channel.
+    public var inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings?
     /// List of input attachments for channel.
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
@@ -25969,6 +26024,7 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
         egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
         id: Swift.String? = nil,
+        inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
         linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
@@ -25993,6 +26049,7 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
         self.egressEndpoints = egressEndpoints
         self.encoderSettings = encoderSettings
         self.id = id
+        self.inferenceSettings = inferenceSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
         self.linkedChannelSettings = linkedChannelSettings
@@ -26044,6 +26101,8 @@ public struct StartChannelOutput: Swift.Sendable {
     public var encoderSettings: MediaLiveClientTypes.EncoderSettings?
     /// The unique id of the channel.
     public var id: Swift.String?
+    /// Include this setting to include Elemental Inference features in this channel.
+    public var inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings?
     /// List of input attachments for channel.
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
@@ -26080,6 +26139,7 @@ public struct StartChannelOutput: Swift.Sendable {
         egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
         id: Swift.String? = nil,
+        inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
         linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
@@ -26103,6 +26163,7 @@ public struct StartChannelOutput: Swift.Sendable {
         self.egressEndpoints = egressEndpoints
         self.encoderSettings = encoderSettings
         self.id = id
+        self.inferenceSettings = inferenceSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
         self.linkedChannelSettings = linkedChannelSettings
@@ -26559,6 +26620,8 @@ public struct StopChannelOutput: Swift.Sendable {
     public var encoderSettings: MediaLiveClientTypes.EncoderSettings?
     /// The unique id of the channel.
     public var id: Swift.String?
+    /// Include this setting to include Elemental Inference features in this channel.
+    public var inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings?
     /// List of input attachments for channel.
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
@@ -26595,6 +26658,7 @@ public struct StopChannelOutput: Swift.Sendable {
         egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
         id: Swift.String? = nil,
+        inferenceSettings: MediaLiveClientTypes.DescribeInferenceSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
         linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
@@ -26618,6 +26682,7 @@ public struct StopChannelOutput: Swift.Sendable {
         self.egressEndpoints = egressEndpoints
         self.encoderSettings = encoderSettings
         self.id = id
+        self.inferenceSettings = inferenceSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
         self.linkedChannelSettings = linkedChannelSettings
@@ -26787,6 +26852,8 @@ public struct UpdateChannelInput: Swift.Sendable {
     public var dryRun: Swift.Bool?
     /// The encoder settings for this channel.
     public var encoderSettings: MediaLiveClientTypes.EncoderSettings?
+    /// Include this setting to include Elemental Inference features in this channel.
+    public var inferenceSettings: MediaLiveClientTypes.InferenceSettings?
     /// Placeholder documentation for __listOfInputAttachment
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
@@ -26811,6 +26878,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
         dryRun: Swift.Bool? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
+        inferenceSettings: MediaLiveClientTypes.InferenceSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
         linkedChannelSettings: MediaLiveClientTypes.LinkedChannelSettings? = nil,
@@ -26827,6 +26895,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         self.destinations = destinations
         self.dryRun = dryRun
         self.encoderSettings = encoderSettings
+        self.inferenceSettings = inferenceSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
         self.linkedChannelSettings = linkedChannelSettings
@@ -29733,6 +29802,7 @@ extension CreateChannelInput {
         try writer["destinations"].writeList(value.destinations, memberWritingClosure: MediaLiveClientTypes.OutputDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["dryRun"].write(value.dryRun)
         try writer["encoderSettings"].write(value.encoderSettings, with: MediaLiveClientTypes.EncoderSettings.write(value:to:))
+        try writer["inferenceSettings"].write(value.inferenceSettings, with: MediaLiveClientTypes.InferenceSettings.write(value:to:))
         try writer["inputAttachments"].writeList(value.inputAttachments, memberWritingClosure: MediaLiveClientTypes.InputAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputSpecification"].write(value.inputSpecification, with: MediaLiveClientTypes.InputSpecification.write(value:to:))
         try writer["linkedChannelSettings"].write(value.linkedChannelSettings, with: MediaLiveClientTypes.LinkedChannelSettings.write(value:to:))
@@ -30041,6 +30111,7 @@ extension UpdateChannelInput {
         try writer["destinations"].writeList(value.destinations, memberWritingClosure: MediaLiveClientTypes.OutputDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["dryRun"].write(value.dryRun)
         try writer["encoderSettings"].write(value.encoderSettings, with: MediaLiveClientTypes.EncoderSettings.write(value:to:))
+        try writer["inferenceSettings"].write(value.inferenceSettings, with: MediaLiveClientTypes.InferenceSettings.write(value:to:))
         try writer["inputAttachments"].writeList(value.inputAttachments, memberWritingClosure: MediaLiveClientTypes.InputAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputSpecification"].write(value.inputSpecification, with: MediaLiveClientTypes.InputSpecification.write(value:to:))
         try writer["linkedChannelSettings"].write(value.linkedChannelSettings, with: MediaLiveClientTypes.LinkedChannelSettings.write(value:to:))
@@ -30613,6 +30684,7 @@ extension DeleteChannelOutput {
         value.egressEndpoints = try reader["egressEndpoints"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEgressEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encoderSettings = try reader["encoderSettings"].readIfPresent(with: MediaLiveClientTypes.EncoderSettings.read(from:))
         value.id = try reader["id"].readIfPresent()
+        value.inferenceSettings = try reader["inferenceSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeInferenceSettings.read(from:))
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
         value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
@@ -30877,6 +30949,7 @@ extension DescribeChannelOutput {
         value.egressEndpoints = try reader["egressEndpoints"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEgressEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encoderSettings = try reader["encoderSettings"].readIfPresent(with: MediaLiveClientTypes.EncoderSettings.read(from:))
         value.id = try reader["id"].readIfPresent()
+        value.inferenceSettings = try reader["inferenceSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeInferenceSettings.read(from:))
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
         value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
@@ -31669,6 +31742,7 @@ extension RestartChannelPipelinesOutput {
         value.egressEndpoints = try reader["egressEndpoints"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEgressEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encoderSettings = try reader["encoderSettings"].readIfPresent(with: MediaLiveClientTypes.EncoderSettings.read(from:))
         value.id = try reader["id"].readIfPresent()
+        value.inferenceSettings = try reader["inferenceSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeInferenceSettings.read(from:))
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
         value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
@@ -31703,6 +31777,7 @@ extension StartChannelOutput {
         value.egressEndpoints = try reader["egressEndpoints"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEgressEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encoderSettings = try reader["encoderSettings"].readIfPresent(with: MediaLiveClientTypes.EncoderSettings.read(from:))
         value.id = try reader["id"].readIfPresent()
+        value.inferenceSettings = try reader["inferenceSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeInferenceSettings.read(from:))
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
         value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
@@ -31858,6 +31933,7 @@ extension StopChannelOutput {
         value.egressEndpoints = try reader["egressEndpoints"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEgressEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encoderSettings = try reader["encoderSettings"].readIfPresent(with: MediaLiveClientTypes.EncoderSettings.read(from:))
         value.id = try reader["id"].readIfPresent()
+        value.inferenceSettings = try reader["inferenceSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeInferenceSettings.read(from:))
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
         value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
@@ -35805,6 +35881,7 @@ extension MediaLiveClientTypes.Channel {
         value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
         value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.channelSecurityGroups = try reader["channelSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inferenceSettings = try reader["inferenceSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeInferenceSettings.read(from:))
         return value
     }
 }
@@ -35880,6 +35957,7 @@ extension MediaLiveClientTypes.ChannelSummary {
         value.usedChannelEngineVersions = try reader["usedChannelEngineVersions"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.channelSecurityGroups = try reader["channelSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inferenceSettings = try reader["inferenceSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeInferenceSettings.read(from:))
         return value
     }
 }
@@ -36150,6 +36228,16 @@ extension MediaLiveClientTypes.DescribeFollowerChannelSettings {
         var value = MediaLiveClientTypes.DescribeFollowerChannelSettings()
         value.linkedChannelType = try reader["linkedChannelType"].readIfPresent()
         value.primaryChannelArn = try reader["primaryChannelArn"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.DescribeInferenceSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DescribeInferenceSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.DescribeInferenceSettings()
+        value.feedArn = try reader["feedArn"].readIfPresent()
         return value
     }
 }
@@ -37573,6 +37661,14 @@ extension MediaLiveClientTypes.ImmediateModeScheduleActionStartSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.ImmediateModeScheduleActionStartSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         return MediaLiveClientTypes.ImmediateModeScheduleActionStartSettings()
+    }
+}
+
+extension MediaLiveClientTypes.InferenceSettings {
+
+    static func write(value: MediaLiveClientTypes.InferenceSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["feedArn"].write(value.feedArn)
     }
 }
 

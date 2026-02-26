@@ -385,6 +385,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSElasticsearchService](../../../../../swift/api/awselasticsearchservice/latest)
 
+[AWSElementalInference](../../../../../swift/api/awselementalinference/latest)
+
 [AWSEntityResolution](../../../../../swift/api/awsentityresolution/latest)
 
 [AWSEventBridge](../../../../../swift/api/awseventbridge/latest)

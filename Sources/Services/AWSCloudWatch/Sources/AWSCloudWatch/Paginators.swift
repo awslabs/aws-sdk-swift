@@ -158,6 +158,38 @@ extension GetMetricDataInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudWatchClient {
+    /// Paginate over `[ListAlarmMuteRulesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAlarmMuteRulesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAlarmMuteRulesOutput`
+    public func listAlarmMuteRulesPaginated(input: ListAlarmMuteRulesInput) -> ClientRuntime.PaginatorSequence<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAlarmMuteRules(input:))
+    }
+}
+
+extension ListAlarmMuteRulesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAlarmMuteRulesInput {
+        return ListAlarmMuteRulesInput(
+            alarmName: self.alarmName,
+            maxRecords: self.maxRecords,
+            nextToken: token,
+            statuses: self.statuses
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAlarmMuteRulesInput, OperationStackOutput == ListAlarmMuteRulesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAlarmMuteRulesPaginated`
+    /// to access the nested member `[CloudWatchClientTypes.AlarmMuteRuleSummary]`
+    /// - Returns: `[CloudWatchClientTypes.AlarmMuteRuleSummary]`
+    public func alarmMuteRuleSummaries() async throws -> [CloudWatchClientTypes.AlarmMuteRuleSummary] {
+        return try await self.asyncCompactMap { item in item.alarmMuteRuleSummaries }
+    }
+}
+extension CloudWatchClient {
     /// Paginate over `[ListDashboardsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

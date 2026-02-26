@@ -1603,6 +1603,7 @@ public struct GetAutomatedReasoningPolicyBuildWorkflowInput: Swift.Sendable {
 extension BedrockClientTypes {
 
     public enum AutomatedReasoningPolicyBuildWorkflowType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case generateFidelityReport
         case importPolicy
         case ingestContent
         case refinePolicy
@@ -1610,6 +1611,7 @@ extension BedrockClientTypes {
 
         public static var allCases: [AutomatedReasoningPolicyBuildWorkflowType] {
             return [
+                .generateFidelityReport,
                 .importPolicy,
                 .ingestContent,
                 .refinePolicy
@@ -1623,6 +1625,7 @@ extension BedrockClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .generateFidelityReport: return "GENERATE_FIDELITY_REPORT"
             case .importPolicy: return "IMPORT_POLICY"
             case .ingestContent: return "INGEST_CONTENT"
             case .refinePolicy: return "REFINE_POLICY"
@@ -1765,20 +1768,26 @@ extension GetAutomatedReasoningPolicyBuildWorkflowOutput: Swift.CustomDebugStrin
 extension BedrockClientTypes {
 
     public enum AutomatedReasoningPolicyBuildResultAssetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case assetManifest
         case buildLog
+        case fidelityReport
         case generatedTestCases
         case policyDefinition
         case policyScenarios
         case qualityReport
+        case sourceDocument
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AutomatedReasoningPolicyBuildResultAssetType] {
             return [
+                .assetManifest,
                 .buildLog,
+                .fidelityReport,
                 .generatedTestCases,
                 .policyDefinition,
                 .policyScenarios,
-                .qualityReport
+                .qualityReport,
+                .sourceDocument
             ]
         }
 
@@ -1789,11 +1798,14 @@ extension BedrockClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .assetManifest: return "ASSET_MANIFEST"
             case .buildLog: return "BUILD_LOG"
+            case .fidelityReport: return "FIDELITY_REPORT"
             case .generatedTestCases: return "GENERATED_TEST_CASES"
             case .policyDefinition: return "POLICY_DEFINITION"
             case .policyScenarios: return "POLICY_SCENARIOS"
             case .qualityReport: return "QUALITY_REPORT"
+            case .sourceDocument: return "SOURCE_DOCUMENT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1801,7 +1813,9 @@ extension BedrockClientTypes {
 }
 
 public struct GetAutomatedReasoningPolicyBuildWorkflowResultAssetsInput: Swift.Sendable {
-    /// The type of asset to retrieve (e.g., BUILD_LOG, QUALITY_REPORT, POLICY_DEFINITION).
+    /// The unique identifier of the specific asset to retrieve when multiple assets of the same type exist. This is required when retrieving SOURCE_DOCUMENT assets, as multiple source documents may have been used in the workflow. The asset ID can be obtained from the asset manifest.
+    public var assetId: Swift.String?
+    /// The type of asset to retrieve (e.g., BUILD_LOG, QUALITY_REPORT, POLICY_DEFINITION, GENERATED_TEST_CASES, POLICY_SCENARIOS, FIDELITY_REPORT, ASSET_MANIFEST, SOURCE_DOCUMENT).
     /// This member is required.
     public var assetType: BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssetType?
     /// The unique identifier of the build workflow whose result assets you want to retrieve.
@@ -1812,13 +1826,60 @@ public struct GetAutomatedReasoningPolicyBuildWorkflowResultAssetsInput: Swift.S
     public var policyArn: Swift.String?
 
     public init(
+        assetId: Swift.String? = nil,
         assetType: BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssetType? = nil,
         buildWorkflowId: Swift.String? = nil,
         policyArn: Swift.String? = nil
     ) {
+        self.assetId = assetId
         self.assetType = assetType
         self.buildWorkflowId = buildWorkflowId
         self.policyArn = policyArn
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Represents a single entry in the asset manifest, describing one artifact produced by the build workflow.
+    public struct AutomatedReasoningPolicyBuildResultAssetManifestEntry: Swift.Sendable {
+        /// A unique identifier for the asset, if applicable. Use this ID when requesting specific assets through the API.
+        public var assetId: Swift.String?
+        /// A human-readable name for the asset, if applicable. This helps identify specific documents or reports within the workflow results.
+        public var assetName: Swift.String?
+        /// The type of asset (e.g., BUILD_LOG, QUALITY_REPORT, POLICY_DEFINITION, GENERATED_TEST_CASES, POLICY_SCENARIOS, FIDELITY_REPORT, ASSET_MANIFEST, SOURCE_DOCUMENT).
+        /// This member is required.
+        public var assetType: BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssetType?
+
+        public init(
+            assetId: Swift.String? = nil,
+            assetName: Swift.String? = nil,
+            assetType: BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssetType? = nil
+        ) {
+            self.assetId = assetId
+            self.assetName = assetName
+            self.assetType = assetType
+        }
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssetManifestEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AutomatedReasoningPolicyBuildResultAssetManifestEntry(assetId: \(Swift.String(describing: assetId)), assetType: \(Swift.String(describing: assetType)), assetName: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
+    /// A catalog of all artifacts produced by a build workflow, providing a comprehensive list of available assets including their types and identifiers.
+    public struct AutomatedReasoningPolicyBuildResultAssetManifest: Swift.Sendable {
+        /// The list of asset entries in the manifest, each describing an available artifact that can be retrieved.
+        /// This member is required.
+        public var entries: [BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssetManifestEntry]?
+
+        public init(
+            entries: [BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssetManifestEntry]? = nil
+        ) {
+            self.entries = entries
+        }
     }
 }
 
@@ -2188,6 +2249,324 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// Represents a source document that was processed during a build workflow. Contains the document content, metadata, and a hash for verification.
+    public struct AutomatedReasoningPolicySourceDocument: Swift.Sendable {
+        /// The raw content of the source document as a binary blob.
+        /// This member is required.
+        public var document: Foundation.Data?
+        /// The MIME type of the document (e.g., application/pdf, text/plain).
+        /// This member is required.
+        public var documentContentType: BedrockClientTypes.AutomatedReasoningPolicyBuildDocumentContentType?
+        /// An optional description providing context about the document's content and purpose.
+        public var documentDescription: Swift.String?
+        /// A SHA-256 hash of the document content, used for verification and integrity checking.
+        /// This member is required.
+        public var documentHash: Swift.String?
+        /// The name of the source document for identification purposes.
+        /// This member is required.
+        public var documentName: Swift.String?
+
+        public init(
+            document: Foundation.Data? = nil,
+            documentContentType: BedrockClientTypes.AutomatedReasoningPolicyBuildDocumentContentType? = nil,
+            documentDescription: Swift.String? = nil,
+            documentHash: Swift.String? = nil,
+            documentName: Swift.String? = nil
+        ) {
+            self.document = document
+            self.documentContentType = documentContentType
+            self.documentDescription = documentDescription
+            self.documentHash = documentHash
+            self.documentName = documentName
+        }
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicySourceDocument: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AutomatedReasoningPolicySourceDocument(documentContentType: \(Swift.String(describing: documentContentType)), documentHash: \(Swift.String(describing: documentHash)), document: \"CONTENT_REDACTED\", documentDescription: \"CONTENT_REDACTED\", documentName: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
+    /// Describes the location of a statement within a source document using line numbers.
+    public struct AutomatedReasoningPolicyStatementLocation: Swift.Sendable {
+        /// The line numbers in the source document where this statement appears.
+        /// This member is required.
+        public var lines: [Swift.Int]?
+
+        public init(
+            lines: [Swift.Int]? = nil
+        ) {
+            self.lines = lines
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Represents a single, indivisible statement extracted from a source document. Atomic statements are the fundamental units used to ground policy rules and variables to their source material.
+    public struct AutomatedReasoningPolicyAtomicStatement: Swift.Sendable {
+        /// A unique identifier for this atomic statement within the fidelity report.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Information about where this statement appears in the source document, including line numbers.
+        /// This member is required.
+        public var location: BedrockClientTypes.AutomatedReasoningPolicyStatementLocation?
+        /// The actual text content of the atomic statement as extracted from the source document.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            location: BedrockClientTypes.AutomatedReasoningPolicyStatementLocation? = nil,
+            text: Swift.String? = nil
+        ) {
+            self.id = id
+            self.location = location
+            self.text = text
+        }
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyAtomicStatement: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AutomatedReasoningPolicyAtomicStatement(id: \(Swift.String(describing: id)), location: \(Swift.String(describing: location)), text: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
+    /// Represents a single line of text from a source document, annotated with its line number for precise referencing.
+    public struct AutomatedReasoningPolicyAnnotatedLine: Swift.Sendable {
+        /// The line number of this text within the source document.
+        public var lineNumber: Swift.Int?
+        /// The actual text content of this line from the source document.
+        public var lineText: Swift.String?
+
+        public init(
+            lineNumber: Swift.Int? = nil,
+            lineText: Swift.String? = nil
+        ) {
+            self.lineNumber = lineNumber
+            self.lineText = lineText
+        }
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyAnnotatedLine: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AutomatedReasoningPolicyAnnotatedLine(lineNumber: \(Swift.String(describing: lineNumber)), lineText: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
+    /// Represents a content element within an annotated chunk. This union type allows for different types of content elements to be included in document chunks, such as individual lines of text with their line numbers.
+    public enum AutomatedReasoningPolicyAnnotatedContent: Swift.Sendable {
+        /// An annotated line of text from the source document, including both the line number and the text content.
+        case line(BedrockClientTypes.AutomatedReasoningPolicyAnnotatedLine)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Represents a portion of a source document with line number annotations. Chunks help organize document content for easier navigation and reference.
+    public struct AutomatedReasoningPolicyAnnotatedChunk: Swift.Sendable {
+        /// The lines of text contained within this chunk, each annotated with its line number.
+        /// This member is required.
+        public var content: [BedrockClientTypes.AutomatedReasoningPolicyAnnotatedContent]?
+        /// The page number where this chunk begins, if the document is divided into pages.
+        public var pageNumber: Swift.Int?
+
+        public init(
+            content: [BedrockClientTypes.AutomatedReasoningPolicyAnnotatedContent]? = nil,
+            pageNumber: Swift.Int? = nil
+        ) {
+            self.content = content
+            self.pageNumber = pageNumber
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Represents a source document that was analyzed during fidelity report generation, including the document's metadata and its content broken down into atomic statements.
+    public struct AutomatedReasoningPolicyReportSourceDocument: Swift.Sendable {
+        /// The list of atomic statements extracted from this document, representing the fundamental units of meaning used for grounding.
+        /// This member is required.
+        public var atomicStatements: [BedrockClientTypes.AutomatedReasoningPolicyAtomicStatement]?
+        /// The document's content organized into annotated chunks with line number information for precise referencing.
+        /// This member is required.
+        public var documentContent: [BedrockClientTypes.AutomatedReasoningPolicyAnnotatedChunk]?
+        /// A SHA-256 hash of the document content, used for verification and ensuring the document hasn't changed since analysis.
+        /// This member is required.
+        public var documentHash: Swift.String?
+        /// A unique identifier for this document within the fidelity report.
+        /// This member is required.
+        public var documentId: Swift.String?
+        /// The name of the source document that was analyzed.
+        /// This member is required.
+        public var documentName: Swift.String?
+
+        public init(
+            atomicStatements: [BedrockClientTypes.AutomatedReasoningPolicyAtomicStatement]? = nil,
+            documentContent: [BedrockClientTypes.AutomatedReasoningPolicyAnnotatedChunk]? = nil,
+            documentHash: Swift.String? = nil,
+            documentId: Swift.String? = nil,
+            documentName: Swift.String? = nil
+        ) {
+            self.atomicStatements = atomicStatements
+            self.documentContent = documentContent
+            self.documentHash = documentHash
+            self.documentId = documentId
+            self.documentName = documentName
+        }
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyReportSourceDocument: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AutomatedReasoningPolicyReportSourceDocument(atomicStatements: \(Swift.String(describing: atomicStatements)), documentContent: \(Swift.String(describing: documentContent)), documentHash: \(Swift.String(describing: documentHash)), documentId: \(Swift.String(describing: documentId)), documentName: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
+    /// References a specific atomic statement within a source document, used to link policy elements back to their source material.
+    public struct AutomatedReasoningPolicyStatementReference: Swift.Sendable {
+        /// The unique identifier of the document containing the referenced statement.
+        /// This member is required.
+        public var documentId: Swift.String?
+        /// The unique identifier of the specific atomic statement being referenced.
+        /// This member is required.
+        public var statementId: Swift.String?
+
+        public init(
+            documentId: Swift.String? = nil,
+            statementId: Swift.String? = nil
+        ) {
+            self.documentId = documentId
+            self.statementId = statementId
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Provides detailed fidelity analysis for a specific policy rule, including which source document statements support it and how accurate the rule is.
+    public struct AutomatedReasoningPolicyRuleReport: Swift.Sendable {
+        /// A textual explanation of the accuracy score, describing why the rule received this particular accuracy rating.
+        public var accuracyJustification: Swift.String?
+        /// A score from 0.0 to 1.0 indicating how accurately this rule represents the source material.
+        public var accuracyScore: Swift.Double?
+        /// Explanations describing how the source statements support and justify this specific rule.
+        public var groundingJustifications: [Swift.String]?
+        /// References to statements from the source documents that provide the basis or justification for this rule.
+        public var groundingStatements: [BedrockClientTypes.AutomatedReasoningPolicyStatementReference]?
+        /// The identifier of the policy rule being analyzed in this report.
+        /// This member is required.
+        public var rule: Swift.String?
+
+        public init(
+            accuracyJustification: Swift.String? = nil,
+            accuracyScore: Swift.Double? = nil,
+            groundingJustifications: [Swift.String]? = nil,
+            groundingStatements: [BedrockClientTypes.AutomatedReasoningPolicyStatementReference]? = nil,
+            rule: Swift.String? = nil
+        ) {
+            self.accuracyJustification = accuracyJustification
+            self.accuracyScore = accuracyScore
+            self.groundingJustifications = groundingJustifications
+            self.groundingStatements = groundingStatements
+            self.rule = rule
+        }
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyRuleReport: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AutomatedReasoningPolicyRuleReport(accuracyScore: \(Swift.String(describing: accuracyScore)), groundingStatements: \(Swift.String(describing: groundingStatements)), rule: \(Swift.String(describing: rule)), accuracyJustification: \"CONTENT_REDACTED\", groundingJustifications: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
+    /// Provides detailed fidelity analysis for a specific policy variable, including which source document statements support it and how accurate the variable definition is.
+    public struct AutomatedReasoningPolicyVariableReport: Swift.Sendable {
+        /// A textual explanation of the accuracy score, describing why the variable received this particular accuracy rating.
+        public var accuracyJustification: Swift.String?
+        /// A score from 0.0 to 1.0 indicating how accurately this variable represents concepts from the source material.
+        public var accuracyScore: Swift.Double?
+        /// Explanations describing how the source statements support and justify this specific variable definition.
+        public var groundingJustifications: [Swift.String]?
+        /// References to statements from the source documents that provide the basis or justification for this variable.
+        public var groundingStatements: [BedrockClientTypes.AutomatedReasoningPolicyStatementReference]?
+        /// The name of the policy variable being analyzed in this report.
+        /// This member is required.
+        public var policyVariable: Swift.String?
+
+        public init(
+            accuracyJustification: Swift.String? = nil,
+            accuracyScore: Swift.Double? = nil,
+            groundingJustifications: [Swift.String]? = nil,
+            groundingStatements: [BedrockClientTypes.AutomatedReasoningPolicyStatementReference]? = nil,
+            policyVariable: Swift.String? = nil
+        ) {
+            self.accuracyJustification = accuracyJustification
+            self.accuracyScore = accuracyScore
+            self.groundingJustifications = groundingJustifications
+            self.groundingStatements = groundingStatements
+            self.policyVariable = policyVariable
+        }
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyVariableReport: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AutomatedReasoningPolicyVariableReport(accuracyScore: \(Swift.String(describing: accuracyScore)), groundingStatements: \(Swift.String(describing: groundingStatements)), accuracyJustification: \"CONTENT_REDACTED\", groundingJustifications: \"CONTENT_REDACTED\", policyVariable: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
+    /// A comprehensive analysis report that measures how accurately a generated policy represents the source documents. The report includes coverage and accuracy scores, detailed grounding information linking policy elements to source statements, and annotated document content.
+    public struct AutomatedReasoningPolicyFidelityReport: Swift.Sendable {
+        /// A score from 0.0 to 1.0 indicating how accurate the policy rules are relative to the source documents. A higher score means the policy rules more faithfully represent the source material.
+        /// This member is required.
+        public var accuracyScore: Swift.Double?
+        /// A score from 0.0 to 1.0 indicating how well the policy covers the statements in the source documents. A higher score means more of the source content is represented in the policy.
+        /// This member is required.
+        public var coverageScore: Swift.Double?
+        /// A list of source documents with their content broken down into atomic statements and annotated with line numbers for precise referencing.
+        /// This member is required.
+        public var documentSources: [BedrockClientTypes.AutomatedReasoningPolicyReportSourceDocument]?
+        /// A mapping from rule identifiers to detailed fidelity reports for each rule, showing which source statements ground each rule and how accurate it is.
+        /// This member is required.
+        public var ruleReports: [Swift.String: BedrockClientTypes.AutomatedReasoningPolicyRuleReport]?
+        /// A mapping from variable names to detailed fidelity reports for each variable, showing which source statements ground each variable and how accurate it is.
+        /// This member is required.
+        public var variableReports: [Swift.String: BedrockClientTypes.AutomatedReasoningPolicyVariableReport]?
+
+        public init(
+            accuracyScore: Swift.Double? = nil,
+            coverageScore: Swift.Double? = nil,
+            documentSources: [BedrockClientTypes.AutomatedReasoningPolicyReportSourceDocument]? = nil,
+            ruleReports: [Swift.String: BedrockClientTypes.AutomatedReasoningPolicyRuleReport]? = nil,
+            variableReports: [Swift.String: BedrockClientTypes.AutomatedReasoningPolicyVariableReport]? = nil
+        ) {
+            self.accuracyScore = accuracyScore
+            self.coverageScore = coverageScore
+            self.documentSources = documentSources
+            self.ruleReports = ruleReports
+            self.variableReports = variableReports
+        }
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyFidelityReport: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AutomatedReasoningPolicyFidelityReport(accuracyScore: \(Swift.String(describing: accuracyScore)), coverageScore: \(Swift.String(describing: coverageScore)), documentSources: \(Swift.String(describing: documentSources)), ruleReports: \(Swift.String(describing: ruleReports)), variableReports: [keys: \"CONTENT_REDACTED\", values: \(Swift.String(describing: variableReports?.values))])"}
+}
+
+extension BedrockClientTypes {
+
     /// Represents a generated test case, consisting of query content, guard content, and expected results.
     public struct AutomatedReasoningPolicyGeneratedTestCase: Swift.Sendable {
         /// The expected results of the generated test case. Possible values include:
@@ -2415,6 +2794,12 @@ extension BedrockClientTypes {
         case generatedtestcases(BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCases)
         /// An entity encompassing all the policy scenarios generated by the build workflow, which can be used to validate an Automated Reasoning policy.
         case policyscenarios(BedrockClientTypes.AutomatedReasoningPolicyScenarios)
+        /// A manifest listing all available artifacts produced by the build workflow. This provides a catalog of all assets that can be retrieved, including their types, names, and identifiers.
+        case assetmanifest(BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssetManifest)
+        /// A source document that was used as input during the build workflow. This allows you to retrieve the original documents that were processed to generate the policy.
+        case document(BedrockClientTypes.AutomatedReasoningPolicySourceDocument)
+        /// A comprehensive fidelity report that measures how accurately the generated policy represents the source documents. The report includes coverage and accuracy scores, along with detailed grounding information for rules and variables.
+        case fidelityreport(BedrockClientTypes.AutomatedReasoningPolicyFidelityReport)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3313,6 +3698,16 @@ extension BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowDocument: Swif
 
 extension BedrockClientTypes {
 
+    /// Configuration for generating a fidelity report, which can either analyze new documents or update an existing fidelity report with a new policy definition.
+    public enum AutomatedReasoningPolicyGenerateFidelityReportContent: Swift.Sendable {
+        /// Source documents to analyze for generating a new fidelity report. The documents will be processed to create atomic statements and grounding information.
+        case documents([BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowDocument])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
     /// Contains content and instructions for repairing or improving an existing Automated Reasoning policy.
     public struct AutomatedReasoningPolicyBuildWorkflowRepairContent: Swift.Sendable {
         /// Specific annotations or modifications to apply during the policy repair process, such as rule corrections or variable updates.
@@ -3335,6 +3730,8 @@ extension BedrockClientTypes {
         case documents([BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowDocument])
         /// The assets and instructions needed for a policy repair workflow, including repair annotations and guidance.
         case policyrepairassets(BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowRepairContent)
+        /// The content configuration for generating a fidelity report workflow. This can include source documents to analyze or an existing fidelity report to update with a new policy definition.
+        case generatefidelityreportcontent(BedrockClientTypes.AutomatedReasoningPolicyGenerateFidelityReportContent)
         case sdkUnknown(Swift.String)
     }
 }
@@ -13539,6 +13936,10 @@ extension GetAutomatedReasoningPolicyBuildWorkflowResultAssetsInput {
 
     static func queryItemProvider(_ value: GetAutomatedReasoningPolicyBuildWorkflowResultAssetsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let assetId = value.assetId {
+            let assetIdQueryItem = Smithy.URIQueryItem(name: "assetId".urlPercentEncoding(), value: Swift.String(assetId).urlPercentEncoding())
+            items.append(assetIdQueryItem)
+        }
         guard let assetType = value.assetType else {
             let message = "Creating a URL Query Item failed. assetType is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
@@ -18737,6 +19138,42 @@ extension BedrockClientTypes.AutomatedReasoningPolicyAddVariableMutation {
     }
 }
 
+extension BedrockClientTypes.AutomatedReasoningPolicyAnnotatedChunk {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyAnnotatedChunk {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedReasoningPolicyAnnotatedChunk()
+        value.pageNumber = try reader["pageNumber"].readIfPresent()
+        value.content = try reader["content"].readListIfPresent(memberReadingClosure: BedrockClientTypes.AutomatedReasoningPolicyAnnotatedContent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyAnnotatedContent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyAnnotatedContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "line":
+                return .line(try reader["line"].read(with: BedrockClientTypes.AutomatedReasoningPolicyAnnotatedLine.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyAnnotatedLine {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyAnnotatedLine {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedReasoningPolicyAnnotatedLine()
+        value.lineNumber = try reader["lineNumber"].readIfPresent()
+        value.lineText = try reader["lineText"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockClientTypes.AutomatedReasoningPolicyAnnotation {
 
     static func write(value: BedrockClientTypes.AutomatedReasoningPolicyAnnotation?, to writer: SmithyJSON.Writer) throws {
@@ -18809,6 +19246,18 @@ extension BedrockClientTypes.AutomatedReasoningPolicyAnnotation {
     }
 }
 
+extension BedrockClientTypes.AutomatedReasoningPolicyAtomicStatement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyAtomicStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedReasoningPolicyAtomicStatement()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.text = try reader["text"].readIfPresent() ?? ""
+        value.location = try reader["location"].readIfPresent(with: BedrockClientTypes.AutomatedReasoningPolicyStatementLocation.read(from:))
+        return value
+    }
+}
+
 extension BedrockClientTypes.AutomatedReasoningPolicyBuildLog {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyBuildLog {
@@ -18831,6 +19280,28 @@ extension BedrockClientTypes.AutomatedReasoningPolicyBuildLogEntry {
     }
 }
 
+extension BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssetManifest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssetManifest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssetManifest()
+        value.entries = try reader["entries"].readListIfPresent(memberReadingClosure: BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssetManifestEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssetManifestEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssetManifestEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssetManifestEntry()
+        value.assetType = try reader["assetType"].readIfPresent() ?? .sdkUnknown("")
+        value.assetName = try reader["assetName"].readIfPresent()
+        value.assetId = try reader["assetId"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssets {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssets {
@@ -18847,6 +19318,12 @@ extension BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssets {
                 return .generatedtestcases(try reader["generatedTestCases"].read(with: BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCases.read(from:)))
             case "policyScenarios":
                 return .policyscenarios(try reader["policyScenarios"].read(with: BedrockClientTypes.AutomatedReasoningPolicyScenarios.read(from:)))
+            case "assetManifest":
+                return .assetmanifest(try reader["assetManifest"].read(with: BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssetManifest.read(from:)))
+            case "document":
+                return .document(try reader["document"].read(with: BedrockClientTypes.AutomatedReasoningPolicySourceDocument.read(from:)))
+            case "fidelityReport":
+                return .fidelityreport(try reader["fidelityReport"].read(with: BedrockClientTypes.AutomatedReasoningPolicyFidelityReport.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -19177,6 +19654,20 @@ extension BedrockClientTypes.AutomatedReasoningPolicyDisjointRuleSet {
     }
 }
 
+extension BedrockClientTypes.AutomatedReasoningPolicyFidelityReport {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyFidelityReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedReasoningPolicyFidelityReport()
+        value.coverageScore = try reader["coverageScore"].readIfPresent() ?? 0.0
+        value.accuracyScore = try reader["accuracyScore"].readIfPresent() ?? 0.0
+        value.ruleReports = try reader["ruleReports"].readMapIfPresent(valueReadingClosure: BedrockClientTypes.AutomatedReasoningPolicyRuleReport.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.variableReports = try reader["variableReports"].readMapIfPresent(valueReadingClosure: BedrockClientTypes.AutomatedReasoningPolicyVariableReport.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.documentSources = try reader["documentSources"].readListIfPresent(memberReadingClosure: BedrockClientTypes.AutomatedReasoningPolicyReportSourceDocument.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCase {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCase {
@@ -19196,6 +19687,19 @@ extension BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCases {
         var value = BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCases()
         value.generatedTestCases = try reader["generatedTestCases"].readListIfPresent(memberReadingClosure: BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCase.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyGenerateFidelityReportContent {
+
+    static func write(value: BedrockClientTypes.AutomatedReasoningPolicyGenerateFidelityReportContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .documents(documents):
+                try writer["documents"].writeList(documents, memberWritingClosure: BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowDocument.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
@@ -19252,6 +19756,34 @@ extension BedrockClientTypes.AutomatedReasoningPolicyPlanning {
     }
 }
 
+extension BedrockClientTypes.AutomatedReasoningPolicyReportSourceDocument {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyReportSourceDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedReasoningPolicyReportSourceDocument()
+        value.documentName = try reader["documentName"].readIfPresent() ?? ""
+        value.documentHash = try reader["documentHash"].readIfPresent() ?? ""
+        value.documentId = try reader["documentId"].readIfPresent() ?? ""
+        value.atomicStatements = try reader["atomicStatements"].readListIfPresent(memberReadingClosure: BedrockClientTypes.AutomatedReasoningPolicyAtomicStatement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.documentContent = try reader["documentContent"].readListIfPresent(memberReadingClosure: BedrockClientTypes.AutomatedReasoningPolicyAnnotatedChunk.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyRuleReport {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyRuleReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedReasoningPolicyRuleReport()
+        value.rule = try reader["rule"].readIfPresent() ?? ""
+        value.groundingStatements = try reader["groundingStatements"].readListIfPresent(memberReadingClosure: BedrockClientTypes.AutomatedReasoningPolicyStatementReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groundingJustifications = try reader["groundingJustifications"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accuracyScore = try reader["accuracyScore"].readIfPresent()
+        value.accuracyJustification = try reader["accuracyJustification"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockClientTypes.AutomatedReasoningPolicyScenario {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyScenario {
@@ -19271,6 +19803,41 @@ extension BedrockClientTypes.AutomatedReasoningPolicyScenarios {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.AutomatedReasoningPolicyScenarios()
         value.policyScenarios = try reader["policyScenarios"].readListIfPresent(memberReadingClosure: BedrockClientTypes.AutomatedReasoningPolicyScenario.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicySourceDocument {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicySourceDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedReasoningPolicySourceDocument()
+        value.document = try reader["document"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
+        value.documentContentType = try reader["documentContentType"].readIfPresent() ?? .sdkUnknown("")
+        value.documentName = try reader["documentName"].readIfPresent() ?? ""
+        value.documentDescription = try reader["documentDescription"].readIfPresent()
+        value.documentHash = try reader["documentHash"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyStatementLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyStatementLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedReasoningPolicyStatementLocation()
+        value.lines = try reader["lines"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyStatementReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyStatementReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedReasoningPolicyStatementReference()
+        value.documentId = try reader["documentId"].readIfPresent() ?? ""
+        value.statementId = try reader["statementId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -19497,6 +20064,20 @@ extension BedrockClientTypes.AutomatedReasoningPolicyUpdateVariableMutation {
     }
 }
 
+extension BedrockClientTypes.AutomatedReasoningPolicyVariableReport {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyVariableReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedReasoningPolicyVariableReport()
+        value.policyVariable = try reader["policyVariable"].readIfPresent() ?? ""
+        value.groundingStatements = try reader["groundingStatements"].readListIfPresent(memberReadingClosure: BedrockClientTypes.AutomatedReasoningPolicyStatementReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groundingJustifications = try reader["groundingJustifications"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accuracyScore = try reader["accuracyScore"].readIfPresent()
+        value.accuracyJustification = try reader["accuracyJustification"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockClientTypes.AutomatedReasoningPolicyWorkflowTypeContent {
 
     static func write(value: BedrockClientTypes.AutomatedReasoningPolicyWorkflowTypeContent?, to writer: SmithyJSON.Writer) throws {
@@ -19504,6 +20085,8 @@ extension BedrockClientTypes.AutomatedReasoningPolicyWorkflowTypeContent {
         switch value {
             case let .documents(documents):
                 try writer["documents"].writeList(documents, memberWritingClosure: BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowDocument.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .generatefidelityreportcontent(generatefidelityreportcontent):
+                try writer["generateFidelityReportContent"].write(generatefidelityreportcontent, with: BedrockClientTypes.AutomatedReasoningPolicyGenerateFidelityReportContent.write(value:to:))
             case let .policyrepairassets(policyrepairassets):
                 try writer["policyRepairAssets"].write(policyrepairassets, with: BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowRepairContent.write(value:to:))
             case let .sdkUnknown(sdkUnknown):

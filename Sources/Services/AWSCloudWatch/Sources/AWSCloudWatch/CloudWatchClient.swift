@@ -613,6 +613,74 @@ extension CloudWatchClient {
 }
 
 extension CloudWatchClient {
+    /// Performs the `DeleteAlarmMuteRule` operation on the `CloudWatch` service.
+    ///
+    /// Deletes a specific alarm mute rule. When you delete a mute rule, any alarms that are currently being muted by that rule are immediately unmuted. If those alarms are in an ALARM state, their configured actions will trigger. This operation is idempotent. If you delete a mute rule that does not exist, the operation succeeds without returning an error. Permissions To delete a mute rule, you need the cloudwatch:DeleteAlarmMuteRule permission on the alarm mute rule resource.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAlarmMuteRuleInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteAlarmMuteRuleOutput`)
+    public func deleteAlarmMuteRule(input: DeleteAlarmMuteRuleInput) async throws -> DeleteAlarmMuteRuleOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAlarmMuteRule")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>(DeleteAlarmMuteRuleInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAlarmMuteRuleOutput>(DeleteAlarmMuteRuleOutput.httpOutput(from:), DeleteAlarmMuteRuleOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAlarmMuteRuleOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAlarmMuteRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAlarmMuteRuleInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAlarmMuteRuleOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>(additional: ["x-amzn-query-mode": "true"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAlarmMuteRuleInput, DeleteAlarmMuteRuleOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAlarmMuteRule")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteAlarms` operation on the `CloudWatch` service.
     ///
     /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However, this total can include no more than one composite alarm. For example, you could delete 99 metric alarms and one composite alarms with one operation, but you can't delete two composite alarms with one operation. If you specify any incorrect alarm names, the alarms you specify with correct names are still deleted. Other syntax errors might result in no alarms being deleted. To confirm that alarms were deleted successfully, you can use the [DescribeAlarms](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarms.html) operation after using DeleteAlarms. It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false. Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path.
@@ -1710,6 +1778,88 @@ extension CloudWatchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetAlarmMuteRule` operation on the `CloudWatch` service.
+    ///
+    /// Retrieves details for a specific alarm mute rule. This operation returns complete information about the mute rule, including its configuration, status, targeted alarms, and metadata. The returned status indicates the current state of the mute rule:
+    ///
+    /// * SCHEDULED: The mute rule is configured and will become active in the future
+    ///
+    /// * ACTIVE: The mute rule is currently muting alarm actions
+    ///
+    /// * EXPIRED: The mute rule has passed its expiration date and will no longer become active
+    ///
+    ///
+    /// Permissions To retrieve details for a mute rule, you need the cloudwatch:GetAlarmMuteRule permission on the alarm mute rule resource.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAlarmMuteRuleInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAlarmMuteRuleOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The named resource does not exist.
+    public func getAlarmMuteRule(input: GetAlarmMuteRuleInput) async throws -> GetAlarmMuteRuleOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAlarmMuteRule")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>(GetAlarmMuteRuleInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAlarmMuteRuleOutput>(GetAlarmMuteRuleOutput.httpOutput(from:), GetAlarmMuteRuleOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAlarmMuteRuleOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAlarmMuteRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: GetAlarmMuteRuleInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAlarmMuteRuleOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>(additional: ["x-amzn-query-mode": "true"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAlarmMuteRule")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetDashboard` operation on the `CloudWatch` service.
     ///
     /// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard, and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy.
@@ -2201,6 +2351,80 @@ extension CloudWatchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListAlarmMuteRules` operation on the `CloudWatch` service.
+    ///
+    /// Lists alarm mute rules in your Amazon Web Services account and region. You can filter the results by alarm name to find all mute rules targeting a specific alarm, or by status to find rules that are scheduled, active, or expired. This operation supports pagination for accounts with many mute rules. Use the MaxRecords and NextToken parameters to retrieve results in multiple calls. Permissions To list mute rules, you need the cloudwatch:ListAlarmMuteRules permission.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAlarmMuteRulesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAlarmMuteRulesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextToken` : The next token specified is invalid.
+    /// - `ResourceNotFoundException` : The named resource does not exist.
+    public func listAlarmMuteRules(input: ListAlarmMuteRulesInput) async throws -> ListAlarmMuteRulesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAlarmMuteRules")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>(ListAlarmMuteRulesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAlarmMuteRulesOutput>(ListAlarmMuteRulesOutput.httpOutput(from:), ListAlarmMuteRulesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAlarmMuteRulesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAlarmMuteRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListAlarmMuteRulesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAlarmMuteRulesOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>(additional: ["x-amzn-query-mode": "true"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAlarmMuteRules")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListDashboards` operation on the `CloudWatch` service.
     ///
     /// Returns a list of the dashboards for your account. If you include DashboardNamePrefix, only those dashboards with names starting with the prefix are listed. Otherwise, all dashboards in your account are listed. ListDashboards returns up to 1000 results on one page. If there are more than 1000 dashboards, you can call ListDashboards again and include the value you received for NextToken in the first call, to receive the next 1000 results.
@@ -2563,6 +2787,79 @@ extension CloudWatchClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutAlarmMuteRule` operation on the `CloudWatch` service.
+    ///
+    /// Creates or updates an alarm mute rule. Alarm mute rules automatically mute alarm actions during predefined time windows. When a mute rule is active, targeted alarms continue to evaluate metrics and transition between states, but their configured actions (such as Amazon SNS notifications or Auto Scaling actions) are muted. You can create mute rules with recurring schedules using cron expressions or one-time mute windows using at expressions. Each mute rule can target up to 100 specific alarms by name. If you specify a rule name that already exists, this operation updates the existing rule with the new configuration. Permissions To create or update a mute rule, you must have the cloudwatch:PutAlarmMuteRule permission on two types of resources: the alarm mute rule resource itself, and each alarm that the rule targets. For example, If you want to allow a user to create mute rules that target only specific alarms named "WebServerCPUAlarm" and "DatabaseConnectionAlarm", you would create an IAM policy with one statement granting cloudwatch:PutAlarmMuteRule on the alarm mute rule resource (arn:aws:cloudwatch:[REGION]:123456789012:alarm-mute:*), and another statement granting cloudwatch:PutAlarmMuteRule on the targeted alarm resources (arn:aws:cloudwatch:[REGION]:123456789012:alarm:WebServerCPUAlarm and arn:aws:cloudwatch:[REGION]:123456789012:alarm:DatabaseConnectionAlarm). You can also use IAM policy conditions to allow targeting alarms based on resource tags. For example, you can restrict users to create/update mute rules to only target alarms that have a specific tag key-value pair, such as Team=TeamA.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutAlarmMuteRuleInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutAlarmMuteRuleOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `LimitExceededFault` : The quota for alarms for this customer has already been reached.
+    public func putAlarmMuteRule(input: PutAlarmMuteRuleInput) async throws -> PutAlarmMuteRuleOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putAlarmMuteRule")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>(PutAlarmMuteRuleInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAlarmMuteRuleOutput>(PutAlarmMuteRuleOutput.httpOutput(from:), PutAlarmMuteRuleOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutAlarmMuteRuleOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAlarmMuteRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: PutAlarmMuteRuleInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAlarmMuteRuleOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>(additional: ["x-amzn-query-mode": "true"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAlarmMuteRuleInput, PutAlarmMuteRuleOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAlarmMuteRule")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

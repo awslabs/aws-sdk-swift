@@ -4774,7 +4774,7 @@ public struct CreateEngagementInvitationInput: Swift.Sendable {
     /// The unique identifier of the Engagement associated with the invitation. This parameter ensures the invitation is created within the correct Engagement context.
     /// This member is required.
     public var engagementIdentifier: Swift.String?
-    /// The Invitation object all information necessary to initiate an engagement invitation to a partner. It contains a personalized message from the sender, the invitation's receiver, and a payload. The Payload can be the OpportunityInvitation, which includes detailed structures for sender contacts, partner responsibilities, customer information, and project details.
+    /// The Invitation object all information necessary to initiate an engagement invitation to a partner. It contains a personalized message from the sender, the invitation's receiver, and a payload. The Payload can be the OpportunityInvitation, which includes detailed structures for sender contacts, partner responsibilities, customer information, and project details, or LeadInvitation, which includes structures for customer information and interaction details.
     /// This member is required.
     public var invitation: PartnerCentralSellingClientTypes.Invitation?
 
@@ -6584,6 +6584,7 @@ extension PartnerCentralSellingClientTypes {
         case customerCompanyName
         case identifier
         case lastModifieddate
+        case targetCloseDate
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OpportunitySortName] {
@@ -6591,7 +6592,8 @@ extension PartnerCentralSellingClientTypes {
                 .createdDate,
                 .customerCompanyName,
                 .identifier,
-                .lastModifieddate
+                .lastModifieddate,
+                .targetCloseDate
             ]
         }
 
@@ -6606,6 +6608,7 @@ extension PartnerCentralSellingClientTypes {
             case .customerCompanyName: return "CustomerCompanyName"
             case .identifier: return "Identifier"
             case .lastModifieddate: return "LastModifiedDate"
+            case .targetCloseDate: return "TargetCloseDate"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6633,6 +6636,25 @@ extension PartnerCentralSellingClientTypes {
     }
 }
 
+extension PartnerCentralSellingClientTypes {
+
+    /// Filters opportunities based on their target close date.
+    public struct TargetCloseDateFilter: Swift.Sendable {
+        /// Filters opportunities with a target close date after this date. Use the YYYY-MM-DD format.
+        public var afterTargetCloseDate: Swift.String?
+        /// Filters opportunities with a target close date before this date. Use the YYYY-MM-DD format.
+        public var beforeTargetCloseDate: Swift.String?
+
+        public init(
+            afterTargetCloseDate: Swift.String? = nil,
+            beforeTargetCloseDate: Swift.String? = nil
+        ) {
+            self.afterTargetCloseDate = afterTargetCloseDate
+            self.beforeTargetCloseDate = beforeTargetCloseDate
+        }
+    }
+}
+
 public struct ListOpportunitiesInput: Swift.Sendable {
     /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
     /// This member is required.
@@ -6655,6 +6677,8 @@ public struct ListOpportunitiesInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// An object that specifies how the response is sorted. The default Sort.SortBy value is LastModifiedDate.
     public var sort: PartnerCentralSellingClientTypes.OpportunitySort?
+    /// Filters opportunities based on their target close date. This filter helps retrieve opportunities with an expected close date before or after a specified date.
+    public var targetCloseDate: PartnerCentralSellingClientTypes.TargetCloseDateFilter?
 
     public init(
         catalog: Swift.String? = nil,
@@ -6666,7 +6690,8 @@ public struct ListOpportunitiesInput: Swift.Sendable {
         lifeCycleStage: [PartnerCentralSellingClientTypes.Stage]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        sort: PartnerCentralSellingClientTypes.OpportunitySort? = nil
+        sort: PartnerCentralSellingClientTypes.OpportunitySort? = nil,
+        targetCloseDate: PartnerCentralSellingClientTypes.TargetCloseDateFilter? = nil
     ) {
         self.catalog = catalog
         self.createdDate = createdDate
@@ -6678,6 +6703,7 @@ public struct ListOpportunitiesInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sort = sort
+        self.targetCloseDate = targetCloseDate
     }
 }
 
@@ -9020,6 +9046,7 @@ extension ListOpportunitiesInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["Sort"].write(value.sort, with: PartnerCentralSellingClientTypes.OpportunitySort.write(value:to:))
+        try writer["TargetCloseDate"].write(value.targetCloseDate, with: PartnerCentralSellingClientTypes.TargetCloseDateFilter.write(value:to:))
     }
 }
 
@@ -11942,6 +11969,15 @@ extension PartnerCentralSellingClientTypes.Tag {
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.TargetCloseDateFilter {
+
+    static func write(value: PartnerCentralSellingClientTypes.TargetCloseDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterTargetCloseDate"].write(value.afterTargetCloseDate)
+        try writer["BeforeTargetCloseDate"].write(value.beforeTargetCloseDate)
     }
 }
 
