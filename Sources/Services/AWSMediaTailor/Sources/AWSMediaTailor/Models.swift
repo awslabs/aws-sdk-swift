@@ -192,11 +192,13 @@ extension MediaTailorClientTypes {
 extension MediaTailorClientTypes {
 
     public enum AdsInteractionPublishOptInEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case rawAdsRequest
         case rawAdsResponse
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AdsInteractionPublishOptInEventType] {
             return [
+                .rawAdsRequest,
                 .rawAdsResponse
             ]
         }
@@ -208,6 +210,7 @@ extension MediaTailorClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .rawAdsRequest: return "RAW_ADS_REQUEST"
             case .rawAdsResponse: return "RAW_ADS_RESPONSE"
             case let .sdkUnknown(s): return s
             }

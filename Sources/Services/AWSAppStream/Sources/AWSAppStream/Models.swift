@@ -670,6 +670,8 @@ extension AppStreamClientTypes {
         public var createdTime: Foundation.Date?
         /// The description of the app block builder.
         public var description: Swift.String?
+        /// Indicates whether Instance Metadata Service Version 1 (IMDSv1) is disabled for the app block builder.
+        public var disableIMDSV1: Swift.Bool?
         /// The display name of the app block builder.
         public var displayName: Swift.String?
         /// Indicates whether default internet access is enabled for the app block builder.
@@ -700,6 +702,7 @@ extension AppStreamClientTypes {
             arn: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            disableIMDSV1: Swift.Bool? = nil,
             displayName: Swift.String? = nil,
             enableDefaultInternetAccess: Swift.Bool? = nil,
             iamRoleArn: Swift.String? = nil,
@@ -715,6 +718,7 @@ extension AppStreamClientTypes {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
+            self.disableIMDSV1 = disableIMDSV1
             self.displayName = displayName
             self.enableDefaultInternetAccess = enableDefaultInternetAccess
             self.iamRoleArn = iamRoleArn
@@ -1916,6 +1920,8 @@ public struct CreateAppBlockBuilderInput: Swift.Sendable {
     public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
     /// The description of the app block builder.
     public var description: Swift.String?
+    /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+    public var disableIMDSV1: Swift.Bool?
     /// The display name of the app block builder.
     public var displayName: Swift.String?
     /// Enables or disables default internet access for the app block builder.
@@ -1950,6 +1956,7 @@ public struct CreateAppBlockBuilderInput: Swift.Sendable {
     public init(
         accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
         description: Swift.String? = nil,
+        disableIMDSV1: Swift.Bool? = nil,
         displayName: Swift.String? = nil,
         enableDefaultInternetAccess: Swift.Bool? = nil,
         iamRoleArn: Swift.String? = nil,
@@ -1961,6 +1968,7 @@ public struct CreateAppBlockBuilderInput: Swift.Sendable {
     ) {
         self.accessEndpoints = accessEndpoints
         self.description = description
+        self.disableIMDSV1 = disableIMDSV1
         self.displayName = displayName
         self.enableDefaultInternetAccess = enableDefaultInternetAccess
         self.iamRoleArn = iamRoleArn
@@ -2544,6 +2552,8 @@ public struct CreateFleetInput: Swift.Sendable {
     public var computeCapacity: AppStreamClientTypes.ComputeCapacity?
     /// The description to display.
     public var description: Swift.String?
+    /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2. Before disabling IMDSv1, ensure your WorkSpaces Applications images are running the agent version or managed image update released on or after January 16, 2024 to support IMDSv2 enforcement.
+    public var disableIMDSV1: Swift.Bool?
     /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 36000.
     public var disconnectTimeoutInSeconds: Swift.Int?
     /// The fleet name to display.
@@ -2701,6 +2711,7 @@ public struct CreateFleetInput: Swift.Sendable {
     public init(
         computeCapacity: AppStreamClientTypes.ComputeCapacity? = nil,
         description: Swift.String? = nil,
+        disableIMDSV1: Swift.Bool? = nil,
         disconnectTimeoutInSeconds: Swift.Int? = nil,
         displayName: Swift.String? = nil,
         domainJoinInfo: AppStreamClientTypes.DomainJoinInfo? = nil,
@@ -2725,6 +2736,7 @@ public struct CreateFleetInput: Swift.Sendable {
     ) {
         self.computeCapacity = computeCapacity
         self.description = description
+        self.disableIMDSV1 = disableIMDSV1
         self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
         self.displayName = displayName
         self.domainJoinInfo = domainJoinInfo
@@ -2817,6 +2829,8 @@ extension AppStreamClientTypes {
         public var createdTime: Foundation.Date?
         /// The description to display.
         public var description: Swift.String?
+        /// Indicates whether Instance Metadata Service Version 1 (IMDSv1) is disabled for the fleet.
+        public var disableIMDSV1: Swift.Bool?
         /// The amount of time that a streaming session remains active after users disconnect. If they try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 36000.
         public var disconnectTimeoutInSeconds: Swift.Int?
         /// The fleet name to display.
@@ -2962,6 +2976,7 @@ extension AppStreamClientTypes {
             computeCapacityStatus: AppStreamClientTypes.ComputeCapacityStatus? = nil,
             createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            disableIMDSV1: Swift.Bool? = nil,
             disconnectTimeoutInSeconds: Swift.Int? = nil,
             displayName: Swift.String? = nil,
             domainJoinInfo: AppStreamClientTypes.DomainJoinInfo? = nil,
@@ -2989,6 +3004,7 @@ extension AppStreamClientTypes {
             self.computeCapacityStatus = computeCapacityStatus
             self.createdTime = createdTime
             self.description = description
+            self.disableIMDSV1 = disableIMDSV1
             self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
             self.displayName = displayName
             self.domainJoinInfo = domainJoinInfo
@@ -3033,6 +3049,8 @@ public struct CreateImageBuilderInput: Swift.Sendable {
     public var appstreamAgentVersion: Swift.String?
     /// The description to display.
     public var description: Swift.String?
+    /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2. Before disabling IMDSv1, ensure your WorkSpaces Applications images are running the agent version or managed image update released on or after January 16, 2024 to support IMDSv2 enforcement.
+    public var disableIMDSV1: Swift.Bool?
     /// The image builder name to display.
     public var displayName: Swift.String?
     /// The name of the directory and organizational unit (OU) to use to join the image builder to a Microsoft Active Directory domain.
@@ -3254,6 +3272,7 @@ public struct CreateImageBuilderInput: Swift.Sendable {
         accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
         appstreamAgentVersion: Swift.String? = nil,
         description: Swift.String? = nil,
+        disableIMDSV1: Swift.Bool? = nil,
         displayName: Swift.String? = nil,
         domainJoinInfo: AppStreamClientTypes.DomainJoinInfo? = nil,
         enableDefaultInternetAccess: Swift.Bool? = nil,
@@ -3271,6 +3290,7 @@ public struct CreateImageBuilderInput: Swift.Sendable {
         self.accessEndpoints = accessEndpoints
         self.appstreamAgentVersion = appstreamAgentVersion
         self.description = description
+        self.disableIMDSV1 = disableIMDSV1
         self.displayName = displayName
         self.domainJoinInfo = domainJoinInfo
         self.enableDefaultInternetAccess = enableDefaultInternetAccess
@@ -3466,6 +3486,8 @@ extension AppStreamClientTypes {
         public var createdTime: Foundation.Date?
         /// The description to display.
         public var description: Swift.String?
+        /// Indicates whether Instance Metadata Service Version 1 (IMDSv1) is disabled for the image builder.
+        public var disableIMDSV1: Swift.Bool?
         /// The image builder name to display.
         public var displayName: Swift.String?
         /// The name of the directory and organizational unit (OU) to use to join the image builder to a Microsoft Active Directory domain.
@@ -3596,6 +3618,7 @@ extension AppStreamClientTypes {
             arn: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            disableIMDSV1: Swift.Bool? = nil,
             displayName: Swift.String? = nil,
             domainJoinInfo: AppStreamClientTypes.DomainJoinInfo? = nil,
             enableDefaultInternetAccess: Swift.Bool? = nil,
@@ -3617,6 +3640,7 @@ extension AppStreamClientTypes {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
+            self.disableIMDSV1 = disableIMDSV1
             self.displayName = displayName
             self.domainJoinInfo = domainJoinInfo
             self.enableDefaultInternetAccess = enableDefaultInternetAccess
@@ -6934,6 +6958,8 @@ public struct UpdateAppBlockBuilderInput: Swift.Sendable {
     public var attributesToDelete: [AppStreamClientTypes.AppBlockBuilderAttribute]?
     /// The description of the app block builder.
     public var description: Swift.String?
+    /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+    public var disableIMDSV1: Swift.Bool?
     /// The display name of the app block builder.
     public var displayName: Swift.String?
     /// Enables or disables default internet access for the app block builder.
@@ -6964,6 +6990,7 @@ public struct UpdateAppBlockBuilderInput: Swift.Sendable {
         accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
         attributesToDelete: [AppStreamClientTypes.AppBlockBuilderAttribute]? = nil,
         description: Swift.String? = nil,
+        disableIMDSV1: Swift.Bool? = nil,
         displayName: Swift.String? = nil,
         enableDefaultInternetAccess: Swift.Bool? = nil,
         iamRoleArn: Swift.String? = nil,
@@ -6975,6 +7002,7 @@ public struct UpdateAppBlockBuilderInput: Swift.Sendable {
         self.accessEndpoints = accessEndpoints
         self.attributesToDelete = attributesToDelete
         self.description = description
+        self.disableIMDSV1 = disableIMDSV1
         self.displayName = displayName
         self.enableDefaultInternetAccess = enableDefaultInternetAccess
         self.iamRoleArn = iamRoleArn
@@ -7136,6 +7164,8 @@ public struct UpdateFleetInput: Swift.Sendable {
     public var deleteVpcConfig: Swift.Bool?
     /// The description to display.
     public var description: Swift.String?
+    /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2. Before disabling IMDSv1, ensure your WorkSpaces Applications images are running the agent version or managed image update released on or after January 16, 2024 to support IMDSv2 enforcement.
+    public var disableIMDSV1: Swift.Bool?
     /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 36000.
     public var disconnectTimeoutInSeconds: Swift.Int?
     /// The fleet name to display.
@@ -7289,6 +7319,7 @@ public struct UpdateFleetInput: Swift.Sendable {
         computeCapacity: AppStreamClientTypes.ComputeCapacity? = nil,
         deleteVpcConfig: Swift.Bool? = nil,
         description: Swift.String? = nil,
+        disableIMDSV1: Swift.Bool? = nil,
         disconnectTimeoutInSeconds: Swift.Int? = nil,
         displayName: Swift.String? = nil,
         domainJoinInfo: AppStreamClientTypes.DomainJoinInfo? = nil,
@@ -7313,6 +7344,7 @@ public struct UpdateFleetInput: Swift.Sendable {
         self.computeCapacity = computeCapacity
         self.deleteVpcConfig = deleteVpcConfig
         self.description = description
+        self.disableIMDSV1 = disableIMDSV1
         self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
         self.displayName = displayName
         self.domainJoinInfo = domainJoinInfo
@@ -8291,6 +8323,7 @@ extension CreateAppBlockBuilderInput {
         guard let value else { return }
         try writer["AccessEndpoints"].writeList(value.accessEndpoints, memberWritingClosure: AppStreamClientTypes.AccessEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Description"].write(value.description)
+        try writer["DisableIMDSV1"].write(value.disableIMDSV1)
         try writer["DisplayName"].write(value.displayName)
         try writer["EnableDefaultInternetAccess"].write(value.enableDefaultInternetAccess)
         try writer["IamRoleArn"].write(value.iamRoleArn)
@@ -8370,6 +8403,7 @@ extension CreateFleetInput {
         guard let value else { return }
         try writer["ComputeCapacity"].write(value.computeCapacity, with: AppStreamClientTypes.ComputeCapacity.write(value:to:))
         try writer["Description"].write(value.description)
+        try writer["DisableIMDSV1"].write(value.disableIMDSV1)
         try writer["DisconnectTimeoutInSeconds"].write(value.disconnectTimeoutInSeconds)
         try writer["DisplayName"].write(value.displayName)
         try writer["DomainJoinInfo"].write(value.domainJoinInfo, with: AppStreamClientTypes.DomainJoinInfo.write(value:to:))
@@ -8401,6 +8435,7 @@ extension CreateImageBuilderInput {
         try writer["AccessEndpoints"].writeList(value.accessEndpoints, memberWritingClosure: AppStreamClientTypes.AccessEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AppstreamAgentVersion"].write(value.appstreamAgentVersion)
         try writer["Description"].write(value.description)
+        try writer["DisableIMDSV1"].write(value.disableIMDSV1)
         try writer["DisplayName"].write(value.displayName)
         try writer["DomainJoinInfo"].write(value.domainJoinInfo, with: AppStreamClientTypes.DomainJoinInfo.write(value:to:))
         try writer["EnableDefaultInternetAccess"].write(value.enableDefaultInternetAccess)
@@ -9035,6 +9070,7 @@ extension UpdateAppBlockBuilderInput {
         try writer["AccessEndpoints"].writeList(value.accessEndpoints, memberWritingClosure: AppStreamClientTypes.AccessEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AttributesToDelete"].writeList(value.attributesToDelete, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AppStreamClientTypes.AppBlockBuilderAttribute>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Description"].write(value.description)
+        try writer["DisableIMDSV1"].write(value.disableIMDSV1)
         try writer["DisplayName"].write(value.displayName)
         try writer["EnableDefaultInternetAccess"].write(value.enableDefaultInternetAccess)
         try writer["IamRoleArn"].write(value.iamRoleArn)
@@ -9092,6 +9128,7 @@ extension UpdateFleetInput {
         try writer["ComputeCapacity"].write(value.computeCapacity, with: AppStreamClientTypes.ComputeCapacity.write(value:to:))
         try writer["DeleteVpcConfig"].write(value.deleteVpcConfig)
         try writer["Description"].write(value.description)
+        try writer["DisableIMDSV1"].write(value.disableIMDSV1)
         try writer["DisconnectTimeoutInSeconds"].write(value.disconnectTimeoutInSeconds)
         try writer["DisplayName"].write(value.displayName)
         try writer["DomainJoinInfo"].write(value.domainJoinInfo, with: AppStreamClientTypes.DomainJoinInfo.write(value:to:))
@@ -11837,6 +11874,7 @@ extension AppStreamClientTypes.AppBlockBuilder {
         value.appBlockBuilderErrors = try reader["AppBlockBuilderErrors"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ResourceError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.stateChangeReason = try reader["StateChangeReason"].readIfPresent(with: AppStreamClientTypes.AppBlockBuilderStateChangeReason.read(from:))
         value.accessEndpoints = try reader["AccessEndpoints"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.AccessEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.disableIMDSV1 = try reader["DisableIMDSV1"].readIfPresent()
         return value
     }
 }
@@ -12119,6 +12157,7 @@ extension AppStreamClientTypes.Fleet {
         value.sessionScriptS3Location = try reader["SessionScriptS3Location"].readIfPresent(with: AppStreamClientTypes.S3Location.read(from:))
         value.maxSessionsPerInstance = try reader["MaxSessionsPerInstance"].readIfPresent()
         value.rootVolumeConfig = try reader["RootVolumeConfig"].readIfPresent(with: AppStreamClientTypes.VolumeConfig.read(from:))
+        value.disableIMDSV1 = try reader["DisableIMDSV1"].readIfPresent()
         return value
     }
 }
@@ -12191,6 +12230,7 @@ extension AppStreamClientTypes.ImageBuilder {
         value.accessEndpoints = try reader["AccessEndpoints"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.AccessEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.rootVolumeConfig = try reader["RootVolumeConfig"].readIfPresent(with: AppStreamClientTypes.VolumeConfig.read(from:))
         value.latestAppstreamAgentVersion = try reader["LatestAppstreamAgentVersion"].readIfPresent()
+        value.disableIMDSV1 = try reader["DisableIMDSV1"].readIfPresent()
         return value
     }
 }

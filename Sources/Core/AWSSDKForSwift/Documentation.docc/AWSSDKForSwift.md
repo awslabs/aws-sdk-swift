@@ -391,6 +391,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSElasticsearchService](../../../../../swift/api/awselasticsearchservice/latest)
 
+[AWSElementalInference](../../../../../swift/api/awselementalinference/latest)
+
 [AWSEntityResolution](../../../../../swift/api/awsentityresolution/latest)
 
 [AWSEventBridge](../../../../../swift/api/awseventbridge/latest)
@@ -842,6 +844,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSShield](../../../../../swift/api/awsshield/latest)
 
 [AWSSigner](../../../../../swift/api/awssigner/latest)
+
+[AWSSignerData](../../../../../swift/api/awssignerdata/latest)
 
 [AWSSignin](../../../../../swift/api/awssignin/latest)
 

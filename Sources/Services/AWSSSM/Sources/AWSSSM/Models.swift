@@ -1322,6 +1322,8 @@ public struct CreateAssociationInput: Swift.Sendable {
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
     /// By default, when you create a new association, the system runs it immediately after it is created and then according to the schedule you specified and when target changes are detected. Specify true for ApplyOnlyAtCronIntervalif you want the association to run only according to the schedule you specified. For more information, see [Understanding when associations are applied to resources](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#state-manager-about-scheduling) and [>About target updates with Automation runbooks](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#runbook-target-updates) in the Amazon Web Services Systems Manager User Guide. This parameter isn't supported for rate expressions.
     public var applyOnlyAtCronInterval: Swift.Bool?
+    /// A role used by association to take actions on your behalf. State Manager will assume this role and call required APIs when dispatching configurations to nodes. If not specified, [ service-linked role for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html) will be used by default. It is recommended that you define a custom IAM role so that you have full control of the permissions that State Manager has when taking actions on your behalf. Service-linked role support in State Manager is being phased out. Associations relying on service-linked role may require updates in the future to continue functioning properly.
+    public var associationDispatchAssumeRole: Swift.String?
     /// Specify a descriptive name for the association.
     public var associationName: Swift.String?
     /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
@@ -1369,6 +1371,7 @@ public struct CreateAssociationInput: Swift.Sendable {
     public init(
         alarmConfiguration: SSMClientTypes.AlarmConfiguration? = nil,
         applyOnlyAtCronInterval: Swift.Bool? = false,
+        associationDispatchAssumeRole: Swift.String? = nil,
         associationName: Swift.String? = nil,
         automationTargetParameterName: Swift.String? = nil,
         calendarNames: [Swift.String]? = nil,
@@ -1391,6 +1394,7 @@ public struct CreateAssociationInput: Swift.Sendable {
     ) {
         self.alarmConfiguration = alarmConfiguration
         self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
+        self.associationDispatchAssumeRole = associationDispatchAssumeRole
         self.associationName = associationName
         self.automationTargetParameterName = automationTargetParameterName
         self.calendarNames = calendarNames
@@ -1415,7 +1419,7 @@ public struct CreateAssociationInput: Swift.Sendable {
 
 extension CreateAssociationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAssociationInput(alarmConfiguration: \(Swift.String(describing: alarmConfiguration)), applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationName: \(Swift.String(describing: associationName)), automationTargetParameterName: \(Swift.String(describing: automationTargetParameterName)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), documentVersion: \(Swift.String(describing: documentVersion)), duration: \(Swift.String(describing: duration)), instanceId: \(Swift.String(describing: instanceId)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), syncCompliance: \(Swift.String(describing: syncCompliance)), tags: \(Swift.String(describing: tags)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), parameters: \"CONTENT_REDACTED\")"}
+        "CreateAssociationInput(alarmConfiguration: \(Swift.String(describing: alarmConfiguration)), applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationDispatchAssumeRole: \(Swift.String(describing: associationDispatchAssumeRole)), associationName: \(Swift.String(describing: associationName)), automationTargetParameterName: \(Swift.String(describing: automationTargetParameterName)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), documentVersion: \(Swift.String(describing: documentVersion)), duration: \(Swift.String(describing: duration)), instanceId: \(Swift.String(describing: instanceId)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), syncCompliance: \(Swift.String(describing: syncCompliance)), tags: \(Swift.String(describing: tags)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), parameters: \"CONTENT_REDACTED\")"}
 }
 
 extension SSMClientTypes {
@@ -1511,6 +1515,8 @@ extension SSMClientTypes {
         public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
         /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
         public var applyOnlyAtCronInterval: Swift.Bool
+        /// A role used by association to take actions on your behalf. State Manager will assume this role and call required APIs when dispatching configurations to nodes. If not specified, [ service-linked role for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html) will be used by default.
+        public var associationDispatchAssumeRole: Swift.String?
         /// The association ID.
         public var associationId: Swift.String?
         /// The association name.
@@ -1569,6 +1575,7 @@ extension SSMClientTypes {
         public init(
             alarmConfiguration: SSMClientTypes.AlarmConfiguration? = nil,
             applyOnlyAtCronInterval: Swift.Bool = false,
+            associationDispatchAssumeRole: Swift.String? = nil,
             associationId: Swift.String? = nil,
             associationName: Swift.String? = nil,
             associationVersion: Swift.String? = nil,
@@ -1599,6 +1606,7 @@ extension SSMClientTypes {
         ) {
             self.alarmConfiguration = alarmConfiguration
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
+            self.associationDispatchAssumeRole = associationDispatchAssumeRole
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -1632,7 +1640,7 @@ extension SSMClientTypes {
 
 extension SSMClientTypes.AssociationDescription: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AssociationDescription(alarmConfiguration: \(Swift.String(describing: alarmConfiguration)), applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationId: \(Swift.String(describing: associationId)), associationName: \(Swift.String(describing: associationName)), associationVersion: \(Swift.String(describing: associationVersion)), automationTargetParameterName: \(Swift.String(describing: automationTargetParameterName)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), date: \(Swift.String(describing: date)), documentVersion: \(Swift.String(describing: documentVersion)), duration: \(Swift.String(describing: duration)), instanceId: \(Swift.String(describing: instanceId)), lastExecutionDate: \(Swift.String(describing: lastExecutionDate)), lastSuccessfulExecutionDate: \(Swift.String(describing: lastSuccessfulExecutionDate)), lastUpdateAssociationDate: \(Swift.String(describing: lastUpdateAssociationDate)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), overview: \(Swift.String(describing: overview)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), status: \(Swift.String(describing: status)), syncCompliance: \(Swift.String(describing: syncCompliance)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), triggeredAlarms: \(Swift.String(describing: triggeredAlarms)), parameters: \"CONTENT_REDACTED\")"}
+        "AssociationDescription(alarmConfiguration: \(Swift.String(describing: alarmConfiguration)), applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationDispatchAssumeRole: \(Swift.String(describing: associationDispatchAssumeRole)), associationId: \(Swift.String(describing: associationId)), associationName: \(Swift.String(describing: associationName)), associationVersion: \(Swift.String(describing: associationVersion)), automationTargetParameterName: \(Swift.String(describing: automationTargetParameterName)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), date: \(Swift.String(describing: date)), documentVersion: \(Swift.String(describing: documentVersion)), duration: \(Swift.String(describing: duration)), instanceId: \(Swift.String(describing: instanceId)), lastExecutionDate: \(Swift.String(describing: lastExecutionDate)), lastSuccessfulExecutionDate: \(Swift.String(describing: lastSuccessfulExecutionDate)), lastUpdateAssociationDate: \(Swift.String(describing: lastUpdateAssociationDate)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), overview: \(Swift.String(describing: overview)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), status: \(Swift.String(describing: status)), syncCompliance: \(Swift.String(describing: syncCompliance)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), triggeredAlarms: \(Swift.String(describing: triggeredAlarms)), parameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAssociationOutput: Swift.Sendable {
@@ -1748,13 +1756,17 @@ extension SSMClientTypes.CreateAssociationBatchRequestEntry: Swift.CustomDebugSt
 }
 
 public struct CreateAssociationBatchInput: Swift.Sendable {
+    /// A role used by association to take actions on your behalf. State Manager will assume this role and call required APIs when dispatching configurations to nodes. If not specified, [ service-linked role for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html) will be used by default. It is recommended that you define a custom IAM role so that you have full control of the permissions that State Manager has when taking actions on your behalf. Service-linked role support in State Manager is being phased out. Associations relying on service-linked role may require updates in the future to continue functioning properly.
+    public var associationDispatchAssumeRole: Swift.String?
     /// One or more associations.
     /// This member is required.
     public var entries: [SSMClientTypes.CreateAssociationBatchRequestEntry]?
 
     public init(
+        associationDispatchAssumeRole: Swift.String? = nil,
         entries: [SSMClientTypes.CreateAssociationBatchRequestEntry]? = nil
     ) {
+        self.associationDispatchAssumeRole = associationDispatchAssumeRole
         self.entries = entries
     }
 }
@@ -2889,7 +2901,7 @@ public struct CreateOpsItemInput: Swift.Sendable {
     ///
     /// * /aws/insight This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
     ///
-    /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests. Amazon Web Services Systems Manager Change Manager will no longer be open to new customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [Amazon Web Services Systems Manager Change Manager availability change](https://docs.aws.amazon.com/systems-manager/latest/userguide/change-manager-availability-change.html).
+    /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests. Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see [Amazon Web Services Systems Manager Change Manager availability change](https://docs.aws.amazon.com/systems-manager/latest/userguide/change-manager-availability-change.html).
     public var opsItemType: Swift.String?
     /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
     public var plannedEndTime: Foundation.Date?
@@ -13667,6 +13679,8 @@ extension SSMClientTypes {
     public struct AssociationVersionInfo: Swift.Sendable {
         /// By default, when you create new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
         public var applyOnlyAtCronInterval: Swift.Bool
+        /// A role used by association to take actions on your behalf. State Manager will assume this role and call required APIs when dispatching configurations to nodes. If not specified, [ service-linked role for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html) will be used by default.
+        public var associationDispatchAssumeRole: Swift.String?
         /// The ID created by the system when the association was created.
         public var associationId: Swift.String?
         /// The name specified for the association version when the association version was created.
@@ -13708,6 +13722,7 @@ extension SSMClientTypes {
 
         public init(
             applyOnlyAtCronInterval: Swift.Bool = false,
+            associationDispatchAssumeRole: Swift.String? = nil,
             associationId: Swift.String? = nil,
             associationName: Swift.String? = nil,
             associationVersion: Swift.String? = nil,
@@ -13729,6 +13744,7 @@ extension SSMClientTypes {
             targets: [SSMClientTypes.Target]? = nil
         ) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
+            self.associationDispatchAssumeRole = associationDispatchAssumeRole
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -13754,7 +13770,7 @@ extension SSMClientTypes {
 
 extension SSMClientTypes.AssociationVersionInfo: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AssociationVersionInfo(applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationId: \(Swift.String(describing: associationId)), associationName: \(Swift.String(describing: associationName)), associationVersion: \(Swift.String(describing: associationVersion)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), createdDate: \(Swift.String(describing: createdDate)), documentVersion: \(Swift.String(describing: documentVersion)), duration: \(Swift.String(describing: duration)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), syncCompliance: \(Swift.String(describing: syncCompliance)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), parameters: \"CONTENT_REDACTED\")"}
+        "AssociationVersionInfo(applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationDispatchAssumeRole: \(Swift.String(describing: associationDispatchAssumeRole)), associationId: \(Swift.String(describing: associationId)), associationName: \(Swift.String(describing: associationName)), associationVersion: \(Swift.String(describing: associationVersion)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), createdDate: \(Swift.String(describing: createdDate)), documentVersion: \(Swift.String(describing: documentVersion)), duration: \(Swift.String(describing: duration)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), syncCompliance: \(Swift.String(describing: syncCompliance)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), parameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListAssociationVersionsOutput: Swift.Sendable {
@@ -18683,6 +18699,8 @@ public struct UpdateAssociationInput: Swift.Sendable {
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
     /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify true for ApplyOnlyAtCronInterval if you want the association to run only according to the schedule you specified. If you chose this option when you created an association and later you edit that association or you make changes to the Automation runbook or SSM document on which that association is based, State Manager applies the association at the next specified cron interval. For example, if you chose the Latest version of an SSM document when you created an association and you edit the association by choosing a different document version on the Documents page, State Manager applies the association at the next specified cron interval if you previously set ApplyOnlyAtCronInterval to true. If this option wasn't selected, State Manager immediately runs the association. For more information, see [Understanding when associations are applied to resources](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#state-manager-about-scheduling) and [About target updates with Automation runbooks](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#runbook-target-updates) in the Amazon Web Services Systems Manager User Guide. This parameter isn't supported for rate expressions. You can reset this parameter. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
     public var applyOnlyAtCronInterval: Swift.Bool?
+    /// A role used by association to take actions on your behalf. State Manager will assume this role and call required APIs when dispatching configurations to nodes. If not specified, [ service-linked role for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html) will be used by default. It is recommended that you define a custom IAM role so that you have full control of the permissions that State Manager has when taking actions on your behalf. Service-linked role support in State Manager is being phased out. Associations relying on service-linked role may require updates in the future to continue functioning properly.
+    public var associationDispatchAssumeRole: Swift.String?
     /// The ID of the association you want to update.
     /// This member is required.
     public var associationId: Swift.String?
@@ -18730,6 +18748,7 @@ public struct UpdateAssociationInput: Swift.Sendable {
     public init(
         alarmConfiguration: SSMClientTypes.AlarmConfiguration? = nil,
         applyOnlyAtCronInterval: Swift.Bool? = false,
+        associationDispatchAssumeRole: Swift.String? = nil,
         associationId: Swift.String? = nil,
         associationName: Swift.String? = nil,
         associationVersion: Swift.String? = nil,
@@ -18752,6 +18771,7 @@ public struct UpdateAssociationInput: Swift.Sendable {
     ) {
         self.alarmConfiguration = alarmConfiguration
         self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
+        self.associationDispatchAssumeRole = associationDispatchAssumeRole
         self.associationId = associationId
         self.associationName = associationName
         self.associationVersion = associationVersion
@@ -18776,7 +18796,7 @@ public struct UpdateAssociationInput: Swift.Sendable {
 
 extension UpdateAssociationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAssociationInput(alarmConfiguration: \(Swift.String(describing: alarmConfiguration)), applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationId: \(Swift.String(describing: associationId)), associationName: \(Swift.String(describing: associationName)), associationVersion: \(Swift.String(describing: associationVersion)), automationTargetParameterName: \(Swift.String(describing: automationTargetParameterName)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), documentVersion: \(Swift.String(describing: documentVersion)), duration: \(Swift.String(describing: duration)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), syncCompliance: \(Swift.String(describing: syncCompliance)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), parameters: \"CONTENT_REDACTED\")"}
+        "UpdateAssociationInput(alarmConfiguration: \(Swift.String(describing: alarmConfiguration)), applyOnlyAtCronInterval: \(Swift.String(describing: applyOnlyAtCronInterval)), associationDispatchAssumeRole: \(Swift.String(describing: associationDispatchAssumeRole)), associationId: \(Swift.String(describing: associationId)), associationName: \(Swift.String(describing: associationName)), associationVersion: \(Swift.String(describing: associationVersion)), automationTargetParameterName: \(Swift.String(describing: automationTargetParameterName)), calendarNames: \(Swift.String(describing: calendarNames)), complianceSeverity: \(Swift.String(describing: complianceSeverity)), documentVersion: \(Swift.String(describing: documentVersion)), duration: \(Swift.String(describing: duration)), maxConcurrency: \(Swift.String(describing: maxConcurrency)), maxErrors: \(Swift.String(describing: maxErrors)), name: \(Swift.String(describing: name)), outputLocation: \(Swift.String(describing: outputLocation)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleOffset: \(Swift.String(describing: scheduleOffset)), syncCompliance: \(Swift.String(describing: syncCompliance)), targetLocations: \(Swift.String(describing: targetLocations)), targetMaps: \(Swift.String(describing: targetMaps)), targets: \(Swift.String(describing: targets)), parameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateAssociationOutput: Swift.Sendable {
@@ -21106,6 +21126,7 @@ extension CreateAssociationInput {
         guard let value else { return }
         try writer["AlarmConfiguration"].write(value.alarmConfiguration, with: SSMClientTypes.AlarmConfiguration.write(value:to:))
         try writer["ApplyOnlyAtCronInterval"].write(value.applyOnlyAtCronInterval)
+        try writer["AssociationDispatchAssumeRole"].write(value.associationDispatchAssumeRole)
         try writer["AssociationName"].write(value.associationName)
         try writer["AutomationTargetParameterName"].write(value.automationTargetParameterName)
         try writer["CalendarNames"].writeList(value.calendarNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -21132,6 +21153,7 @@ extension CreateAssociationBatchInput {
 
     static func write(value: CreateAssociationBatchInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AssociationDispatchAssumeRole"].write(value.associationDispatchAssumeRole)
         try writer["Entries"].writeList(value.entries, memberWritingClosure: SSMClientTypes.CreateAssociationBatchRequestEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -22496,6 +22518,7 @@ extension UpdateAssociationInput {
         guard let value else { return }
         try writer["AlarmConfiguration"].write(value.alarmConfiguration, with: SSMClientTypes.AlarmConfiguration.write(value:to:))
         try writer["ApplyOnlyAtCronInterval"].write(value.applyOnlyAtCronInterval)
+        try writer["AssociationDispatchAssumeRole"].write(value.associationDispatchAssumeRole)
         try writer["AssociationId"].write(value.associationId)
         try writer["AssociationName"].write(value.associationName)
         try writer["AssociationVersion"].write(value.associationVersion)
@@ -28978,6 +29001,7 @@ extension SSMClientTypes.AssociationDescription {
         value.targetMaps = try reader["TargetMaps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.alarmConfiguration = try reader["AlarmConfiguration"].readIfPresent(with: SSMClientTypes.AlarmConfiguration.read(from:))
         value.triggeredAlarms = try reader["TriggeredAlarms"].readListIfPresent(memberReadingClosure: SSMClientTypes.AlarmStateInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.associationDispatchAssumeRole = try reader["AssociationDispatchAssumeRole"].readIfPresent()
         return value
     }
 }
@@ -29105,6 +29129,7 @@ extension SSMClientTypes.AssociationVersionInfo {
         value.scheduleOffset = try reader["ScheduleOffset"].readIfPresent()
         value.duration = try reader["Duration"].readIfPresent()
         value.targetMaps = try reader["TargetMaps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.associationDispatchAssumeRole = try reader["AssociationDispatchAssumeRole"].readIfPresent()
         return value
     }
 }

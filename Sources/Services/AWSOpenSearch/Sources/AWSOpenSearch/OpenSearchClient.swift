@@ -2427,9 +2427,7 @@ extension OpenSearchClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>(DescribeDomainAutoTunesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>())
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>(contentType: "application/json"))
-        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDomainAutoTunesInput.write(value:to:)))
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>(DescribeDomainAutoTunesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainAutoTunesOutput>(DescribeDomainAutoTunesOutput.httpOutput(from:), DescribeDomainAutoTunesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())

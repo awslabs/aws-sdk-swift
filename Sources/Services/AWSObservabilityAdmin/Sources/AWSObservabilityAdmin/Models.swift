@@ -319,6 +319,36 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
+    /// Configuration that specifies a naming pattern for destination log groups created during centralization. The pattern supports static text and dynamic variables that are replaced with source attributes when log groups are created.
+    public struct LogGroupNameConfiguration: Swift.Sendable {
+        /// The pattern used to generate destination log group names during centralization. The pattern can contain static text and dynamic variables that are replaced with source attributes. If a variable cannot be resolved, it inherits the value from its parent variable in the hierarchy. The pattern must be between 1 and 512 characters. Supported variables:
+        ///
+        /// * ${source.logGroup} — The original log group name from the source account.
+        ///
+        /// * ${source.accountId} — The AWS account ID where the log originated.
+        ///
+        /// * ${source.region} — The AWS Region where the log originated.
+        ///
+        /// * ${source.org.id} — The AWS Organization ID of the source account.
+        ///
+        /// * ${source.org.ouId} — The organizational unit ID of the source account.
+        ///
+        /// * ${source.org.rootId} — The organization Root ID.
+        ///
+        /// * ${source.org.path} — The organizational path from account to root.
+        /// This member is required.
+        public var logGroupNamePattern: Swift.String?
+
+        public init(
+            logGroupNamePattern: Swift.String? = nil
+        ) {
+            self.logGroupNamePattern = logGroupNamePattern
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
     public enum EncryptionConflictResolutionStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allow
         case skip
@@ -405,14 +435,18 @@ extension ObservabilityAdminClientTypes {
     public struct DestinationLogsConfiguration: Swift.Sendable {
         /// Configuration defining the backup region and an optional KMS key for the backup destination.
         public var backupConfiguration: ObservabilityAdminClientTypes.LogsBackupConfiguration?
+        /// Configuration that specifies a naming pattern for destination log groups created during centralization. The pattern supports static text and dynamic variables that are replaced with source attributes when log groups are created.
+        public var logGroupNameConfiguration: ObservabilityAdminClientTypes.LogGroupNameConfiguration?
         /// The encryption configuration for centralization destination log groups.
         public var logsEncryptionConfiguration: ObservabilityAdminClientTypes.LogsEncryptionConfiguration?
 
         public init(
             backupConfiguration: ObservabilityAdminClientTypes.LogsBackupConfiguration? = nil,
+            logGroupNameConfiguration: ObservabilityAdminClientTypes.LogGroupNameConfiguration? = nil,
             logsEncryptionConfiguration: ObservabilityAdminClientTypes.LogsEncryptionConfiguration? = nil
         ) {
             self.backupConfiguration = backupConfiguration
+            self.logGroupNameConfiguration = logGroupNameConfiguration
             self.logsEncryptionConfiguration = logsEncryptionConfiguration
         }
     }
@@ -1028,7 +1062,18 @@ public struct CreateS3TableIntegrationOutput: Swift.Sendable {
 
 extension ObservabilityAdminClientTypes {
 
-    /// Defines the configuration for a telemetry pipeline, including how data flows from sources through processors to destinations.
+    /// Defines the configuration for a pipeline, including how data flows from sources through processors to destinations. The configuration is specified in YAML format and must include a valid pipeline definition with required source and sink components. This pipeline enables end-to-end telemetry data collection, transformation, and delivery while supporting optional processing steps and extensions for enhanced functionality. The primary pipeline configuration section are:
+    ///
+    /// * Source: Defines where log data originates from (S3 buckets, CloudWatch Logs, third-party APIs). Each pipeline must have exactly one source.
+    ///
+    /// * Processors (optional): Transform, parse, and enrich log data as it flows through the pipeline. Processors are applied sequentially in the order they are defined.
+    ///
+    /// * Sink: Defines the destination where processed log data is sent. Each pipeline must have exactly one sink.
+    ///
+    /// * Extensions (optional): Provide additional functionality such as Amazon Web Services Secrets Manager integration for credential management.
+    ///
+    ///
+    /// For more details on each configuration section see [CloudWatch pipelines User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch-pipelines.html). Additional comprehensive configuration examples can be found in the [CreateTelemetryPipeline API docs](https://docs.aws.amazon.com/cloudwatch/latest/observabilityadmin/API_CreateTelemetryPipeline.html#API_CreateTelemetryPipeline_Examples).
     public struct TelemetryPipelineConfiguration: Swift.Sendable {
         /// The pipeline configuration body that defines the data processing rules and transformations.
         /// This member is required.
@@ -2389,6 +2434,8 @@ extension ObservabilityAdminClientTypes {
         public var resourceType: ObservabilityAdminClientTypes.ResourceType?
         /// The configuration state for the resource, for example { Logs: NotApplicable; Metrics: Enabled; Traces: NotApplicable; }.
         public var telemetryConfigurationState: [Swift.String: ObservabilityAdminClientTypes.TelemetryState]?
+        /// Specifies the type of telemetry source for a resource, such as EKS cluster logs.
+        public var telemetrySourceType: ObservabilityAdminClientTypes.TelemetrySourceType?
 
         public init(
             accountIdentifier: Swift.String? = nil,
@@ -2396,7 +2443,8 @@ extension ObservabilityAdminClientTypes {
             resourceIdentifier: Swift.String? = nil,
             resourceTags: [Swift.String: Swift.String]? = nil,
             resourceType: ObservabilityAdminClientTypes.ResourceType? = nil,
-            telemetryConfigurationState: [Swift.String: ObservabilityAdminClientTypes.TelemetryState]? = nil
+            telemetryConfigurationState: [Swift.String: ObservabilityAdminClientTypes.TelemetryState]? = nil,
+            telemetrySourceType: ObservabilityAdminClientTypes.TelemetrySourceType? = nil
         ) {
             self.accountIdentifier = accountIdentifier
             self.lastUpdateTimeStamp = lastUpdateTimeStamp
@@ -2404,6 +2452,7 @@ extension ObservabilityAdminClientTypes {
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.telemetryConfigurationState = telemetryConfigurationState
+            self.telemetrySourceType = telemetrySourceType
         }
     }
 }
@@ -5065,6 +5114,7 @@ extension ObservabilityAdminClientTypes.DestinationLogsConfiguration {
     static func write(value: ObservabilityAdminClientTypes.DestinationLogsConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["BackupConfiguration"].write(value.backupConfiguration, with: ObservabilityAdminClientTypes.LogsBackupConfiguration.write(value:to:))
+        try writer["LogGroupNameConfiguration"].write(value.logGroupNameConfiguration, with: ObservabilityAdminClientTypes.LogGroupNameConfiguration.write(value:to:))
         try writer["LogsEncryptionConfiguration"].write(value.logsEncryptionConfiguration, with: ObservabilityAdminClientTypes.LogsEncryptionConfiguration.write(value:to:))
     }
 
@@ -5073,6 +5123,7 @@ extension ObservabilityAdminClientTypes.DestinationLogsConfiguration {
         var value = ObservabilityAdminClientTypes.DestinationLogsConfiguration()
         value.logsEncryptionConfiguration = try reader["LogsEncryptionConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.LogsEncryptionConfiguration.read(from:))
         value.backupConfiguration = try reader["BackupConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.LogsBackupConfiguration.read(from:))
+        value.logGroupNameConfiguration = try reader["LogGroupNameConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.LogGroupNameConfiguration.read(from:))
         return value
     }
 }
@@ -5209,6 +5260,21 @@ extension ObservabilityAdminClientTypes.LoggingFilter {
     }
 }
 
+extension ObservabilityAdminClientTypes.LogGroupNameConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.LogGroupNameConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LogGroupNamePattern"].write(value.logGroupNamePattern)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.LogGroupNameConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.LogGroupNameConfiguration()
+        value.logGroupNamePattern = try reader["LogGroupNamePattern"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ObservabilityAdminClientTypes.LogsBackupConfiguration {
 
     static func write(value: ObservabilityAdminClientTypes.LogsBackupConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -5336,6 +5402,7 @@ extension ObservabilityAdminClientTypes.TelemetryConfiguration {
         value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
         value.resourceTags = try reader["ResourceTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
+        value.telemetrySourceType = try reader["TelemetrySourceType"].readIfPresent()
         return value
     }
 }
