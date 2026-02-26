@@ -613,7 +613,7 @@ extension MarketplaceEntitlementClient {
 extension MarketplaceEntitlementClient {
     /// Performs the `GetEntitlements` operation on the `MarketplaceEntitlement` service.
     ///
-    /// GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier, AWS account ID, or product dimensions. The CustomerIdentifier parameter is on path for deprecation. Use CustomerAWSAccountID instead. These parameters are mutually exclusive. You can't specify both CustomerIdentifier and CustomerAWSAccountID in the same request.
+    /// GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier, AWS account ID, license ARN, or product dimensions.
     ///
     /// - Parameter input: The GetEntitlementsRequest contains parameters for the GetEntitlements operation. (Type: `GetEntitlementsInput`)
     ///

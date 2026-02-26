@@ -93,6 +93,29 @@ public struct InvalidCustomerIdentifierException: ClientRuntime.ModeledError, AW
     }
 }
 
+/// Ensure the LicenseArn is valid, matches the customer, and usage is within the license activation period.
+public struct InvalidLicenseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidLicenseException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The product code passed does not match the product code used for publishing the product.
 public struct InvalidProductCodeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -276,13 +299,15 @@ extension MarketplaceMeteringClientTypes {
 
     /// A UsageRecord indicates a quantity of usage for a given product, customer, dimension and time. Multiple requests with the same UsageRecords as input will be de-duplicated to prevent double charges.
     public struct UsageRecord: Swift.Sendable {
-        /// The CustomerAWSAccountID parameter specifies the AWS account ID of the buyer.
+        /// The CustomerAWSAccountId parameter specifies the AWS account ID of the buyer. For existing integrations, to access your CustomerIdentifier to CustomerAWSAccountId mapping, see [Account Feeds](https://docs.aws.amazon.com/marketplace/latest/userguide/data-feed-account.html).
         public var customerAWSAccountId: Swift.String?
         /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
         public var customerIdentifier: Swift.String?
         /// During the process of registering a product on Amazon Web Services Marketplace, dimensions are specified. These represent different units of value in your application.
         /// This member is required.
         public var dimension: Swift.String?
+        /// The LicenseArn is a unique identifier for a specific granted license. These are used for software purchased through Amazon Web Services Marketplace. To access your CustomerAWSAccountId and LicenseArn mapping, visit [Agreements Feeds](https://docs.aws.amazon.com/marketplace/latest/userguide/data-feed-agreements.html).
+        public var licenseArn: Swift.String?
         /// The quantity of usage consumed by the customer for the given dimension and time. Defaults to 0 if not specified.
         public var quantity: Swift.Int?
         /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.
@@ -295,6 +320,7 @@ extension MarketplaceMeteringClientTypes {
             customerAWSAccountId: Swift.String? = nil,
             customerIdentifier: Swift.String? = "",
             dimension: Swift.String? = nil,
+            licenseArn: Swift.String? = nil,
             quantity: Swift.Int? = nil,
             timestamp: Foundation.Date? = nil,
             usageAllocations: [MarketplaceMeteringClientTypes.UsageAllocation]? = nil
@@ -302,6 +328,7 @@ extension MarketplaceMeteringClientTypes {
             self.customerAWSAccountId = customerAWSAccountId
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
+            self.licenseArn = licenseArn
             self.quantity = quantity
             self.timestamp = timestamp
             self.usageAllocations = usageAllocations
@@ -312,7 +339,6 @@ extension MarketplaceMeteringClientTypes {
 /// A BatchMeterUsageRequest contains UsageRecords, which indicate quantities of usage within your application.
 public struct BatchMeterUsageInput: Swift.Sendable {
     /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product.
-    /// This member is required.
     public var productCode: Swift.String?
     /// The set of UsageRecords to submit. BatchMeterUsage accepts up to 25 UsageRecords at a time.
     /// This member is required.
@@ -707,7 +733,7 @@ public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 
 /// Contains input to the ResolveCustomer operation.
 public struct ResolveCustomerInput: Swift.Sendable {
-    /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId and ProductCode.
+    /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId, ProductCode, and LicenseArn.
     /// This member is required.
     public var registrationToken: Swift.String?
 
@@ -718,22 +744,26 @@ public struct ResolveCustomerInput: Swift.Sendable {
     }
 }
 
-/// The result of the ResolveCustomer operation. Contains the CustomerIdentifier along with the CustomerAWSAccountId and ProductCode.
+/// The result of the ResolveCustomer operation. Contains the CustomerIdentifier along with the CustomerAWSAccountId, ProductCode, and LicenseArn.
 public struct ResolveCustomerOutput: Swift.Sendable {
-    /// The CustomerAWSAccountId provides the Amazon Web Services account ID associated with the CustomerIdentifier for the individual customer.
+    /// The CustomerAWSAccountId provides the Amazon Web Services account ID associated with the CustomerIdentifier for the individual customer. Calls to BatchMeterUsage require CustomerAWSAccountId for each UsageRecord.
     public var customerAWSAccountId: Swift.String?
-    /// The CustomerIdentifier is used to identify an individual customer in your application. Calls to BatchMeterUsage require CustomerIdentifiers for each UsageRecord.
+    /// The CustomerIdentifier is used to identify an individual customer in your application.
     public var customerIdentifier: Swift.String?
+    /// The LicenseArn is a unique identifier for a specific granted license. These are typically used for software purchased through Amazon Web Services Marketplace. Calls to BatchMeterUsage require LicenseArn for each UsageRecord. Once you receive the CustomerAWSAccountId and LicenseArn in the response, store that for future purposes/API calls/integrations.
+    public var licenseArn: Swift.String?
     /// The product code is returned to confirm that the buyer is registering for your product. Subsequent BatchMeterUsage calls should be made using this product code.
     public var productCode: Swift.String?
 
     public init(
         customerAWSAccountId: Swift.String? = nil,
         customerIdentifier: Swift.String? = nil,
+        licenseArn: Swift.String? = nil,
         productCode: Swift.String? = nil
     ) {
         self.customerAWSAccountId = customerAWSAccountId
         self.customerIdentifier = customerIdentifier
+        self.licenseArn = licenseArn
         self.productCode = productCode
     }
 }
@@ -854,6 +884,7 @@ extension ResolveCustomerOutput {
         var value = ResolveCustomerOutput()
         value.customerAWSAccountId = try reader["CustomerAWSAccountId"].readIfPresent()
         value.customerIdentifier = try reader["CustomerIdentifier"].readIfPresent()
+        value.licenseArn = try reader["LicenseArn"].readIfPresent()
         value.productCode = try reader["ProductCode"].readIfPresent()
         return value
     }
@@ -870,6 +901,7 @@ enum BatchMeterUsageOutputError {
             case "DisabledApiException": return try DisabledApiException.makeError(baseError: baseError)
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
             case "InvalidCustomerIdentifierException": return try InvalidCustomerIdentifierException.makeError(baseError: baseError)
+            case "InvalidLicenseException": return try InvalidLicenseException.makeError(baseError: baseError)
             case "InvalidProductCodeException": return try InvalidProductCodeException.makeError(baseError: baseError)
             case "InvalidTagException": return try InvalidTagException.makeError(baseError: baseError)
             case "InvalidUsageAllocationsException": return try InvalidUsageAllocationsException.makeError(baseError: baseError)
@@ -975,6 +1007,19 @@ extension InvalidCustomerIdentifierException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCustomerIdentifierException {
         let reader = baseError.errorBodyReader
         var value = InvalidCustomerIdentifierException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidLicenseException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLicenseException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidLicenseException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1219,6 +1264,7 @@ extension MarketplaceMeteringClientTypes.UsageRecord {
         try writer["CustomerAWSAccountId"].write(value.customerAWSAccountId)
         try writer["CustomerIdentifier"].write(value.customerIdentifier)
         try writer["Dimension"].write(value.dimension)
+        try writer["LicenseArn"].write(value.licenseArn)
         try writer["Quantity"].write(value.quantity)
         try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["UsageAllocations"].writeList(value.usageAllocations, memberWritingClosure: MarketplaceMeteringClientTypes.UsageAllocation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -1233,6 +1279,7 @@ extension MarketplaceMeteringClientTypes.UsageRecord {
         value.quantity = try reader["Quantity"].readIfPresent()
         value.usageAllocations = try reader["UsageAllocations"].readListIfPresent(memberReadingClosure: MarketplaceMeteringClientTypes.UsageAllocation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.customerAWSAccountId = try reader["CustomerAWSAccountId"].readIfPresent()
+        value.licenseArn = try reader["LicenseArn"].readIfPresent()
         return value
     }
 }

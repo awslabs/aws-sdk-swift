@@ -656,12 +656,14 @@ extension ECSClientTypes {
 
     public enum CapacityOptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case onDemand
+        case reserved
         case spot
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CapacityOptionType] {
             return [
                 .onDemand,
+                .reserved,
                 .spot
             ]
         }
@@ -674,9 +676,67 @@ extension ECSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .onDemand: return "ON_DEMAND"
+            case .reserved: return "RESERVED"
             case .spot: return "SPOT"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum CapacityReservationPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case reservationsExcluded
+        case reservationsFirst
+        case reservationsOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationPreference] {
+            return [
+                .reservationsExcluded,
+                .reservationsFirst,
+                .reservationsOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .reservationsExcluded: return "RESERVATIONS_EXCLUDED"
+            case .reservationsFirst: return "RESERVATIONS_FIRST"
+            case .reservationsOnly: return "RESERVATIONS_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The Capacity Reservation configurations to be used when using the RESERVED capacity option type.
+    public struct CapacityReservationRequest: Swift.Sendable {
+        /// The ARN of the Capacity Reservation resource group in which to run the instance.
+        public var reservationGroupArn: Swift.String?
+        /// The preference on when capacity reservations should be used. Valid values are:
+        ///
+        /// * RESERVATIONS_ONLY - Exclusively launch instances into capacity reservations that match the instance requirements configured for the capacity provider. If none exist, instances will fail to provision.
+        ///
+        /// * RESERVATIONS_FIRST - Prefer to launch instances into a capacity reservation if any exist that match the instance requirements configured for the capacity provider. If none exist, fall back to launching instances On-Demand.
+        ///
+        /// * RESERVATIONS_EXCLUDED - Avoid using capacity reservations and launch exclusively On-Demand.
+        public var reservationPreference: ECSClientTypes.CapacityReservationPreference?
+
+        public init(
+            reservationGroupArn: Swift.String? = nil,
+            reservationPreference: ECSClientTypes.CapacityReservationPreference? = nil
+        ) {
+            self.reservationGroupArn = reservationGroupArn
+            self.reservationPreference = reservationPreference
         }
     }
 }
@@ -1178,15 +1238,26 @@ extension ECSClientTypes {
 
     /// The launch template configuration for Amazon ECS Managed Instances. This defines how Amazon ECS launches Amazon EC2 instances, including the instance profile for your tasks, network and storage configuration, capacity options, and instance requirements for flexible instance type selection.
     public struct InstanceLaunchTemplate: Swift.Sendable {
-        /// The capacity option type. This determines whether Amazon ECS launches On-Demand or Spot Instances for your managed instance capacity provider. Valid values are:
+        /// The capacity option type. This determines whether Amazon ECS launches On-Demand, Spot or Capacity Reservation Instances for your managed instance capacity provider. Valid values are:
         ///
         /// * ON_DEMAND - Launches standard On-Demand Instances. On-Demand Instances provide predictable pricing and availability.
         ///
         /// * SPOT - Launches Spot Instances that use spare Amazon EC2 capacity at reduced cost. Spot Instances can be interrupted by Amazon EC2 with a two-minute notification when the capacity is needed back.
         ///
+        /// * RESERVED - Launches Instances using Amazon EC2 Capacity Reservations. Capacity Reservations allow you to reserve compute capacity for Amazon EC2 instances in a specific Availability Zone.
+        ///
         ///
         /// The default is On-Demand For more information about Amazon EC2 capacity options, see [Instance purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon EC2 User Guide.
         public var capacityOptionType: ECSClientTypes.CapacityOptionType?
+        /// Capacity reservation specifications. You can specify:
+        ///
+        /// * Capacity reservation preference
+        ///
+        /// * Reservation resource group to be used for targeted capacity reservations
+        ///
+        ///
+        /// Amazon ECS will launch instances according to the specified criteria.
+        public var capacityReservations: ECSClientTypes.CapacityReservationRequest?
         /// The Amazon Resource Name (ARN) of the instance profile that Amazon ECS applies to Amazon ECS Managed Instances. This instance profile must include the necessary permissions for your tasks to access Amazon Web Services services and resources. For more information, see [Amazon ECS instance profile for Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/managed-instances-instance-profile.html) in the Amazon ECS Developer Guide.
         /// This member is required.
         public var ec2InstanceProfileArn: Swift.String?
@@ -1211,6 +1282,7 @@ extension ECSClientTypes {
 
         public init(
             capacityOptionType: ECSClientTypes.CapacityOptionType? = nil,
+            capacityReservations: ECSClientTypes.CapacityReservationRequest? = nil,
             ec2InstanceProfileArn: Swift.String? = nil,
             fipsEnabled: Swift.Bool? = nil,
             instanceRequirements: ECSClientTypes.InstanceRequirementsRequest? = nil,
@@ -1219,6 +1291,7 @@ extension ECSClientTypes {
             storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration? = nil
         ) {
             self.capacityOptionType = capacityOptionType
+            self.capacityReservations = capacityReservations
             self.ec2InstanceProfileArn = ec2InstanceProfileArn
             self.fipsEnabled = fipsEnabled
             self.instanceRequirements = instanceRequirements
@@ -1734,6 +1807,8 @@ extension ECSClientTypes {
 
     /// The updated launch template configuration for Amazon ECS Managed Instances. You can modify the instance profile, network configuration, storage settings, and instance requirements. Changes apply to new instances launched after the update. For more information, see [Store instance launch parameters in Amazon EC2 launch templates](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) in the Amazon EC2 User Guide.
     public struct InstanceLaunchTemplateUpdate: Swift.Sendable {
+        /// The updated capacity reservations specifications for Amazon ECS Managed Instances. Changes to capacity reservations settings apply to new instances launched after the update.
+        public var capacityReservations: ECSClientTypes.CapacityReservationRequest?
         /// The updated Amazon Resource Name (ARN) of the instance profile. The new instance profile must have the necessary permissions for your tasks. For more information, see [Amazon ECS instance profile for Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/managed-instances-instance-profile.html) in the Amazon ECS Developer Guide.
         public var ec2InstanceProfileArn: Swift.String?
         /// The updated instance requirements for attribute-based instance type selection. Changes to instance requirements affect which instance types Amazon ECS selects for new instances.
@@ -1746,12 +1821,14 @@ extension ECSClientTypes {
         public var storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration?
 
         public init(
+            capacityReservations: ECSClientTypes.CapacityReservationRequest? = nil,
             ec2InstanceProfileArn: Swift.String? = nil,
             instanceRequirements: ECSClientTypes.InstanceRequirementsRequest? = nil,
             monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions? = nil,
             networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration? = nil,
             storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration? = nil
         ) {
+            self.capacityReservations = capacityReservations
             self.ec2InstanceProfileArn = ec2InstanceProfileArn
             self.instanceRequirements = instanceRequirements
             self.monitoring = monitoring
@@ -16391,6 +16468,23 @@ extension ECSClientTypes.CapacityProviderStrategyItem {
     }
 }
 
+extension ECSClientTypes.CapacityReservationRequest {
+
+    static func write(value: ECSClientTypes.CapacityReservationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["reservationGroupArn"].write(value.reservationGroupArn)
+        try writer["reservationPreference"].write(value.reservationPreference)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.CapacityReservationRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.CapacityReservationRequest()
+        value.reservationGroupArn = try reader["reservationGroupArn"].readIfPresent()
+        value.reservationPreference = try reader["reservationPreference"].readIfPresent()
+        return value
+    }
+}
+
 extension ECSClientTypes.Cluster {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.Cluster {
@@ -17417,6 +17511,7 @@ extension ECSClientTypes.InstanceLaunchTemplate {
     static func write(value: ECSClientTypes.InstanceLaunchTemplate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["capacityOptionType"].write(value.capacityOptionType)
+        try writer["capacityReservations"].write(value.capacityReservations, with: ECSClientTypes.CapacityReservationRequest.write(value:to:))
         try writer["ec2InstanceProfileArn"].write(value.ec2InstanceProfileArn)
         try writer["fipsEnabled"].write(value.fipsEnabled)
         try writer["instanceRequirements"].write(value.instanceRequirements, with: ECSClientTypes.InstanceRequirementsRequest.write(value:to:))
@@ -17435,6 +17530,7 @@ extension ECSClientTypes.InstanceLaunchTemplate {
         value.capacityOptionType = try reader["capacityOptionType"].readIfPresent()
         value.instanceRequirements = try reader["instanceRequirements"].readIfPresent(with: ECSClientTypes.InstanceRequirementsRequest.read(from:))
         value.fipsEnabled = try reader["fipsEnabled"].readIfPresent()
+        value.capacityReservations = try reader["capacityReservations"].readIfPresent(with: ECSClientTypes.CapacityReservationRequest.read(from:))
         return value
     }
 }
@@ -17443,6 +17539,7 @@ extension ECSClientTypes.InstanceLaunchTemplateUpdate {
 
     static func write(value: ECSClientTypes.InstanceLaunchTemplateUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["capacityReservations"].write(value.capacityReservations, with: ECSClientTypes.CapacityReservationRequest.write(value:to:))
         try writer["ec2InstanceProfileArn"].write(value.ec2InstanceProfileArn)
         try writer["instanceRequirements"].write(value.instanceRequirements, with: ECSClientTypes.InstanceRequirementsRequest.write(value:to:))
         try writer["monitoring"].write(value.monitoring)
