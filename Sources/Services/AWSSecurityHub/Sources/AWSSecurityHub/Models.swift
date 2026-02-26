@@ -162,10 +162,10 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 public struct AcceptAdministratorInvitationInput: Swift.Sendable {
-    /// The account ID of the Security Hub administrator account that sent the invitation.
+    /// The account ID of the Security Hub CSPM administrator account that sent the invitation.
     /// This member is required.
     public var administratorId: Swift.String?
-    /// The identifier of the invitation sent from the Security Hub administrator account.
+    /// The identifier of the invitation sent from the Security Hub CSPM administrator account.
     /// This member is required.
     public var invitationId: Swift.String?
 
@@ -184,10 +184,10 @@ public struct AcceptAdministratorInvitationOutput: Swift.Sendable {
 }
 
 public struct AcceptInvitationInput: Swift.Sendable {
-    /// The identifier of the invitation sent from the Security Hub administrator account.
+    /// The identifier of the invitation sent from the Security Hub CSPM administrator account.
     /// This member is required.
     public var invitationId: Swift.String?
-    /// The account ID of the Security Hub administrator account that sent the invitation.
+    /// The account ID of the Security Hub CSPM administrator account that sent the invitation.
     /// This member is required.
     public var masterId: Swift.String?
 
@@ -389,9 +389,9 @@ extension SecurityHubClientTypes {
         public var callerType: Swift.String?
         /// Provided if CallerType is domain. Provides information about the DNS domain that the API call originated from.
         public var domainDetails: SecurityHubClientTypes.AwsApiCallActionDomainDetails?
-        /// A timestamp that indicates when the API call was first observed. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that indicates when the API call was first observed. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var firstSeen: Swift.String?
-        /// A timestamp that indicates when the API call was most recently observed. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that indicates when the API call was most recently observed. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastSeen: Swift.String?
         /// Provided if CallerType is remoteip. Provides information about the remote IP address that the API call originated from.
         public var remoteIpDetails: SecurityHubClientTypes.ActionRemoteIpDetails?
@@ -819,7 +819,7 @@ extension SecurityHubClientTypes {
     public struct WorkflowUpdate: Swift.Sendable {
         /// The status of the investigation into the finding. The workflow status is specific to an individual finding. It does not affect the generation of new findings. For example, setting the workflow status to SUPPRESSED or RESOLVED does not prevent a new finding for the same issue. The allowed values are the following.
         ///
-        /// * NEW - The initial state of a finding, before it is reviewed. Security Hub also resets WorkFlowStatus from NOTIFIED or RESOLVED to NEW in the following cases:
+        /// * NEW - The initial state of a finding, before it is reviewed. Security Hub CSPM also resets WorkFlowStatus from NOTIFIED or RESOLVED to NEW in the following cases:
         ///
         /// * The record state changes from ARCHIVED to ACTIVE.
         ///
@@ -918,11 +918,11 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// One or more actions that Security Hub takes when a finding matches the defined criteria of a rule.
+    /// One or more actions that Security Hub CSPM takes when a finding matches the defined criteria of a rule.
     public struct AutomationRulesAction: Swift.Sendable {
         /// Specifies that the automation rule action is an update to a finding field.
         public var findingFieldsUpdate: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdate?
-        /// Specifies the type of action that Security Hub takes when a finding matches the defined criteria of a rule.
+        /// Specifies the type of action that Security Hub CSPM takes when a finding matches the defined criteria of a rule.
         public var type: SecurityHubClientTypes.AutomationRulesActionType?
 
         public init(
@@ -992,7 +992,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about the authenticated session used by the threat actor identified in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Contains information about the authenticated session used by the threat actor identified in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub CSPM, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct ActorSession: Swift.Sendable {
         /// The timestamp for when the session was created. In CloudTrail, you can find this value as userIdentity.sessionContext.attributes.creationDate.
         public var createdTime: Swift.Int?
@@ -1019,7 +1019,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Provides Amazon Web Services account information of the user involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Provides Amazon Web Services account information of the user involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub CSPM, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct UserAccount: Swift.Sendable {
         /// The name of the user account involved in the attack sequence.
         public var name: Swift.String?
@@ -1038,7 +1038,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about the credentials used by the threat actor identified in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Contains information about the credentials used by the threat actor identified in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub CSPM, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct ActorUser: Swift.Sendable {
         /// The account of the threat actor.
         public var account: SecurityHubClientTypes.UserAccount?
@@ -1069,7 +1069,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Information about the threat actor identified in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Information about the threat actor identified in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub CSPM, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct Actor: Swift.Sendable {
         /// The ID of the threat actor.
         public var id: Swift.String?
@@ -1140,11 +1140,11 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Represents a Security Hub administrator account designated by an organization management account.
+    /// Represents a Security Hub CSPM administrator account designated by an organization management account.
     public struct AdminAccount: Swift.Sendable {
-        /// The Amazon Web Services account identifier of the Security Hub administrator account.
+        /// The Amazon Web Services account identifier of the Security Hub CSPM administrator account.
         public var accountId: Swift.String?
-        /// The current status of the Security Hub administrator account. Indicates whether the account is currently enabled as a Security Hub administrator.
+        /// The current status of the Security Hub CSPM administrator account. Indicates whether the account is currently enabled as a Security Hub CSPM administrator.
         public var status: SecurityHubClientTypes.AdminStatus?
 
         public init(
@@ -1283,7 +1283,7 @@ extension SecurityHubClientTypes {
     public struct AssociationFilters: Swift.Sendable {
         /// The current status of the association between a target and a configuration policy.
         public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
-        /// Indicates whether the association between a target and a configuration was directly applied by the Security Hub delegated administrator or inherited from a parent.
+        /// Indicates whether the association between a target and a configuration was directly applied by the Security Hub CSPM delegated administrator or inherited from a parent.
         public var associationType: SecurityHubClientTypes.AssociationType?
         /// The ARN or UUID of the configuration policy.
         public var configurationPolicyId: Swift.String?
@@ -1564,9 +1564,9 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// A string filter for filtering Security Hub findings.
+    /// A string filter for filtering Security Hub CSPM findings.
     public struct StringFilter: Swift.Sendable {
-        /// The condition to apply to a string value when filtering Security Hub findings. To search for values that have the filter value, use one of the following comparison operators:
+        /// The condition to apply to a string value when filtering Security Hub CSPM findings. To search for values that have the filter value, use one of the following comparison operators:
         ///
         /// * To search for values that include the filter value, use CONTAINS. For example, the filter Title CONTAINS CloudFront matches findings that have a Title that includes the string CloudFront.
         ///
@@ -1584,7 +1584,7 @@ extension SecurityHubClientTypes {
         /// * To search for values that don't start with the filter value, use PREFIX_NOT_EQUALS. For example, the filter ResourceRegion PREFIX_NOT_EQUALS us matches findings with a ResourceRegion that starts with a value other than us.
         ///
         ///
-        /// NOT_CONTAINS, NOT_EQUALS, and PREFIX_NOT_EQUALS filters on the same field are joined by AND. A finding matches only if it matches all of those filters. For example, the filters Title NOT_CONTAINS CloudFront AND Title NOT_CONTAINS CloudWatch match a finding that excludes both CloudFront and CloudWatch in the title. You can’t have both a CONTAINS filter and a NOT_CONTAINS filter on the same field. Similarly, you can't provide both an EQUALS filter and a NOT_EQUALS or PREFIX_NOT_EQUALS filter on the same field. Combining filters in this way returns an error. CONTAINS filters can only be used with other CONTAINS filters. NOT_CONTAINS filters can only be used with other NOT_CONTAINS filters. You can combine PREFIX filters with NOT_EQUALS or PREFIX_NOT_EQUALS filters for the same field. Security Hub first processes the PREFIX filters, and then the NOT_EQUALS or PREFIX_NOT_EQUALS filters. For example, for the following filters, Security Hub first identifies findings that have resource types that start with either AwsIam or AwsEc2. It then excludes findings that have a resource type of AwsIamPolicy and findings that have a resource type of AwsEc2NetworkInterface.
+        /// NOT_CONTAINS, NOT_EQUALS, and PREFIX_NOT_EQUALS filters on the same field are joined by AND. A finding matches only if it matches all of those filters. For example, the filters Title NOT_CONTAINS CloudFront AND Title NOT_CONTAINS CloudWatch match a finding that excludes both CloudFront and CloudWatch in the title. You can’t have both a CONTAINS filter and a NOT_CONTAINS filter on the same field. Similarly, you can't provide both an EQUALS filter and a NOT_EQUALS or PREFIX_NOT_EQUALS filter on the same field. Combining filters in this way returns an error. CONTAINS filters can only be used with other CONTAINS filters. NOT_CONTAINS filters can only be used with other NOT_CONTAINS filters. You can combine PREFIX filters with NOT_EQUALS or PREFIX_NOT_EQUALS filters for the same field. Security Hub CSPM first processes the PREFIX filters, and then the NOT_EQUALS or PREFIX_NOT_EQUALS filters. For example, for the following filters, Security Hub CSPM first identifies findings that have resource types that start with either AwsIam or AwsEc2. It then excludes findings that have a resource type of AwsIamPolicy and findings that have a resource type of AwsEc2NetworkInterface.
         ///
         /// * ResourceType PREFIX AwsIam
         ///
@@ -1595,9 +1595,9 @@ extension SecurityHubClientTypes {
         /// * ResourceType NOT_EQUALS AwsEc2NetworkInterface
         ///
         ///
-        /// CONTAINS and NOT_CONTAINS operators can be used only with automation rules V1. CONTAINS_WORD operator is only supported in GetFindingsV2, GetFindingStatisticsV2, GetResourcesV2, and GetResourceStatisticsV2 APIs. For more information, see [Automation rules](https://docs.aws.amazon.com/securityhub/latest/userguide/automation-rules.html) in the Security Hub User Guide.
+        /// CONTAINS and NOT_CONTAINS operators can be used only with automation rules V1. CONTAINS_WORD operator is only supported in GetFindingsV2, GetFindingStatisticsV2, GetResourcesV2, and GetResourceStatisticsV2 APIs. For more information, see [Automation rules](https://docs.aws.amazon.com/securityhub/latest/userguide/automation-rules.html) in the Security Hub CSPM User Guide.
         public var comparison: SecurityHubClientTypes.StringFilterComparison?
-        /// The string filter value. Filter values are case sensitive. For example, the product name for control-based findings is Security Hub. If you provide security hub as the filter value, there's no match.
+        /// The string filter value. Filter values are case sensitive. For example, the product name for control-based findings is Security Hub CSPM. If you provide security hub as the filter value, there's no match.
         public var value: Swift.String?
 
         public init(
@@ -1692,9 +1692,9 @@ extension SecurityHubClientTypes {
     public struct DateFilter: Swift.Sendable {
         /// A date range for the date filter.
         public var dateRange: SecurityHubClientTypes.DateRange?
-        /// A timestamp that provides the end date for the date filter. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that provides the end date for the date filter. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var end: Swift.String?
-        /// A timestamp that provides the start date for the date filter. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that provides the start date for the date filter. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var start: Swift.String?
 
         public init(
@@ -1746,9 +1746,9 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// A map filter for filtering Security Hub findings. Each map filter provides the field to check for, the value to check for, and the comparison operator.
+    /// A map filter for filtering Security Hub CSPM findings. Each map filter provides the field to check for, the value to check for, and the comparison operator.
     public struct MapFilter: Swift.Sendable {
-        /// The condition to apply to the key value when filtering Security Hub findings with a map filter. To search for values that have the filter value, use one of the following comparison operators:
+        /// The condition to apply to the key value when filtering Security Hub CSPM findings with a map filter. To search for values that have the filter value, use one of the following comparison operators:
         ///
         /// * To search for values that include the filter value, use CONTAINS. For example, for the ResourceTags field, the filter Department CONTAINS Security matches findings that include the value Security for the Department tag. In the same example, a finding with a value of Security team for the Department tag is a match.
         ///
@@ -1762,7 +1762,7 @@ extension SecurityHubClientTypes {
         /// * To search for values other than the filter value, use NOT_EQUALS. For example, for the ResourceTags field, the filter Department NOT_EQUALS Finance matches findings that don’t have the value Finance for the Department tag.
         ///
         ///
-        /// NOT_CONTAINS and NOT_EQUALS filters on the same field are joined by AND. A finding matches only if it matches all of those filters. For example, the filters Department NOT_CONTAINS Security AND Department NOT_CONTAINS Finance match a finding that excludes both the Security and Finance values. CONTAINS filters can only be used with other CONTAINS filters. NOT_CONTAINS filters can only be used with other NOT_CONTAINS filters. You can’t have both a CONTAINS filter and a NOT_CONTAINS filter on the same field. Similarly, you can’t have both an EQUALS filter and a NOT_EQUALS filter on the same field. Combining filters in this way returns an error. CONTAINS and NOT_CONTAINS operators can be used only with automation rules. For more information, see [Automation rules](https://docs.aws.amazon.com/securityhub/latest/userguide/automation-rules.html) in the Security Hub User Guide.
+        /// NOT_CONTAINS and NOT_EQUALS filters on the same field are joined by AND. A finding matches only if it matches all of those filters. For example, the filters Department NOT_CONTAINS Security AND Department NOT_CONTAINS Finance match a finding that excludes both the Security and Finance values. CONTAINS filters can only be used with other CONTAINS filters. NOT_CONTAINS filters can only be used with other NOT_CONTAINS filters. You can’t have both a CONTAINS filter and a NOT_CONTAINS filter on the same field. Similarly, you can’t have both an EQUALS filter and a NOT_EQUALS filter on the same field. Combining filters in this way returns an error. CONTAINS and NOT_CONTAINS operators can be used only with automation rules. For more information, see [Automation rules](https://docs.aws.amazon.com/securityhub/latest/userguide/automation-rules.html) in the Security Hub CSPM User Guide.
         public var comparison: SecurityHubClientTypes.MapFilterComparison?
         /// The key of the map filter. For example, for ResourceTags, Key identifies the name of the tag. For UserDefinedFields, Key is the name of the field.
         public var key: Swift.String?
@@ -1797,31 +1797,31 @@ extension SecurityHubClientTypes {
         public var complianceSecurityControlId: [SecurityHubClientTypes.StringFilter]?
         /// The result of a security check. This field is only used for findings generated from controls. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var complianceStatus: [SecurityHubClientTypes.StringFilter]?
-        /// The likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0–100 basis using a ratio scale. A value of 0 means 0 percent confidence, and a value of 100 means 100 percent confidence. For example, a data exfiltration detection based on a statistical deviation of network traffic has low confidence because an actual exfiltration hasn't been verified. For more information, see [Confidence](https://docs.aws.amazon.com/securityhub/latest/userguide/asff-top-level-attributes.html#asff-confidence) in the Security Hub User Guide. Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        /// The likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0–100 basis using a ratio scale. A value of 0 means 0 percent confidence, and a value of 100 means 100 percent confidence. For example, a data exfiltration detection based on a statistical deviation of network traffic has low confidence because an actual exfiltration hasn't been verified. For more information, see [Confidence](https://docs.aws.amazon.com/securityhub/latest/userguide/asff-top-level-attributes.html#asff-confidence) in the Security Hub CSPM User Guide. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var confidence: [SecurityHubClientTypes.NumberFilter]?
-        /// A timestamp that indicates when this finding record was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps). Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        /// A timestamp that indicates when this finding record was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps). Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var createdAt: [SecurityHubClientTypes.DateFilter]?
-        /// The level of importance that is assigned to the resources that are associated with a finding. Criticality is scored on a 0–100 basis, using a ratio scale that supports only full integers. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources. For more information, see [Criticality](https://docs.aws.amazon.com/securityhub/latest/userguide/asff-top-level-attributes.html#asff-criticality) in the Security Hub User Guide. Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        /// The level of importance that is assigned to the resources that are associated with a finding. Criticality is scored on a 0–100 basis, using a ratio scale that supports only full integers. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources. For more information, see [Criticality](https://docs.aws.amazon.com/securityhub/latest/userguide/asff-top-level-attributes.html#asff-criticality) in the Security Hub CSPM User Guide. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var criticality: [SecurityHubClientTypes.NumberFilter]?
         /// A finding's description. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var description: [SecurityHubClientTypes.StringFilter]?
-        /// A timestamp that indicates when the potential security issue captured by a finding was first observed by the security findings product. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps). Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        /// A timestamp that indicates when the potential security issue captured by a finding was first observed by the security findings product. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps). Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var firstObservedAt: [SecurityHubClientTypes.DateFilter]?
         /// The identifier for the solution-specific component that generated a finding. Array Members: Minimum number of 1 item. Maximum number of 100 items.
         public var generatorId: [SecurityHubClientTypes.StringFilter]?
         /// The product-specific identifier for a finding. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var id: [SecurityHubClientTypes.StringFilter]?
-        /// A timestamp that indicates when the security findings provider most recently observed a change in the resource that is involved in the finding. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps). Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        /// A timestamp that indicates when the security findings provider most recently observed a change in the resource that is involved in the finding. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps). Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var lastObservedAt: [SecurityHubClientTypes.DateFilter]?
         /// The text of a user-defined note that's added to a finding. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var noteText: [SecurityHubClientTypes.StringFilter]?
-        /// The timestamp of when the note was updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps). Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        /// The timestamp of when the note was updated. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps). Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var noteUpdatedAt: [SecurityHubClientTypes.DateFilter]?
         /// The principal that created a note. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var noteUpdatedBy: [SecurityHubClientTypes.StringFilter]?
-        /// The Amazon Resource Name (ARN) for a third-party product that generated a finding in Security Hub. Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        /// The Amazon Resource Name (ARN) for a third-party product that generated a finding in Security Hub CSPM. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var productArn: [SecurityHubClientTypes.StringFilter]?
-        /// Provides the name of the product that generated the finding. For control-based findings, the product name is Security Hub. Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        /// Provides the name of the product that generated the finding. For control-based findings, the product name is Security Hub CSPM. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var productName: [SecurityHubClientTypes.StringFilter]?
         /// Provides the current state of a finding. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var recordState: [SecurityHubClientTypes.StringFilter]?
@@ -1851,9 +1851,9 @@ extension SecurityHubClientTypes {
         public var sourceUrl: [SecurityHubClientTypes.StringFilter]?
         /// A finding's title. Array Members: Minimum number of 1 item. Maximum number of 100 items.
         public var title: [SecurityHubClientTypes.StringFilter]?
-        /// One or more finding types in the format of namespace/category/classifier that classify a finding. For a list of namespaces, classifiers, and categories, see [Types taxonomy for ASFF](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format-type-taxonomy.html) in the Security Hub User Guide. Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        /// One or more finding types in the format of namespace/category/classifier that classify a finding. For a list of namespaces, classifiers, and categories, see [Types taxonomy for ASFF](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format-type-taxonomy.html) in the Security Hub CSPM User Guide. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var type: [SecurityHubClientTypes.StringFilter]?
-        /// A timestamp that indicates when the finding record was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps). Array Members: Minimum number of 1 item. Maximum number of 20 items.
+        /// A timestamp that indicates when the finding record was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps). Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var updatedAt: [SecurityHubClientTypes.DateFilter]?
         /// A list of user-defined name and value string pairs added to a finding. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var userDefinedFields: [SecurityHubClientTypes.MapFilter]?
@@ -1979,25 +1979,25 @@ extension SecurityHubClientTypes {
     public struct AutomationRulesConfig: Swift.Sendable {
         /// One or more actions to update finding fields if a finding matches the defined criteria of the rule.
         public var actions: [SecurityHubClientTypes.AutomationRulesAction]?
-        /// A timestamp that indicates when the rule was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that indicates when the rule was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdAt: Foundation.Date?
         /// The principal that created a rule.
         public var createdBy: Swift.String?
-        /// A set of [Amazon Web Services Security Finding Format](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format.html) finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+        /// A set of [Amazon Web Services Security Finding Format](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format.html) finding field attributes and corresponding expected values that Security Hub CSPM uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub CSPM applies the rule action to the finding.
         public var criteria: SecurityHubClientTypes.AutomationRulesFindingFilters?
         /// A description of the rule.
         public var description: Swift.String?
-        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub CSPM applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
         public var isTerminal: Swift.Bool?
         /// The Amazon Resource Name (ARN) of a rule.
         public var ruleArn: Swift.String?
         /// The name of the rule.
         public var ruleName: Swift.String?
-        /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
+        /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub CSPM applies rules with lower values for this parameter first.
         public var ruleOrder: Swift.Int?
-        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created.
+        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub CSPM starts applying the rule to findings and finding updates after the rule is created.
         public var ruleStatus: SecurityHubClientTypes.RuleStatus?
-        /// A timestamp that indicates when the rule was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that indicates when the rule was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var updatedAt: Foundation.Date?
 
         public init(
@@ -2032,23 +2032,23 @@ extension SecurityHubClientTypes {
 
     /// Metadata for automation rules in the calling account. The response includes rules with a RuleStatus of ENABLED and DISABLED.
     public struct AutomationRulesMetadata: Swift.Sendable {
-        /// A timestamp that indicates when the rule was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that indicates when the rule was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdAt: Foundation.Date?
         /// The principal that created a rule.
         public var createdBy: Swift.String?
         /// A description of the rule.
         public var description: Swift.String?
-        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub CSPM applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
         public var isTerminal: Swift.Bool?
         /// The Amazon Resource Name (ARN) for the rule.
         public var ruleArn: Swift.String?
         /// The name of the rule.
         public var ruleName: Swift.String?
-        /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
+        /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub CSPM applies rules with lower values for this parameter first.
         public var ruleOrder: Swift.Int?
-        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use [BatchUpdateAutomationRules](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
+        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub CSPM starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use [BatchUpdateAutomationRules](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
         public var ruleStatus: SecurityHubClientTypes.RuleStatus?
-        /// A timestamp that indicates when the rule was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that indicates when the rule was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var updatedAt: Foundation.Date?
 
         public init(
@@ -2543,7 +2543,7 @@ extension SecurityHubClientTypes {
         public var apiKeySource: Swift.String?
         /// The list of binary media types supported by the REST API.
         public var binaryMediaTypes: [Swift.String]?
-        /// Indicates when the API was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the API was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdDate: Swift.String?
         /// A description of the REST API.
         public var description: Swift.String?
@@ -2598,7 +2598,7 @@ extension SecurityHubClientTypes {
         public var canarySettings: SecurityHubClientTypes.AwsApiGatewayCanarySettings?
         /// The identifier of the client certificate for the stage.
         public var clientCertificateId: Swift.String?
-        /// Indicates when the stage was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the stage was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdDate: Swift.String?
         /// The identifier of the deployment that the stage points to.
         public var deploymentId: Swift.String?
@@ -2606,7 +2606,7 @@ extension SecurityHubClientTypes {
         public var description: Swift.String?
         /// The version of the API documentation that is associated with the stage.
         public var documentationVersion: Swift.String?
-        /// Indicates when the stage was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the stage was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastUpdatedDate: Swift.String?
         /// Defines the method settings for the stage.
         public var methodSettings: [SecurityHubClientTypes.AwsApiGatewayMethodSettings]?
@@ -2710,7 +2710,7 @@ extension SecurityHubClientTypes {
         public var apiKeySelectionExpression: Swift.String?
         /// A cross-origin resource sharing (CORS) configuration. Supported only for HTTP APIs.
         public var corsConfiguration: SecurityHubClientTypes.AwsCorsConfiguration?
-        /// Indicates when the API was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the API was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdDate: Swift.String?
         /// A description of the API.
         public var description: Swift.String?
@@ -2792,7 +2792,7 @@ extension SecurityHubClientTypes {
         public var autoDeploy: Swift.Bool?
         /// The identifier of a client certificate for a stage. Supported only for WebSocket API calls.
         public var clientCertificateId: Swift.String?
-        /// Indicates when the stage was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the stage was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdDate: Swift.String?
         /// Default route settings for the stage.
         public var defaultRouteSettings: SecurityHubClientTypes.AwsApiGatewayV2RouteSettings?
@@ -2802,7 +2802,7 @@ extension SecurityHubClientTypes {
         public var description: Swift.String?
         /// The status of the last deployment of a stage. Supported only if the stage has automatic deployment enabled.
         public var lastDeploymentStatusMessage: Swift.String?
-        /// Indicates when the stage was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the stage was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastUpdatedDate: Swift.String?
         /// The route settings for the stage.
         public var routeSettings: SecurityHubClientTypes.AwsApiGatewayV2RouteSettings?
@@ -3278,7 +3278,7 @@ extension SecurityHubClientTypes {
         public var availabilityZones: [SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails]?
         /// Indicates whether capacity rebalancing is enabled.
         public var capacityRebalance: Swift.Bool?
-        /// Indicates when the auto scaling group was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the auto scaling group was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdTime: Swift.String?
         /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before it checks the health status of an EC2 instance that has come into service.
         public var healthCheckGracePeriod: Swift.Int?
@@ -3452,7 +3452,7 @@ extension SecurityHubClientTypes {
         public var classicLinkVpcId: Swift.String?
         /// The identifiers of one or more security groups for the VPC that is specified in ClassicLinkVPCId.
         public var classicLinkVpcSecurityGroups: [Swift.String]?
-        /// The creation date and time for the launch configuration. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// The creation date and time for the launch configuration. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdTime: Swift.String?
         /// Whether the launch configuration is optimized for Amazon EBS I/O.
         public var ebsOptimized: Swift.Bool?
@@ -3476,7 +3476,7 @@ extension SecurityHubClientTypes {
         public var placementTenancy: Swift.String?
         /// The identifier of the RAM disk associated with the AMI.
         public var ramdiskId: Swift.String?
-        /// The security groups to assign to the instances in the Amazon EC2 Auto Scaling group.
+        /// The security groups to assign to the instances in the Auto Scaling group.
         public var securityGroups: [Swift.String]?
         /// The maximum hourly price to be paid for any Spot Instance that is launched to fulfill the request.
         public var spotPrice: Swift.String?
@@ -4030,7 +4030,7 @@ extension SecurityHubClientTypes {
         public var renewalStatus: Swift.String?
         /// The reason that a renewal request was unsuccessful. This attribute is used only when RenewalStatus is FAILED. Valid values: NO_AVAILABLE_CONTACTS | ADDITIONAL_VERIFICATION_REQUIRED | DOMAIN_NOT_ALLOWED | INVALID_PUBLIC_DOMAIN | DOMAIN_VALIDATION_DENIED | CAA_ERROR | PCA_LIMIT_EXCEEDED | PCA_INVALID_ARN | PCA_INVALID_STATE | PCA_REQUEST_FAILED | PCA_NAME_CONSTRAINTS_VALIDATION | PCA_RESOURCE_NOT_FOUND | PCA_INVALID_ARGS | PCA_INVALID_DURATION | PCA_ACCESS_DENIED | SLR_NOT_FOUND | OTHER
         public var renewalStatusReason: Swift.String?
-        /// Indicates when the renewal summary was last updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the renewal summary was last updated. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var updatedAt: Swift.String?
 
         public init(
@@ -4053,7 +4053,7 @@ extension SecurityHubClientTypes {
     public struct AwsCertificateManagerCertificateDetails: Swift.Sendable {
         /// The ARN of the private certificate authority (CA) that will be used to issue the certificate.
         public var certificateAuthorityArn: Swift.String?
-        /// Indicates when the certificate was requested. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the certificate was requested. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdAt: Swift.String?
         /// The fully qualified domain name (FQDN), such as www.example.com, that is secured by the certificate.
         public var domainName: Swift.String?
@@ -4063,11 +4063,11 @@ extension SecurityHubClientTypes {
         public var extendedKeyUsages: [SecurityHubClientTypes.AwsCertificateManagerCertificateExtendedKeyUsage]?
         /// For a failed certificate request, the reason for the failure. Valid values: NO_AVAILABLE_CONTACTS | ADDITIONAL_VERIFICATION_REQUIRED | DOMAIN_NOT_ALLOWED | INVALID_PUBLIC_DOMAIN | DOMAIN_VALIDATION_DENIED | CAA_ERROR | PCA_LIMIT_EXCEEDED | PCA_INVALID_ARN | PCA_INVALID_STATE | PCA_REQUEST_FAILED | PCA_NAME_CONSTRAINTS_VALIDATION | PCA_RESOURCE_NOT_FOUND | PCA_INVALID_ARGS | PCA_INVALID_DURATION | PCA_ACCESS_DENIED | SLR_NOT_FOUND | OTHER
         public var failureReason: Swift.String?
-        /// Indicates when the certificate was imported. Provided if the certificate type is IMPORTED. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the certificate was imported. Provided if the certificate type is IMPORTED. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var importedAt: Swift.String?
         /// The list of ARNs for the Amazon Web Services resources that use the certificate.
         public var inUseBy: [Swift.String]?
-        /// Indicates when the certificate was issued. Provided if the certificate type is AMAZON_ISSUED. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the certificate was issued. Provided if the certificate type is AMAZON_ISSUED. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var issuedAt: Swift.String?
         /// The name of the certificate authority that issued and signed the certificate.
         public var issuer: Swift.String?
@@ -4075,9 +4075,9 @@ extension SecurityHubClientTypes {
         public var keyAlgorithm: Swift.String?
         /// A list of key usage X.509 v3 extension objects.
         public var keyUsages: [SecurityHubClientTypes.AwsCertificateManagerCertificateKeyUsage]?
-        /// The time after which the certificate becomes invalid. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// The time after which the certificate becomes invalid. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var notAfter: Swift.String?
-        /// The time before which the certificate is not valid. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// The time before which the certificate is not valid. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var notBefore: Swift.String?
         /// Provides a value that specifies whether to add the certificate to a transparency log.
         public var options: SecurityHubClientTypes.AwsCertificateManagerCertificateOptions?
@@ -4575,7 +4575,7 @@ extension SecurityHubClientTypes {
         public var domainName: Swift.String?
         /// The entity tag is a hash of the object.
         public var eTag: Swift.String?
-        /// Indicates when that the distribution was last modified. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when that the distribution was last modified. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastModifiedTime: Swift.String?
         /// A complex type that controls whether access logs are written for the distribution.
         public var logging: SecurityHubClientTypes.AwsCloudFrontDistributionLogging?
@@ -5373,7 +5373,7 @@ extension SecurityHubClientTypes {
     public struct AwsDynamoDbTableBillingModeSummary: Swift.Sendable {
         /// The method used to charge for read and write throughput and to manage capacity.
         public var billingMode: Swift.String?
-        /// If the billing mode is PAY_PER_REQUEST, indicates when the billing mode was set to that value. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// If the billing mode is PAY_PER_REQUEST, indicates when the billing mode was set to that value. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastUpdateToPayPerRequestDateTime: Swift.String?
 
         public init(
@@ -5434,9 +5434,9 @@ extension SecurityHubClientTypes {
 
     /// Information about the provisioned throughput for the table or for a global secondary index.
     public struct AwsDynamoDbTableProvisionedThroughput: Swift.Sendable {
-        /// Indicates when the provisioned throughput was last decreased. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the provisioned throughput was last decreased. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastDecreaseDateTime: Swift.String?
-        /// Indicates when the provisioned throughput was last increased. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the provisioned throughput was last increased. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastIncreaseDateTime: Swift.String?
         /// The number of times during the current UTC calendar day that the provisioned throughput was decreased.
         public var numberOfDecreasesToday: Swift.Int?
@@ -5626,7 +5626,7 @@ extension SecurityHubClientTypes {
 
     /// Information about the restore for the table.
     public struct AwsDynamoDbTableRestoreSummary: Swift.Sendable {
-        /// Indicates the point in time that the table was restored to. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates the point in time that the table was restored to. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var restoreDateTime: Swift.String?
         /// Whether a restore is currently in progress.
         public var restoreInProgress: Swift.Bool?
@@ -5653,7 +5653,7 @@ extension SecurityHubClientTypes {
 
     /// Information about the server-side encryption for the table.
     public struct AwsDynamoDbTableSseDescription: Swift.Sendable {
-        /// If the key is inaccessible, the date and time when DynamoDB detected that the key was inaccessible. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// If the key is inaccessible, the date and time when DynamoDB detected that the key was inaccessible. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var inaccessibleEncryptionDateTime: Swift.String?
         /// The ARN of the KMS key that is used for the KMS encryption.
         public var kmsMasterKeyArn: Swift.String?
@@ -5703,7 +5703,7 @@ extension SecurityHubClientTypes {
         public var attributeDefinitions: [SecurityHubClientTypes.AwsDynamoDbTableAttributeDefinition]?
         /// Information about the billing for read/write capacity on the table.
         public var billingModeSummary: SecurityHubClientTypes.AwsDynamoDbTableBillingModeSummary?
-        /// Indicates when the table was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the table was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var creationDateTime: Swift.String?
         /// Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
         public var deletionProtectionEnabled: Swift.Bool?
@@ -6161,7 +6161,7 @@ extension SecurityHubClientTypes {
         public var ipV6Addresses: [Swift.String]?
         /// The key name associated with the instance.
         public var keyName: Swift.String?
-        /// Indicates when the instance was launched. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the instance was launched. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var launchedAt: Swift.String?
         /// Details about the metadata options for the Amazon EC2 instance.
         public var metadataOptions: SecurityHubClientTypes.AwsEc2InstanceMetadataOptions?
@@ -7330,7 +7330,7 @@ extension SecurityHubClientTypes {
 
     /// Information about the network interface attachment.
     public struct AwsEc2NetworkInterfaceAttachment: Swift.Sendable {
-        /// Indicates when the attachment initiated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the attachment initiated. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var attachTime: Swift.String?
         /// The identifier of the network interface attachment
         public var attachmentId: Swift.String?
@@ -7940,7 +7940,7 @@ extension SecurityHubClientTypes {
     public struct AwsEc2VolumeDetails: Swift.Sendable {
         /// The volume attachments.
         public var attachments: [SecurityHubClientTypes.AwsEc2VolumeAttachment]?
-        /// Indicates when the volume was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the volume was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createTime: Swift.String?
         /// The device name for the volume that is attached to the instance.
         public var deviceName: Swift.String?
@@ -8394,7 +8394,7 @@ extension SecurityHubClientTypes {
         public var acceptedRouteCount: Swift.Int?
         /// The ARN of the VPN tunnel endpoint certificate.
         public var certificateArn: Swift.String?
-        /// The date and time of the last change in status. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// The date and time of the last change in status. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastStatusChange: Swift.String?
         /// The Internet-routable IP address of the virtual private gateway's outside interface.
         public var outsideIpAddress: Swift.String?
@@ -8498,7 +8498,7 @@ extension SecurityHubClientTypes {
         public var architecture: Swift.String?
         /// The sha256 digest of the image manifest.
         public var imageDigest: Swift.String?
-        /// The date and time when the image was pushed to the repository. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// The date and time when the image was pushed to the repository. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var imagePublishedAt: Swift.String?
         /// The list of tags that are associated with the image.
         public var imageTags: [Swift.String]?
@@ -8892,7 +8892,7 @@ extension SecurityHubClientTypes {
         public var containerPort: Swift.Int?
         /// The name of the load balancer to associate with the Amazon ECS service or task set. Only specified when using a Classic Load Balancer. For an Application Load Balancer or a Network Load Balancer, the load balancer name is omitted.
         public var loadBalancerName: Swift.String?
-        /// The ARN of the ELB target group or groups associated with a service or task set. Only specified when using an Application Load Balancer or a Network Load Balancer. For a Classic Load Balancer, the target group ARN is omitted.
+        /// The ARN of the Elastic Load Balancing target group or groups associated with a service or task set. Only specified when using an Application Load Balancer or a Network Load Balancer. For a Classic Load Balancer, the target group ARN is omitted.
         public var targetGroupArn: Swift.String?
 
         public init(
@@ -9030,7 +9030,7 @@ extension SecurityHubClientTypes {
         public var enableEcsManagedTags: Swift.Bool?
         /// Whether the execute command functionality is enabled for the service.
         public var enableExecuteCommand: Swift.Bool?
-        /// After a task starts, the amount of time in seconds that the Amazon ECS service scheduler ignores unhealthy ELB target health checks.
+        /// After a task starts, the amount of time in seconds that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing target health checks.
         public var healthCheckGracePeriodSeconds: Swift.Int?
         /// The launch type that the service uses. Valid values: EC2 | FARGATE | EXTERNAL
         public var launchType: Swift.String?
@@ -9048,7 +9048,7 @@ extension SecurityHubClientTypes {
         public var platformVersion: Swift.String?
         /// Indicates whether to propagate the tags from the task definition to the task or from the service to the task. If no value is provided, then tags are not propagated. Valid values: TASK_DEFINITION | SERVICE
         public var propagateTags: Swift.String?
-        /// The ARN of the IAM role that is associated with the service. The role allows the Amazon ECS container agent to register container instances with an ELB load balancer.
+        /// The ARN of the IAM role that is associated with the service. The role allows the Amazon ECS container agent to register container instances with an Elastic Load Balancing load balancer.
         public var role: Swift.String?
         /// The scheduling strategy to use for the service. The REPLICA scheduling strategy places and maintains the desired number of tasks across the cluster. By default, the service scheduler spreads tasks across Availability Zones. Task placement strategies and constraints are used to customize task placement decisions. The DAEMON scheduling strategy deploys exactly one task on each active container instance that meets all of the task placement constraints that are specified in the cluster. The service scheduler also evaluates the task placement constraints for running tasks and stops tasks that don't meet the placement constraints. Valid values: REPLICA | DAEMON
         public var schedulingStrategy: Swift.String?
@@ -11183,7 +11183,7 @@ extension SecurityHubClientTypes {
         public var canonicalHostedZoneName: Swift.String?
         /// The ID of the Amazon Route 53 hosted zone for the load balancer.
         public var canonicalHostedZoneNameID: Swift.String?
-        /// Indicates when the load balancer was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the load balancer was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdTime: Swift.String?
         /// The DNS name of the load balancer.
         public var dnsName: Swift.String?
@@ -11296,7 +11296,7 @@ extension SecurityHubClientTypes {
         public var availabilityZones: [SecurityHubClientTypes.AvailabilityZone]?
         /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
         public var canonicalHostedZoneId: Swift.String?
-        /// Indicates when the load balancer was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the load balancer was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdTime: Swift.String?
         /// The public DNS name of the load balancer.
         public var dnsName: Swift.String?
@@ -11770,7 +11770,7 @@ extension SecurityHubClientTypes {
 
     /// Attributes of the session that the key was used for.
     public struct AwsIamAccessKeySessionContextAttributes: Swift.Sendable {
-        /// Indicates when the session was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the session was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var creationDate: Swift.String?
         /// Indicates whether the session used multi-factor authentication (MFA).
         public var mfaAuthenticated: Swift.Bool?
@@ -11872,7 +11872,7 @@ extension SecurityHubClientTypes {
         public var accessKeyId: Swift.String?
         /// The Amazon Web Services account ID of the account for the key.
         public var accountId: Swift.String?
-        /// Indicates when the IAM access key was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the IAM access key was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdAt: Swift.String?
         /// The ID of the principal associated with an access key.
         public var principalId: Swift.String?
@@ -11952,7 +11952,7 @@ extension SecurityHubClientTypes {
     public struct AwsIamGroupDetails: Swift.Sendable {
         /// A list of the managed policies that are attached to the IAM group.
         public var attachedManagedPolicies: [SecurityHubClientTypes.AwsIamAttachedManagedPolicy]?
-        /// Indicates when the IAM group was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the IAM group was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createDate: Swift.String?
         /// The identifier of the IAM group.
         public var groupId: Swift.String?
@@ -11989,7 +11989,7 @@ extension SecurityHubClientTypes {
         public var arn: Swift.String?
         /// The policy that grants an entity permission to assume the role.
         public var assumeRolePolicyDocument: Swift.String?
-        /// Indicates when the role was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the role was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createDate: Swift.String?
         /// The path to the role.
         public var path: Swift.String?
@@ -12022,7 +12022,7 @@ extension SecurityHubClientTypes {
     public struct AwsIamInstanceProfile: Swift.Sendable {
         /// The ARN of the instance profile.
         public var arn: Swift.String?
-        /// Indicates when the instance profile was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the instance profile was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createDate: Swift.String?
         /// The identifier of the instance profile.
         public var instanceProfileId: Swift.String?
@@ -12074,7 +12074,7 @@ extension SecurityHubClientTypes {
 
     /// A version of an IAM policy.
     public struct AwsIamPolicyVersion: Swift.Sendable {
-        /// Indicates when the version was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the version was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createDate: Swift.String?
         /// Whether the version is the default version.
         public var isDefaultVersion: Swift.Bool?
@@ -12099,7 +12099,7 @@ extension SecurityHubClientTypes {
     public struct AwsIamPolicyDetails: Swift.Sendable {
         /// The number of users, groups, and roles that the policy is attached to.
         public var attachmentCount: Swift.Int?
-        /// When the policy was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// When the policy was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createDate: Swift.String?
         /// The identifier of the default version of the policy.
         public var defaultVersionId: Swift.String?
@@ -12117,7 +12117,7 @@ extension SecurityHubClientTypes {
         public var policyName: Swift.String?
         /// List of versions of the policy.
         public var policyVersionList: [SecurityHubClientTypes.AwsIamPolicyVersion]?
-        /// When the policy was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// When the policy was most recently updated. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var updateDate: Swift.String?
 
         public init(
@@ -12171,7 +12171,7 @@ extension SecurityHubClientTypes {
         public var assumeRolePolicyDocument: Swift.String?
         /// The list of the managed policies that are attached to the role.
         public var attachedManagedPolicies: [SecurityHubClientTypes.AwsIamAttachedManagedPolicy]?
-        /// Indicates when the role was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the role was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createDate: Swift.String?
         /// The list of instance profiles that contain this role.
         public var instanceProfileList: [SecurityHubClientTypes.AwsIamInstanceProfile]?
@@ -12235,7 +12235,7 @@ extension SecurityHubClientTypes {
     public struct AwsIamUserDetails: Swift.Sendable {
         /// A list of the managed policies that are attached to the user.
         public var attachedManagedPolicies: [SecurityHubClientTypes.AwsIamAttachedManagedPolicy]?
-        /// Indicates when the user was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the user was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createDate: Swift.String?
         /// A list of IAM groups that the user belongs to.
         public var groupList: [Swift.String]?
@@ -12328,7 +12328,7 @@ extension SecurityHubClientTypes {
     public struct AwsKmsKeyDetails: Swift.Sendable {
         /// The twelve-digit account ID of the Amazon Web Services account that owns the KMS key.
         public var awsAccountId: Swift.String?
-        /// Indicates when the KMS key was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the KMS key was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var creationDate: Swift.Double?
         /// A description of the KMS key.
         public var description: Swift.String?
@@ -12532,7 +12532,7 @@ extension SecurityHubClientTypes {
         public var handler: Swift.String?
         /// The KMS key that is used to encrypt the function's environment variables. This key is only returned if you've configured a customer managed customer managed key.
         public var kmsKeyArn: Swift.String?
-        /// Indicates when the function was last updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the function was last updated. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastModified: Swift.String?
         /// The function's layers.
         public var layers: [SecurityHubClientTypes.AwsLambdaFunctionLayer]?
@@ -12609,7 +12609,7 @@ extension SecurityHubClientTypes {
     public struct AwsLambdaLayerVersionDetails: Swift.Sendable {
         /// The layer's compatible [function runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy) in the Lambda Developer Guide. Array Members: Maximum number of 5 items. Valid Values: nodejs | nodejs4.3 | nodejs6.10 | nodejs8.10 | nodejs10.x | nodejs12.x | nodejs14.x | nodejs16.x | java8 | java8.al2 | java11 | python2.7 | python3.6 | python3.7 | python3.8 | python3.9 | dotnetcore1.0 | dotnetcore2.0 | dotnetcore2.1 | dotnetcore3.1 | dotnet6 | nodejs4.3-edge | go1.x | ruby2.5 | ruby2.7 | provided | provided.al2 | nodejs18.x | python3.10 | java17 | ruby3.2 | python3.11 | nodejs20.x | provided.al2023 | python3.12 | java21
         public var compatibleRuntimes: [Swift.String]?
-        /// Indicates when the version was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the version was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdDate: Swift.String?
         /// The version number.
         public var version: Swift.Int?
@@ -13996,7 +13996,7 @@ extension SecurityHubClientTypes {
         public var availabilityZones: [Swift.String]?
         /// The number of days for which automated backups are retained.
         public var backupRetentionPeriod: Swift.Int?
-        /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var clusterCreateTime: Swift.String?
         /// Whether tags are copied from the DB cluster to snapshots of the DB cluster.
         public var copyTagsToSnapshot: Swift.Bool?
@@ -14186,7 +14186,7 @@ extension SecurityHubClientTypes {
         public var allocatedStorage: Swift.Int?
         /// A list of Availability Zones where instances in the DB cluster can be created.
         public var availabilityZones: [Swift.String]?
-        /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var clusterCreateTime: Swift.String?
         /// The DB cluster identifier.
         public var dbClusterIdentifier: Swift.String?
@@ -14210,7 +14210,7 @@ extension SecurityHubClientTypes {
         public var percentProgress: Swift.Int?
         /// The port number on which the DB instances in the DB cluster accept connections.
         public var port: Swift.Int?
-        /// Indicates when the snapshot was taken. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the snapshot was taken. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var snapshotCreateTime: Swift.String?
         /// The type of DB cluster snapshot.
         public var snapshotType: Swift.String?
@@ -14626,13 +14626,13 @@ extension SecurityHubClientTypes {
         ///
         /// * Aurora 5.6 or higher
         public var iamDatabaseAuthenticationEnabled: Swift.Bool?
-        /// Indicates when the DB instance was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the DB instance was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var instanceCreateTime: Swift.String?
         /// Specifies the provisioned IOPS (I/O operations per second) for this DB instance.
         public var iops: Swift.Int?
         /// If StorageEncrypted is true, the KMS key identifier for the encrypted DB instance.
         public var kmsKeyId: Swift.String?
-        /// Specifies the latest time to which a database can be restored with point-in-time restore. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Specifies the latest time to which a database can be restored with point-in-time restore. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var latestRestorableTime: Swift.String?
         /// License model information for this DB instance.
         public var licenseModel: Swift.String?
@@ -15069,7 +15069,7 @@ extension SecurityHubClientTypes {
         public var sourceType: Swift.String?
         /// The status of the event notification subscription. Valid values: creating | modifying | deleting | active | no-permission | topic-not-exist
         public var status: Swift.String?
-        /// The datetime when the event notification subscription was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// The datetime when the event notification subscription was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var subscriptionCreationTime: Swift.String?
 
         public init(
@@ -15217,11 +15217,11 @@ extension SecurityHubClientTypes {
 
     /// A time windows during which maintenance was deferred for an Amazon Redshift cluster.
     public struct AwsRedshiftClusterDeferredMaintenanceWindow: Swift.Sendable {
-        /// The end of the time window for which maintenance was deferred. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// The end of the time window for which maintenance was deferred. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var deferMaintenanceEndTime: Swift.String?
         /// The identifier of the maintenance window.
         public var deferMaintenanceIdentifier: Swift.String?
-        /// The start of the time window for which maintenance was deferred. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// The start of the time window for which maintenance was deferred. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var deferMaintenanceStartTime: Swift.String?
 
         public init(
@@ -15324,9 +15324,9 @@ extension SecurityHubClientTypes {
         public var bucketName: Swift.String?
         /// The message indicating that the logs failed to be delivered.
         public var lastFailureMessage: Swift.String?
-        /// The last time when logs failed to be delivered. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// The last time when logs failed to be delivered. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastFailureTime: Swift.String?
-        /// The last time that logs were delivered successfully. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// The last time that logs were delivered successfully. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastSuccessfulDeliveryTime: Swift.String?
         /// Indicates whether logging is enabled.
         public var loggingEnabled: Swift.Bool?
@@ -15501,7 +15501,7 @@ extension SecurityHubClientTypes {
         ///
         /// * Failed - The cluster failed and is not available for queries.
         public var clusterAvailabilityStatus: Swift.String?
-        /// Indicates when the cluster was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the cluster was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var clusterCreateTime: Swift.String?
         /// The unique identifier of the cluster.
         public var clusterIdentifier: Swift.String?
@@ -15537,7 +15537,7 @@ extension SecurityHubClientTypes {
         public var endpoint: SecurityHubClientTypes.AwsRedshiftClusterEndpoint?
         /// Indicates whether to create the cluster with enhanced VPC routing enabled.
         public var enhancedVpcRouting: Swift.Bool?
-        /// Indicates when the next snapshot is expected to be taken. The cluster must have a valid snapshot schedule and have backups enabled. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the next snapshot is expected to be taken. The cluster must have a valid snapshot schedule and have backups enabled. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var expectedNextSnapshotScheduleTime: Swift.String?
         /// The status of the next expected snapshot. Valid values: OnTrack | Pending
         public var expectedNextSnapshotScheduleTimeStatus: Swift.String?
@@ -15555,7 +15555,7 @@ extension SecurityHubClientTypes {
         public var manualSnapshotRetentionPeriod: Swift.Int?
         /// The master user name for the cluster. This name is used to connect to the database that is specified in as the value of DBName.
         public var masterUsername: Swift.String?
-        /// Indicates the start of the next maintenance window. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates the start of the next maintenance window. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var nextMaintenanceWindowStartTime: Swift.String?
         /// The node type for the nodes in the cluster.
         public var nodeType: Swift.String?
@@ -16024,7 +16024,7 @@ extension SecurityHubClientTypes {
 
     /// A rule for when objects transition to specific storage classes.
     public struct AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails: Swift.Sendable {
-        /// A date on which to transition objects to the specified storage class. If you provide Date, you cannot provide Days. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A date on which to transition objects to the specified storage class. If you provide Date, you cannot provide Days. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var date: Swift.String?
         /// The number of days after which to transition the object to the specified storage class. If you provide Days, you cannot provide Date.
         public var days: Swift.Int?
@@ -16059,7 +16059,7 @@ extension SecurityHubClientTypes {
     public struct AwsS3BucketBucketLifecycleConfigurationRulesDetails: Swift.Sendable {
         /// How Amazon S3 responds when a multipart upload is incomplete. Specifically, provides a number of days before Amazon S3 cancels the entire upload.
         public var abortIncompleteMultipartUpload: SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails?
-        /// The date when objects are moved or deleted. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// The date when objects are moved or deleted. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var expirationDate: Swift.String?
         /// The length in days of the lifetime for objects that are subject to the rule.
         public var expirationInDays: Swift.Int?
@@ -16524,7 +16524,7 @@ extension SecurityHubClientTypes {
         public var bucketVersioningConfiguration: SecurityHubClientTypes.AwsS3BucketBucketVersioningConfiguration?
         /// The website configuration parameters for the S3 bucket.
         public var bucketWebsiteConfiguration: SecurityHubClientTypes.AwsS3BucketWebsiteConfiguration?
-        /// Indicates when the S3 bucket was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the S3 bucket was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdAt: Swift.String?
         /// The name of the bucket.
         public var name: Swift.String?
@@ -16583,7 +16583,7 @@ extension SecurityHubClientTypes {
         public var contentType: Swift.String?
         /// The opaque identifier assigned by a web server to a specific version of a resource found at a URL.
         public var eTag: Swift.String?
-        /// Indicates when the object was last modified. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the object was last modified. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastModified: Swift.String?
         /// If the object is stored using server-side encryption, the value of the server-side encryption algorithm used when storing this object in Amazon S3.
         public var serverSideEncryption: Swift.String?
@@ -16834,7 +16834,7 @@ extension SecurityHubClientTypes {
     public struct StatusReason: Swift.Sendable {
         /// The corresponding description for the status reason code.
         public var description: Swift.String?
-        /// A code that represents a reason for the control status. For the list of status reason codes and their meanings, see [Compliance details for control findings](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-findings-create-update.html#control-findings-asff-compliance) in the Security Hub User Guide.
+        /// A code that represents a reason for the control status. For the list of status reason codes and their meanings, see [Compliance details for control findings](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-findings-create-update.html#control-findings-asff-compliance) in the Security Hub CSPM User Guide.
         /// This member is required.
         public var reasonCode: Swift.String?
 
@@ -16850,17 +16850,17 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// This object typically provides details about a control finding, such as applicable standards and the status of control checks. While finding providers can add custom content in Compliance object fields, they are typically used to review details of Security Hub control findings.
+    /// This object typically provides details about a control finding, such as applicable standards and the status of control checks. While finding providers can add custom content in Compliance object fields, they are typically used to review details of Security Hub CSPM control findings.
     public struct Compliance: Swift.Sendable {
         /// Typically provides an array of enabled security standards in which a security control is currently enabled.
         public var associatedStandards: [SecurityHubClientTypes.AssociatedStandard]?
         /// Typically provides the industry or regulatory framework requirements that are related to a control. The check for that control is aligned with these requirements. Array Members: Maximum number of 32 items.
         public var relatedRequirements: [Swift.String]?
-        /// Typically provides the unique identifier of a control across standards. For Security Hub controls, this field consists of an Amazon Web Services service and a unique number, such as APIGateway.5.
+        /// Typically provides the unique identifier of a control across standards. For Security Hub CSPM controls, this field consists of an Amazon Web Services service and a unique number, such as APIGateway.5.
         public var securityControlId: Swift.String?
         /// Typically an object that includes security control parameter names and values.
         public var securityControlParameters: [SecurityHubClientTypes.SecurityControlParameter]?
-        /// Typically summarizes the result of a control check. For Security Hub controls, valid values for Status are as follows.
+        /// Typically summarizes the result of a control check. For Security Hub CSPM controls, valid values for Status are as follows.
         ///
         ///
         /// * PASSED - Standards check passed for all evaluated resources.
@@ -16869,7 +16869,7 @@ extension SecurityHubClientTypes {
         ///
         /// * FAILED - Standards check failed for at least one evaluated resource.
         ///
-        /// * NOT_AVAILABLE - Check could not be performed due to a service outage, API error, or because the result of the Config evaluation was NOT_APPLICABLE. If the Config evaluation result was NOT_APPLICABLE for a Security Hub control, Security Hub automatically archives the finding after 3 days.
+        /// * NOT_AVAILABLE - Check could not be performed due to a service outage, API error, or because the result of the Config evaluation was NOT_APPLICABLE. If the Config evaluation result was NOT_APPLICABLE for a Security Hub CSPM control, Security Hub CSPM automatically archives the finding after 3 days.
         public var status: SecurityHubClientTypes.ComplianceStatus?
         /// Typically used to provide a list of reasons for the value of Status.
         public var statusReasons: [SecurityHubClientTypes.StatusReason]?
@@ -16894,7 +16894,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about the Autonomous System (AS) of the network endpoints involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Contains information about the Autonomous System (AS) of the network endpoints involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub CSPM, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct NetworkAutonomousSystem: Swift.Sendable {
         /// The name associated with the AS.
         public var name: Swift.String?
@@ -16942,7 +16942,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about the network connection involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Contains information about the network connection involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub CSPM, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct NetworkConnection: Swift.Sendable {
         /// The direction in which the network traffic is flowing.
         public var direction: SecurityHubClientTypes.ConnectionDirection?
@@ -16957,7 +16957,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about the location of a network endpoint involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Contains information about the location of a network endpoint involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub CSPM, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct NetworkGeoLocation: Swift.Sendable {
         /// The name of the city.
         public var city: Swift.String?
@@ -16984,7 +16984,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about network endpoints involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide. This field can provide information about the network endpoints associated with the resource in the attack sequence finding, or about a specific network endpoint used for the attack.
+    /// Contains information about network endpoints involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub CSPM, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide. This field can provide information about the network endpoints associated with the resource in the attack sequence finding, or about a specific network endpoint used for the attack.
     public struct NetworkEndpoint: Swift.Sendable {
         /// The Autonomous System Number (ASN) of the network endpoint.
         public var autonomousSystem: SecurityHubClientTypes.NetworkAutonomousSystem?
@@ -17023,7 +17023,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about the indicators observed in an Amazon GuardDuty Extended Threat Detection attack sequence. Indicators include a set of signals, which can be API activities or findings that GuardDuty uses to detect an attack sequence finding. GuardDuty generates an attack sequence finding when multiple signals align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Contains information about the indicators observed in an Amazon GuardDuty Extended Threat Detection attack sequence. Indicators include a set of signals, which can be API activities or findings that GuardDuty uses to detect an attack sequence finding. GuardDuty generates an attack sequence finding when multiple signals align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub CSPM, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct Indicator: Swift.Sendable {
         /// The name of the indicator that’s present in the attack sequence finding.
         public var key: Swift.String?
@@ -17050,7 +17050,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about the signals involved in an Amazon GuardDuty Extended Threat Detection attack sequence. An attack sequence is a type of threat detected by GuardDuty. GuardDuty generates an attack sequence finding when multiple events, or signals, align to a potentially suspicious activity. When GuardDuty and Security Hub are integrated, GuardDuty sends attack sequence findings to Security Hub. A signal can be an API activity or a finding that GuardDuty uses to detect an attack sequence finding.
+    /// Contains information about the signals involved in an Amazon GuardDuty Extended Threat Detection attack sequence. An attack sequence is a type of threat detected by GuardDuty. GuardDuty generates an attack sequence finding when multiple events, or signals, align to a potentially suspicious activity. When GuardDuty and Security Hub CSPM are integrated, GuardDuty sends attack sequence findings to Security Hub CSPM. A signal can be an API activity or a finding that GuardDuty uses to detect an attack sequence finding.
     public struct Signal: Swift.Sendable {
         /// The IDs of the threat actors involved in the signal.
         public var actorIds: [Swift.String]?
@@ -17127,7 +17127,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about an Amazon GuardDuty Extended Threat Detection attack sequence finding. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// Contains information about an Amazon GuardDuty Extended Threat Detection attack sequence finding. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub CSPM, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct Sequence: Swift.Sendable {
         /// Provides information about the actors involved in the attack sequence.
         public var actors: [SecurityHubClientTypes.Actor]?
@@ -17158,7 +17158,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// A top-level object field that provides details about an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    /// A top-level object field that provides details about an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub CSPM, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
     public struct Detection: Swift.Sendable {
         /// Provides details about an attack sequence.
         public var sequence: SecurityHubClientTypes.Sequence?
@@ -17184,7 +17184,7 @@ extension SecurityHubClientTypes {
     /// * Product
     ///
     ///
-    /// If a [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html) request for a new finding only provides Label or only provides Normalized, Security Hub automatically populates the value of the other field. The Normalized and Product attributes are included in the FindingProviderSeverity structure to preserve the historical information associated with the finding, even if the top-level Severity object is later modified using the [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html) operation. If the top-level Finding.Severity object is present, but Finding.FindingProviderFields isn't present, Security Hub creates the FindingProviderFields.Severity object and copies the entire Finding.Severity object into it. This ensures that the original, provider-supplied details are retained within the FindingProviderFields.Severity object, even if the top-level Severity object is overwritten.
+    /// If a [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html) request for a new finding only provides Label or only provides Normalized, Security Hub CSPM automatically populates the value of the other field. The Normalized and Product attributes are included in the FindingProviderSeverity structure to preserve the historical information associated with the finding, even if the top-level Severity object is later modified using the [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html) operation. If the top-level Finding.Severity object is present, but Finding.FindingProviderFields isn't present, Security Hub CSPM creates the FindingProviderFields.Severity object and copies the entire Finding.Severity object into it. This ensures that the original, provider-supplied details are retained within the FindingProviderFields.Severity object, even if the top-level Severity object is overwritten.
     public struct FindingProviderSeverity: Swift.Sendable {
         /// The severity label assigned to the finding by the finding provider.
         public var label: SecurityHubClientTypes.SeverityLabel?
@@ -17216,7 +17216,7 @@ extension SecurityHubClientTypes {
     /// * Types
     ///
     ///
-    /// The preceding fields are nested under the FindingProviderFields object, but also have analogues of the same name as top-level ASFF fields. When a new finding is sent to Security Hub by a finding provider, Security Hub populates the FindingProviderFields object automatically, if it is empty, based on the corresponding top-level fields. Finding providers can update FindingProviderFields only by using the BatchImportFindings operation. Finding providers can't update this object with the [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html) operation. Customers can update the top-level fields by using the BatchUpdateFindings operation. Customers can't update FindingProviderFields. For information about how Security Hub handles updates from BatchImportFindings to FindingProviderFields and to the corresponding top-level attributes, see [Using ]FindingProviderFields(https://docs.aws.amazon.com/securityhub/latest/userguide/finding-update-batchimportfindings.html#batchimportfindings-findingproviderfields) in the Security Hub User Guide.
+    /// The preceding fields are nested under the FindingProviderFields object, but also have analogues of the same name as top-level ASFF fields. When a new finding is sent to Security Hub CSPM by a finding provider, Security Hub CSPM populates the FindingProviderFields object automatically, if it is empty, based on the corresponding top-level fields. Finding providers can update FindingProviderFields only by using the BatchImportFindings operation. Finding providers can't update this object with the [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html) operation. Customers can update the top-level fields by using the BatchUpdateFindings operation. Customers can't update FindingProviderFields. For information about how Security Hub CSPM handles updates from BatchImportFindings to FindingProviderFields and to the corresponding top-level attributes, see [Using ]FindingProviderFields(https://docs.aws.amazon.com/securityhub/latest/userguide/finding-update-batchimportfindings.html#batchimportfindings-findingproviderfields) in the Security Hub CSPM User Guide.
     public struct FindingProviderFields: Swift.Sendable {
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
         public var confidence: Swift.Int?
@@ -17247,7 +17247,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Provides metadata for the Amazon CodeGuru detector associated with a finding. This field pertains to findings that relate to Lambda functions. Amazon Inspector identifies policy violations and vulnerabilities in Lambda function code based on internal detectors developed in collaboration with Amazon CodeGuru. Security Hub receives those findings.
+    /// Provides metadata for the Amazon CodeGuru detector associated with a finding. This field pertains to findings that relate to Lambda functions. Amazon Inspector identifies policy violations and vulnerabilities in Lambda function code based on internal detectors developed in collaboration with Amazon CodeGuru. Security Hub CSPM receives those findings.
     public struct GeneratorDetails: Swift.Sendable {
         /// The description of the detector used to identify the code vulnerability.
         public var description: Swift.String?
@@ -17579,7 +17579,7 @@ extension SecurityHubClientTypes {
         /// The text of a note. Length Constraints: Minimum of 1. Maximum of 512.
         /// This member is required.
         public var text: Swift.String?
-        /// A timestamp that indicates when the note was updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that indicates when the note was updated. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         /// This member is required.
         public var updatedAt: Swift.String?
         /// The principal that created a note.
@@ -17619,9 +17619,9 @@ extension SecurityHubClientTypes {
         public var missingCount: Swift.Int?
         /// The type of patch operation performed. For Patch Manager, the values are SCAN and INSTALL. Length Constraints: Minimum length of 1. Maximum length of 256.
         public var operation: Swift.String?
-        /// Indicates when the operation completed. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the operation completed. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var operationEndTime: Swift.String?
-        /// Indicates when the operation started. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the operation started. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var operationStartTime: Swift.String?
         /// The reboot option specified for the instance. Length Constraints: Minimum length of 1. Maximum length of 256.
         public var rebootOption: Swift.String?
@@ -17658,7 +17658,7 @@ extension SecurityHubClientTypes {
 
     /// The details of process-related information about a finding.
     public struct ProcessDetails: Swift.Sendable {
-        /// Indicates when the process was launched. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the process was launched. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var launchedAt: Swift.String?
         /// The name of the process. Length Constraints: Minimum of 1. Maximum of 64.
         public var name: Swift.String?
@@ -17668,7 +17668,7 @@ extension SecurityHubClientTypes {
         public var path: Swift.String?
         /// The process ID.
         public var pid: Swift.Int?
-        /// Indicates when the process was terminated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the process was terminated. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var terminatedAt: Swift.String?
 
         public init(
@@ -19386,7 +19386,7 @@ extension SecurityHubClientTypes {
         public var imageId: Swift.String?
         /// The name of the container image related to a finding.
         public var imageName: Swift.String?
-        /// Indicates when the container started. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the container started. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var launchedAt: Swift.String?
         /// The name of the container related to a finding.
         public var name: Swift.String?
@@ -19917,7 +19917,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// The severity of the finding. The finding provider can provide the initial severity. The finding provider can only update the severity if it hasn't been updated using BatchUpdateFindings. The finding must have either Label or Normalized populated. If only one of these attributes is populated, then Security Hub automatically populates the other one. If neither attribute is populated, then the finding is invalid. Label is the preferred attribute.
+    /// The severity of the finding. The finding provider can provide the initial severity. The finding provider can only update the severity if it hasn't been updated using BatchUpdateFindings. The finding must have either Label or Normalized populated. If only one of these attributes is populated, then Security Hub CSPM automatically populates the other one. If neither attribute is populated, then the finding is invalid. Label is the preferred attribute.
     public struct Severity: Swift.Sendable {
         /// The severity value of the finding. The allowed values are the following.
         ///
@@ -20078,7 +20078,7 @@ extension SecurityHubClientTypes {
     public struct ThreatIntelIndicator: Swift.Sendable {
         /// The category of a threat intelligence indicator.
         public var category: SecurityHubClientTypes.ThreatIntelIndicatorCategory?
-        /// Indicates when the most recent instance of a threat intelligence indicator was observed. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the most recent instance of a threat intelligence indicator was observed. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastObservedAt: Swift.String?
         /// The source of the threat intelligence indicator. Length Constraints: Minimum of 1 length. Maximum of 64 length.
         public var source: Swift.String?
@@ -20190,7 +20190,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Provides details about the vulnerabilities found in your Lambda function code. This field pertains to findings that Security Hub receives from Amazon Inspector.
+    /// Provides details about the vulnerabilities found in your Lambda function code. This field pertains to findings that Security Hub CSPM receives from Amazon Inspector.
     public struct VulnerabilityCodeVulnerabilities: Swift.Sendable {
         /// The Common Weakness Enumeration (CWE) item associated with the detected code vulnerability.
         public var cwes: [Swift.String]?
@@ -20312,11 +20312,11 @@ extension SecurityHubClientTypes {
         public var name: Swift.String?
         /// The URL of the vulnerability advisory.
         public var url: Swift.String?
-        /// Indicates when the vulnerability advisory was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the vulnerability advisory was created. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var vendorCreatedAt: Swift.String?
         /// The severity that the vendor assigned to the vulnerability.
         public var vendorSeverity: Swift.String?
-        /// Indicates when the vulnerability advisory was last updated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the vulnerability advisory was last updated. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var vendorUpdatedAt: Swift.String?
 
         public init(
@@ -20394,7 +20394,7 @@ extension SecurityHubClientTypes {
 
     /// A vulnerability associated with a finding.
     public struct Vulnerability: Swift.Sendable {
-        /// The vulnerabilities found in your Lambda function code. This field pertains to findings that Security Hub receives from Amazon Inspector.
+        /// The vulnerabilities found in your Lambda function code. This field pertains to findings that Security Hub CSPM receives from Amazon Inspector.
         public var codeVulnerabilities: [SecurityHubClientTypes.VulnerabilityCodeVulnerabilities]?
         /// CVSS scores from the advisory related to the vulnerability.
         public var cvss: [SecurityHubClientTypes.Cvss]?
@@ -20458,7 +20458,7 @@ extension SecurityHubClientTypes {
     public struct Workflow: Swift.Sendable {
         /// The status of the investigation into the finding. The workflow status is specific to an individual finding. It does not affect the generation of new findings. For example, setting the workflow status to SUPPRESSED or RESOLVED does not prevent a new finding for the same issue. The allowed values are the following.
         ///
-        /// * NEW - The initial state of a finding, before it is reviewed. Security Hub also resets the workflow status from NOTIFIED or RESOLVED to NEW in the following cases:
+        /// * NEW - The initial state of a finding, before it is reviewed. Security Hub CSPM also resets the workflow status from NOTIFIED or RESOLVED to NEW in the following cases:
         ///
         /// * RecordState changes from ARCHIVED to ACTIVE.
         ///
@@ -20523,7 +20523,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Provides a consistent format for Security Hub findings. AwsSecurityFinding format allows you to share findings between Amazon Web Services security services and third-party solutions. A finding is a potential security issue generated either by Amazon Web Services services or by the integrated third-party solutions and standards checks.
+    /// Provides a consistent format for Security Hub CSPM findings. AwsSecurityFinding format allows you to share findings between Amazon Web Services security services and third-party solutions. A finding is a potential security issue generated either by Amazon Web Services services or by the integrated third-party solutions and standards checks.
     public struct AwsSecurityFinding: Swift.Sendable {
         /// Provides details about an action that affects or that was taken on a resource.
         public var action: SecurityHubClientTypes.Action?
@@ -20532,13 +20532,13 @@ extension SecurityHubClientTypes {
         public var awsAccountId: Swift.String?
         /// The name of the Amazon Web Services account from which a finding was generated. Length Constraints: Minimum length of 1. Maximum length of 50.
         public var awsAccountName: Swift.String?
-        /// The name of the company for the product that generated the finding. Security Hub populates this attribute automatically for each finding. You cannot update this attribute with BatchImportFindings or BatchUpdateFindings. The exception to this is a custom integration. When you use the Security Hub console or API to filter findings by company name, you use this attribute. Length Constraints: Minimum length of 1. Maximum length of 128.
+        /// The name of the company for the product that generated the finding. Security Hub CSPM populates this attribute automatically for each finding. You cannot update this attribute with BatchImportFindings or BatchUpdateFindings. The exception to this is a custom integration. When you use the Security Hub CSPM console or API to filter findings by company name, you use this attribute. Length Constraints: Minimum length of 1. Maximum length of 128.
         public var companyName: Swift.String?
         /// This data type is exclusive to findings that are generated as the result of a check run against a specific rule in a supported security standard, such as CIS Amazon Web Services Foundations. Contains security standard-related finding details.
         public var compliance: SecurityHubClientTypes.Compliance?
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
         public var confidence: Swift.Int?
-        /// Indicates when the security findings provider created the potential security issue that a finding captured. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the security findings provider created the potential security issue that a finding captured. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         /// This member is required.
         public var createdAt: Swift.String?
         /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
@@ -20546,13 +20546,13 @@ extension SecurityHubClientTypes {
         /// A finding's description. Description is a required property. Length Constraints: Minimum length of 1. Maximum length of 1024.
         /// This member is required.
         public var description: Swift.String?
-        /// Provides details about an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+        /// Provides details about an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub CSPM, you must have GuardDuty enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
         public var detection: SecurityHubClientTypes.Detection?
         /// In a BatchImportFindings request, finding providers use FindingProviderFields to provide and update their own values for confidence, criticality, related findings, severity, and types.
         public var findingProviderFields: SecurityHubClientTypes.FindingProviderFields?
-        /// Indicates when the security findings provider first observed the potential security issue that a finding captured. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the security findings provider first observed the potential security issue that a finding captured. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var firstObservedAt: Swift.String?
-        /// Provides metadata for the Amazon CodeGuru detector associated with a finding. This field pertains to findings that relate to Lambda functions. Amazon Inspector identifies policy violations and vulnerabilities in Lambda function code based on internal detectors developed in collaboration with Amazon CodeGuru. Security Hub receives those findings.
+        /// Provides metadata for the Amazon CodeGuru detector associated with a finding. This field pertains to findings that relate to Lambda functions. Amazon Inspector identifies policy violations and vulnerabilities in Lambda function code based on internal detectors developed in collaboration with Amazon CodeGuru. Security Hub CSPM receives those findings.
         public var generatorDetails: SecurityHubClientTypes.GeneratorDetails?
         /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, or something else. Length Constraints: Minimum length of 1. Maximum length of 512.
         /// This member is required.
@@ -20560,7 +20560,7 @@ extension SecurityHubClientTypes {
         /// The security findings provider-specific identifier for a finding. Length Constraints: Minimum length of 1. Maximum length of 512.
         /// This member is required.
         public var id: Swift.String?
-        /// Indicates when the security findings provider most recently observed a change in the resource that is involved in the finding. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the security findings provider most recently observed a change in the resource that is involved in the finding. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastObservedAt: Swift.String?
         /// A list of malware related to a finding. Array Members: Maximum number of 5 items.
         public var malware: [SecurityHubClientTypes.Malware]?
@@ -20574,18 +20574,18 @@ extension SecurityHubClientTypes {
         public var patchSummary: SecurityHubClientTypes.PatchSummary?
         /// The details of process-related information about a finding.
         public var process: SecurityHubClientTypes.ProcessDetails?
-        /// A timestamp that indicates when Security Hub received a finding and begins to process it. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that indicates when Security Hub CSPM received a finding and begins to process it. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var processedAt: Swift.String?
-        /// The ARN generated by Security Hub that uniquely identifies a product that generates findings. This can be the ARN for a third-party product that is integrated with Security Hub, or the ARN for a custom integration. Length Constraints: Minimum length of 12. Maximum length of 2048.
+        /// The ARN generated by Security Hub CSPM that uniquely identifies a product that generates findings. This can be the ARN for a third-party product that is integrated with Security Hub CSPM, or the ARN for a custom integration. Length Constraints: Minimum length of 12. Maximum length of 2048.
         /// This member is required.
         public var productArn: Swift.String?
         /// A data type where security findings providers can include additional solution-specific details that aren't part of the defined AwsSecurityFinding format. Can contain up to 50 key-value pairs. For each key-value pair, the key can contain up to 128 characters, and the value can contain up to 2048 characters.
         public var productFields: [Swift.String: Swift.String]?
-        /// The name of the product that generated the finding. Security Hub populates this attribute automatically for each finding. You cannot update this attribute with BatchImportFindings or BatchUpdateFindings. The exception to this is a custom integration. When you use the Security Hub console or API to filter findings by product name, you use this attribute. Length Constraints: Minimum length of 1. Maximum length of 128.
+        /// The name of the product that generated the finding. Security Hub CSPM populates this attribute automatically for each finding. You cannot update this attribute with BatchImportFindings or BatchUpdateFindings. The exception to this is a custom integration. When you use the Security Hub CSPM console or API to filter findings by product name, you use this attribute. Length Constraints: Minimum length of 1. Maximum length of 128.
         public var productName: Swift.String?
         /// The record state of a finding.
         public var recordState: SecurityHubClientTypes.RecordState?
-        /// The Region from which the finding was generated. Security Hub populates this attribute automatically for each finding. You cannot update it using BatchImportFindings or BatchUpdateFindings. Length Constraints: Minimum length of 1. Maximum length of 16.
+        /// The Region from which the finding was generated. Security Hub CSPM populates this attribute automatically for each finding. You cannot update it using BatchImportFindings or BatchUpdateFindings. Length Constraints: Minimum length of 1. Maximum length of 16.
         public var region: Swift.String?
         /// A list of related findings. Array Members: Minimum number of 1 item. Maximum number of 10 items.
         public var relatedFindings: [SecurityHubClientTypes.RelatedFinding]?
@@ -20612,7 +20612,7 @@ extension SecurityHubClientTypes {
         public var title: Swift.String?
         /// One or more finding types in the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications Array Members: Maximum number of 50 items.
         public var types: [Swift.String]?
-        /// Indicates when the security findings provider last updated the finding record. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// Indicates when the security findings provider last updated the finding record. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         /// This member is required.
         public var updatedAt: Swift.String?
         /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding. Can contain up to 50 key-value pairs. For each key-value pair, the key can contain up to 128 characters, and the value can contain up to 1024 characters.
@@ -20770,7 +20770,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// A collection of filters that are applied to all active findings aggregated by Security Hub. You can filter by up to ten finding attributes. For each attribute, you can provide up to 20 filter values.
+    /// A collection of filters that are applied to all active findings aggregated by Security Hub CSPM. You can filter by up to ten finding attributes. For each attribute, you can provide up to 20 filter values.
     public struct AwsSecurityFindingFilters: Swift.Sendable {
         /// The Amazon Web Services account ID in which a finding is generated.
         public var awsAccountId: [SecurityHubClientTypes.StringFilter]?
@@ -20790,7 +20790,7 @@ extension SecurityHubClientTypes {
         public var complianceStatus: [SecurityHubClientTypes.StringFilter]?
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
         public var confidence: [SecurityHubClientTypes.NumberFilter]?
-        /// A timestamp that indicates when the security findings provider created the potential security issue that a finding reflects. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that indicates when the security findings provider created the potential security issue that a finding reflects. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var createdAt: [SecurityHubClientTypes.DateFilter]?
         /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
         public var criticality: [SecurityHubClientTypes.NumberFilter]?
@@ -20810,7 +20810,7 @@ extension SecurityHubClientTypes {
         public var findingProviderFieldsSeverityOriginal: [SecurityHubClientTypes.StringFilter]?
         /// One or more finding types that the finding provider assigned to the finding. Uses the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications
         public var findingProviderFieldsTypes: [SecurityHubClientTypes.StringFilter]?
-        /// A timestamp that indicates when the security findings provider first observed the potential security issue that a finding captured. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that indicates when the security findings provider first observed the potential security issue that a finding captured. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var firstObservedAt: [SecurityHubClientTypes.DateFilter]?
         /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, etc.
         public var generatorId: [SecurityHubClientTypes.StringFilter]?
@@ -20819,7 +20819,7 @@ extension SecurityHubClientTypes {
         /// A keyword for a finding.
         @available(*, deprecated, message: "The Keyword property is deprecated.")
         public var keyword: [SecurityHubClientTypes.KeywordFilter]?
-        /// A timestamp that indicates when the security findings provider most recently observed a change in the resource that is involved in the finding. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that indicates when the security findings provider most recently observed a change in the resource that is involved in the finding. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var lastObservedAt: [SecurityHubClientTypes.DateFilter]?
         /// The name of the malware that was observed.
         public var malwareName: [SecurityHubClientTypes.StringFilter]?
@@ -20857,7 +20857,7 @@ extension SecurityHubClientTypes {
         public var noteUpdatedAt: [SecurityHubClientTypes.DateFilter]?
         /// The principal that created a note.
         public var noteUpdatedBy: [SecurityHubClientTypes.StringFilter]?
-        /// A timestamp that identifies when the process was launched. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that identifies when the process was launched. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var processLaunchedAt: [SecurityHubClientTypes.DateFilter]?
         /// The name of the process.
         public var processName: [SecurityHubClientTypes.StringFilter]?
@@ -20867,9 +20867,9 @@ extension SecurityHubClientTypes {
         public var processPath: [SecurityHubClientTypes.StringFilter]?
         /// The process ID.
         public var processPid: [SecurityHubClientTypes.NumberFilter]?
-        /// A timestamp that identifies when the process was terminated. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that identifies when the process was terminated. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var processTerminatedAt: [SecurityHubClientTypes.DateFilter]?
-        /// The ARN generated by Security Hub that uniquely identifies a third-party company (security findings provider) after this provider's product (solution that generates findings) is registered with Security Hub.
+        /// The ARN generated by Security Hub CSPM that uniquely identifies a third-party company (security findings provider) after this provider's product (solution that generates findings) is registered with Security Hub CSPM.
         public var productArn: [SecurityHubClientTypes.StringFilter]?
         /// A data type where security findings providers can include additional solution-specific details that aren't part of the defined AwsSecurityFinding format.
         public var productFields: [SecurityHubClientTypes.MapFilter]?
@@ -20926,7 +20926,7 @@ extension SecurityHubClientTypes {
         public var resourceContainerImageId: [SecurityHubClientTypes.StringFilter]?
         /// The name of the image related to a finding.
         public var resourceContainerImageName: [SecurityHubClientTypes.StringFilter]?
-        /// A timestamp that identifies when the container was started. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that identifies when the container was started. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var resourceContainerLaunchedAt: [SecurityHubClientTypes.DateFilter]?
         /// The name of the container related to a finding.
         public var resourceContainerName: [SecurityHubClientTypes.StringFilter]?
@@ -20956,7 +20956,7 @@ extension SecurityHubClientTypes {
         public var sourceUrl: [SecurityHubClientTypes.StringFilter]?
         /// The category of a threat intelligence indicator.
         public var threatIntelIndicatorCategory: [SecurityHubClientTypes.StringFilter]?
-        /// A timestamp that identifies the last observation of a threat intelligence indicator. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that identifies the last observation of a threat intelligence indicator. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var threatIntelIndicatorLastObservedAt: [SecurityHubClientTypes.DateFilter]?
         /// The source of the threat intelligence.
         public var threatIntelIndicatorSource: [SecurityHubClientTypes.StringFilter]?
@@ -20970,21 +20970,21 @@ extension SecurityHubClientTypes {
         public var title: [SecurityHubClientTypes.StringFilter]?
         /// A finding type in the format of namespace/category/classifier that classifies a finding.
         public var type: [SecurityHubClientTypes.StringFilter]?
-        /// A timestamp that indicates when the security findings provider last updated the finding record. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that indicates when the security findings provider last updated the finding record. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var updatedAt: [SecurityHubClientTypes.DateFilter]?
         /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding.
         public var userDefinedFields: [SecurityHubClientTypes.MapFilter]?
         /// The veracity of a finding.
         public var verificationState: [SecurityHubClientTypes.StringFilter]?
-        /// Indicates whether a software vulnerability in your environment has a known exploit. You can filter findings by this field only if you use Security Hub and Amazon Inspector.
+        /// Indicates whether a software vulnerability in your environment has a known exploit. You can filter findings by this field only if you use Security Hub CSPM and Amazon Inspector.
         public var vulnerabilitiesExploitAvailable: [SecurityHubClientTypes.StringFilter]?
-        /// Indicates whether a vulnerability is fixed in a newer version of the affected software packages. You can filter findings by this field only if you use Security Hub and Amazon Inspector.
+        /// Indicates whether a vulnerability is fixed in a newer version of the affected software packages. You can filter findings by this field only if you use Security Hub CSPM and Amazon Inspector.
         public var vulnerabilitiesFixAvailable: [SecurityHubClientTypes.StringFilter]?
         /// The workflow state of a finding. Note that this field is deprecated. To search for a finding based on its workflow status, use WorkflowStatus.
         public var workflowState: [SecurityHubClientTypes.StringFilter]?
         /// The status of the investigation into a finding. Allowed values are the following.
         ///
-        /// * NEW - The initial state of a finding, before it is reviewed. Security Hub also resets the workflow status from NOTIFIED or RESOLVED to NEW in the following cases:
+        /// * NEW - The initial state of a finding, before it is reviewed. Security Hub CSPM also resets the workflow status from NOTIFIED or RESOLVED to NEW in the following cases:
         ///
         /// * RecordState changes from ARCHIVED to ACTIVE.
         ///
@@ -21011,7 +21011,7 @@ extension SecurityHubClientTypes {
         /// * Compliance.Status changes from PASSED to FAILED, WARNING, or NOT_AVAILABLE.
         ///
         ///
-        /// In those cases, the workflow status is automatically reset to NEW. For findings from controls, if Compliance.Status is PASSED, then Security Hub automatically sets the workflow status to RESOLVED.
+        /// In those cases, the workflow status is automatically reset to NEW. For findings from controls, if Compliance.Status is PASSED, then Security Hub CSPM automatically sets the workflow status to RESOLVED.
         public var workflowStatus: [SecurityHubClientTypes.StringFilter]?
 
         public init(
@@ -21235,7 +21235,7 @@ extension SecurityHubClientTypes {
         /// The identifier of the finding that was specified by the finding provider.
         /// This member is required.
         public var id: Swift.String?
-        /// The ARN generated by Security Hub that uniquely identifies a product that generates findings. This can be the ARN for a third-party product that is integrated with Security Hub, or the ARN for a custom integration.
+        /// The ARN generated by Security Hub CSPM that uniquely identifies a product that generates findings. This can be the ARN for a third-party product that is integrated with Security Hub CSPM, or the ARN for a custom integration.
         /// This member is required.
         public var productArn: Swift.String?
 
@@ -21444,15 +21444,15 @@ extension SecurityHubClientTypes {
         public var standardsInput: [Swift.String: Swift.String]?
         /// The status of your subscription to the standard. Possible values are:
         ///
-        /// * PENDING - The standard is in the process of being enabled. Or the standard is already enabled and Security Hub is adding new controls to the standard.
+        /// * PENDING - The standard is in the process of being enabled. Or the standard is already enabled and Security Hub CSPM is adding new controls to the standard.
         ///
         /// * READY - The standard is enabled.
         ///
-        /// * INCOMPLETE - The standard could not be enabled completely. One or more errors (StandardsStatusReason) occurred when Security Hub attempted to enable the standard.
+        /// * INCOMPLETE - The standard could not be enabled completely. One or more errors (StandardsStatusReason) occurred when Security Hub CSPM attempted to enable the standard.
         ///
         /// * DELETING - The standard is in the process of being disabled.
         ///
-        /// * FAILED - The standard could not be disabled. One or more errors (StandardsStatusReason) occurred when Security Hub attempted to disable the standard.
+        /// * FAILED - The standard could not be disabled. One or more errors (StandardsStatusReason) occurred when Security Hub CSPM attempted to disable the standard.
         /// This member is required.
         public var standardsStatus: SecurityHubClientTypes.StandardsStatus?
         /// The reason for the current status.
@@ -21562,7 +21562,7 @@ public struct BatchGetAutomationRulesOutput: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
-    /// The target account, organizational unit, or the root that is associated with an Security Hub configuration. The configuration can be a configuration policy or self-managed behavior.
+    /// The target account, organizational unit, or the root that is associated with an Security Hub CSPM configuration. The configuration can be a configuration policy or self-managed behavior.
     public enum Target: Swift.Sendable {
         /// The Amazon Web Services account ID of the target account.
         case accountid(Swift.String)
@@ -21576,7 +21576,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Provides details about the association between an Security Hub configuration and a target account, organizational unit, or the root. An association can exist between a target and a configuration policy, or between a target and self-managed behavior.
+    /// Provides details about the association between an Security Hub CSPM configuration and a target account, organizational unit, or the root. An association can exist between a target and a configuration policy, or between a target and self-managed behavior.
     public struct ConfigurationPolicyAssociation: Swift.Sendable {
         /// The target account, organizational unit, or the root.
         public var target: SecurityHubClientTypes.Target?
@@ -21641,7 +21641,7 @@ extension SecurityHubClientTypes {
         public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
         /// The explanation for a FAILED value for AssociationStatus.
         public var associationStatusMessage: Swift.String?
-        /// Indicates whether the association between the specified target and the configuration was directly applied by the Security Hub delegated administrator or inherited from a parent.
+        /// Indicates whether the association between the specified target and the configuration was directly applied by the Security Hub CSPM delegated administrator or inherited from a parent.
         public var associationType: SecurityHubClientTypes.AssociationType?
         /// The universally unique identifier (UUID) of the configuration policy.
         public var configurationPolicyId: Swift.String?
@@ -21781,7 +21781,7 @@ extension SecurityHubClientTypes {
     public struct ParameterConfiguration: Swift.Sendable {
         /// The current value of a control parameter.
         public var value: SecurityHubClientTypes.ParameterValue?
-        /// Identifies whether a control parameter uses a custom user-defined value or subscribes to the default Security Hub behavior. When ValueType is set equal to DEFAULT, the default behavior can be a specific Security Hub default value, or the default behavior can be to ignore a specific parameter. When ValueType is set equal to DEFAULT, Security Hub ignores user-provided input for the Value field. When ValueType is set equal to CUSTOM, the Value field can't be empty.
+        /// Identifies whether a control parameter uses a custom user-defined value or subscribes to the default Security Hub CSPM behavior. When ValueType is set equal to DEFAULT, the default behavior can be a specific Security Hub CSPM default value, or the default behavior can be to ignore a specific parameter. When ValueType is set equal to DEFAULT, Security Hub CSPM ignores user-provided input for the Value field. When ValueType is set equal to CUSTOM, the Value field can't be empty.
         /// This member is required.
         public var valueType: SecurityHubClientTypes.ParameterValueType?
 
@@ -21890,16 +21890,16 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// A security control in Security Hub describes a security best practice related to a specific resource.
+    /// A security control in Security Hub CSPM describes a security best practice related to a specific resource.
     public struct SecurityControl: Swift.Sendable {
-        /// The description of a security control across standards. This typically summarizes how Security Hub evaluates the control and the conditions under which it produces a failed finding. This parameter doesn't reference a specific standard.
+        /// The description of a security control across standards. This typically summarizes how Security Hub CSPM evaluates the control and the conditions under which it produces a failed finding. This parameter doesn't reference a specific standard.
         /// This member is required.
         public var description: Swift.String?
         /// The most recent reason for updating the customizable properties of a security control. This differs from the UpdateReason field of the [BatchUpdateStandardsControlAssociations](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateStandardsControlAssociations.html) API, which tracks the reason for updating the enablement status of a control. This field accepts alphanumeric characters in addition to white spaces, dashes, and underscores.
         public var lastUpdateReason: Swift.String?
         /// An object that identifies the name of a control parameter, its current value, and whether it has been customized.
         public var parameters: [Swift.String: SecurityHubClientTypes.ParameterConfiguration]?
-        /// A link to Security Hub documentation that explains how to remediate a failed finding for a security control.
+        /// A link to Security Hub CSPM documentation that explains how to remediate a failed finding for a security control.
         /// This member is required.
         public var remediationUrl: Swift.String?
         /// The Amazon Resource Name (ARN) for a security control across standards, such as arn:aws:securityhub:eu-central-1:123456789012:security-control/S3.1. This parameter doesn't mention a specific standard.
@@ -21911,13 +21911,13 @@ extension SecurityHubClientTypes {
         /// The enablement status of a security control in a specific standard.
         /// This member is required.
         public var securityControlStatus: SecurityHubClientTypes.ControlStatus?
-        /// The severity of a security control. For more information about how Security Hub determines control severity, see [Assigning severity to control findings](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-findings-create-update.html#control-findings-severity) in the Security Hub User Guide.
+        /// The severity of a security control. For more information about how Security Hub CSPM determines control severity, see [Assigning severity to control findings](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-findings-create-update.html#control-findings-severity) in the Security Hub CSPM User Guide.
         /// This member is required.
         public var severityRating: SecurityHubClientTypes.SeverityRating?
         /// The title of a security control.
         /// This member is required.
         public var title: Swift.String?
-        /// Identifies whether customizable properties of a security control are reflected in Security Hub findings. A status of READY indicates that Security Hub uses the current control parameter values when running security checks of the control. A status of UPDATING indicates that all security checks might not use the current parameter values.
+        /// Identifies whether customizable properties of a security control are reflected in Security Hub CSPM findings. A status of READY indicates that Security Hub CSPM uses the current control parameter values when running security checks of the control. A status of UPDATING indicates that all security checks might not use the current parameter values.
         public var updateStatus: SecurityHubClientTypes.UpdateStatus?
 
         public init(
@@ -22076,9 +22076,9 @@ extension SecurityHubClientTypes {
         /// The Amazon Resource Name (ARN) of a security standard.
         /// This member is required.
         public var standardsArn: Swift.String?
-        /// Provides the input parameter that Security Hub uses to call the [UpdateStandardsControl](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_UpdateStandardsControl.html) API. This API can be used to enable or disable a control in a specified standard.
+        /// Provides the input parameter that Security Hub CSPM uses to call the [UpdateStandardsControl](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_UpdateStandardsControl.html) API. This API can be used to enable or disable a control in a specified standard.
         public var standardsControlArns: [Swift.String]?
-        /// The description of a control. This typically summarizes how Security Hub evaluates the control and the conditions under which it produces a failed finding. This parameter may reference a specific standard.
+        /// The description of a control. This typically summarizes how Security Hub CSPM evaluates the control and the conditions under which it produces a failed finding. This parameter may reference a specific standard.
         public var standardsControlDescription: Swift.String?
         /// The title of a control. This field may reference a specific standard.
         public var standardsControlTitle: Swift.String?
@@ -22219,20 +22219,20 @@ extension SecurityHubClientTypes {
     public struct UpdateAutomationRulesRequestItem: Swift.Sendable {
         /// One or more actions to update finding fields if a finding matches the conditions specified in Criteria.
         public var actions: [SecurityHubClientTypes.AutomationRulesAction]?
-        /// A set of ASFF finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+        /// A set of ASFF finding field attributes and corresponding expected values that Security Hub CSPM uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub CSPM applies the rule action to the finding.
         public var criteria: SecurityHubClientTypes.AutomationRulesFindingFilters?
         /// A description of the rule.
         public var description: Swift.String?
-        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
+        /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub CSPM applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
         public var isTerminal: Swift.Bool?
         /// The Amazon Resource Name (ARN) for the rule.
         /// This member is required.
         public var ruleArn: Swift.String?
         /// The name of the rule.
         public var ruleName: Swift.String?
-        /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
+        /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub CSPM applies rules with lower values for this parameter first.
         public var ruleOrder: Swift.Int?
-        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use [BatchUpdateAutomationRules](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
+        /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub CSPM starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use [BatchUpdateAutomationRules](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
         public var ruleStatus: SecurityHubClientTypes.RuleStatus?
 
         public init(
@@ -22352,7 +22352,7 @@ public struct BatchUpdateFindingsInput: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
-    /// A finding from a BatchUpdateFindings request that Security Hub was unable to update.
+    /// A finding from a BatchUpdateFindings request that Security Hub CSPM was unable to update.
     public struct BatchUpdateFindingsUnprocessedFinding: Swift.Sendable {
         /// The code associated with the error. Possible values are:
         ///
@@ -22754,7 +22754,7 @@ extension SecurityHubClientTypes {
 
     /// The options for customizing a security control parameter with a boolean. For a boolean parameter, the options are true and false.
     public struct BooleanConfigurationOptions: Swift.Sendable {
-        /// The Security Hub default value for a boolean parameter.
+        /// The Security Hub CSPM default value for a boolean parameter.
         public var defaultValue: Swift.Bool?
 
         public init(
@@ -22968,7 +22968,7 @@ extension SecurityHubClientTypes {
     public struct OcsfMapFilter: Swift.Sendable {
         /// The name of the field.
         public var fieldName: SecurityHubClientTypes.OcsfMapField?
-        /// A map filter for filtering Security Hub findings. Each map filter provides the field to check for, the value to check for, and the comparison operator.
+        /// A map filter for filtering Security Hub CSPM findings. Each map filter provides the field to check for, the value to check for, and the comparison operator.
         public var filter: SecurityHubClientTypes.MapFilter?
 
         public init(
@@ -23307,7 +23307,7 @@ extension SecurityHubClientTypes {
     public struct OcsfStringFilter: Swift.Sendable {
         /// The name of the field.
         public var fieldName: SecurityHubClientTypes.OcsfStringField?
-        /// A string filter for filtering Security Hub findings.
+        /// A string filter for filtering Security Hub CSPM findings.
         public var filter: SecurityHubClientTypes.StringFilter?
 
         public init(
@@ -23324,7 +23324,7 @@ extension SecurityHubClientTypes {
 
     /// The options for customizing a security control parameter that is a double.
     public struct DoubleConfigurationOptions: Swift.Sendable {
-        /// The Security Hub default value for a control parameter that is a double.
+        /// The Security Hub CSPM default value for a control parameter that is a double.
         public var defaultValue: Swift.Double?
         /// The maximum valid value for a control parameter that is a double.
         public var max: Swift.Double?
@@ -23349,7 +23349,7 @@ extension SecurityHubClientTypes {
     public struct EnumConfigurationOptions: Swift.Sendable {
         /// The valid values for a control parameter that is an enum.
         public var allowedValues: [Swift.String]?
-        /// The Security Hub default value for a control parameter that is an enum.
+        /// The Security Hub CSPM default value for a control parameter that is an enum.
         public var defaultValue: Swift.String?
 
         public init(
@@ -23368,7 +23368,7 @@ extension SecurityHubClientTypes {
     public struct EnumListConfigurationOptions: Swift.Sendable {
         /// The valid values for a control parameter that is a list of enums.
         public var allowedValues: [Swift.String]?
-        /// The Security Hub default value for a control parameter that is a list of enums.
+        /// The Security Hub CSPM default value for a control parameter that is a list of enums.
         public var defaultValue: [Swift.String]?
         /// The maximum number of list items that an enum list control parameter can accept.
         public var maxItems: Swift.Int?
@@ -23389,7 +23389,7 @@ extension SecurityHubClientTypes {
 
     /// The options for customizing a security control parameter that is an integer.
     public struct IntegerConfigurationOptions: Swift.Sendable {
-        /// The Security Hub default value for a control parameter that is an integer.
+        /// The Security Hub CSPM default value for a control parameter that is an integer.
         public var defaultValue: Swift.Int?
         /// The maximum valid value for a control parameter that is an integer.
         public var max: Swift.Int?
@@ -23412,7 +23412,7 @@ extension SecurityHubClientTypes {
 
     /// The options for customizing a security control parameter that is a list of integers.
     public struct IntegerListConfigurationOptions: Swift.Sendable {
-        /// The Security Hub default value for a control parameter that is a list of integers.
+        /// The Security Hub CSPM default value for a control parameter that is a list of integers.
         public var defaultValue: [Swift.Int]?
         /// The maximum valid value for a control parameter that is a list of integers.
         public var max: Swift.Int?
@@ -23439,11 +23439,11 @@ extension SecurityHubClientTypes {
 
     /// The options for customizing a security control parameter that is a string.
     public struct StringConfigurationOptions: Swift.Sendable {
-        /// The Security Hub default value for a control parameter that is a string.
+        /// The Security Hub CSPM default value for a control parameter that is a string.
         public var defaultValue: Swift.String?
         /// The description of the RE2 regular expression.
         public var expressionDescription: Swift.String?
-        /// An RE2 regular expression that Security Hub uses to validate a user-provided control parameter string.
+        /// An RE2 regular expression that Security Hub CSPM uses to validate a user-provided control parameter string.
         public var re2Expression: Swift.String?
 
         public init(
@@ -23462,13 +23462,13 @@ extension SecurityHubClientTypes {
 
     /// The options for customizing a security control parameter that is a list of strings.
     public struct StringListConfigurationOptions: Swift.Sendable {
-        /// The Security Hub default value for a control parameter that is a list of strings.
+        /// The Security Hub CSPM default value for a control parameter that is a list of strings.
         public var defaultValue: [Swift.String]?
         /// The description of the RE2 regular expression.
         public var expressionDescription: Swift.String?
         /// The maximum number of list items that a string list control parameter can accept.
         public var maxItems: Swift.Int?
-        /// An RE2 regular expression that Security Hub uses to validate a user-provided list of strings for a control parameter.
+        /// An RE2 regular expression that Security Hub CSPM uses to validate a user-provided list of strings for a control parameter.
         public var re2Expression: Swift.String?
 
         public init(
@@ -23511,7 +23511,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// An object that contains the details of an Security Hub configuration policy that’s returned in a ListConfigurationPolicies request.
+    /// An object that contains the details of an Security Hub CSPM configuration policy that’s returned in a ListConfigurationPolicies request.
     public struct ConfigurationPolicySummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the configuration policy.
         public var arn: Swift.String?
@@ -23861,21 +23861,21 @@ public struct CreateAutomationRuleInput: Swift.Sendable {
     /// One or more actions to update finding fields if a finding matches the conditions specified in Criteria.
     /// This member is required.
     public var actions: [SecurityHubClientTypes.AutomationRulesAction]?
-    /// A set of ASFF finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+    /// A set of ASFF finding field attributes and corresponding expected values that Security Hub CSPM uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub CSPM applies the rule action to the finding.
     /// This member is required.
     public var criteria: SecurityHubClientTypes.AutomationRulesFindingFilters?
     /// A description of the rule.
     /// This member is required.
     public var description: Swift.String?
-    /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
+    /// Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub CSPM applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
     public var isTerminal: Swift.Bool?
     /// The name of the rule.
     /// This member is required.
     public var ruleName: Swift.String?
-    /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
+    /// An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub CSPM applies rules with lower values for this parameter first.
     /// This member is required.
     public var ruleOrder: Swift.Int?
-    /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use [BatchUpdateAutomationRules](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
+    /// Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub CSPM starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use [BatchUpdateAutomationRules](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateAutomationRules.html).
     public var ruleStatus: SecurityHubClientTypes.RuleStatus?
     /// User-defined tags associated with an automation rule.
     public var tags: [Swift.String: Swift.String]?
@@ -23948,11 +23948,11 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// An object that defines which security controls are enabled in an Security Hub configuration policy. The enablement status of a control is aligned across all of the enabled standards in an account.
+    /// An object that defines which security controls are enabled in an Security Hub CSPM configuration policy. The enablement status of a control is aligned across all of the enabled standards in an account.
     public struct SecurityControlsConfiguration: Swift.Sendable {
-        /// A list of security controls that are disabled in the configuration policy. Security Hub enables all other controls (including newly released controls) other than the listed controls.
+        /// A list of security controls that are disabled in the configuration policy. Security Hub CSPM enables all other controls (including newly released controls) other than the listed controls.
         public var disabledSecurityControlIdentifiers: [Swift.String]?
-        /// A list of security controls that are enabled in the configuration policy. Security Hub disables all other controls (including newly released controls) other than the listed controls.
+        /// A list of security controls that are enabled in the configuration policy. Security Hub CSPM disables all other controls (including newly released controls) other than the listed controls.
         public var enabledSecurityControlIdentifiers: [Swift.String]?
         /// A list of security controls and control parameter values that are included in a configuration policy.
         public var securityControlCustomParameters: [SecurityHubClientTypes.SecurityControlCustomParameter]?
@@ -23971,13 +23971,13 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// An object that defines how Security Hub is configured. The configuration policy includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
+    /// An object that defines how Security Hub CSPM is configured. The configuration policy includes whether Security Hub CSPM is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub CSPM disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub CSPM enables all other controls (including newly released controls).
     public struct SecurityHubPolicy: Swift.Sendable {
         /// A list that defines which security standards are enabled in the configuration policy.
         public var enabledStandardIdentifiers: [Swift.String]?
         /// An object that defines which security controls are enabled in the configuration policy. The enablement status of a control is aligned across all of the enabled standards in an account.
         public var securityControlsConfiguration: SecurityHubClientTypes.SecurityControlsConfiguration?
-        /// Indicates whether Security Hub is enabled in the policy.
+        /// Indicates whether Security Hub CSPM is enabled in the policy.
         public var serviceEnabled: Swift.Bool?
 
         public init(
@@ -23994,7 +23994,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
+    /// An object that defines how Security Hub CSPM is configured. It includes whether Security Hub CSPM is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub CSPM disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub CSPM enables all other controls (including newly released controls).
     public enum Policy: Swift.Sendable {
         /// The Amazon Web Services service that the configuration policy applies to.
         case securityhub(SecurityHubClientTypes.SecurityHubPolicy)
@@ -24003,7 +24003,7 @@ extension SecurityHubClientTypes {
 }
 
 public struct CreateConfigurationPolicyInput: Swift.Sendable {
-    /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
+    /// An object that defines how Security Hub CSPM is configured. It includes whether Security Hub CSPM is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub CSPM disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub CSPM enables all other controls (including newly released controls).
     /// This member is required.
     public var configurationPolicy: SecurityHubClientTypes.Policy?
     /// The description of the configuration policy.
@@ -24011,7 +24011,7 @@ public struct CreateConfigurationPolicyInput: Swift.Sendable {
     /// The name of the configuration policy. Alphanumeric characters and the following ASCII characters are permitted: -, ., !, *, /.
     /// This member is required.
     public var name: Swift.String?
-    /// User-defined tags associated with a configuration policy. For more information, see [Tagging Security Hub resources](https://docs.aws.amazon.com/securityhub/latest/userguide/tagging-resources.html) in the Security Hub user guide.
+    /// User-defined tags associated with a configuration policy. For more information, see [Tagging Security Hub CSPM resources](https://docs.aws.amazon.com/securityhub/latest/userguide/tagging-resources.html) in the Security Hub CSPM user guide.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -24030,7 +24030,7 @@ public struct CreateConfigurationPolicyInput: Swift.Sendable {
 public struct CreateConfigurationPolicyOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the configuration policy.
     public var arn: Swift.String?
-    /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If the request included a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If the request included a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
+    /// An object that defines how Security Hub CSPM is configured. It includes whether Security Hub CSPM is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If the request included a list of security controls that are enabled in the configuration policy, Security Hub CSPM disables all other controls (including newly released controls). If the request included a list of security controls that are disabled in the configuration policy, Security Hub CSPM enables all other controls (including newly released controls).
     public var configurationPolicy: SecurityHubClientTypes.Policy?
     /// The date and time, in UTC and ISO 8601 format, that the configuration policy was created.
     public var createdAt: Foundation.Date?
@@ -24169,13 +24169,13 @@ public struct CreateConnectorV2Output: Swift.Sendable {
 }
 
 public struct CreateFindingAggregatorInput: Swift.Sendable {
-    /// Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:
+    /// Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub CSPM supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:
     ///
-    /// * ALL_REGIONS - Aggregates findings from all of the Regions where Security Hub is enabled. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.
+    /// * ALL_REGIONS - Aggregates findings from all of the Regions where Security Hub CSPM is enabled. When you choose this option, Security Hub CSPM also automatically aggregates findings from new Regions as Security Hub CSPM supports them and you opt into them.
     ///
-    /// * ALL_REGIONS_EXCEPT_SPECIFIED - Aggregates findings from all of the Regions where Security Hub is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.
+    /// * ALL_REGIONS_EXCEPT_SPECIFIED - Aggregates findings from all of the Regions where Security Hub CSPM is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub CSPM also automatically aggregates findings from new Regions as Security Hub CSPM supports them and you opt into them.
     ///
-    /// * SPECIFIED_REGIONS - Aggregates findings only from the Regions listed in the Regions parameter. Security Hub does not automatically aggregate findings from new Regions.
+    /// * SPECIFIED_REGIONS - Aggregates findings only from the Regions listed in the Regions parameter. Security Hub CSPM does not automatically aggregate findings from new Regions.
     ///
     /// * NO_REGIONS - Aggregates no data because no Regions are selected as linked Regions.
     /// This member is required.
@@ -24250,7 +24250,7 @@ public struct CreateInsightOutput: Swift.Sendable {
 }
 
 public struct CreateMembersInput: Swift.Sendable {
-    /// The list of accounts to associate with the Security Hub administrator account. For each account, the list includes the account ID and optionally the email address.
+    /// The list of accounts to associate with the Security Hub CSPM administrator account. For each account, the list includes the account ID and optionally the email address.
     /// This member is required.
     public var accountDetails: [SecurityHubClientTypes.AccountDetails]?
 
@@ -24607,7 +24607,7 @@ public struct DescribeActionTargetsInput: Swift.Sendable {
 }
 
 public struct DescribeActionTargetsOutput: Swift.Sendable {
-    /// A list of ActionTarget objects. Each object includes the ActionTargetArn, Description, and Name of a custom action target available in Security Hub.
+    /// A list of ActionTarget objects. Each object includes the ActionTargetArn, Description, and Name of a custom action target available in Security Hub CSPM.
     /// This member is required.
     public var actionTargets: [SecurityHubClientTypes.ActionTarget]?
     /// The pagination token to use to request the next page of results.
@@ -24634,13 +24634,13 @@ public struct DescribeHubInput: Swift.Sendable {
 }
 
 public struct DescribeHubOutput: Swift.Sendable {
-    /// Whether to automatically enable new controls when they are added to standards that are enabled. If set to true, then new controls for enabled standards are enabled automatically. If set to false, then new controls are not enabled. When you automatically enable new controls, you can interact with the controls in the console and programmatically immediately after release. However, automatically enabled controls have a temporary default status of DISABLED. It can take up to several days for Security Hub to process the control release and designate the control as ENABLED in your account. During the processing period, you can manually enable or disable a control, and Security Hub will maintain that designation regardless of whether you have AutoEnableControls set to true.
+    /// Whether to automatically enable new controls when they are added to standards that are enabled. If set to true, then new controls for enabled standards are enabled automatically. If set to false, then new controls are not enabled. When you automatically enable new controls, you can interact with the controls in the console and programmatically immediately after release. However, automatically enabled controls have a temporary default status of DISABLED. It can take up to several days for Security Hub CSPM to process the control release and designate the control as ENABLED in your account. During the processing period, you can manually enable or disable a control, and Security Hub CSPM will maintain that designation regardless of whether you have AutoEnableControls set to true.
     public var autoEnableControls: Swift.Bool?
-    /// Specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 23, 2023.
+    /// Specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub CSPM generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub CSPM generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub CSPM on or after February 23, 2023.
     public var controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
     /// The ARN of the Hub resource that was retrieved.
     public var hubArn: Swift.String?
-    /// The date and time when Security Hub was enabled in the account.
+    /// The date and time when Security Hub CSPM was enabled in the account.
     public var subscribedAt: Swift.String?
 
     public init(
@@ -24724,9 +24724,9 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Provides information about the way an organization is configured in Security Hub.
+    /// Provides information about the way an organization is configured in Security Hub CSPM.
     public struct OrganizationConfiguration: Swift.Sendable {
-        /// Indicates whether the organization uses local or central configuration. If you use local configuration, the Security Hub delegated administrator can set AutoEnable to true and AutoEnableStandards to DEFAULT. This automatically enables Security Hub and default security standards in new organization accounts. These new account settings must be set separately in each Amazon Web Services Region, and settings may be different in each Region. If you use central configuration, the delegated administrator can create configuration policies. Configuration policies can be used to configure Security Hub, security standards, and security controls in multiple accounts and Regions. If you want new organization accounts to use a specific configuration, you can create a configuration policy and associate it with the root or specific organizational units (OUs). New accounts will inherit the policy from the root or their assigned OU.
+        /// Indicates whether the organization uses local or central configuration. If you use local configuration, the Security Hub CSPM delegated administrator can set AutoEnable to true and AutoEnableStandards to DEFAULT. This automatically enables Security Hub CSPM and default security standards in new organization accounts. These new account settings must be set separately in each Amazon Web Services Region, and settings may be different in each Region. If you use central configuration, the delegated administrator can create configuration policies. Configuration policies can be used to configure Security Hub CSPM, security standards, and security controls in multiple accounts and Regions. If you want new organization accounts to use a specific configuration, you can create a configuration policy and associate it with the root or specific organizational units (OUs). New accounts will inherit the policy from the root or their assigned OU.
         public var configurationType: SecurityHubClientTypes.OrganizationConfigurationConfigurationType?
         /// Describes whether central configuration could be enabled as the ConfigurationType for the organization. If your ConfigurationType is local configuration, then the value of Status is always ENABLED.
         public var status: SecurityHubClientTypes.OrganizationConfigurationStatus?
@@ -24746,13 +24746,13 @@ extension SecurityHubClientTypes {
 }
 
 public struct DescribeOrganizationConfigurationOutput: Swift.Sendable {
-    /// Whether to automatically enable Security Hub in new member accounts when they join the organization. If set to true, then Security Hub is automatically enabled in new accounts. If set to false, then Security Hub isn't enabled in new accounts automatically. The default value is false. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to false and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which Security Hub is enabled and associate the policy with new organization accounts.
+    /// Whether to automatically enable Security Hub CSPM in new member accounts when they join the organization. If set to true, then Security Hub CSPM is automatically enabled in new accounts. If set to false, then Security Hub CSPM isn't enabled in new accounts automatically. The default value is false. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to false and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which Security Hub CSPM is enabled and associate the policy with new organization accounts.
     public var autoEnable: Swift.Bool?
-    /// Whether to automatically enable Security Hub [default standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html) in new member accounts when they join the organization. If equal to DEFAULT, then Security Hub default standards are automatically enabled for new member accounts. If equal to NONE, then default standards are not automatically enabled for new member accounts. The default value of this parameter is equal to DEFAULT. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to NONE and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which specific security standards are enabled and associate the policy with new organization accounts.
+    /// Whether to automatically enable Security Hub CSPM [default standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html) in new member accounts when they join the organization. If equal to DEFAULT, then Security Hub CSPM default standards are automatically enabled for new member accounts. If equal to NONE, then default standards are not automatically enabled for new member accounts. The default value of this parameter is equal to DEFAULT. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to NONE and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which specific security standards are enabled and associate the policy with new organization accounts.
     public var autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards?
-    /// Whether the maximum number of allowed member accounts are already associated with the Security Hub administrator account.
+    /// Whether the maximum number of allowed member accounts are already associated with the Security Hub CSPM administrator account.
     public var memberAccountLimitReached: Swift.Bool?
-    /// Provides information about the way an organization is configured in Security Hub.
+    /// Provides information about the way an organization is configured in Security Hub CSPM.
     public var organizationConfiguration: SecurityHubClientTypes.OrganizationConfiguration?
 
     public init(
@@ -24823,7 +24823,7 @@ extension SecurityHubClientTypes {
 
     /// Contains details about a product.
     public struct Product: Swift.Sendable {
-        /// The URL to the service or product documentation about the integration with Security Hub, including how to activate the integration.
+        /// The URL to the service or product documentation about the integration with Security Hub CSPM, including how to activate the integration.
         public var activationUrl: Swift.String?
         /// The categories assigned to the product.
         public var categories: [Swift.String]?
@@ -24833,11 +24833,11 @@ extension SecurityHubClientTypes {
         public var description: Swift.String?
         /// The types of integration that the product supports. Available values are the following.
         ///
-        /// * SEND_FINDINGS_TO_SECURITY_HUB - The integration sends findings to Security Hub.
+        /// * SEND_FINDINGS_TO_SECURITY_HUB - The integration sends findings to Security Hub CSPM.
         ///
-        /// * RECEIVE_FINDINGS_FROM_SECURITY_HUB - The integration receives findings from Security Hub.
+        /// * RECEIVE_FINDINGS_FROM_SECURITY_HUB - The integration receives findings from Security Hub CSPM.
         ///
-        /// * UPDATE_FINDINGS_IN_SECURITY_HUB - The integration does not send new findings to Security Hub, but does make updates to the findings that it receives from Security Hub.
+        /// * UPDATE_FINDINGS_IN_SECURITY_HUB - The integration does not send new findings to Security Hub CSPM, but does make updates to the findings that it receives from Security Hub CSPM.
         public var integrationTypes: [SecurityHubClientTypes.IntegrationType]?
         /// For integrations with Amazon Web Services services, the Amazon Web Services Console URL from which to activate the service. For integrations with third-party products, the Amazon Web Services Marketplace URL from which to subscribe to or purchase the product.
         public var marketplaceUrl: Swift.String?
@@ -24907,6 +24907,7 @@ public struct DescribeProductsV2Input: Swift.Sendable {
 extension SecurityHubClientTypes {
 
     public enum IntegrationV2Type: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case extendedPlan
         case receiveFindingsFromSecurityHub
         case sendFindingsToSecurityHub
         case updateFindingsInSecurityHub
@@ -24914,6 +24915,7 @@ extension SecurityHubClientTypes {
 
         public static var allCases: [IntegrationV2Type] {
             return [
+                .extendedPlan,
                 .receiveFindingsFromSecurityHub,
                 .sendFindingsToSecurityHub,
                 .updateFindingsInSecurityHub
@@ -24927,6 +24929,7 @@ extension SecurityHubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .extendedPlan: return "EXTENDED_PLAN"
             case .receiveFindingsFromSecurityHub: return "RECEIVE_FINDINGS_FROM_SECURITY_HUB"
             case .sendFindingsToSecurityHub: return "SEND_FINDINGS_TO_SECURITY_HUB"
             case .updateFindingsInSecurityHub: return "UPDATE_FINDINGS_IN_SECURITY_HUB"
@@ -24950,6 +24953,8 @@ extension SecurityHubClientTypes {
         public var description: Swift.String?
         /// The type of integration.
         public var integrationV2Types: [SecurityHubClientTypes.IntegrationV2Type]?
+        /// The identifier for the AWS Marketplace product associated with this integration.
+        public var marketplaceProductId: Swift.String?
         /// The console URL where you can purchase or subscribe to products.
         public var marketplaceUrl: Swift.String?
         /// The name of the productV2.
@@ -24961,6 +24966,7 @@ extension SecurityHubClientTypes {
             companyName: Swift.String? = nil,
             description: Swift.String? = nil,
             integrationV2Types: [SecurityHubClientTypes.IntegrationV2Type]? = nil,
+            marketplaceProductId: Swift.String? = nil,
             marketplaceUrl: Swift.String? = nil,
             productV2Name: Swift.String? = nil
         ) {
@@ -24969,6 +24975,7 @@ extension SecurityHubClientTypes {
             self.companyName = companyName
             self.description = description
             self.integrationV2Types = integrationV2Types
+            self.marketplaceProductId = marketplaceProductId
             self.marketplaceUrl = marketplaceUrl
             self.productV2Name = productV2Name
         }
@@ -25051,7 +25058,7 @@ extension SecurityHubClientTypes {
     public struct Standard: Swift.Sendable {
         /// A description of the standard.
         public var description: Swift.String?
-        /// Whether the standard is enabled by default. When Security Hub is enabled from the console, if a standard is enabled by default, the check box for that standard is selected by default. When Security Hub is enabled using the EnableSecurityHub API operation, the standard is enabled by default unless EnableDefaultStandards is set to false.
+        /// Whether the standard is enabled by default. When Security Hub CSPM is enabled from the console, if a standard is enabled by default, the check box for that standard is selected by default. When Security Hub CSPM is enabled using the EnableSecurityHub API operation, the standard is enabled by default unless EnableDefaultStandards is set to false.
         public var enabledByDefault: Swift.Bool?
         /// The name of the standard.
         public var name: Swift.String?
@@ -25117,7 +25124,7 @@ extension SecurityHubClientTypes {
     public struct StandardsControl: Swift.Sendable {
         /// The identifier of the security standard control.
         public var controlId: Swift.String?
-        /// The current status of the security standard control. Indicates whether the control is enabled or disabled. Security Hub does not check against disabled controls.
+        /// The current status of the security standard control. Indicates whether the control is enabled or disabled. Security Hub CSPM does not check against disabled controls.
         public var controlStatus: SecurityHubClientTypes.ControlStatus?
         /// The date and time that the status of the security standard control was most recently updated.
         public var controlStatusUpdatedAt: Foundation.Date?
@@ -25127,7 +25134,7 @@ extension SecurityHubClientTypes {
         public var disabledReason: Swift.String?
         /// The list of requirements that are related to this control.
         public var relatedRequirements: [Swift.String]?
-        /// A link to remediation information for the control in the Security Hub user documentation.
+        /// A link to remediation information for the control in the Security Hub CSPM user documentation.
         public var remediationUrl: Swift.String?
         /// The severity of findings generated from this security standard control. The finding severity is based on an assessment of how easy it would be to compromise Amazon Web Services resources if the issue is detected.
         public var severityRating: SecurityHubClientTypes.SeverityRating?
@@ -25224,10 +25231,10 @@ extension SecurityHubClientTypes {
 }
 
 public struct DisableOrganizationAdminAccountInput: Swift.Sendable {
-    /// The Amazon Web Services account identifier of the Security Hub administrator account.
+    /// The Amazon Web Services account identifier of the Security Hub CSPM administrator account.
     /// This member is required.
     public var adminAccountId: Swift.String?
-    /// The feature for which the delegated admin account is disabled. Defaults to Security Hub if not specified.
+    /// The feature for which the delegated admin account is disabled. Defaults to Security Hub CSPM if not specified.
     public var feature: SecurityHubClientTypes.SecurityHubFeature?
 
     public init(
@@ -25325,10 +25332,10 @@ public struct EnableImportFindingsForProductOutput: Swift.Sendable {
 }
 
 public struct EnableOrganizationAdminAccountInput: Swift.Sendable {
-    /// The Amazon Web Services account identifier of the account to designate as the Security Hub administrator account.
+    /// The Amazon Web Services account identifier of the account to designate as the Security Hub CSPM administrator account.
     /// This member is required.
     public var adminAccountId: Swift.String?
-    /// The feature for which the delegated admin account is enabled. Defaults to Security Hub if not specified.
+    /// The feature for which the delegated admin account is enabled. Defaults to Security Hub CSPM if not specified.
     public var feature: SecurityHubClientTypes.SecurityHubFeature?
 
     public init(
@@ -25341,9 +25348,9 @@ public struct EnableOrganizationAdminAccountInput: Swift.Sendable {
 }
 
 public struct EnableOrganizationAdminAccountOutput: Swift.Sendable {
-    /// The Amazon Web Services account identifier of the account to designate as the Security Hub administrator account.
+    /// The Amazon Web Services account identifier of the account to designate as the Security Hub CSPM administrator account.
     public var adminAccountId: Swift.String?
-    /// The feature where the delegated administrator is enabled. The default is Security Hub CSPM if no delegated administrator is specified in the request.
+    /// The feature where the delegated administrator is enabled. The default is Security Hub CSPM CSPM if no delegated administrator is specified in the request.
     public var feature: SecurityHubClientTypes.SecurityHubFeature?
 
     public init(
@@ -25356,11 +25363,11 @@ public struct EnableOrganizationAdminAccountOutput: Swift.Sendable {
 }
 
 public struct EnableSecurityHubInput: Swift.Sendable {
-    /// This field, used when enabling Security Hub, specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 23, 2023.
+    /// This field, used when enabling Security Hub CSPM, specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub CSPM generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub CSPM generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub CSPM on or after February 23, 2023.
     public var controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
-    /// Whether to enable the security standards that Security Hub has designated as automatically enabled. If you don't provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
+    /// Whether to enable the security standards that Security Hub CSPM has designated as automatically enabled. If you don't provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
     public var enableDefaultStandards: Swift.Bool?
-    /// The tags to add to the hub resource when you enable Security Hub.
+    /// The tags to add to the hub resource when you enable Security Hub CSPM.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -25403,7 +25410,7 @@ public struct EnableSecurityHubV2Output: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
-    /// A finding aggregator is a Security Hub resource that specifies cross-Region aggregation settings, including the home Region and any linked Regions.
+    /// A finding aggregator is a Security Hub CSPM resource that specifies cross-Region aggregation settings, including the home Region and any linked Regions.
     public struct FindingAggregator: Swift.Sendable {
         /// The ARN of the finding aggregator. You use the finding aggregator ARN to retrieve details for, update, and delete the finding aggregator.
         public var findingAggregatorArn: Swift.String?
@@ -25420,7 +25427,7 @@ extension SecurityHubClientTypes {
 
     /// An array of objects that provides details about a change to a finding, including the Amazon Web Services Security Finding Format (ASFF) field that changed, the value of the field before the change, and the value of the field after the change.
     public struct FindingHistoryUpdate: Swift.Sendable {
-        /// The value of the ASFF field after the finding change event. To preserve storage and readability, Security Hub omits this value if [FindingHistoryRecord](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_FindingHistoryRecord.html) exceeds database limits.
+        /// The value of the ASFF field after the finding change event. To preserve storage and readability, Security Hub CSPM omits this value if [FindingHistoryRecord](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_FindingHistoryRecord.html) exceeds database limits.
         public var newValue: Swift.String?
         /// The value of the ASFF field before the finding change event.
         public var oldValue: Swift.String?
@@ -25474,7 +25481,7 @@ extension SecurityHubClientTypes {
     public struct FindingHistoryUpdateSource: Swift.Sendable {
         /// The identity of the source that initiated the finding change event. For example, the Amazon Resource Name (ARN) of a partner that calls BatchImportFindings or of a customer that calls BatchUpdateFindings.
         public var identity: Swift.String?
-        /// Describes the type of finding change event, such as a call to [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html) (by an integrated Amazon Web Services service or third party partner integration) or [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html) (by a Security Hub customer).
+        /// Describes the type of finding change event, such as a call to [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html) (by an integrated Amazon Web Services service or third party partner integration) or [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html) (by a Security Hub CSPM customer).
         public var type: SecurityHubClientTypes.FindingHistoryUpdateSourceType?
 
         public init(
@@ -25497,9 +25504,9 @@ extension SecurityHubClientTypes {
         public var findingIdentifier: SecurityHubClientTypes.AwsSecurityFindingIdentifier?
         /// A token for pagination purposes. Provide this token in the subsequent request to [GetFindingsHistory](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_GetFindingsHistory.html) to get up to an additional 100 results of history for the same finding that you specified in your initial request.
         public var nextToken: Swift.String?
-        /// Identifies the source of the event that changed the finding. For example, an integrated Amazon Web Services service or third-party partner integration may call [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html), or an Security Hub customer may call [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html).
+        /// Identifies the source of the event that changed the finding. For example, an integrated Amazon Web Services service or third-party partner integration may call [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html), or an Security Hub CSPM customer may call [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html).
         public var updateSource: SecurityHubClientTypes.FindingHistoryUpdateSource?
-        /// A timestamp that indicates when Security Hub processed the updated finding record. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// A timestamp that indicates when Security Hub CSPM processed the updated finding record. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
         public var updateTime: Foundation.Date?
         /// An array of objects that provides details about the finding change event, including the Amazon Web Services Security Finding Format (ASFF) field that changed, the value of the field before the change, and the value of the field after the change.
         public var updates: [SecurityHubClientTypes.FindingHistoryUpdate]?
@@ -25581,7 +25588,7 @@ extension SecurityHubClientTypes {
     public struct FindingsTrendsStringFilter: Swift.Sendable {
         /// The name of the findings field to filter on.
         public var fieldName: SecurityHubClientTypes.FindingsTrendsStringField?
-        /// A string filter for filtering Security Hub findings.
+        /// A string filter for filtering Security Hub CSPM findings.
         public var filter: SecurityHubClientTypes.StringFilter?
 
         public init(
@@ -25603,7 +25610,7 @@ extension SecurityHubClientTypes {
 
     /// Details about an invitation.
     public struct Invitation: Swift.Sendable {
-        /// The account ID of the Security Hub administrator account that the invitation was sent from.
+        /// The account ID of the Security Hub CSPM administrator account that the invitation was sent from.
         public var accountId: Swift.String?
         /// The ID of the invitation sent to the member account.
         public var invitationId: Swift.String?
@@ -25699,7 +25706,7 @@ public struct GetConfigurationPolicyInput: Swift.Sendable {
 public struct GetConfigurationPolicyOutput: Swift.Sendable {
     /// The ARN of the configuration policy.
     public var arn: Swift.String?
-    /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If the policy includes a list of security controls that are enabled, Security Hub disables all other controls (including newly released controls). If the policy includes a list of security controls that are disabled, Security Hub enables all other controls (including newly released controls).
+    /// An object that defines how Security Hub CSPM is configured. It includes whether Security Hub CSPM is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If the policy includes a list of security controls that are enabled, Security Hub CSPM disables all other controls (including newly released controls). If the policy includes a list of security controls that are disabled, Security Hub CSPM enables all other controls (including newly released controls).
     public var configurationPolicy: SecurityHubClientTypes.Policy?
     /// The date and time, in UTC and ISO 8601 format, that the configuration policy was created.
     public var createdAt: Foundation.Date?
@@ -25748,7 +25755,7 @@ public struct GetConfigurationPolicyAssociationOutput: Swift.Sendable {
     public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
     /// The explanation for a FAILED value for AssociationStatus.
     public var associationStatusMessage: Swift.String?
-    /// Indicates whether the association between the specified target and the configuration was directly applied by the Security Hub delegated administrator or inherited from a parent.
+    /// Indicates whether the association between the specified target and the configuration was directly applied by the Security Hub CSPM delegated administrator or inherited from a parent.
     public var associationType: SecurityHubClientTypes.AssociationType?
     /// The universally unique identifier (UUID) of a configuration policy. For self-managed behavior, the value is SELF_MANAGED_SECURITY_HUB.
     public var configurationPolicyId: Swift.String?
@@ -26002,16 +26009,16 @@ public struct GetFindingAggregatorOutput: Swift.Sendable {
 }
 
 public struct GetFindingHistoryInput: Swift.Sendable {
-    /// An ISO 8601-formatted timestamp that indicates the end time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt) timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+    /// An ISO 8601-formatted timestamp that indicates the end time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub CSPM returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub CSPM returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub CSPM returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt) timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub CSPM returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
     public var endTime: Foundation.Date?
     /// Identifies which finding to get the finding history for.
     /// This member is required.
     public var findingIdentifier: SecurityHubClientTypes.AwsSecurityFindingIdentifier?
-    /// The maximum number of results to be returned. If you don’t provide it, Security Hub returns up to 100 results of finding history.
+    /// The maximum number of results to be returned. If you don’t provide it, Security Hub CSPM returns up to 100 results of finding history.
     public var maxResults: Swift.Int?
-    /// A token for pagination purposes. Provide NULL as the initial value. In subsequent requests, provide the token included in the response to get up to an additional 100 results of finding history. If you don’t provide NextToken, Security Hub returns up to 100 results of finding history for each request.
+    /// A token for pagination purposes. Provide NULL as the initial value. In subsequent requests, provide the token included in the response to get up to an additional 100 results of finding history. If you don’t provide NextToken, Security Hub CSPM returns up to 100 results of finding history for each request.
     public var nextToken: Swift.String?
-    /// A timestamp that indicates the start time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt) timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+    /// A timestamp that indicates the start time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub CSPM returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub CSPM returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub CSPM returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt) timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub CSPM returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
     public var startTime: Foundation.Date?
 
     public init(
@@ -26150,6 +26157,7 @@ extension SecurityHubClientTypes {
         case findingInfoTypes
         case metadataProductName
         case metadataProductUid
+        case metadataProductVendorName
         case resourcesType
         case resourcesUid
         case severity
@@ -26177,6 +26185,7 @@ extension SecurityHubClientTypes {
                 .findingInfoTypes,
                 .metadataProductName,
                 .metadataProductUid,
+                .metadataProductVendorName,
                 .resourcesType,
                 .resourcesUid,
                 .severity,
@@ -26210,6 +26219,7 @@ extension SecurityHubClientTypes {
             case .findingInfoTypes: return "finding_info.types"
             case .metadataProductName: return "metadata.product.name"
             case .metadataProductUid: return "metadata.product.uid"
+            case .metadataProductVendorName: return "metadata.product.vendor_name"
             case .resourcesType: return "resources.type"
             case .resourcesUid: return "resources.uid"
             case .severity: return "severity"
@@ -26520,7 +26530,7 @@ public struct GetInsightsInput: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
-    /// Contains information about a Security Hub insight.
+    /// Contains information about a Security Hub CSPM insight.
     public struct Insight: Swift.Sendable {
         /// One or more attributes used to filter the findings included in the insight. You can filter by up to ten finding attributes. For each attribute, you can provide up to 20 filter values. The insight only includes findings that match the criteria defined in the filters.
         /// This member is required.
@@ -26528,10 +26538,10 @@ extension SecurityHubClientTypes {
         /// The grouping attribute for the insight's findings. Indicates how to group the matching findings, and identifies the type of item that the insight applies to. For example, if an insight is grouped by resource identifier, then the insight produces a list of resource identifiers.
         /// This member is required.
         public var groupByAttribute: Swift.String?
-        /// The ARN of a Security Hub insight.
+        /// The ARN of a Security Hub CSPM insight.
         /// This member is required.
         public var insightArn: Swift.String?
-        /// The name of a Security Hub insight.
+        /// The name of a Security Hub CSPM insight.
         /// This member is required.
         public var name: Swift.String?
 
@@ -26571,7 +26581,7 @@ public struct GetInvitationsCountInput: Swift.Sendable {
 }
 
 public struct GetInvitationsCountOutput: Swift.Sendable {
-    /// The number of all membership invitations sent to this Security Hub member account, not including the currently accepted invitation.
+    /// The number of all membership invitations sent to this Security Hub CSPM member account, not including the currently accepted invitation.
     public var invitationsCount: Swift.Int?
 
     public init(
@@ -26587,7 +26597,7 @@ public struct GetMasterAccountInput: Swift.Sendable {
 }
 
 public struct GetMasterAccountOutput: Swift.Sendable {
-    /// A list of details about the Security Hub administrator account for the current member account.
+    /// A list of details about the Security Hub CSPM administrator account for the current member account.
     public var master: SecurityHubClientTypes.Invitation?
 
     public init(
@@ -26598,7 +26608,7 @@ public struct GetMasterAccountOutput: Swift.Sendable {
 }
 
 public struct GetMembersInput: Swift.Sendable {
-    /// The list of account IDs for the Security Hub member accounts to return the details for.
+    /// The list of account IDs for the Security Hub CSPM member accounts to return the details for.
     /// This member is required.
     public var accountIds: [Swift.String]?
 
@@ -26615,13 +26625,13 @@ extension SecurityHubClientTypes {
     public struct Member: Swift.Sendable {
         /// The Amazon Web Services account ID of the member account.
         public var accountId: Swift.String?
-        /// The Amazon Web Services account ID of the Security Hub administrator account associated with this member account.
+        /// The Amazon Web Services account ID of the Security Hub CSPM administrator account associated with this member account.
         public var administratorId: Swift.String?
         /// The email address of the member account.
         public var email: Swift.String?
         /// A timestamp for the date and time when the invitation was sent to the member account.
         public var invitedAt: Foundation.Date?
-        /// This is replaced by AdministratorID. The Amazon Web Services account ID of the Security Hub administrator account associated with this member account.
+        /// This is replaced by AdministratorID. The Amazon Web Services account ID of the Security Hub CSPM administrator account associated with this member account.
         @available(*, deprecated, message: "This field is deprecated, use AdministratorId instead.")
         public var masterId: Swift.String?
         /// The status of the relationship between the member account and its administrator account. The status can have one of the following values:
@@ -26664,7 +26674,7 @@ extension SecurityHubClientTypes {
 }
 
 public struct GetMembersOutput: Swift.Sendable {
-    /// The list of details about the Security Hub member accounts.
+    /// The list of details about the Security Hub CSPM member accounts.
     public var members: [SecurityHubClientTypes.Member]?
     /// The list of Amazon Web Services accounts that could not be processed. For each account, the list includes the account ID and the email address.
     public var unprocessedAccounts: [SecurityHubClientTypes.Result]?
@@ -26758,7 +26768,7 @@ extension SecurityHubClientTypes {
     public struct ResourcesMapFilter: Swift.Sendable {
         /// The name of the field.
         public var fieldName: SecurityHubClientTypes.ResourcesMapField?
-        /// A map filter for filtering Security Hub findings. Each map filter provides the field to check for, the value to check for, and the comparison operator.
+        /// A map filter for filtering Security Hub CSPM findings. Each map filter provides the field to check for, the value to check for, and the comparison operator.
         public var filter: SecurityHubClientTypes.MapFilter?
 
         public init(
@@ -26896,7 +26906,7 @@ extension SecurityHubClientTypes {
     public struct ResourcesStringFilter: Swift.Sendable {
         /// The name of the field.
         public var fieldName: SecurityHubClientTypes.ResourcesStringField?
-        /// A string filter for filtering Security Hub findings.
+        /// A string filter for filtering Security Hub CSPM findings.
         public var filter: SecurityHubClientTypes.StringFilter?
 
         public init(
@@ -27003,7 +27013,7 @@ extension SecurityHubClientTypes {
     public struct ResourcesTrendsStringFilter: Swift.Sendable {
         /// The name of the resources field to filter on, such as resourceType, accountId, or region.
         public var fieldName: SecurityHubClientTypes.ResourcesTrendsStringField?
-        /// A string filter for filtering Security Hub findings.
+        /// A string filter for filtering Security Hub CSPM findings.
         public var filter: SecurityHubClientTypes.StringFilter?
 
         public init(
@@ -27382,18 +27392,18 @@ extension SecurityHubClientTypes {
         public var currentRegionAvailability: SecurityHubClientTypes.RegionAvailabilityStatus?
         /// Security control properties that you can customize. Currently, only parameter customization is supported for select controls. An empty array is returned for controls that don’t support custom properties.
         public var customizableProperties: [SecurityHubClientTypes.SecurityControlProperty]?
-        /// The description of a security control across standards. This typically summarizes how Security Hub evaluates the control and the conditions under which it produces a failed finding. This parameter doesn't reference a specific standard.
+        /// The description of a security control across standards. This typically summarizes how Security Hub CSPM evaluates the control and the conditions under which it produces a failed finding. This parameter doesn't reference a specific standard.
         /// This member is required.
         public var description: Swift.String?
         /// An object that provides a security control parameter name, description, and the options for customizing it. This object is excluded for a control that doesn't support custom parameters.
         public var parameterDefinitions: [Swift.String: SecurityHubClientTypes.ParameterDefinition]?
-        /// A link to Security Hub documentation that explains how to remediate a failed finding for a security control.
+        /// A link to Security Hub CSPM documentation that explains how to remediate a failed finding for a security control.
         /// This member is required.
         public var remediationUrl: Swift.String?
         /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Services service name and a number (for example, APIGateway.3). This parameter differs from SecurityControlArn, which is a unique Amazon Resource Name (ARN) assigned to a control. The ARN references the security control ID (for example, arn:aws:securityhub:eu-central-1:123456789012:security-control/APIGateway.3).
         /// This member is required.
         public var securityControlId: Swift.String?
-        /// The severity of a security control. For more information about how Security Hub determines control severity, see [Assigning severity to control findings](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-findings-create-update.html#control-findings-severity) in the Security Hub User Guide.
+        /// The severity of a security control. For more information about how Security Hub CSPM determines control severity, see [Assigning severity to control findings](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-findings-create-update.html#control-findings-severity) in the Security Hub CSPM User Guide.
         /// This member is required.
         public var severityRating: SecurityHubClientTypes.SeverityRating?
         /// The title of a security control.
@@ -27435,7 +27445,7 @@ public struct GetSecurityControlDefinitionOutput: Swift.Sendable {
 }
 
 public struct InviteMembersInput: Swift.Sendable {
-    /// The list of account IDs of the Amazon Web Services accounts to invite to Security Hub as members.
+    /// The list of account IDs of the Amazon Web Services accounts to invite to Security Hub CSPM as members.
     /// This member is required.
     public var accountIds: [Swift.String]?
 
@@ -27790,7 +27800,7 @@ public struct ListMembersOutput: Swift.Sendable {
 }
 
 public struct ListOrganizationAdminAccountsInput: Swift.Sendable {
-    /// The feature where the delegated administrator account is listed. Defaults to Security Hub if not specified.
+    /// The feature where the delegated administrator account is listed. Defaults to Security Hub CSPM if not specified.
     public var feature: SecurityHubClientTypes.SecurityHubFeature?
     /// The maximum number of items to return in the response.
     public var maxResults: Swift.Int?
@@ -27809,9 +27819,9 @@ public struct ListOrganizationAdminAccountsInput: Swift.Sendable {
 }
 
 public struct ListOrganizationAdminAccountsOutput: Swift.Sendable {
-    /// The list of Security Hub administrator accounts.
+    /// The list of Security Hub CSPM administrator accounts.
     public var adminAccounts: [SecurityHubClientTypes.AdminAccount]?
-    /// The feature where the delegated administrator account is listed. Defaults to Security Hub CSPM if not specified.
+    /// The feature where the delegated administrator account is listed. Defaults to Security Hub CSPM CSPM if not specified.
     public var feature: SecurityHubClientTypes.SecurityHubFeature?
     /// The pagination token to use to request the next page of results.
     public var nextToken: Swift.String?
@@ -27863,7 +27873,7 @@ public struct ListSecurityControlDefinitionsOutput: Swift.Sendable {
 }
 
 public struct ListStandardsControlAssociationsInput: Swift.Sendable {
-    /// An optional parameter that limits the total results of the API response to the specified number. If this parameter isn't provided in the request, the results include the first 25 standard and control associations. The results also include a NextToken parameter that you can use in a subsequent API call to get the next 25 associations. This repeats until all associations for the specified control are returned. The number of results is limited by the number of supported Security Hub standards that you've enabled in the calling account.
+    /// An optional parameter that limits the total results of the API response to the specified number. If this parameter isn't provided in the request, the results include the first 25 standard and control associations. The results also include a NextToken parameter that you can use in a subsequent API call to get the next 25 associations. This repeats until all associations for the specified control are returned. The number of results is limited by the number of supported Security Hub CSPM standards that you've enabled in the calling account.
     public var maxResults: Swift.Int?
     /// Optional pagination parameter.
     public var nextToken: Swift.String?
@@ -27900,7 +27910,7 @@ extension SecurityHubClientTypes {
         /// The Amazon Resource Name (ARN) of a standard.
         /// This member is required.
         public var standardsArn: Swift.String?
-        /// The description of a control. This typically summarizes how Security Hub evaluates the control and the conditions under which it produces a failed finding. The parameter may reference a specific standard.
+        /// The description of a control. This typically summarizes how Security Hub CSPM evaluates the control and the conditions under which it produces a failed finding. The parameter may reference a specific standard.
         public var standardsControlDescription: Swift.String?
         /// The title of a control.
         public var standardsControlTitle: Swift.String?
@@ -28080,7 +28090,7 @@ public struct StartConfigurationPolicyAssociationOutput: Swift.Sendable {
     public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
     /// An explanation for a FAILED value for AssociationStatus.
     public var associationStatusMessage: Swift.String?
-    /// Indicates whether the association between the specified target and the configuration was directly applied by the Security Hub delegated administrator or inherited from a parent.
+    /// Indicates whether the association between the specified target and the configuration was directly applied by the Security Hub CSPM delegated administrator or inherited from a parent.
     public var associationType: SecurityHubClientTypes.AssociationType?
     /// The UUID of the configuration policy.
     public var configurationPolicyId: Swift.String?
@@ -28250,7 +28260,7 @@ public struct UpdateAutomationRuleV2Output: Swift.Sendable {
 }
 
 public struct UpdateConfigurationPolicyInput: Swift.Sendable {
-    /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls). When updating a configuration policy, provide a complete list of standards that you want to enable and a complete list of controls that you want to enable or disable. The updated configuration replaces the current configuration.
+    /// An object that defines how Security Hub CSPM is configured. It includes whether Security Hub CSPM is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub CSPM disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub CSPM enables all other controls (including newly released controls). When updating a configuration policy, provide a complete list of standards that you want to enable and a complete list of controls that you want to enable or disable. The updated configuration replaces the current configuration.
     public var configurationPolicy: SecurityHubClientTypes.Policy?
     /// The description of the configuration policy.
     public var description: Swift.String?
@@ -28280,7 +28290,7 @@ public struct UpdateConfigurationPolicyInput: Swift.Sendable {
 public struct UpdateConfigurationPolicyOutput: Swift.Sendable {
     /// The ARN of the configuration policy.
     public var arn: Swift.String?
-    /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If the request included a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If the request included a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
+    /// An object that defines how Security Hub CSPM is configured. It includes whether Security Hub CSPM is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If the request included a list of security controls that are enabled in the configuration policy, Security Hub CSPM disables all other controls (including newly released controls). If the request included a list of security controls that are disabled in the configuration policy, Security Hub CSPM enables all other controls (including newly released controls).
     public var configurationPolicy: SecurityHubClientTypes.Policy?
     /// The date and time, in UTC and ISO 8601 format, that the configuration policy was created.
     public var createdAt: Foundation.Date?
@@ -28341,13 +28351,13 @@ public struct UpdateFindingAggregatorInput: Swift.Sendable {
     /// The ARN of the finding aggregator. To obtain the ARN, use ListFindingAggregators.
     /// This member is required.
     public var findingAggregatorArn: Swift.String?
-    /// Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:
+    /// Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub CSPM supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:
     ///
-    /// * ALL_REGIONS - Aggregates findings from all of the Regions where Security Hub is enabled. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.
+    /// * ALL_REGIONS - Aggregates findings from all of the Regions where Security Hub CSPM is enabled. When you choose this option, Security Hub CSPM also automatically aggregates findings from new Regions as Security Hub CSPM supports them and you opt into them.
     ///
-    /// * ALL_REGIONS_EXCEPT_SPECIFIED - Aggregates findings from all of the Regions where Security Hub is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.
+    /// * ALL_REGIONS_EXCEPT_SPECIFIED - Aggregates findings from all of the Regions where Security Hub CSPM is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub CSPM also automatically aggregates findings from new Regions as Security Hub CSPM supports them and you opt into them.
     ///
-    /// * SPECIFIED_REGIONS - Aggregates findings only from the Regions listed in the Regions parameter. Security Hub does not automatically aggregate findings from new Regions.
+    /// * SPECIFIED_REGIONS - Aggregates findings only from the Regions listed in the Regions parameter. Security Hub CSPM does not automatically aggregate findings from new Regions.
     ///
     /// * NO_REGIONS - Aggregates no data because no Regions are selected as linked Regions.
     /// This member is required.
@@ -28444,12 +28454,12 @@ public struct UpdateInsightOutput: Swift.Sendable {
 }
 
 public struct UpdateOrganizationConfigurationInput: Swift.Sendable {
-    /// Whether to automatically enable Security Hub in new member accounts when they join the organization. If set to true, then Security Hub is automatically enabled in new accounts. If set to false, then Security Hub isn't enabled in new accounts automatically. The default value is false. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to false and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which Security Hub is enabled and associate the policy with new organization accounts.
+    /// Whether to automatically enable Security Hub CSPM in new member accounts when they join the organization. If set to true, then Security Hub CSPM is automatically enabled in new accounts. If set to false, then Security Hub CSPM isn't enabled in new accounts automatically. The default value is false. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to false and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which Security Hub CSPM is enabled and associate the policy with new organization accounts.
     /// This member is required.
     public var autoEnable: Swift.Bool?
-    /// Whether to automatically enable Security Hub [default standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html) in new member accounts when they join the organization. The default value of this parameter is equal to DEFAULT. If equal to DEFAULT, then Security Hub default standards are automatically enabled for new member accounts. If equal to NONE, then default standards are not automatically enabled for new member accounts. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to NONE and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which specific security standards are enabled and associate the policy with new organization accounts.
+    /// Whether to automatically enable Security Hub CSPM [default standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html) in new member accounts when they join the organization. The default value of this parameter is equal to DEFAULT. If equal to DEFAULT, then Security Hub CSPM default standards are automatically enabled for new member accounts. If equal to NONE, then default standards are not automatically enabled for new member accounts. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to NONE and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which specific security standards are enabled and associate the policy with new organization accounts.
     public var autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards?
-    /// Provides information about the way an organization is configured in Security Hub.
+    /// Provides information about the way an organization is configured in Security Hub CSPM.
     public var organizationConfiguration: SecurityHubClientTypes.OrganizationConfiguration?
 
     public init(
@@ -28495,9 +28505,9 @@ public struct UpdateSecurityControlOutput: Swift.Sendable {
 }
 
 public struct UpdateSecurityHubConfigurationInput: Swift.Sendable {
-    /// Whether to automatically enable new controls when they are added to standards that are enabled. By default, this is set to true, and new controls are enabled automatically. To not automatically enable new controls, set this to false. When you automatically enable new controls, you can interact with the controls in the console and programmatically immediately after release. However, automatically enabled controls have a temporary default status of DISABLED. It can take up to several days for Security Hub to process the control release and designate the control as ENABLED in your account. During the processing period, you can manually enable or disable a control, and Security Hub will maintain that designation regardless of whether you have AutoEnableControls set to true.
+    /// Whether to automatically enable new controls when they are added to standards that are enabled. By default, this is set to true, and new controls are enabled automatically. To not automatically enable new controls, set this to false. When you automatically enable new controls, you can interact with the controls in the console and programmatically immediately after release. However, automatically enabled controls have a temporary default status of DISABLED. It can take up to several days for Security Hub CSPM to process the control release and designate the control as ENABLED in your account. During the processing period, you can manually enable or disable a control, and Security Hub CSPM will maintain that designation regardless of whether you have AutoEnableControls set to true.
     public var autoEnableControls: Swift.Bool?
-    /// Updates whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. For accounts that are part of an organization, this value can only be updated in the administrator account.
+    /// Updates whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub CSPM generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub CSPM generates separate findings for a control check when the check applies to multiple enabled standards. For accounts that are part of an organization, this value can only be updated in the administrator account.
     public var controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
 
     public init(
@@ -28607,7 +28617,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Enables the creation of criteria for Amazon Web Services resources in Security Hub.
+    /// Enables the creation of criteria for Amazon Web Services resources in Security Hub CSPM.
     public struct ResourcesCompositeFilter: Swift.Sendable {
         /// Enables filtering based on date and timestamp field values.
         public var dateFilters: [SecurityHubClientTypes.ResourcesDateFilter]?
@@ -47985,6 +47995,7 @@ extension SecurityHubClientTypes.ProductV2 {
         value.integrationV2Types = try reader["IntegrationV2Types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityHubClientTypes.IntegrationV2Type>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.marketplaceUrl = try reader["MarketplaceUrl"].readIfPresent()
         value.activationUrl = try reader["ActivationUrl"].readIfPresent()
+        value.marketplaceProductId = try reader["MarketplaceProductId"].readIfPresent()
         return value
     }
 }

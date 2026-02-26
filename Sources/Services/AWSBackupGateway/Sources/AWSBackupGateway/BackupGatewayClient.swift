@@ -1191,7 +1191,7 @@ extension BackupGatewayClient {
 
     /// Performs the `GetHypervisorPropertyMappings` operation on the `BackupGateway` service.
     ///
-    /// This action retrieves the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the on-premises hypervisor to the properties available in Amazon Web Services.
+    /// This action retrieves the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetHypervisorPropertyMappingsInput`)
     ///
@@ -1765,7 +1765,7 @@ extension BackupGatewayClient {
 
     /// Performs the `PutHypervisorPropertyMappings` operation on the `BackupGateway` service.
     ///
-    /// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the on-premises hypervisor to the properties available in Amazon Web Services.
+    /// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutHypervisorPropertyMappingsInput`)
     ///

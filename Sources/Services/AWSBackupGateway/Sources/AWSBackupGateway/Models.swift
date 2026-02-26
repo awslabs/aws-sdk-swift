@@ -152,7 +152,7 @@ extension BackupGatewayClientTypes {
 
     /// Describes a bandwidth rate limit interval for a gateway. A bandwidth rate limit schedule consists of one or more bandwidth rate limit intervals. A bandwidth rate limit interval defines a period of time on one or more days of the week, during which bandwidth rate limits are specified for uploading, downloading, or both.
     public struct BandwidthRateLimitInterval: Swift.Sendable {
-        /// The average upload rate limit component of the bandwidth rate limit interval, in bits per second. This field does not appear in the response if the upload rate limit is not set. For Backup Gateway, the minimum value is (Value).
+        /// The average upload rate limit component of the bandwidth rate limit interval, in bits per second. This field does not appear in the response if the upload rate limit is not set.
         public var averageUploadRateLimitInBitsPerSec: Swift.Int?
         /// The days of the week component of the bandwidth rate limit interval, represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6 represents Saturday.
         /// This member is required.
@@ -259,7 +259,7 @@ extension BackupGatewayClientTypes {
 
 extension BackupGatewayClientTypes {
 
-    /// A key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters, numbers, spaces, and the following characters: + - = . _ : /.
+    /// A key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters, numbers, and the following characters: + - = . _ : /. Spaces are not allowed in tag values.
     public struct Tag: Swift.Sendable {
         /// The key part of a tag's key-value pair. The key can't start with aws:.
         /// This member is required.
@@ -406,6 +406,8 @@ extension BackupGatewayClientTypes {
 
     /// The details of gateway.
     public struct GatewayDetails: Swift.Sendable {
+        /// Date after which this gateway will not receive software updates for new features and bug fixes.
+        public var deprecationDate: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region.
         public var gatewayArn: Swift.String?
         /// The display name of the gateway.
@@ -420,10 +422,13 @@ extension BackupGatewayClientTypes {
         public var maintenanceStartTime: BackupGatewayClientTypes.MaintenanceStartTime?
         /// Details showing the next update availability time of the gateway.
         public var nextUpdateAvailabilityTime: Foundation.Date?
+        /// The version number of the software running on the gateway appliance.
+        public var softwareVersion: Swift.String?
         /// The DNS name for the virtual private cloud (VPC) endpoint the gateway uses to connect to the cloud for backup gateway.
         public var vpcEndpoint: Swift.String?
 
         public init(
+            deprecationDate: Foundation.Date? = nil,
             gatewayArn: Swift.String? = nil,
             gatewayDisplayName: Swift.String? = nil,
             gatewayType: BackupGatewayClientTypes.GatewayType? = nil,
@@ -431,8 +436,10 @@ extension BackupGatewayClientTypes {
             lastSeenTime: Foundation.Date? = nil,
             maintenanceStartTime: BackupGatewayClientTypes.MaintenanceStartTime? = nil,
             nextUpdateAvailabilityTime: Foundation.Date? = nil,
+            softwareVersion: Swift.String? = nil,
             vpcEndpoint: Swift.String? = nil
         ) {
+            self.deprecationDate = deprecationDate
             self.gatewayArn = gatewayArn
             self.gatewayDisplayName = gatewayDisplayName
             self.gatewayType = gatewayType
@@ -440,6 +447,7 @@ extension BackupGatewayClientTypes {
             self.lastSeenTime = lastSeenTime
             self.maintenanceStartTime = maintenanceStartTime
             self.nextUpdateAvailabilityTime = nextUpdateAvailabilityTime
+            self.softwareVersion = softwareVersion
             self.vpcEndpoint = vpcEndpoint
         }
     }
@@ -823,7 +831,7 @@ public struct GetHypervisorPropertyMappingsInput: Swift.Sendable {
 
 extension BackupGatewayClientTypes {
 
-    /// This displays the mapping of on-premises VMware tags to the corresponding Amazon Web Services tags.
+    /// This displays the mapping of VMware tags to the corresponding Amazon Web Services tags.
     public struct VmwareToAwsTagMapping: Swift.Sendable {
         /// The key part of the Amazon Web Services tag's key-value pair.
         /// This member is required.
@@ -857,7 +865,7 @@ public struct GetHypervisorPropertyMappingsOutput: Swift.Sendable {
     public var hypervisorArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role.
     public var iamRoleArn: Swift.String?
-    /// This is a display of the mappings of on-premises VMware tags to the Amazon Web Services tags.
+    /// This is a display of the mappings of VMware tags to the Amazon Web Services tags.
     public var vmwareToAwsTagMappings: [BackupGatewayClientTypes.VmwareToAwsTagMapping]?
 
     public init(
@@ -878,7 +886,7 @@ public struct PutHypervisorPropertyMappingsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the IAM role.
     /// This member is required.
     public var iamRoleArn: Swift.String?
-    /// This action requests the mappings of on-premises VMware tags to the Amazon Web Services tags.
+    /// This action requests the mappings of VMware tags to the Amazon Web Services tags.
     /// This member is required.
     public var vmwareToAwsTagMappings: [BackupGatewayClientTypes.VmwareToAwsTagMapping]?
 
@@ -2640,6 +2648,8 @@ extension BackupGatewayClientTypes.GatewayDetails {
         value.maintenanceStartTime = try reader["MaintenanceStartTime"].readIfPresent(with: BackupGatewayClientTypes.MaintenanceStartTime.read(from:))
         value.nextUpdateAvailabilityTime = try reader["NextUpdateAvailabilityTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.vpcEndpoint = try reader["VpcEndpoint"].readIfPresent()
+        value.deprecationDate = try reader["DeprecationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.softwareVersion = try reader["SoftwareVersion"].readIfPresent()
         return value
     }
 }
