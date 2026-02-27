@@ -87,7 +87,7 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
 
     override val unknownServiceErrorSymbol: Symbol = AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
 
-    override val queryCompatibleUtilsSymbol: Symbol = AWSClientRuntimeTypes.AWSQuery.AWSQueryCompatibleUtils
+    override val queryCompatibleUtilsSymbol: Symbol = ClientRuntimeTypes.AWSQuery.QueryCompatibleUtils
 
     override fun smokeTestGenerator(ctx: ProtocolGenerator.GenerationContext): SmokeTestGenerator = AWSSmokeTestGenerator(ctx)
 }

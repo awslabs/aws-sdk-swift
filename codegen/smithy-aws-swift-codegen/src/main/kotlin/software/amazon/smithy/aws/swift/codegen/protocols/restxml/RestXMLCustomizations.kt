@@ -6,15 +6,15 @@
 package software.amazon.smithy.aws.swift.codegen.protocols.restxml
 
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPProtocolCustomizations
-import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HTTPProtocolCustomizable.ServiceErrorCustomRenderer
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 
 class RestXMLCustomizations : AWSHTTPProtocolCustomizations() {
-    override val baseErrorSymbol: Symbol = AWSClientRuntimeTypes.RestXML.RestXMLError
+    override val baseErrorSymbol: Symbol = ClientRuntimeTypes.RestXML.RestXMLError
 
     private class S3Empty404Renderer : ServiceErrorCustomRenderer {
         override fun render(writer: SwiftWriter) {
@@ -35,8 +35,6 @@ class RestXMLCustomizations : AWSHTTPProtocolCustomizations() {
 
     private fun serviceIsS3(ctx: ProtocolGenerator.GenerationContext): Boolean = ctx.service.id == ShapeId.from("com.amazonaws.s3#AmazonS3")
 
-    // This check is performed because S3 protocol tests do not define the NotFound modeled error,
-    // and the protocol test will fail if it is undefined.
     private fun serviceHasNotFoundError(ctx: ProtocolGenerator.GenerationContext): Boolean =
         ctx.model.getShape(ShapeId.from("com.amazonaws.s3#NotFound")).isPresent
 }
