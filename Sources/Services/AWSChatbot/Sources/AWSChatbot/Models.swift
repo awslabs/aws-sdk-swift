@@ -20,8 +20,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 
 extension ChatbotClientTypes {
 
@@ -3331,7 +3331,7 @@ enum AssociateToConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -3347,7 +3347,7 @@ enum CreateChimeWebhookConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3365,7 +3365,7 @@ enum CreateCustomActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3383,7 +3383,7 @@ enum CreateMicrosoftTeamsChannelConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3401,7 +3401,7 @@ enum CreateSlackChannelConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
@@ -3419,7 +3419,7 @@ enum DeleteChimeWebhookConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeleteChimeWebhookConfigurationException": return try DeleteChimeWebhookConfigurationException.makeError(baseError: baseError)
@@ -3436,7 +3436,7 @@ enum DeleteCustomActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -3453,7 +3453,7 @@ enum DeleteMicrosoftTeamsChannelConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeleteTeamsChannelConfigurationException": return try DeleteTeamsChannelConfigurationException.makeError(baseError: baseError)
@@ -3470,7 +3470,7 @@ enum DeleteMicrosoftTeamsConfiguredTeamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeleteTeamsConfiguredTeamException": return try DeleteTeamsConfiguredTeamException.makeError(baseError: baseError)
@@ -3485,7 +3485,7 @@ enum DeleteMicrosoftTeamsUserIdentityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeleteMicrosoftTeamsUserIdentityException": return try DeleteMicrosoftTeamsUserIdentityException.makeError(baseError: baseError)
@@ -3501,7 +3501,7 @@ enum DeleteSlackChannelConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeleteSlackChannelConfigurationException": return try DeleteSlackChannelConfigurationException.makeError(baseError: baseError)
@@ -3518,7 +3518,7 @@ enum DeleteSlackUserIdentityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeleteSlackUserIdentityException": return try DeleteSlackUserIdentityException.makeError(baseError: baseError)
@@ -3534,7 +3534,7 @@ enum DeleteSlackWorkspaceAuthorizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeleteSlackWorkspaceAuthorizationFault": return try DeleteSlackWorkspaceAuthorizationFault.makeError(baseError: baseError)
@@ -3549,7 +3549,7 @@ enum DescribeChimeWebhookConfigurationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DescribeChimeWebhookConfigurationsException": return try DescribeChimeWebhookConfigurationsException.makeError(baseError: baseError)
@@ -3565,7 +3565,7 @@ enum DescribeSlackChannelConfigurationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DescribeSlackChannelConfigurationsException": return try DescribeSlackChannelConfigurationsException.makeError(baseError: baseError)
@@ -3581,7 +3581,7 @@ enum DescribeSlackUserIdentitiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DescribeSlackUserIdentitiesException": return try DescribeSlackUserIdentitiesException.makeError(baseError: baseError)
@@ -3597,7 +3597,7 @@ enum DescribeSlackWorkspacesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DescribeSlackWorkspacesException": return try DescribeSlackWorkspacesException.makeError(baseError: baseError)
@@ -3613,7 +3613,7 @@ enum DisassociateFromConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -3629,7 +3629,7 @@ enum GetAccountPreferencesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GetAccountPreferencesException": return try GetAccountPreferencesException.makeError(baseError: baseError)
@@ -3644,7 +3644,7 @@ enum GetCustomActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -3661,7 +3661,7 @@ enum GetMicrosoftTeamsChannelConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GetTeamsChannelConfigurationException": return try GetTeamsChannelConfigurationException.makeError(baseError: baseError)
@@ -3677,7 +3677,7 @@ enum ListAssociationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3690,7 +3690,7 @@ enum ListCustomActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -3706,7 +3706,7 @@ enum ListMicrosoftTeamsChannelConfigurationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -3722,7 +3722,7 @@ enum ListMicrosoftTeamsConfiguredTeamsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -3738,7 +3738,7 @@ enum ListMicrosoftTeamsUserIdentitiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -3754,7 +3754,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -3770,7 +3770,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -3787,7 +3787,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -3803,7 +3803,7 @@ enum UpdateAccountPreferencesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -3819,7 +3819,7 @@ enum UpdateChimeWebhookConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -3836,7 +3836,7 @@ enum UpdateCustomActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
@@ -3853,7 +3853,7 @@ enum UpdateMicrosoftTeamsChannelConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -3870,7 +3870,7 @@ enum UpdateSlackChannelConfigurationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
@@ -3884,7 +3884,7 @@ enum UpdateSlackChannelConfigurationOutputError {
 
 extension InternalServiceError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalServiceError {
         let reader = baseError.errorBodyReader
         var value = InternalServiceError()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3897,7 +3897,7 @@ extension InternalServiceError {
 
 extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3910,7 +3910,7 @@ extension InvalidRequestException {
 
 extension UnauthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3923,7 +3923,7 @@ extension UnauthorizedException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3936,7 +3936,7 @@ extension ConflictException {
 
 extension CreateChimeWebhookConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CreateChimeWebhookConfigurationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CreateChimeWebhookConfigurationException {
         let reader = baseError.errorBodyReader
         var value = CreateChimeWebhookConfigurationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3949,7 +3949,7 @@ extension CreateChimeWebhookConfigurationException {
 
 extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3962,7 +3962,7 @@ extension InvalidParameterException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -3975,7 +3975,7 @@ extension LimitExceededException {
 
 extension CreateTeamsChannelConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CreateTeamsChannelConfigurationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CreateTeamsChannelConfigurationException {
         let reader = baseError.errorBodyReader
         var value = CreateTeamsChannelConfigurationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3988,7 +3988,7 @@ extension CreateTeamsChannelConfigurationException {
 
 extension CreateSlackChannelConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CreateSlackChannelConfigurationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CreateSlackChannelConfigurationException {
         let reader = baseError.errorBodyReader
         var value = CreateSlackChannelConfigurationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4001,7 +4001,7 @@ extension CreateSlackChannelConfigurationException {
 
 extension DeleteChimeWebhookConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DeleteChimeWebhookConfigurationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DeleteChimeWebhookConfigurationException {
         let reader = baseError.errorBodyReader
         var value = DeleteChimeWebhookConfigurationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4014,7 +4014,7 @@ extension DeleteChimeWebhookConfigurationException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4027,7 +4027,7 @@ extension ResourceNotFoundException {
 
 extension DeleteTeamsChannelConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DeleteTeamsChannelConfigurationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DeleteTeamsChannelConfigurationException {
         let reader = baseError.errorBodyReader
         var value = DeleteTeamsChannelConfigurationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4040,7 +4040,7 @@ extension DeleteTeamsChannelConfigurationException {
 
 extension DeleteTeamsConfiguredTeamException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DeleteTeamsConfiguredTeamException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DeleteTeamsConfiguredTeamException {
         let reader = baseError.errorBodyReader
         var value = DeleteTeamsConfiguredTeamException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4053,7 +4053,7 @@ extension DeleteTeamsConfiguredTeamException {
 
 extension DeleteMicrosoftTeamsUserIdentityException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DeleteMicrosoftTeamsUserIdentityException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DeleteMicrosoftTeamsUserIdentityException {
         let reader = baseError.errorBodyReader
         var value = DeleteMicrosoftTeamsUserIdentityException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4066,7 +4066,7 @@ extension DeleteMicrosoftTeamsUserIdentityException {
 
 extension DeleteSlackChannelConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DeleteSlackChannelConfigurationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DeleteSlackChannelConfigurationException {
         let reader = baseError.errorBodyReader
         var value = DeleteSlackChannelConfigurationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4079,7 +4079,7 @@ extension DeleteSlackChannelConfigurationException {
 
 extension DeleteSlackUserIdentityException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DeleteSlackUserIdentityException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DeleteSlackUserIdentityException {
         let reader = baseError.errorBodyReader
         var value = DeleteSlackUserIdentityException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4092,7 +4092,7 @@ extension DeleteSlackUserIdentityException {
 
 extension DeleteSlackWorkspaceAuthorizationFault {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DeleteSlackWorkspaceAuthorizationFault {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DeleteSlackWorkspaceAuthorizationFault {
         let reader = baseError.errorBodyReader
         var value = DeleteSlackWorkspaceAuthorizationFault()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4105,7 +4105,7 @@ extension DeleteSlackWorkspaceAuthorizationFault {
 
 extension DescribeChimeWebhookConfigurationsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DescribeChimeWebhookConfigurationsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DescribeChimeWebhookConfigurationsException {
         let reader = baseError.errorBodyReader
         var value = DescribeChimeWebhookConfigurationsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4118,7 +4118,7 @@ extension DescribeChimeWebhookConfigurationsException {
 
 extension DescribeSlackChannelConfigurationsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DescribeSlackChannelConfigurationsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DescribeSlackChannelConfigurationsException {
         let reader = baseError.errorBodyReader
         var value = DescribeSlackChannelConfigurationsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4131,7 +4131,7 @@ extension DescribeSlackChannelConfigurationsException {
 
 extension DescribeSlackUserIdentitiesException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DescribeSlackUserIdentitiesException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DescribeSlackUserIdentitiesException {
         let reader = baseError.errorBodyReader
         var value = DescribeSlackUserIdentitiesException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4144,7 +4144,7 @@ extension DescribeSlackUserIdentitiesException {
 
 extension DescribeSlackWorkspacesException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DescribeSlackWorkspacesException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DescribeSlackWorkspacesException {
         let reader = baseError.errorBodyReader
         var value = DescribeSlackWorkspacesException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4157,7 +4157,7 @@ extension DescribeSlackWorkspacesException {
 
 extension GetAccountPreferencesException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> GetAccountPreferencesException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> GetAccountPreferencesException {
         let reader = baseError.errorBodyReader
         var value = GetAccountPreferencesException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4170,7 +4170,7 @@ extension GetAccountPreferencesException {
 
 extension GetTeamsChannelConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> GetTeamsChannelConfigurationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> GetTeamsChannelConfigurationException {
         let reader = baseError.errorBodyReader
         var value = GetTeamsChannelConfigurationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4183,7 +4183,7 @@ extension GetTeamsChannelConfigurationException {
 
 extension ListTeamsChannelConfigurationsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ListTeamsChannelConfigurationsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ListTeamsChannelConfigurationsException {
         let reader = baseError.errorBodyReader
         var value = ListTeamsChannelConfigurationsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4196,7 +4196,7 @@ extension ListTeamsChannelConfigurationsException {
 
 extension ListMicrosoftTeamsConfiguredTeamsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ListMicrosoftTeamsConfiguredTeamsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ListMicrosoftTeamsConfiguredTeamsException {
         let reader = baseError.errorBodyReader
         var value = ListMicrosoftTeamsConfiguredTeamsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4209,7 +4209,7 @@ extension ListMicrosoftTeamsConfiguredTeamsException {
 
 extension ListMicrosoftTeamsUserIdentitiesException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ListMicrosoftTeamsUserIdentitiesException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ListMicrosoftTeamsUserIdentitiesException {
         let reader = baseError.errorBodyReader
         var value = ListMicrosoftTeamsUserIdentitiesException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4222,7 +4222,7 @@ extension ListMicrosoftTeamsUserIdentitiesException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4235,7 +4235,7 @@ extension ServiceUnavailableException {
 
 extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
         var value = TooManyTagsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -4248,7 +4248,7 @@ extension TooManyTagsException {
 
 extension UpdateAccountPreferencesException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UpdateAccountPreferencesException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UpdateAccountPreferencesException {
         let reader = baseError.errorBodyReader
         var value = UpdateAccountPreferencesException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4261,7 +4261,7 @@ extension UpdateAccountPreferencesException {
 
 extension UpdateChimeWebhookConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UpdateChimeWebhookConfigurationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UpdateChimeWebhookConfigurationException {
         let reader = baseError.errorBodyReader
         var value = UpdateChimeWebhookConfigurationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4274,7 +4274,7 @@ extension UpdateChimeWebhookConfigurationException {
 
 extension UpdateTeamsChannelConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UpdateTeamsChannelConfigurationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UpdateTeamsChannelConfigurationException {
         let reader = baseError.errorBodyReader
         var value = UpdateTeamsChannelConfigurationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -4287,7 +4287,7 @@ extension UpdateTeamsChannelConfigurationException {
 
 extension UpdateSlackChannelConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UpdateSlackChannelConfigurationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> UpdateSlackChannelConfigurationException {
         let reader = baseError.errorBodyReader
         var value = UpdateSlackChannelConfigurationException()
         value.properties.message = try reader["Message"].readIfPresent()

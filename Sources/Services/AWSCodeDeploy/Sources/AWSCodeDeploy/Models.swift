@@ -24,8 +24,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -8572,7 +8572,7 @@ enum AddTagsToOnPremisesInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InstanceLimitExceededException": return try InstanceLimitExceededException.makeError(baseError: baseError)
@@ -8592,7 +8592,7 @@ enum BatchGetApplicationRevisionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ApplicationDoesNotExistException": return try ApplicationDoesNotExistException.makeError(baseError: baseError)
@@ -8611,7 +8611,7 @@ enum BatchGetApplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ApplicationDoesNotExistException": return try ApplicationDoesNotExistException.makeError(baseError: baseError)
@@ -8628,7 +8628,7 @@ enum BatchGetDeploymentGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ApplicationDoesNotExistException": return try ApplicationDoesNotExistException.makeError(baseError: baseError)
@@ -8648,7 +8648,7 @@ enum BatchGetDeploymentInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BatchLimitExceededException": return try BatchLimitExceededException.makeError(baseError: baseError)
@@ -8668,7 +8668,7 @@ enum BatchGetDeploymentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BatchLimitExceededException": return try BatchLimitExceededException.makeError(baseError: baseError)
@@ -8684,7 +8684,7 @@ enum BatchGetDeploymentTargetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeploymentDoesNotExistException": return try DeploymentDoesNotExistException.makeError(baseError: baseError)
@@ -8706,7 +8706,7 @@ enum BatchGetOnPremisesInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BatchLimitExceededException": return try BatchLimitExceededException.makeError(baseError: baseError)
@@ -8722,7 +8722,7 @@ enum ContinueDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeploymentAlreadyCompletedException": return try DeploymentAlreadyCompletedException.makeError(baseError: baseError)
@@ -8743,7 +8743,7 @@ enum CreateApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ApplicationAlreadyExistsException": return try ApplicationAlreadyExistsException.makeError(baseError: baseError)
@@ -8762,7 +8762,7 @@ enum CreateDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlarmsLimitExceededException": return try AlarmsLimitExceededException.makeError(baseError: baseError)
@@ -8801,7 +8801,7 @@ enum CreateDeploymentConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeploymentConfigAlreadyExistsException": return try DeploymentConfigAlreadyExistsException.makeError(baseError: baseError)
@@ -8822,7 +8822,7 @@ enum CreateDeploymentGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlarmsLimitExceededException": return try AlarmsLimitExceededException.makeError(baseError: baseError)
@@ -8868,7 +8868,7 @@ enum DeleteApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ApplicationNameRequiredException": return try ApplicationNameRequiredException.makeError(baseError: baseError)
@@ -8884,7 +8884,7 @@ enum DeleteDeploymentConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeploymentConfigInUseException": return try DeploymentConfigInUseException.makeError(baseError: baseError)
@@ -8901,7 +8901,7 @@ enum DeleteDeploymentGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ApplicationNameRequiredException": return try ApplicationNameRequiredException.makeError(baseError: baseError)
@@ -8919,7 +8919,7 @@ enum DeleteGitHubAccountTokenOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GitHubAccountTokenDoesNotExistException": return try GitHubAccountTokenDoesNotExistException.makeError(baseError: baseError)
@@ -8937,7 +8937,7 @@ enum DeleteResourcesByExternalIdOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8950,7 +8950,7 @@ enum DeregisterOnPremisesInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InstanceNameRequiredException": return try InstanceNameRequiredException.makeError(baseError: baseError)
@@ -8965,7 +8965,7 @@ enum GetApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ApplicationDoesNotExistException": return try ApplicationDoesNotExistException.makeError(baseError: baseError)
@@ -8981,7 +8981,7 @@ enum GetApplicationRevisionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ApplicationDoesNotExistException": return try ApplicationDoesNotExistException.makeError(baseError: baseError)
@@ -9000,7 +9000,7 @@ enum GetDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeploymentDoesNotExistException": return try DeploymentDoesNotExistException.makeError(baseError: baseError)
@@ -9016,7 +9016,7 @@ enum GetDeploymentConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeploymentConfigDoesNotExistException": return try DeploymentConfigDoesNotExistException.makeError(baseError: baseError)
@@ -9033,7 +9033,7 @@ enum GetDeploymentGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ApplicationDoesNotExistException": return try ApplicationDoesNotExistException.makeError(baseError: baseError)
@@ -9053,7 +9053,7 @@ enum GetDeploymentInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeploymentDoesNotExistException": return try DeploymentDoesNotExistException.makeError(baseError: baseError)
@@ -9073,7 +9073,7 @@ enum GetDeploymentTargetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeploymentDoesNotExistException": return try DeploymentDoesNotExistException.makeError(baseError: baseError)
@@ -9094,7 +9094,7 @@ enum GetOnPremisesInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InstanceNameRequiredException": return try InstanceNameRequiredException.makeError(baseError: baseError)
@@ -9110,7 +9110,7 @@ enum ListApplicationRevisionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ApplicationDoesNotExistException": return try ApplicationDoesNotExistException.makeError(baseError: baseError)
@@ -9133,7 +9133,7 @@ enum ListApplicationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -9147,7 +9147,7 @@ enum ListDeploymentConfigsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -9161,7 +9161,7 @@ enum ListDeploymentGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ApplicationDoesNotExistException": return try ApplicationDoesNotExistException.makeError(baseError: baseError)
@@ -9178,7 +9178,7 @@ enum ListDeploymentInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeploymentDoesNotExistException": return try DeploymentDoesNotExistException.makeError(baseError: baseError)
@@ -9201,7 +9201,7 @@ enum ListDeploymentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ApplicationDoesNotExistException": return try ApplicationDoesNotExistException.makeError(baseError: baseError)
@@ -9225,7 +9225,7 @@ enum ListDeploymentTargetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeploymentDoesNotExistException": return try DeploymentDoesNotExistException.makeError(baseError: baseError)
@@ -9247,7 +9247,7 @@ enum ListGitHubAccountTokenNamesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -9263,7 +9263,7 @@ enum ListOnPremisesInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -9279,7 +9279,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ArnNotSupportedException": return try ArnNotSupportedException.makeError(baseError: baseError)
@@ -9295,7 +9295,7 @@ enum PutLifecycleEventHookExecutionStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeploymentDoesNotExistException": return try DeploymentDoesNotExistException.makeError(baseError: baseError)
@@ -9315,7 +9315,7 @@ enum RegisterApplicationRevisionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ApplicationDoesNotExistException": return try ApplicationDoesNotExistException.makeError(baseError: baseError)
@@ -9334,7 +9334,7 @@ enum RegisterOnPremisesInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IamArnRequiredException": return try IamArnRequiredException.makeError(baseError: baseError)
@@ -9357,7 +9357,7 @@ enum RemoveTagsFromOnPremisesInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InstanceLimitExceededException": return try InstanceLimitExceededException.makeError(baseError: baseError)
@@ -9377,7 +9377,7 @@ enum SkipWaitTimeForInstanceTerminationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeploymentAlreadyCompletedException": return try DeploymentAlreadyCompletedException.makeError(baseError: baseError)
@@ -9396,7 +9396,7 @@ enum StopDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DeploymentAlreadyCompletedException": return try DeploymentAlreadyCompletedException.makeError(baseError: baseError)
@@ -9415,7 +9415,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ApplicationDoesNotExistException": return try ApplicationDoesNotExistException.makeError(baseError: baseError)
@@ -9436,7 +9436,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ApplicationDoesNotExistException": return try ApplicationDoesNotExistException.makeError(baseError: baseError)
@@ -9457,7 +9457,7 @@ enum UpdateApplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ApplicationAlreadyExistsException": return try ApplicationAlreadyExistsException.makeError(baseError: baseError)
@@ -9474,7 +9474,7 @@ enum UpdateDeploymentGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AlarmsLimitExceededException": return try AlarmsLimitExceededException.makeError(baseError: baseError)
@@ -9515,7 +9515,7 @@ enum UpdateDeploymentGroupOutputError {
 
 extension InstanceLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InstanceLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InstanceLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = InstanceLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9528,7 +9528,7 @@ extension InstanceLimitExceededException {
 
 extension InstanceNameRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InstanceNameRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InstanceNameRequiredException {
         let reader = baseError.errorBodyReader
         var value = InstanceNameRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9541,7 +9541,7 @@ extension InstanceNameRequiredException {
 
 extension InstanceNotRegisteredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InstanceNotRegisteredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InstanceNotRegisteredException {
         let reader = baseError.errorBodyReader
         var value = InstanceNotRegisteredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9554,7 +9554,7 @@ extension InstanceNotRegisteredException {
 
 extension InvalidInstanceNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInstanceNameException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidInstanceNameException {
         let reader = baseError.errorBodyReader
         var value = InvalidInstanceNameException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9567,7 +9567,7 @@ extension InvalidInstanceNameException {
 
 extension InvalidTagException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTagException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTagException {
         let reader = baseError.errorBodyReader
         var value = InvalidTagException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9580,7 +9580,7 @@ extension InvalidTagException {
 
 extension TagLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TagLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = TagLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9593,7 +9593,7 @@ extension TagLimitExceededException {
 
 extension TagRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TagRequiredException {
         let reader = baseError.errorBodyReader
         var value = TagRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9606,7 +9606,7 @@ extension TagRequiredException {
 
 extension ApplicationDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ApplicationDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ApplicationDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = ApplicationDoesNotExistException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9619,7 +9619,7 @@ extension ApplicationDoesNotExistException {
 
 extension ApplicationNameRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ApplicationNameRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ApplicationNameRequiredException {
         let reader = baseError.errorBodyReader
         var value = ApplicationNameRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9632,7 +9632,7 @@ extension ApplicationNameRequiredException {
 
 extension BatchLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BatchLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BatchLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = BatchLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9645,7 +9645,7 @@ extension BatchLimitExceededException {
 
 extension InvalidApplicationNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidApplicationNameException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidApplicationNameException {
         let reader = baseError.errorBodyReader
         var value = InvalidApplicationNameException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9658,7 +9658,7 @@ extension InvalidApplicationNameException {
 
 extension InvalidRevisionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRevisionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidRevisionException {
         let reader = baseError.errorBodyReader
         var value = InvalidRevisionException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9671,7 +9671,7 @@ extension InvalidRevisionException {
 
 extension RevisionRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RevisionRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> RevisionRequiredException {
         let reader = baseError.errorBodyReader
         var value = RevisionRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9684,7 +9684,7 @@ extension RevisionRequiredException {
 
 extension DeploymentConfigDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentConfigDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentConfigDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = DeploymentConfigDoesNotExistException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9697,7 +9697,7 @@ extension DeploymentConfigDoesNotExistException {
 
 extension DeploymentGroupNameRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentGroupNameRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentGroupNameRequiredException {
         let reader = baseError.errorBodyReader
         var value = DeploymentGroupNameRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9710,7 +9710,7 @@ extension DeploymentGroupNameRequiredException {
 
 extension InvalidDeploymentGroupNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentGroupNameException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidDeploymentGroupNameException {
         let reader = baseError.errorBodyReader
         var value = InvalidDeploymentGroupNameException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9723,7 +9723,7 @@ extension InvalidDeploymentGroupNameException {
 
 extension DeploymentDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = DeploymentDoesNotExistException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9736,7 +9736,7 @@ extension DeploymentDoesNotExistException {
 
 extension DeploymentIdRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentIdRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentIdRequiredException {
         let reader = baseError.errorBodyReader
         var value = DeploymentIdRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9749,7 +9749,7 @@ extension DeploymentIdRequiredException {
 
 extension InstanceIdRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InstanceIdRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InstanceIdRequiredException {
         let reader = baseError.errorBodyReader
         var value = InstanceIdRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9762,7 +9762,7 @@ extension InstanceIdRequiredException {
 
 extension InvalidComputePlatformException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidComputePlatformException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidComputePlatformException {
         let reader = baseError.errorBodyReader
         var value = InvalidComputePlatformException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9775,7 +9775,7 @@ extension InvalidComputePlatformException {
 
 extension InvalidDeploymentIdException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentIdException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidDeploymentIdException {
         let reader = baseError.errorBodyReader
         var value = InvalidDeploymentIdException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9788,7 +9788,7 @@ extension InvalidDeploymentIdException {
 
 extension DeploymentNotStartedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentNotStartedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentNotStartedException {
         let reader = baseError.errorBodyReader
         var value = DeploymentNotStartedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9801,7 +9801,7 @@ extension DeploymentNotStartedException {
 
 extension DeploymentTargetDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentTargetDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentTargetDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = DeploymentTargetDoesNotExistException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9814,7 +9814,7 @@ extension DeploymentTargetDoesNotExistException {
 
 extension DeploymentTargetIdRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentTargetIdRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentTargetIdRequiredException {
         let reader = baseError.errorBodyReader
         var value = DeploymentTargetIdRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9827,7 +9827,7 @@ extension DeploymentTargetIdRequiredException {
 
 extension DeploymentTargetListSizeExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentTargetListSizeExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentTargetListSizeExceededException {
         let reader = baseError.errorBodyReader
         var value = DeploymentTargetListSizeExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9840,7 +9840,7 @@ extension DeploymentTargetListSizeExceededException {
 
 extension InstanceDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InstanceDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InstanceDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = InstanceDoesNotExistException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9853,7 +9853,7 @@ extension InstanceDoesNotExistException {
 
 extension InvalidDeploymentTargetIdException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentTargetIdException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidDeploymentTargetIdException {
         let reader = baseError.errorBodyReader
         var value = InvalidDeploymentTargetIdException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9866,7 +9866,7 @@ extension InvalidDeploymentTargetIdException {
 
 extension DeploymentAlreadyCompletedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentAlreadyCompletedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentAlreadyCompletedException {
         let reader = baseError.errorBodyReader
         var value = DeploymentAlreadyCompletedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9879,7 +9879,7 @@ extension DeploymentAlreadyCompletedException {
 
 extension DeploymentIsNotInReadyStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentIsNotInReadyStateException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentIsNotInReadyStateException {
         let reader = baseError.errorBodyReader
         var value = DeploymentIsNotInReadyStateException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9892,7 +9892,7 @@ extension DeploymentIsNotInReadyStateException {
 
 extension InvalidDeploymentStatusException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentStatusException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidDeploymentStatusException {
         let reader = baseError.errorBodyReader
         var value = InvalidDeploymentStatusException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9905,7 +9905,7 @@ extension InvalidDeploymentStatusException {
 
 extension InvalidDeploymentWaitTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentWaitTypeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidDeploymentWaitTypeException {
         let reader = baseError.errorBodyReader
         var value = InvalidDeploymentWaitTypeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9918,7 +9918,7 @@ extension InvalidDeploymentWaitTypeException {
 
 extension UnsupportedActionForDeploymentTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedActionForDeploymentTypeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UnsupportedActionForDeploymentTypeException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedActionForDeploymentTypeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9931,7 +9931,7 @@ extension UnsupportedActionForDeploymentTypeException {
 
 extension ApplicationAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ApplicationAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ApplicationAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = ApplicationAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9944,7 +9944,7 @@ extension ApplicationAlreadyExistsException {
 
 extension ApplicationLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ApplicationLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ApplicationLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ApplicationLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9957,7 +9957,7 @@ extension ApplicationLimitExceededException {
 
 extension InvalidTagsToAddException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTagsToAddException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTagsToAddException {
         let reader = baseError.errorBodyReader
         var value = InvalidTagsToAddException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9970,7 +9970,7 @@ extension InvalidTagsToAddException {
 
 extension AlarmsLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AlarmsLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> AlarmsLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = AlarmsLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9983,7 +9983,7 @@ extension AlarmsLimitExceededException {
 
 extension DeploymentGroupDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentGroupDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentGroupDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = DeploymentGroupDoesNotExistException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -9996,7 +9996,7 @@ extension DeploymentGroupDoesNotExistException {
 
 extension DeploymentLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = DeploymentLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10009,7 +10009,7 @@ extension DeploymentLimitExceededException {
 
 extension DescriptionTooLongException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DescriptionTooLongException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DescriptionTooLongException {
         let reader = baseError.errorBodyReader
         var value = DescriptionTooLongException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10022,7 +10022,7 @@ extension DescriptionTooLongException {
 
 extension InvalidAlarmConfigException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAlarmConfigException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidAlarmConfigException {
         let reader = baseError.errorBodyReader
         var value = InvalidAlarmConfigException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10035,7 +10035,7 @@ extension InvalidAlarmConfigException {
 
 extension InvalidAutoRollbackConfigException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAutoRollbackConfigException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidAutoRollbackConfigException {
         let reader = baseError.errorBodyReader
         var value = InvalidAutoRollbackConfigException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10048,7 +10048,7 @@ extension InvalidAutoRollbackConfigException {
 
 extension InvalidAutoScalingGroupException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAutoScalingGroupException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidAutoScalingGroupException {
         let reader = baseError.errorBodyReader
         var value = InvalidAutoScalingGroupException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10061,7 +10061,7 @@ extension InvalidAutoScalingGroupException {
 
 extension InvalidDeploymentConfigNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentConfigNameException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidDeploymentConfigNameException {
         let reader = baseError.errorBodyReader
         var value = InvalidDeploymentConfigNameException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10074,7 +10074,7 @@ extension InvalidDeploymentConfigNameException {
 
 extension InvalidFileExistsBehaviorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidFileExistsBehaviorException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidFileExistsBehaviorException {
         let reader = baseError.errorBodyReader
         var value = InvalidFileExistsBehaviorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10087,7 +10087,7 @@ extension InvalidFileExistsBehaviorException {
 
 extension InvalidGitHubAccountTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidGitHubAccountTokenException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidGitHubAccountTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidGitHubAccountTokenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10100,7 +10100,7 @@ extension InvalidGitHubAccountTokenException {
 
 extension InvalidIgnoreApplicationStopFailuresValueException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidIgnoreApplicationStopFailuresValueException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidIgnoreApplicationStopFailuresValueException {
         let reader = baseError.errorBodyReader
         var value = InvalidIgnoreApplicationStopFailuresValueException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10113,7 +10113,7 @@ extension InvalidIgnoreApplicationStopFailuresValueException {
 
 extension InvalidLoadBalancerInfoException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLoadBalancerInfoException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidLoadBalancerInfoException {
         let reader = baseError.errorBodyReader
         var value = InvalidLoadBalancerInfoException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10126,7 +10126,7 @@ extension InvalidLoadBalancerInfoException {
 
 extension InvalidRoleException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRoleException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidRoleException {
         let reader = baseError.errorBodyReader
         var value = InvalidRoleException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10139,7 +10139,7 @@ extension InvalidRoleException {
 
 extension InvalidTargetInstancesException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTargetInstancesException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTargetInstancesException {
         let reader = baseError.errorBodyReader
         var value = InvalidTargetInstancesException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10152,7 +10152,7 @@ extension InvalidTargetInstancesException {
 
 extension InvalidTrafficRoutingConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTrafficRoutingConfigurationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTrafficRoutingConfigurationException {
         let reader = baseError.errorBodyReader
         var value = InvalidTrafficRoutingConfigurationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10165,7 +10165,7 @@ extension InvalidTrafficRoutingConfigurationException {
 
 extension InvalidUpdateOutdatedInstancesOnlyValueException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidUpdateOutdatedInstancesOnlyValueException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidUpdateOutdatedInstancesOnlyValueException {
         let reader = baseError.errorBodyReader
         var value = InvalidUpdateOutdatedInstancesOnlyValueException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10178,7 +10178,7 @@ extension InvalidUpdateOutdatedInstancesOnlyValueException {
 
 extension RevisionDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RevisionDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> RevisionDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = RevisionDoesNotExistException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10191,7 +10191,7 @@ extension RevisionDoesNotExistException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10204,7 +10204,7 @@ extension ThrottlingException {
 
 extension DeploymentConfigAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentConfigAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentConfigAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = DeploymentConfigAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10217,7 +10217,7 @@ extension DeploymentConfigAlreadyExistsException {
 
 extension DeploymentConfigLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentConfigLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentConfigLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = DeploymentConfigLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10230,7 +10230,7 @@ extension DeploymentConfigLimitExceededException {
 
 extension DeploymentConfigNameRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentConfigNameRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentConfigNameRequiredException {
         let reader = baseError.errorBodyReader
         var value = DeploymentConfigNameRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10243,7 +10243,7 @@ extension DeploymentConfigNameRequiredException {
 
 extension InvalidMinimumHealthyHostValueException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidMinimumHealthyHostValueException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidMinimumHealthyHostValueException {
         let reader = baseError.errorBodyReader
         var value = InvalidMinimumHealthyHostValueException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10256,7 +10256,7 @@ extension InvalidMinimumHealthyHostValueException {
 
 extension InvalidZonalDeploymentConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidZonalDeploymentConfigurationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidZonalDeploymentConfigurationException {
         let reader = baseError.errorBodyReader
         var value = InvalidZonalDeploymentConfigurationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10269,7 +10269,7 @@ extension InvalidZonalDeploymentConfigurationException {
 
 extension DeploymentGroupAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentGroupAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentGroupAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = DeploymentGroupAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10282,7 +10282,7 @@ extension DeploymentGroupAlreadyExistsException {
 
 extension DeploymentGroupLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentGroupLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentGroupLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = DeploymentGroupLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10295,7 +10295,7 @@ extension DeploymentGroupLimitExceededException {
 
 extension ECSServiceMappingLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ECSServiceMappingLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ECSServiceMappingLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ECSServiceMappingLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10308,7 +10308,7 @@ extension ECSServiceMappingLimitExceededException {
 
 extension InvalidBlueGreenDeploymentConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidBlueGreenDeploymentConfigurationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidBlueGreenDeploymentConfigurationException {
         let reader = baseError.errorBodyReader
         var value = InvalidBlueGreenDeploymentConfigurationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10321,7 +10321,7 @@ extension InvalidBlueGreenDeploymentConfigurationException {
 
 extension InvalidDeploymentStyleException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentStyleException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidDeploymentStyleException {
         let reader = baseError.errorBodyReader
         var value = InvalidDeploymentStyleException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10334,7 +10334,7 @@ extension InvalidDeploymentStyleException {
 
 extension InvalidEC2TagCombinationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEC2TagCombinationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidEC2TagCombinationException {
         let reader = baseError.errorBodyReader
         var value = InvalidEC2TagCombinationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10347,7 +10347,7 @@ extension InvalidEC2TagCombinationException {
 
 extension InvalidEC2TagException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEC2TagException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidEC2TagException {
         let reader = baseError.errorBodyReader
         var value = InvalidEC2TagException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10360,7 +10360,7 @@ extension InvalidEC2TagException {
 
 extension InvalidECSServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidECSServiceException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidECSServiceException {
         let reader = baseError.errorBodyReader
         var value = InvalidECSServiceException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10373,7 +10373,7 @@ extension InvalidECSServiceException {
 
 extension InvalidInputException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidInputException {
         let reader = baseError.errorBodyReader
         var value = InvalidInputException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10386,7 +10386,7 @@ extension InvalidInputException {
 
 extension InvalidOnPremisesTagCombinationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidOnPremisesTagCombinationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidOnPremisesTagCombinationException {
         let reader = baseError.errorBodyReader
         var value = InvalidOnPremisesTagCombinationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10399,7 +10399,7 @@ extension InvalidOnPremisesTagCombinationException {
 
 extension InvalidTargetGroupPairException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTargetGroupPairException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTargetGroupPairException {
         let reader = baseError.errorBodyReader
         var value = InvalidTargetGroupPairException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10412,7 +10412,7 @@ extension InvalidTargetGroupPairException {
 
 extension InvalidTriggerConfigException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTriggerConfigException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTriggerConfigException {
         let reader = baseError.errorBodyReader
         var value = InvalidTriggerConfigException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10425,7 +10425,7 @@ extension InvalidTriggerConfigException {
 
 extension LifecycleHookLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LifecycleHookLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LifecycleHookLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LifecycleHookLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10438,7 +10438,7 @@ extension LifecycleHookLimitExceededException {
 
 extension RoleRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RoleRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> RoleRequiredException {
         let reader = baseError.errorBodyReader
         var value = RoleRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10451,7 +10451,7 @@ extension RoleRequiredException {
 
 extension TagSetListLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagSetListLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TagSetListLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = TagSetListLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10464,7 +10464,7 @@ extension TagSetListLimitExceededException {
 
 extension TriggerTargetsLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TriggerTargetsLimitExceededException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TriggerTargetsLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = TriggerTargetsLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10477,7 +10477,7 @@ extension TriggerTargetsLimitExceededException {
 
 extension DeploymentConfigInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentConfigInUseException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DeploymentConfigInUseException {
         let reader = baseError.errorBodyReader
         var value = DeploymentConfigInUseException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10490,7 +10490,7 @@ extension DeploymentConfigInUseException {
 
 extension InvalidOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidOperationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidOperationException {
         let reader = baseError.errorBodyReader
         var value = InvalidOperationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10503,7 +10503,7 @@ extension InvalidOperationException {
 
 extension GitHubAccountTokenDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GitHubAccountTokenDoesNotExistException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> GitHubAccountTokenDoesNotExistException {
         let reader = baseError.errorBodyReader
         var value = GitHubAccountTokenDoesNotExistException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10516,7 +10516,7 @@ extension GitHubAccountTokenDoesNotExistException {
 
 extension GitHubAccountTokenNameRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GitHubAccountTokenNameRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> GitHubAccountTokenNameRequiredException {
         let reader = baseError.errorBodyReader
         var value = GitHubAccountTokenNameRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10529,7 +10529,7 @@ extension GitHubAccountTokenNameRequiredException {
 
 extension InvalidGitHubAccountTokenNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidGitHubAccountTokenNameException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidGitHubAccountTokenNameException {
         let reader = baseError.errorBodyReader
         var value = InvalidGitHubAccountTokenNameException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10542,7 +10542,7 @@ extension InvalidGitHubAccountTokenNameException {
 
 extension OperationNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationNotSupportedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> OperationNotSupportedException {
         let reader = baseError.errorBodyReader
         var value = OperationNotSupportedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10555,7 +10555,7 @@ extension OperationNotSupportedException {
 
 extension ResourceValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceValidationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceValidationException {
         let reader = baseError.errorBodyReader
         var value = ResourceValidationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10568,7 +10568,7 @@ extension ResourceValidationException {
 
 extension BucketNameFilterRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BucketNameFilterRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> BucketNameFilterRequiredException {
         let reader = baseError.errorBodyReader
         var value = BucketNameFilterRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10581,7 +10581,7 @@ extension BucketNameFilterRequiredException {
 
 extension InvalidBucketNameFilterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidBucketNameFilterException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidBucketNameFilterException {
         let reader = baseError.errorBodyReader
         var value = InvalidBucketNameFilterException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10594,7 +10594,7 @@ extension InvalidBucketNameFilterException {
 
 extension InvalidDeployedStateFilterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeployedStateFilterException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidDeployedStateFilterException {
         let reader = baseError.errorBodyReader
         var value = InvalidDeployedStateFilterException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10607,7 +10607,7 @@ extension InvalidDeployedStateFilterException {
 
 extension InvalidKeyPrefixFilterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidKeyPrefixFilterException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidKeyPrefixFilterException {
         let reader = baseError.errorBodyReader
         var value = InvalidKeyPrefixFilterException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10620,7 +10620,7 @@ extension InvalidKeyPrefixFilterException {
 
 extension InvalidNextTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidNextTokenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10633,7 +10633,7 @@ extension InvalidNextTokenException {
 
 extension InvalidSortByException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSortByException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidSortByException {
         let reader = baseError.errorBodyReader
         var value = InvalidSortByException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10646,7 +10646,7 @@ extension InvalidSortByException {
 
 extension InvalidSortOrderException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSortOrderException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidSortOrderException {
         let reader = baseError.errorBodyReader
         var value = InvalidSortOrderException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10659,7 +10659,7 @@ extension InvalidSortOrderException {
 
 extension InvalidDeploymentInstanceTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentInstanceTypeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidDeploymentInstanceTypeException {
         let reader = baseError.errorBodyReader
         var value = InvalidDeploymentInstanceTypeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10672,7 +10672,7 @@ extension InvalidDeploymentInstanceTypeException {
 
 extension InvalidInstanceStatusException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInstanceStatusException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidInstanceStatusException {
         let reader = baseError.errorBodyReader
         var value = InvalidInstanceStatusException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10685,7 +10685,7 @@ extension InvalidInstanceStatusException {
 
 extension InvalidInstanceTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInstanceTypeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidInstanceTypeException {
         let reader = baseError.errorBodyReader
         var value = InvalidInstanceTypeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10698,7 +10698,7 @@ extension InvalidInstanceTypeException {
 
 extension InvalidTargetFilterNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTargetFilterNameException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTargetFilterNameException {
         let reader = baseError.errorBodyReader
         var value = InvalidTargetFilterNameException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10711,7 +10711,7 @@ extension InvalidTargetFilterNameException {
 
 extension InvalidExternalIdException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidExternalIdException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidExternalIdException {
         let reader = baseError.errorBodyReader
         var value = InvalidExternalIdException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10724,7 +10724,7 @@ extension InvalidExternalIdException {
 
 extension InvalidTimeRangeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTimeRangeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTimeRangeException {
         let reader = baseError.errorBodyReader
         var value = InvalidTimeRangeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10737,7 +10737,7 @@ extension InvalidTimeRangeException {
 
 extension InvalidRegistrationStatusException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRegistrationStatusException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidRegistrationStatusException {
         let reader = baseError.errorBodyReader
         var value = InvalidRegistrationStatusException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10750,7 +10750,7 @@ extension InvalidRegistrationStatusException {
 
 extension InvalidTagFilterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTagFilterException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTagFilterException {
         let reader = baseError.errorBodyReader
         var value = InvalidTagFilterException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10763,7 +10763,7 @@ extension InvalidTagFilterException {
 
 extension ArnNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ArnNotSupportedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ArnNotSupportedException {
         let reader = baseError.errorBodyReader
         var value = ArnNotSupportedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10776,7 +10776,7 @@ extension ArnNotSupportedException {
 
 extension InvalidArnException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArnException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidArnException {
         let reader = baseError.errorBodyReader
         var value = InvalidArnException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10789,7 +10789,7 @@ extension InvalidArnException {
 
 extension ResourceArnRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceArnRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ResourceArnRequiredException {
         let reader = baseError.errorBodyReader
         var value = ResourceArnRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10802,7 +10802,7 @@ extension ResourceArnRequiredException {
 
 extension InvalidLifecycleEventHookExecutionIdException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLifecycleEventHookExecutionIdException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidLifecycleEventHookExecutionIdException {
         let reader = baseError.errorBodyReader
         var value = InvalidLifecycleEventHookExecutionIdException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10815,7 +10815,7 @@ extension InvalidLifecycleEventHookExecutionIdException {
 
 extension InvalidLifecycleEventHookExecutionStatusException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLifecycleEventHookExecutionStatusException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidLifecycleEventHookExecutionStatusException {
         let reader = baseError.errorBodyReader
         var value = InvalidLifecycleEventHookExecutionStatusException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10828,7 +10828,7 @@ extension InvalidLifecycleEventHookExecutionStatusException {
 
 extension LifecycleEventAlreadyCompletedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LifecycleEventAlreadyCompletedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> LifecycleEventAlreadyCompletedException {
         let reader = baseError.errorBodyReader
         var value = LifecycleEventAlreadyCompletedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10841,7 +10841,7 @@ extension LifecycleEventAlreadyCompletedException {
 
 extension IamArnRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IamArnRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IamArnRequiredException {
         let reader = baseError.errorBodyReader
         var value = IamArnRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10854,7 +10854,7 @@ extension IamArnRequiredException {
 
 extension IamSessionArnAlreadyRegisteredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IamSessionArnAlreadyRegisteredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IamSessionArnAlreadyRegisteredException {
         let reader = baseError.errorBodyReader
         var value = IamSessionArnAlreadyRegisteredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10867,7 +10867,7 @@ extension IamSessionArnAlreadyRegisteredException {
 
 extension IamUserArnAlreadyRegisteredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IamUserArnAlreadyRegisteredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IamUserArnAlreadyRegisteredException {
         let reader = baseError.errorBodyReader
         var value = IamUserArnAlreadyRegisteredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10880,7 +10880,7 @@ extension IamUserArnAlreadyRegisteredException {
 
 extension IamUserArnRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IamUserArnRequiredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IamUserArnRequiredException {
         let reader = baseError.errorBodyReader
         var value = IamUserArnRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10893,7 +10893,7 @@ extension IamUserArnRequiredException {
 
 extension InstanceNameAlreadyRegisteredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InstanceNameAlreadyRegisteredException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InstanceNameAlreadyRegisteredException {
         let reader = baseError.errorBodyReader
         var value = InstanceNameAlreadyRegisteredException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10906,7 +10906,7 @@ extension InstanceNameAlreadyRegisteredException {
 
 extension InvalidIamSessionArnException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidIamSessionArnException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidIamSessionArnException {
         let reader = baseError.errorBodyReader
         var value = InvalidIamSessionArnException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10919,7 +10919,7 @@ extension InvalidIamSessionArnException {
 
 extension InvalidIamUserArnException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidIamUserArnException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidIamUserArnException {
         let reader = baseError.errorBodyReader
         var value = InvalidIamUserArnException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10932,7 +10932,7 @@ extension InvalidIamUserArnException {
 
 extension MultipleIamArnsProvidedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MultipleIamArnsProvidedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MultipleIamArnsProvidedException {
         let reader = baseError.errorBodyReader
         var value = MultipleIamArnsProvidedException()
         value.properties.message = try reader["message"].readIfPresent()

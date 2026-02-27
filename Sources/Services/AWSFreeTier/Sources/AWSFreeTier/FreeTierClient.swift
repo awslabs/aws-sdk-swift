@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -662,7 +662,7 @@ extension FreeTierClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAccountActivityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAccountActivityInput, GetAccountActivityOutput>(xAmzTarget: "AWSFreeTierService.GetAccountActivity"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAccountActivityInput, GetAccountActivityOutput>(overrides: ["X-Amz-Target": "AWSFreeTierService.GetAccountActivity"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetAccountActivityInput, GetAccountActivityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAccountActivityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAccountActivityInput, GetAccountActivityOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAccountActivityOutput>())
@@ -735,7 +735,7 @@ extension FreeTierClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAccountPlanStateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAccountPlanStateInput, GetAccountPlanStateOutput>(xAmzTarget: "AWSFreeTierService.GetAccountPlanState"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAccountPlanStateInput, GetAccountPlanStateOutput>(overrides: ["X-Amz-Target": "AWSFreeTierService.GetAccountPlanState"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetAccountPlanStateInput, GetAccountPlanStateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAccountPlanStateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAccountPlanStateInput, GetAccountPlanStateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAccountPlanStateOutput>())
@@ -806,7 +806,7 @@ extension FreeTierClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFreeTierUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetFreeTierUsageInput, GetFreeTierUsageOutput>(xAmzTarget: "AWSFreeTierService.GetFreeTierUsage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetFreeTierUsageInput, GetFreeTierUsageOutput>(overrides: ["X-Amz-Target": "AWSFreeTierService.GetFreeTierUsage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetFreeTierUsageInput, GetFreeTierUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFreeTierUsageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFreeTierUsageInput, GetFreeTierUsageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFreeTierUsageOutput>())
@@ -877,7 +877,7 @@ extension FreeTierClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAccountActivitiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAccountActivitiesInput, ListAccountActivitiesOutput>(xAmzTarget: "AWSFreeTierService.ListAccountActivities"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAccountActivitiesInput, ListAccountActivitiesOutput>(overrides: ["X-Amz-Target": "AWSFreeTierService.ListAccountActivities"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAccountActivitiesInput, ListAccountActivitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountActivitiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccountActivitiesInput, ListAccountActivitiesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccountActivitiesOutput>())
@@ -950,7 +950,7 @@ extension FreeTierClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpgradeAccountPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpgradeAccountPlanInput, UpgradeAccountPlanOutput>(xAmzTarget: "AWSFreeTierService.UpgradeAccountPlan"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpgradeAccountPlanInput, UpgradeAccountPlanOutput>(overrides: ["X-Amz-Target": "AWSFreeTierService.UpgradeAccountPlan"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpgradeAccountPlanInput, UpgradeAccountPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpgradeAccountPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpgradeAccountPlanInput, UpgradeAccountPlanOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpgradeAccountPlanOutput>())

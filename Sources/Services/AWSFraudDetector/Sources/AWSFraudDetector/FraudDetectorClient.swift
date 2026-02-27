@@ -48,7 +48,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -56,6 +55,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -661,7 +661,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreateVariableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchCreateVariableInput, BatchCreateVariableOutput>(xAmzTarget: "AWSHawksNestServiceFacade.BatchCreateVariable"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreateVariableInput, BatchCreateVariableOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.BatchCreateVariable"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchCreateVariableInput, BatchCreateVariableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCreateVariableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateVariableInput, BatchCreateVariableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateVariableOutput>())
@@ -733,7 +733,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetVariableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetVariableInput, BatchGetVariableOutput>(xAmzTarget: "AWSHawksNestServiceFacade.BatchGetVariable"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetVariableInput, BatchGetVariableOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.BatchGetVariable"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetVariableInput, BatchGetVariableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetVariableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetVariableInput, BatchGetVariableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetVariableOutput>())
@@ -806,7 +806,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelBatchImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelBatchImportJobInput, CancelBatchImportJobOutput>(xAmzTarget: "AWSHawksNestServiceFacade.CancelBatchImportJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelBatchImportJobInput, CancelBatchImportJobOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CancelBatchImportJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelBatchImportJobInput, CancelBatchImportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelBatchImportJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelBatchImportJobInput, CancelBatchImportJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelBatchImportJobOutput>())
@@ -879,7 +879,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelBatchPredictionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelBatchPredictionJobInput, CancelBatchPredictionJobOutput>(xAmzTarget: "AWSHawksNestServiceFacade.CancelBatchPredictionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelBatchPredictionJobInput, CancelBatchPredictionJobOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CancelBatchPredictionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelBatchPredictionJobInput, CancelBatchPredictionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelBatchPredictionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelBatchPredictionJobInput, CancelBatchPredictionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelBatchPredictionJobOutput>())
@@ -952,7 +952,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBatchImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateBatchImportJobInput, CreateBatchImportJobOutput>(xAmzTarget: "AWSHawksNestServiceFacade.CreateBatchImportJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBatchImportJobInput, CreateBatchImportJobOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CreateBatchImportJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateBatchImportJobInput, CreateBatchImportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBatchImportJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBatchImportJobInput, CreateBatchImportJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBatchImportJobOutput>())
@@ -1025,7 +1025,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBatchPredictionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateBatchPredictionJobInput, CreateBatchPredictionJobOutput>(xAmzTarget: "AWSHawksNestServiceFacade.CreateBatchPredictionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateBatchPredictionJobInput, CreateBatchPredictionJobOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CreateBatchPredictionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateBatchPredictionJobInput, CreateBatchPredictionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBatchPredictionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBatchPredictionJobInput, CreateBatchPredictionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBatchPredictionJobOutput>())
@@ -1098,7 +1098,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDetectorVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDetectorVersionInput, CreateDetectorVersionOutput>(xAmzTarget: "AWSHawksNestServiceFacade.CreateDetectorVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDetectorVersionInput, CreateDetectorVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CreateDetectorVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDetectorVersionInput, CreateDetectorVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDetectorVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDetectorVersionInput, CreateDetectorVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDetectorVersionOutput>())
@@ -1170,7 +1170,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateListInput, CreateListOutput>(xAmzTarget: "AWSHawksNestServiceFacade.CreateList"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateListInput, CreateListOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CreateList"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateListInput, CreateListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateListInput, CreateListOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateListOutput>())
@@ -1242,7 +1242,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateModelInput, CreateModelOutput>(xAmzTarget: "AWSHawksNestServiceFacade.CreateModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateModelInput, CreateModelOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CreateModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateModelInput, CreateModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateModelInput, CreateModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateModelOutput>())
@@ -1315,7 +1315,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateModelVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateModelVersionInput, CreateModelVersionOutput>(xAmzTarget: "AWSHawksNestServiceFacade.CreateModelVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateModelVersionInput, CreateModelVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CreateModelVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateModelVersionInput, CreateModelVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateModelVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateModelVersionInput, CreateModelVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateModelVersionOutput>())
@@ -1387,7 +1387,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRuleInput, CreateRuleOutput>(xAmzTarget: "AWSHawksNestServiceFacade.CreateRule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRuleInput, CreateRuleOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CreateRule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRuleInput, CreateRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRuleInput, CreateRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRuleOutput>())
@@ -1459,7 +1459,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVariableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateVariableInput, CreateVariableOutput>(xAmzTarget: "AWSHawksNestServiceFacade.CreateVariable"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVariableInput, CreateVariableOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.CreateVariable"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateVariableInput, CreateVariableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVariableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVariableInput, CreateVariableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVariableOutput>())
@@ -1531,7 +1531,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBatchImportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteBatchImportJobInput, DeleteBatchImportJobOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DeleteBatchImportJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBatchImportJobInput, DeleteBatchImportJobOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteBatchImportJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteBatchImportJobInput, DeleteBatchImportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBatchImportJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBatchImportJobInput, DeleteBatchImportJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBatchImportJobOutput>())
@@ -1603,7 +1603,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBatchPredictionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteBatchPredictionJobInput, DeleteBatchPredictionJobOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DeleteBatchPredictionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBatchPredictionJobInput, DeleteBatchPredictionJobOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteBatchPredictionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteBatchPredictionJobInput, DeleteBatchPredictionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBatchPredictionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBatchPredictionJobInput, DeleteBatchPredictionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBatchPredictionJobOutput>())
@@ -1676,7 +1676,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDetectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDetectorInput, DeleteDetectorOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DeleteDetector"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDetectorInput, DeleteDetectorOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteDetector"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDetectorInput, DeleteDetectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDetectorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDetectorInput, DeleteDetectorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDetectorOutput>())
@@ -1750,7 +1750,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDetectorVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDetectorVersionInput, DeleteDetectorVersionOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DeleteDetectorVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDetectorVersionInput, DeleteDetectorVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteDetectorVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDetectorVersionInput, DeleteDetectorVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDetectorVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDetectorVersionInput, DeleteDetectorVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDetectorVersionOutput>())
@@ -1823,7 +1823,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEntityTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteEntityTypeInput, DeleteEntityTypeOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DeleteEntityType"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEntityTypeInput, DeleteEntityTypeOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteEntityType"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteEntityTypeInput, DeleteEntityTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEntityTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEntityTypeInput, DeleteEntityTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEntityTypeOutput>())
@@ -1895,7 +1895,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEventOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteEventInput, DeleteEventOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DeleteEvent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEventInput, DeleteEventOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteEvent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteEventInput, DeleteEventOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEventInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEventInput, DeleteEventOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEventOutput>())
@@ -1968,7 +1968,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEventTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteEventTypeInput, DeleteEventTypeOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DeleteEventType"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEventTypeInput, DeleteEventTypeOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteEventType"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteEventTypeInput, DeleteEventTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEventTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEventTypeInput, DeleteEventTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEventTypeOutput>())
@@ -2042,7 +2042,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEventsByEventTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteEventsByEventTypeInput, DeleteEventsByEventTypeOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DeleteEventsByEventType"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEventsByEventTypeInput, DeleteEventsByEventTypeOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteEventsByEventType"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteEventsByEventTypeInput, DeleteEventsByEventTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEventsByEventTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEventsByEventTypeInput, DeleteEventsByEventTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEventsByEventTypeOutput>())
@@ -2115,7 +2115,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteExternalModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteExternalModelInput, DeleteExternalModelOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DeleteExternalModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteExternalModelInput, DeleteExternalModelOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteExternalModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteExternalModelInput, DeleteExternalModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteExternalModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteExternalModelInput, DeleteExternalModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteExternalModelOutput>())
@@ -2187,7 +2187,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLabelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteLabelInput, DeleteLabelOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DeleteLabel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLabelInput, DeleteLabelOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteLabel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteLabelInput, DeleteLabelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLabelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLabelInput, DeleteLabelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLabelOutput>())
@@ -2260,7 +2260,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteListInput, DeleteListOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DeleteList"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteListInput, DeleteListOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteList"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteListInput, DeleteListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteListInput, DeleteListOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteListOutput>())
@@ -2333,7 +2333,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteModelInput, DeleteModelOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DeleteModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteModelInput, DeleteModelOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteModelInput, DeleteModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteModelInput, DeleteModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteModelOutput>())
@@ -2406,7 +2406,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteModelVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteModelVersionInput, DeleteModelVersionOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DeleteModelVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteModelVersionInput, DeleteModelVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteModelVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteModelVersionInput, DeleteModelVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteModelVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteModelVersionInput, DeleteModelVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteModelVersionOutput>())
@@ -2479,7 +2479,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOutcomeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteOutcomeInput, DeleteOutcomeOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DeleteOutcome"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteOutcomeInput, DeleteOutcomeOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteOutcome"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteOutcomeInput, DeleteOutcomeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOutcomeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOutcomeInput, DeleteOutcomeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOutcomeOutput>())
@@ -2552,7 +2552,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRuleInput, DeleteRuleOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DeleteRule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRuleInput, DeleteRuleOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteRule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRuleInput, DeleteRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRuleInput, DeleteRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRuleOutput>())
@@ -2625,7 +2625,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVariableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteVariableInput, DeleteVariableOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DeleteVariable"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVariableInput, DeleteVariableOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DeleteVariable"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteVariableInput, DeleteVariableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVariableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVariableInput, DeleteVariableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVariableOutput>())
@@ -2698,7 +2698,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDetectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDetectorInput, DescribeDetectorOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DescribeDetector"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDetectorInput, DescribeDetectorOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DescribeDetector"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDetectorInput, DescribeDetectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDetectorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDetectorInput, DescribeDetectorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDetectorOutput>())
@@ -2771,7 +2771,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeModelVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeModelVersionsInput, DescribeModelVersionsOutput>(xAmzTarget: "AWSHawksNestServiceFacade.DescribeModelVersions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeModelVersionsInput, DescribeModelVersionsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.DescribeModelVersions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeModelVersionsInput, DescribeModelVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeModelVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeModelVersionsInput, DescribeModelVersionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeModelVersionsOutput>())
@@ -2844,7 +2844,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBatchImportJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBatchImportJobsInput, GetBatchImportJobsOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetBatchImportJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBatchImportJobsInput, GetBatchImportJobsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetBatchImportJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBatchImportJobsInput, GetBatchImportJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBatchImportJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBatchImportJobsInput, GetBatchImportJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBatchImportJobsOutput>())
@@ -2917,7 +2917,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBatchPredictionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetBatchPredictionJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetBatchPredictionJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBatchPredictionJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBatchPredictionJobsOutput>())
@@ -2990,7 +2990,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDeleteEventsByEventTypeStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDeleteEventsByEventTypeStatusInput, GetDeleteEventsByEventTypeStatusOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetDeleteEventsByEventTypeStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDeleteEventsByEventTypeStatusInput, GetDeleteEventsByEventTypeStatusOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetDeleteEventsByEventTypeStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDeleteEventsByEventTypeStatusInput, GetDeleteEventsByEventTypeStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDeleteEventsByEventTypeStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeleteEventsByEventTypeStatusInput, GetDeleteEventsByEventTypeStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeleteEventsByEventTypeStatusOutput>())
@@ -3063,7 +3063,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDetectorVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDetectorVersionInput, GetDetectorVersionOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetDetectorVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDetectorVersionInput, GetDetectorVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetDetectorVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDetectorVersionInput, GetDetectorVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDetectorVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDetectorVersionInput, GetDetectorVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDetectorVersionOutput>())
@@ -3136,7 +3136,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDetectorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDetectorsInput, GetDetectorsOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetDetectors"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDetectorsInput, GetDetectorsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetDetectors"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDetectorsInput, GetDetectorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDetectorsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDetectorsInput, GetDetectorsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDetectorsOutput>())
@@ -3209,7 +3209,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEntityTypesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetEntityTypesInput, GetEntityTypesOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetEntityTypes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEntityTypesInput, GetEntityTypesOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetEntityTypes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetEntityTypesInput, GetEntityTypesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEntityTypesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEntityTypesInput, GetEntityTypesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEntityTypesOutput>())
@@ -3282,7 +3282,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEventOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetEventInput, GetEventOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetEvent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEventInput, GetEventOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetEvent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetEventInput, GetEventOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEventInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEventInput, GetEventOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEventOutput>())
@@ -3357,7 +3357,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEventPredictionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetEventPredictionInput, GetEventPredictionOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetEventPrediction"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEventPredictionInput, GetEventPredictionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetEventPrediction"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetEventPredictionInput, GetEventPredictionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEventPredictionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEventPredictionInput, GetEventPredictionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEventPredictionOutput>())
@@ -3430,7 +3430,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEventPredictionMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetEventPredictionMetadataInput, GetEventPredictionMetadataOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetEventPredictionMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEventPredictionMetadataInput, GetEventPredictionMetadataOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetEventPredictionMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetEventPredictionMetadataInput, GetEventPredictionMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEventPredictionMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEventPredictionMetadataInput, GetEventPredictionMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEventPredictionMetadataOutput>())
@@ -3503,7 +3503,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEventTypesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetEventTypesInput, GetEventTypesOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetEventTypes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEventTypesInput, GetEventTypesOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetEventTypes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetEventTypesInput, GetEventTypesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEventTypesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEventTypesInput, GetEventTypesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEventTypesOutput>())
@@ -3576,7 +3576,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetExternalModelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetExternalModelsInput, GetExternalModelsOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetExternalModels"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetExternalModelsInput, GetExternalModelsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetExternalModels"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetExternalModelsInput, GetExternalModelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetExternalModelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetExternalModelsInput, GetExternalModelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetExternalModelsOutput>())
@@ -3648,7 +3648,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetKMSEncryptionKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetKMSEncryptionKeyInput, GetKMSEncryptionKeyOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetKMSEncryptionKey"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetKMSEncryptionKeyInput, GetKMSEncryptionKeyOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetKMSEncryptionKey"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetKMSEncryptionKeyInput, GetKMSEncryptionKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetKMSEncryptionKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetKMSEncryptionKeyInput, GetKMSEncryptionKeyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetKMSEncryptionKeyOutput>())
@@ -3721,7 +3721,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLabelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetLabelsInput, GetLabelsOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetLabels"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLabelsInput, GetLabelsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetLabels"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetLabelsInput, GetLabelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLabelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLabelsInput, GetLabelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLabelsOutput>())
@@ -3794,7 +3794,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetListElementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetListElementsInput, GetListElementsOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetListElements"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetListElementsInput, GetListElementsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetListElements"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetListElementsInput, GetListElementsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetListElementsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetListElementsInput, GetListElementsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetListElementsOutput>())
@@ -3867,7 +3867,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetListsMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetListsMetadataInput, GetListsMetadataOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetListsMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetListsMetadataInput, GetListsMetadataOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetListsMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetListsMetadataInput, GetListsMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetListsMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetListsMetadataInput, GetListsMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetListsMetadataOutput>())
@@ -3940,7 +3940,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetModelVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetModelVersionInput, GetModelVersionOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetModelVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetModelVersionInput, GetModelVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetModelVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetModelVersionInput, GetModelVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetModelVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetModelVersionInput, GetModelVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetModelVersionOutput>())
@@ -4013,7 +4013,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetModelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetModelsInput, GetModelsOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetModels"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetModelsInput, GetModelsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetModels"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetModelsInput, GetModelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetModelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetModelsInput, GetModelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetModelsOutput>())
@@ -4086,7 +4086,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOutcomesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetOutcomesInput, GetOutcomesOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetOutcomes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOutcomesInput, GetOutcomesOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetOutcomes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetOutcomesInput, GetOutcomesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOutcomesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOutcomesInput, GetOutcomesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOutcomesOutput>())
@@ -4159,7 +4159,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRulesInput, GetRulesOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetRules"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRulesInput, GetRulesOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetRules"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRulesInput, GetRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRulesInput, GetRulesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRulesOutput>())
@@ -4232,7 +4232,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetVariablesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetVariablesInput, GetVariablesOutput>(xAmzTarget: "AWSHawksNestServiceFacade.GetVariables"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetVariablesInput, GetVariablesOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.GetVariables"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetVariablesInput, GetVariablesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetVariablesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVariablesInput, GetVariablesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetVariablesOutput>())
@@ -4304,7 +4304,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEventPredictionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEventPredictionsInput, ListEventPredictionsOutput>(xAmzTarget: "AWSHawksNestServiceFacade.ListEventPredictions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEventPredictionsInput, ListEventPredictionsOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.ListEventPredictions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEventPredictionsInput, ListEventPredictionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEventPredictionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEventPredictionsInput, ListEventPredictionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEventPredictionsOutput>())
@@ -4376,7 +4376,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSHawksNestServiceFacade.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -4449,7 +4449,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutDetectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutDetectorInput, PutDetectorOutput>(xAmzTarget: "AWSHawksNestServiceFacade.PutDetector"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutDetectorInput, PutDetectorOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.PutDetector"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutDetectorInput, PutDetectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutDetectorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutDetectorInput, PutDetectorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDetectorOutput>())
@@ -4522,7 +4522,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutEntityTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutEntityTypeInput, PutEntityTypeOutput>(xAmzTarget: "AWSHawksNestServiceFacade.PutEntityType"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutEntityTypeInput, PutEntityTypeOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.PutEntityType"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutEntityTypeInput, PutEntityTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutEntityTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutEntityTypeInput, PutEntityTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutEntityTypeOutput>())
@@ -4595,7 +4595,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutEventTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutEventTypeInput, PutEventTypeOutput>(xAmzTarget: "AWSHawksNestServiceFacade.PutEventType"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutEventTypeInput, PutEventTypeOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.PutEventType"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutEventTypeInput, PutEventTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutEventTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutEventTypeInput, PutEventTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutEventTypeOutput>())
@@ -4668,7 +4668,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutExternalModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutExternalModelInput, PutExternalModelOutput>(xAmzTarget: "AWSHawksNestServiceFacade.PutExternalModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutExternalModelInput, PutExternalModelOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.PutExternalModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutExternalModelInput, PutExternalModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutExternalModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutExternalModelInput, PutExternalModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutExternalModelOutput>())
@@ -4742,7 +4742,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutKMSEncryptionKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutKMSEncryptionKeyInput, PutKMSEncryptionKeyOutput>(xAmzTarget: "AWSHawksNestServiceFacade.PutKMSEncryptionKey"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutKMSEncryptionKeyInput, PutKMSEncryptionKeyOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.PutKMSEncryptionKey"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutKMSEncryptionKeyInput, PutKMSEncryptionKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutKMSEncryptionKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutKMSEncryptionKeyInput, PutKMSEncryptionKeyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutKMSEncryptionKeyOutput>())
@@ -4815,7 +4815,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutLabelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutLabelInput, PutLabelOutput>(xAmzTarget: "AWSHawksNestServiceFacade.PutLabel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutLabelInput, PutLabelOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.PutLabel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutLabelInput, PutLabelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutLabelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLabelInput, PutLabelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutLabelOutput>())
@@ -4888,7 +4888,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutOutcomeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutOutcomeInput, PutOutcomeOutput>(xAmzTarget: "AWSHawksNestServiceFacade.PutOutcome"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutOutcomeInput, PutOutcomeOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.PutOutcome"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutOutcomeInput, PutOutcomeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutOutcomeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutOutcomeInput, PutOutcomeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutOutcomeOutput>())
@@ -4962,7 +4962,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendEventOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendEventInput, SendEventOutput>(xAmzTarget: "AWSHawksNestServiceFacade.SendEvent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendEventInput, SendEventOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.SendEvent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SendEventInput, SendEventOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendEventInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendEventInput, SendEventOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendEventOutput>())
@@ -5034,7 +5034,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSHawksNestServiceFacade.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -5106,7 +5106,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSHawksNestServiceFacade.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -5180,7 +5180,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDetectorVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDetectorVersionInput, UpdateDetectorVersionOutput>(xAmzTarget: "AWSHawksNestServiceFacade.UpdateDetectorVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDetectorVersionInput, UpdateDetectorVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateDetectorVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDetectorVersionInput, UpdateDetectorVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDetectorVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDetectorVersionInput, UpdateDetectorVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDetectorVersionOutput>())
@@ -5253,7 +5253,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDetectorVersionMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDetectorVersionMetadataInput, UpdateDetectorVersionMetadataOutput>(xAmzTarget: "AWSHawksNestServiceFacade.UpdateDetectorVersionMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDetectorVersionMetadataInput, UpdateDetectorVersionMetadataOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateDetectorVersionMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDetectorVersionMetadataInput, UpdateDetectorVersionMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDetectorVersionMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDetectorVersionMetadataInput, UpdateDetectorVersionMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDetectorVersionMetadataOutput>())
@@ -5327,7 +5327,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDetectorVersionStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDetectorVersionStatusInput, UpdateDetectorVersionStatusOutput>(xAmzTarget: "AWSHawksNestServiceFacade.UpdateDetectorVersionStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDetectorVersionStatusInput, UpdateDetectorVersionStatusOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateDetectorVersionStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDetectorVersionStatusInput, UpdateDetectorVersionStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDetectorVersionStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDetectorVersionStatusInput, UpdateDetectorVersionStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDetectorVersionStatusOutput>())
@@ -5401,7 +5401,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEventLabelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateEventLabelInput, UpdateEventLabelOutput>(xAmzTarget: "AWSHawksNestServiceFacade.UpdateEventLabel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEventLabelInput, UpdateEventLabelOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateEventLabel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateEventLabelInput, UpdateEventLabelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEventLabelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEventLabelInput, UpdateEventLabelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEventLabelOutput>())
@@ -5475,7 +5475,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateListInput, UpdateListOutput>(xAmzTarget: "AWSHawksNestServiceFacade.UpdateList"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateListInput, UpdateListOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateList"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateListInput, UpdateListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateListInput, UpdateListOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateListOutput>())
@@ -5549,7 +5549,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateModelInput, UpdateModelOutput>(xAmzTarget: "AWSHawksNestServiceFacade.UpdateModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateModelInput, UpdateModelOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateModelInput, UpdateModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateModelInput, UpdateModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateModelOutput>())
@@ -5623,7 +5623,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateModelVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateModelVersionInput, UpdateModelVersionOutput>(xAmzTarget: "AWSHawksNestServiceFacade.UpdateModelVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateModelVersionInput, UpdateModelVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateModelVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateModelVersionInput, UpdateModelVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateModelVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateModelVersionInput, UpdateModelVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateModelVersionOutput>())
@@ -5703,7 +5703,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateModelVersionStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateModelVersionStatusInput, UpdateModelVersionStatusOutput>(xAmzTarget: "AWSHawksNestServiceFacade.UpdateModelVersionStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateModelVersionStatusInput, UpdateModelVersionStatusOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateModelVersionStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateModelVersionStatusInput, UpdateModelVersionStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateModelVersionStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateModelVersionStatusInput, UpdateModelVersionStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateModelVersionStatusOutput>())
@@ -5777,7 +5777,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRuleMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateRuleMetadataInput, UpdateRuleMetadataOutput>(xAmzTarget: "AWSHawksNestServiceFacade.UpdateRuleMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRuleMetadataInput, UpdateRuleMetadataOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateRuleMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateRuleMetadataInput, UpdateRuleMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRuleMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuleMetadataInput, UpdateRuleMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRuleMetadataOutput>())
@@ -5851,7 +5851,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRuleVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateRuleVersionInput, UpdateRuleVersionOutput>(xAmzTarget: "AWSHawksNestServiceFacade.UpdateRuleVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRuleVersionInput, UpdateRuleVersionOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateRuleVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateRuleVersionInput, UpdateRuleVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRuleVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuleVersionInput, UpdateRuleVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRuleVersionOutput>())
@@ -5925,7 +5925,7 @@ extension FraudDetectorClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateVariableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateVariableInput, UpdateVariableOutput>(xAmzTarget: "AWSHawksNestServiceFacade.UpdateVariable"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateVariableInput, UpdateVariableOutput>(overrides: ["X-Amz-Target": "AWSHawksNestServiceFacade.UpdateVariable"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateVariableInput, UpdateVariableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateVariableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateVariableInput, UpdateVariableOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateVariableOutput>())

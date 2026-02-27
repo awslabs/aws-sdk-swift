@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -5987,7 +5987,7 @@ enum BatchUpdateClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -6002,7 +6002,7 @@ enum CopySnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6023,7 +6023,7 @@ enum CreateACLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ACLAlreadyExists": return try ACLAlreadyExistsFault.makeError(baseError: baseError)
@@ -6043,7 +6043,7 @@ enum CreateClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ACLNotFound": return try ACLNotFoundFault.makeError(baseError: baseError)
@@ -6074,7 +6074,7 @@ enum CreateMultiRegionClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClusterQuotaForCustomerExceeded": return try ClusterQuotaForCustomerExceededFault.makeError(baseError: baseError)
@@ -6093,7 +6093,7 @@ enum CreateParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6113,7 +6113,7 @@ enum CreateSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
@@ -6134,7 +6134,7 @@ enum CreateSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
@@ -6154,7 +6154,7 @@ enum CreateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DuplicateUserName": return try DuplicateUserNameFault.makeError(baseError: baseError)
@@ -6173,7 +6173,7 @@ enum DeleteACLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ACLNotFound": return try ACLNotFoundFault.makeError(baseError: baseError)
@@ -6189,7 +6189,7 @@ enum DeleteClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
@@ -6208,7 +6208,7 @@ enum DeleteMultiRegionClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidMultiRegionClusterState": return try InvalidMultiRegionClusterStateFault.makeError(baseError: baseError)
@@ -6224,7 +6224,7 @@ enum DeleteParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6242,7 +6242,7 @@ enum DeleteSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6260,7 +6260,7 @@ enum DeleteSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceLinkedRoleNotFoundFault": return try ServiceLinkedRoleNotFoundFault.makeError(baseError: baseError)
@@ -6276,7 +6276,7 @@ enum DeleteUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
@@ -6292,7 +6292,7 @@ enum DescribeACLsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ACLNotFound": return try ACLNotFoundFault.makeError(baseError: baseError)
@@ -6307,7 +6307,7 @@ enum DescribeClustersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
@@ -6324,7 +6324,7 @@ enum DescribeEngineVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6340,7 +6340,7 @@ enum DescribeEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6356,7 +6356,7 @@ enum DescribeMultiRegionClustersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
@@ -6373,7 +6373,7 @@ enum DescribeMultiRegionParameterGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6390,7 +6390,7 @@ enum DescribeMultiRegionParametersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6407,7 +6407,7 @@ enum DescribeParameterGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6424,7 +6424,7 @@ enum DescribeParametersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6441,7 +6441,7 @@ enum DescribeReservedNodesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6458,7 +6458,7 @@ enum DescribeReservedNodesOfferingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6475,7 +6475,7 @@ enum DescribeServiceUpdatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6490,7 +6490,7 @@ enum DescribeSnapshotsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6507,7 +6507,7 @@ enum DescribeSubnetGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ServiceLinkedRoleNotFoundFault": return try ServiceLinkedRoleNotFoundFault.makeError(baseError: baseError)
@@ -6522,7 +6522,7 @@ enum DescribeUsersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6537,7 +6537,7 @@ enum FailoverShardOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "APICallRateForCustomerExceeded": return try APICallRateForCustomerExceededFault.makeError(baseError: baseError)
@@ -6558,7 +6558,7 @@ enum ListAllowedMultiRegionClusterUpdatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6574,7 +6574,7 @@ enum ListAllowedNodeTypeUpdatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
@@ -6591,7 +6591,7 @@ enum ListTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ACLNotFound": return try ACLNotFoundFault.makeError(baseError: baseError)
@@ -6615,7 +6615,7 @@ enum PurchaseReservedNodesOfferingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6635,7 +6635,7 @@ enum ResetParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6653,7 +6653,7 @@ enum TagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ACLNotFound": return try ACLNotFoundFault.makeError(baseError: baseError)
@@ -6679,7 +6679,7 @@ enum UntagResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ACLNotFound": return try ACLNotFoundFault.makeError(baseError: baseError)
@@ -6705,7 +6705,7 @@ enum UpdateACLOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ACLNotFound": return try ACLNotFoundFault.makeError(baseError: baseError)
@@ -6725,7 +6725,7 @@ enum UpdateClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ACLNotFound": return try ACLNotFoundFault.makeError(baseError: baseError)
@@ -6754,7 +6754,7 @@ enum UpdateMultiRegionClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidMultiRegionClusterState": return try InvalidMultiRegionClusterStateFault.makeError(baseError: baseError)
@@ -6772,7 +6772,7 @@ enum UpdateParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6790,7 +6790,7 @@ enum UpdateSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
@@ -6809,7 +6809,7 @@ enum UpdateUserOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -6823,7 +6823,7 @@ enum UpdateUserOutputError {
 
 extension InvalidParameterValueException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterValueException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidParameterValueException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterValueException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6836,7 +6836,7 @@ extension InvalidParameterValueException {
 
 extension ServiceUpdateNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUpdateNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceUpdateNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ServiceUpdateNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6849,7 +6849,7 @@ extension ServiceUpdateNotFoundFault {
 
 extension InvalidParameterCombinationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterCombinationException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidParameterCombinationException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterCombinationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6862,7 +6862,7 @@ extension InvalidParameterCombinationException {
 
 extension InvalidSnapshotStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSnapshotStateFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidSnapshotStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidSnapshotStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6875,7 +6875,7 @@ extension InvalidSnapshotStateFault {
 
 extension ServiceLinkedRoleNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceLinkedRoleNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ServiceLinkedRoleNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ServiceLinkedRoleNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6888,7 +6888,7 @@ extension ServiceLinkedRoleNotFoundFault {
 
 extension SnapshotAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SnapshotAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SnapshotAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = SnapshotAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6901,7 +6901,7 @@ extension SnapshotAlreadyExistsFault {
 
 extension SnapshotNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SnapshotNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SnapshotNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = SnapshotNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6914,7 +6914,7 @@ extension SnapshotNotFoundFault {
 
 extension SnapshotQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SnapshotQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SnapshotQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = SnapshotQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6927,7 +6927,7 @@ extension SnapshotQuotaExceededFault {
 
 extension TagQuotaPerResourceExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagQuotaPerResourceExceeded {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TagQuotaPerResourceExceeded {
         let reader = baseError.errorBodyReader
         var value = TagQuotaPerResourceExceeded()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6940,7 +6940,7 @@ extension TagQuotaPerResourceExceeded {
 
 extension ACLAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ACLAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ACLAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ACLAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6953,7 +6953,7 @@ extension ACLAlreadyExistsFault {
 
 extension ACLQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ACLQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ACLQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = ACLQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6966,7 +6966,7 @@ extension ACLQuotaExceededFault {
 
 extension DefaultUserRequired {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DefaultUserRequired {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DefaultUserRequired {
         let reader = baseError.errorBodyReader
         var value = DefaultUserRequired()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6979,7 +6979,7 @@ extension DefaultUserRequired {
 
 extension DuplicateUserNameFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateUserNameFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DuplicateUserNameFault {
         let reader = baseError.errorBodyReader
         var value = DuplicateUserNameFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -6992,7 +6992,7 @@ extension DuplicateUserNameFault {
 
 extension UserNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UserNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = UserNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7005,7 +7005,7 @@ extension UserNotFoundFault {
 
 extension ACLNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ACLNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ACLNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ACLNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7018,7 +7018,7 @@ extension ACLNotFoundFault {
 
 extension ClusterAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClusterAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ClusterAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ClusterAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7031,7 +7031,7 @@ extension ClusterAlreadyExistsFault {
 
 extension ClusterQuotaForCustomerExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClusterQuotaForCustomerExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ClusterQuotaForCustomerExceededFault {
         let reader = baseError.errorBodyReader
         var value = ClusterQuotaForCustomerExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7044,7 +7044,7 @@ extension ClusterQuotaForCustomerExceededFault {
 
 extension InsufficientClusterCapacityFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientClusterCapacityFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InsufficientClusterCapacityFault {
         let reader = baseError.errorBodyReader
         var value = InsufficientClusterCapacityFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7057,7 +7057,7 @@ extension InsufficientClusterCapacityFault {
 
 extension InvalidACLStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidACLStateFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidACLStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidACLStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7070,7 +7070,7 @@ extension InvalidACLStateFault {
 
 extension InvalidCredentialsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCredentialsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidCredentialsException {
         let reader = baseError.errorBodyReader
         var value = InvalidCredentialsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7083,7 +7083,7 @@ extension InvalidCredentialsException {
 
 extension InvalidMultiRegionClusterStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidMultiRegionClusterStateFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidMultiRegionClusterStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidMultiRegionClusterStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7096,7 +7096,7 @@ extension InvalidMultiRegionClusterStateFault {
 
 extension InvalidVPCNetworkStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidVPCNetworkStateFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidVPCNetworkStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidVPCNetworkStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7109,7 +7109,7 @@ extension InvalidVPCNetworkStateFault {
 
 extension MultiRegionClusterNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MultiRegionClusterNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MultiRegionClusterNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = MultiRegionClusterNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7122,7 +7122,7 @@ extension MultiRegionClusterNotFoundFault {
 
 extension NodeQuotaForClusterExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NodeQuotaForClusterExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NodeQuotaForClusterExceededFault {
         let reader = baseError.errorBodyReader
         var value = NodeQuotaForClusterExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7135,7 +7135,7 @@ extension NodeQuotaForClusterExceededFault {
 
 extension NodeQuotaForCustomerExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NodeQuotaForCustomerExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NodeQuotaForCustomerExceededFault {
         let reader = baseError.errorBodyReader
         var value = NodeQuotaForCustomerExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7148,7 +7148,7 @@ extension NodeQuotaForCustomerExceededFault {
 
 extension ParameterGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ParameterGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ParameterGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ParameterGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7161,7 +7161,7 @@ extension ParameterGroupNotFoundFault {
 
 extension ShardsPerClusterQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ShardsPerClusterQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ShardsPerClusterQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = ShardsPerClusterQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7174,7 +7174,7 @@ extension ShardsPerClusterQuotaExceededFault {
 
 extension SubnetGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SubnetGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = SubnetGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7187,7 +7187,7 @@ extension SubnetGroupNotFoundFault {
 
 extension MultiRegionClusterAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MultiRegionClusterAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MultiRegionClusterAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = MultiRegionClusterAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7200,7 +7200,7 @@ extension MultiRegionClusterAlreadyExistsFault {
 
 extension MultiRegionParameterGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MultiRegionParameterGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> MultiRegionParameterGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = MultiRegionParameterGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7213,7 +7213,7 @@ extension MultiRegionParameterGroupNotFoundFault {
 
 extension InvalidParameterGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidParameterGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7226,7 +7226,7 @@ extension InvalidParameterGroupStateFault {
 
 extension ParameterGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ParameterGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ParameterGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ParameterGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7239,7 +7239,7 @@ extension ParameterGroupAlreadyExistsFault {
 
 extension ParameterGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ParameterGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ParameterGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = ParameterGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7252,7 +7252,7 @@ extension ParameterGroupQuotaExceededFault {
 
 extension ClusterNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClusterNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ClusterNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ClusterNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7265,7 +7265,7 @@ extension ClusterNotFoundFault {
 
 extension InvalidClusterStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidClusterStateFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidClusterStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidClusterStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7278,7 +7278,7 @@ extension InvalidClusterStateFault {
 
 extension InvalidSubnet {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSubnet {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidSubnet {
         let reader = baseError.errorBodyReader
         var value = InvalidSubnet()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7291,7 +7291,7 @@ extension InvalidSubnet {
 
 extension SubnetGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SubnetGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = SubnetGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7304,7 +7304,7 @@ extension SubnetGroupAlreadyExistsFault {
 
 extension SubnetGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SubnetGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = SubnetGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7317,7 +7317,7 @@ extension SubnetGroupQuotaExceededFault {
 
 extension SubnetNotAllowedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetNotAllowedFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SubnetNotAllowedFault {
         let reader = baseError.errorBodyReader
         var value = SubnetNotAllowedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7330,7 +7330,7 @@ extension SubnetNotAllowedFault {
 
 extension SubnetQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SubnetQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = SubnetQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7343,7 +7343,7 @@ extension SubnetQuotaExceededFault {
 
 extension UserAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UserAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = UserAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7356,7 +7356,7 @@ extension UserAlreadyExistsFault {
 
 extension UserQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> UserQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = UserQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7369,7 +7369,7 @@ extension UserQuotaExceededFault {
 
 extension SubnetGroupInUseFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetGroupInUseFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SubnetGroupInUseFault {
         let reader = baseError.errorBodyReader
         var value = SubnetGroupInUseFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7382,7 +7382,7 @@ extension SubnetGroupInUseFault {
 
 extension InvalidUserStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidUserStateFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidUserStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidUserStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7395,7 +7395,7 @@ extension InvalidUserStateFault {
 
 extension ReservedNodeNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReservedNodeNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ReservedNodeNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ReservedNodeNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7408,7 +7408,7 @@ extension ReservedNodeNotFoundFault {
 
 extension ReservedNodesOfferingNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReservedNodesOfferingNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ReservedNodesOfferingNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ReservedNodesOfferingNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7421,7 +7421,7 @@ extension ReservedNodesOfferingNotFoundFault {
 
 extension APICallRateForCustomerExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> APICallRateForCustomerExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> APICallRateForCustomerExceededFault {
         let reader = baseError.errorBodyReader
         var value = APICallRateForCustomerExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7434,7 +7434,7 @@ extension APICallRateForCustomerExceededFault {
 
 extension InvalidKMSKeyFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidKMSKeyFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidKMSKeyFault {
         let reader = baseError.errorBodyReader
         var value = InvalidKMSKeyFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7447,7 +7447,7 @@ extension InvalidKMSKeyFault {
 
 extension ShardNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ShardNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ShardNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ShardNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7460,7 +7460,7 @@ extension ShardNotFoundFault {
 
 extension TestFailoverNotAvailableFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TestFailoverNotAvailableFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TestFailoverNotAvailableFault {
         let reader = baseError.errorBodyReader
         var value = TestFailoverNotAvailableFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7473,7 +7473,7 @@ extension TestFailoverNotAvailableFault {
 
 extension InvalidARNFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidARNFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidARNFault {
         let reader = baseError.errorBodyReader
         var value = InvalidARNFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7486,7 +7486,7 @@ extension InvalidARNFault {
 
 extension ReservedNodeAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReservedNodeAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ReservedNodeAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ReservedNodeAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7499,7 +7499,7 @@ extension ReservedNodeAlreadyExistsFault {
 
 extension ReservedNodeQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReservedNodeQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ReservedNodeQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = ReservedNodeQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7512,7 +7512,7 @@ extension ReservedNodeQuotaExceededFault {
 
 extension TagNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TagNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = TagNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7525,7 +7525,7 @@ extension TagNotFoundFault {
 
 extension InvalidNodeStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNodeStateFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidNodeStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidNodeStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7538,7 +7538,7 @@ extension InvalidNodeStateFault {
 
 extension NoOperationFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoOperationFault {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> NoOperationFault {
         let reader = baseError.errorBodyReader
         var value = NoOperationFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7551,7 +7551,7 @@ extension NoOperationFault {
 
 extension SubnetInUse {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SubnetInUse {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> SubnetInUse {
         let reader = baseError.errorBodyReader
         var value = SubnetInUse()
         value.properties.message = try reader["message"].readIfPresent()

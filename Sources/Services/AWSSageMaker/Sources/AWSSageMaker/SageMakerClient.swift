@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -661,7 +661,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AddAssociationInput, AddAssociationOutput>(xAmzTarget: "SageMaker.AddAssociation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddAssociationInput, AddAssociationOutput>(overrides: ["X-Amz-Target": "SageMaker.AddAssociation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AddAssociationInput, AddAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddAssociationInput, AddAssociationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddAssociationOutput>())
@@ -725,7 +725,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AddTagsInput, AddTagsOutput>(xAmzTarget: "SageMaker.AddTags"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddTagsInput, AddTagsOutput>(overrides: ["X-Amz-Target": "SageMaker.AddTags"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AddTagsInput, AddTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddTagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddTagsInput, AddTagsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddTagsOutput>())
@@ -795,7 +795,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateTrialComponentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateTrialComponentInput, AssociateTrialComponentOutput>(xAmzTarget: "SageMaker.AssociateTrialComponent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateTrialComponentInput, AssociateTrialComponentOutput>(overrides: ["X-Amz-Target": "SageMaker.AssociateTrialComponent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateTrialComponentInput, AssociateTrialComponentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateTrialComponentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateTrialComponentInput, AssociateTrialComponentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateTrialComponentOutput>())
@@ -864,7 +864,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AttachClusterNodeVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput>(xAmzTarget: "SageMaker.AttachClusterNodeVolume"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput>(overrides: ["X-Amz-Target": "SageMaker.AttachClusterNodeVolume"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AttachClusterNodeVolumeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AttachClusterNodeVolumeOutput>())
@@ -935,7 +935,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchAddClusterNodesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchAddClusterNodesInput, BatchAddClusterNodesOutput>(xAmzTarget: "SageMaker.BatchAddClusterNodes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchAddClusterNodesInput, BatchAddClusterNodesOutput>(overrides: ["X-Amz-Target": "SageMaker.BatchAddClusterNodes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchAddClusterNodesInput, BatchAddClusterNodesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchAddClusterNodesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchAddClusterNodesInput, BatchAddClusterNodesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchAddClusterNodesOutput>())
@@ -1008,7 +1008,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteClusterNodesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteClusterNodesInput, BatchDeleteClusterNodesOutput>(xAmzTarget: "SageMaker.BatchDeleteClusterNodes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteClusterNodesInput, BatchDeleteClusterNodesOutput>(overrides: ["X-Amz-Target": "SageMaker.BatchDeleteClusterNodes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteClusterNodesInput, BatchDeleteClusterNodesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteClusterNodesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteClusterNodesInput, BatchDeleteClusterNodesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteClusterNodesOutput>())
@@ -1072,7 +1072,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDescribeModelPackageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchDescribeModelPackageInput, BatchDescribeModelPackageOutput>(xAmzTarget: "SageMaker.BatchDescribeModelPackage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDescribeModelPackageInput, BatchDescribeModelPackageOutput>(overrides: ["X-Amz-Target": "SageMaker.BatchDescribeModelPackage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchDescribeModelPackageInput, BatchDescribeModelPackageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDescribeModelPackageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDescribeModelPackageInput, BatchDescribeModelPackageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDescribeModelPackageOutput>())
@@ -1147,7 +1147,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchRebootClusterNodesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>(xAmzTarget: "SageMaker.BatchRebootClusterNodes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>(overrides: ["X-Amz-Target": "SageMaker.BatchRebootClusterNodes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchRebootClusterNodesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchRebootClusterNodesOutput>())
@@ -1224,7 +1224,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchReplaceClusterNodesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>(xAmzTarget: "SageMaker.BatchReplaceClusterNodes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>(overrides: ["X-Amz-Target": "SageMaker.BatchReplaceClusterNodes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchReplaceClusterNodesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchReplaceClusterNodesOutput>())
@@ -1293,7 +1293,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateActionInput, CreateActionOutput>(xAmzTarget: "SageMaker.CreateAction"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateActionInput, CreateActionOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateAction"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateActionInput, CreateActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateActionInput, CreateActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateActionOutput>())
@@ -1357,7 +1357,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAlgorithmOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateAlgorithmInput, CreateAlgorithmOutput>(xAmzTarget: "SageMaker.CreateAlgorithm"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAlgorithmInput, CreateAlgorithmOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateAlgorithm"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateAlgorithmInput, CreateAlgorithmOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAlgorithmInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAlgorithmInput, CreateAlgorithmOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAlgorithmOutput>())
@@ -1427,7 +1427,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateAppInput, CreateAppOutput>(xAmzTarget: "SageMaker.CreateApp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAppInput, CreateAppOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateApp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateAppInput, CreateAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAppInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAppInput, CreateAppOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAppOutput>())
@@ -1496,7 +1496,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAppImageConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateAppImageConfigInput, CreateAppImageConfigOutput>(xAmzTarget: "SageMaker.CreateAppImageConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAppImageConfigInput, CreateAppImageConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateAppImageConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateAppImageConfigInput, CreateAppImageConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAppImageConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAppImageConfigInput, CreateAppImageConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAppImageConfigOutput>())
@@ -1565,7 +1565,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateArtifactOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateArtifactInput, CreateArtifactOutput>(xAmzTarget: "SageMaker.CreateArtifact"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateArtifactInput, CreateArtifactOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateArtifact"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateArtifactInput, CreateArtifactOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateArtifactInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateArtifactInput, CreateArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateArtifactOutput>())
@@ -1635,7 +1635,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAutoMLJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateAutoMLJobInput, CreateAutoMLJobOutput>(xAmzTarget: "SageMaker.CreateAutoMLJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAutoMLJobInput, CreateAutoMLJobOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateAutoMLJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateAutoMLJobInput, CreateAutoMLJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAutoMLJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAutoMLJobInput, CreateAutoMLJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAutoMLJobOutput>())
@@ -1705,7 +1705,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAutoMLJobV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateAutoMLJobV2Input, CreateAutoMLJobV2Output>(xAmzTarget: "SageMaker.CreateAutoMLJobV2"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAutoMLJobV2Input, CreateAutoMLJobV2Output>(overrides: ["X-Amz-Target": "SageMaker.CreateAutoMLJobV2"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateAutoMLJobV2Input, CreateAutoMLJobV2Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAutoMLJobV2Input.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAutoMLJobV2Input, CreateAutoMLJobV2Output>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAutoMLJobV2Output>())
@@ -1775,7 +1775,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateClusterInput, CreateClusterOutput>(xAmzTarget: "SageMaker.CreateCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateClusterInput, CreateClusterOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateClusterInput, CreateClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateClusterInput, CreateClusterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateClusterOutput>())
@@ -1845,7 +1845,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateClusterSchedulerConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateClusterSchedulerConfigInput, CreateClusterSchedulerConfigOutput>(xAmzTarget: "SageMaker.CreateClusterSchedulerConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateClusterSchedulerConfigInput, CreateClusterSchedulerConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateClusterSchedulerConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateClusterSchedulerConfigInput, CreateClusterSchedulerConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateClusterSchedulerConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateClusterSchedulerConfigInput, CreateClusterSchedulerConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateClusterSchedulerConfigOutput>())
@@ -1909,7 +1909,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCodeRepositoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCodeRepositoryInput, CreateCodeRepositoryOutput>(xAmzTarget: "SageMaker.CreateCodeRepository"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCodeRepositoryInput, CreateCodeRepositoryOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateCodeRepository"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateCodeRepositoryInput, CreateCodeRepositoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCodeRepositoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCodeRepositoryInput, CreateCodeRepositoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCodeRepositoryOutput>())
@@ -1990,7 +1990,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCompilationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCompilationJobInput, CreateCompilationJobOutput>(xAmzTarget: "SageMaker.CreateCompilationJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCompilationJobInput, CreateCompilationJobOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateCompilationJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateCompilationJobInput, CreateCompilationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCompilationJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCompilationJobInput, CreateCompilationJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCompilationJobOutput>())
@@ -2060,7 +2060,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateComputeQuotaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateComputeQuotaInput, CreateComputeQuotaOutput>(xAmzTarget: "SageMaker.CreateComputeQuota"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateComputeQuotaInput, CreateComputeQuotaOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateComputeQuota"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateComputeQuotaInput, CreateComputeQuotaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateComputeQuotaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateComputeQuotaInput, CreateComputeQuotaOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateComputeQuotaOutput>())
@@ -2129,7 +2129,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateContextOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateContextInput, CreateContextOutput>(xAmzTarget: "SageMaker.CreateContext"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateContextInput, CreateContextOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateContext"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateContextInput, CreateContextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateContextInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContextInput, CreateContextOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateContextOutput>())
@@ -2199,7 +2199,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDataQualityJobDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDataQualityJobDefinitionInput, CreateDataQualityJobDefinitionOutput>(xAmzTarget: "SageMaker.CreateDataQualityJobDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDataQualityJobDefinitionInput, CreateDataQualityJobDefinitionOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateDataQualityJobDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDataQualityJobDefinitionInput, CreateDataQualityJobDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDataQualityJobDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDataQualityJobDefinitionInput, CreateDataQualityJobDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDataQualityJobDefinitionOutput>())
@@ -2269,7 +2269,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDeviceFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDeviceFleetInput, CreateDeviceFleetOutput>(xAmzTarget: "SageMaker.CreateDeviceFleet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDeviceFleetInput, CreateDeviceFleetOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateDeviceFleet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDeviceFleetInput, CreateDeviceFleetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDeviceFleetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDeviceFleetInput, CreateDeviceFleetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDeviceFleetOutput>())
@@ -2346,7 +2346,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDomainInput, CreateDomainOutput>(xAmzTarget: "SageMaker.CreateDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDomainInput, CreateDomainOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDomainInput, CreateDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDomainInput, CreateDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDomainOutput>())
@@ -2415,7 +2415,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEdgeDeploymentPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEdgeDeploymentPlanInput, CreateEdgeDeploymentPlanOutput>(xAmzTarget: "SageMaker.CreateEdgeDeploymentPlan"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEdgeDeploymentPlanInput, CreateEdgeDeploymentPlanOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateEdgeDeploymentPlan"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateEdgeDeploymentPlanInput, CreateEdgeDeploymentPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEdgeDeploymentPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEdgeDeploymentPlanInput, CreateEdgeDeploymentPlanOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEdgeDeploymentPlanOutput>())
@@ -2484,7 +2484,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEdgeDeploymentStageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEdgeDeploymentStageInput, CreateEdgeDeploymentStageOutput>(xAmzTarget: "SageMaker.CreateEdgeDeploymentStage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEdgeDeploymentStageInput, CreateEdgeDeploymentStageOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateEdgeDeploymentStage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateEdgeDeploymentStageInput, CreateEdgeDeploymentStageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEdgeDeploymentStageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEdgeDeploymentStageInput, CreateEdgeDeploymentStageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEdgeDeploymentStageOutput>())
@@ -2553,7 +2553,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEdgePackagingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEdgePackagingJobInput, CreateEdgePackagingJobOutput>(xAmzTarget: "SageMaker.CreateEdgePackagingJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEdgePackagingJobInput, CreateEdgePackagingJobOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateEdgePackagingJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateEdgePackagingJobInput, CreateEdgePackagingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEdgePackagingJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEdgePackagingJobInput, CreateEdgePackagingJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEdgePackagingJobOutput>())
@@ -2626,7 +2626,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEndpointInput, CreateEndpointOutput>(xAmzTarget: "SageMaker.CreateEndpoint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEndpointInput, CreateEndpointOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateEndpoint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateEndpointInput, CreateEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEndpointInput, CreateEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEndpointOutput>())
@@ -2695,7 +2695,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEndpointConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEndpointConfigInput, CreateEndpointConfigOutput>(xAmzTarget: "SageMaker.CreateEndpointConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEndpointConfigInput, CreateEndpointConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateEndpointConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateEndpointConfigInput, CreateEndpointConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEndpointConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEndpointConfigInput, CreateEndpointConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEndpointConfigOutput>())
@@ -2764,7 +2764,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateExperimentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateExperimentInput, CreateExperimentOutput>(xAmzTarget: "SageMaker.CreateExperiment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateExperimentInput, CreateExperimentOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateExperiment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateExperimentInput, CreateExperimentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateExperimentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateExperimentInput, CreateExperimentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateExperimentOutput>())
@@ -2834,7 +2834,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFeatureGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateFeatureGroupInput, CreateFeatureGroupOutput>(xAmzTarget: "SageMaker.CreateFeatureGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFeatureGroupInput, CreateFeatureGroupOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateFeatureGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateFeatureGroupInput, CreateFeatureGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFeatureGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFeatureGroupInput, CreateFeatureGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFeatureGroupOutput>())
@@ -2904,7 +2904,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFlowDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateFlowDefinitionInput, CreateFlowDefinitionOutput>(xAmzTarget: "SageMaker.CreateFlowDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFlowDefinitionInput, CreateFlowDefinitionOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateFlowDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateFlowDefinitionInput, CreateFlowDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFlowDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFlowDefinitionInput, CreateFlowDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFlowDefinitionOutput>())
@@ -2974,7 +2974,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateHubOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateHubInput, CreateHubOutput>(xAmzTarget: "SageMaker.CreateHub"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateHubInput, CreateHubOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateHub"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateHubInput, CreateHubOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateHubInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateHubInput, CreateHubOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateHubOutput>())
@@ -3038,7 +3038,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateHubContentPresignedUrlsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateHubContentPresignedUrlsInput, CreateHubContentPresignedUrlsOutput>(xAmzTarget: "SageMaker.CreateHubContentPresignedUrls"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateHubContentPresignedUrlsInput, CreateHubContentPresignedUrlsOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateHubContentPresignedUrls"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateHubContentPresignedUrlsInput, CreateHubContentPresignedUrlsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateHubContentPresignedUrlsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateHubContentPresignedUrlsInput, CreateHubContentPresignedUrlsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateHubContentPresignedUrlsOutput>())
@@ -3109,7 +3109,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateHubContentReferenceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateHubContentReferenceInput, CreateHubContentReferenceOutput>(xAmzTarget: "SageMaker.CreateHubContentReference"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateHubContentReferenceInput, CreateHubContentReferenceOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateHubContentReference"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateHubContentReferenceInput, CreateHubContentReferenceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateHubContentReferenceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateHubContentReferenceInput, CreateHubContentReferenceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateHubContentReferenceOutput>())
@@ -3179,7 +3179,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateHumanTaskUiOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateHumanTaskUiInput, CreateHumanTaskUiOutput>(xAmzTarget: "SageMaker.CreateHumanTaskUi"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateHumanTaskUiInput, CreateHumanTaskUiOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateHumanTaskUi"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateHumanTaskUiInput, CreateHumanTaskUiOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateHumanTaskUiInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateHumanTaskUiInput, CreateHumanTaskUiOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateHumanTaskUiOutput>())
@@ -3249,7 +3249,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateHyperParameterTuningJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateHyperParameterTuningJobInput, CreateHyperParameterTuningJobOutput>(xAmzTarget: "SageMaker.CreateHyperParameterTuningJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateHyperParameterTuningJobInput, CreateHyperParameterTuningJobOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateHyperParameterTuningJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateHyperParameterTuningJobInput, CreateHyperParameterTuningJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateHyperParameterTuningJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateHyperParameterTuningJobInput, CreateHyperParameterTuningJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateHyperParameterTuningJobOutput>())
@@ -3319,7 +3319,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateImageInput, CreateImageOutput>(xAmzTarget: "SageMaker.CreateImage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateImageInput, CreateImageOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateImage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateImageInput, CreateImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateImageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateImageInput, CreateImageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateImageOutput>())
@@ -3391,7 +3391,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateImageVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateImageVersionInput, CreateImageVersionOutput>(xAmzTarget: "SageMaker.CreateImageVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateImageVersionInput, CreateImageVersionOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateImageVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateImageVersionInput, CreateImageVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateImageVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateImageVersionInput, CreateImageVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateImageVersionOutput>())
@@ -3460,7 +3460,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateInferenceComponentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateInferenceComponentInput, CreateInferenceComponentOutput>(xAmzTarget: "SageMaker.CreateInferenceComponent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateInferenceComponentInput, CreateInferenceComponentOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateInferenceComponent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateInferenceComponentInput, CreateInferenceComponentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateInferenceComponentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateInferenceComponentInput, CreateInferenceComponentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateInferenceComponentOutput>())
@@ -3530,7 +3530,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateInferenceExperimentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateInferenceExperimentInput, CreateInferenceExperimentOutput>(xAmzTarget: "SageMaker.CreateInferenceExperiment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateInferenceExperimentInput, CreateInferenceExperimentOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateInferenceExperiment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateInferenceExperimentInput, CreateInferenceExperimentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateInferenceExperimentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateInferenceExperimentInput, CreateInferenceExperimentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateInferenceExperimentOutput>())
@@ -3600,7 +3600,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateInferenceRecommendationsJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateInferenceRecommendationsJobInput, CreateInferenceRecommendationsJobOutput>(xAmzTarget: "SageMaker.CreateInferenceRecommendationsJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateInferenceRecommendationsJobInput, CreateInferenceRecommendationsJobOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateInferenceRecommendationsJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateInferenceRecommendationsJobInput, CreateInferenceRecommendationsJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateInferenceRecommendationsJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateInferenceRecommendationsJobInput, CreateInferenceRecommendationsJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateInferenceRecommendationsJobOutput>())
@@ -3679,7 +3679,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLabelingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLabelingJobInput, CreateLabelingJobOutput>(xAmzTarget: "SageMaker.CreateLabelingJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLabelingJobInput, CreateLabelingJobOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateLabelingJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLabelingJobInput, CreateLabelingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLabelingJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLabelingJobInput, CreateLabelingJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLabelingJobOutput>())
@@ -3748,7 +3748,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateMlflowAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateMlflowAppInput, CreateMlflowAppOutput>(xAmzTarget: "SageMaker.CreateMlflowApp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateMlflowAppInput, CreateMlflowAppOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateMlflowApp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateMlflowAppInput, CreateMlflowAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateMlflowAppInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMlflowAppInput, CreateMlflowAppOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMlflowAppOutput>())
@@ -3817,7 +3817,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateMlflowTrackingServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateMlflowTrackingServerInput, CreateMlflowTrackingServerOutput>(xAmzTarget: "SageMaker.CreateMlflowTrackingServer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateMlflowTrackingServerInput, CreateMlflowTrackingServerOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateMlflowTrackingServer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateMlflowTrackingServerInput, CreateMlflowTrackingServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateMlflowTrackingServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMlflowTrackingServerInput, CreateMlflowTrackingServerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMlflowTrackingServerOutput>())
@@ -3886,7 +3886,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateModelInput, CreateModelOutput>(xAmzTarget: "SageMaker.CreateModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateModelInput, CreateModelOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateModelInput, CreateModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateModelInput, CreateModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateModelOutput>())
@@ -3956,7 +3956,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateModelBiasJobDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateModelBiasJobDefinitionInput, CreateModelBiasJobDefinitionOutput>(xAmzTarget: "SageMaker.CreateModelBiasJobDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateModelBiasJobDefinitionInput, CreateModelBiasJobDefinitionOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateModelBiasJobDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateModelBiasJobDefinitionInput, CreateModelBiasJobDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateModelBiasJobDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateModelBiasJobDefinitionInput, CreateModelBiasJobDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateModelBiasJobDefinitionOutput>())
@@ -4026,7 +4026,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateModelCardOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateModelCardInput, CreateModelCardOutput>(xAmzTarget: "SageMaker.CreateModelCard"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateModelCardInput, CreateModelCardOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateModelCard"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateModelCardInput, CreateModelCardOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateModelCardInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateModelCardInput, CreateModelCardOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateModelCardOutput>())
@@ -4097,7 +4097,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateModelCardExportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateModelCardExportJobInput, CreateModelCardExportJobOutput>(xAmzTarget: "SageMaker.CreateModelCardExportJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateModelCardExportJobInput, CreateModelCardExportJobOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateModelCardExportJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateModelCardExportJobInput, CreateModelCardExportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateModelCardExportJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateModelCardExportJobInput, CreateModelCardExportJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateModelCardExportJobOutput>())
@@ -4167,7 +4167,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateModelExplainabilityJobDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateModelExplainabilityJobDefinitionInput, CreateModelExplainabilityJobDefinitionOutput>(xAmzTarget: "SageMaker.CreateModelExplainabilityJobDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateModelExplainabilityJobDefinitionInput, CreateModelExplainabilityJobDefinitionOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateModelExplainabilityJobDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateModelExplainabilityJobDefinitionInput, CreateModelExplainabilityJobDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateModelExplainabilityJobDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateModelExplainabilityJobDefinitionInput, CreateModelExplainabilityJobDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateModelExplainabilityJobDefinitionOutput>())
@@ -4242,7 +4242,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateModelPackageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateModelPackageInput, CreateModelPackageOutput>(xAmzTarget: "SageMaker.CreateModelPackage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateModelPackageInput, CreateModelPackageOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateModelPackage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateModelPackageInput, CreateModelPackageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateModelPackageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateModelPackageInput, CreateModelPackageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateModelPackageOutput>())
@@ -4311,7 +4311,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateModelPackageGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateModelPackageGroupInput, CreateModelPackageGroupOutput>(xAmzTarget: "SageMaker.CreateModelPackageGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateModelPackageGroupInput, CreateModelPackageGroupOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateModelPackageGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateModelPackageGroupInput, CreateModelPackageGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateModelPackageGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateModelPackageGroupInput, CreateModelPackageGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateModelPackageGroupOutput>())
@@ -4381,7 +4381,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateModelQualityJobDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateModelQualityJobDefinitionInput, CreateModelQualityJobDefinitionOutput>(xAmzTarget: "SageMaker.CreateModelQualityJobDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateModelQualityJobDefinitionInput, CreateModelQualityJobDefinitionOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateModelQualityJobDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateModelQualityJobDefinitionInput, CreateModelQualityJobDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateModelQualityJobDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateModelQualityJobDefinitionInput, CreateModelQualityJobDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateModelQualityJobDefinitionOutput>())
@@ -4451,7 +4451,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateMonitoringScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateMonitoringScheduleInput, CreateMonitoringScheduleOutput>(xAmzTarget: "SageMaker.CreateMonitoringSchedule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateMonitoringScheduleInput, CreateMonitoringScheduleOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateMonitoringSchedule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateMonitoringScheduleInput, CreateMonitoringScheduleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateMonitoringScheduleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMonitoringScheduleInput, CreateMonitoringScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMonitoringScheduleOutput>())
@@ -4529,7 +4529,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateNotebookInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateNotebookInstanceInput, CreateNotebookInstanceOutput>(xAmzTarget: "SageMaker.CreateNotebookInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateNotebookInstanceInput, CreateNotebookInstanceOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateNotebookInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateNotebookInstanceInput, CreateNotebookInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateNotebookInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateNotebookInstanceInput, CreateNotebookInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateNotebookInstanceOutput>())
@@ -4598,7 +4598,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateNotebookInstanceLifecycleConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateNotebookInstanceLifecycleConfigInput, CreateNotebookInstanceLifecycleConfigOutput>(xAmzTarget: "SageMaker.CreateNotebookInstanceLifecycleConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateNotebookInstanceLifecycleConfigInput, CreateNotebookInstanceLifecycleConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateNotebookInstanceLifecycleConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateNotebookInstanceLifecycleConfigInput, CreateNotebookInstanceLifecycleConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateNotebookInstanceLifecycleConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateNotebookInstanceLifecycleConfigInput, CreateNotebookInstanceLifecycleConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateNotebookInstanceLifecycleConfigOutput>())
@@ -4668,7 +4668,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateOptimizationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateOptimizationJobInput, CreateOptimizationJobOutput>(xAmzTarget: "SageMaker.CreateOptimizationJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateOptimizationJobInput, CreateOptimizationJobOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateOptimizationJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateOptimizationJobInput, CreateOptimizationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateOptimizationJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateOptimizationJobInput, CreateOptimizationJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOptimizationJobOutput>())
@@ -4739,7 +4739,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePartnerAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePartnerAppInput, CreatePartnerAppOutput>(xAmzTarget: "SageMaker.CreatePartnerApp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePartnerAppInput, CreatePartnerAppOutput>(overrides: ["X-Amz-Target": "SageMaker.CreatePartnerApp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePartnerAppInput, CreatePartnerAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePartnerAppInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePartnerAppInput, CreatePartnerAppOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePartnerAppOutput>())
@@ -4808,7 +4808,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePartnerAppPresignedUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePartnerAppPresignedUrlInput, CreatePartnerAppPresignedUrlOutput>(xAmzTarget: "SageMaker.CreatePartnerAppPresignedUrl"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePartnerAppPresignedUrlInput, CreatePartnerAppPresignedUrlOutput>(overrides: ["X-Amz-Target": "SageMaker.CreatePartnerAppPresignedUrl"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePartnerAppPresignedUrlInput, CreatePartnerAppPresignedUrlOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePartnerAppPresignedUrlInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePartnerAppPresignedUrlInput, CreatePartnerAppPresignedUrlOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePartnerAppPresignedUrlOutput>())
@@ -4880,7 +4880,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePipelineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePipelineInput, CreatePipelineOutput>(xAmzTarget: "SageMaker.CreatePipeline"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePipelineInput, CreatePipelineOutput>(overrides: ["X-Amz-Target": "SageMaker.CreatePipeline"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePipelineInput, CreatePipelineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePipelineInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePipelineInput, CreatePipelineOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePipelineOutput>())
@@ -4953,7 +4953,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePresignedDomainUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePresignedDomainUrlInput, CreatePresignedDomainUrlOutput>(xAmzTarget: "SageMaker.CreatePresignedDomainUrl"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePresignedDomainUrlInput, CreatePresignedDomainUrlOutput>(overrides: ["X-Amz-Target": "SageMaker.CreatePresignedDomainUrl"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePresignedDomainUrlInput, CreatePresignedDomainUrlOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePresignedDomainUrlInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePresignedDomainUrlInput, CreatePresignedDomainUrlOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePresignedDomainUrlOutput>())
@@ -5022,7 +5022,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePresignedMlflowAppUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePresignedMlflowAppUrlInput, CreatePresignedMlflowAppUrlOutput>(xAmzTarget: "SageMaker.CreatePresignedMlflowAppUrl"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePresignedMlflowAppUrlInput, CreatePresignedMlflowAppUrlOutput>(overrides: ["X-Amz-Target": "SageMaker.CreatePresignedMlflowAppUrl"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePresignedMlflowAppUrlInput, CreatePresignedMlflowAppUrlOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePresignedMlflowAppUrlInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePresignedMlflowAppUrlInput, CreatePresignedMlflowAppUrlOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePresignedMlflowAppUrlOutput>())
@@ -5091,7 +5091,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePresignedMlflowTrackingServerUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePresignedMlflowTrackingServerUrlInput, CreatePresignedMlflowTrackingServerUrlOutput>(xAmzTarget: "SageMaker.CreatePresignedMlflowTrackingServerUrl"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePresignedMlflowTrackingServerUrlInput, CreatePresignedMlflowTrackingServerUrlOutput>(overrides: ["X-Amz-Target": "SageMaker.CreatePresignedMlflowTrackingServerUrl"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePresignedMlflowTrackingServerUrlInput, CreatePresignedMlflowTrackingServerUrlOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePresignedMlflowTrackingServerUrlInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePresignedMlflowTrackingServerUrlInput, CreatePresignedMlflowTrackingServerUrlOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePresignedMlflowTrackingServerUrlOutput>())
@@ -5155,7 +5155,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePresignedNotebookInstanceUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePresignedNotebookInstanceUrlInput, CreatePresignedNotebookInstanceUrlOutput>(xAmzTarget: "SageMaker.CreatePresignedNotebookInstanceUrl"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePresignedNotebookInstanceUrlInput, CreatePresignedNotebookInstanceUrlOutput>(overrides: ["X-Amz-Target": "SageMaker.CreatePresignedNotebookInstanceUrl"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePresignedNotebookInstanceUrlInput, CreatePresignedNotebookInstanceUrlOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePresignedNotebookInstanceUrlInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePresignedNotebookInstanceUrlInput, CreatePresignedNotebookInstanceUrlOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePresignedNotebookInstanceUrlOutput>())
@@ -5226,7 +5226,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProcessingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProcessingJobInput, CreateProcessingJobOutput>(xAmzTarget: "SageMaker.CreateProcessingJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProcessingJobInput, CreateProcessingJobOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateProcessingJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateProcessingJobInput, CreateProcessingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProcessingJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProcessingJobInput, CreateProcessingJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProcessingJobOutput>())
@@ -5295,7 +5295,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProjectInput, CreateProjectOutput>(xAmzTarget: "SageMaker.CreateProject"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProjectInput, CreateProjectOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateProject"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateProjectInput, CreateProjectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProjectInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProjectInput, CreateProjectOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProjectOutput>())
@@ -5365,7 +5365,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSpaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateSpaceInput, CreateSpaceOutput>(xAmzTarget: "SageMaker.CreateSpace"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSpaceInput, CreateSpaceOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateSpace"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateSpaceInput, CreateSpaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSpaceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSpaceInput, CreateSpaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSpaceOutput>())
@@ -5434,7 +5434,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateStudioLifecycleConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateStudioLifecycleConfigInput, CreateStudioLifecycleConfigOutput>(xAmzTarget: "SageMaker.CreateStudioLifecycleConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateStudioLifecycleConfigInput, CreateStudioLifecycleConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateStudioLifecycleConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateStudioLifecycleConfigInput, CreateStudioLifecycleConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateStudioLifecycleConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStudioLifecycleConfigInput, CreateStudioLifecycleConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateStudioLifecycleConfigOutput>())
@@ -5528,7 +5528,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTrainingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTrainingJobInput, CreateTrainingJobOutput>(xAmzTarget: "SageMaker.CreateTrainingJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTrainingJobInput, CreateTrainingJobOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateTrainingJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTrainingJobInput, CreateTrainingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTrainingJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTrainingJobInput, CreateTrainingJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTrainingJobOutput>())
@@ -5626,7 +5626,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTrainingPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTrainingPlanInput, CreateTrainingPlanOutput>(xAmzTarget: "SageMaker.CreateTrainingPlan"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTrainingPlanInput, CreateTrainingPlanOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateTrainingPlan"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTrainingPlanInput, CreateTrainingPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTrainingPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTrainingPlanInput, CreateTrainingPlanOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTrainingPlanOutput>())
@@ -5710,7 +5710,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTransformJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTransformJobInput, CreateTransformJobOutput>(xAmzTarget: "SageMaker.CreateTransformJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTransformJobInput, CreateTransformJobOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateTransformJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTransformJobInput, CreateTransformJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTransformJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTransformJobInput, CreateTransformJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTransformJobOutput>())
@@ -5780,7 +5780,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTrialOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTrialInput, CreateTrialOutput>(xAmzTarget: "SageMaker.CreateTrial"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTrialInput, CreateTrialOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateTrial"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTrialInput, CreateTrialOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTrialInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTrialInput, CreateTrialOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTrialOutput>())
@@ -5849,7 +5849,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTrialComponentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTrialComponentInput, CreateTrialComponentOutput>(xAmzTarget: "SageMaker.CreateTrialComponent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTrialComponentInput, CreateTrialComponentOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateTrialComponent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTrialComponentInput, CreateTrialComponentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTrialComponentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTrialComponentInput, CreateTrialComponentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTrialComponentOutput>())
@@ -5919,7 +5919,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateUserProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateUserProfileInput, CreateUserProfileOutput>(xAmzTarget: "SageMaker.CreateUserProfile"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateUserProfileInput, CreateUserProfileOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateUserProfile"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateUserProfileInput, CreateUserProfileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateUserProfileInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUserProfileInput, CreateUserProfileOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUserProfileOutput>())
@@ -5983,7 +5983,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWorkforceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateWorkforceInput, CreateWorkforceOutput>(xAmzTarget: "SageMaker.CreateWorkforce"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWorkforceInput, CreateWorkforceOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateWorkforce"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateWorkforceInput, CreateWorkforceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWorkforceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWorkforceInput, CreateWorkforceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWorkforceOutput>())
@@ -6053,7 +6053,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWorkteamOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateWorkteamInput, CreateWorkteamOutput>(xAmzTarget: "SageMaker.CreateWorkteam"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWorkteamInput, CreateWorkteamOutput>(overrides: ["X-Amz-Target": "SageMaker.CreateWorkteam"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateWorkteamInput, CreateWorkteamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWorkteamInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWorkteamInput, CreateWorkteamOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWorkteamOutput>())
@@ -6122,7 +6122,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteActionInput, DeleteActionOutput>(xAmzTarget: "SageMaker.DeleteAction"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteActionInput, DeleteActionOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteAction"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteActionInput, DeleteActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteActionInput, DeleteActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteActionOutput>())
@@ -6191,7 +6191,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAlgorithmOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAlgorithmInput, DeleteAlgorithmOutput>(xAmzTarget: "SageMaker.DeleteAlgorithm"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAlgorithmInput, DeleteAlgorithmOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteAlgorithm"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteAlgorithmInput, DeleteAlgorithmOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAlgorithmInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAlgorithmInput, DeleteAlgorithmOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAlgorithmOutput>())
@@ -6261,7 +6261,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAppInput, DeleteAppOutput>(xAmzTarget: "SageMaker.DeleteApp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAppInput, DeleteAppOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteApp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteAppInput, DeleteAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAppInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAppInput, DeleteAppOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAppOutput>())
@@ -6330,7 +6330,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAppImageConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAppImageConfigInput, DeleteAppImageConfigOutput>(xAmzTarget: "SageMaker.DeleteAppImageConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAppImageConfigInput, DeleteAppImageConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteAppImageConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteAppImageConfigInput, DeleteAppImageConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAppImageConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAppImageConfigInput, DeleteAppImageConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAppImageConfigOutput>())
@@ -6399,7 +6399,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteArtifactOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteArtifactInput, DeleteArtifactOutput>(xAmzTarget: "SageMaker.DeleteArtifact"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteArtifactInput, DeleteArtifactOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteArtifact"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteArtifactInput, DeleteArtifactOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteArtifactInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteArtifactInput, DeleteArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteArtifactOutput>())
@@ -6468,7 +6468,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAssociationInput, DeleteAssociationOutput>(xAmzTarget: "SageMaker.DeleteAssociation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteAssociationInput, DeleteAssociationOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteAssociation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteAssociationInput, DeleteAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAssociationInput, DeleteAssociationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAssociationOutput>())
@@ -6538,7 +6538,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteClusterInput, DeleteClusterOutput>(xAmzTarget: "SageMaker.DeleteCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteClusterInput, DeleteClusterOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteClusterInput, DeleteClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteClusterInput, DeleteClusterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteClusterOutput>())
@@ -6607,7 +6607,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteClusterSchedulerConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteClusterSchedulerConfigInput, DeleteClusterSchedulerConfigOutput>(xAmzTarget: "SageMaker.DeleteClusterSchedulerConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteClusterSchedulerConfigInput, DeleteClusterSchedulerConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteClusterSchedulerConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteClusterSchedulerConfigInput, DeleteClusterSchedulerConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteClusterSchedulerConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteClusterSchedulerConfigInput, DeleteClusterSchedulerConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteClusterSchedulerConfigOutput>())
@@ -6671,7 +6671,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCodeRepositoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCodeRepositoryInput, DeleteCodeRepositoryOutput>(xAmzTarget: "SageMaker.DeleteCodeRepository"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCodeRepositoryInput, DeleteCodeRepositoryOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteCodeRepository"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteCodeRepositoryInput, DeleteCodeRepositoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCodeRepositoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCodeRepositoryInput, DeleteCodeRepositoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCodeRepositoryOutput>())
@@ -6740,7 +6740,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCompilationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCompilationJobInput, DeleteCompilationJobOutput>(xAmzTarget: "SageMaker.DeleteCompilationJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCompilationJobInput, DeleteCompilationJobOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteCompilationJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteCompilationJobInput, DeleteCompilationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCompilationJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCompilationJobInput, DeleteCompilationJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCompilationJobOutput>())
@@ -6809,7 +6809,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteComputeQuotaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteComputeQuotaInput, DeleteComputeQuotaOutput>(xAmzTarget: "SageMaker.DeleteComputeQuota"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteComputeQuotaInput, DeleteComputeQuotaOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteComputeQuota"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteComputeQuotaInput, DeleteComputeQuotaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteComputeQuotaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteComputeQuotaInput, DeleteComputeQuotaOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteComputeQuotaOutput>())
@@ -6878,7 +6878,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteContextOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteContextInput, DeleteContextOutput>(xAmzTarget: "SageMaker.DeleteContext"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteContextInput, DeleteContextOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteContext"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteContextInput, DeleteContextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteContextInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContextInput, DeleteContextOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContextOutput>())
@@ -6947,7 +6947,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDataQualityJobDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDataQualityJobDefinitionInput, DeleteDataQualityJobDefinitionOutput>(xAmzTarget: "SageMaker.DeleteDataQualityJobDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDataQualityJobDefinitionInput, DeleteDataQualityJobDefinitionOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteDataQualityJobDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDataQualityJobDefinitionInput, DeleteDataQualityJobDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDataQualityJobDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDataQualityJobDefinitionInput, DeleteDataQualityJobDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDataQualityJobDefinitionOutput>())
@@ -7016,7 +7016,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDeviceFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDeviceFleetInput, DeleteDeviceFleetOutput>(xAmzTarget: "SageMaker.DeleteDeviceFleet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDeviceFleetInput, DeleteDeviceFleetOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteDeviceFleet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDeviceFleetInput, DeleteDeviceFleetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDeviceFleetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDeviceFleetInput, DeleteDeviceFleetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDeviceFleetOutput>())
@@ -7086,7 +7086,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDomainInput, DeleteDomainOutput>(xAmzTarget: "SageMaker.DeleteDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDomainInput, DeleteDomainOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDomainInput, DeleteDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDomainInput, DeleteDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDomainOutput>())
@@ -7155,7 +7155,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEdgeDeploymentPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteEdgeDeploymentPlanInput, DeleteEdgeDeploymentPlanOutput>(xAmzTarget: "SageMaker.DeleteEdgeDeploymentPlan"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEdgeDeploymentPlanInput, DeleteEdgeDeploymentPlanOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteEdgeDeploymentPlan"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteEdgeDeploymentPlanInput, DeleteEdgeDeploymentPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEdgeDeploymentPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEdgeDeploymentPlanInput, DeleteEdgeDeploymentPlanOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEdgeDeploymentPlanOutput>())
@@ -7224,7 +7224,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEdgeDeploymentStageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteEdgeDeploymentStageInput, DeleteEdgeDeploymentStageOutput>(xAmzTarget: "SageMaker.DeleteEdgeDeploymentStage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEdgeDeploymentStageInput, DeleteEdgeDeploymentStageOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteEdgeDeploymentStage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteEdgeDeploymentStageInput, DeleteEdgeDeploymentStageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEdgeDeploymentStageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEdgeDeploymentStageInput, DeleteEdgeDeploymentStageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEdgeDeploymentStageOutput>())
@@ -7288,7 +7288,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(xAmzTarget: "SageMaker.DeleteEndpoint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteEndpoint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteEndpointInput, DeleteEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEndpointOutput>())
@@ -7352,7 +7352,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEndpointConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteEndpointConfigInput, DeleteEndpointConfigOutput>(xAmzTarget: "SageMaker.DeleteEndpointConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteEndpointConfigInput, DeleteEndpointConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteEndpointConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteEndpointConfigInput, DeleteEndpointConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEndpointConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEndpointConfigInput, DeleteEndpointConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEndpointConfigOutput>())
@@ -7421,7 +7421,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteExperimentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteExperimentInput, DeleteExperimentOutput>(xAmzTarget: "SageMaker.DeleteExperiment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteExperimentInput, DeleteExperimentOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteExperiment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteExperimentInput, DeleteExperimentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteExperimentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteExperimentInput, DeleteExperimentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteExperimentOutput>())
@@ -7490,7 +7490,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFeatureGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteFeatureGroupInput, DeleteFeatureGroupOutput>(xAmzTarget: "SageMaker.DeleteFeatureGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFeatureGroupInput, DeleteFeatureGroupOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteFeatureGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteFeatureGroupInput, DeleteFeatureGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFeatureGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFeatureGroupInput, DeleteFeatureGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFeatureGroupOutput>())
@@ -7560,7 +7560,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFlowDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteFlowDefinitionInput, DeleteFlowDefinitionOutput>(xAmzTarget: "SageMaker.DeleteFlowDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFlowDefinitionInput, DeleteFlowDefinitionOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteFlowDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteFlowDefinitionInput, DeleteFlowDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFlowDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFlowDefinitionInput, DeleteFlowDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFlowDefinitionOutput>())
@@ -7630,7 +7630,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteHubOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteHubInput, DeleteHubOutput>(xAmzTarget: "SageMaker.DeleteHub"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteHubInput, DeleteHubOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteHub"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteHubInput, DeleteHubOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteHubInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteHubInput, DeleteHubOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteHubOutput>())
@@ -7700,7 +7700,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteHubContentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteHubContentInput, DeleteHubContentOutput>(xAmzTarget: "SageMaker.DeleteHubContent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteHubContentInput, DeleteHubContentOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteHubContent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteHubContentInput, DeleteHubContentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteHubContentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteHubContentInput, DeleteHubContentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteHubContentOutput>())
@@ -7769,7 +7769,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteHubContentReferenceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteHubContentReferenceInput, DeleteHubContentReferenceOutput>(xAmzTarget: "SageMaker.DeleteHubContentReference"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteHubContentReferenceInput, DeleteHubContentReferenceOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteHubContentReference"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteHubContentReferenceInput, DeleteHubContentReferenceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteHubContentReferenceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteHubContentReferenceInput, DeleteHubContentReferenceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteHubContentReferenceOutput>())
@@ -7838,7 +7838,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteHumanTaskUiOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteHumanTaskUiInput, DeleteHumanTaskUiOutput>(xAmzTarget: "SageMaker.DeleteHumanTaskUi"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteHumanTaskUiInput, DeleteHumanTaskUiOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteHumanTaskUi"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteHumanTaskUiInput, DeleteHumanTaskUiOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteHumanTaskUiInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteHumanTaskUiInput, DeleteHumanTaskUiOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteHumanTaskUiOutput>())
@@ -7902,7 +7902,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteHyperParameterTuningJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteHyperParameterTuningJobInput, DeleteHyperParameterTuningJobOutput>(xAmzTarget: "SageMaker.DeleteHyperParameterTuningJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteHyperParameterTuningJobInput, DeleteHyperParameterTuningJobOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteHyperParameterTuningJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteHyperParameterTuningJobInput, DeleteHyperParameterTuningJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteHyperParameterTuningJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteHyperParameterTuningJobInput, DeleteHyperParameterTuningJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteHyperParameterTuningJobOutput>())
@@ -7972,7 +7972,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteImageInput, DeleteImageOutput>(xAmzTarget: "SageMaker.DeleteImage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteImageInput, DeleteImageOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteImage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteImageInput, DeleteImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteImageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteImageInput, DeleteImageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteImageOutput>())
@@ -8042,7 +8042,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteImageVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteImageVersionInput, DeleteImageVersionOutput>(xAmzTarget: "SageMaker.DeleteImageVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteImageVersionInput, DeleteImageVersionOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteImageVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteImageVersionInput, DeleteImageVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteImageVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteImageVersionInput, DeleteImageVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteImageVersionOutput>())
@@ -8106,7 +8106,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteInferenceComponentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteInferenceComponentInput, DeleteInferenceComponentOutput>(xAmzTarget: "SageMaker.DeleteInferenceComponent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteInferenceComponentInput, DeleteInferenceComponentOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteInferenceComponent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteInferenceComponentInput, DeleteInferenceComponentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteInferenceComponentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteInferenceComponentInput, DeleteInferenceComponentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInferenceComponentOutput>())
@@ -8176,7 +8176,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteInferenceExperimentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteInferenceExperimentInput, DeleteInferenceExperimentOutput>(xAmzTarget: "SageMaker.DeleteInferenceExperiment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteInferenceExperimentInput, DeleteInferenceExperimentOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteInferenceExperiment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteInferenceExperimentInput, DeleteInferenceExperimentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteInferenceExperimentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteInferenceExperimentInput, DeleteInferenceExperimentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInferenceExperimentOutput>())
@@ -8245,7 +8245,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMlflowAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteMlflowAppInput, DeleteMlflowAppOutput>(xAmzTarget: "SageMaker.DeleteMlflowApp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMlflowAppInput, DeleteMlflowAppOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteMlflowApp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteMlflowAppInput, DeleteMlflowAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMlflowAppInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMlflowAppInput, DeleteMlflowAppOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMlflowAppOutput>())
@@ -8314,7 +8314,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMlflowTrackingServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteMlflowTrackingServerInput, DeleteMlflowTrackingServerOutput>(xAmzTarget: "SageMaker.DeleteMlflowTrackingServer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMlflowTrackingServerInput, DeleteMlflowTrackingServerOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteMlflowTrackingServer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteMlflowTrackingServerInput, DeleteMlflowTrackingServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMlflowTrackingServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMlflowTrackingServerInput, DeleteMlflowTrackingServerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMlflowTrackingServerOutput>())
@@ -8378,7 +8378,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteModelInput, DeleteModelOutput>(xAmzTarget: "SageMaker.DeleteModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteModelInput, DeleteModelOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteModelInput, DeleteModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteModelInput, DeleteModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteModelOutput>())
@@ -8447,7 +8447,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteModelBiasJobDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteModelBiasJobDefinitionInput, DeleteModelBiasJobDefinitionOutput>(xAmzTarget: "SageMaker.DeleteModelBiasJobDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteModelBiasJobDefinitionInput, DeleteModelBiasJobDefinitionOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteModelBiasJobDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteModelBiasJobDefinitionInput, DeleteModelBiasJobDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteModelBiasJobDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteModelBiasJobDefinitionInput, DeleteModelBiasJobDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteModelBiasJobDefinitionOutput>())
@@ -8517,7 +8517,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteModelCardOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteModelCardInput, DeleteModelCardOutput>(xAmzTarget: "SageMaker.DeleteModelCard"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteModelCardInput, DeleteModelCardOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteModelCard"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteModelCardInput, DeleteModelCardOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteModelCardInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteModelCardInput, DeleteModelCardOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteModelCardOutput>())
@@ -8586,7 +8586,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteModelExplainabilityJobDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteModelExplainabilityJobDefinitionInput, DeleteModelExplainabilityJobDefinitionOutput>(xAmzTarget: "SageMaker.DeleteModelExplainabilityJobDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteModelExplainabilityJobDefinitionInput, DeleteModelExplainabilityJobDefinitionOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteModelExplainabilityJobDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteModelExplainabilityJobDefinitionInput, DeleteModelExplainabilityJobDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteModelExplainabilityJobDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteModelExplainabilityJobDefinitionInput, DeleteModelExplainabilityJobDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteModelExplainabilityJobDefinitionOutput>())
@@ -8655,7 +8655,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteModelPackageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteModelPackageInput, DeleteModelPackageOutput>(xAmzTarget: "SageMaker.DeleteModelPackage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteModelPackageInput, DeleteModelPackageOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteModelPackage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteModelPackageInput, DeleteModelPackageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteModelPackageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteModelPackageInput, DeleteModelPackageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteModelPackageOutput>())
@@ -8724,7 +8724,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteModelPackageGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteModelPackageGroupInput, DeleteModelPackageGroupOutput>(xAmzTarget: "SageMaker.DeleteModelPackageGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteModelPackageGroupInput, DeleteModelPackageGroupOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteModelPackageGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteModelPackageGroupInput, DeleteModelPackageGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteModelPackageGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteModelPackageGroupInput, DeleteModelPackageGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteModelPackageGroupOutput>())
@@ -8788,7 +8788,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteModelPackageGroupPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteModelPackageGroupPolicyInput, DeleteModelPackageGroupPolicyOutput>(xAmzTarget: "SageMaker.DeleteModelPackageGroupPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteModelPackageGroupPolicyInput, DeleteModelPackageGroupPolicyOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteModelPackageGroupPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteModelPackageGroupPolicyInput, DeleteModelPackageGroupPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteModelPackageGroupPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteModelPackageGroupPolicyInput, DeleteModelPackageGroupPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteModelPackageGroupPolicyOutput>())
@@ -8857,7 +8857,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteModelQualityJobDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteModelQualityJobDefinitionInput, DeleteModelQualityJobDefinitionOutput>(xAmzTarget: "SageMaker.DeleteModelQualityJobDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteModelQualityJobDefinitionInput, DeleteModelQualityJobDefinitionOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteModelQualityJobDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteModelQualityJobDefinitionInput, DeleteModelQualityJobDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteModelQualityJobDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteModelQualityJobDefinitionInput, DeleteModelQualityJobDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteModelQualityJobDefinitionOutput>())
@@ -8926,7 +8926,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMonitoringScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteMonitoringScheduleInput, DeleteMonitoringScheduleOutput>(xAmzTarget: "SageMaker.DeleteMonitoringSchedule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMonitoringScheduleInput, DeleteMonitoringScheduleOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteMonitoringSchedule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteMonitoringScheduleInput, DeleteMonitoringScheduleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMonitoringScheduleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMonitoringScheduleInput, DeleteMonitoringScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMonitoringScheduleOutput>())
@@ -8990,7 +8990,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteNotebookInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteNotebookInstanceInput, DeleteNotebookInstanceOutput>(xAmzTarget: "SageMaker.DeleteNotebookInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteNotebookInstanceInput, DeleteNotebookInstanceOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteNotebookInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteNotebookInstanceInput, DeleteNotebookInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteNotebookInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteNotebookInstanceInput, DeleteNotebookInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteNotebookInstanceOutput>())
@@ -9054,7 +9054,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteNotebookInstanceLifecycleConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteNotebookInstanceLifecycleConfigInput, DeleteNotebookInstanceLifecycleConfigOutput>(xAmzTarget: "SageMaker.DeleteNotebookInstanceLifecycleConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteNotebookInstanceLifecycleConfigInput, DeleteNotebookInstanceLifecycleConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteNotebookInstanceLifecycleConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteNotebookInstanceLifecycleConfigInput, DeleteNotebookInstanceLifecycleConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteNotebookInstanceLifecycleConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteNotebookInstanceLifecycleConfigInput, DeleteNotebookInstanceLifecycleConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteNotebookInstanceLifecycleConfigOutput>())
@@ -9123,7 +9123,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOptimizationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteOptimizationJobInput, DeleteOptimizationJobOutput>(xAmzTarget: "SageMaker.DeleteOptimizationJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteOptimizationJobInput, DeleteOptimizationJobOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteOptimizationJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteOptimizationJobInput, DeleteOptimizationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOptimizationJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOptimizationJobInput, DeleteOptimizationJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOptimizationJobOutput>())
@@ -9194,7 +9194,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePartnerAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePartnerAppInput, DeletePartnerAppOutput>(xAmzTarget: "SageMaker.DeletePartnerApp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePartnerAppInput, DeletePartnerAppOutput>(overrides: ["X-Amz-Target": "SageMaker.DeletePartnerApp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeletePartnerAppInput, DeletePartnerAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePartnerAppInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePartnerAppInput, DeletePartnerAppOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePartnerAppOutput>())
@@ -9265,7 +9265,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePipelineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePipelineInput, DeletePipelineOutput>(xAmzTarget: "SageMaker.DeletePipeline"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePipelineInput, DeletePipelineOutput>(overrides: ["X-Amz-Target": "SageMaker.DeletePipeline"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeletePipelineInput, DeletePipelineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePipelineInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePipelineInput, DeletePipelineOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePipelineOutput>())
@@ -9335,7 +9335,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProcessingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>(xAmzTarget: "SageMaker.DeleteProcessingJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteProcessingJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProcessingJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProcessingJobOutput>())
@@ -9404,7 +9404,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProjectInput, DeleteProjectOutput>(xAmzTarget: "SageMaker.DeleteProject"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProjectInput, DeleteProjectOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteProject"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteProjectInput, DeleteProjectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProjectInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProjectInput, DeleteProjectOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProjectOutput>())
@@ -9474,7 +9474,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSpaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteSpaceInput, DeleteSpaceOutput>(xAmzTarget: "SageMaker.DeleteSpace"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSpaceInput, DeleteSpaceOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteSpace"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteSpaceInput, DeleteSpaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSpaceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSpaceInput, DeleteSpaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSpaceOutput>())
@@ -9544,7 +9544,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteStudioLifecycleConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteStudioLifecycleConfigInput, DeleteStudioLifecycleConfigOutput>(xAmzTarget: "SageMaker.DeleteStudioLifecycleConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteStudioLifecycleConfigInput, DeleteStudioLifecycleConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteStudioLifecycleConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteStudioLifecycleConfigInput, DeleteStudioLifecycleConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteStudioLifecycleConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteStudioLifecycleConfigInput, DeleteStudioLifecycleConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteStudioLifecycleConfigOutput>())
@@ -9608,7 +9608,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTagsInput, DeleteTagsOutput>(xAmzTarget: "SageMaker.DeleteTags"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTagsInput, DeleteTagsOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteTags"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTagsInput, DeleteTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTagsInput, DeleteTagsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTagsOutput>())
@@ -9678,7 +9678,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTrainingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>(xAmzTarget: "SageMaker.DeleteTrainingJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteTrainingJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTrainingJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTrainingJobOutput>())
@@ -9747,7 +9747,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTrialOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTrialInput, DeleteTrialOutput>(xAmzTarget: "SageMaker.DeleteTrial"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTrialInput, DeleteTrialOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteTrial"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTrialInput, DeleteTrialOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTrialInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTrialInput, DeleteTrialOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTrialOutput>())
@@ -9816,7 +9816,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTrialComponentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTrialComponentInput, DeleteTrialComponentOutput>(xAmzTarget: "SageMaker.DeleteTrialComponent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTrialComponentInput, DeleteTrialComponentOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteTrialComponent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTrialComponentInput, DeleteTrialComponentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTrialComponentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTrialComponentInput, DeleteTrialComponentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTrialComponentOutput>())
@@ -9886,7 +9886,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteUserProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteUserProfileInput, DeleteUserProfileOutput>(xAmzTarget: "SageMaker.DeleteUserProfile"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteUserProfileInput, DeleteUserProfileOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteUserProfile"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteUserProfileInput, DeleteUserProfileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteUserProfileInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUserProfileInput, DeleteUserProfileOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserProfileOutput>())
@@ -9950,7 +9950,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWorkforceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteWorkforceInput, DeleteWorkforceOutput>(xAmzTarget: "SageMaker.DeleteWorkforce"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWorkforceInput, DeleteWorkforceOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteWorkforce"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteWorkforceInput, DeleteWorkforceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteWorkforceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWorkforceInput, DeleteWorkforceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWorkforceOutput>())
@@ -10019,7 +10019,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWorkteamOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteWorkteamInput, DeleteWorkteamOutput>(xAmzTarget: "SageMaker.DeleteWorkteam"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWorkteamInput, DeleteWorkteamOutput>(overrides: ["X-Amz-Target": "SageMaker.DeleteWorkteam"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteWorkteamInput, DeleteWorkteamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteWorkteamInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWorkteamInput, DeleteWorkteamOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWorkteamOutput>())
@@ -10083,7 +10083,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeregisterDevicesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeregisterDevicesInput, DeregisterDevicesOutput>(xAmzTarget: "SageMaker.DeregisterDevices"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeregisterDevicesInput, DeregisterDevicesOutput>(overrides: ["X-Amz-Target": "SageMaker.DeregisterDevices"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeregisterDevicesInput, DeregisterDevicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeregisterDevicesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterDevicesInput, DeregisterDevicesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterDevicesOutput>())
@@ -10152,7 +10152,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeActionInput, DescribeActionOutput>(xAmzTarget: "SageMaker.DescribeAction"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeActionInput, DescribeActionOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeAction"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeActionInput, DescribeActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeActionInput, DescribeActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeActionOutput>())
@@ -10216,7 +10216,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAlgorithmOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutput>(xAmzTarget: "SageMaker.DescribeAlgorithm"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeAlgorithm"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAlgorithmInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAlgorithmOutput>())
@@ -10285,7 +10285,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAppInput, DescribeAppOutput>(xAmzTarget: "SageMaker.DescribeApp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAppInput, DescribeAppOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeApp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAppInput, DescribeAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAppInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAppInput, DescribeAppOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAppOutput>())
@@ -10354,7 +10354,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAppImageConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAppImageConfigInput, DescribeAppImageConfigOutput>(xAmzTarget: "SageMaker.DescribeAppImageConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAppImageConfigInput, DescribeAppImageConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeAppImageConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAppImageConfigInput, DescribeAppImageConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAppImageConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAppImageConfigInput, DescribeAppImageConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAppImageConfigOutput>())
@@ -10423,7 +10423,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeArtifactOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeArtifactInput, DescribeArtifactOutput>(xAmzTarget: "SageMaker.DescribeArtifact"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeArtifactInput, DescribeArtifactOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeArtifact"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeArtifactInput, DescribeArtifactOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeArtifactInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeArtifactInput, DescribeArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeArtifactOutput>())
@@ -10492,7 +10492,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAutoMLJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAutoMLJobInput, DescribeAutoMLJobOutput>(xAmzTarget: "SageMaker.DescribeAutoMLJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAutoMLJobInput, DescribeAutoMLJobOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeAutoMLJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAutoMLJobInput, DescribeAutoMLJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAutoMLJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAutoMLJobInput, DescribeAutoMLJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAutoMLJobOutput>())
@@ -10561,7 +10561,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAutoMLJobV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAutoMLJobV2Input, DescribeAutoMLJobV2Output>(xAmzTarget: "SageMaker.DescribeAutoMLJobV2"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAutoMLJobV2Input, DescribeAutoMLJobV2Output>(overrides: ["X-Amz-Target": "SageMaker.DescribeAutoMLJobV2"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAutoMLJobV2Input, DescribeAutoMLJobV2Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAutoMLJobV2Input.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAutoMLJobV2Input, DescribeAutoMLJobV2Output>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAutoMLJobV2Output>())
@@ -10630,7 +10630,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeClusterInput, DescribeClusterOutput>(xAmzTarget: "SageMaker.DescribeCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeClusterInput, DescribeClusterOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeClusterInput, DescribeClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeClusterInput, DescribeClusterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeClusterOutput>())
@@ -10699,7 +10699,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeClusterEventOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeClusterEventInput, DescribeClusterEventOutput>(xAmzTarget: "SageMaker.DescribeClusterEvent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeClusterEventInput, DescribeClusterEventOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeClusterEvent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeClusterEventInput, DescribeClusterEventOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeClusterEventInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeClusterEventInput, DescribeClusterEventOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeClusterEventOutput>())
@@ -10768,7 +10768,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeClusterNodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeClusterNodeInput, DescribeClusterNodeOutput>(xAmzTarget: "SageMaker.DescribeClusterNode"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeClusterNodeInput, DescribeClusterNodeOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeClusterNode"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeClusterNodeInput, DescribeClusterNodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeClusterNodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeClusterNodeInput, DescribeClusterNodeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeClusterNodeOutput>())
@@ -10837,7 +10837,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeClusterSchedulerConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeClusterSchedulerConfigInput, DescribeClusterSchedulerConfigOutput>(xAmzTarget: "SageMaker.DescribeClusterSchedulerConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeClusterSchedulerConfigInput, DescribeClusterSchedulerConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeClusterSchedulerConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeClusterSchedulerConfigInput, DescribeClusterSchedulerConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeClusterSchedulerConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeClusterSchedulerConfigInput, DescribeClusterSchedulerConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeClusterSchedulerConfigOutput>())
@@ -10901,7 +10901,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCodeRepositoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeCodeRepositoryInput, DescribeCodeRepositoryOutput>(xAmzTarget: "SageMaker.DescribeCodeRepository"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCodeRepositoryInput, DescribeCodeRepositoryOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeCodeRepository"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeCodeRepositoryInput, DescribeCodeRepositoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCodeRepositoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCodeRepositoryInput, DescribeCodeRepositoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCodeRepositoryOutput>())
@@ -10970,7 +10970,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCompilationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeCompilationJobInput, DescribeCompilationJobOutput>(xAmzTarget: "SageMaker.DescribeCompilationJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCompilationJobInput, DescribeCompilationJobOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeCompilationJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeCompilationJobInput, DescribeCompilationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCompilationJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCompilationJobInput, DescribeCompilationJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCompilationJobOutput>())
@@ -11039,7 +11039,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeComputeQuotaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeComputeQuotaInput, DescribeComputeQuotaOutput>(xAmzTarget: "SageMaker.DescribeComputeQuota"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeComputeQuotaInput, DescribeComputeQuotaOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeComputeQuota"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeComputeQuotaInput, DescribeComputeQuotaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeComputeQuotaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeComputeQuotaInput, DescribeComputeQuotaOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeComputeQuotaOutput>())
@@ -11108,7 +11108,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeContextOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeContextInput, DescribeContextOutput>(xAmzTarget: "SageMaker.DescribeContext"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeContextInput, DescribeContextOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeContext"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeContextInput, DescribeContextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeContextInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContextInput, DescribeContextOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContextOutput>())
@@ -11177,7 +11177,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDataQualityJobDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDataQualityJobDefinitionInput, DescribeDataQualityJobDefinitionOutput>(xAmzTarget: "SageMaker.DescribeDataQualityJobDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDataQualityJobDefinitionInput, DescribeDataQualityJobDefinitionOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeDataQualityJobDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDataQualityJobDefinitionInput, DescribeDataQualityJobDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDataQualityJobDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDataQualityJobDefinitionInput, DescribeDataQualityJobDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDataQualityJobDefinitionOutput>())
@@ -11246,7 +11246,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDeviceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDeviceInput, DescribeDeviceOutput>(xAmzTarget: "SageMaker.DescribeDevice"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDeviceInput, DescribeDeviceOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeDevice"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDeviceInput, DescribeDeviceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDeviceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDeviceInput, DescribeDeviceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDeviceOutput>())
@@ -11315,7 +11315,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDeviceFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDeviceFleetInput, DescribeDeviceFleetOutput>(xAmzTarget: "SageMaker.DescribeDeviceFleet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDeviceFleetInput, DescribeDeviceFleetOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeDeviceFleet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDeviceFleetInput, DescribeDeviceFleetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDeviceFleetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDeviceFleetInput, DescribeDeviceFleetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDeviceFleetOutput>())
@@ -11384,7 +11384,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDomainInput, DescribeDomainOutput>(xAmzTarget: "SageMaker.DescribeDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeDomainInput, DescribeDomainOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDomainInput, DescribeDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDomainInput, DescribeDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDomainOutput>())
@@ -11453,7 +11453,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEdgeDeploymentPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeEdgeDeploymentPlanInput, DescribeEdgeDeploymentPlanOutput>(xAmzTarget: "SageMaker.DescribeEdgeDeploymentPlan"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEdgeDeploymentPlanInput, DescribeEdgeDeploymentPlanOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeEdgeDeploymentPlan"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeEdgeDeploymentPlanInput, DescribeEdgeDeploymentPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEdgeDeploymentPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEdgeDeploymentPlanInput, DescribeEdgeDeploymentPlanOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEdgeDeploymentPlanOutput>())
@@ -11522,7 +11522,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEdgePackagingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeEdgePackagingJobInput, DescribeEdgePackagingJobOutput>(xAmzTarget: "SageMaker.DescribeEdgePackagingJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEdgePackagingJobInput, DescribeEdgePackagingJobOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeEdgePackagingJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeEdgePackagingJobInput, DescribeEdgePackagingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEdgePackagingJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEdgePackagingJobInput, DescribeEdgePackagingJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEdgePackagingJobOutput>())
@@ -11586,7 +11586,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeEndpointInput, DescribeEndpointOutput>(xAmzTarget: "SageMaker.DescribeEndpoint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEndpointInput, DescribeEndpointOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeEndpoint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeEndpointInput, DescribeEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEndpointInput, DescribeEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEndpointOutput>())
@@ -11650,7 +11650,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEndpointConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeEndpointConfigInput, DescribeEndpointConfigOutput>(xAmzTarget: "SageMaker.DescribeEndpointConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeEndpointConfigInput, DescribeEndpointConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeEndpointConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeEndpointConfigInput, DescribeEndpointConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEndpointConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEndpointConfigInput, DescribeEndpointConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEndpointConfigOutput>())
@@ -11719,7 +11719,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeExperimentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeExperimentInput, DescribeExperimentOutput>(xAmzTarget: "SageMaker.DescribeExperiment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeExperimentInput, DescribeExperimentOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeExperiment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeExperimentInput, DescribeExperimentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeExperimentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeExperimentInput, DescribeExperimentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeExperimentOutput>())
@@ -11788,7 +11788,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFeatureGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeFeatureGroupInput, DescribeFeatureGroupOutput>(xAmzTarget: "SageMaker.DescribeFeatureGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFeatureGroupInput, DescribeFeatureGroupOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeFeatureGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeFeatureGroupInput, DescribeFeatureGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFeatureGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFeatureGroupInput, DescribeFeatureGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFeatureGroupOutput>())
@@ -11857,7 +11857,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFeatureMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeFeatureMetadataInput, DescribeFeatureMetadataOutput>(xAmzTarget: "SageMaker.DescribeFeatureMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFeatureMetadataInput, DescribeFeatureMetadataOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeFeatureMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeFeatureMetadataInput, DescribeFeatureMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFeatureMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFeatureMetadataInput, DescribeFeatureMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFeatureMetadataOutput>())
@@ -11926,7 +11926,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFlowDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeFlowDefinitionInput, DescribeFlowDefinitionOutput>(xAmzTarget: "SageMaker.DescribeFlowDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFlowDefinitionInput, DescribeFlowDefinitionOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeFlowDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeFlowDefinitionInput, DescribeFlowDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeFlowDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFlowDefinitionInput, DescribeFlowDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFlowDefinitionOutput>())
@@ -11995,7 +11995,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeHubOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeHubInput, DescribeHubOutput>(xAmzTarget: "SageMaker.DescribeHub"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeHubInput, DescribeHubOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeHub"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeHubInput, DescribeHubOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeHubInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeHubInput, DescribeHubOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeHubOutput>())
@@ -12064,7 +12064,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeHubContentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeHubContentInput, DescribeHubContentOutput>(xAmzTarget: "SageMaker.DescribeHubContent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeHubContentInput, DescribeHubContentOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeHubContent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeHubContentInput, DescribeHubContentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeHubContentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeHubContentInput, DescribeHubContentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeHubContentOutput>())
@@ -12133,7 +12133,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeHumanTaskUiOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeHumanTaskUiInput, DescribeHumanTaskUiOutput>(xAmzTarget: "SageMaker.DescribeHumanTaskUi"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeHumanTaskUiInput, DescribeHumanTaskUiOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeHumanTaskUi"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeHumanTaskUiInput, DescribeHumanTaskUiOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeHumanTaskUiInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeHumanTaskUiInput, DescribeHumanTaskUiOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeHumanTaskUiOutput>())
@@ -12202,7 +12202,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeHyperParameterTuningJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeHyperParameterTuningJobInput, DescribeHyperParameterTuningJobOutput>(xAmzTarget: "SageMaker.DescribeHyperParameterTuningJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeHyperParameterTuningJobInput, DescribeHyperParameterTuningJobOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeHyperParameterTuningJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeHyperParameterTuningJobInput, DescribeHyperParameterTuningJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeHyperParameterTuningJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeHyperParameterTuningJobInput, DescribeHyperParameterTuningJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeHyperParameterTuningJobOutput>())
@@ -12271,7 +12271,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeImageInput, DescribeImageOutput>(xAmzTarget: "SageMaker.DescribeImage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeImageInput, DescribeImageOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeImage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeImageInput, DescribeImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeImageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImageInput, DescribeImageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImageOutput>())
@@ -12340,7 +12340,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeImageVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeImageVersionInput, DescribeImageVersionOutput>(xAmzTarget: "SageMaker.DescribeImageVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeImageVersionInput, DescribeImageVersionOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeImageVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeImageVersionInput, DescribeImageVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeImageVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImageVersionInput, DescribeImageVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImageVersionOutput>())
@@ -12404,7 +12404,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeInferenceComponentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeInferenceComponentInput, DescribeInferenceComponentOutput>(xAmzTarget: "SageMaker.DescribeInferenceComponent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeInferenceComponentInput, DescribeInferenceComponentOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeInferenceComponent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeInferenceComponentInput, DescribeInferenceComponentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeInferenceComponentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeInferenceComponentInput, DescribeInferenceComponentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInferenceComponentOutput>())
@@ -12473,7 +12473,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeInferenceExperimentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeInferenceExperimentInput, DescribeInferenceExperimentOutput>(xAmzTarget: "SageMaker.DescribeInferenceExperiment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeInferenceExperimentInput, DescribeInferenceExperimentOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeInferenceExperiment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeInferenceExperimentInput, DescribeInferenceExperimentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeInferenceExperimentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeInferenceExperimentInput, DescribeInferenceExperimentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInferenceExperimentOutput>())
@@ -12542,7 +12542,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeInferenceRecommendationsJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeInferenceRecommendationsJobInput, DescribeInferenceRecommendationsJobOutput>(xAmzTarget: "SageMaker.DescribeInferenceRecommendationsJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeInferenceRecommendationsJobInput, DescribeInferenceRecommendationsJobOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeInferenceRecommendationsJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeInferenceRecommendationsJobInput, DescribeInferenceRecommendationsJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeInferenceRecommendationsJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeInferenceRecommendationsJobInput, DescribeInferenceRecommendationsJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInferenceRecommendationsJobOutput>())
@@ -12611,7 +12611,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLabelingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLabelingJobInput, DescribeLabelingJobOutput>(xAmzTarget: "SageMaker.DescribeLabelingJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLabelingJobInput, DescribeLabelingJobOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeLabelingJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLabelingJobInput, DescribeLabelingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLabelingJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLabelingJobInput, DescribeLabelingJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLabelingJobOutput>())
@@ -12680,7 +12680,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLineageGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLineageGroupInput, DescribeLineageGroupOutput>(xAmzTarget: "SageMaker.DescribeLineageGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLineageGroupInput, DescribeLineageGroupOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeLineageGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLineageGroupInput, DescribeLineageGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLineageGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLineageGroupInput, DescribeLineageGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLineageGroupOutput>())
@@ -12749,7 +12749,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeMlflowAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeMlflowAppInput, DescribeMlflowAppOutput>(xAmzTarget: "SageMaker.DescribeMlflowApp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeMlflowAppInput, DescribeMlflowAppOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeMlflowApp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeMlflowAppInput, DescribeMlflowAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMlflowAppInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMlflowAppInput, DescribeMlflowAppOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMlflowAppOutput>())
@@ -12818,7 +12818,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeMlflowTrackingServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeMlflowTrackingServerInput, DescribeMlflowTrackingServerOutput>(xAmzTarget: "SageMaker.DescribeMlflowTrackingServer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeMlflowTrackingServerInput, DescribeMlflowTrackingServerOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeMlflowTrackingServer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeMlflowTrackingServerInput, DescribeMlflowTrackingServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMlflowTrackingServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMlflowTrackingServerInput, DescribeMlflowTrackingServerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMlflowTrackingServerOutput>())
@@ -12882,7 +12882,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeModelInput, DescribeModelOutput>(xAmzTarget: "SageMaker.DescribeModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeModelInput, DescribeModelOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeModelInput, DescribeModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeModelInput, DescribeModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeModelOutput>())
@@ -12951,7 +12951,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeModelBiasJobDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeModelBiasJobDefinitionInput, DescribeModelBiasJobDefinitionOutput>(xAmzTarget: "SageMaker.DescribeModelBiasJobDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeModelBiasJobDefinitionInput, DescribeModelBiasJobDefinitionOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeModelBiasJobDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeModelBiasJobDefinitionInput, DescribeModelBiasJobDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeModelBiasJobDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeModelBiasJobDefinitionInput, DescribeModelBiasJobDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeModelBiasJobDefinitionOutput>())
@@ -13020,7 +13020,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeModelCardOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeModelCardInput, DescribeModelCardOutput>(xAmzTarget: "SageMaker.DescribeModelCard"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeModelCardInput, DescribeModelCardOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeModelCard"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeModelCardInput, DescribeModelCardOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeModelCardInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeModelCardInput, DescribeModelCardOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeModelCardOutput>())
@@ -13089,7 +13089,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeModelCardExportJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeModelCardExportJobInput, DescribeModelCardExportJobOutput>(xAmzTarget: "SageMaker.DescribeModelCardExportJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeModelCardExportJobInput, DescribeModelCardExportJobOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeModelCardExportJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeModelCardExportJobInput, DescribeModelCardExportJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeModelCardExportJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeModelCardExportJobInput, DescribeModelCardExportJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeModelCardExportJobOutput>())
@@ -13158,7 +13158,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeModelExplainabilityJobDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeModelExplainabilityJobDefinitionInput, DescribeModelExplainabilityJobDefinitionOutput>(xAmzTarget: "SageMaker.DescribeModelExplainabilityJobDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeModelExplainabilityJobDefinitionInput, DescribeModelExplainabilityJobDefinitionOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeModelExplainabilityJobDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeModelExplainabilityJobDefinitionInput, DescribeModelExplainabilityJobDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeModelExplainabilityJobDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeModelExplainabilityJobDefinitionInput, DescribeModelExplainabilityJobDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeModelExplainabilityJobDefinitionOutput>())
@@ -13222,7 +13222,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeModelPackageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeModelPackageInput, DescribeModelPackageOutput>(xAmzTarget: "SageMaker.DescribeModelPackage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeModelPackageInput, DescribeModelPackageOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeModelPackage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeModelPackageInput, DescribeModelPackageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeModelPackageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeModelPackageInput, DescribeModelPackageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeModelPackageOutput>())
@@ -13286,7 +13286,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeModelPackageGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeModelPackageGroupInput, DescribeModelPackageGroupOutput>(xAmzTarget: "SageMaker.DescribeModelPackageGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeModelPackageGroupInput, DescribeModelPackageGroupOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeModelPackageGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeModelPackageGroupInput, DescribeModelPackageGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeModelPackageGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeModelPackageGroupInput, DescribeModelPackageGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeModelPackageGroupOutput>())
@@ -13355,7 +13355,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeModelQualityJobDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeModelQualityJobDefinitionInput, DescribeModelQualityJobDefinitionOutput>(xAmzTarget: "SageMaker.DescribeModelQualityJobDefinition"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeModelQualityJobDefinitionInput, DescribeModelQualityJobDefinitionOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeModelQualityJobDefinition"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeModelQualityJobDefinitionInput, DescribeModelQualityJobDefinitionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeModelQualityJobDefinitionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeModelQualityJobDefinitionInput, DescribeModelQualityJobDefinitionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeModelQualityJobDefinitionOutput>())
@@ -13424,7 +13424,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeMonitoringScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeMonitoringScheduleInput, DescribeMonitoringScheduleOutput>(xAmzTarget: "SageMaker.DescribeMonitoringSchedule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeMonitoringScheduleInput, DescribeMonitoringScheduleOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeMonitoringSchedule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeMonitoringScheduleInput, DescribeMonitoringScheduleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMonitoringScheduleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMonitoringScheduleInput, DescribeMonitoringScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMonitoringScheduleOutput>())
@@ -13488,7 +13488,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeNotebookInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>(xAmzTarget: "SageMaker.DescribeNotebookInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeNotebookInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeNotebookInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeNotebookInstanceOutput>())
@@ -13552,7 +13552,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeNotebookInstanceLifecycleConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeNotebookInstanceLifecycleConfigInput, DescribeNotebookInstanceLifecycleConfigOutput>(xAmzTarget: "SageMaker.DescribeNotebookInstanceLifecycleConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeNotebookInstanceLifecycleConfigInput, DescribeNotebookInstanceLifecycleConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeNotebookInstanceLifecycleConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeNotebookInstanceLifecycleConfigInput, DescribeNotebookInstanceLifecycleConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeNotebookInstanceLifecycleConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeNotebookInstanceLifecycleConfigInput, DescribeNotebookInstanceLifecycleConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeNotebookInstanceLifecycleConfigOutput>())
@@ -13621,7 +13621,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeOptimizationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeOptimizationJobInput, DescribeOptimizationJobOutput>(xAmzTarget: "SageMaker.DescribeOptimizationJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeOptimizationJobInput, DescribeOptimizationJobOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeOptimizationJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeOptimizationJobInput, DescribeOptimizationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeOptimizationJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeOptimizationJobInput, DescribeOptimizationJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOptimizationJobOutput>())
@@ -13690,7 +13690,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePartnerAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePartnerAppInput, DescribePartnerAppOutput>(xAmzTarget: "SageMaker.DescribePartnerApp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePartnerAppInput, DescribePartnerAppOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribePartnerApp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePartnerAppInput, DescribePartnerAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePartnerAppInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePartnerAppInput, DescribePartnerAppOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePartnerAppOutput>())
@@ -13759,7 +13759,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePipelineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePipelineInput, DescribePipelineOutput>(xAmzTarget: "SageMaker.DescribePipeline"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePipelineInput, DescribePipelineOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribePipeline"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePipelineInput, DescribePipelineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePipelineInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePipelineInput, DescribePipelineOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePipelineOutput>())
@@ -13828,7 +13828,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePipelineDefinitionForExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePipelineDefinitionForExecutionInput, DescribePipelineDefinitionForExecutionOutput>(xAmzTarget: "SageMaker.DescribePipelineDefinitionForExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePipelineDefinitionForExecutionInput, DescribePipelineDefinitionForExecutionOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribePipelineDefinitionForExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePipelineDefinitionForExecutionInput, DescribePipelineDefinitionForExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePipelineDefinitionForExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePipelineDefinitionForExecutionInput, DescribePipelineDefinitionForExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePipelineDefinitionForExecutionOutput>())
@@ -13897,7 +13897,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePipelineExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePipelineExecutionInput, DescribePipelineExecutionOutput>(xAmzTarget: "SageMaker.DescribePipelineExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePipelineExecutionInput, DescribePipelineExecutionOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribePipelineExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePipelineExecutionInput, DescribePipelineExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePipelineExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePipelineExecutionInput, DescribePipelineExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePipelineExecutionOutput>())
@@ -13966,7 +13966,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProcessingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProcessingJobInput, DescribeProcessingJobOutput>(xAmzTarget: "SageMaker.DescribeProcessingJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProcessingJobInput, DescribeProcessingJobOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeProcessingJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeProcessingJobInput, DescribeProcessingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProcessingJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProcessingJobInput, DescribeProcessingJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProcessingJobOutput>())
@@ -14030,7 +14030,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProjectInput, DescribeProjectOutput>(xAmzTarget: "SageMaker.DescribeProject"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProjectInput, DescribeProjectOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeProject"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeProjectInput, DescribeProjectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProjectInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProjectInput, DescribeProjectOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProjectOutput>())
@@ -14099,7 +14099,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeReservedCapacityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeReservedCapacityInput, DescribeReservedCapacityOutput>(xAmzTarget: "SageMaker.DescribeReservedCapacity"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeReservedCapacityInput, DescribeReservedCapacityOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeReservedCapacity"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeReservedCapacityInput, DescribeReservedCapacityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeReservedCapacityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeReservedCapacityInput, DescribeReservedCapacityOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeReservedCapacityOutput>())
@@ -14168,7 +14168,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSpaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeSpaceInput, DescribeSpaceOutput>(xAmzTarget: "SageMaker.DescribeSpace"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSpaceInput, DescribeSpaceOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeSpace"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeSpaceInput, DescribeSpaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSpaceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSpaceInput, DescribeSpaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSpaceOutput>())
@@ -14237,7 +14237,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeStudioLifecycleConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeStudioLifecycleConfigInput, DescribeStudioLifecycleConfigOutput>(xAmzTarget: "SageMaker.DescribeStudioLifecycleConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeStudioLifecycleConfigInput, DescribeStudioLifecycleConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeStudioLifecycleConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeStudioLifecycleConfigInput, DescribeStudioLifecycleConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStudioLifecycleConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStudioLifecycleConfigInput, DescribeStudioLifecycleConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStudioLifecycleConfigOutput>())
@@ -14301,7 +14301,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSubscribedWorkteamOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeSubscribedWorkteamInput, DescribeSubscribedWorkteamOutput>(xAmzTarget: "SageMaker.DescribeSubscribedWorkteam"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSubscribedWorkteamInput, DescribeSubscribedWorkteamOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeSubscribedWorkteam"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeSubscribedWorkteamInput, DescribeSubscribedWorkteamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSubscribedWorkteamInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSubscribedWorkteamInput, DescribeSubscribedWorkteamOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSubscribedWorkteamOutput>())
@@ -14370,7 +14370,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTrainingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTrainingJobInput, DescribeTrainingJobOutput>(xAmzTarget: "SageMaker.DescribeTrainingJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTrainingJobInput, DescribeTrainingJobOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeTrainingJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTrainingJobInput, DescribeTrainingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTrainingJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTrainingJobInput, DescribeTrainingJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTrainingJobOutput>())
@@ -14439,7 +14439,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTrainingPlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTrainingPlanInput, DescribeTrainingPlanOutput>(xAmzTarget: "SageMaker.DescribeTrainingPlan"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTrainingPlanInput, DescribeTrainingPlanOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeTrainingPlan"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTrainingPlanInput, DescribeTrainingPlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTrainingPlanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTrainingPlanInput, DescribeTrainingPlanOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTrainingPlanOutput>())
@@ -14508,7 +14508,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTransformJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTransformJobInput, DescribeTransformJobOutput>(xAmzTarget: "SageMaker.DescribeTransformJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTransformJobInput, DescribeTransformJobOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeTransformJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTransformJobInput, DescribeTransformJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTransformJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTransformJobInput, DescribeTransformJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTransformJobOutput>())
@@ -14577,7 +14577,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTrialOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTrialInput, DescribeTrialOutput>(xAmzTarget: "SageMaker.DescribeTrial"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTrialInput, DescribeTrialOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeTrial"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTrialInput, DescribeTrialOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTrialInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTrialInput, DescribeTrialOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTrialOutput>())
@@ -14646,7 +14646,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTrialComponentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTrialComponentInput, DescribeTrialComponentOutput>(xAmzTarget: "SageMaker.DescribeTrialComponent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTrialComponentInput, DescribeTrialComponentOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeTrialComponent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTrialComponentInput, DescribeTrialComponentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTrialComponentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTrialComponentInput, DescribeTrialComponentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTrialComponentOutput>())
@@ -14716,7 +14716,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeUserProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeUserProfileInput, DescribeUserProfileOutput>(xAmzTarget: "SageMaker.DescribeUserProfile"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeUserProfileInput, DescribeUserProfileOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeUserProfile"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeUserProfileInput, DescribeUserProfileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeUserProfileInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeUserProfileInput, DescribeUserProfileOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeUserProfileOutput>())
@@ -14780,7 +14780,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeWorkforceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeWorkforceInput, DescribeWorkforceOutput>(xAmzTarget: "SageMaker.DescribeWorkforce"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeWorkforceInput, DescribeWorkforceOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeWorkforce"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeWorkforceInput, DescribeWorkforceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeWorkforceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeWorkforceInput, DescribeWorkforceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeWorkforceOutput>())
@@ -14844,7 +14844,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeWorkteamOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeWorkteamInput, DescribeWorkteamOutput>(xAmzTarget: "SageMaker.DescribeWorkteam"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeWorkteamInput, DescribeWorkteamOutput>(overrides: ["X-Amz-Target": "SageMaker.DescribeWorkteam"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeWorkteamInput, DescribeWorkteamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeWorkteamInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeWorkteamInput, DescribeWorkteamOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeWorkteamOutput>())
@@ -14913,7 +14913,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetachClusterNodeVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput>(xAmzTarget: "SageMaker.DetachClusterNodeVolume"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput>(overrides: ["X-Amz-Target": "SageMaker.DetachClusterNodeVolume"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetachClusterNodeVolumeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetachClusterNodeVolumeOutput>())
@@ -14977,7 +14977,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableSagemakerServicecatalogPortfolioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisableSagemakerServicecatalogPortfolioInput, DisableSagemakerServicecatalogPortfolioOutput>(xAmzTarget: "SageMaker.DisableSagemakerServicecatalogPortfolio"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableSagemakerServicecatalogPortfolioInput, DisableSagemakerServicecatalogPortfolioOutput>(overrides: ["X-Amz-Target": "SageMaker.DisableSagemakerServicecatalogPortfolio"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisableSagemakerServicecatalogPortfolioInput, DisableSagemakerServicecatalogPortfolioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisableSagemakerServicecatalogPortfolioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableSagemakerServicecatalogPortfolioInput, DisableSagemakerServicecatalogPortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableSagemakerServicecatalogPortfolioOutput>())
@@ -15046,7 +15046,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateTrialComponentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateTrialComponentInput, DisassociateTrialComponentOutput>(xAmzTarget: "SageMaker.DisassociateTrialComponent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateTrialComponentInput, DisassociateTrialComponentOutput>(overrides: ["X-Amz-Target": "SageMaker.DisassociateTrialComponent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateTrialComponentInput, DisassociateTrialComponentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateTrialComponentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateTrialComponentInput, DisassociateTrialComponentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateTrialComponentOutput>())
@@ -15110,7 +15110,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableSagemakerServicecatalogPortfolioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<EnableSagemakerServicecatalogPortfolioInput, EnableSagemakerServicecatalogPortfolioOutput>(xAmzTarget: "SageMaker.EnableSagemakerServicecatalogPortfolio"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableSagemakerServicecatalogPortfolioInput, EnableSagemakerServicecatalogPortfolioOutput>(overrides: ["X-Amz-Target": "SageMaker.EnableSagemakerServicecatalogPortfolio"]))
         builder.serialize(ClientRuntime.BodyMiddleware<EnableSagemakerServicecatalogPortfolioInput, EnableSagemakerServicecatalogPortfolioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EnableSagemakerServicecatalogPortfolioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableSagemakerServicecatalogPortfolioInput, EnableSagemakerServicecatalogPortfolioOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableSagemakerServicecatalogPortfolioOutput>())
@@ -15174,7 +15174,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDeviceFleetReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDeviceFleetReportInput, GetDeviceFleetReportOutput>(xAmzTarget: "SageMaker.GetDeviceFleetReport"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDeviceFleetReportInput, GetDeviceFleetReportOutput>(overrides: ["X-Amz-Target": "SageMaker.GetDeviceFleetReport"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDeviceFleetReportInput, GetDeviceFleetReportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDeviceFleetReportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeviceFleetReportInput, GetDeviceFleetReportOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeviceFleetReportOutput>())
@@ -15243,7 +15243,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLineageGroupPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetLineageGroupPolicyInput, GetLineageGroupPolicyOutput>(xAmzTarget: "SageMaker.GetLineageGroupPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLineageGroupPolicyInput, GetLineageGroupPolicyOutput>(overrides: ["X-Amz-Target": "SageMaker.GetLineageGroupPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetLineageGroupPolicyInput, GetLineageGroupPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLineageGroupPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLineageGroupPolicyInput, GetLineageGroupPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLineageGroupPolicyOutput>())
@@ -15307,7 +15307,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetModelPackageGroupPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetModelPackageGroupPolicyInput, GetModelPackageGroupPolicyOutput>(xAmzTarget: "SageMaker.GetModelPackageGroupPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetModelPackageGroupPolicyInput, GetModelPackageGroupPolicyOutput>(overrides: ["X-Amz-Target": "SageMaker.GetModelPackageGroupPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetModelPackageGroupPolicyInput, GetModelPackageGroupPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetModelPackageGroupPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetModelPackageGroupPolicyInput, GetModelPackageGroupPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetModelPackageGroupPolicyOutput>())
@@ -15371,7 +15371,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSagemakerServicecatalogPortfolioStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSagemakerServicecatalogPortfolioStatusInput, GetSagemakerServicecatalogPortfolioStatusOutput>(xAmzTarget: "SageMaker.GetSagemakerServicecatalogPortfolioStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSagemakerServicecatalogPortfolioStatusInput, GetSagemakerServicecatalogPortfolioStatusOutput>(overrides: ["X-Amz-Target": "SageMaker.GetSagemakerServicecatalogPortfolioStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSagemakerServicecatalogPortfolioStatusInput, GetSagemakerServicecatalogPortfolioStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSagemakerServicecatalogPortfolioStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSagemakerServicecatalogPortfolioStatusInput, GetSagemakerServicecatalogPortfolioStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSagemakerServicecatalogPortfolioStatusOutput>())
@@ -15440,7 +15440,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetScalingConfigurationRecommendationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutput>(xAmzTarget: "SageMaker.GetScalingConfigurationRecommendation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutput>(overrides: ["X-Amz-Target": "SageMaker.GetScalingConfigurationRecommendation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetScalingConfigurationRecommendationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetScalingConfigurationRecommendationOutput>())
@@ -15504,7 +15504,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSearchSuggestionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSearchSuggestionsInput, GetSearchSuggestionsOutput>(xAmzTarget: "SageMaker.GetSearchSuggestions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSearchSuggestionsInput, GetSearchSuggestionsOutput>(overrides: ["X-Amz-Target": "SageMaker.GetSearchSuggestions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSearchSuggestionsInput, GetSearchSuggestionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSearchSuggestionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSearchSuggestionsInput, GetSearchSuggestionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSearchSuggestionsOutput>())
@@ -15575,7 +15575,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportHubContentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ImportHubContentInput, ImportHubContentOutput>(xAmzTarget: "SageMaker.ImportHubContent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportHubContentInput, ImportHubContentOutput>(overrides: ["X-Amz-Target": "SageMaker.ImportHubContent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ImportHubContentInput, ImportHubContentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportHubContentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportHubContentInput, ImportHubContentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportHubContentOutput>())
@@ -15644,7 +15644,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListActionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListActionsInput, ListActionsOutput>(xAmzTarget: "SageMaker.ListActions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListActionsInput, ListActionsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListActions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListActionsInput, ListActionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListActionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListActionsInput, ListActionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListActionsOutput>())
@@ -15708,7 +15708,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAlgorithmsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAlgorithmsInput, ListAlgorithmsOutput>(xAmzTarget: "SageMaker.ListAlgorithms"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAlgorithmsInput, ListAlgorithmsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListAlgorithms"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAlgorithmsInput, ListAlgorithmsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAlgorithmsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAlgorithmsInput, ListAlgorithmsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAlgorithmsOutput>())
@@ -15777,7 +15777,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAliasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAliasesInput, ListAliasesOutput>(xAmzTarget: "SageMaker.ListAliases"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAliasesInput, ListAliasesOutput>(overrides: ["X-Amz-Target": "SageMaker.ListAliases"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAliasesInput, ListAliasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAliasesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAliasesInput, ListAliasesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAliasesOutput>())
@@ -15841,7 +15841,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAppImageConfigsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAppImageConfigsInput, ListAppImageConfigsOutput>(xAmzTarget: "SageMaker.ListAppImageConfigs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAppImageConfigsInput, ListAppImageConfigsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListAppImageConfigs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAppImageConfigsInput, ListAppImageConfigsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAppImageConfigsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAppImageConfigsInput, ListAppImageConfigsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAppImageConfigsOutput>())
@@ -15905,7 +15905,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAppsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAppsInput, ListAppsOutput>(xAmzTarget: "SageMaker.ListApps"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAppsInput, ListAppsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListApps"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAppsInput, ListAppsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAppsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAppsInput, ListAppsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAppsOutput>())
@@ -15974,7 +15974,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListArtifactsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListArtifactsInput, ListArtifactsOutput>(xAmzTarget: "SageMaker.ListArtifacts"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListArtifactsInput, ListArtifactsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListArtifacts"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListArtifactsInput, ListArtifactsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListArtifactsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListArtifactsInput, ListArtifactsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListArtifactsOutput>())
@@ -16043,7 +16043,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAssociationsInput, ListAssociationsOutput>(xAmzTarget: "SageMaker.ListAssociations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAssociationsInput, ListAssociationsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListAssociations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAssociationsInput, ListAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAssociationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAssociationsInput, ListAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAssociationsOutput>())
@@ -16107,7 +16107,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAutoMLJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAutoMLJobsInput, ListAutoMLJobsOutput>(xAmzTarget: "SageMaker.ListAutoMLJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAutoMLJobsInput, ListAutoMLJobsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListAutoMLJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAutoMLJobsInput, ListAutoMLJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAutoMLJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAutoMLJobsInput, ListAutoMLJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAutoMLJobsOutput>())
@@ -16176,7 +16176,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCandidatesForAutoMLJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCandidatesForAutoMLJobInput, ListCandidatesForAutoMLJobOutput>(xAmzTarget: "SageMaker.ListCandidatesForAutoMLJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCandidatesForAutoMLJobInput, ListCandidatesForAutoMLJobOutput>(overrides: ["X-Amz-Target": "SageMaker.ListCandidatesForAutoMLJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListCandidatesForAutoMLJobInput, ListCandidatesForAutoMLJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCandidatesForAutoMLJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCandidatesForAutoMLJobInput, ListCandidatesForAutoMLJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCandidatesForAutoMLJobOutput>())
@@ -16245,7 +16245,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListClusterEventsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListClusterEventsInput, ListClusterEventsOutput>(xAmzTarget: "SageMaker.ListClusterEvents"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListClusterEventsInput, ListClusterEventsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListClusterEvents"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListClusterEventsInput, ListClusterEventsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListClusterEventsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListClusterEventsInput, ListClusterEventsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListClusterEventsOutput>())
@@ -16314,7 +16314,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListClusterNodesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListClusterNodesInput, ListClusterNodesOutput>(xAmzTarget: "SageMaker.ListClusterNodes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListClusterNodesInput, ListClusterNodesOutput>(overrides: ["X-Amz-Target": "SageMaker.ListClusterNodes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListClusterNodesInput, ListClusterNodesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListClusterNodesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListClusterNodesInput, ListClusterNodesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListClusterNodesOutput>())
@@ -16378,7 +16378,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListClusterSchedulerConfigsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListClusterSchedulerConfigsInput, ListClusterSchedulerConfigsOutput>(xAmzTarget: "SageMaker.ListClusterSchedulerConfigs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListClusterSchedulerConfigsInput, ListClusterSchedulerConfigsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListClusterSchedulerConfigs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListClusterSchedulerConfigsInput, ListClusterSchedulerConfigsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListClusterSchedulerConfigsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListClusterSchedulerConfigsInput, ListClusterSchedulerConfigsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListClusterSchedulerConfigsOutput>())
@@ -16442,7 +16442,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListClustersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListClustersInput, ListClustersOutput>(xAmzTarget: "SageMaker.ListClusters"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListClustersInput, ListClustersOutput>(overrides: ["X-Amz-Target": "SageMaker.ListClusters"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListClustersInput, ListClustersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListClustersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListClustersInput, ListClustersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListClustersOutput>())
@@ -16506,7 +16506,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCodeRepositoriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCodeRepositoriesInput, ListCodeRepositoriesOutput>(xAmzTarget: "SageMaker.ListCodeRepositories"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCodeRepositoriesInput, ListCodeRepositoriesOutput>(overrides: ["X-Amz-Target": "SageMaker.ListCodeRepositories"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListCodeRepositoriesInput, ListCodeRepositoriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCodeRepositoriesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCodeRepositoriesInput, ListCodeRepositoriesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCodeRepositoriesOutput>())
@@ -16570,7 +16570,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCompilationJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCompilationJobsInput, ListCompilationJobsOutput>(xAmzTarget: "SageMaker.ListCompilationJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCompilationJobsInput, ListCompilationJobsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListCompilationJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListCompilationJobsInput, ListCompilationJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCompilationJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCompilationJobsInput, ListCompilationJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCompilationJobsOutput>())
@@ -16634,7 +16634,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListComputeQuotasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListComputeQuotasInput, ListComputeQuotasOutput>(xAmzTarget: "SageMaker.ListComputeQuotas"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListComputeQuotasInput, ListComputeQuotasOutput>(overrides: ["X-Amz-Target": "SageMaker.ListComputeQuotas"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListComputeQuotasInput, ListComputeQuotasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListComputeQuotasInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListComputeQuotasInput, ListComputeQuotasOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListComputeQuotasOutput>())
@@ -16703,7 +16703,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListContextsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListContextsInput, ListContextsOutput>(xAmzTarget: "SageMaker.ListContexts"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListContextsInput, ListContextsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListContexts"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListContextsInput, ListContextsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListContextsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContextsInput, ListContextsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContextsOutput>())
@@ -16767,7 +16767,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataQualityJobDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDataQualityJobDefinitionsInput, ListDataQualityJobDefinitionsOutput>(xAmzTarget: "SageMaker.ListDataQualityJobDefinitions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDataQualityJobDefinitionsInput, ListDataQualityJobDefinitionsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListDataQualityJobDefinitions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDataQualityJobDefinitionsInput, ListDataQualityJobDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataQualityJobDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataQualityJobDefinitionsInput, ListDataQualityJobDefinitionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataQualityJobDefinitionsOutput>())
@@ -16831,7 +16831,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDeviceFleetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDeviceFleetsInput, ListDeviceFleetsOutput>(xAmzTarget: "SageMaker.ListDeviceFleets"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDeviceFleetsInput, ListDeviceFleetsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListDeviceFleets"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDeviceFleetsInput, ListDeviceFleetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDeviceFleetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeviceFleetsInput, ListDeviceFleetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDeviceFleetsOutput>())
@@ -16895,7 +16895,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDevicesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDevicesInput, ListDevicesOutput>(xAmzTarget: "SageMaker.ListDevices"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDevicesInput, ListDevicesOutput>(overrides: ["X-Amz-Target": "SageMaker.ListDevices"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDevicesInput, ListDevicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDevicesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDevicesInput, ListDevicesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDevicesOutput>())
@@ -16959,7 +16959,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDomainsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDomainsInput, ListDomainsOutput>(xAmzTarget: "SageMaker.ListDomains"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDomainsInput, ListDomainsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListDomains"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDomainsInput, ListDomainsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDomainsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDomainsInput, ListDomainsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDomainsOutput>())
@@ -17023,7 +17023,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEdgeDeploymentPlansOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEdgeDeploymentPlansInput, ListEdgeDeploymentPlansOutput>(xAmzTarget: "SageMaker.ListEdgeDeploymentPlans"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEdgeDeploymentPlansInput, ListEdgeDeploymentPlansOutput>(overrides: ["X-Amz-Target": "SageMaker.ListEdgeDeploymentPlans"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEdgeDeploymentPlansInput, ListEdgeDeploymentPlansOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEdgeDeploymentPlansInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEdgeDeploymentPlansInput, ListEdgeDeploymentPlansOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEdgeDeploymentPlansOutput>())
@@ -17087,7 +17087,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEdgePackagingJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEdgePackagingJobsInput, ListEdgePackagingJobsOutput>(xAmzTarget: "SageMaker.ListEdgePackagingJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEdgePackagingJobsInput, ListEdgePackagingJobsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListEdgePackagingJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEdgePackagingJobsInput, ListEdgePackagingJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEdgePackagingJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEdgePackagingJobsInput, ListEdgePackagingJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEdgePackagingJobsOutput>())
@@ -17151,7 +17151,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEndpointConfigsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEndpointConfigsInput, ListEndpointConfigsOutput>(xAmzTarget: "SageMaker.ListEndpointConfigs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEndpointConfigsInput, ListEndpointConfigsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListEndpointConfigs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEndpointConfigsInput, ListEndpointConfigsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEndpointConfigsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEndpointConfigsInput, ListEndpointConfigsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEndpointConfigsOutput>())
@@ -17215,7 +17215,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEndpointsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEndpointsInput, ListEndpointsOutput>(xAmzTarget: "SageMaker.ListEndpoints"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEndpointsInput, ListEndpointsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListEndpoints"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEndpointsInput, ListEndpointsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEndpointsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEndpointsInput, ListEndpointsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEndpointsOutput>())
@@ -17279,7 +17279,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListExperimentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListExperimentsInput, ListExperimentsOutput>(xAmzTarget: "SageMaker.ListExperiments"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListExperimentsInput, ListExperimentsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListExperiments"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListExperimentsInput, ListExperimentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListExperimentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListExperimentsInput, ListExperimentsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListExperimentsOutput>())
@@ -17343,7 +17343,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFeatureGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListFeatureGroupsInput, ListFeatureGroupsOutput>(xAmzTarget: "SageMaker.ListFeatureGroups"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFeatureGroupsInput, ListFeatureGroupsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListFeatureGroups"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListFeatureGroupsInput, ListFeatureGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFeatureGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFeatureGroupsInput, ListFeatureGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFeatureGroupsOutput>())
@@ -17407,7 +17407,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFlowDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListFlowDefinitionsInput, ListFlowDefinitionsOutput>(xAmzTarget: "SageMaker.ListFlowDefinitions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFlowDefinitionsInput, ListFlowDefinitionsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListFlowDefinitions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListFlowDefinitionsInput, ListFlowDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFlowDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFlowDefinitionsInput, ListFlowDefinitionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFlowDefinitionsOutput>())
@@ -17476,7 +17476,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListHubContentVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListHubContentVersionsInput, ListHubContentVersionsOutput>(xAmzTarget: "SageMaker.ListHubContentVersions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListHubContentVersionsInput, ListHubContentVersionsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListHubContentVersions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListHubContentVersionsInput, ListHubContentVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListHubContentVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListHubContentVersionsInput, ListHubContentVersionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListHubContentVersionsOutput>())
@@ -17545,7 +17545,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListHubContentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListHubContentsInput, ListHubContentsOutput>(xAmzTarget: "SageMaker.ListHubContents"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListHubContentsInput, ListHubContentsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListHubContents"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListHubContentsInput, ListHubContentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListHubContentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListHubContentsInput, ListHubContentsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListHubContentsOutput>())
@@ -17609,7 +17609,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListHubsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListHubsInput, ListHubsOutput>(xAmzTarget: "SageMaker.ListHubs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListHubsInput, ListHubsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListHubs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListHubsInput, ListHubsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListHubsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListHubsInput, ListHubsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListHubsOutput>())
@@ -17673,7 +17673,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListHumanTaskUisOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListHumanTaskUisInput, ListHumanTaskUisOutput>(xAmzTarget: "SageMaker.ListHumanTaskUis"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListHumanTaskUisInput, ListHumanTaskUisOutput>(overrides: ["X-Amz-Target": "SageMaker.ListHumanTaskUis"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListHumanTaskUisInput, ListHumanTaskUisOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListHumanTaskUisInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListHumanTaskUisInput, ListHumanTaskUisOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListHumanTaskUisOutput>())
@@ -17737,7 +17737,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListHyperParameterTuningJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListHyperParameterTuningJobsInput, ListHyperParameterTuningJobsOutput>(xAmzTarget: "SageMaker.ListHyperParameterTuningJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListHyperParameterTuningJobsInput, ListHyperParameterTuningJobsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListHyperParameterTuningJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListHyperParameterTuningJobsInput, ListHyperParameterTuningJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListHyperParameterTuningJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListHyperParameterTuningJobsInput, ListHyperParameterTuningJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListHyperParameterTuningJobsOutput>())
@@ -17806,7 +17806,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListImageVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListImageVersionsInput, ListImageVersionsOutput>(xAmzTarget: "SageMaker.ListImageVersions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListImageVersionsInput, ListImageVersionsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListImageVersions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListImageVersionsInput, ListImageVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListImageVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListImageVersionsInput, ListImageVersionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListImageVersionsOutput>())
@@ -17870,7 +17870,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListImagesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListImagesInput, ListImagesOutput>(xAmzTarget: "SageMaker.ListImages"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListImagesInput, ListImagesOutput>(overrides: ["X-Amz-Target": "SageMaker.ListImages"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListImagesInput, ListImagesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListImagesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListImagesInput, ListImagesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListImagesOutput>())
@@ -17934,7 +17934,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInferenceComponentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListInferenceComponentsInput, ListInferenceComponentsOutput>(xAmzTarget: "SageMaker.ListInferenceComponents"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListInferenceComponentsInput, ListInferenceComponentsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListInferenceComponents"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListInferenceComponentsInput, ListInferenceComponentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInferenceComponentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInferenceComponentsInput, ListInferenceComponentsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInferenceComponentsOutput>())
@@ -17998,7 +17998,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInferenceExperimentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListInferenceExperimentsInput, ListInferenceExperimentsOutput>(xAmzTarget: "SageMaker.ListInferenceExperiments"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListInferenceExperimentsInput, ListInferenceExperimentsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListInferenceExperiments"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListInferenceExperimentsInput, ListInferenceExperimentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInferenceExperimentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInferenceExperimentsInput, ListInferenceExperimentsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInferenceExperimentsOutput>())
@@ -18067,7 +18067,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInferenceRecommendationsJobStepsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListInferenceRecommendationsJobStepsInput, ListInferenceRecommendationsJobStepsOutput>(xAmzTarget: "SageMaker.ListInferenceRecommendationsJobSteps"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListInferenceRecommendationsJobStepsInput, ListInferenceRecommendationsJobStepsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListInferenceRecommendationsJobSteps"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListInferenceRecommendationsJobStepsInput, ListInferenceRecommendationsJobStepsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInferenceRecommendationsJobStepsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInferenceRecommendationsJobStepsInput, ListInferenceRecommendationsJobStepsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInferenceRecommendationsJobStepsOutput>())
@@ -18131,7 +18131,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInferenceRecommendationsJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListInferenceRecommendationsJobsInput, ListInferenceRecommendationsJobsOutput>(xAmzTarget: "SageMaker.ListInferenceRecommendationsJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListInferenceRecommendationsJobsInput, ListInferenceRecommendationsJobsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListInferenceRecommendationsJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListInferenceRecommendationsJobsInput, ListInferenceRecommendationsJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInferenceRecommendationsJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInferenceRecommendationsJobsInput, ListInferenceRecommendationsJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInferenceRecommendationsJobsOutput>())
@@ -18195,7 +18195,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLabelingJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListLabelingJobsInput, ListLabelingJobsOutput>(xAmzTarget: "SageMaker.ListLabelingJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLabelingJobsInput, ListLabelingJobsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListLabelingJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListLabelingJobsInput, ListLabelingJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLabelingJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLabelingJobsInput, ListLabelingJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLabelingJobsOutput>())
@@ -18264,7 +18264,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLabelingJobsForWorkteamOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListLabelingJobsForWorkteamInput, ListLabelingJobsForWorkteamOutput>(xAmzTarget: "SageMaker.ListLabelingJobsForWorkteam"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLabelingJobsForWorkteamInput, ListLabelingJobsForWorkteamOutput>(overrides: ["X-Amz-Target": "SageMaker.ListLabelingJobsForWorkteam"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListLabelingJobsForWorkteamInput, ListLabelingJobsForWorkteamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLabelingJobsForWorkteamInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLabelingJobsForWorkteamInput, ListLabelingJobsForWorkteamOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLabelingJobsForWorkteamOutput>())
@@ -18328,7 +18328,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLineageGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListLineageGroupsInput, ListLineageGroupsOutput>(xAmzTarget: "SageMaker.ListLineageGroups"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLineageGroupsInput, ListLineageGroupsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListLineageGroups"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListLineageGroupsInput, ListLineageGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLineageGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLineageGroupsInput, ListLineageGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLineageGroupsOutput>())
@@ -18392,7 +18392,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMlflowAppsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMlflowAppsInput, ListMlflowAppsOutput>(xAmzTarget: "SageMaker.ListMlflowApps"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMlflowAppsInput, ListMlflowAppsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListMlflowApps"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListMlflowAppsInput, ListMlflowAppsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMlflowAppsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMlflowAppsInput, ListMlflowAppsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMlflowAppsOutput>())
@@ -18456,7 +18456,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMlflowTrackingServersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMlflowTrackingServersInput, ListMlflowTrackingServersOutput>(xAmzTarget: "SageMaker.ListMlflowTrackingServers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMlflowTrackingServersInput, ListMlflowTrackingServersOutput>(overrides: ["X-Amz-Target": "SageMaker.ListMlflowTrackingServers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListMlflowTrackingServersInput, ListMlflowTrackingServersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMlflowTrackingServersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMlflowTrackingServersInput, ListMlflowTrackingServersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMlflowTrackingServersOutput>())
@@ -18520,7 +18520,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListModelBiasJobDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListModelBiasJobDefinitionsInput, ListModelBiasJobDefinitionsOutput>(xAmzTarget: "SageMaker.ListModelBiasJobDefinitions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListModelBiasJobDefinitionsInput, ListModelBiasJobDefinitionsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListModelBiasJobDefinitions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListModelBiasJobDefinitionsInput, ListModelBiasJobDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListModelBiasJobDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListModelBiasJobDefinitionsInput, ListModelBiasJobDefinitionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListModelBiasJobDefinitionsOutput>())
@@ -18584,7 +18584,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListModelCardExportJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListModelCardExportJobsInput, ListModelCardExportJobsOutput>(xAmzTarget: "SageMaker.ListModelCardExportJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListModelCardExportJobsInput, ListModelCardExportJobsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListModelCardExportJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListModelCardExportJobsInput, ListModelCardExportJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListModelCardExportJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListModelCardExportJobsInput, ListModelCardExportJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListModelCardExportJobsOutput>())
@@ -18653,7 +18653,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListModelCardVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListModelCardVersionsInput, ListModelCardVersionsOutput>(xAmzTarget: "SageMaker.ListModelCardVersions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListModelCardVersionsInput, ListModelCardVersionsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListModelCardVersions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListModelCardVersionsInput, ListModelCardVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListModelCardVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListModelCardVersionsInput, ListModelCardVersionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListModelCardVersionsOutput>())
@@ -18717,7 +18717,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListModelCardsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListModelCardsInput, ListModelCardsOutput>(xAmzTarget: "SageMaker.ListModelCards"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListModelCardsInput, ListModelCardsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListModelCards"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListModelCardsInput, ListModelCardsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListModelCardsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListModelCardsInput, ListModelCardsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListModelCardsOutput>())
@@ -18781,7 +18781,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListModelExplainabilityJobDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListModelExplainabilityJobDefinitionsInput, ListModelExplainabilityJobDefinitionsOutput>(xAmzTarget: "SageMaker.ListModelExplainabilityJobDefinitions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListModelExplainabilityJobDefinitionsInput, ListModelExplainabilityJobDefinitionsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListModelExplainabilityJobDefinitions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListModelExplainabilityJobDefinitionsInput, ListModelExplainabilityJobDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListModelExplainabilityJobDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListModelExplainabilityJobDefinitionsInput, ListModelExplainabilityJobDefinitionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListModelExplainabilityJobDefinitionsOutput>())
@@ -18845,7 +18845,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListModelMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListModelMetadataInput, ListModelMetadataOutput>(xAmzTarget: "SageMaker.ListModelMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListModelMetadataInput, ListModelMetadataOutput>(overrides: ["X-Amz-Target": "SageMaker.ListModelMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListModelMetadataInput, ListModelMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListModelMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListModelMetadataInput, ListModelMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListModelMetadataOutput>())
@@ -18909,7 +18909,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListModelPackageGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListModelPackageGroupsInput, ListModelPackageGroupsOutput>(xAmzTarget: "SageMaker.ListModelPackageGroups"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListModelPackageGroupsInput, ListModelPackageGroupsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListModelPackageGroups"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListModelPackageGroupsInput, ListModelPackageGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListModelPackageGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListModelPackageGroupsInput, ListModelPackageGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListModelPackageGroupsOutput>())
@@ -18973,7 +18973,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListModelPackagesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListModelPackagesInput, ListModelPackagesOutput>(xAmzTarget: "SageMaker.ListModelPackages"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListModelPackagesInput, ListModelPackagesOutput>(overrides: ["X-Amz-Target": "SageMaker.ListModelPackages"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListModelPackagesInput, ListModelPackagesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListModelPackagesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListModelPackagesInput, ListModelPackagesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListModelPackagesOutput>())
@@ -19037,7 +19037,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListModelQualityJobDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListModelQualityJobDefinitionsInput, ListModelQualityJobDefinitionsOutput>(xAmzTarget: "SageMaker.ListModelQualityJobDefinitions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListModelQualityJobDefinitionsInput, ListModelQualityJobDefinitionsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListModelQualityJobDefinitions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListModelQualityJobDefinitionsInput, ListModelQualityJobDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListModelQualityJobDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListModelQualityJobDefinitionsInput, ListModelQualityJobDefinitionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListModelQualityJobDefinitionsOutput>())
@@ -19101,7 +19101,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListModelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListModelsInput, ListModelsOutput>(xAmzTarget: "SageMaker.ListModels"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListModelsInput, ListModelsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListModels"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListModelsInput, ListModelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListModelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListModelsInput, ListModelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListModelsOutput>())
@@ -19170,7 +19170,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMonitoringAlertHistoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMonitoringAlertHistoryInput, ListMonitoringAlertHistoryOutput>(xAmzTarget: "SageMaker.ListMonitoringAlertHistory"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMonitoringAlertHistoryInput, ListMonitoringAlertHistoryOutput>(overrides: ["X-Amz-Target": "SageMaker.ListMonitoringAlertHistory"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListMonitoringAlertHistoryInput, ListMonitoringAlertHistoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMonitoringAlertHistoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMonitoringAlertHistoryInput, ListMonitoringAlertHistoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMonitoringAlertHistoryOutput>())
@@ -19239,7 +19239,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMonitoringAlertsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMonitoringAlertsInput, ListMonitoringAlertsOutput>(xAmzTarget: "SageMaker.ListMonitoringAlerts"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMonitoringAlertsInput, ListMonitoringAlertsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListMonitoringAlerts"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListMonitoringAlertsInput, ListMonitoringAlertsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMonitoringAlertsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMonitoringAlertsInput, ListMonitoringAlertsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMonitoringAlertsOutput>())
@@ -19303,7 +19303,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMonitoringExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMonitoringExecutionsInput, ListMonitoringExecutionsOutput>(xAmzTarget: "SageMaker.ListMonitoringExecutions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMonitoringExecutionsInput, ListMonitoringExecutionsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListMonitoringExecutions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListMonitoringExecutionsInput, ListMonitoringExecutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMonitoringExecutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMonitoringExecutionsInput, ListMonitoringExecutionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMonitoringExecutionsOutput>())
@@ -19367,7 +19367,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMonitoringSchedulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMonitoringSchedulesInput, ListMonitoringSchedulesOutput>(xAmzTarget: "SageMaker.ListMonitoringSchedules"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMonitoringSchedulesInput, ListMonitoringSchedulesOutput>(overrides: ["X-Amz-Target": "SageMaker.ListMonitoringSchedules"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListMonitoringSchedulesInput, ListMonitoringSchedulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMonitoringSchedulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMonitoringSchedulesInput, ListMonitoringSchedulesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMonitoringSchedulesOutput>())
@@ -19431,7 +19431,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListNotebookInstanceLifecycleConfigsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListNotebookInstanceLifecycleConfigsInput, ListNotebookInstanceLifecycleConfigsOutput>(xAmzTarget: "SageMaker.ListNotebookInstanceLifecycleConfigs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListNotebookInstanceLifecycleConfigsInput, ListNotebookInstanceLifecycleConfigsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListNotebookInstanceLifecycleConfigs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListNotebookInstanceLifecycleConfigsInput, ListNotebookInstanceLifecycleConfigsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListNotebookInstanceLifecycleConfigsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListNotebookInstanceLifecycleConfigsInput, ListNotebookInstanceLifecycleConfigsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListNotebookInstanceLifecycleConfigsOutput>())
@@ -19495,7 +19495,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListNotebookInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListNotebookInstancesInput, ListNotebookInstancesOutput>(xAmzTarget: "SageMaker.ListNotebookInstances"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListNotebookInstancesInput, ListNotebookInstancesOutput>(overrides: ["X-Amz-Target": "SageMaker.ListNotebookInstances"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListNotebookInstancesInput, ListNotebookInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListNotebookInstancesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListNotebookInstancesInput, ListNotebookInstancesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListNotebookInstancesOutput>())
@@ -19559,7 +19559,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOptimizationJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListOptimizationJobsInput, ListOptimizationJobsOutput>(xAmzTarget: "SageMaker.ListOptimizationJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOptimizationJobsInput, ListOptimizationJobsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListOptimizationJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListOptimizationJobsInput, ListOptimizationJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOptimizationJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOptimizationJobsInput, ListOptimizationJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOptimizationJobsOutput>())
@@ -19623,7 +19623,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPartnerAppsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPartnerAppsInput, ListPartnerAppsOutput>(xAmzTarget: "SageMaker.ListPartnerApps"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPartnerAppsInput, ListPartnerAppsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListPartnerApps"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPartnerAppsInput, ListPartnerAppsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPartnerAppsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPartnerAppsInput, ListPartnerAppsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPartnerAppsOutput>())
@@ -19692,7 +19692,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPipelineExecutionStepsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPipelineExecutionStepsInput, ListPipelineExecutionStepsOutput>(xAmzTarget: "SageMaker.ListPipelineExecutionSteps"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPipelineExecutionStepsInput, ListPipelineExecutionStepsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListPipelineExecutionSteps"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPipelineExecutionStepsInput, ListPipelineExecutionStepsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPipelineExecutionStepsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPipelineExecutionStepsInput, ListPipelineExecutionStepsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPipelineExecutionStepsOutput>())
@@ -19761,7 +19761,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPipelineExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>(xAmzTarget: "SageMaker.ListPipelineExecutions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListPipelineExecutions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPipelineExecutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPipelineExecutionsOutput>())
@@ -19830,7 +19830,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPipelineParametersForExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPipelineParametersForExecutionInput, ListPipelineParametersForExecutionOutput>(xAmzTarget: "SageMaker.ListPipelineParametersForExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPipelineParametersForExecutionInput, ListPipelineParametersForExecutionOutput>(overrides: ["X-Amz-Target": "SageMaker.ListPipelineParametersForExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPipelineParametersForExecutionInput, ListPipelineParametersForExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPipelineParametersForExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPipelineParametersForExecutionInput, ListPipelineParametersForExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPipelineParametersForExecutionOutput>())
@@ -19899,7 +19899,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPipelineVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPipelineVersionsInput, ListPipelineVersionsOutput>(xAmzTarget: "SageMaker.ListPipelineVersions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPipelineVersionsInput, ListPipelineVersionsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListPipelineVersions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPipelineVersionsInput, ListPipelineVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPipelineVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPipelineVersionsInput, ListPipelineVersionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPipelineVersionsOutput>())
@@ -19963,7 +19963,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPipelinesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPipelinesInput, ListPipelinesOutput>(xAmzTarget: "SageMaker.ListPipelines"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPipelinesInput, ListPipelinesOutput>(overrides: ["X-Amz-Target": "SageMaker.ListPipelines"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPipelinesInput, ListPipelinesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPipelinesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPipelinesInput, ListPipelinesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPipelinesOutput>())
@@ -20027,7 +20027,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProcessingJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProcessingJobsInput, ListProcessingJobsOutput>(xAmzTarget: "SageMaker.ListProcessingJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProcessingJobsInput, ListProcessingJobsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListProcessingJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListProcessingJobsInput, ListProcessingJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProcessingJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProcessingJobsInput, ListProcessingJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProcessingJobsOutput>())
@@ -20091,7 +20091,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProjectsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProjectsInput, ListProjectsOutput>(xAmzTarget: "SageMaker.ListProjects"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProjectsInput, ListProjectsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListProjects"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListProjectsInput, ListProjectsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProjectsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProjectsInput, ListProjectsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProjectsOutput>())
@@ -20155,7 +20155,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResourceCatalogsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListResourceCatalogsInput, ListResourceCatalogsOutput>(xAmzTarget: "SageMaker.ListResourceCatalogs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListResourceCatalogsInput, ListResourceCatalogsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListResourceCatalogs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListResourceCatalogsInput, ListResourceCatalogsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListResourceCatalogsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResourceCatalogsInput, ListResourceCatalogsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResourceCatalogsOutput>())
@@ -20219,7 +20219,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSpacesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSpacesInput, ListSpacesOutput>(xAmzTarget: "SageMaker.ListSpaces"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSpacesInput, ListSpacesOutput>(overrides: ["X-Amz-Target": "SageMaker.ListSpaces"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSpacesInput, ListSpacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSpacesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSpacesInput, ListSpacesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSpacesOutput>())
@@ -20283,7 +20283,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListStageDevicesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStageDevicesInput, ListStageDevicesOutput>(xAmzTarget: "SageMaker.ListStageDevices"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListStageDevicesInput, ListStageDevicesOutput>(overrides: ["X-Amz-Target": "SageMaker.ListStageDevices"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListStageDevicesInput, ListStageDevicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStageDevicesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStageDevicesInput, ListStageDevicesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStageDevicesOutput>())
@@ -20352,7 +20352,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListStudioLifecycleConfigsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStudioLifecycleConfigsInput, ListStudioLifecycleConfigsOutput>(xAmzTarget: "SageMaker.ListStudioLifecycleConfigs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListStudioLifecycleConfigsInput, ListStudioLifecycleConfigsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListStudioLifecycleConfigs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListStudioLifecycleConfigsInput, ListStudioLifecycleConfigsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStudioLifecycleConfigsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStudioLifecycleConfigsInput, ListStudioLifecycleConfigsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStudioLifecycleConfigsOutput>())
@@ -20416,7 +20416,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSubscribedWorkteamsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSubscribedWorkteamsInput, ListSubscribedWorkteamsOutput>(xAmzTarget: "SageMaker.ListSubscribedWorkteams"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSubscribedWorkteamsInput, ListSubscribedWorkteamsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListSubscribedWorkteams"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSubscribedWorkteamsInput, ListSubscribedWorkteamsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSubscribedWorkteamsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSubscribedWorkteamsInput, ListSubscribedWorkteamsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSubscribedWorkteamsOutput>())
@@ -20480,7 +20480,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsInput, ListTagsOutput>(xAmzTarget: "SageMaker.ListTags"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsInput, ListTagsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListTags"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsInput, ListTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsInput, ListTagsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsOutput>())
@@ -20544,7 +20544,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTrainingJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTrainingJobsInput, ListTrainingJobsOutput>(xAmzTarget: "SageMaker.ListTrainingJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTrainingJobsInput, ListTrainingJobsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListTrainingJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTrainingJobsInput, ListTrainingJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTrainingJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTrainingJobsInput, ListTrainingJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTrainingJobsOutput>())
@@ -20613,7 +20613,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTrainingJobsForHyperParameterTuningJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTrainingJobsForHyperParameterTuningJobInput, ListTrainingJobsForHyperParameterTuningJobOutput>(xAmzTarget: "SageMaker.ListTrainingJobsForHyperParameterTuningJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTrainingJobsForHyperParameterTuningJobInput, ListTrainingJobsForHyperParameterTuningJobOutput>(overrides: ["X-Amz-Target": "SageMaker.ListTrainingJobsForHyperParameterTuningJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTrainingJobsForHyperParameterTuningJobInput, ListTrainingJobsForHyperParameterTuningJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTrainingJobsForHyperParameterTuningJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTrainingJobsForHyperParameterTuningJobInput, ListTrainingJobsForHyperParameterTuningJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTrainingJobsForHyperParameterTuningJobOutput>())
@@ -20677,7 +20677,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTrainingPlansOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTrainingPlansInput, ListTrainingPlansOutput>(xAmzTarget: "SageMaker.ListTrainingPlans"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTrainingPlansInput, ListTrainingPlansOutput>(overrides: ["X-Amz-Target": "SageMaker.ListTrainingPlans"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTrainingPlansInput, ListTrainingPlansOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTrainingPlansInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTrainingPlansInput, ListTrainingPlansOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTrainingPlansOutput>())
@@ -20741,7 +20741,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTransformJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTransformJobsInput, ListTransformJobsOutput>(xAmzTarget: "SageMaker.ListTransformJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTransformJobsInput, ListTransformJobsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListTransformJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTransformJobsInput, ListTransformJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTransformJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTransformJobsInput, ListTransformJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTransformJobsOutput>())
@@ -20816,7 +20816,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTrialComponentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTrialComponentsInput, ListTrialComponentsOutput>(xAmzTarget: "SageMaker.ListTrialComponents"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTrialComponentsInput, ListTrialComponentsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListTrialComponents"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTrialComponentsInput, ListTrialComponentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTrialComponentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTrialComponentsInput, ListTrialComponentsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTrialComponentsOutput>())
@@ -20885,7 +20885,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTrialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTrialsInput, ListTrialsOutput>(xAmzTarget: "SageMaker.ListTrials"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTrialsInput, ListTrialsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListTrials"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTrialsInput, ListTrialsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTrialsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTrialsInput, ListTrialsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTrialsOutput>())
@@ -20954,7 +20954,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListUltraServersByReservedCapacityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListUltraServersByReservedCapacityInput, ListUltraServersByReservedCapacityOutput>(xAmzTarget: "SageMaker.ListUltraServersByReservedCapacity"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListUltraServersByReservedCapacityInput, ListUltraServersByReservedCapacityOutput>(overrides: ["X-Amz-Target": "SageMaker.ListUltraServersByReservedCapacity"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListUltraServersByReservedCapacityInput, ListUltraServersByReservedCapacityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListUltraServersByReservedCapacityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListUltraServersByReservedCapacityInput, ListUltraServersByReservedCapacityOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUltraServersByReservedCapacityOutput>())
@@ -21018,7 +21018,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListUserProfilesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListUserProfilesInput, ListUserProfilesOutput>(xAmzTarget: "SageMaker.ListUserProfiles"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListUserProfilesInput, ListUserProfilesOutput>(overrides: ["X-Amz-Target": "SageMaker.ListUserProfiles"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListUserProfilesInput, ListUserProfilesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListUserProfilesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListUserProfilesInput, ListUserProfilesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUserProfilesOutput>())
@@ -21082,7 +21082,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkforcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListWorkforcesInput, ListWorkforcesOutput>(xAmzTarget: "SageMaker.ListWorkforces"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWorkforcesInput, ListWorkforcesOutput>(overrides: ["X-Amz-Target": "SageMaker.ListWorkforces"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListWorkforcesInput, ListWorkforcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWorkforcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkforcesInput, ListWorkforcesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkforcesOutput>())
@@ -21146,7 +21146,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkteamsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListWorkteamsInput, ListWorkteamsOutput>(xAmzTarget: "SageMaker.ListWorkteams"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWorkteamsInput, ListWorkteamsOutput>(overrides: ["X-Amz-Target": "SageMaker.ListWorkteams"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListWorkteamsInput, ListWorkteamsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWorkteamsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkteamsInput, ListWorkteamsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkteamsOutput>())
@@ -21215,7 +21215,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutModelPackageGroupPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutModelPackageGroupPolicyInput, PutModelPackageGroupPolicyOutput>(xAmzTarget: "SageMaker.PutModelPackageGroupPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutModelPackageGroupPolicyInput, PutModelPackageGroupPolicyOutput>(overrides: ["X-Amz-Target": "SageMaker.PutModelPackageGroupPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutModelPackageGroupPolicyInput, PutModelPackageGroupPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutModelPackageGroupPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutModelPackageGroupPolicyInput, PutModelPackageGroupPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutModelPackageGroupPolicyOutput>())
@@ -21284,7 +21284,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<QueryLineageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<QueryLineageInput, QueryLineageOutput>(xAmzTarget: "SageMaker.QueryLineage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<QueryLineageInput, QueryLineageOutput>(overrides: ["X-Amz-Target": "SageMaker.QueryLineage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<QueryLineageInput, QueryLineageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: QueryLineageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<QueryLineageInput, QueryLineageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<QueryLineageOutput>())
@@ -21353,7 +21353,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterDevicesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterDevicesInput, RegisterDevicesOutput>(xAmzTarget: "SageMaker.RegisterDevices"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterDevicesInput, RegisterDevicesOutput>(overrides: ["X-Amz-Target": "SageMaker.RegisterDevices"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RegisterDevicesInput, RegisterDevicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterDevicesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterDevicesInput, RegisterDevicesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterDevicesOutput>())
@@ -21422,7 +21422,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RenderUiTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RenderUiTemplateInput, RenderUiTemplateOutput>(xAmzTarget: "SageMaker.RenderUiTemplate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RenderUiTemplateInput, RenderUiTemplateOutput>(overrides: ["X-Amz-Target": "SageMaker.RenderUiTemplate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RenderUiTemplateInput, RenderUiTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RenderUiTemplateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RenderUiTemplateInput, RenderUiTemplateOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RenderUiTemplateOutput>())
@@ -21494,7 +21494,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RetryPipelineExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RetryPipelineExecutionInput, RetryPipelineExecutionOutput>(xAmzTarget: "SageMaker.RetryPipelineExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RetryPipelineExecutionInput, RetryPipelineExecutionOutput>(overrides: ["X-Amz-Target": "SageMaker.RetryPipelineExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RetryPipelineExecutionInput, RetryPipelineExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RetryPipelineExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetryPipelineExecutionInput, RetryPipelineExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RetryPipelineExecutionOutput>())
@@ -21558,7 +21558,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SearchInput, SearchOutput>(xAmzTarget: "SageMaker.Search"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchInput, SearchOutput>(overrides: ["X-Amz-Target": "SageMaker.Search"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SearchInput, SearchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchInput, SearchOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchOutput>())
@@ -21634,7 +21634,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchTrainingPlanOfferingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SearchTrainingPlanOfferingsInput, SearchTrainingPlanOfferingsOutput>(xAmzTarget: "SageMaker.SearchTrainingPlanOfferings"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchTrainingPlanOfferingsInput, SearchTrainingPlanOfferingsOutput>(overrides: ["X-Amz-Target": "SageMaker.SearchTrainingPlanOfferings"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SearchTrainingPlanOfferingsInput, SearchTrainingPlanOfferingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchTrainingPlanOfferingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchTrainingPlanOfferingsInput, SearchTrainingPlanOfferingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchTrainingPlanOfferingsOutput>())
@@ -21706,7 +21706,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendPipelineExecutionStepFailureOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendPipelineExecutionStepFailureInput, SendPipelineExecutionStepFailureOutput>(xAmzTarget: "SageMaker.SendPipelineExecutionStepFailure"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendPipelineExecutionStepFailureInput, SendPipelineExecutionStepFailureOutput>(overrides: ["X-Amz-Target": "SageMaker.SendPipelineExecutionStepFailure"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SendPipelineExecutionStepFailureInput, SendPipelineExecutionStepFailureOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendPipelineExecutionStepFailureInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendPipelineExecutionStepFailureInput, SendPipelineExecutionStepFailureOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendPipelineExecutionStepFailureOutput>())
@@ -21778,7 +21778,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendPipelineExecutionStepSuccessOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendPipelineExecutionStepSuccessInput, SendPipelineExecutionStepSuccessOutput>(xAmzTarget: "SageMaker.SendPipelineExecutionStepSuccess"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendPipelineExecutionStepSuccessInput, SendPipelineExecutionStepSuccessOutput>(overrides: ["X-Amz-Target": "SageMaker.SendPipelineExecutionStepSuccess"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SendPipelineExecutionStepSuccessInput, SendPipelineExecutionStepSuccessOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendPipelineExecutionStepSuccessInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendPipelineExecutionStepSuccessInput, SendPipelineExecutionStepSuccessOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendPipelineExecutionStepSuccessOutput>())
@@ -21842,7 +21842,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartEdgeDeploymentStageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartEdgeDeploymentStageInput, StartEdgeDeploymentStageOutput>(xAmzTarget: "SageMaker.StartEdgeDeploymentStage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartEdgeDeploymentStageInput, StartEdgeDeploymentStageOutput>(overrides: ["X-Amz-Target": "SageMaker.StartEdgeDeploymentStage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartEdgeDeploymentStageInput, StartEdgeDeploymentStageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartEdgeDeploymentStageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartEdgeDeploymentStageInput, StartEdgeDeploymentStageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartEdgeDeploymentStageOutput>())
@@ -21912,7 +21912,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartInferenceExperimentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartInferenceExperimentInput, StartInferenceExperimentOutput>(xAmzTarget: "SageMaker.StartInferenceExperiment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartInferenceExperimentInput, StartInferenceExperimentOutput>(overrides: ["X-Amz-Target": "SageMaker.StartInferenceExperiment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartInferenceExperimentInput, StartInferenceExperimentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartInferenceExperimentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartInferenceExperimentInput, StartInferenceExperimentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartInferenceExperimentOutput>())
@@ -21982,7 +21982,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMlflowTrackingServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartMlflowTrackingServerInput, StartMlflowTrackingServerOutput>(xAmzTarget: "SageMaker.StartMlflowTrackingServer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMlflowTrackingServerInput, StartMlflowTrackingServerOutput>(overrides: ["X-Amz-Target": "SageMaker.StartMlflowTrackingServer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartMlflowTrackingServerInput, StartMlflowTrackingServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMlflowTrackingServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMlflowTrackingServerInput, StartMlflowTrackingServerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMlflowTrackingServerOutput>())
@@ -22051,7 +22051,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMonitoringScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartMonitoringScheduleInput, StartMonitoringScheduleOutput>(xAmzTarget: "SageMaker.StartMonitoringSchedule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMonitoringScheduleInput, StartMonitoringScheduleOutput>(overrides: ["X-Amz-Target": "SageMaker.StartMonitoringSchedule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartMonitoringScheduleInput, StartMonitoringScheduleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMonitoringScheduleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMonitoringScheduleInput, StartMonitoringScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMonitoringScheduleOutput>())
@@ -22120,7 +22120,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartNotebookInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartNotebookInstanceInput, StartNotebookInstanceOutput>(xAmzTarget: "SageMaker.StartNotebookInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartNotebookInstanceInput, StartNotebookInstanceOutput>(overrides: ["X-Amz-Target": "SageMaker.StartNotebookInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartNotebookInstanceInput, StartNotebookInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartNotebookInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartNotebookInstanceInput, StartNotebookInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartNotebookInstanceOutput>())
@@ -22192,7 +22192,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartPipelineExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartPipelineExecutionInput, StartPipelineExecutionOutput>(xAmzTarget: "SageMaker.StartPipelineExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartPipelineExecutionInput, StartPipelineExecutionOutput>(overrides: ["X-Amz-Target": "SageMaker.StartPipelineExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartPipelineExecutionInput, StartPipelineExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartPipelineExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartPipelineExecutionInput, StartPipelineExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartPipelineExecutionOutput>())
@@ -22262,7 +22262,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartSessionInput, StartSessionOutput>(xAmzTarget: "SageMaker.StartSession"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartSessionInput, StartSessionOutput>(overrides: ["X-Amz-Target": "SageMaker.StartSession"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartSessionInput, StartSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartSessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSessionInput, StartSessionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartSessionOutput>())
@@ -22331,7 +22331,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopAutoMLJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopAutoMLJobInput, StopAutoMLJobOutput>(xAmzTarget: "SageMaker.StopAutoMLJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopAutoMLJobInput, StopAutoMLJobOutput>(overrides: ["X-Amz-Target": "SageMaker.StopAutoMLJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopAutoMLJobInput, StopAutoMLJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopAutoMLJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopAutoMLJobInput, StopAutoMLJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopAutoMLJobOutput>())
@@ -22400,7 +22400,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopCompilationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopCompilationJobInput, StopCompilationJobOutput>(xAmzTarget: "SageMaker.StopCompilationJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopCompilationJobInput, StopCompilationJobOutput>(overrides: ["X-Amz-Target": "SageMaker.StopCompilationJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopCompilationJobInput, StopCompilationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopCompilationJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopCompilationJobInput, StopCompilationJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopCompilationJobOutput>())
@@ -22464,7 +22464,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopEdgeDeploymentStageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopEdgeDeploymentStageInput, StopEdgeDeploymentStageOutput>(xAmzTarget: "SageMaker.StopEdgeDeploymentStage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopEdgeDeploymentStageInput, StopEdgeDeploymentStageOutput>(overrides: ["X-Amz-Target": "SageMaker.StopEdgeDeploymentStage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopEdgeDeploymentStageInput, StopEdgeDeploymentStageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopEdgeDeploymentStageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopEdgeDeploymentStageInput, StopEdgeDeploymentStageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopEdgeDeploymentStageOutput>())
@@ -22528,7 +22528,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopEdgePackagingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopEdgePackagingJobInput, StopEdgePackagingJobOutput>(xAmzTarget: "SageMaker.StopEdgePackagingJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopEdgePackagingJobInput, StopEdgePackagingJobOutput>(overrides: ["X-Amz-Target": "SageMaker.StopEdgePackagingJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopEdgePackagingJobInput, StopEdgePackagingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopEdgePackagingJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopEdgePackagingJobInput, StopEdgePackagingJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopEdgePackagingJobOutput>())
@@ -22597,7 +22597,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopHyperParameterTuningJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopHyperParameterTuningJobInput, StopHyperParameterTuningJobOutput>(xAmzTarget: "SageMaker.StopHyperParameterTuningJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopHyperParameterTuningJobInput, StopHyperParameterTuningJobOutput>(overrides: ["X-Amz-Target": "SageMaker.StopHyperParameterTuningJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopHyperParameterTuningJobInput, StopHyperParameterTuningJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopHyperParameterTuningJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopHyperParameterTuningJobInput, StopHyperParameterTuningJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopHyperParameterTuningJobOutput>())
@@ -22667,7 +22667,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopInferenceExperimentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopInferenceExperimentInput, StopInferenceExperimentOutput>(xAmzTarget: "SageMaker.StopInferenceExperiment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopInferenceExperimentInput, StopInferenceExperimentOutput>(overrides: ["X-Amz-Target": "SageMaker.StopInferenceExperiment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopInferenceExperimentInput, StopInferenceExperimentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopInferenceExperimentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopInferenceExperimentInput, StopInferenceExperimentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopInferenceExperimentOutput>())
@@ -22736,7 +22736,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopInferenceRecommendationsJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopInferenceRecommendationsJobInput, StopInferenceRecommendationsJobOutput>(xAmzTarget: "SageMaker.StopInferenceRecommendationsJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopInferenceRecommendationsJobInput, StopInferenceRecommendationsJobOutput>(overrides: ["X-Amz-Target": "SageMaker.StopInferenceRecommendationsJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopInferenceRecommendationsJobInput, StopInferenceRecommendationsJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopInferenceRecommendationsJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopInferenceRecommendationsJobInput, StopInferenceRecommendationsJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopInferenceRecommendationsJobOutput>())
@@ -22805,7 +22805,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopLabelingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopLabelingJobInput, StopLabelingJobOutput>(xAmzTarget: "SageMaker.StopLabelingJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopLabelingJobInput, StopLabelingJobOutput>(overrides: ["X-Amz-Target": "SageMaker.StopLabelingJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopLabelingJobInput, StopLabelingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopLabelingJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopLabelingJobInput, StopLabelingJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopLabelingJobOutput>())
@@ -22875,7 +22875,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopMlflowTrackingServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopMlflowTrackingServerInput, StopMlflowTrackingServerOutput>(xAmzTarget: "SageMaker.StopMlflowTrackingServer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopMlflowTrackingServerInput, StopMlflowTrackingServerOutput>(overrides: ["X-Amz-Target": "SageMaker.StopMlflowTrackingServer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopMlflowTrackingServerInput, StopMlflowTrackingServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopMlflowTrackingServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopMlflowTrackingServerInput, StopMlflowTrackingServerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopMlflowTrackingServerOutput>())
@@ -22944,7 +22944,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopMonitoringScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopMonitoringScheduleInput, StopMonitoringScheduleOutput>(xAmzTarget: "SageMaker.StopMonitoringSchedule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopMonitoringScheduleInput, StopMonitoringScheduleOutput>(overrides: ["X-Amz-Target": "SageMaker.StopMonitoringSchedule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopMonitoringScheduleInput, StopMonitoringScheduleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopMonitoringScheduleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopMonitoringScheduleInput, StopMonitoringScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopMonitoringScheduleOutput>())
@@ -23008,7 +23008,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopNotebookInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopNotebookInstanceInput, StopNotebookInstanceOutput>(xAmzTarget: "SageMaker.StopNotebookInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopNotebookInstanceInput, StopNotebookInstanceOutput>(overrides: ["X-Amz-Target": "SageMaker.StopNotebookInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopNotebookInstanceInput, StopNotebookInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopNotebookInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopNotebookInstanceInput, StopNotebookInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopNotebookInstanceOutput>())
@@ -23077,7 +23077,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopOptimizationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopOptimizationJobInput, StopOptimizationJobOutput>(xAmzTarget: "SageMaker.StopOptimizationJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopOptimizationJobInput, StopOptimizationJobOutput>(overrides: ["X-Amz-Target": "SageMaker.StopOptimizationJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopOptimizationJobInput, StopOptimizationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopOptimizationJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopOptimizationJobInput, StopOptimizationJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopOptimizationJobOutput>())
@@ -23148,7 +23148,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopPipelineExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopPipelineExecutionInput, StopPipelineExecutionOutput>(xAmzTarget: "SageMaker.StopPipelineExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopPipelineExecutionInput, StopPipelineExecutionOutput>(overrides: ["X-Amz-Target": "SageMaker.StopPipelineExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopPipelineExecutionInput, StopPipelineExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopPipelineExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopPipelineExecutionInput, StopPipelineExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopPipelineExecutionOutput>())
@@ -23217,7 +23217,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopProcessingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopProcessingJobInput, StopProcessingJobOutput>(xAmzTarget: "SageMaker.StopProcessingJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopProcessingJobInput, StopProcessingJobOutput>(overrides: ["X-Amz-Target": "SageMaker.StopProcessingJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopProcessingJobInput, StopProcessingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopProcessingJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopProcessingJobInput, StopProcessingJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopProcessingJobOutput>())
@@ -23286,7 +23286,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopTrainingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopTrainingJobInput, StopTrainingJobOutput>(xAmzTarget: "SageMaker.StopTrainingJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopTrainingJobInput, StopTrainingJobOutput>(overrides: ["X-Amz-Target": "SageMaker.StopTrainingJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopTrainingJobInput, StopTrainingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopTrainingJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopTrainingJobInput, StopTrainingJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopTrainingJobOutput>())
@@ -23355,7 +23355,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopTransformJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopTransformJobInput, StopTransformJobOutput>(xAmzTarget: "SageMaker.StopTransformJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopTransformJobInput, StopTransformJobOutput>(overrides: ["X-Amz-Target": "SageMaker.StopTransformJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopTransformJobInput, StopTransformJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopTransformJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopTransformJobInput, StopTransformJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopTransformJobOutput>())
@@ -23425,7 +23425,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateActionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateActionInput, UpdateActionOutput>(xAmzTarget: "SageMaker.UpdateAction"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateActionInput, UpdateActionOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateAction"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateActionInput, UpdateActionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateActionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateActionInput, UpdateActionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateActionOutput>())
@@ -23494,7 +23494,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAppImageConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateAppImageConfigInput, UpdateAppImageConfigOutput>(xAmzTarget: "SageMaker.UpdateAppImageConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAppImageConfigInput, UpdateAppImageConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateAppImageConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateAppImageConfigInput, UpdateAppImageConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAppImageConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAppImageConfigInput, UpdateAppImageConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAppImageConfigOutput>())
@@ -23564,7 +23564,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateArtifactOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateArtifactInput, UpdateArtifactOutput>(xAmzTarget: "SageMaker.UpdateArtifact"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateArtifactInput, UpdateArtifactOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateArtifact"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateArtifactInput, UpdateArtifactOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateArtifactInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateArtifactInput, UpdateArtifactOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateArtifactOutput>())
@@ -23635,7 +23635,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateClusterInput, UpdateClusterOutput>(xAmzTarget: "SageMaker.UpdateCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateClusterInput, UpdateClusterOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateClusterInput, UpdateClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateClusterInput, UpdateClusterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateClusterOutput>())
@@ -23706,7 +23706,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateClusterSchedulerConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateClusterSchedulerConfigInput, UpdateClusterSchedulerConfigOutput>(xAmzTarget: "SageMaker.UpdateClusterSchedulerConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateClusterSchedulerConfigInput, UpdateClusterSchedulerConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateClusterSchedulerConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateClusterSchedulerConfigInput, UpdateClusterSchedulerConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateClusterSchedulerConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateClusterSchedulerConfigInput, UpdateClusterSchedulerConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateClusterSchedulerConfigOutput>())
@@ -23776,7 +23776,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateClusterSoftwareOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateClusterSoftwareInput, UpdateClusterSoftwareOutput>(xAmzTarget: "SageMaker.UpdateClusterSoftware"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateClusterSoftwareInput, UpdateClusterSoftwareOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateClusterSoftware"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateClusterSoftwareInput, UpdateClusterSoftwareOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateClusterSoftwareInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateClusterSoftwareInput, UpdateClusterSoftwareOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateClusterSoftwareOutput>())
@@ -23845,7 +23845,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCodeRepositoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateCodeRepositoryInput, UpdateCodeRepositoryOutput>(xAmzTarget: "SageMaker.UpdateCodeRepository"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCodeRepositoryInput, UpdateCodeRepositoryOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateCodeRepository"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateCodeRepositoryInput, UpdateCodeRepositoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCodeRepositoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCodeRepositoryInput, UpdateCodeRepositoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCodeRepositoryOutput>())
@@ -23916,7 +23916,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateComputeQuotaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateComputeQuotaInput, UpdateComputeQuotaOutput>(xAmzTarget: "SageMaker.UpdateComputeQuota"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateComputeQuotaInput, UpdateComputeQuotaOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateComputeQuota"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateComputeQuotaInput, UpdateComputeQuotaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateComputeQuotaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateComputeQuotaInput, UpdateComputeQuotaOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateComputeQuotaOutput>())
@@ -23986,7 +23986,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateContextOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateContextInput, UpdateContextOutput>(xAmzTarget: "SageMaker.UpdateContext"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateContextInput, UpdateContextOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateContext"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateContextInput, UpdateContextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateContextInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContextInput, UpdateContextOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContextOutput>())
@@ -24055,7 +24055,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDeviceFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDeviceFleetInput, UpdateDeviceFleetOutput>(xAmzTarget: "SageMaker.UpdateDeviceFleet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDeviceFleetInput, UpdateDeviceFleetOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateDeviceFleet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDeviceFleetInput, UpdateDeviceFleetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDeviceFleetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDeviceFleetInput, UpdateDeviceFleetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDeviceFleetOutput>())
@@ -24119,7 +24119,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDevicesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDevicesInput, UpdateDevicesOutput>(xAmzTarget: "SageMaker.UpdateDevices"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDevicesInput, UpdateDevicesOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateDevices"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDevicesInput, UpdateDevicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDevicesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDevicesInput, UpdateDevicesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDevicesOutput>())
@@ -24190,7 +24190,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDomainInput, UpdateDomainOutput>(xAmzTarget: "SageMaker.UpdateDomain"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDomainInput, UpdateDomainOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateDomain"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDomainInput, UpdateDomainOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDomainInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDomainInput, UpdateDomainOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDomainOutput>())
@@ -24259,7 +24259,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateEndpointInput, UpdateEndpointOutput>(xAmzTarget: "SageMaker.UpdateEndpoint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEndpointInput, UpdateEndpointOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateEndpoint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateEndpointInput, UpdateEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEndpointInput, UpdateEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEndpointOutput>())
@@ -24328,7 +24328,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEndpointWeightsAndCapacitiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateEndpointWeightsAndCapacitiesInput, UpdateEndpointWeightsAndCapacitiesOutput>(xAmzTarget: "SageMaker.UpdateEndpointWeightsAndCapacities"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEndpointWeightsAndCapacitiesInput, UpdateEndpointWeightsAndCapacitiesOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateEndpointWeightsAndCapacities"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateEndpointWeightsAndCapacitiesInput, UpdateEndpointWeightsAndCapacitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEndpointWeightsAndCapacitiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEndpointWeightsAndCapacitiesInput, UpdateEndpointWeightsAndCapacitiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEndpointWeightsAndCapacitiesOutput>())
@@ -24398,7 +24398,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateExperimentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateExperimentInput, UpdateExperimentOutput>(xAmzTarget: "SageMaker.UpdateExperiment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateExperimentInput, UpdateExperimentOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateExperiment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateExperimentInput, UpdateExperimentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateExperimentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateExperimentInput, UpdateExperimentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateExperimentOutput>())
@@ -24468,7 +24468,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFeatureGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateFeatureGroupInput, UpdateFeatureGroupOutput>(xAmzTarget: "SageMaker.UpdateFeatureGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFeatureGroupInput, UpdateFeatureGroupOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateFeatureGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateFeatureGroupInput, UpdateFeatureGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFeatureGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFeatureGroupInput, UpdateFeatureGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFeatureGroupOutput>())
@@ -24537,7 +24537,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFeatureMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateFeatureMetadataInput, UpdateFeatureMetadataOutput>(xAmzTarget: "SageMaker.UpdateFeatureMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFeatureMetadataInput, UpdateFeatureMetadataOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateFeatureMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateFeatureMetadataInput, UpdateFeatureMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFeatureMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFeatureMetadataInput, UpdateFeatureMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFeatureMetadataOutput>())
@@ -24606,7 +24606,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateHubOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateHubInput, UpdateHubOutput>(xAmzTarget: "SageMaker.UpdateHub"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateHubInput, UpdateHubOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateHub"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateHubInput, UpdateHubOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateHubInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateHubInput, UpdateHubOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateHubOutput>())
@@ -24689,7 +24689,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateHubContentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateHubContentInput, UpdateHubContentOutput>(xAmzTarget: "SageMaker.UpdateHubContent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateHubContentInput, UpdateHubContentOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateHubContent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateHubContentInput, UpdateHubContentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateHubContentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateHubContentInput, UpdateHubContentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateHubContentOutput>())
@@ -24759,7 +24759,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateHubContentReferenceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateHubContentReferenceInput, UpdateHubContentReferenceOutput>(xAmzTarget: "SageMaker.UpdateHubContentReference"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateHubContentReferenceInput, UpdateHubContentReferenceOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateHubContentReference"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateHubContentReferenceInput, UpdateHubContentReferenceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateHubContentReferenceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateHubContentReferenceInput, UpdateHubContentReferenceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateHubContentReferenceOutput>())
@@ -24829,7 +24829,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateImageInput, UpdateImageOutput>(xAmzTarget: "SageMaker.UpdateImage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateImageInput, UpdateImageOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateImage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateImageInput, UpdateImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateImageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateImageInput, UpdateImageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateImageOutput>())
@@ -24899,7 +24899,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateImageVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateImageVersionInput, UpdateImageVersionOutput>(xAmzTarget: "SageMaker.UpdateImageVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateImageVersionInput, UpdateImageVersionOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateImageVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateImageVersionInput, UpdateImageVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateImageVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateImageVersionInput, UpdateImageVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateImageVersionOutput>())
@@ -24968,7 +24968,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateInferenceComponentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateInferenceComponentInput, UpdateInferenceComponentOutput>(xAmzTarget: "SageMaker.UpdateInferenceComponent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateInferenceComponentInput, UpdateInferenceComponentOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateInferenceComponent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateInferenceComponentInput, UpdateInferenceComponentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateInferenceComponentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateInferenceComponentInput, UpdateInferenceComponentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateInferenceComponentOutput>())
@@ -25037,7 +25037,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateInferenceComponentRuntimeConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateInferenceComponentRuntimeConfigInput, UpdateInferenceComponentRuntimeConfigOutput>(xAmzTarget: "SageMaker.UpdateInferenceComponentRuntimeConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateInferenceComponentRuntimeConfigInput, UpdateInferenceComponentRuntimeConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateInferenceComponentRuntimeConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateInferenceComponentRuntimeConfigInput, UpdateInferenceComponentRuntimeConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateInferenceComponentRuntimeConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateInferenceComponentRuntimeConfigInput, UpdateInferenceComponentRuntimeConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateInferenceComponentRuntimeConfigOutput>())
@@ -25107,7 +25107,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateInferenceExperimentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateInferenceExperimentInput, UpdateInferenceExperimentOutput>(xAmzTarget: "SageMaker.UpdateInferenceExperiment"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateInferenceExperimentInput, UpdateInferenceExperimentOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateInferenceExperiment"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateInferenceExperimentInput, UpdateInferenceExperimentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateInferenceExperimentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateInferenceExperimentInput, UpdateInferenceExperimentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateInferenceExperimentOutput>())
@@ -25177,7 +25177,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateMlflowAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateMlflowAppInput, UpdateMlflowAppOutput>(xAmzTarget: "SageMaker.UpdateMlflowApp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateMlflowAppInput, UpdateMlflowAppOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateMlflowApp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateMlflowAppInput, UpdateMlflowAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateMlflowAppInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMlflowAppInput, UpdateMlflowAppOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMlflowAppOutput>())
@@ -25248,7 +25248,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateMlflowTrackingServerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateMlflowTrackingServerInput, UpdateMlflowTrackingServerOutput>(xAmzTarget: "SageMaker.UpdateMlflowTrackingServer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateMlflowTrackingServerInput, UpdateMlflowTrackingServerOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateMlflowTrackingServer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateMlflowTrackingServerInput, UpdateMlflowTrackingServerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateMlflowTrackingServerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMlflowTrackingServerInput, UpdateMlflowTrackingServerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMlflowTrackingServerOutput>())
@@ -25319,7 +25319,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateModelCardOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateModelCardInput, UpdateModelCardOutput>(xAmzTarget: "SageMaker.UpdateModelCard"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateModelCardInput, UpdateModelCardOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateModelCard"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateModelCardInput, UpdateModelCardOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateModelCardInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateModelCardInput, UpdateModelCardOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateModelCardOutput>())
@@ -25388,7 +25388,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateModelPackageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateModelPackageInput, UpdateModelPackageOutput>(xAmzTarget: "SageMaker.UpdateModelPackage"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateModelPackageInput, UpdateModelPackageOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateModelPackage"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateModelPackageInput, UpdateModelPackageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateModelPackageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateModelPackageInput, UpdateModelPackageOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateModelPackageOutput>())
@@ -25458,7 +25458,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateMonitoringAlertOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateMonitoringAlertInput, UpdateMonitoringAlertOutput>(xAmzTarget: "SageMaker.UpdateMonitoringAlert"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateMonitoringAlertInput, UpdateMonitoringAlertOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateMonitoringAlert"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateMonitoringAlertInput, UpdateMonitoringAlertOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateMonitoringAlertInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMonitoringAlertInput, UpdateMonitoringAlertOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMonitoringAlertOutput>())
@@ -25528,7 +25528,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateMonitoringScheduleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateMonitoringScheduleInput, UpdateMonitoringScheduleOutput>(xAmzTarget: "SageMaker.UpdateMonitoringSchedule"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateMonitoringScheduleInput, UpdateMonitoringScheduleOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateMonitoringSchedule"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateMonitoringScheduleInput, UpdateMonitoringScheduleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateMonitoringScheduleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMonitoringScheduleInput, UpdateMonitoringScheduleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMonitoringScheduleOutput>())
@@ -25597,7 +25597,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateNotebookInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateNotebookInstanceInput, UpdateNotebookInstanceOutput>(xAmzTarget: "SageMaker.UpdateNotebookInstance"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateNotebookInstanceInput, UpdateNotebookInstanceOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateNotebookInstance"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateNotebookInstanceInput, UpdateNotebookInstanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateNotebookInstanceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateNotebookInstanceInput, UpdateNotebookInstanceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateNotebookInstanceOutput>())
@@ -25666,7 +25666,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateNotebookInstanceLifecycleConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateNotebookInstanceLifecycleConfigInput, UpdateNotebookInstanceLifecycleConfigOutput>(xAmzTarget: "SageMaker.UpdateNotebookInstanceLifecycleConfig"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateNotebookInstanceLifecycleConfigInput, UpdateNotebookInstanceLifecycleConfigOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateNotebookInstanceLifecycleConfig"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateNotebookInstanceLifecycleConfigInput, UpdateNotebookInstanceLifecycleConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateNotebookInstanceLifecycleConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateNotebookInstanceLifecycleConfigInput, UpdateNotebookInstanceLifecycleConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateNotebookInstanceLifecycleConfigOutput>())
@@ -25737,7 +25737,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePartnerAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePartnerAppInput, UpdatePartnerAppOutput>(xAmzTarget: "SageMaker.UpdatePartnerApp"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePartnerAppInput, UpdatePartnerAppOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdatePartnerApp"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdatePartnerAppInput, UpdatePartnerAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePartnerAppInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePartnerAppInput, UpdatePartnerAppOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePartnerAppOutput>())
@@ -25807,7 +25807,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePipelineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePipelineInput, UpdatePipelineOutput>(xAmzTarget: "SageMaker.UpdatePipeline"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePipelineInput, UpdatePipelineOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdatePipeline"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdatePipelineInput, UpdatePipelineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePipelineInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePipelineInput, UpdatePipelineOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePipelineOutput>())
@@ -25877,7 +25877,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePipelineExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePipelineExecutionInput, UpdatePipelineExecutionOutput>(xAmzTarget: "SageMaker.UpdatePipelineExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePipelineExecutionInput, UpdatePipelineExecutionOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdatePipelineExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdatePipelineExecutionInput, UpdatePipelineExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePipelineExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePipelineExecutionInput, UpdatePipelineExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePipelineExecutionOutput>())
@@ -25947,7 +25947,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePipelineVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePipelineVersionInput, UpdatePipelineVersionOutput>(xAmzTarget: "SageMaker.UpdatePipelineVersion"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePipelineVersionInput, UpdatePipelineVersionOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdatePipelineVersion"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdatePipelineVersionInput, UpdatePipelineVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePipelineVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePipelineVersionInput, UpdatePipelineVersionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePipelineVersionOutput>())
@@ -26016,7 +26016,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProjectInput, UpdateProjectOutput>(xAmzTarget: "SageMaker.UpdateProject"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProjectInput, UpdateProjectOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateProject"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateProjectInput, UpdateProjectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProjectInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProjectInput, UpdateProjectOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProjectOutput>())
@@ -26087,7 +26087,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSpaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateSpaceInput, UpdateSpaceOutput>(xAmzTarget: "SageMaker.UpdateSpace"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSpaceInput, UpdateSpaceOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateSpace"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateSpaceInput, UpdateSpaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSpaceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSpaceInput, UpdateSpaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSpaceOutput>())
@@ -26157,7 +26157,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTrainingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTrainingJobInput, UpdateTrainingJobOutput>(xAmzTarget: "SageMaker.UpdateTrainingJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTrainingJobInput, UpdateTrainingJobOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateTrainingJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTrainingJobInput, UpdateTrainingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTrainingJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTrainingJobInput, UpdateTrainingJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTrainingJobOutput>())
@@ -26227,7 +26227,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTrialOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTrialInput, UpdateTrialOutput>(xAmzTarget: "SageMaker.UpdateTrial"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTrialInput, UpdateTrialOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateTrial"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTrialInput, UpdateTrialOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTrialInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTrialInput, UpdateTrialOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTrialOutput>())
@@ -26297,7 +26297,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTrialComponentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTrialComponentInput, UpdateTrialComponentOutput>(xAmzTarget: "SageMaker.UpdateTrialComponent"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTrialComponentInput, UpdateTrialComponentOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateTrialComponent"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTrialComponentInput, UpdateTrialComponentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTrialComponentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTrialComponentInput, UpdateTrialComponentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTrialComponentOutput>())
@@ -26368,7 +26368,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateUserProfileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateUserProfileInput, UpdateUserProfileOutput>(xAmzTarget: "SageMaker.UpdateUserProfile"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateUserProfileInput, UpdateUserProfileOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateUserProfile"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateUserProfileInput, UpdateUserProfileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateUserProfileInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateUserProfileInput, UpdateUserProfileOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateUserProfileOutput>())
@@ -26437,7 +26437,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWorkforceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateWorkforceInput, UpdateWorkforceOutput>(xAmzTarget: "SageMaker.UpdateWorkforce"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateWorkforceInput, UpdateWorkforceOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateWorkforce"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateWorkforceInput, UpdateWorkforceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWorkforceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWorkforceInput, UpdateWorkforceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWorkforceOutput>())
@@ -26506,7 +26506,7 @@ extension SageMakerClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWorkteamOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateWorkteamInput, UpdateWorkteamOutput>(xAmzTarget: "SageMaker.UpdateWorkteam"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateWorkteamInput, UpdateWorkteamOutput>(overrides: ["X-Amz-Target": "SageMaker.UpdateWorkteam"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateWorkteamInput, UpdateWorkteamOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWorkteamInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWorkteamInput, UpdateWorkteamOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWorkteamOutput>())

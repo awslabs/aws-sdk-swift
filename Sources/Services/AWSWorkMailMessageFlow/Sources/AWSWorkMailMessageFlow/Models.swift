@@ -18,8 +18,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 
 /// The requested email message is not found.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -276,7 +276,7 @@ enum GetRawMessageContentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -290,7 +290,7 @@ enum PutRawMessageContentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidContentLocation": return try InvalidContentLocation.makeError(baseError: baseError)
@@ -304,7 +304,7 @@ enum PutRawMessageContentOutputError {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -317,7 +317,7 @@ extension ResourceNotFoundException {
 
 extension InvalidContentLocation {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidContentLocation {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidContentLocation {
         let reader = baseError.errorBodyReader
         var value = InvalidContentLocation()
         value.properties.message = try reader["message"].readIfPresent()
@@ -330,7 +330,7 @@ extension InvalidContentLocation {
 
 extension MessageFrozen {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MessageFrozen {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MessageFrozen {
         let reader = baseError.errorBodyReader
         var value = MessageFrozen()
         value.properties.message = try reader["message"].readIfPresent()
@@ -343,7 +343,7 @@ extension MessageFrozen {
 
 extension MessageRejected {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MessageRejected {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MessageRejected {
         let reader = baseError.errorBodyReader
         var value = MessageRejected()
         value.properties.message = try reader["message"].readIfPresent()

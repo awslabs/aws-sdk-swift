@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -665,7 +665,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptEngagementInvitationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AcceptEngagementInvitationInput, AcceptEngagementInvitationOutput>(xAmzTarget: "AWSPartnerCentralSelling.AcceptEngagementInvitation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptEngagementInvitationInput, AcceptEngagementInvitationOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.AcceptEngagementInvitation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AcceptEngagementInvitationInput, AcceptEngagementInvitationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptEngagementInvitationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptEngagementInvitationInput, AcceptEngagementInvitationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptEngagementInvitationOutput>())
@@ -738,7 +738,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssignOpportunityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssignOpportunityInput, AssignOpportunityOutput>(xAmzTarget: "AWSPartnerCentralSelling.AssignOpportunity"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssignOpportunityInput, AssignOpportunityOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.AssignOpportunity"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssignOpportunityInput, AssignOpportunityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssignOpportunityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssignOpportunityInput, AssignOpportunityOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssignOpportunityOutput>())
@@ -826,7 +826,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateOpportunityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateOpportunityInput, AssociateOpportunityOutput>(xAmzTarget: "AWSPartnerCentralSelling.AssociateOpportunity"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateOpportunityInput, AssociateOpportunityOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.AssociateOpportunity"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateOpportunityInput, AssociateOpportunityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateOpportunityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateOpportunityInput, AssociateOpportunityOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateOpportunityOutput>())
@@ -902,7 +902,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEngagementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEngagementInput, CreateEngagementOutput>(xAmzTarget: "AWSPartnerCentralSelling.CreateEngagement"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEngagementInput, CreateEngagementOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.CreateEngagement"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateEngagementInput, CreateEngagementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEngagementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEngagementInput, CreateEngagementOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEngagementOutput>())
@@ -978,7 +978,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEngagementContextOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(xAmzTarget: "AWSPartnerCentralSelling.CreateEngagementContext"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.CreateEngagementContext"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEngagementContextInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEngagementContextOutput>())
@@ -1054,7 +1054,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEngagementInvitationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEngagementInvitationInput, CreateEngagementInvitationOutput>(xAmzTarget: "AWSPartnerCentralSelling.CreateEngagementInvitation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateEngagementInvitationInput, CreateEngagementInvitationOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.CreateEngagementInvitation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateEngagementInvitationInput, CreateEngagementInvitationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEngagementInvitationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEngagementInvitationInput, CreateEngagementInvitationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEngagementInvitationOutput>())
@@ -1138,7 +1138,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateOpportunityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateOpportunityInput, CreateOpportunityOutput>(xAmzTarget: "AWSPartnerCentralSelling.CreateOpportunity"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateOpportunityInput, CreateOpportunityOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.CreateOpportunity"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateOpportunityInput, CreateOpportunityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateOpportunityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateOpportunityInput, CreateOpportunityOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOpportunityOutput>())
@@ -1214,7 +1214,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateResourceSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateResourceSnapshotInput, CreateResourceSnapshotOutput>(xAmzTarget: "AWSPartnerCentralSelling.CreateResourceSnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateResourceSnapshotInput, CreateResourceSnapshotOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.CreateResourceSnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateResourceSnapshotInput, CreateResourceSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateResourceSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateResourceSnapshotInput, CreateResourceSnapshotOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateResourceSnapshotOutput>())
@@ -1290,7 +1290,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateResourceSnapshotJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateResourceSnapshotJobInput, CreateResourceSnapshotJobOutput>(xAmzTarget: "AWSPartnerCentralSelling.CreateResourceSnapshotJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateResourceSnapshotJobInput, CreateResourceSnapshotJobOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.CreateResourceSnapshotJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateResourceSnapshotJobInput, CreateResourceSnapshotJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateResourceSnapshotJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateResourceSnapshotJobInput, CreateResourceSnapshotJobOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateResourceSnapshotJobOutput>())
@@ -1364,7 +1364,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourceSnapshotJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteResourceSnapshotJobInput, DeleteResourceSnapshotJobOutput>(xAmzTarget: "AWSPartnerCentralSelling.DeleteResourceSnapshotJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourceSnapshotJobInput, DeleteResourceSnapshotJobOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.DeleteResourceSnapshotJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourceSnapshotJobInput, DeleteResourceSnapshotJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourceSnapshotJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourceSnapshotJobInput, DeleteResourceSnapshotJobOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourceSnapshotJobOutput>())
@@ -1437,7 +1437,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateOpportunityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateOpportunityInput, DisassociateOpportunityOutput>(xAmzTarget: "AWSPartnerCentralSelling.DisassociateOpportunity"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateOpportunityInput, DisassociateOpportunityOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.DisassociateOpportunity"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateOpportunityInput, DisassociateOpportunityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateOpportunityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateOpportunityInput, DisassociateOpportunityOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateOpportunityOutput>())
@@ -1510,7 +1510,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAwsOpportunitySummaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAwsOpportunitySummaryInput, GetAwsOpportunitySummaryOutput>(xAmzTarget: "AWSPartnerCentralSelling.GetAwsOpportunitySummary"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAwsOpportunitySummaryInput, GetAwsOpportunitySummaryOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.GetAwsOpportunitySummary"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetAwsOpportunitySummaryInput, GetAwsOpportunitySummaryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAwsOpportunitySummaryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAwsOpportunitySummaryInput, GetAwsOpportunitySummaryOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAwsOpportunitySummaryOutput>())
@@ -1583,7 +1583,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEngagementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetEngagementInput, GetEngagementOutput>(xAmzTarget: "AWSPartnerCentralSelling.GetEngagement"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEngagementInput, GetEngagementOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.GetEngagement"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetEngagementInput, GetEngagementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEngagementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEngagementInput, GetEngagementOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEngagementOutput>())
@@ -1656,7 +1656,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEngagementInvitationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetEngagementInvitationInput, GetEngagementInvitationOutput>(xAmzTarget: "AWSPartnerCentralSelling.GetEngagementInvitation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEngagementInvitationInput, GetEngagementInvitationOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.GetEngagementInvitation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetEngagementInvitationInput, GetEngagementInvitationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEngagementInvitationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEngagementInvitationInput, GetEngagementInvitationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEngagementInvitationOutput>())
@@ -1729,7 +1729,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOpportunityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetOpportunityInput, GetOpportunityOutput>(xAmzTarget: "AWSPartnerCentralSelling.GetOpportunity"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOpportunityInput, GetOpportunityOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.GetOpportunity"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetOpportunityInput, GetOpportunityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOpportunityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOpportunityInput, GetOpportunityOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOpportunityOutput>())
@@ -1802,7 +1802,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourceSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetResourceSnapshotInput, GetResourceSnapshotOutput>(xAmzTarget: "AWSPartnerCentralSelling.GetResourceSnapshot"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourceSnapshotInput, GetResourceSnapshotOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.GetResourceSnapshot"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetResourceSnapshotInput, GetResourceSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourceSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourceSnapshotInput, GetResourceSnapshotOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourceSnapshotOutput>())
@@ -1875,7 +1875,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourceSnapshotJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetResourceSnapshotJobInput, GetResourceSnapshotJobOutput>(xAmzTarget: "AWSPartnerCentralSelling.GetResourceSnapshotJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourceSnapshotJobInput, GetResourceSnapshotJobOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.GetResourceSnapshotJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetResourceSnapshotJobInput, GetResourceSnapshotJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourceSnapshotJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourceSnapshotJobInput, GetResourceSnapshotJobOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourceSnapshotJobOutput>())
@@ -1948,7 +1948,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSellingSystemSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSellingSystemSettingsInput, GetSellingSystemSettingsOutput>(xAmzTarget: "AWSPartnerCentralSelling.GetSellingSystemSettings"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSellingSystemSettingsInput, GetSellingSystemSettingsOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.GetSellingSystemSettings"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSellingSystemSettingsInput, GetSellingSystemSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSellingSystemSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSellingSystemSettingsInput, GetSellingSystemSettingsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSellingSystemSettingsOutput>())
@@ -2021,7 +2021,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEngagementByAcceptingInvitationTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEngagementByAcceptingInvitationTasksInput, ListEngagementByAcceptingInvitationTasksOutput>(xAmzTarget: "AWSPartnerCentralSelling.ListEngagementByAcceptingInvitationTasks"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEngagementByAcceptingInvitationTasksInput, ListEngagementByAcceptingInvitationTasksOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListEngagementByAcceptingInvitationTasks"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEngagementByAcceptingInvitationTasksInput, ListEngagementByAcceptingInvitationTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEngagementByAcceptingInvitationTasksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEngagementByAcceptingInvitationTasksInput, ListEngagementByAcceptingInvitationTasksOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEngagementByAcceptingInvitationTasksOutput>())
@@ -2094,7 +2094,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEngagementFromOpportunityTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEngagementFromOpportunityTasksInput, ListEngagementFromOpportunityTasksOutput>(xAmzTarget: "AWSPartnerCentralSelling.ListEngagementFromOpportunityTasks"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEngagementFromOpportunityTasksInput, ListEngagementFromOpportunityTasksOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListEngagementFromOpportunityTasks"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEngagementFromOpportunityTasksInput, ListEngagementFromOpportunityTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEngagementFromOpportunityTasksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEngagementFromOpportunityTasksInput, ListEngagementFromOpportunityTasksOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEngagementFromOpportunityTasksOutput>())
@@ -2167,7 +2167,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEngagementInvitationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEngagementInvitationsInput, ListEngagementInvitationsOutput>(xAmzTarget: "AWSPartnerCentralSelling.ListEngagementInvitations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEngagementInvitationsInput, ListEngagementInvitationsOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListEngagementInvitations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEngagementInvitationsInput, ListEngagementInvitationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEngagementInvitationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEngagementInvitationsInput, ListEngagementInvitationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEngagementInvitationsOutput>())
@@ -2240,7 +2240,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEngagementMembersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEngagementMembersInput, ListEngagementMembersOutput>(xAmzTarget: "AWSPartnerCentralSelling.ListEngagementMembers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEngagementMembersInput, ListEngagementMembersOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListEngagementMembers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEngagementMembersInput, ListEngagementMembersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEngagementMembersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEngagementMembersInput, ListEngagementMembersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEngagementMembersOutput>())
@@ -2313,7 +2313,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEngagementResourceAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEngagementResourceAssociationsInput, ListEngagementResourceAssociationsOutput>(xAmzTarget: "AWSPartnerCentralSelling.ListEngagementResourceAssociations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEngagementResourceAssociationsInput, ListEngagementResourceAssociationsOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListEngagementResourceAssociations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEngagementResourceAssociationsInput, ListEngagementResourceAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEngagementResourceAssociationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEngagementResourceAssociationsInput, ListEngagementResourceAssociationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEngagementResourceAssociationsOutput>())
@@ -2386,7 +2386,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEngagementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEngagementsInput, ListEngagementsOutput>(xAmzTarget: "AWSPartnerCentralSelling.ListEngagements"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEngagementsInput, ListEngagementsOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListEngagements"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEngagementsInput, ListEngagementsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEngagementsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEngagementsInput, ListEngagementsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEngagementsOutput>())
@@ -2465,7 +2465,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOpportunitiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListOpportunitiesInput, ListOpportunitiesOutput>(xAmzTarget: "AWSPartnerCentralSelling.ListOpportunities"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOpportunitiesInput, ListOpportunitiesOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListOpportunities"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListOpportunitiesInput, ListOpportunitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOpportunitiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOpportunitiesInput, ListOpportunitiesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOpportunitiesOutput>())
@@ -2538,7 +2538,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOpportunityFromEngagementTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>(xAmzTarget: "AWSPartnerCentralSelling.ListOpportunityFromEngagementTasks"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListOpportunityFromEngagementTasks"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOpportunityFromEngagementTasksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOpportunityFromEngagementTasksOutput>())
@@ -2611,7 +2611,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResourceSnapshotJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListResourceSnapshotJobsInput, ListResourceSnapshotJobsOutput>(xAmzTarget: "AWSPartnerCentralSelling.ListResourceSnapshotJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListResourceSnapshotJobsInput, ListResourceSnapshotJobsOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListResourceSnapshotJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListResourceSnapshotJobsInput, ListResourceSnapshotJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListResourceSnapshotJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResourceSnapshotJobsInput, ListResourceSnapshotJobsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResourceSnapshotJobsOutput>())
@@ -2694,7 +2694,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResourceSnapshotsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListResourceSnapshotsInput, ListResourceSnapshotsOutput>(xAmzTarget: "AWSPartnerCentralSelling.ListResourceSnapshots"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListResourceSnapshotsInput, ListResourceSnapshotsOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListResourceSnapshots"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListResourceSnapshotsInput, ListResourceSnapshotsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListResourceSnapshotsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResourceSnapshotsInput, ListResourceSnapshotsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResourceSnapshotsOutput>())
@@ -2767,7 +2767,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSolutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSolutionsInput, ListSolutionsOutput>(xAmzTarget: "AWSPartnerCentralSelling.ListSolutions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSolutionsInput, ListSolutionsOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListSolutions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSolutionsInput, ListSolutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSolutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSolutionsInput, ListSolutionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSolutionsOutput>())
@@ -2840,7 +2840,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSPartnerCentralSelling.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -2913,7 +2913,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutSellingSystemSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutSellingSystemSettingsInput, PutSellingSystemSettingsOutput>(xAmzTarget: "AWSPartnerCentralSelling.PutSellingSystemSettings"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutSellingSystemSettingsInput, PutSellingSystemSettingsOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.PutSellingSystemSettings"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutSellingSystemSettingsInput, PutSellingSystemSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutSellingSystemSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutSellingSystemSettingsInput, PutSellingSystemSettingsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutSellingSystemSettingsOutput>())
@@ -2987,7 +2987,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RejectEngagementInvitationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RejectEngagementInvitationInput, RejectEngagementInvitationOutput>(xAmzTarget: "AWSPartnerCentralSelling.RejectEngagementInvitation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectEngagementInvitationInput, RejectEngagementInvitationOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.RejectEngagementInvitation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RejectEngagementInvitationInput, RejectEngagementInvitationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RejectEngagementInvitationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectEngagementInvitationInput, RejectEngagementInvitationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectEngagementInvitationOutput>())
@@ -3063,7 +3063,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartEngagementByAcceptingInvitationTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartEngagementByAcceptingInvitationTaskInput, StartEngagementByAcceptingInvitationTaskOutput>(xAmzTarget: "AWSPartnerCentralSelling.StartEngagementByAcceptingInvitationTask"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartEngagementByAcceptingInvitationTaskInput, StartEngagementByAcceptingInvitationTaskOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.StartEngagementByAcceptingInvitationTask"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartEngagementByAcceptingInvitationTaskInput, StartEngagementByAcceptingInvitationTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartEngagementByAcceptingInvitationTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartEngagementByAcceptingInvitationTaskInput, StartEngagementByAcceptingInvitationTaskOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartEngagementByAcceptingInvitationTaskOutput>())
@@ -3139,7 +3139,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartEngagementFromOpportunityTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartEngagementFromOpportunityTaskInput, StartEngagementFromOpportunityTaskOutput>(xAmzTarget: "AWSPartnerCentralSelling.StartEngagementFromOpportunityTask"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartEngagementFromOpportunityTaskInput, StartEngagementFromOpportunityTaskOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.StartEngagementFromOpportunityTask"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartEngagementFromOpportunityTaskInput, StartEngagementFromOpportunityTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartEngagementFromOpportunityTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartEngagementFromOpportunityTaskInput, StartEngagementFromOpportunityTaskOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartEngagementFromOpportunityTaskOutput>())
@@ -3215,7 +3215,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartOpportunityFromEngagementTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(xAmzTarget: "AWSPartnerCentralSelling.StartOpportunityFromEngagementTask"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.StartOpportunityFromEngagementTask"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartOpportunityFromEngagementTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartOpportunityFromEngagementTaskOutput>())
@@ -3288,7 +3288,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartResourceSnapshotJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartResourceSnapshotJobInput, StartResourceSnapshotJobOutput>(xAmzTarget: "AWSPartnerCentralSelling.StartResourceSnapshotJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartResourceSnapshotJobInput, StartResourceSnapshotJobOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.StartResourceSnapshotJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartResourceSnapshotJobInput, StartResourceSnapshotJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartResourceSnapshotJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartResourceSnapshotJobInput, StartResourceSnapshotJobOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartResourceSnapshotJobOutput>())
@@ -3361,7 +3361,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopResourceSnapshotJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopResourceSnapshotJobInput, StopResourceSnapshotJobOutput>(xAmzTarget: "AWSPartnerCentralSelling.StopResourceSnapshotJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopResourceSnapshotJobInput, StopResourceSnapshotJobOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.StopResourceSnapshotJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopResourceSnapshotJobInput, StopResourceSnapshotJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopResourceSnapshotJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopResourceSnapshotJobInput, StopResourceSnapshotJobOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopResourceSnapshotJobOutput>())
@@ -3434,7 +3434,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SubmitOpportunityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubmitOpportunityInput, SubmitOpportunityOutput>(xAmzTarget: "AWSPartnerCentralSelling.SubmitOpportunity"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SubmitOpportunityInput, SubmitOpportunityOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.SubmitOpportunity"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SubmitOpportunityInput, SubmitOpportunityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitOpportunityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitOpportunityInput, SubmitOpportunityOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubmitOpportunityOutput>())
@@ -3508,7 +3508,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSPartnerCentralSelling.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -3582,7 +3582,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSPartnerCentralSelling.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -3657,7 +3657,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEngagementContextOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>(xAmzTarget: "AWSPartnerCentralSelling.UpdateEngagementContext"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.UpdateEngagementContext"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEngagementContextInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEngagementContextOutput>())
@@ -3731,7 +3731,7 @@ extension PartnerCentralSellingClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateOpportunityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateOpportunityInput, UpdateOpportunityOutput>(xAmzTarget: "AWSPartnerCentralSelling.UpdateOpportunity"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateOpportunityInput, UpdateOpportunityOutput>(overrides: ["X-Amz-Target": "AWSPartnerCentralSelling.UpdateOpportunity"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateOpportunityInput, UpdateOpportunityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateOpportunityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateOpportunityInput, UpdateOpportunityOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateOpportunityOutput>())

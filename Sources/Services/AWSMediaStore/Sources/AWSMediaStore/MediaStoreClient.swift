@@ -48,7 +48,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -56,6 +55,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -660,7 +660,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateContainerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateContainerInput, CreateContainerOutput>(xAmzTarget: "MediaStore_20170901.CreateContainer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateContainerInput, CreateContainerOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.CreateContainer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateContainerInput, CreateContainerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateContainerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContainerInput, CreateContainerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateContainerOutput>())
@@ -731,7 +731,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteContainerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteContainerInput, DeleteContainerOutput>(xAmzTarget: "MediaStore_20170901.DeleteContainer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteContainerInput, DeleteContainerOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.DeleteContainer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteContainerInput, DeleteContainerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteContainerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerInput, DeleteContainerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContainerOutput>())
@@ -803,7 +803,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteContainerPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteContainerPolicyInput, DeleteContainerPolicyOutput>(xAmzTarget: "MediaStore_20170901.DeleteContainerPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteContainerPolicyInput, DeleteContainerPolicyOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.DeleteContainerPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteContainerPolicyInput, DeleteContainerPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteContainerPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerPolicyInput, DeleteContainerPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContainerPolicyOutput>())
@@ -875,7 +875,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCorsPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCorsPolicyInput, DeleteCorsPolicyOutput>(xAmzTarget: "MediaStore_20170901.DeleteCorsPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCorsPolicyInput, DeleteCorsPolicyOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.DeleteCorsPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteCorsPolicyInput, DeleteCorsPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCorsPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCorsPolicyInput, DeleteCorsPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCorsPolicyOutput>())
@@ -947,7 +947,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLifecyclePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>(xAmzTarget: "MediaStore_20170901.DeleteLifecyclePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.DeleteLifecyclePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLifecyclePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLifecyclePolicyOutput>())
@@ -1019,7 +1019,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMetricPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteMetricPolicyInput, DeleteMetricPolicyOutput>(xAmzTarget: "MediaStore_20170901.DeleteMetricPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMetricPolicyInput, DeleteMetricPolicyOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.DeleteMetricPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteMetricPolicyInput, DeleteMetricPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMetricPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMetricPolicyInput, DeleteMetricPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMetricPolicyOutput>())
@@ -1089,7 +1089,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeContainerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeContainerInput, DescribeContainerOutput>(xAmzTarget: "MediaStore_20170901.DescribeContainer"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeContainerInput, DescribeContainerOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.DescribeContainer"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeContainerInput, DescribeContainerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeContainerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerInput, DescribeContainerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContainerOutput>())
@@ -1161,7 +1161,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetContainerPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetContainerPolicyInput, GetContainerPolicyOutput>(xAmzTarget: "MediaStore_20170901.GetContainerPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetContainerPolicyInput, GetContainerPolicyOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.GetContainerPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetContainerPolicyInput, GetContainerPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetContainerPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContainerPolicyInput, GetContainerPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetContainerPolicyOutput>())
@@ -1233,7 +1233,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCorsPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCorsPolicyInput, GetCorsPolicyOutput>(xAmzTarget: "MediaStore_20170901.GetCorsPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCorsPolicyInput, GetCorsPolicyOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.GetCorsPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCorsPolicyInput, GetCorsPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCorsPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCorsPolicyInput, GetCorsPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCorsPolicyOutput>())
@@ -1305,7 +1305,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLifecyclePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>(xAmzTarget: "MediaStore_20170901.GetLifecyclePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.GetLifecyclePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLifecyclePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLifecyclePolicyOutput>())
@@ -1377,7 +1377,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMetricPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetMetricPolicyInput, GetMetricPolicyOutput>(xAmzTarget: "MediaStore_20170901.GetMetricPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMetricPolicyInput, GetMetricPolicyOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.GetMetricPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetMetricPolicyInput, GetMetricPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetMetricPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMetricPolicyInput, GetMetricPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMetricPolicyOutput>())
@@ -1446,7 +1446,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListContainersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListContainersInput, ListContainersOutput>(xAmzTarget: "MediaStore_20170901.ListContainers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListContainersInput, ListContainersOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.ListContainers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListContainersInput, ListContainersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListContainersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainersInput, ListContainersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContainersOutput>())
@@ -1517,7 +1517,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "MediaStore_20170901.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -1588,7 +1588,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutContainerPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutContainerPolicyInput, PutContainerPolicyOutput>(xAmzTarget: "MediaStore_20170901.PutContainerPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutContainerPolicyInput, PutContainerPolicyOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.PutContainerPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutContainerPolicyInput, PutContainerPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutContainerPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutContainerPolicyInput, PutContainerPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutContainerPolicyOutput>())
@@ -1659,7 +1659,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutCorsPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutCorsPolicyInput, PutCorsPolicyOutput>(xAmzTarget: "MediaStore_20170901.PutCorsPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutCorsPolicyInput, PutCorsPolicyOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.PutCorsPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutCorsPolicyInput, PutCorsPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutCorsPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutCorsPolicyInput, PutCorsPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutCorsPolicyOutput>())
@@ -1730,7 +1730,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutLifecyclePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>(xAmzTarget: "MediaStore_20170901.PutLifecyclePolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.PutLifecyclePolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutLifecyclePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutLifecyclePolicyOutput>())
@@ -1801,7 +1801,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutMetricPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutMetricPolicyInput, PutMetricPolicyOutput>(xAmzTarget: "MediaStore_20170901.PutMetricPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutMetricPolicyInput, PutMetricPolicyOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.PutMetricPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutMetricPolicyInput, PutMetricPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutMetricPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutMetricPolicyInput, PutMetricPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutMetricPolicyOutput>())
@@ -1872,7 +1872,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartAccessLoggingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartAccessLoggingInput, StartAccessLoggingOutput>(xAmzTarget: "MediaStore_20170901.StartAccessLogging"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartAccessLoggingInput, StartAccessLoggingOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.StartAccessLogging"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartAccessLoggingInput, StartAccessLoggingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartAccessLoggingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAccessLoggingInput, StartAccessLoggingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAccessLoggingOutput>())
@@ -1943,7 +1943,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopAccessLoggingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopAccessLoggingInput, StopAccessLoggingOutput>(xAmzTarget: "MediaStore_20170901.StopAccessLogging"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopAccessLoggingInput, StopAccessLoggingOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.StopAccessLogging"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopAccessLoggingInput, StopAccessLoggingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopAccessLoggingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopAccessLoggingInput, StopAccessLoggingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopAccessLoggingOutput>())
@@ -2014,7 +2014,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "MediaStore_20170901.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -2085,7 +2085,7 @@ extension MediaStoreClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "MediaStore_20170901.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "MediaStore_20170901.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())

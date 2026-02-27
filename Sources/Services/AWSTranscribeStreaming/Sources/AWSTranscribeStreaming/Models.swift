@@ -26,8 +26,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct SmithyEventStreams.DefaultMessageDecoderStream
 import struct SmithyEventStreamsAPI.Header
 import struct SmithyEventStreamsAPI.Message
@@ -2844,12 +2844,14 @@ public struct StartStreamTranscriptionInput: Swift.Sendable {
     public var numberOfChannels: Swift.Int?
     /// Specify the level of stability to use when you enable partial results stabilization (EnablePartialResultsStabilization). Low stability provides the highest accuracy. High stability transcribes faster, but with slightly lower accuracy. For more information, see [Partial-result stabilization](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html#streaming-partial-result-stabilization).
     public var partialResultsStability: TranscribeStreamingClientTypes.PartialResultsStability?
-    /// Specify which types of personally identifiable information (PII) you want to redact in your transcript. You can include as many types as you'd like, or you can select ALL. Values must be comma-separated and can include: ADDRESS, BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, CREDIT_DEBIT_NUMBER, EMAIL, NAME, PHONE, PIN, SSN, or ALL. Note that if you include PiiEntityTypes in your request, you must also include ContentIdentificationType or ContentRedactionType. If you include ContentRedactionType or ContentIdentificationType in your request, but do not include PiiEntityTypes, all PII is redacted or identified.
+    /// Specify which types of personally identifiable information (PII) you want to redact in your transcript. You can include as many types as you'd like, or you can select ALL. Values must be comma-separated and can include: ADDRESS, BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, CREDIT_DEBIT_NUMBER, EMAIL, NAME, PHONE, PIN, SSN, AGE, DATE_TIME, LICENSE_PLATE, PASSPORT_NUMBER, PASSWORD, USERNAME, VEHICLE_IDENTIFICATION_NUMBER, or ALL. Note that if you include PiiEntityTypes in your request, you must also include ContentIdentificationType or ContentRedactionType. If you include ContentRedactionType or ContentIdentificationType in your request, but do not include PiiEntityTypes, all PII is redacted or identified.
     public var piiEntityTypes: Swift.String?
     /// Specify a preferred language from the subset of languages codes you specified in LanguageOptions. You can only use this parameter if you've included IdentifyLanguage and LanguageOptions in your request.
     public var preferredLanguage: TranscribeStreamingClientTypes.LanguageCode?
     /// Specify a name for your transcription session. If you don't include this parameter in your request, Amazon Transcribe generates an ID and returns it in the response.
     public var sessionId: Swift.String?
+    /// Specify the time window, in minutes, during which your transcription session can be resumed, measured from the stream start time. This optional parameter accepts integer values from 1 to 300 (5 hours). For example, if your stream starts at 1 PM and you specify a SessionResumeWindow of 30 minutes, you can reconnect to the session as many times as you want until 1:30 PM.
+    public var sessionResumeWindow: Swift.Int?
     /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning labels the speech from individual speakers in your media file. For more information, see [Partitioning speakers (diarization)](https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html).
     public var showSpeakerLabel: Swift.Bool?
     /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
@@ -2881,6 +2883,7 @@ public struct StartStreamTranscriptionInput: Swift.Sendable {
         piiEntityTypes: Swift.String? = nil,
         preferredLanguage: TranscribeStreamingClientTypes.LanguageCode? = nil,
         sessionId: Swift.String? = nil,
+        sessionResumeWindow: Swift.Int? = nil,
         showSpeakerLabel: Swift.Bool? = false,
         vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod? = nil,
         vocabularyFilterName: Swift.String? = nil,
@@ -2905,6 +2908,7 @@ public struct StartStreamTranscriptionInput: Swift.Sendable {
         self.piiEntityTypes = piiEntityTypes
         self.preferredLanguage = preferredLanguage
         self.sessionId = sessionId
+        self.sessionResumeWindow = sessionResumeWindow
         self.showSpeakerLabel = showSpeakerLabel
         self.vocabularyFilterMethod = vocabularyFilterMethod
         self.vocabularyFilterName = vocabularyFilterName
@@ -2989,6 +2993,8 @@ public struct StartStreamTranscriptionOutput: Swift.Sendable {
     public var requestId: Swift.String?
     /// Provides the identifier for your transcription session.
     public var sessionId: Swift.String?
+    /// Provides the session resume window, in minutes, that you specified in your request.
+    public var sessionResumeWindow: Swift.Int?
     /// Shows whether speaker partitioning was enabled for your transcription.
     public var showSpeakerLabel: Swift.Bool
     /// Provides detailed information about your streaming session.
@@ -3022,6 +3028,7 @@ public struct StartStreamTranscriptionOutput: Swift.Sendable {
         preferredLanguage: TranscribeStreamingClientTypes.LanguageCode? = nil,
         requestId: Swift.String? = nil,
         sessionId: Swift.String? = nil,
+        sessionResumeWindow: Swift.Int? = nil,
         showSpeakerLabel: Swift.Bool = false,
         transcriptResultStream: AsyncThrowingStream<TranscribeStreamingClientTypes.TranscriptResultStream, Swift.Error>? = nil,
         vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod? = nil,
@@ -3047,6 +3054,7 @@ public struct StartStreamTranscriptionOutput: Swift.Sendable {
         self.preferredLanguage = preferredLanguage
         self.requestId = requestId
         self.sessionId = sessionId
+        self.sessionResumeWindow = sessionResumeWindow
         self.showSpeakerLabel = showSpeakerLabel
         self.transcriptResultStream = transcriptResultStream
         self.vocabularyFilterMethod = vocabularyFilterMethod
@@ -3269,6 +3277,9 @@ extension StartStreamTranscriptionInput {
         }
         if let sessionId = value.sessionId {
             items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-session-id", value: Swift.String(sessionId)))
+        }
+        if let sessionResumeWindow = value.sessionResumeWindow {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-session-resume-window", value: Swift.String(sessionResumeWindow)))
         }
         if let showSpeakerLabel = value.showSpeakerLabel {
             items.add(SmithyHTTPAPI.Header(name: "x-amzn-transcribe-show-speaker-label", value: Swift.String(showSpeakerLabel)))
@@ -3506,6 +3517,9 @@ extension StartStreamTranscriptionOutput {
         if let sessionIdHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-session-id") {
             value.sessionId = sessionIdHeaderValue
         }
+        if let sessionResumeWindowHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-session-resume-window") {
+            value.sessionResumeWindow = Swift.Int(sessionResumeWindowHeaderValue) ?? 0
+        }
         if let showSpeakerLabelHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-show-speaker-label") {
             value.showSpeakerLabel = Swift.Bool(showSpeakerLabelHeaderValue) ?? false
         }
@@ -3538,7 +3552,7 @@ enum GetMedicalScribeStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -3555,7 +3569,7 @@ enum StartCallAnalyticsStreamTranscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -3573,7 +3587,7 @@ enum StartMedicalScribeStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -3591,7 +3605,7 @@ enum StartMedicalStreamTranscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -3609,7 +3623,7 @@ enum StartStreamTranscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
@@ -3624,7 +3638,7 @@ enum StartStreamTranscriptionOutputError {
 
 extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3637,7 +3651,7 @@ extension BadRequestException {
 
 extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
         var value = InternalFailureException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3650,7 +3664,7 @@ extension InternalFailureException {
 
 extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3663,7 +3677,7 @@ extension LimitExceededException {
 
 extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3676,7 +3690,7 @@ extension ResourceNotFoundException {
 
 extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3689,7 +3703,7 @@ extension ConflictException {
 
 extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()

@@ -23,8 +23,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestXMLError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestXMLError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
@@ -9290,7 +9290,7 @@ enum ActivateKeySigningKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
@@ -9309,7 +9309,7 @@ enum AssociateVPCWithHostedZoneOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingDomainExists": return try ConflictingDomainExists.makeError(baseError: baseError)
@@ -9330,7 +9330,7 @@ enum ChangeCidrCollectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CidrBlockInUseException": return try CidrBlockInUseException.makeError(baseError: baseError)
@@ -9349,7 +9349,7 @@ enum ChangeResourceRecordSetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidChangeBatch": return try InvalidChangeBatch.makeError(baseError: baseError)
@@ -9367,7 +9367,7 @@ enum ChangeTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -9385,7 +9385,7 @@ enum CreateCidrCollectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CidrCollectionAlreadyExistsException": return try CidrCollectionAlreadyExistsException.makeError(baseError: baseError)
@@ -9402,7 +9402,7 @@ enum CreateHealthCheckOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "HealthCheckAlreadyExists": return try HealthCheckAlreadyExists.makeError(baseError: baseError)
@@ -9418,7 +9418,7 @@ enum CreateHostedZoneOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingDomainExists": return try ConflictingDomainExists.makeError(baseError: baseError)
@@ -9440,7 +9440,7 @@ enum CreateKeySigningKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
@@ -9463,7 +9463,7 @@ enum CreateQueryLoggingConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
@@ -9482,7 +9482,7 @@ enum CreateReusableDelegationSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DelegationSetAlreadyCreated": return try DelegationSetAlreadyCreated.makeError(baseError: baseError)
@@ -9502,7 +9502,7 @@ enum CreateTrafficPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -9519,7 +9519,7 @@ enum CreateTrafficPolicyInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -9537,7 +9537,7 @@ enum CreateTrafficPolicyVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
@@ -9555,7 +9555,7 @@ enum CreateVPCAssociationAuthorizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
@@ -9573,7 +9573,7 @@ enum DeactivateKeySigningKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
@@ -9593,7 +9593,7 @@ enum DeleteCidrCollectionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CidrCollectionInUseException": return try CidrCollectionInUseException.makeError(baseError: baseError)
@@ -9610,7 +9610,7 @@ enum DeleteHealthCheckOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "HealthCheckInUse": return try HealthCheckInUse.makeError(baseError: baseError)
@@ -9626,7 +9626,7 @@ enum DeleteHostedZoneOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "HostedZoneNotEmpty": return try HostedZoneNotEmpty.makeError(baseError: baseError)
@@ -9644,7 +9644,7 @@ enum DeleteKeySigningKeyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
@@ -9663,7 +9663,7 @@ enum DeleteQueryLoggingConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
@@ -9679,7 +9679,7 @@ enum DeleteReusableDelegationSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DelegationSetInUse": return try DelegationSetInUse.makeError(baseError: baseError)
@@ -9696,7 +9696,7 @@ enum DeleteTrafficPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
@@ -9713,7 +9713,7 @@ enum DeleteTrafficPolicyInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -9729,7 +9729,7 @@ enum DeleteVPCAssociationAuthorizationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
@@ -9747,7 +9747,7 @@ enum DisableHostedZoneDNSSECOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
@@ -9768,7 +9768,7 @@ enum DisassociateVPCFromHostedZoneOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -9786,7 +9786,7 @@ enum EnableHostedZoneDNSSECOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
@@ -9808,7 +9808,7 @@ enum GetAccountLimitOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -9822,7 +9822,7 @@ enum GetChangeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -9837,7 +9837,7 @@ enum GetCheckerIpRangesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -9850,7 +9850,7 @@ enum GetDNSSECOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
@@ -9866,7 +9866,7 @@ enum GetGeoLocationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -9881,7 +9881,7 @@ enum GetHealthCheckOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IncompatibleVersion": return try IncompatibleVersion.makeError(baseError: baseError)
@@ -9897,7 +9897,7 @@ enum GetHealthCheckCountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -9910,7 +9910,7 @@ enum GetHealthCheckLastFailureReasonOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -9925,7 +9925,7 @@ enum GetHealthCheckStatusOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -9940,7 +9940,7 @@ enum GetHostedZoneOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -9955,7 +9955,7 @@ enum GetHostedZoneCountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -9969,7 +9969,7 @@ enum GetHostedZoneLimitOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "HostedZoneNotPrivate": return try HostedZoneNotPrivate.makeError(baseError: baseError)
@@ -9985,7 +9985,7 @@ enum GetQueryLoggingConfigOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10000,7 +10000,7 @@ enum GetReusableDelegationSetOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DelegationSetNotReusable": return try DelegationSetNotReusable.makeError(baseError: baseError)
@@ -10016,7 +10016,7 @@ enum GetReusableDelegationSetLimitOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10031,7 +10031,7 @@ enum GetTrafficPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10046,7 +10046,7 @@ enum GetTrafficPolicyInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10061,7 +10061,7 @@ enum GetTrafficPolicyInstanceCountOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -10074,7 +10074,7 @@ enum ListCidrBlocksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10090,7 +10090,7 @@ enum ListCidrCollectionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10104,7 +10104,7 @@ enum ListCidrLocationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10119,7 +10119,7 @@ enum ListGeoLocationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10133,7 +10133,7 @@ enum ListHealthChecksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IncompatibleVersion": return try IncompatibleVersion.makeError(baseError: baseError)
@@ -10148,7 +10148,7 @@ enum ListHostedZonesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DelegationSetNotReusable": return try DelegationSetNotReusable.makeError(baseError: baseError)
@@ -10164,7 +10164,7 @@ enum ListHostedZonesByNameOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidDomainName": return try InvalidDomainName.makeError(baseError: baseError)
@@ -10179,7 +10179,7 @@ enum ListHostedZonesByVPCOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10194,7 +10194,7 @@ enum ListQueryLoggingConfigsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10210,7 +10210,7 @@ enum ListResourceRecordSetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10225,7 +10225,7 @@ enum ListReusableDelegationSetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10239,7 +10239,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10257,7 +10257,7 @@ enum ListTagsForResourcesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10275,7 +10275,7 @@ enum ListTrafficPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10289,7 +10289,7 @@ enum ListTrafficPolicyInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10304,7 +10304,7 @@ enum ListTrafficPolicyInstancesByHostedZoneOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10320,7 +10320,7 @@ enum ListTrafficPolicyInstancesByPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10336,7 +10336,7 @@ enum ListTrafficPolicyVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10351,7 +10351,7 @@ enum ListVPCAssociationAuthorizationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10367,7 +10367,7 @@ enum TestDNSAnswerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10382,7 +10382,7 @@ enum UpdateHealthCheckOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "HealthCheckVersionMismatch": return try HealthCheckVersionMismatch.makeError(baseError: baseError)
@@ -10398,7 +10398,7 @@ enum UpdateHostedZoneCommentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10414,7 +10414,7 @@ enum UpdateHostedZoneFeaturesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
@@ -10431,7 +10431,7 @@ enum UpdateTrafficPolicyCommentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
@@ -10447,7 +10447,7 @@ enum UpdateTrafficPolicyInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictingTypes": return try ConflictingTypes.makeError(baseError: baseError)
@@ -10462,7 +10462,7 @@ enum UpdateTrafficPolicyInstanceOutputError {
 
 extension ConcurrentModification {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ConcurrentModification {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> ConcurrentModification {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModification()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10475,7 +10475,7 @@ extension ConcurrentModification {
 
 extension InvalidInput {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidInput {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidInput {
         let reader = baseError.errorBodyReader
         var value = InvalidInput()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10488,7 +10488,7 @@ extension InvalidInput {
 
 extension InvalidKeySigningKeyStatus {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidKeySigningKeyStatus {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidKeySigningKeyStatus {
         let reader = baseError.errorBodyReader
         var value = InvalidKeySigningKeyStatus()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10501,7 +10501,7 @@ extension InvalidKeySigningKeyStatus {
 
 extension InvalidKMSArn {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidKMSArn {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidKMSArn {
         let reader = baseError.errorBodyReader
         var value = InvalidKMSArn()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10514,7 +10514,7 @@ extension InvalidKMSArn {
 
 extension InvalidSigningStatus {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidSigningStatus {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidSigningStatus {
         let reader = baseError.errorBodyReader
         var value = InvalidSigningStatus()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10527,7 +10527,7 @@ extension InvalidSigningStatus {
 
 extension NoSuchKeySigningKey {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchKeySigningKey {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchKeySigningKey {
         let reader = baseError.errorBodyReader
         var value = NoSuchKeySigningKey()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10540,7 +10540,7 @@ extension NoSuchKeySigningKey {
 
 extension ConflictingDomainExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ConflictingDomainExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> ConflictingDomainExists {
         let reader = baseError.errorBodyReader
         var value = ConflictingDomainExists()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10553,7 +10553,7 @@ extension ConflictingDomainExists {
 
 extension InvalidVPCId {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidVPCId {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidVPCId {
         let reader = baseError.errorBodyReader
         var value = InvalidVPCId()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10566,7 +10566,7 @@ extension InvalidVPCId {
 
 extension LimitsExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> LimitsExceeded {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> LimitsExceeded {
         let reader = baseError.errorBodyReader
         var value = LimitsExceeded()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10579,7 +10579,7 @@ extension LimitsExceeded {
 
 extension NoSuchHostedZone {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchHostedZone {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchHostedZone {
         let reader = baseError.errorBodyReader
         var value = NoSuchHostedZone()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10592,7 +10592,7 @@ extension NoSuchHostedZone {
 
 extension NotAuthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NotAuthorizedException {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NotAuthorizedException {
         let reader = baseError.errorBodyReader
         var value = NotAuthorizedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10605,7 +10605,7 @@ extension NotAuthorizedException {
 
 extension PriorRequestNotComplete {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PriorRequestNotComplete {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> PriorRequestNotComplete {
         let reader = baseError.errorBodyReader
         var value = PriorRequestNotComplete()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10618,7 +10618,7 @@ extension PriorRequestNotComplete {
 
 extension PublicZoneVPCAssociation {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PublicZoneVPCAssociation {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> PublicZoneVPCAssociation {
         let reader = baseError.errorBodyReader
         var value = PublicZoneVPCAssociation()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10631,7 +10631,7 @@ extension PublicZoneVPCAssociation {
 
 extension CidrBlockInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CidrBlockInUseException {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> CidrBlockInUseException {
         let reader = baseError.errorBodyReader
         var value = CidrBlockInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10644,7 +10644,7 @@ extension CidrBlockInUseException {
 
 extension CidrCollectionVersionMismatchException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CidrCollectionVersionMismatchException {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> CidrCollectionVersionMismatchException {
         let reader = baseError.errorBodyReader
         var value = CidrCollectionVersionMismatchException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10657,7 +10657,7 @@ extension CidrCollectionVersionMismatchException {
 
 extension NoSuchCidrCollectionException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchCidrCollectionException {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchCidrCollectionException {
         let reader = baseError.errorBodyReader
         var value = NoSuchCidrCollectionException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10670,7 +10670,7 @@ extension NoSuchCidrCollectionException {
 
 extension InvalidChangeBatch {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidChangeBatch {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidChangeBatch {
         let reader = baseError.errorBodyReader
         var value = InvalidChangeBatch()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10684,7 +10684,7 @@ extension InvalidChangeBatch {
 
 extension NoSuchHealthCheck {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchHealthCheck {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchHealthCheck {
         let reader = baseError.errorBodyReader
         var value = NoSuchHealthCheck()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10697,7 +10697,7 @@ extension NoSuchHealthCheck {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10710,7 +10710,7 @@ extension ThrottlingException {
 
 extension CidrCollectionAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CidrCollectionAlreadyExistsException {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> CidrCollectionAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = CidrCollectionAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -10723,7 +10723,7 @@ extension CidrCollectionAlreadyExistsException {
 
 extension HealthCheckAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HealthCheckAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> HealthCheckAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = HealthCheckAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10736,7 +10736,7 @@ extension HealthCheckAlreadyExists {
 
 extension TooManyHealthChecks {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHealthChecks {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyHealthChecks {
         let reader = baseError.errorBodyReader
         var value = TooManyHealthChecks()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10749,7 +10749,7 @@ extension TooManyHealthChecks {
 
 extension DelegationSetNotAvailable {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DelegationSetNotAvailable {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> DelegationSetNotAvailable {
         let reader = baseError.errorBodyReader
         var value = DelegationSetNotAvailable()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10762,7 +10762,7 @@ extension DelegationSetNotAvailable {
 
 extension DelegationSetNotReusable {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DelegationSetNotReusable {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> DelegationSetNotReusable {
         let reader = baseError.errorBodyReader
         var value = DelegationSetNotReusable()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10775,7 +10775,7 @@ extension DelegationSetNotReusable {
 
 extension HostedZoneAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HostedZoneAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> HostedZoneAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = HostedZoneAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10788,7 +10788,7 @@ extension HostedZoneAlreadyExists {
 
 extension InvalidDomainName {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidDomainName {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidDomainName {
         let reader = baseError.errorBodyReader
         var value = InvalidDomainName()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10801,7 +10801,7 @@ extension InvalidDomainName {
 
 extension NoSuchDelegationSet {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchDelegationSet {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchDelegationSet {
         let reader = baseError.errorBodyReader
         var value = NoSuchDelegationSet()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10814,7 +10814,7 @@ extension NoSuchDelegationSet {
 
 extension TooManyHostedZones {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHostedZones {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyHostedZones {
         let reader = baseError.errorBodyReader
         var value = TooManyHostedZones()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10827,7 +10827,7 @@ extension TooManyHostedZones {
 
 extension InvalidArgument {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidArgument {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidArgument {
         let reader = baseError.errorBodyReader
         var value = InvalidArgument()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10840,7 +10840,7 @@ extension InvalidArgument {
 
 extension InvalidKeySigningKeyName {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidKeySigningKeyName {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidKeySigningKeyName {
         let reader = baseError.errorBodyReader
         var value = InvalidKeySigningKeyName()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10853,7 +10853,7 @@ extension InvalidKeySigningKeyName {
 
 extension KeySigningKeyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> KeySigningKeyAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> KeySigningKeyAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = KeySigningKeyAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10866,7 +10866,7 @@ extension KeySigningKeyAlreadyExists {
 
 extension TooManyKeySigningKeys {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyKeySigningKeys {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyKeySigningKeys {
         let reader = baseError.errorBodyReader
         var value = TooManyKeySigningKeys()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10879,7 +10879,7 @@ extension TooManyKeySigningKeys {
 
 extension InsufficientCloudWatchLogsResourcePolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InsufficientCloudWatchLogsResourcePolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InsufficientCloudWatchLogsResourcePolicy {
         let reader = baseError.errorBodyReader
         var value = InsufficientCloudWatchLogsResourcePolicy()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10892,7 +10892,7 @@ extension InsufficientCloudWatchLogsResourcePolicy {
 
 extension NoSuchCloudWatchLogsLogGroup {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchCloudWatchLogsLogGroup {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchCloudWatchLogsLogGroup {
         let reader = baseError.errorBodyReader
         var value = NoSuchCloudWatchLogsLogGroup()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10905,7 +10905,7 @@ extension NoSuchCloudWatchLogsLogGroup {
 
 extension QueryLoggingConfigAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> QueryLoggingConfigAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> QueryLoggingConfigAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = QueryLoggingConfigAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10918,7 +10918,7 @@ extension QueryLoggingConfigAlreadyExists {
 
 extension DelegationSetAlreadyCreated {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DelegationSetAlreadyCreated {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> DelegationSetAlreadyCreated {
         let reader = baseError.errorBodyReader
         var value = DelegationSetAlreadyCreated()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10931,7 +10931,7 @@ extension DelegationSetAlreadyCreated {
 
 extension DelegationSetAlreadyReusable {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DelegationSetAlreadyReusable {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> DelegationSetAlreadyReusable {
         let reader = baseError.errorBodyReader
         var value = DelegationSetAlreadyReusable()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10944,7 +10944,7 @@ extension DelegationSetAlreadyReusable {
 
 extension HostedZoneNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HostedZoneNotFound {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> HostedZoneNotFound {
         let reader = baseError.errorBodyReader
         var value = HostedZoneNotFound()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10957,7 +10957,7 @@ extension HostedZoneNotFound {
 
 extension InvalidTrafficPolicyDocument {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidTrafficPolicyDocument {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidTrafficPolicyDocument {
         let reader = baseError.errorBodyReader
         var value = InvalidTrafficPolicyDocument()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10970,7 +10970,7 @@ extension InvalidTrafficPolicyDocument {
 
 extension TooManyTrafficPolicies {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyTrafficPolicies {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyTrafficPolicies {
         let reader = baseError.errorBodyReader
         var value = TooManyTrafficPolicies()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10983,7 +10983,7 @@ extension TooManyTrafficPolicies {
 
 extension TrafficPolicyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrafficPolicyAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TrafficPolicyAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = TrafficPolicyAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
@@ -10996,7 +10996,7 @@ extension TrafficPolicyAlreadyExists {
 
 extension NoSuchTrafficPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchTrafficPolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchTrafficPolicy {
         let reader = baseError.errorBodyReader
         var value = NoSuchTrafficPolicy()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11009,7 +11009,7 @@ extension NoSuchTrafficPolicy {
 
 extension TooManyTrafficPolicyInstances {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyTrafficPolicyInstances {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyTrafficPolicyInstances {
         let reader = baseError.errorBodyReader
         var value = TooManyTrafficPolicyInstances()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11022,7 +11022,7 @@ extension TooManyTrafficPolicyInstances {
 
 extension TrafficPolicyInstanceAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrafficPolicyInstanceAlreadyExists {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TrafficPolicyInstanceAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = TrafficPolicyInstanceAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11035,7 +11035,7 @@ extension TrafficPolicyInstanceAlreadyExists {
 
 extension TooManyTrafficPolicyVersionsForCurrentPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyTrafficPolicyVersionsForCurrentPolicy {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyTrafficPolicyVersionsForCurrentPolicy {
         let reader = baseError.errorBodyReader
         var value = TooManyTrafficPolicyVersionsForCurrentPolicy()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11048,7 +11048,7 @@ extension TooManyTrafficPolicyVersionsForCurrentPolicy {
 
 extension TooManyVPCAssociationAuthorizations {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyVPCAssociationAuthorizations {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyVPCAssociationAuthorizations {
         let reader = baseError.errorBodyReader
         var value = TooManyVPCAssociationAuthorizations()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11061,7 +11061,7 @@ extension TooManyVPCAssociationAuthorizations {
 
 extension KeySigningKeyInParentDSRecord {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> KeySigningKeyInParentDSRecord {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> KeySigningKeyInParentDSRecord {
         let reader = baseError.errorBodyReader
         var value = KeySigningKeyInParentDSRecord()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11074,7 +11074,7 @@ extension KeySigningKeyInParentDSRecord {
 
 extension KeySigningKeyInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> KeySigningKeyInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> KeySigningKeyInUse {
         let reader = baseError.errorBodyReader
         var value = KeySigningKeyInUse()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11087,7 +11087,7 @@ extension KeySigningKeyInUse {
 
 extension CidrCollectionInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CidrCollectionInUseException {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> CidrCollectionInUseException {
         let reader = baseError.errorBodyReader
         var value = CidrCollectionInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11100,7 +11100,7 @@ extension CidrCollectionInUseException {
 
 extension HealthCheckInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HealthCheckInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> HealthCheckInUse {
         let reader = baseError.errorBodyReader
         var value = HealthCheckInUse()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11113,7 +11113,7 @@ extension HealthCheckInUse {
 
 extension HostedZoneNotEmpty {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HostedZoneNotEmpty {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> HostedZoneNotEmpty {
         let reader = baseError.errorBodyReader
         var value = HostedZoneNotEmpty()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11126,7 +11126,7 @@ extension HostedZoneNotEmpty {
 
 extension NoSuchQueryLoggingConfig {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchQueryLoggingConfig {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchQueryLoggingConfig {
         let reader = baseError.errorBodyReader
         var value = NoSuchQueryLoggingConfig()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11139,7 +11139,7 @@ extension NoSuchQueryLoggingConfig {
 
 extension DelegationSetInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DelegationSetInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> DelegationSetInUse {
         let reader = baseError.errorBodyReader
         var value = DelegationSetInUse()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11152,7 +11152,7 @@ extension DelegationSetInUse {
 
 extension TrafficPolicyInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrafficPolicyInUse {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TrafficPolicyInUse {
         let reader = baseError.errorBodyReader
         var value = TrafficPolicyInUse()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11165,7 +11165,7 @@ extension TrafficPolicyInUse {
 
 extension NoSuchTrafficPolicyInstance {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchTrafficPolicyInstance {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchTrafficPolicyInstance {
         let reader = baseError.errorBodyReader
         var value = NoSuchTrafficPolicyInstance()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11178,7 +11178,7 @@ extension NoSuchTrafficPolicyInstance {
 
 extension VPCAssociationAuthorizationNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> VPCAssociationAuthorizationNotFound {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> VPCAssociationAuthorizationNotFound {
         let reader = baseError.errorBodyReader
         var value = VPCAssociationAuthorizationNotFound()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11191,7 +11191,7 @@ extension VPCAssociationAuthorizationNotFound {
 
 extension DNSSECNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DNSSECNotFound {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> DNSSECNotFound {
         let reader = baseError.errorBodyReader
         var value = DNSSECNotFound()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11204,7 +11204,7 @@ extension DNSSECNotFound {
 
 extension LastVPCAssociation {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> LastVPCAssociation {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> LastVPCAssociation {
         let reader = baseError.errorBodyReader
         var value = LastVPCAssociation()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11217,7 +11217,7 @@ extension LastVPCAssociation {
 
 extension VPCAssociationNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> VPCAssociationNotFound {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> VPCAssociationNotFound {
         let reader = baseError.errorBodyReader
         var value = VPCAssociationNotFound()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11230,7 +11230,7 @@ extension VPCAssociationNotFound {
 
 extension HostedZonePartiallyDelegated {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HostedZonePartiallyDelegated {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> HostedZonePartiallyDelegated {
         let reader = baseError.errorBodyReader
         var value = HostedZonePartiallyDelegated()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11243,7 +11243,7 @@ extension HostedZonePartiallyDelegated {
 
 extension KeySigningKeyWithActiveStatusNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> KeySigningKeyWithActiveStatusNotFound {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> KeySigningKeyWithActiveStatusNotFound {
         let reader = baseError.errorBodyReader
         var value = KeySigningKeyWithActiveStatusNotFound()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11256,7 +11256,7 @@ extension KeySigningKeyWithActiveStatusNotFound {
 
 extension NoSuchChange {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchChange {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchChange {
         let reader = baseError.errorBodyReader
         var value = NoSuchChange()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11269,7 +11269,7 @@ extension NoSuchChange {
 
 extension NoSuchGeoLocation {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchGeoLocation {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchGeoLocation {
         let reader = baseError.errorBodyReader
         var value = NoSuchGeoLocation()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11282,7 +11282,7 @@ extension NoSuchGeoLocation {
 
 extension IncompatibleVersion {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> IncompatibleVersion {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> IncompatibleVersion {
         let reader = baseError.errorBodyReader
         var value = IncompatibleVersion()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11295,7 +11295,7 @@ extension IncompatibleVersion {
 
 extension HostedZoneNotPrivate {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HostedZoneNotPrivate {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> HostedZoneNotPrivate {
         let reader = baseError.errorBodyReader
         var value = HostedZoneNotPrivate()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11308,7 +11308,7 @@ extension HostedZoneNotPrivate {
 
 extension NoSuchCidrLocationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchCidrLocationException {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchCidrLocationException {
         let reader = baseError.errorBodyReader
         var value = NoSuchCidrLocationException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -11321,7 +11321,7 @@ extension NoSuchCidrLocationException {
 
 extension InvalidPaginationToken {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidPaginationToken {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidPaginationToken {
         let reader = baseError.errorBodyReader
         var value = InvalidPaginationToken()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11334,7 +11334,7 @@ extension InvalidPaginationToken {
 
 extension HealthCheckVersionMismatch {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HealthCheckVersionMismatch {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> HealthCheckVersionMismatch {
         let reader = baseError.errorBodyReader
         var value = HealthCheckVersionMismatch()
         value.properties.message = try reader["message"].readIfPresent()
@@ -11347,7 +11347,7 @@ extension HealthCheckVersionMismatch {
 
 extension ConflictingTypes {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ConflictingTypes {
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> ConflictingTypes {
         let reader = baseError.errorBodyReader
         var value = ConflictingTypes()
         value.properties.message = try reader["message"].readIfPresent()

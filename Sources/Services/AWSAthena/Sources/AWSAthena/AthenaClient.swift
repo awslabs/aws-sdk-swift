@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -661,7 +661,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetNamedQueryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutput>(xAmzTarget: "AmazonAthena.BatchGetNamedQuery"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutput>(overrides: ["X-Amz-Target": "AmazonAthena.BatchGetNamedQuery"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetNamedQueryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetNamedQueryOutput>())
@@ -731,7 +731,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetPreparedStatementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutput>(xAmzTarget: "AmazonAthena.BatchGetPreparedStatement"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutput>(overrides: ["X-Amz-Target": "AmazonAthena.BatchGetPreparedStatement"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetPreparedStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetPreparedStatementOutput>())
@@ -801,7 +801,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetQueryExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutput>(xAmzTarget: "AmazonAthena.BatchGetQueryExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutput>(overrides: ["X-Amz-Target": "AmazonAthena.BatchGetQueryExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetQueryExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetQueryExecutionOutput>())
@@ -871,7 +871,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelCapacityReservationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutput>(xAmzTarget: "AmazonAthena.CancelCapacityReservation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutput>(overrides: ["X-Amz-Target": "AmazonAthena.CancelCapacityReservation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelCapacityReservationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelCapacityReservationOutput>())
@@ -941,7 +941,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCapacityReservationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutput>(xAmzTarget: "AmazonAthena.CreateCapacityReservation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutput>(overrides: ["X-Amz-Target": "AmazonAthena.CreateCapacityReservation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCapacityReservationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCapacityReservationOutput>())
@@ -1017,7 +1017,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDataCatalogOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDataCatalogInput, CreateDataCatalogOutput>(xAmzTarget: "AmazonAthena.CreateDataCatalog"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDataCatalogInput, CreateDataCatalogOutput>(overrides: ["X-Amz-Target": "AmazonAthena.CreateDataCatalog"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDataCatalogInput, CreateDataCatalogOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDataCatalogInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDataCatalogInput, CreateDataCatalogOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDataCatalogOutput>())
@@ -1088,7 +1088,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateNamedQueryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateNamedQueryInput, CreateNamedQueryOutput>(xAmzTarget: "AmazonAthena.CreateNamedQuery"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateNamedQueryInput, CreateNamedQueryOutput>(overrides: ["X-Amz-Target": "AmazonAthena.CreateNamedQuery"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateNamedQueryInput, CreateNamedQueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateNamedQueryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateNamedQueryInput, CreateNamedQueryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateNamedQueryOutput>())
@@ -1159,7 +1159,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateNotebookOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateNotebookInput, CreateNotebookOutput>(xAmzTarget: "AmazonAthena.CreateNotebook"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateNotebookInput, CreateNotebookOutput>(overrides: ["X-Amz-Target": "AmazonAthena.CreateNotebook"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateNotebookInput, CreateNotebookOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateNotebookInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateNotebookInput, CreateNotebookOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateNotebookOutput>())
@@ -1229,7 +1229,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePreparedStatementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutput>(xAmzTarget: "AmazonAthena.CreatePreparedStatement"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutput>(overrides: ["X-Amz-Target": "AmazonAthena.CreatePreparedStatement"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePreparedStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePreparedStatementOutput>())
@@ -1300,7 +1300,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePresignedNotebookUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutput>(xAmzTarget: "AmazonAthena.CreatePresignedNotebookUrl"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutput>(overrides: ["X-Amz-Target": "AmazonAthena.CreatePresignedNotebookUrl"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePresignedNotebookUrlInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePresignedNotebookUrlOutput>())
@@ -1370,7 +1370,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWorkGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateWorkGroupInput, CreateWorkGroupOutput>(xAmzTarget: "AmazonAthena.CreateWorkGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWorkGroupInput, CreateWorkGroupOutput>(overrides: ["X-Amz-Target": "AmazonAthena.CreateWorkGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateWorkGroupInput, CreateWorkGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWorkGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWorkGroupInput, CreateWorkGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWorkGroupOutput>())
@@ -1440,7 +1440,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCapacityReservationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCapacityReservationInput, DeleteCapacityReservationOutput>(xAmzTarget: "AmazonAthena.DeleteCapacityReservation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCapacityReservationInput, DeleteCapacityReservationOutput>(overrides: ["X-Amz-Target": "AmazonAthena.DeleteCapacityReservation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteCapacityReservationInput, DeleteCapacityReservationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCapacityReservationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCapacityReservationInput, DeleteCapacityReservationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCapacityReservationOutput>())
@@ -1510,7 +1510,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDataCatalogOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutput>(xAmzTarget: "AmazonAthena.DeleteDataCatalog"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutput>(overrides: ["X-Amz-Target": "AmazonAthena.DeleteDataCatalog"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDataCatalogInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDataCatalogOutput>())
@@ -1581,7 +1581,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteNamedQueryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutput>(xAmzTarget: "AmazonAthena.DeleteNamedQuery"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutput>(overrides: ["X-Amz-Target": "AmazonAthena.DeleteNamedQuery"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteNamedQueryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteNamedQueryOutput>())
@@ -1652,7 +1652,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteNotebookOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteNotebookInput, DeleteNotebookOutput>(xAmzTarget: "AmazonAthena.DeleteNotebook"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteNotebookInput, DeleteNotebookOutput>(overrides: ["X-Amz-Target": "AmazonAthena.DeleteNotebook"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteNotebookInput, DeleteNotebookOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteNotebookInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteNotebookInput, DeleteNotebookOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteNotebookOutput>())
@@ -1723,7 +1723,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePreparedStatementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutput>(xAmzTarget: "AmazonAthena.DeletePreparedStatement"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutput>(overrides: ["X-Amz-Target": "AmazonAthena.DeletePreparedStatement"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePreparedStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePreparedStatementOutput>())
@@ -1793,7 +1793,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWorkGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutput>(xAmzTarget: "AmazonAthena.DeleteWorkGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutput>(overrides: ["X-Amz-Target": "AmazonAthena.DeleteWorkGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteWorkGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWorkGroupOutput>())
@@ -1864,7 +1864,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExportNotebookOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ExportNotebookInput, ExportNotebookOutput>(xAmzTarget: "AmazonAthena.ExportNotebook"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExportNotebookInput, ExportNotebookOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ExportNotebook"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ExportNotebookInput, ExportNotebookOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExportNotebookInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportNotebookInput, ExportNotebookOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportNotebookOutput>())
@@ -1935,7 +1935,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCalculationExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutput>(xAmzTarget: "AmazonAthena.GetCalculationExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetCalculationExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCalculationExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCalculationExecutionOutput>())
@@ -2006,7 +2006,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCalculationExecutionCodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutput>(xAmzTarget: "AmazonAthena.GetCalculationExecutionCode"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetCalculationExecutionCode"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCalculationExecutionCodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCalculationExecutionCodeOutput>())
@@ -2077,7 +2077,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCalculationExecutionStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutput>(xAmzTarget: "AmazonAthena.GetCalculationExecutionStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetCalculationExecutionStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCalculationExecutionStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCalculationExecutionStatusOutput>())
@@ -2147,7 +2147,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCapacityAssignmentConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutput>(xAmzTarget: "AmazonAthena.GetCapacityAssignmentConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetCapacityAssignmentConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCapacityAssignmentConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCapacityAssignmentConfigurationOutput>())
@@ -2217,7 +2217,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCapacityReservationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCapacityReservationInput, GetCapacityReservationOutput>(xAmzTarget: "AmazonAthena.GetCapacityReservation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCapacityReservationInput, GetCapacityReservationOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetCapacityReservation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCapacityReservationInput, GetCapacityReservationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCapacityReservationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCapacityReservationInput, GetCapacityReservationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCapacityReservationOutput>())
@@ -2287,7 +2287,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDataCatalogOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDataCatalogInput, GetDataCatalogOutput>(xAmzTarget: "AmazonAthena.GetDataCatalog"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDataCatalogInput, GetDataCatalogOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetDataCatalog"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDataCatalogInput, GetDataCatalogOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDataCatalogInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDataCatalogInput, GetDataCatalogOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataCatalogOutput>())
@@ -2358,7 +2358,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDatabaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDatabaseInput, GetDatabaseOutput>(xAmzTarget: "AmazonAthena.GetDatabase"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDatabaseInput, GetDatabaseOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetDatabase"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDatabaseInput, GetDatabaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDatabaseInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDatabaseInput, GetDatabaseOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDatabaseOutput>())
@@ -2428,7 +2428,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetNamedQueryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetNamedQueryInput, GetNamedQueryOutput>(xAmzTarget: "AmazonAthena.GetNamedQuery"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetNamedQueryInput, GetNamedQueryOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetNamedQuery"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetNamedQueryInput, GetNamedQueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetNamedQueryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetNamedQueryInput, GetNamedQueryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetNamedQueryOutput>())
@@ -2499,7 +2499,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetNotebookMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutput>(xAmzTarget: "AmazonAthena.GetNotebookMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetNotebookMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetNotebookMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetNotebookMetadataOutput>())
@@ -2570,7 +2570,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPreparedStatementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetPreparedStatementInput, GetPreparedStatementOutput>(xAmzTarget: "AmazonAthena.GetPreparedStatement"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPreparedStatementInput, GetPreparedStatementOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetPreparedStatement"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetPreparedStatementInput, GetPreparedStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPreparedStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPreparedStatementInput, GetPreparedStatementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPreparedStatementOutput>())
@@ -2640,7 +2640,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetQueryExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetQueryExecutionInput, GetQueryExecutionOutput>(xAmzTarget: "AmazonAthena.GetQueryExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetQueryExecutionInput, GetQueryExecutionOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetQueryExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetQueryExecutionInput, GetQueryExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetQueryExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetQueryExecutionInput, GetQueryExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetQueryExecutionOutput>())
@@ -2711,7 +2711,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetQueryResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(xAmzTarget: "AmazonAthena.GetQueryResults"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetQueryResults"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetQueryResultsInput, GetQueryResultsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetQueryResultsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetQueryResultsOutput>())
@@ -2781,7 +2781,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetQueryRuntimeStatisticsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutput>(xAmzTarget: "AmazonAthena.GetQueryRuntimeStatistics"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetQueryRuntimeStatistics"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetQueryRuntimeStatisticsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetQueryRuntimeStatisticsOutput>())
@@ -2852,7 +2852,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourceDashboardOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetResourceDashboardInput, GetResourceDashboardOutput>(xAmzTarget: "AmazonAthena.GetResourceDashboard"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourceDashboardInput, GetResourceDashboardOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetResourceDashboard"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetResourceDashboardInput, GetResourceDashboardOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourceDashboardInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourceDashboardInput, GetResourceDashboardOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourceDashboardOutput>())
@@ -2923,7 +2923,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSessionInput, GetSessionOutput>(xAmzTarget: "AmazonAthena.GetSession"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSessionInput, GetSessionOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetSession"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSessionInput, GetSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSessionInput, GetSessionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSessionOutput>())
@@ -2994,7 +2994,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSessionEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSessionEndpointInput, GetSessionEndpointOutput>(xAmzTarget: "AmazonAthena.GetSessionEndpoint"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSessionEndpointInput, GetSessionEndpointOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetSessionEndpoint"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSessionEndpointInput, GetSessionEndpointOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSessionEndpointInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSessionEndpointInput, GetSessionEndpointOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSessionEndpointOutput>())
@@ -3065,7 +3065,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSessionStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSessionStatusInput, GetSessionStatusOutput>(xAmzTarget: "AmazonAthena.GetSessionStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSessionStatusInput, GetSessionStatusOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetSessionStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSessionStatusInput, GetSessionStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSessionStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSessionStatusInput, GetSessionStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSessionStatusOutput>())
@@ -3136,7 +3136,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTableMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTableMetadataInput, GetTableMetadataOutput>(xAmzTarget: "AmazonAthena.GetTableMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTableMetadataInput, GetTableMetadataOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetTableMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetTableMetadataInput, GetTableMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTableMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTableMetadataInput, GetTableMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableMetadataOutput>())
@@ -3206,7 +3206,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetWorkGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetWorkGroupInput, GetWorkGroupOutput>(xAmzTarget: "AmazonAthena.GetWorkGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetWorkGroupInput, GetWorkGroupOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetWorkGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetWorkGroupInput, GetWorkGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetWorkGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetWorkGroupInput, GetWorkGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWorkGroupOutput>())
@@ -3277,7 +3277,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportNotebookOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ImportNotebookInput, ImportNotebookOutput>(xAmzTarget: "AmazonAthena.ImportNotebook"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportNotebookInput, ImportNotebookOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ImportNotebook"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ImportNotebookInput, ImportNotebookOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportNotebookInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportNotebookInput, ImportNotebookOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportNotebookOutput>())
@@ -3348,7 +3348,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListApplicationDPUSizesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput>(xAmzTarget: "AmazonAthena.ListApplicationDPUSizes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListApplicationDPUSizes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListApplicationDPUSizesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApplicationDPUSizesOutput>())
@@ -3419,7 +3419,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCalculationExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutput>(xAmzTarget: "AmazonAthena.ListCalculationExecutions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListCalculationExecutions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCalculationExecutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCalculationExecutionsOutput>())
@@ -3489,7 +3489,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCapacityReservationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCapacityReservationsInput, ListCapacityReservationsOutput>(xAmzTarget: "AmazonAthena.ListCapacityReservations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCapacityReservationsInput, ListCapacityReservationsOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListCapacityReservations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListCapacityReservationsInput, ListCapacityReservationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCapacityReservationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCapacityReservationsInput, ListCapacityReservationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCapacityReservationsOutput>())
@@ -3559,7 +3559,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataCatalogsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDataCatalogsInput, ListDataCatalogsOutput>(xAmzTarget: "AmazonAthena.ListDataCatalogs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDataCatalogsInput, ListDataCatalogsOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListDataCatalogs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDataCatalogsInput, ListDataCatalogsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataCatalogsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataCatalogsInput, ListDataCatalogsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataCatalogsOutput>())
@@ -3630,7 +3630,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDatabasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDatabasesInput, ListDatabasesOutput>(xAmzTarget: "AmazonAthena.ListDatabases"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDatabasesInput, ListDatabasesOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListDatabases"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDatabasesInput, ListDatabasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDatabasesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDatabasesInput, ListDatabasesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDatabasesOutput>())
@@ -3700,7 +3700,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEngineVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEngineVersionsInput, ListEngineVersionsOutput>(xAmzTarget: "AmazonAthena.ListEngineVersions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListEngineVersionsInput, ListEngineVersionsOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListEngineVersions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEngineVersionsInput, ListEngineVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEngineVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEngineVersionsInput, ListEngineVersionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEngineVersionsOutput>())
@@ -3771,7 +3771,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListExecutorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListExecutorsInput, ListExecutorsOutput>(xAmzTarget: "AmazonAthena.ListExecutors"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListExecutorsInput, ListExecutorsOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListExecutors"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListExecutorsInput, ListExecutorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListExecutorsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListExecutorsInput, ListExecutorsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListExecutorsOutput>())
@@ -3841,7 +3841,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListNamedQueriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListNamedQueriesInput, ListNamedQueriesOutput>(xAmzTarget: "AmazonAthena.ListNamedQueries"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListNamedQueriesInput, ListNamedQueriesOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListNamedQueries"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListNamedQueriesInput, ListNamedQueriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListNamedQueriesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListNamedQueriesInput, ListNamedQueriesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListNamedQueriesOutput>())
@@ -3912,7 +3912,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListNotebookMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutput>(xAmzTarget: "AmazonAthena.ListNotebookMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListNotebookMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListNotebookMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListNotebookMetadataOutput>())
@@ -3983,7 +3983,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListNotebookSessionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutput>(xAmzTarget: "AmazonAthena.ListNotebookSessions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListNotebookSessions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListNotebookSessionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListNotebookSessionsOutput>())
@@ -4053,7 +4053,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPreparedStatementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutput>(xAmzTarget: "AmazonAthena.ListPreparedStatements"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListPreparedStatements"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPreparedStatementsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPreparedStatementsOutput>())
@@ -4123,7 +4123,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListQueryExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutput>(xAmzTarget: "AmazonAthena.ListQueryExecutions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListQueryExecutions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListQueryExecutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListQueryExecutionsOutput>())
@@ -4194,7 +4194,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSessionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSessionsInput, ListSessionsOutput>(xAmzTarget: "AmazonAthena.ListSessions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSessionsInput, ListSessionsOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListSessions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSessionsInput, ListSessionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSessionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSessionsInput, ListSessionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSessionsOutput>())
@@ -4265,7 +4265,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTableMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTableMetadataInput, ListTableMetadataOutput>(xAmzTarget: "AmazonAthena.ListTableMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTableMetadataInput, ListTableMetadataOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListTableMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTableMetadataInput, ListTableMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTableMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTableMetadataInput, ListTableMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTableMetadataOutput>())
@@ -4336,7 +4336,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AmazonAthena.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -4406,7 +4406,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListWorkGroupsInput, ListWorkGroupsOutput>(xAmzTarget: "AmazonAthena.ListWorkGroups"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListWorkGroupsInput, ListWorkGroupsOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListWorkGroups"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListWorkGroupsInput, ListWorkGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWorkGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWorkGroupsInput, ListWorkGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkGroupsOutput>())
@@ -4476,7 +4476,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutCapacityAssignmentConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutput>(xAmzTarget: "AmazonAthena.PutCapacityAssignmentConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutput>(overrides: ["X-Amz-Target": "AmazonAthena.PutCapacityAssignmentConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutCapacityAssignmentConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutCapacityAssignmentConfigurationOutput>())
@@ -4547,7 +4547,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartCalculationExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutput>(xAmzTarget: "AmazonAthena.StartCalculationExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutput>(overrides: ["X-Amz-Target": "AmazonAthena.StartCalculationExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartCalculationExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCalculationExecutionOutput>())
@@ -4619,7 +4619,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartQueryExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartQueryExecutionInput, StartQueryExecutionOutput>(xAmzTarget: "AmazonAthena.StartQueryExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartQueryExecutionInput, StartQueryExecutionOutput>(overrides: ["X-Amz-Target": "AmazonAthena.StartQueryExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartQueryExecutionInput, StartQueryExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartQueryExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartQueryExecutionInput, StartQueryExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartQueryExecutionOutput>())
@@ -4692,7 +4692,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartSessionInput, StartSessionOutput>(xAmzTarget: "AmazonAthena.StartSession"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartSessionInput, StartSessionOutput>(overrides: ["X-Amz-Target": "AmazonAthena.StartSession"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartSessionInput, StartSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartSessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSessionInput, StartSessionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartSessionOutput>())
@@ -4763,7 +4763,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopCalculationExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutput>(xAmzTarget: "AmazonAthena.StopCalculationExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutput>(overrides: ["X-Amz-Target": "AmazonAthena.StopCalculationExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopCalculationExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopCalculationExecutionOutput>())
@@ -4834,7 +4834,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopQueryExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopQueryExecutionInput, StopQueryExecutionOutput>(xAmzTarget: "AmazonAthena.StopQueryExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopQueryExecutionInput, StopQueryExecutionOutput>(overrides: ["X-Amz-Target": "AmazonAthena.StopQueryExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopQueryExecutionInput, StopQueryExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopQueryExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopQueryExecutionInput, StopQueryExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopQueryExecutionOutput>())
@@ -4905,7 +4905,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AmazonAthena.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AmazonAthena.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -4976,7 +4976,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TerminateSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TerminateSessionInput, TerminateSessionOutput>(xAmzTarget: "AmazonAthena.TerminateSession"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TerminateSessionInput, TerminateSessionOutput>(overrides: ["X-Amz-Target": "AmazonAthena.TerminateSession"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TerminateSessionInput, TerminateSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TerminateSessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TerminateSessionInput, TerminateSessionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TerminateSessionOutput>())
@@ -5047,7 +5047,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AmazonAthena.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AmazonAthena.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -5117,7 +5117,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCapacityReservationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateCapacityReservationInput, UpdateCapacityReservationOutput>(xAmzTarget: "AmazonAthena.UpdateCapacityReservation"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCapacityReservationInput, UpdateCapacityReservationOutput>(overrides: ["X-Amz-Target": "AmazonAthena.UpdateCapacityReservation"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateCapacityReservationInput, UpdateCapacityReservationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCapacityReservationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCapacityReservationInput, UpdateCapacityReservationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCapacityReservationOutput>())
@@ -5187,7 +5187,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDataCatalogOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutput>(xAmzTarget: "AmazonAthena.UpdateDataCatalog"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutput>(overrides: ["X-Amz-Target": "AmazonAthena.UpdateDataCatalog"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDataCatalogInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDataCatalogOutput>())
@@ -5257,7 +5257,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateNamedQueryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutput>(xAmzTarget: "AmazonAthena.UpdateNamedQuery"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutput>(overrides: ["X-Amz-Target": "AmazonAthena.UpdateNamedQuery"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateNamedQueryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateNamedQueryOutput>())
@@ -5328,7 +5328,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateNotebookOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateNotebookInput, UpdateNotebookOutput>(xAmzTarget: "AmazonAthena.UpdateNotebook"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateNotebookInput, UpdateNotebookOutput>(overrides: ["X-Amz-Target": "AmazonAthena.UpdateNotebook"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateNotebookInput, UpdateNotebookOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateNotebookInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateNotebookInput, UpdateNotebookOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateNotebookOutput>())
@@ -5399,7 +5399,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateNotebookMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutput>(xAmzTarget: "AmazonAthena.UpdateNotebookMetadata"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutput>(overrides: ["X-Amz-Target": "AmazonAthena.UpdateNotebookMetadata"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateNotebookMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateNotebookMetadataOutput>())
@@ -5470,7 +5470,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePreparedStatementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutput>(xAmzTarget: "AmazonAthena.UpdatePreparedStatement"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutput>(overrides: ["X-Amz-Target": "AmazonAthena.UpdatePreparedStatement"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePreparedStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePreparedStatementOutput>())
@@ -5540,7 +5540,7 @@ extension AthenaClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWorkGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutput>(xAmzTarget: "AmazonAthena.UpdateWorkGroup"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutput>(overrides: ["X-Amz-Target": "AmazonAthena.UpdateWorkGroup"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWorkGroupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWorkGroupOutput>())
