@@ -2452,22 +2452,6 @@ extension TextLengthExceededException {
     }
 }
 
-extension PollyClientTypes.Voice {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.Voice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PollyClientTypes.Voice()
-        value.gender = try reader["Gender"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        value.languageName = try reader["LanguageName"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.additionalLanguageCodes = try reader["AdditionalLanguageCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PollyClientTypes.LanguageCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportedEngines = try reader["SupportedEngines"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PollyClientTypes.Engine>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension PollyClientTypes.Lexicon {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.Lexicon {
@@ -2490,6 +2474,17 @@ extension PollyClientTypes.LexiconAttributes {
         value.lexiconArn = try reader["LexiconArn"].readIfPresent()
         value.lexemesCount = try reader["LexemesCount"].readIfPresent() ?? 0
         value.size = try reader["Size"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension PollyClientTypes.LexiconDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.LexiconDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PollyClientTypes.LexiconDescription()
+        value.name = try reader["Name"].readIfPresent()
+        value.attributes = try reader["Attributes"].readIfPresent(with: PollyClientTypes.LexiconAttributes.read(from:))
         return value
     }
 }
@@ -2518,19 +2513,24 @@ extension PollyClientTypes.SynthesisTask {
     }
 }
 
-extension PollyClientTypes.LexiconDescription {
+extension PollyClientTypes.Voice {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.LexiconDescription {
+    static func read(from reader: SmithyJSON.Reader) throws -> PollyClientTypes.Voice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PollyClientTypes.LexiconDescription()
+        var value = PollyClientTypes.Voice()
+        value.gender = try reader["Gender"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        value.languageName = try reader["LanguageName"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
-        value.attributes = try reader["Attributes"].readIfPresent(with: PollyClientTypes.LexiconAttributes.read(from:))
+        value.additionalLanguageCodes = try reader["AdditionalLanguageCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PollyClientTypes.LanguageCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedEngines = try reader["SupportedEngines"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PollyClientTypes.Engine>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
 extension SynthesizeSpeechInput {
-    public func presignURL(config: PollyClient.PollyClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
+    public func presignURL(config: PollyClient.PollyClientConfig, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
         let serviceName = "Polly"
         let input = self
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
@@ -2586,6 +2586,11 @@ extension SynthesizeSpeechInput {
             .executeRequest(client)
             .build()
         return try await op.presignRequest(input: input).endpoint.url
+    }
+
+    @available(*, deprecated, message: "Use presignURL(config: PollyClient.PollyClientConfig, expiration:) instead")
+    public func presignURL(config: PollyClient.PollyClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
+        return try await self.presignURL(config: config.toSendable(), expiration: expiration)
     }
 }
 
@@ -2643,7 +2648,7 @@ extension SynthesizeSpeechInputGETQueryItemMiddleware: Smithy.RequestMessageSeri
 }
 
 extension SynthesizeSpeechInput {
-    public func presign(config: PollyClient.PollyClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+    public func presign(config: PollyClient.PollyClientConfig, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
         let serviceName = "Polly"
         let input = self
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
@@ -2704,6 +2709,11 @@ extension SynthesizeSpeechInput {
             .executeRequest(client)
             .build()
         return try await op.presignRequest(input: input)
+    }
+
+    @available(*, deprecated, message: "Use presign(config: PollyClient.PollyClientConfig, expiration:) instead")
+    public func presign(config: PollyClient.PollyClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+        return try await self.presign(config: config.toSendable(), expiration: expiration)
     }
 }
 

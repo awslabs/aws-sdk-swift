@@ -14,10 +14,12 @@ public class RegionPlugin: Plugin {
         self.region = region
     }
 
-    public func configureClient(clientConfiguration: ClientConfiguration) {
-        if var config = clientConfiguration as? AWSRegionClientConfiguration {
-            config.region = self.region
-            config.signingRegion = self.region
-        }
+    public func configureClient<Config: ClientConfiguration>(clientConfiguration: inout Config) async throws {
+        guard var config = clientConfiguration as? any AWSRegionClientConfiguration else { return }
+        config.region = self.region
+        config.signingRegion = self.region
+
+        guard let modifiedConfig = config as? Config else { return }
+        clientConfiguration = modifiedConfig
     }
 }

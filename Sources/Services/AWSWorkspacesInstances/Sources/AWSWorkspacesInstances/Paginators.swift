@@ -27,6 +27,7 @@ extension WorkspacesInstancesClient {
 extension ListInstanceTypesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListInstanceTypesInput {
         return ListInstanceTypesInput(
+            instanceConfigurationFilter: self.instanceConfigurationFilter,
             maxResults: self.maxResults,
             nextToken: token
         )}

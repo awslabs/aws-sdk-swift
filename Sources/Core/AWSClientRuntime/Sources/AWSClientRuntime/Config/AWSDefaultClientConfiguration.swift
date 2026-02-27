@@ -8,6 +8,7 @@
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import SmithyIdentity
 
+/// Protocol for AWS default client configuration.
 public protocol AWSDefaultClientConfiguration {
     /// The AWS credential identity resolver to be used for AWS credentials.
     ///

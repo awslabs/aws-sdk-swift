@@ -1200,6 +1200,20 @@ extension KendraRankingClientTypes.CapacityUnitsConfiguration {
     }
 }
 
+extension KendraRankingClientTypes.Document {
+
+    static func write(value: KendraRankingClientTypes.Document?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Body"].write(value.body)
+        try writer["GroupId"].write(value.groupId)
+        try writer["Id"].write(value.id)
+        try writer["OriginalScore"].write(value.originalScore)
+        try writer["Title"].write(value.title)
+        try writer["TokenizedBody"].writeList(value.tokenizedBody, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TokenizedTitle"].writeList(value.tokenizedTitle, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension KendraRankingClientTypes.RescoreExecutionPlanSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KendraRankingClientTypes.RescoreExecutionPlanSummary {
@@ -1210,6 +1224,17 @@ extension KendraRankingClientTypes.RescoreExecutionPlanSummary {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraRankingClientTypes.RescoreResultItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraRankingClientTypes.RescoreResultItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraRankingClientTypes.RescoreResultItem()
+        value.documentId = try reader["DocumentId"].readIfPresent()
+        value.score = try reader["Score"].readIfPresent()
         return value
     }
 }
@@ -1228,31 +1253,6 @@ extension KendraRankingClientTypes.Tag {
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension KendraRankingClientTypes.RescoreResultItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraRankingClientTypes.RescoreResultItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraRankingClientTypes.RescoreResultItem()
-        value.documentId = try reader["DocumentId"].readIfPresent()
-        value.score = try reader["Score"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraRankingClientTypes.Document {
-
-    static func write(value: KendraRankingClientTypes.Document?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Body"].write(value.body)
-        try writer["GroupId"].write(value.groupId)
-        try writer["Id"].write(value.id)
-        try writer["OriginalScore"].write(value.originalScore)
-        try writer["Title"].write(value.title)
-        try writer["TokenizedBody"].writeList(value.tokenizedBody, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TokenizedTitle"].writeList(value.tokenizedTitle, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

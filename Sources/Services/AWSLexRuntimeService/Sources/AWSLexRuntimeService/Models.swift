@@ -2004,60 +2004,6 @@ extension UnsupportedMediaTypeException {
     }
 }
 
-extension LexRuntimeClientTypes.IntentSummary {
-
-    static func write(value: LexRuntimeClientTypes.IntentSummary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["checkpointLabel"].write(value.checkpointLabel)
-        try writer["confirmationStatus"].write(value.confirmationStatus)
-        try writer["dialogActionType"].write(value.dialogActionType)
-        try writer["fulfillmentState"].write(value.fulfillmentState)
-        try writer["intentName"].write(value.intentName)
-        try writer["slotToElicit"].write(value.slotToElicit)
-        try writer["slots"].writeMap(value.slots, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.IntentSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeClientTypes.IntentSummary()
-        value.intentName = try reader["intentName"].readIfPresent()
-        value.checkpointLabel = try reader["checkpointLabel"].readIfPresent()
-        value.slots = try reader["slots"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.confirmationStatus = try reader["confirmationStatus"].readIfPresent()
-        value.dialogActionType = try reader["dialogActionType"].readIfPresent() ?? .sdkUnknown("")
-        value.fulfillmentState = try reader["fulfillmentState"].readIfPresent()
-        value.slotToElicit = try reader["slotToElicit"].readIfPresent()
-        return value
-    }
-}
-
-extension LexRuntimeClientTypes.DialogAction {
-
-    static func write(value: LexRuntimeClientTypes.DialogAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fulfillmentState"].write(value.fulfillmentState)
-        try writer["intentName"].write(value.intentName)
-        try writer["message"].write(value.message)
-        try writer["messageFormat"].write(value.messageFormat)
-        try writer["slotToElicit"].write(value.slotToElicit)
-        try writer["slots"].writeMap(value.slots, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.DialogAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeClientTypes.DialogAction()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.intentName = try reader["intentName"].readIfPresent()
-        value.slots = try reader["slots"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.slotToElicit = try reader["slotToElicit"].readIfPresent()
-        value.fulfillmentState = try reader["fulfillmentState"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        value.messageFormat = try reader["messageFormat"].readIfPresent()
-        return value
-    }
-}
-
 extension LexRuntimeClientTypes.ActiveContext {
 
     static func write(value: LexRuntimeClientTypes.ActiveContext?, to writer: SmithyJSON.Writer) throws {
@@ -2094,47 +2040,40 @@ extension LexRuntimeClientTypes.ActiveContextTimeToLive {
     }
 }
 
-extension LexRuntimeClientTypes.IntentConfidence {
+extension LexRuntimeClientTypes.Button {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.IntentConfidence {
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.Button {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeClientTypes.IntentConfidence()
-        value.score = try reader["score"].readIfPresent() ?? 0
+        var value = LexRuntimeClientTypes.Button()
+        value.text = try reader["text"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension LexRuntimeClientTypes.PredictedIntent {
+extension LexRuntimeClientTypes.DialogAction {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.PredictedIntent {
+    static func write(value: LexRuntimeClientTypes.DialogAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fulfillmentState"].write(value.fulfillmentState)
+        try writer["intentName"].write(value.intentName)
+        try writer["message"].write(value.message)
+        try writer["messageFormat"].write(value.messageFormat)
+        try writer["slotToElicit"].write(value.slotToElicit)
+        try writer["slots"].writeMap(value.slots, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.DialogAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeClientTypes.PredictedIntent()
+        var value = LexRuntimeClientTypes.DialogAction()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.intentName = try reader["intentName"].readIfPresent()
-        value.nluIntentConfidence = try reader["nluIntentConfidence"].readIfPresent(with: LexRuntimeClientTypes.IntentConfidence.read(from:))
         value.slots = try reader["slots"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension LexRuntimeClientTypes.SentimentResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.SentimentResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeClientTypes.SentimentResponse()
-        value.sentimentLabel = try reader["sentimentLabel"].readIfPresent()
-        value.sentimentScore = try reader["sentimentScore"].readIfPresent()
-        return value
-    }
-}
-
-extension LexRuntimeClientTypes.ResponseCard {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.ResponseCard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeClientTypes.ResponseCard()
-        value.version = try reader["version"].readIfPresent()
-        value.contentType = try reader["contentType"].readIfPresent()
-        value.genericAttachments = try reader["genericAttachments"].readListIfPresent(memberReadingClosure: LexRuntimeClientTypes.GenericAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.slotToElicit = try reader["slotToElicit"].readIfPresent()
+        value.fulfillmentState = try reader["fulfillmentState"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.messageFormat = try reader["messageFormat"].readIfPresent()
         return value
     }
 }
@@ -2153,13 +2092,74 @@ extension LexRuntimeClientTypes.GenericAttachment {
     }
 }
 
-extension LexRuntimeClientTypes.Button {
+extension LexRuntimeClientTypes.IntentConfidence {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.Button {
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.IntentConfidence {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LexRuntimeClientTypes.Button()
-        value.text = try reader["text"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
+        var value = LexRuntimeClientTypes.IntentConfidence()
+        value.score = try reader["score"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension LexRuntimeClientTypes.IntentSummary {
+
+    static func write(value: LexRuntimeClientTypes.IntentSummary?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["checkpointLabel"].write(value.checkpointLabel)
+        try writer["confirmationStatus"].write(value.confirmationStatus)
+        try writer["dialogActionType"].write(value.dialogActionType)
+        try writer["fulfillmentState"].write(value.fulfillmentState)
+        try writer["intentName"].write(value.intentName)
+        try writer["slotToElicit"].write(value.slotToElicit)
+        try writer["slots"].writeMap(value.slots, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.IntentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeClientTypes.IntentSummary()
+        value.intentName = try reader["intentName"].readIfPresent()
+        value.checkpointLabel = try reader["checkpointLabel"].readIfPresent()
+        value.slots = try reader["slots"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.confirmationStatus = try reader["confirmationStatus"].readIfPresent()
+        value.dialogActionType = try reader["dialogActionType"].readIfPresent() ?? .sdkUnknown("")
+        value.fulfillmentState = try reader["fulfillmentState"].readIfPresent()
+        value.slotToElicit = try reader["slotToElicit"].readIfPresent()
+        return value
+    }
+}
+
+extension LexRuntimeClientTypes.PredictedIntent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.PredictedIntent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeClientTypes.PredictedIntent()
+        value.intentName = try reader["intentName"].readIfPresent()
+        value.nluIntentConfidence = try reader["nluIntentConfidence"].readIfPresent(with: LexRuntimeClientTypes.IntentConfidence.read(from:))
+        value.slots = try reader["slots"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension LexRuntimeClientTypes.ResponseCard {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.ResponseCard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeClientTypes.ResponseCard()
+        value.version = try reader["version"].readIfPresent()
+        value.contentType = try reader["contentType"].readIfPresent()
+        value.genericAttachments = try reader["genericAttachments"].readListIfPresent(memberReadingClosure: LexRuntimeClientTypes.GenericAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LexRuntimeClientTypes.SentimentResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexRuntimeClientTypes.SentimentResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexRuntimeClientTypes.SentimentResponse()
+        value.sentimentLabel = try reader["sentimentLabel"].readIfPresent()
+        value.sentimentScore = try reader["sentimentScore"].readIfPresent()
         return value
     }
 }

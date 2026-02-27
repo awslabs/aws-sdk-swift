@@ -6776,267 +6776,38 @@ extension ResourceNotFoundException {
     }
 }
 
-extension LookoutEquipmentClientTypes.IngestionInputConfiguration {
+extension LookoutEquipmentClientTypes.CategoricalValues {
 
-    static func write(value: LookoutEquipmentClientTypes.IngestionInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3InputConfiguration"].write(value.s3InputConfiguration, with: LookoutEquipmentClientTypes.IngestionS3InputConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.IngestionInputConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.CategoricalValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.IngestionInputConfiguration()
-        value.s3InputConfiguration = try reader["S3InputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.IngestionS3InputConfiguration.read(from:))
+        var value = LookoutEquipmentClientTypes.CategoricalValues()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.numberOfCategory = try reader["NumberOfCategory"].readIfPresent()
         return value
     }
 }
 
-extension LookoutEquipmentClientTypes.IngestionS3InputConfiguration {
+extension LookoutEquipmentClientTypes.CountPercent {
 
-    static func write(value: LookoutEquipmentClientTypes.IngestionS3InputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["KeyPattern"].write(value.keyPattern)
-        try writer["Prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.IngestionS3InputConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.CountPercent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.IngestionS3InputConfiguration()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.`prefix` = try reader["Prefix"].readIfPresent()
-        value.keyPattern = try reader["KeyPattern"].readIfPresent()
+        var value = LookoutEquipmentClientTypes.CountPercent()
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        value.percentage = try reader["Percentage"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension LookoutEquipmentClientTypes.DataQualitySummary {
+extension LookoutEquipmentClientTypes.DataIngestionJobSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DataQualitySummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DataIngestionJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.DataQualitySummary()
-        value.insufficientSensorData = try reader["InsufficientSensorData"].readIfPresent(with: LookoutEquipmentClientTypes.InsufficientSensorData.read(from:))
-        value.missingSensorData = try reader["MissingSensorData"].readIfPresent(with: LookoutEquipmentClientTypes.MissingSensorData.read(from:))
-        value.invalidSensorData = try reader["InvalidSensorData"].readIfPresent(with: LookoutEquipmentClientTypes.InvalidSensorData.read(from:))
-        value.unsupportedTimestamps = try reader["UnsupportedTimestamps"].readIfPresent(with: LookoutEquipmentClientTypes.UnsupportedTimestamps.read(from:))
-        value.duplicateTimestamps = try reader["DuplicateTimestamps"].readIfPresent(with: LookoutEquipmentClientTypes.DuplicateTimestamps.read(from:))
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.DuplicateTimestamps {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DuplicateTimestamps {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.DuplicateTimestamps()
-        value.totalNumberOfDuplicateTimestamps = try reader["TotalNumberOfDuplicateTimestamps"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.UnsupportedTimestamps {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.UnsupportedTimestamps {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.UnsupportedTimestamps()
-        value.totalNumberOfUnsupportedTimestamps = try reader["TotalNumberOfUnsupportedTimestamps"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.InvalidSensorData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InvalidSensorData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.InvalidSensorData()
-        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
-        value.totalNumberOfInvalidValues = try reader["TotalNumberOfInvalidValues"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.MissingSensorData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MissingSensorData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.MissingSensorData()
-        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
-        value.totalNumberOfMissingValues = try reader["TotalNumberOfMissingValues"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.InsufficientSensorData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InsufficientSensorData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.InsufficientSensorData()
-        value.missingCompleteSensorData = try reader["MissingCompleteSensorData"].readIfPresent(with: LookoutEquipmentClientTypes.MissingCompleteSensorData.read(from:))
-        value.sensorsWithShortDateRange = try reader["SensorsWithShortDateRange"].readIfPresent(with: LookoutEquipmentClientTypes.SensorsWithShortDateRange.read(from:))
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.SensorsWithShortDateRange {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.SensorsWithShortDateRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.SensorsWithShortDateRange()
-        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.MissingCompleteSensorData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MissingCompleteSensorData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.MissingCompleteSensorData()
-        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.IngestedFilesSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.IngestedFilesSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.IngestedFilesSummary()
-        value.totalNumberOfFiles = try reader["TotalNumberOfFiles"].readIfPresent() ?? 0
-        value.ingestedNumberOfFiles = try reader["IngestedNumberOfFiles"].readIfPresent() ?? 0
-        value.discardedFiles = try reader["DiscardedFiles"].readListIfPresent(memberReadingClosure: LookoutEquipmentClientTypes.S3Object.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.S3Object {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.S3Object {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.S3Object()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.InferenceInputConfiguration {
-
-    static func write(value: LookoutEquipmentClientTypes.InferenceInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InferenceInputNameConfiguration"].write(value.inferenceInputNameConfiguration, with: LookoutEquipmentClientTypes.InferenceInputNameConfiguration.write(value:to:))
-        try writer["InputTimeZoneOffset"].write(value.inputTimeZoneOffset)
-        try writer["S3InputConfiguration"].write(value.s3InputConfiguration, with: LookoutEquipmentClientTypes.InferenceS3InputConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceInputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.InferenceInputConfiguration()
-        value.s3InputConfiguration = try reader["S3InputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.InferenceS3InputConfiguration.read(from:))
-        value.inputTimeZoneOffset = try reader["InputTimeZoneOffset"].readIfPresent()
-        value.inferenceInputNameConfiguration = try reader["InferenceInputNameConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.InferenceInputNameConfiguration.read(from:))
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.InferenceInputNameConfiguration {
-
-    static func write(value: LookoutEquipmentClientTypes.InferenceInputNameConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComponentTimestampDelimiter"].write(value.componentTimestampDelimiter)
-        try writer["TimestampFormat"].write(value.timestampFormat)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceInputNameConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.InferenceInputNameConfiguration()
-        value.timestampFormat = try reader["TimestampFormat"].readIfPresent()
-        value.componentTimestampDelimiter = try reader["ComponentTimestampDelimiter"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.InferenceS3InputConfiguration {
-
-    static func write(value: LookoutEquipmentClientTypes.InferenceS3InputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceS3InputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.InferenceS3InputConfiguration()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.`prefix` = try reader["Prefix"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.InferenceOutputConfiguration {
-
-    static func write(value: LookoutEquipmentClientTypes.InferenceOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["S3OutputConfiguration"].write(value.s3OutputConfiguration, with: LookoutEquipmentClientTypes.InferenceS3OutputConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.InferenceOutputConfiguration()
-        value.s3OutputConfiguration = try reader["S3OutputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.InferenceS3OutputConfiguration.read(from:))
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.InferenceS3OutputConfiguration {
-
-    static func write(value: LookoutEquipmentClientTypes.InferenceS3OutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceS3OutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.InferenceS3OutputConfiguration()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.`prefix` = try reader["Prefix"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.LabelsInputConfiguration {
-
-    static func write(value: LookoutEquipmentClientTypes.LabelsInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LabelGroupName"].write(value.labelGroupName)
-        try writer["S3InputConfiguration"].write(value.s3InputConfiguration, with: LookoutEquipmentClientTypes.LabelsS3InputConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LabelsInputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.LabelsInputConfiguration()
-        value.s3InputConfiguration = try reader["S3InputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.LabelsS3InputConfiguration.read(from:))
-        value.labelGroupName = try reader["LabelGroupName"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.LabelsS3InputConfiguration {
-
-    static func write(value: LookoutEquipmentClientTypes.LabelsS3InputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LabelsS3InputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.LabelsS3InputConfiguration()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.`prefix` = try reader["Prefix"].readIfPresent()
+        var value = LookoutEquipmentClientTypes.DataIngestionJobSummary()
+        value.jobId = try reader["JobId"].readIfPresent()
+        value.datasetName = try reader["DatasetName"].readIfPresent()
+        value.datasetArn = try reader["DatasetArn"].readIfPresent()
+        value.ingestionInputConfiguration = try reader["IngestionInputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.IngestionInputConfiguration.read(from:))
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -7056,51 +6827,25 @@ extension LookoutEquipmentClientTypes.DataPreProcessingConfiguration {
     }
 }
 
-extension LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration {
+extension LookoutEquipmentClientTypes.DataQualitySummary {
 
-    static func write(value: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["S3OutputConfiguration"].write(value.s3OutputConfiguration, with: LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DataQualitySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration()
-        value.s3OutputConfiguration = try reader["S3OutputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration.read(from:))
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        var value = LookoutEquipmentClientTypes.DataQualitySummary()
+        value.insufficientSensorData = try reader["InsufficientSensorData"].readIfPresent(with: LookoutEquipmentClientTypes.InsufficientSensorData.read(from:))
+        value.missingSensorData = try reader["MissingSensorData"].readIfPresent(with: LookoutEquipmentClientTypes.MissingSensorData.read(from:))
+        value.invalidSensorData = try reader["InvalidSensorData"].readIfPresent(with: LookoutEquipmentClientTypes.InvalidSensorData.read(from:))
+        value.unsupportedTimestamps = try reader["UnsupportedTimestamps"].readIfPresent(with: LookoutEquipmentClientTypes.UnsupportedTimestamps.read(from:))
+        value.duplicateTimestamps = try reader["DuplicateTimestamps"].readIfPresent(with: LookoutEquipmentClientTypes.DuplicateTimestamps.read(from:))
         return value
     }
 }
 
-extension LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration {
+extension LookoutEquipmentClientTypes.DatasetSchema {
 
-    static func write(value: LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LookoutEquipmentClientTypes.DatasetSchema?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.`prefix` = try reader["Prefix"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.DataIngestionJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DataIngestionJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.DataIngestionJobSummary()
-        value.jobId = try reader["JobId"].readIfPresent()
-        value.datasetName = try reader["DatasetName"].readIfPresent()
-        value.datasetArn = try reader["DatasetArn"].readIfPresent()
-        value.ingestionInputConfiguration = try reader["IngestionInputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.IngestionInputConfiguration.read(from:))
-        value.status = try reader["Status"].readIfPresent()
-        return value
+        try writer["InlineDataSchema"].write(value.inlineDataSchema)
     }
 }
 
@@ -7113,6 +6858,16 @@ extension LookoutEquipmentClientTypes.DatasetSummary {
         value.datasetArn = try reader["DatasetArn"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.DuplicateTimestamps {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.DuplicateTimestamps {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.DuplicateTimestamps()
+        value.totalNumberOfDuplicateTimestamps = try reader["TotalNumberOfDuplicateTimestamps"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7155,6 +6910,93 @@ extension LookoutEquipmentClientTypes.InferenceExecutionSummary {
     }
 }
 
+extension LookoutEquipmentClientTypes.InferenceInputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.InferenceInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InferenceInputNameConfiguration"].write(value.inferenceInputNameConfiguration, with: LookoutEquipmentClientTypes.InferenceInputNameConfiguration.write(value:to:))
+        try writer["InputTimeZoneOffset"].write(value.inputTimeZoneOffset)
+        try writer["S3InputConfiguration"].write(value.s3InputConfiguration, with: LookoutEquipmentClientTypes.InferenceS3InputConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.InferenceInputConfiguration()
+        value.s3InputConfiguration = try reader["S3InputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.InferenceS3InputConfiguration.read(from:))
+        value.inputTimeZoneOffset = try reader["InputTimeZoneOffset"].readIfPresent()
+        value.inferenceInputNameConfiguration = try reader["InferenceInputNameConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.InferenceInputNameConfiguration.read(from:))
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.InferenceInputNameConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.InferenceInputNameConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComponentTimestampDelimiter"].write(value.componentTimestampDelimiter)
+        try writer["TimestampFormat"].write(value.timestampFormat)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceInputNameConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.InferenceInputNameConfiguration()
+        value.timestampFormat = try reader["TimestampFormat"].readIfPresent()
+        value.componentTimestampDelimiter = try reader["ComponentTimestampDelimiter"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.InferenceOutputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.InferenceOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["S3OutputConfiguration"].write(value.s3OutputConfiguration, with: LookoutEquipmentClientTypes.InferenceS3OutputConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.InferenceOutputConfiguration()
+        value.s3OutputConfiguration = try reader["S3OutputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.InferenceS3OutputConfiguration.read(from:))
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.InferenceS3InputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.InferenceS3InputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["Prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceS3InputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.InferenceS3InputConfiguration()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.InferenceS3OutputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.InferenceS3OutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["Prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceS3OutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.InferenceS3OutputConfiguration()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        return value
+    }
+}
+
 extension LookoutEquipmentClientTypes.InferenceSchedulerSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InferenceSchedulerSummary {
@@ -7172,6 +7014,74 @@ extension LookoutEquipmentClientTypes.InferenceSchedulerSummary {
     }
 }
 
+extension LookoutEquipmentClientTypes.IngestedFilesSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.IngestedFilesSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.IngestedFilesSummary()
+        value.totalNumberOfFiles = try reader["TotalNumberOfFiles"].readIfPresent() ?? 0
+        value.ingestedNumberOfFiles = try reader["IngestedNumberOfFiles"].readIfPresent() ?? 0
+        value.discardedFiles = try reader["DiscardedFiles"].readListIfPresent(memberReadingClosure: LookoutEquipmentClientTypes.S3Object.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.IngestionInputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.IngestionInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3InputConfiguration"].write(value.s3InputConfiguration, with: LookoutEquipmentClientTypes.IngestionS3InputConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.IngestionInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.IngestionInputConfiguration()
+        value.s3InputConfiguration = try reader["S3InputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.IngestionS3InputConfiguration.read(from:))
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.IngestionS3InputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.IngestionS3InputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["KeyPattern"].write(value.keyPattern)
+        try writer["Prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.IngestionS3InputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.IngestionS3InputConfiguration()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.keyPattern = try reader["KeyPattern"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.InsufficientSensorData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InsufficientSensorData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.InsufficientSensorData()
+        value.missingCompleteSensorData = try reader["MissingCompleteSensorData"].readIfPresent(with: LookoutEquipmentClientTypes.MissingCompleteSensorData.read(from:))
+        value.sensorsWithShortDateRange = try reader["SensorsWithShortDateRange"].readIfPresent(with: LookoutEquipmentClientTypes.SensorsWithShortDateRange.read(from:))
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.InvalidSensorData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.InvalidSensorData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.InvalidSensorData()
+        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
+        value.totalNumberOfInvalidValues = try reader["TotalNumberOfInvalidValues"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension LookoutEquipmentClientTypes.LabelGroupSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LabelGroupSummary {
@@ -7181,6 +7091,40 @@ extension LookoutEquipmentClientTypes.LabelGroupSummary {
         value.labelGroupArn = try reader["LabelGroupArn"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.LabelsInputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.LabelsInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LabelGroupName"].write(value.labelGroupName)
+        try writer["S3InputConfiguration"].write(value.s3InputConfiguration, with: LookoutEquipmentClientTypes.LabelsS3InputConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LabelsInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.LabelsInputConfiguration()
+        value.s3InputConfiguration = try reader["S3InputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.LabelsS3InputConfiguration.read(from:))
+        value.labelGroupName = try reader["LabelGroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.LabelsS3InputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.LabelsS3InputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["Prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LabelsS3InputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.LabelsS3InputConfiguration()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["Prefix"].readIfPresent()
         return value
     }
 }
@@ -7199,6 +7143,73 @@ extension LookoutEquipmentClientTypes.LabelSummary {
         value.faultCode = try reader["FaultCode"].readIfPresent()
         value.equipment = try reader["Equipment"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.LargeTimestampGaps {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LargeTimestampGaps {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.LargeTimestampGaps()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.numberOfLargeTimestampGaps = try reader["NumberOfLargeTimestampGaps"].readIfPresent()
+        value.maxTimestampGapInDays = try reader["MaxTimestampGapInDays"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.MissingCompleteSensorData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MissingCompleteSensorData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.MissingCompleteSensorData()
+        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.MissingSensorData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MissingSensorData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.MissingSensorData()
+        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
+        value.totalNumberOfMissingValues = try reader["TotalNumberOfMissingValues"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["S3OutputConfiguration"].write(value.s3OutputConfiguration, with: LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration()
+        value.s3OutputConfiguration = try reader["S3OutputConfiguration"].readIfPresent(with: LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration.read(from:))
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration {
+
+    static func write(value: LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["Prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["Prefix"].readIfPresent()
         return value
     }
 }
@@ -7244,6 +7255,27 @@ extension LookoutEquipmentClientTypes.ModelVersionSummary {
     }
 }
 
+extension LookoutEquipmentClientTypes.MonotonicValues {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MonotonicValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.MonotonicValues()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.monotonicity = try reader["Monotonicity"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.MultipleOperatingModes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MultipleOperatingModes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.MultipleOperatingModes()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension LookoutEquipmentClientTypes.RetrainingSchedulerSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.RetrainingSchedulerSummary {
@@ -7255,6 +7287,17 @@ extension LookoutEquipmentClientTypes.RetrainingSchedulerSummary {
         value.retrainingStartDate = try reader["RetrainingStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.retrainingFrequency = try reader["RetrainingFrequency"].readIfPresent()
         value.lookbackWindow = try reader["LookbackWindow"].readIfPresent()
+        return value
+    }
+}
+
+extension LookoutEquipmentClientTypes.S3Object {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.S3Object {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.S3Object()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.key = try reader["Key"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7281,57 +7324,12 @@ extension LookoutEquipmentClientTypes.SensorStatisticsSummary {
     }
 }
 
-extension LookoutEquipmentClientTypes.MonotonicValues {
+extension LookoutEquipmentClientTypes.SensorsWithShortDateRange {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MonotonicValues {
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.SensorsWithShortDateRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.MonotonicValues()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.monotonicity = try reader["Monotonicity"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.LargeTimestampGaps {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.LargeTimestampGaps {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.LargeTimestampGaps()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.numberOfLargeTimestampGaps = try reader["NumberOfLargeTimestampGaps"].readIfPresent()
-        value.maxTimestampGapInDays = try reader["MaxTimestampGapInDays"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.MultipleOperatingModes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.MultipleOperatingModes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.MultipleOperatingModes()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.CategoricalValues {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.CategoricalValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.CategoricalValues()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.numberOfCategory = try reader["NumberOfCategory"].readIfPresent()
-        return value
-    }
-}
-
-extension LookoutEquipmentClientTypes.CountPercent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.CountPercent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LookoutEquipmentClientTypes.CountPercent()
-        value.count = try reader["Count"].readIfPresent() ?? 0
-        value.percentage = try reader["Percentage"].readIfPresent() ?? 0
+        var value = LookoutEquipmentClientTypes.SensorsWithShortDateRange()
+        value.affectedSensorCount = try reader["AffectedSensorCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7353,11 +7351,13 @@ extension LookoutEquipmentClientTypes.Tag {
     }
 }
 
-extension LookoutEquipmentClientTypes.DatasetSchema {
+extension LookoutEquipmentClientTypes.UnsupportedTimestamps {
 
-    static func write(value: LookoutEquipmentClientTypes.DatasetSchema?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InlineDataSchema"].write(value.inlineDataSchema)
+    static func read(from reader: SmithyJSON.Reader) throws -> LookoutEquipmentClientTypes.UnsupportedTimestamps {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LookoutEquipmentClientTypes.UnsupportedTimestamps()
+        value.totalNumberOfUnsupportedTimestamps = try reader["TotalNumberOfUnsupportedTimestamps"].readIfPresent() ?? 0
+        return value
     }
 }
 

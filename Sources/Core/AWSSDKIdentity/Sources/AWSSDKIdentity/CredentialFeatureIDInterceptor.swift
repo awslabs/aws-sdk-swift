@@ -11,7 +11,7 @@ import protocol ClientRuntime.MutableRequest
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 
-private class CredentialFeatureIDInterceptor<InputType, OutputType>: Interceptor {
+private struct CredentialFeatureIDInterceptor<InputType, OutputType>: Interceptor {
     public typealias RequestType = HTTPRequest
     public typealias ResponseType = HTTPResponse
 
@@ -29,7 +29,7 @@ private class CredentialFeatureIDInterceptor<InputType, OutputType>: Interceptor
     }
 }
 
-public class CredentialFeatureIDInterceptorProvider: HttpInterceptorProvider {
+public struct CredentialFeatureIDInterceptorProvider: HttpInterceptorProvider {
     private let featureIDsToAdd: [String]
 
     public init(featureIDsToAdd: [String]) {

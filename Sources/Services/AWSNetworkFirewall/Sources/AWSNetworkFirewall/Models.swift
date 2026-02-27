@@ -11599,6 +11599,89 @@ extension LogDestinationPermissionException {
     }
 }
 
+extension NetworkFirewallClientTypes.ActionDefinition {
+
+    static func write(value: NetworkFirewallClientTypes.ActionDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PublishMetricAction"].write(value.publishMetricAction, with: NetworkFirewallClientTypes.PublishMetricAction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ActionDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ActionDefinition()
+        value.publishMetricAction = try reader["PublishMetricAction"].readIfPresent(with: NetworkFirewallClientTypes.PublishMetricAction.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Address {
+
+    static func write(value: NetworkFirewallClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddressDefinition"].write(value.addressDefinition)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Address {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Address()
+        value.addressDefinition = try reader["AddressDefinition"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.AnalysisReport {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AnalysisReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.AnalysisReport()
+        value.analysisReportId = try reader["AnalysisReportId"].readIfPresent()
+        value.analysisType = try reader["AnalysisType"].readIfPresent()
+        value.reportTime = try reader["ReportTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.AnalysisResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AnalysisResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.AnalysisResult()
+        value.identifiedRuleIds = try reader["IdentifiedRuleIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.identifiedType = try reader["IdentifiedType"].readIfPresent()
+        value.analysisDetail = try reader["AnalysisDetail"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.AnalysisTypeReportResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AnalysisTypeReportResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.AnalysisTypeReportResult()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.firstAccessed = try reader["FirstAccessed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastAccessed = try reader["LastAccessed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.domain = try reader["Domain"].readIfPresent()
+        value.hits = try reader["Hits"].readIfPresent(with: NetworkFirewallClientTypes.Hits.read(from:))
+        value.uniqueSources = try reader["UniqueSources"].readIfPresent(with: NetworkFirewallClientTypes.UniqueSources.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Attachment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Attachment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Attachment()
+        value.subnetId = try reader["SubnetId"].readIfPresent()
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
 extension NetworkFirewallClientTypes.AvailabilityZoneMapping {
 
     static func write(value: NetworkFirewallClientTypes.AvailabilityZoneMapping?, to writer: SmithyJSON.Writer) throws {
@@ -11614,53 +11697,590 @@ extension NetworkFirewallClientTypes.AvailabilityZoneMapping {
     }
 }
 
-extension NetworkFirewallClientTypes.SubnetMapping {
+extension NetworkFirewallClientTypes.AvailabilityZoneMetadata {
 
-    static func write(value: NetworkFirewallClientTypes.SubnetMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IPAddressType"].write(value.ipAddressType)
-        try writer["SubnetId"].write(value.subnetId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.SubnetMapping {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AvailabilityZoneMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.SubnetMapping()
-        value.subnetId = try reader["SubnetId"].readIfPresent() ?? ""
+        var value = NetworkFirewallClientTypes.AvailabilityZoneMetadata()
         value.ipAddressType = try reader["IPAddressType"].readIfPresent()
         return value
     }
 }
 
-extension NetworkFirewallClientTypes.ProxyConfiguration {
+extension NetworkFirewallClientTypes.AZSyncState {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AZSyncState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.ProxyConfiguration()
+        var value = NetworkFirewallClientTypes.AZSyncState()
+        value.attachment = try reader["Attachment"].readIfPresent(with: NetworkFirewallClientTypes.Attachment.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.CapacityUsageSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.CapacityUsageSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.CapacityUsageSummary()
+        value.cidRs = try reader["CIDRs"].readIfPresent(with: NetworkFirewallClientTypes.CIDRSummary.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions {
+
+    static func write(value: NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RevokedStatusAction"].write(value.revokedStatusAction)
+        try writer["UnknownStatusAction"].write(value.unknownStatusAction)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions()
+        value.revokedStatusAction = try reader["RevokedStatusAction"].readIfPresent()
+        value.unknownStatusAction = try reader["UnknownStatusAction"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.CIDRSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.CIDRSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.CIDRSummary()
+        value.availableCIDRCount = try reader["AvailableCIDRCount"].readIfPresent()
+        value.utilizedCIDRCount = try reader["UtilizedCIDRCount"].readIfPresent()
+        value.ipSetReferences = try reader["IPSetReferences"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.IPSetMetadata.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.CreateProxyRule {
+
+    static func write(value: NetworkFirewallClientTypes.CreateProxyRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["Conditions"].writeList(value.conditions, memberWritingClosure: NetworkFirewallClientTypes.ProxyRuleCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["InsertPosition"].write(value.insertPosition)
+        try writer["ProxyRuleName"].write(value.proxyRuleName)
+    }
+}
+
+extension NetworkFirewallClientTypes.CreateProxyRulesByRequestPhase {
+
+    static func write(value: NetworkFirewallClientTypes.CreateProxyRulesByRequestPhase?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PostRESPONSE"].writeList(value.postRESPONSE, memberWritingClosure: NetworkFirewallClientTypes.CreateProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PreDNS"].writeList(value.preDNS, memberWritingClosure: NetworkFirewallClientTypes.CreateProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PreREQUEST"].writeList(value.preREQUEST, memberWritingClosure: NetworkFirewallClientTypes.CreateProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension NetworkFirewallClientTypes.CustomAction {
+
+    static func write(value: NetworkFirewallClientTypes.CustomAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionDefinition"].write(value.actionDefinition, with: NetworkFirewallClientTypes.ActionDefinition.write(value:to:))
+        try writer["ActionName"].write(value.actionName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.CustomAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.CustomAction()
+        value.actionName = try reader["ActionName"].readIfPresent() ?? ""
+        value.actionDefinition = try reader["ActionDefinition"].readIfPresent(with: NetworkFirewallClientTypes.ActionDefinition.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.DescribeProxyResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.DescribeProxyResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.DescribeProxyResource()
+        value.proxyName = try reader["ProxyName"].readIfPresent()
+        value.proxyArn = try reader["ProxyArn"].readIfPresent()
         value.proxyConfigurationName = try reader["ProxyConfigurationName"].readIfPresent()
         value.proxyConfigurationArn = try reader["ProxyConfigurationArn"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
+        value.natGatewayId = try reader["NatGatewayId"].readIfPresent()
+        value.proxyState = try reader["ProxyState"].readIfPresent()
+        value.proxyModifyState = try reader["ProxyModifyState"].readIfPresent()
+        value.listenerProperties = try reader["ListenerProperties"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ListenerProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tlsInterceptProperties = try reader["TlsInterceptProperties"].readIfPresent(with: NetworkFirewallClientTypes.TlsInterceptProperties.read(from:))
+        value.vpcEndpointServiceName = try reader["VpcEndpointServiceName"].readIfPresent()
+        value.privateDNSName = try reader["PrivateDNSName"].readIfPresent()
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deleteTime = try reader["DeleteTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.ruleGroups = try reader["RuleGroups"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyConfigRuleGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.defaultRulePhaseActions = try reader["DefaultRulePhaseActions"].readIfPresent(with: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest.read(from:))
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension NetworkFirewallClientTypes.Tag {
+extension NetworkFirewallClientTypes.Dimension {
 
-    static func write(value: NetworkFirewallClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: NetworkFirewallClientTypes.Dimension?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Tag {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Dimension {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
+        var value = NetworkFirewallClientTypes.Dimension()
         value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.EncryptionConfiguration {
+
+    static func write(value: NetworkFirewallClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyId"].write(value.keyId)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.EncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.EncryptionConfiguration()
+        value.keyId = try reader["KeyId"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Firewall {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Firewall {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Firewall()
+        value.firewallName = try reader["FirewallName"].readIfPresent()
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.firewallPolicyArn = try reader["FirewallPolicyArn"].readIfPresent() ?? ""
+        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
+        value.subnetMappings = try reader["SubnetMappings"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.SubnetMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.deleteProtection = try reader["DeleteProtection"].readIfPresent() ?? false
+        value.subnetChangeProtection = try reader["SubnetChangeProtection"].readIfPresent() ?? false
+        value.firewallPolicyChangeProtection = try reader["FirewallPolicyChangeProtection"].readIfPresent() ?? false
+        value.description = try reader["Description"].readIfPresent()
+        value.firewallId = try reader["FirewallId"].readIfPresent() ?? ""
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.EncryptionConfiguration.read(from:))
+        value.numberOfAssociations = try reader["NumberOfAssociations"].readIfPresent()
+        value.enabledAnalysisTypes = try reader["EnabledAnalysisTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.EnabledAnalysisType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.transitGatewayId = try reader["TransitGatewayId"].readIfPresent()
+        value.transitGatewayOwnerAccountId = try reader["TransitGatewayOwnerAccountId"].readIfPresent()
+        value.availabilityZoneMappings = try reader["AvailabilityZoneMappings"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.AvailabilityZoneMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.availabilityZoneChangeProtection = try reader["AvailabilityZoneChangeProtection"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.FirewallMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FirewallMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.FirewallMetadata()
+        value.firewallName = try reader["FirewallName"].readIfPresent()
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.transitGatewayAttachmentId = try reader["TransitGatewayAttachmentId"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.FirewallPolicy {
+
+    static func write(value: NetworkFirewallClientTypes.FirewallPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnableTLSSessionHolding"].write(value.enableTLSSessionHolding)
+        try writer["PolicyVariables"].write(value.policyVariables, with: NetworkFirewallClientTypes.PolicyVariables.write(value:to:))
+        try writer["StatefulDefaultActions"].writeList(value.statefulDefaultActions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StatefulEngineOptions"].write(value.statefulEngineOptions, with: NetworkFirewallClientTypes.StatefulEngineOptions.write(value:to:))
+        try writer["StatefulRuleGroupReferences"].writeList(value.statefulRuleGroupReferences, memberWritingClosure: NetworkFirewallClientTypes.StatefulRuleGroupReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StatelessCustomActions"].writeList(value.statelessCustomActions, memberWritingClosure: NetworkFirewallClientTypes.CustomAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StatelessDefaultActions"].writeList(value.statelessDefaultActions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StatelessFragmentDefaultActions"].writeList(value.statelessFragmentDefaultActions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StatelessRuleGroupReferences"].writeList(value.statelessRuleGroupReferences, memberWritingClosure: NetworkFirewallClientTypes.StatelessRuleGroupReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TLSInspectionConfigurationArn"].write(value.tlsInspectionConfigurationArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FirewallPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.FirewallPolicy()
+        value.statelessRuleGroupReferences = try reader["StatelessRuleGroupReferences"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.StatelessRuleGroupReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statelessDefaultActions = try reader["StatelessDefaultActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.statelessFragmentDefaultActions = try reader["StatelessFragmentDefaultActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.statelessCustomActions = try reader["StatelessCustomActions"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.CustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statefulRuleGroupReferences = try reader["StatefulRuleGroupReferences"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.StatefulRuleGroupReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statefulDefaultActions = try reader["StatefulDefaultActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statefulEngineOptions = try reader["StatefulEngineOptions"].readIfPresent(with: NetworkFirewallClientTypes.StatefulEngineOptions.read(from:))
+        value.tlsInspectionConfigurationArn = try reader["TLSInspectionConfigurationArn"].readIfPresent()
+        value.policyVariables = try reader["PolicyVariables"].readIfPresent(with: NetworkFirewallClientTypes.PolicyVariables.read(from:))
+        value.enableTLSSessionHolding = try reader["EnableTLSSessionHolding"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.FirewallPolicyMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FirewallPolicyMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.FirewallPolicyMetadata()
+        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.FirewallPolicyResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FirewallPolicyResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.FirewallPolicyResponse()
+        value.firewallPolicyName = try reader["FirewallPolicyName"].readIfPresent() ?? ""
+        value.firewallPolicyArn = try reader["FirewallPolicyArn"].readIfPresent() ?? ""
+        value.firewallPolicyId = try reader["FirewallPolicyId"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.firewallPolicyStatus = try reader["FirewallPolicyStatus"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.consumedStatelessRuleCapacity = try reader["ConsumedStatelessRuleCapacity"].readIfPresent()
+        value.consumedStatefulRuleCapacity = try reader["ConsumedStatefulRuleCapacity"].readIfPresent()
+        value.numberOfAssociations = try reader["NumberOfAssociations"].readIfPresent()
+        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.EncryptionConfiguration.read(from:))
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.FirewallStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FirewallStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.FirewallStatus()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.configurationSyncStateSummary = try reader["ConfigurationSyncStateSummary"].readIfPresent() ?? .sdkUnknown("")
+        value.syncStates = try reader["SyncStates"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.SyncState.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.capacityUsageSummary = try reader["CapacityUsageSummary"].readIfPresent(with: NetworkFirewallClientTypes.CapacityUsageSummary.read(from:))
+        value.transitGatewayAttachmentSyncState = try reader["TransitGatewayAttachmentSyncState"].readIfPresent(with: NetworkFirewallClientTypes.TransitGatewayAttachmentSyncState.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Flow {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Flow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Flow()
+        value.sourceAddress = try reader["SourceAddress"].readIfPresent(with: NetworkFirewallClientTypes.Address.read(from:))
+        value.destinationAddress = try reader["DestinationAddress"].readIfPresent(with: NetworkFirewallClientTypes.Address.read(from:))
+        value.sourcePort = try reader["SourcePort"].readIfPresent()
+        value.destinationPort = try reader["DestinationPort"].readIfPresent()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.age = try reader["Age"].readIfPresent()
+        value.packetCount = try reader["PacketCount"].readIfPresent()
+        value.byteCount = try reader["ByteCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.FlowFilter {
+
+    static func write(value: NetworkFirewallClientTypes.FlowFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationAddress"].write(value.destinationAddress, with: NetworkFirewallClientTypes.Address.write(value:to:))
+        try writer["DestinationPort"].write(value.destinationPort)
+        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceAddress"].write(value.sourceAddress, with: NetworkFirewallClientTypes.Address.write(value:to:))
+        try writer["SourcePort"].write(value.sourcePort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FlowFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.FlowFilter()
+        value.sourceAddress = try reader["SourceAddress"].readIfPresent(with: NetworkFirewallClientTypes.Address.read(from:))
+        value.destinationAddress = try reader["DestinationAddress"].readIfPresent(with: NetworkFirewallClientTypes.Address.read(from:))
+        value.sourcePort = try reader["SourcePort"].readIfPresent()
+        value.destinationPort = try reader["DestinationPort"].readIfPresent()
+        value.protocols = try reader["Protocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.FlowOperation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FlowOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.FlowOperation()
+        value.minimumFlowAgeInSeconds = try reader["MinimumFlowAgeInSeconds"].readIfPresent()
+        value.flowFilters = try reader["FlowFilters"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.FlowFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.FlowOperationMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FlowOperationMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.FlowOperationMetadata()
+        value.flowOperationId = try reader["FlowOperationId"].readIfPresent()
+        value.flowOperationType = try reader["FlowOperationType"].readIfPresent()
+        value.flowRequestTimestamp = try reader["FlowRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.flowOperationStatus = try reader["FlowOperationStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.FlowTimeouts {
+
+    static func write(value: NetworkFirewallClientTypes.FlowTimeouts?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TcpIdleTimeoutSeconds"].write(value.tcpIdleTimeoutSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FlowTimeouts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.FlowTimeouts()
+        value.tcpIdleTimeoutSeconds = try reader["TcpIdleTimeoutSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Header {
+
+    static func write(value: NetworkFirewallClientTypes.Header?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Destination"].write(value.destination)
+        try writer["DestinationPort"].write(value.destinationPort)
+        try writer["Direction"].write(value.direction)
+        try writer["Protocol"].write(value.`protocol`)
+        try writer["Source"].write(value.source)
+        try writer["SourcePort"].write(value.sourcePort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Header {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Header()
+        value.`protocol` = try reader["Protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.source = try reader["Source"].readIfPresent() ?? ""
+        value.sourcePort = try reader["SourcePort"].readIfPresent() ?? ""
+        value.direction = try reader["Direction"].readIfPresent() ?? .sdkUnknown("")
+        value.destination = try reader["Destination"].readIfPresent() ?? ""
+        value.destinationPort = try reader["DestinationPort"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Hits {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Hits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Hits()
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.IPSet {
+
+    static func write(value: NetworkFirewallClientTypes.IPSet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Definition"].writeList(value.definition, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.IPSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.IPSet()
+        value.definition = try reader["Definition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.IPSetMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.IPSetMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.IPSetMetadata()
+        value.resolvedCIDRCount = try reader["ResolvedCIDRCount"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.IPSetReference {
+
+    static func write(value: NetworkFirewallClientTypes.IPSetReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ReferenceArn"].write(value.referenceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.IPSetReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.IPSetReference()
+        value.referenceArn = try reader["ReferenceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ListenerProperty {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ListenerProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ListenerProperty()
+        value.port = try reader["Port"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ListenerPropertyRequest {
+
+    static func write(value: NetworkFirewallClientTypes.ListenerPropertyRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Port"].write(value.port)
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension NetworkFirewallClientTypes.LogDestinationConfig {
+
+    static func write(value: NetworkFirewallClientTypes.LogDestinationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LogDestination"].writeMap(value.logDestination, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["LogDestinationType"].write(value.logDestinationType)
+        try writer["LogType"].write(value.logType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.LogDestinationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.LogDestinationConfig()
+        value.logType = try reader["LogType"].readIfPresent() ?? .sdkUnknown("")
+        value.logDestinationType = try reader["LogDestinationType"].readIfPresent() ?? .sdkUnknown("")
+        value.logDestination = try reader["LogDestination"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.LoggingConfiguration {
+
+    static func write(value: NetworkFirewallClientTypes.LoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LogDestinationConfigs"].writeList(value.logDestinationConfigs, memberWritingClosure: NetworkFirewallClientTypes.LogDestinationConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.LoggingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.LoggingConfiguration()
+        value.logDestinationConfigs = try reader["LogDestinationConfigs"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.LogDestinationConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.MatchAttributes {
+
+    static func write(value: NetworkFirewallClientTypes.MatchAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationPorts"].writeList(value.destinationPorts, memberWritingClosure: NetworkFirewallClientTypes.PortRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Destinations"].writeList(value.destinations, memberWritingClosure: NetworkFirewallClientTypes.Address.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourcePorts"].writeList(value.sourcePorts, memberWritingClosure: NetworkFirewallClientTypes.PortRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Sources"].writeList(value.sources, memberWritingClosure: NetworkFirewallClientTypes.Address.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TCPFlags"].writeList(value.tcpFlags, memberWritingClosure: NetworkFirewallClientTypes.TCPFlagField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.MatchAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.MatchAttributes()
+        value.sources = try reader["Sources"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Address.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Address.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourcePorts = try reader["SourcePorts"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.PortRange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.destinationPorts = try reader["DestinationPorts"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.PortRange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.protocols = try reader["Protocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tcpFlags = try reader["TCPFlags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.TCPFlagField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.PerObjectStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.PerObjectStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.PerObjectStatus()
+        value.syncStatus = try reader["SyncStatus"].readIfPresent()
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.PolicyVariables {
+
+    static func write(value: NetworkFirewallClientTypes.PolicyVariables?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RuleVariables"].writeMap(value.ruleVariables, valueWritingClosure: NetworkFirewallClientTypes.IPSet.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.PolicyVariables {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.PolicyVariables()
+        value.ruleVariables = try reader["RuleVariables"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.IPSet.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.PortRange {
+
+    static func write(value: NetworkFirewallClientTypes.PortRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FromPort"].write(value.fromPort)
+        try writer["ToPort"].write(value.toPort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.PortRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.PortRange()
+        value.fromPort = try reader["FromPort"].readIfPresent() ?? 0
+        value.toPort = try reader["ToPort"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.PortSet {
+
+    static func write(value: NetworkFirewallClientTypes.PortSet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Definition"].writeList(value.definition, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.PortSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.PortSet()
+        value.definition = try reader["Definition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Proxy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Proxy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Proxy()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deleteTime = try reader["DeleteTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.proxyState = try reader["ProxyState"].readIfPresent()
+        value.proxyModifyState = try reader["ProxyModifyState"].readIfPresent()
+        value.natGatewayId = try reader["NatGatewayId"].readIfPresent()
+        value.proxyConfigurationName = try reader["ProxyConfigurationName"].readIfPresent()
+        value.proxyConfigurationArn = try reader["ProxyConfigurationArn"].readIfPresent()
+        value.proxyName = try reader["ProxyName"].readIfPresent()
+        value.proxyArn = try reader["ProxyArn"].readIfPresent()
+        value.listenerProperties = try reader["ListenerProperties"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ListenerProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tlsInterceptProperties = try reader["TlsInterceptProperties"].readIfPresent(with: NetworkFirewallClientTypes.TlsInterceptProperties.read(from:))
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11697,240 +12317,41 @@ extension NetworkFirewallClientTypes.ProxyConfigRuleGroup {
     }
 }
 
-extension NetworkFirewallClientTypes.Firewall {
+extension NetworkFirewallClientTypes.ProxyConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Firewall {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.Firewall()
-        value.firewallName = try reader["FirewallName"].readIfPresent()
-        value.firewallArn = try reader["FirewallArn"].readIfPresent()
-        value.firewallPolicyArn = try reader["FirewallPolicyArn"].readIfPresent() ?? ""
-        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
-        value.subnetMappings = try reader["SubnetMappings"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.SubnetMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.deleteProtection = try reader["DeleteProtection"].readIfPresent() ?? false
-        value.subnetChangeProtection = try reader["SubnetChangeProtection"].readIfPresent() ?? false
-        value.firewallPolicyChangeProtection = try reader["FirewallPolicyChangeProtection"].readIfPresent() ?? false
-        value.description = try reader["Description"].readIfPresent()
-        value.firewallId = try reader["FirewallId"].readIfPresent() ?? ""
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.EncryptionConfiguration.read(from:))
-        value.numberOfAssociations = try reader["NumberOfAssociations"].readIfPresent()
-        value.enabledAnalysisTypes = try reader["EnabledAnalysisTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.EnabledAnalysisType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.transitGatewayId = try reader["TransitGatewayId"].readIfPresent()
-        value.transitGatewayOwnerAccountId = try reader["TransitGatewayOwnerAccountId"].readIfPresent()
-        value.availabilityZoneMappings = try reader["AvailabilityZoneMappings"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.AvailabilityZoneMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.availabilityZoneChangeProtection = try reader["AvailabilityZoneChangeProtection"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.EncryptionConfiguration {
-
-    static func write(value: NetworkFirewallClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeyId"].write(value.keyId)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.EncryptionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.EncryptionConfiguration()
-        value.keyId = try reader["KeyId"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.FirewallStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FirewallStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.FirewallStatus()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.configurationSyncStateSummary = try reader["ConfigurationSyncStateSummary"].readIfPresent() ?? .sdkUnknown("")
-        value.syncStates = try reader["SyncStates"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.SyncState.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.capacityUsageSummary = try reader["CapacityUsageSummary"].readIfPresent(with: NetworkFirewallClientTypes.CapacityUsageSummary.read(from:))
-        value.transitGatewayAttachmentSyncState = try reader["TransitGatewayAttachmentSyncState"].readIfPresent(with: NetworkFirewallClientTypes.TransitGatewayAttachmentSyncState.read(from:))
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.TransitGatewayAttachmentSyncState {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.TransitGatewayAttachmentSyncState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.TransitGatewayAttachmentSyncState()
-        value.attachmentId = try reader["AttachmentId"].readIfPresent()
-        value.transitGatewayAttachmentStatus = try reader["TransitGatewayAttachmentStatus"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.CapacityUsageSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.CapacityUsageSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.CapacityUsageSummary()
-        value.cidRs = try reader["CIDRs"].readIfPresent(with: NetworkFirewallClientTypes.CIDRSummary.read(from:))
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.CIDRSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.CIDRSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.CIDRSummary()
-        value.availableCIDRCount = try reader["AvailableCIDRCount"].readIfPresent()
-        value.utilizedCIDRCount = try reader["UtilizedCIDRCount"].readIfPresent()
-        value.ipSetReferences = try reader["IPSetReferences"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.IPSetMetadata.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.IPSetMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.IPSetMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.IPSetMetadata()
-        value.resolvedCIDRCount = try reader["ResolvedCIDRCount"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.SyncState {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.SyncState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.SyncState()
-        value.attachment = try reader["Attachment"].readIfPresent(with: NetworkFirewallClientTypes.Attachment.read(from:))
-        value.config = try reader["Config"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.PerObjectStatus.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.PerObjectStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.PerObjectStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.PerObjectStatus()
-        value.syncStatus = try reader["SyncStatus"].readIfPresent()
-        value.updateToken = try reader["UpdateToken"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.Attachment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Attachment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.Attachment()
-        value.subnetId = try reader["SubnetId"].readIfPresent()
-        value.endpointId = try reader["EndpointId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.FirewallPolicyResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FirewallPolicyResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.FirewallPolicyResponse()
-        value.firewallPolicyName = try reader["FirewallPolicyName"].readIfPresent() ?? ""
-        value.firewallPolicyArn = try reader["FirewallPolicyArn"].readIfPresent() ?? ""
-        value.firewallPolicyId = try reader["FirewallPolicyId"].readIfPresent() ?? ""
-        value.description = try reader["Description"].readIfPresent()
-        value.firewallPolicyStatus = try reader["FirewallPolicyStatus"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.consumedStatelessRuleCapacity = try reader["ConsumedStatelessRuleCapacity"].readIfPresent()
-        value.consumedStatefulRuleCapacity = try reader["ConsumedStatefulRuleCapacity"].readIfPresent()
-        value.numberOfAssociations = try reader["NumberOfAssociations"].readIfPresent()
-        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.EncryptionConfiguration.read(from:))
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.Proxy {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Proxy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.Proxy()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deleteTime = try reader["DeleteTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureCode = try reader["FailureCode"].readIfPresent()
-        value.failureMessage = try reader["FailureMessage"].readIfPresent()
-        value.proxyState = try reader["ProxyState"].readIfPresent()
-        value.proxyModifyState = try reader["ProxyModifyState"].readIfPresent()
-        value.natGatewayId = try reader["NatGatewayId"].readIfPresent()
+        var value = NetworkFirewallClientTypes.ProxyConfiguration()
         value.proxyConfigurationName = try reader["ProxyConfigurationName"].readIfPresent()
         value.proxyConfigurationArn = try reader["ProxyConfigurationArn"].readIfPresent()
-        value.proxyName = try reader["ProxyName"].readIfPresent()
-        value.proxyArn = try reader["ProxyArn"].readIfPresent()
-        value.listenerProperties = try reader["ListenerProperties"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ListenerProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tlsInterceptProperties = try reader["TlsInterceptProperties"].readIfPresent(with: NetworkFirewallClientTypes.TlsInterceptProperties.read(from:))
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.TlsInterceptProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.TlsInterceptProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.TlsInterceptProperties()
-        value.pcaArn = try reader["PcaArn"].readIfPresent()
-        value.tlsInterceptMode = try reader["TlsInterceptMode"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.ListenerProperty {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ListenerProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.ListenerProperty()
-        value.port = try reader["Port"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.ProxyRuleGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyRuleGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.ProxyRuleGroup()
-        value.proxyRuleGroupName = try reader["ProxyRuleGroupName"].readIfPresent()
-        value.proxyRuleGroupArn = try reader["ProxyRuleGroupArn"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deleteTime = try reader["DeleteTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.rules = try reader["Rules"].readIfPresent(with: NetworkFirewallClientTypes.ProxyRulesByRequestPhase.read(from:))
-        value.description = try reader["Description"].readIfPresent()
+        value.ruleGroups = try reader["RuleGroups"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyConfigRuleGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultRulePhaseActions = try reader["DefaultRulePhaseActions"].readIfPresent(with: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension NetworkFirewallClientTypes.ProxyRulesByRequestPhase {
+extension NetworkFirewallClientTypes.ProxyConfigurationMetadata {
 
-    static func write(value: NetworkFirewallClientTypes.ProxyRulesByRequestPhase?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PostRESPONSE"].writeList(value.postRESPONSE, memberWritingClosure: NetworkFirewallClientTypes.ProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PreDNS"].writeList(value.preDNS, memberWritingClosure: NetworkFirewallClientTypes.ProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PreREQUEST"].writeList(value.preREQUEST, memberWritingClosure: NetworkFirewallClientTypes.ProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyRulesByRequestPhase {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyConfigurationMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.ProxyRulesByRequestPhase()
-        value.preDNS = try reader["PreDNS"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.preREQUEST = try reader["PreREQUEST"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.postRESPONSE = try reader["PostRESPONSE"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = NetworkFirewallClientTypes.ProxyConfigurationMetadata()
+        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ProxyMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ProxyMetadata()
+        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }
@@ -11975,1018 +12396,28 @@ extension NetworkFirewallClientTypes.ProxyRuleCondition {
     }
 }
 
-extension NetworkFirewallClientTypes.RuleGroupResponse {
+extension NetworkFirewallClientTypes.ProxyRuleGroup {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleGroupResponse {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyRuleGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.RuleGroupResponse()
-        value.ruleGroupArn = try reader["RuleGroupArn"].readIfPresent() ?? ""
-        value.ruleGroupName = try reader["RuleGroupName"].readIfPresent() ?? ""
-        value.ruleGroupId = try reader["RuleGroupId"].readIfPresent() ?? ""
-        value.description = try reader["Description"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.capacity = try reader["Capacity"].readIfPresent()
-        value.ruleGroupStatus = try reader["RuleGroupStatus"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.consumedCapacity = try reader["ConsumedCapacity"].readIfPresent()
-        value.numberOfAssociations = try reader["NumberOfAssociations"].readIfPresent()
-        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.EncryptionConfiguration.read(from:))
-        value.sourceMetadata = try reader["SourceMetadata"].readIfPresent(with: NetworkFirewallClientTypes.SourceMetadata.read(from:))
-        value.snsTopic = try reader["SnsTopic"].readIfPresent()
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.analysisResults = try reader["AnalysisResults"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.AnalysisResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.summaryConfiguration = try reader["SummaryConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.SummaryConfiguration.read(from:))
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.SummaryConfiguration {
-
-    static func write(value: NetworkFirewallClientTypes.SummaryConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RuleOptions"].writeList(value.ruleOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkFirewallClientTypes.SummaryRuleOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.SummaryConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.SummaryConfiguration()
-        value.ruleOptions = try reader["RuleOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.SummaryRuleOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.AnalysisResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AnalysisResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.AnalysisResult()
-        value.identifiedRuleIds = try reader["IdentifiedRuleIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.identifiedType = try reader["IdentifiedType"].readIfPresent()
-        value.analysisDetail = try reader["AnalysisDetail"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.SourceMetadata {
-
-    static func write(value: NetworkFirewallClientTypes.SourceMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SourceArn"].write(value.sourceArn)
-        try writer["SourceUpdateToken"].write(value.sourceUpdateToken)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.SourceMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.SourceMetadata()
-        value.sourceArn = try reader["SourceArn"].readIfPresent()
-        value.sourceUpdateToken = try reader["SourceUpdateToken"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.TLSInspectionConfigurationResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.TLSInspectionConfigurationResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.TLSInspectionConfigurationResponse()
-        value.tlsInspectionConfigurationArn = try reader["TLSInspectionConfigurationArn"].readIfPresent() ?? ""
-        value.tlsInspectionConfigurationName = try reader["TLSInspectionConfigurationName"].readIfPresent() ?? ""
-        value.tlsInspectionConfigurationId = try reader["TLSInspectionConfigurationId"].readIfPresent() ?? ""
-        value.tlsInspectionConfigurationStatus = try reader["TLSInspectionConfigurationStatus"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.numberOfAssociations = try reader["NumberOfAssociations"].readIfPresent()
-        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.EncryptionConfiguration.read(from:))
-        value.certificates = try reader["Certificates"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.TlsCertificateData.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.certificateAuthority = try reader["CertificateAuthority"].readIfPresent(with: NetworkFirewallClientTypes.TlsCertificateData.read(from:))
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.TlsCertificateData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.TlsCertificateData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.TlsCertificateData()
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
-        value.certificateSerial = try reader["CertificateSerial"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.VpcEndpointAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.VpcEndpointAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.VpcEndpointAssociation()
-        value.vpcEndpointAssociationId = try reader["VpcEndpointAssociationId"].readIfPresent()
-        value.vpcEndpointAssociationArn = try reader["VpcEndpointAssociationArn"].readIfPresent() ?? ""
-        value.firewallArn = try reader["FirewallArn"].readIfPresent() ?? ""
-        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
-        value.subnetMapping = try reader["SubnetMapping"].readIfPresent(with: NetworkFirewallClientTypes.SubnetMapping.read(from:))
-        value.description = try reader["Description"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.VpcEndpointAssociationStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.VpcEndpointAssociationStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.VpcEndpointAssociationStatus()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.associationSyncState = try reader["AssociationSyncState"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.AZSyncState.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.AZSyncState {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AZSyncState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.AZSyncState()
-        value.attachment = try reader["Attachment"].readIfPresent(with: NetworkFirewallClientTypes.Attachment.read(from:))
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.AvailabilityZoneMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AvailabilityZoneMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.AvailabilityZoneMetadata()
-        value.ipAddressType = try reader["IPAddressType"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.FirewallPolicy {
-
-    static func write(value: NetworkFirewallClientTypes.FirewallPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EnableTLSSessionHolding"].write(value.enableTLSSessionHolding)
-        try writer["PolicyVariables"].write(value.policyVariables, with: NetworkFirewallClientTypes.PolicyVariables.write(value:to:))
-        try writer["StatefulDefaultActions"].writeList(value.statefulDefaultActions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatefulEngineOptions"].write(value.statefulEngineOptions, with: NetworkFirewallClientTypes.StatefulEngineOptions.write(value:to:))
-        try writer["StatefulRuleGroupReferences"].writeList(value.statefulRuleGroupReferences, memberWritingClosure: NetworkFirewallClientTypes.StatefulRuleGroupReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatelessCustomActions"].writeList(value.statelessCustomActions, memberWritingClosure: NetworkFirewallClientTypes.CustomAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatelessDefaultActions"].writeList(value.statelessDefaultActions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatelessFragmentDefaultActions"].writeList(value.statelessFragmentDefaultActions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatelessRuleGroupReferences"].writeList(value.statelessRuleGroupReferences, memberWritingClosure: NetworkFirewallClientTypes.StatelessRuleGroupReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TLSInspectionConfigurationArn"].write(value.tlsInspectionConfigurationArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FirewallPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.FirewallPolicy()
-        value.statelessRuleGroupReferences = try reader["StatelessRuleGroupReferences"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.StatelessRuleGroupReference.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.statelessDefaultActions = try reader["StatelessDefaultActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.statelessFragmentDefaultActions = try reader["StatelessFragmentDefaultActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.statelessCustomActions = try reader["StatelessCustomActions"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.CustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.statefulRuleGroupReferences = try reader["StatefulRuleGroupReferences"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.StatefulRuleGroupReference.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.statefulDefaultActions = try reader["StatefulDefaultActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.statefulEngineOptions = try reader["StatefulEngineOptions"].readIfPresent(with: NetworkFirewallClientTypes.StatefulEngineOptions.read(from:))
-        value.tlsInspectionConfigurationArn = try reader["TLSInspectionConfigurationArn"].readIfPresent()
-        value.policyVariables = try reader["PolicyVariables"].readIfPresent(with: NetworkFirewallClientTypes.PolicyVariables.read(from:))
-        value.enableTLSSessionHolding = try reader["EnableTLSSessionHolding"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.PolicyVariables {
-
-    static func write(value: NetworkFirewallClientTypes.PolicyVariables?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RuleVariables"].writeMap(value.ruleVariables, valueWritingClosure: NetworkFirewallClientTypes.IPSet.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.PolicyVariables {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.PolicyVariables()
-        value.ruleVariables = try reader["RuleVariables"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.IPSet.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.IPSet {
-
-    static func write(value: NetworkFirewallClientTypes.IPSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Definition"].writeList(value.definition, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.IPSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.IPSet()
-        value.definition = try reader["Definition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.StatefulEngineOptions {
-
-    static func write(value: NetworkFirewallClientTypes.StatefulEngineOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FlowTimeouts"].write(value.flowTimeouts, with: NetworkFirewallClientTypes.FlowTimeouts.write(value:to:))
-        try writer["RuleOrder"].write(value.ruleOrder)
-        try writer["StreamExceptionPolicy"].write(value.streamExceptionPolicy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.StatefulEngineOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.StatefulEngineOptions()
-        value.ruleOrder = try reader["RuleOrder"].readIfPresent()
-        value.streamExceptionPolicy = try reader["StreamExceptionPolicy"].readIfPresent()
-        value.flowTimeouts = try reader["FlowTimeouts"].readIfPresent(with: NetworkFirewallClientTypes.FlowTimeouts.read(from:))
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.FlowTimeouts {
-
-    static func write(value: NetworkFirewallClientTypes.FlowTimeouts?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TcpIdleTimeoutSeconds"].write(value.tcpIdleTimeoutSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FlowTimeouts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.FlowTimeouts()
-        value.tcpIdleTimeoutSeconds = try reader["TcpIdleTimeoutSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.StatefulRuleGroupReference {
-
-    static func write(value: NetworkFirewallClientTypes.StatefulRuleGroupReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeepThreatInspection"].write(value.deepThreatInspection)
-        try writer["Override"].write(value.`override`, with: NetworkFirewallClientTypes.StatefulRuleGroupOverride.write(value:to:))
-        try writer["Priority"].write(value.priority)
-        try writer["ResourceArn"].write(value.resourceArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.StatefulRuleGroupReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.StatefulRuleGroupReference()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
-        value.priority = try reader["Priority"].readIfPresent()
-        value.`override` = try reader["Override"].readIfPresent(with: NetworkFirewallClientTypes.StatefulRuleGroupOverride.read(from:))
-        value.deepThreatInspection = try reader["DeepThreatInspection"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.StatefulRuleGroupOverride {
-
-    static func write(value: NetworkFirewallClientTypes.StatefulRuleGroupOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.StatefulRuleGroupOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.StatefulRuleGroupOverride()
-        value.action = try reader["Action"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.CustomAction {
-
-    static func write(value: NetworkFirewallClientTypes.CustomAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionDefinition"].write(value.actionDefinition, with: NetworkFirewallClientTypes.ActionDefinition.write(value:to:))
-        try writer["ActionName"].write(value.actionName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.CustomAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.CustomAction()
-        value.actionName = try reader["ActionName"].readIfPresent() ?? ""
-        value.actionDefinition = try reader["ActionDefinition"].readIfPresent(with: NetworkFirewallClientTypes.ActionDefinition.read(from:))
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.ActionDefinition {
-
-    static func write(value: NetworkFirewallClientTypes.ActionDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PublishMetricAction"].write(value.publishMetricAction, with: NetworkFirewallClientTypes.PublishMetricAction.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ActionDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.ActionDefinition()
-        value.publishMetricAction = try reader["PublishMetricAction"].readIfPresent(with: NetworkFirewallClientTypes.PublishMetricAction.read(from:))
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.PublishMetricAction {
-
-    static func write(value: NetworkFirewallClientTypes.PublishMetricAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: NetworkFirewallClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.PublishMetricAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.PublishMetricAction()
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.Dimension {
-
-    static func write(value: NetworkFirewallClientTypes.Dimension?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Dimension {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.Dimension()
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.StatelessRuleGroupReference {
-
-    static func write(value: NetworkFirewallClientTypes.StatelessRuleGroupReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Priority"].write(value.priority)
-        try writer["ResourceArn"].write(value.resourceArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.StatelessRuleGroupReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.StatelessRuleGroupReference()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
-        value.priority = try reader["Priority"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.FlowOperation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FlowOperation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.FlowOperation()
-        value.minimumFlowAgeInSeconds = try reader["MinimumFlowAgeInSeconds"].readIfPresent()
-        value.flowFilters = try reader["FlowFilters"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.FlowFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.FlowFilter {
-
-    static func write(value: NetworkFirewallClientTypes.FlowFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationAddress"].write(value.destinationAddress, with: NetworkFirewallClientTypes.Address.write(value:to:))
-        try writer["DestinationPort"].write(value.destinationPort)
-        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourceAddress"].write(value.sourceAddress, with: NetworkFirewallClientTypes.Address.write(value:to:))
-        try writer["SourcePort"].write(value.sourcePort)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FlowFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.FlowFilter()
-        value.sourceAddress = try reader["SourceAddress"].readIfPresent(with: NetworkFirewallClientTypes.Address.read(from:))
-        value.destinationAddress = try reader["DestinationAddress"].readIfPresent(with: NetworkFirewallClientTypes.Address.read(from:))
-        value.sourcePort = try reader["SourcePort"].readIfPresent()
-        value.destinationPort = try reader["DestinationPort"].readIfPresent()
-        value.protocols = try reader["Protocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.Address {
-
-    static func write(value: NetworkFirewallClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AddressDefinition"].write(value.addressDefinition)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Address {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.Address()
-        value.addressDefinition = try reader["AddressDefinition"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.LoggingConfiguration {
-
-    static func write(value: NetworkFirewallClientTypes.LoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LogDestinationConfigs"].writeList(value.logDestinationConfigs, memberWritingClosure: NetworkFirewallClientTypes.LogDestinationConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.LoggingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.LoggingConfiguration()
-        value.logDestinationConfigs = try reader["LogDestinationConfigs"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.LogDestinationConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.LogDestinationConfig {
-
-    static func write(value: NetworkFirewallClientTypes.LogDestinationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LogDestination"].writeMap(value.logDestination, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["LogDestinationType"].write(value.logDestinationType)
-        try writer["LogType"].write(value.logType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.LogDestinationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.LogDestinationConfig()
-        value.logType = try reader["LogType"].readIfPresent() ?? .sdkUnknown("")
-        value.logDestinationType = try reader["LogDestinationType"].readIfPresent() ?? .sdkUnknown("")
-        value.logDestination = try reader["LogDestination"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.DescribeProxyResource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.DescribeProxyResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.DescribeProxyResource()
-        value.proxyName = try reader["ProxyName"].readIfPresent()
-        value.proxyArn = try reader["ProxyArn"].readIfPresent()
-        value.proxyConfigurationName = try reader["ProxyConfigurationName"].readIfPresent()
-        value.proxyConfigurationArn = try reader["ProxyConfigurationArn"].readIfPresent()
-        value.natGatewayId = try reader["NatGatewayId"].readIfPresent()
-        value.proxyState = try reader["ProxyState"].readIfPresent()
-        value.proxyModifyState = try reader["ProxyModifyState"].readIfPresent()
-        value.listenerProperties = try reader["ListenerProperties"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ListenerProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tlsInterceptProperties = try reader["TlsInterceptProperties"].readIfPresent(with: NetworkFirewallClientTypes.TlsInterceptProperties.read(from:))
-        value.vpcEndpointServiceName = try reader["VpcEndpointServiceName"].readIfPresent()
-        value.privateDNSName = try reader["PrivateDNSName"].readIfPresent()
+        var value = NetworkFirewallClientTypes.ProxyRuleGroup()
+        value.proxyRuleGroupName = try reader["ProxyRuleGroupName"].readIfPresent()
+        value.proxyRuleGroupArn = try reader["ProxyRuleGroupArn"].readIfPresent()
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deleteTime = try reader["DeleteTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureCode = try reader["FailureCode"].readIfPresent()
-        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.rules = try reader["Rules"].readIfPresent(with: NetworkFirewallClientTypes.ProxyRulesByRequestPhase.read(from:))
+        value.description = try reader["Description"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension NetworkFirewallClientTypes.RuleGroup {
+extension NetworkFirewallClientTypes.ProxyRuleGroupAttachment {
 
-    static func write(value: NetworkFirewallClientTypes.RuleGroup?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: NetworkFirewallClientTypes.ProxyRuleGroupAttachment?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ReferenceSets"].write(value.referenceSets, with: NetworkFirewallClientTypes.ReferenceSets.write(value:to:))
-        try writer["RuleVariables"].write(value.ruleVariables, with: NetworkFirewallClientTypes.RuleVariables.write(value:to:))
-        try writer["RulesSource"].write(value.rulesSource, with: NetworkFirewallClientTypes.RulesSource.write(value:to:))
-        try writer["StatefulRuleOptions"].write(value.statefulRuleOptions, with: NetworkFirewallClientTypes.StatefulRuleOptions.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.RuleGroup()
-        value.ruleVariables = try reader["RuleVariables"].readIfPresent(with: NetworkFirewallClientTypes.RuleVariables.read(from:))
-        value.referenceSets = try reader["ReferenceSets"].readIfPresent(with: NetworkFirewallClientTypes.ReferenceSets.read(from:))
-        value.rulesSource = try reader["RulesSource"].readIfPresent(with: NetworkFirewallClientTypes.RulesSource.read(from:))
-        value.statefulRuleOptions = try reader["StatefulRuleOptions"].readIfPresent(with: NetworkFirewallClientTypes.StatefulRuleOptions.read(from:))
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.StatefulRuleOptions {
-
-    static func write(value: NetworkFirewallClientTypes.StatefulRuleOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RuleOrder"].write(value.ruleOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.StatefulRuleOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.StatefulRuleOptions()
-        value.ruleOrder = try reader["RuleOrder"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.RulesSource {
-
-    static func write(value: NetworkFirewallClientTypes.RulesSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RulesSourceList"].write(value.rulesSourceList, with: NetworkFirewallClientTypes.RulesSourceList.write(value:to:))
-        try writer["RulesString"].write(value.rulesString)
-        try writer["StatefulRules"].writeList(value.statefulRules, memberWritingClosure: NetworkFirewallClientTypes.StatefulRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatelessRulesAndCustomActions"].write(value.statelessRulesAndCustomActions, with: NetworkFirewallClientTypes.StatelessRulesAndCustomActions.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RulesSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.RulesSource()
-        value.rulesString = try reader["RulesString"].readIfPresent()
-        value.rulesSourceList = try reader["RulesSourceList"].readIfPresent(with: NetworkFirewallClientTypes.RulesSourceList.read(from:))
-        value.statefulRules = try reader["StatefulRules"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.StatefulRule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.statelessRulesAndCustomActions = try reader["StatelessRulesAndCustomActions"].readIfPresent(with: NetworkFirewallClientTypes.StatelessRulesAndCustomActions.read(from:))
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.StatelessRulesAndCustomActions {
-
-    static func write(value: NetworkFirewallClientTypes.StatelessRulesAndCustomActions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomActions"].writeList(value.customActions, memberWritingClosure: NetworkFirewallClientTypes.CustomAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatelessRules"].writeList(value.statelessRules, memberWritingClosure: NetworkFirewallClientTypes.StatelessRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.StatelessRulesAndCustomActions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.StatelessRulesAndCustomActions()
-        value.statelessRules = try reader["StatelessRules"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.StatelessRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.customActions = try reader["CustomActions"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.CustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.StatelessRule {
-
-    static func write(value: NetworkFirewallClientTypes.StatelessRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Priority"].write(value.priority)
-        try writer["RuleDefinition"].write(value.ruleDefinition, with: NetworkFirewallClientTypes.RuleDefinition.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.StatelessRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.StatelessRule()
-        value.ruleDefinition = try reader["RuleDefinition"].readIfPresent(with: NetworkFirewallClientTypes.RuleDefinition.read(from:))
-        value.priority = try reader["Priority"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.RuleDefinition {
-
-    static func write(value: NetworkFirewallClientTypes.RuleDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Actions"].writeList(value.actions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MatchAttributes"].write(value.matchAttributes, with: NetworkFirewallClientTypes.MatchAttributes.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.RuleDefinition()
-        value.matchAttributes = try reader["MatchAttributes"].readIfPresent(with: NetworkFirewallClientTypes.MatchAttributes.read(from:))
-        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.MatchAttributes {
-
-    static func write(value: NetworkFirewallClientTypes.MatchAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationPorts"].writeList(value.destinationPorts, memberWritingClosure: NetworkFirewallClientTypes.PortRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Destinations"].writeList(value.destinations, memberWritingClosure: NetworkFirewallClientTypes.Address.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourcePorts"].writeList(value.sourcePorts, memberWritingClosure: NetworkFirewallClientTypes.PortRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Sources"].writeList(value.sources, memberWritingClosure: NetworkFirewallClientTypes.Address.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TCPFlags"].writeList(value.tcpFlags, memberWritingClosure: NetworkFirewallClientTypes.TCPFlagField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.MatchAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.MatchAttributes()
-        value.sources = try reader["Sources"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Address.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Address.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sourcePorts = try reader["SourcePorts"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.PortRange.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.destinationPorts = try reader["DestinationPorts"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.PortRange.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.protocols = try reader["Protocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tcpFlags = try reader["TCPFlags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.TCPFlagField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.TCPFlagField {
-
-    static func write(value: NetworkFirewallClientTypes.TCPFlagField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Flags"].writeList(value.flags, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkFirewallClientTypes.TCPFlag>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Masks"].writeList(value.masks, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkFirewallClientTypes.TCPFlag>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.TCPFlagField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.TCPFlagField()
-        value.flags = try reader["Flags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.TCPFlag>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.masks = try reader["Masks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.TCPFlag>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.PortRange {
-
-    static func write(value: NetworkFirewallClientTypes.PortRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FromPort"].write(value.fromPort)
-        try writer["ToPort"].write(value.toPort)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.PortRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.PortRange()
-        value.fromPort = try reader["FromPort"].readIfPresent() ?? 0
-        value.toPort = try reader["ToPort"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.StatefulRule {
-
-    static func write(value: NetworkFirewallClientTypes.StatefulRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["Header"].write(value.header, with: NetworkFirewallClientTypes.Header.write(value:to:))
-        try writer["RuleOptions"].writeList(value.ruleOptions, memberWritingClosure: NetworkFirewallClientTypes.RuleOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.StatefulRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.StatefulRule()
-        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
-        value.header = try reader["Header"].readIfPresent(with: NetworkFirewallClientTypes.Header.read(from:))
-        value.ruleOptions = try reader["RuleOptions"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.RuleOption.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.RuleOption {
-
-    static func write(value: NetworkFirewallClientTypes.RuleOption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Keyword"].write(value.keyword)
-        try writer["Settings"].writeList(value.settings, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.RuleOption()
-        value.keyword = try reader["Keyword"].readIfPresent() ?? ""
-        value.settings = try reader["Settings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.Header {
-
-    static func write(value: NetworkFirewallClientTypes.Header?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Destination"].write(value.destination)
-        try writer["DestinationPort"].write(value.destinationPort)
-        try writer["Direction"].write(value.direction)
-        try writer["Protocol"].write(value.`protocol`)
-        try writer["Source"].write(value.source)
-        try writer["SourcePort"].write(value.sourcePort)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Header {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.Header()
-        value.`protocol` = try reader["Protocol"].readIfPresent() ?? .sdkUnknown("")
-        value.source = try reader["Source"].readIfPresent() ?? ""
-        value.sourcePort = try reader["SourcePort"].readIfPresent() ?? ""
-        value.direction = try reader["Direction"].readIfPresent() ?? .sdkUnknown("")
-        value.destination = try reader["Destination"].readIfPresent() ?? ""
-        value.destinationPort = try reader["DestinationPort"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.RulesSourceList {
-
-    static func write(value: NetworkFirewallClientTypes.RulesSourceList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GeneratedRulesType"].write(value.generatedRulesType)
-        try writer["TargetTypes"].writeList(value.targetTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkFirewallClientTypes.TargetType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Targets"].writeList(value.targets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RulesSourceList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.RulesSourceList()
-        value.targets = try reader["Targets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.targetTypes = try reader["TargetTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.TargetType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.generatedRulesType = try reader["GeneratedRulesType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.ReferenceSets {
-
-    static func write(value: NetworkFirewallClientTypes.ReferenceSets?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IPSetReferences"].writeMap(value.ipSetReferences, valueWritingClosure: NetworkFirewallClientTypes.IPSetReference.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ReferenceSets {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.ReferenceSets()
-        value.ipSetReferences = try reader["IPSetReferences"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.IPSetReference.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.IPSetReference {
-
-    static func write(value: NetworkFirewallClientTypes.IPSetReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReferenceArn"].write(value.referenceArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.IPSetReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.IPSetReference()
-        value.referenceArn = try reader["ReferenceArn"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.RuleVariables {
-
-    static func write(value: NetworkFirewallClientTypes.RuleVariables?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IPSets"].writeMap(value.ipSets, valueWritingClosure: NetworkFirewallClientTypes.IPSet.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["PortSets"].writeMap(value.portSets, valueWritingClosure: NetworkFirewallClientTypes.PortSet.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleVariables {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.RuleVariables()
-        value.ipSets = try reader["IPSets"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.IPSet.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.portSets = try reader["PortSets"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.PortSet.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.PortSet {
-
-    static func write(value: NetworkFirewallClientTypes.PortSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Definition"].writeList(value.definition, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.PortSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.PortSet()
-        value.definition = try reader["Definition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.Summary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Summary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.Summary()
-        value.ruleSummaries = try reader["RuleSummaries"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.RuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.RuleSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.RuleSummary()
-        value.sid = try reader["SID"].readIfPresent()
-        value.msg = try reader["Msg"].readIfPresent()
-        value.metadata = try reader["Metadata"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.TLSInspectionConfiguration {
-
-    static func write(value: NetworkFirewallClientTypes.TLSInspectionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ServerCertificateConfigurations"].writeList(value.serverCertificateConfigurations, memberWritingClosure: NetworkFirewallClientTypes.ServerCertificateConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.TLSInspectionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.TLSInspectionConfiguration()
-        value.serverCertificateConfigurations = try reader["ServerCertificateConfigurations"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ServerCertificateConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.ServerCertificateConfiguration {
-
-    static func write(value: NetworkFirewallClientTypes.ServerCertificateConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateAuthorityArn"].write(value.certificateAuthorityArn)
-        try writer["CheckCertificateRevocationStatus"].write(value.checkCertificateRevocationStatus, with: NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions.write(value:to:))
-        try writer["Scopes"].writeList(value.scopes, memberWritingClosure: NetworkFirewallClientTypes.ServerCertificateScope.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ServerCertificates"].writeList(value.serverCertificates, memberWritingClosure: NetworkFirewallClientTypes.ServerCertificate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ServerCertificateConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.ServerCertificateConfiguration()
-        value.serverCertificates = try reader["ServerCertificates"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ServerCertificate.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scopes = try reader["Scopes"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ServerCertificateScope.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.certificateAuthorityArn = try reader["CertificateAuthorityArn"].readIfPresent()
-        value.checkCertificateRevocationStatus = try reader["CheckCertificateRevocationStatus"].readIfPresent(with: NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions.read(from:))
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions {
-
-    static func write(value: NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RevokedStatusAction"].write(value.revokedStatusAction)
-        try writer["UnknownStatusAction"].write(value.unknownStatusAction)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions()
-        value.revokedStatusAction = try reader["RevokedStatusAction"].readIfPresent()
-        value.unknownStatusAction = try reader["UnknownStatusAction"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.ServerCertificateScope {
-
-    static func write(value: NetworkFirewallClientTypes.ServerCertificateScope?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationPorts"].writeList(value.destinationPorts, memberWritingClosure: NetworkFirewallClientTypes.PortRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Destinations"].writeList(value.destinations, memberWritingClosure: NetworkFirewallClientTypes.Address.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourcePorts"].writeList(value.sourcePorts, memberWritingClosure: NetworkFirewallClientTypes.PortRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Sources"].writeList(value.sources, memberWritingClosure: NetworkFirewallClientTypes.Address.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ServerCertificateScope {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.ServerCertificateScope()
-        value.sources = try reader["Sources"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Address.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Address.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sourcePorts = try reader["SourcePorts"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.PortRange.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.destinationPorts = try reader["DestinationPorts"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.PortRange.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.protocols = try reader["Protocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.ServerCertificate {
-
-    static func write(value: NetworkFirewallClientTypes.ServerCertificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceArn"].write(value.resourceArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ServerCertificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.ServerCertificate()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.AnalysisTypeReportResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AnalysisTypeReportResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.AnalysisTypeReportResult()
-        value.`protocol` = try reader["Protocol"].readIfPresent()
-        value.firstAccessed = try reader["FirstAccessed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastAccessed = try reader["LastAccessed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.domain = try reader["Domain"].readIfPresent()
-        value.hits = try reader["Hits"].readIfPresent(with: NetworkFirewallClientTypes.Hits.read(from:))
-        value.uniqueSources = try reader["UniqueSources"].readIfPresent(with: NetworkFirewallClientTypes.UniqueSources.read(from:))
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.UniqueSources {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.UniqueSources {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.UniqueSources()
-        value.count = try reader["Count"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.Hits {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Hits {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.Hits()
-        value.count = try reader["Count"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.AnalysisReport {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AnalysisReport {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.AnalysisReport()
-        value.analysisReportId = try reader["AnalysisReportId"].readIfPresent()
-        value.analysisType = try reader["AnalysisType"].readIfPresent()
-        value.reportTime = try reader["ReportTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.FirewallPolicyMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FirewallPolicyMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.FirewallPolicyMetadata()
-        value.name = try reader["Name"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.FirewallMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FirewallMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.FirewallMetadata()
-        value.firewallName = try reader["FirewallName"].readIfPresent()
-        value.firewallArn = try reader["FirewallArn"].readIfPresent()
-        value.transitGatewayAttachmentId = try reader["TransitGatewayAttachmentId"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.Flow {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Flow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.Flow()
-        value.sourceAddress = try reader["SourceAddress"].readIfPresent(with: NetworkFirewallClientTypes.Address.read(from:))
-        value.destinationAddress = try reader["DestinationAddress"].readIfPresent(with: NetworkFirewallClientTypes.Address.read(from:))
-        value.sourcePort = try reader["SourcePort"].readIfPresent()
-        value.destinationPort = try reader["DestinationPort"].readIfPresent()
-        value.`protocol` = try reader["Protocol"].readIfPresent()
-        value.age = try reader["Age"].readIfPresent()
-        value.packetCount = try reader["PacketCount"].readIfPresent()
-        value.byteCount = try reader["ByteCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.FlowOperationMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FlowOperationMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.FlowOperationMetadata()
-        value.flowOperationId = try reader["FlowOperationId"].readIfPresent()
-        value.flowOperationType = try reader["FlowOperationType"].readIfPresent()
-        value.flowRequestTimestamp = try reader["FlowRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.flowOperationStatus = try reader["FlowOperationStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.ProxyMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.ProxyMetadata()
-        value.name = try reader["Name"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.ProxyConfigurationMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyConfigurationMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.ProxyConfigurationMetadata()
-        value.name = try reader["Name"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
+        try writer["InsertPosition"].write(value.insertPosition)
+        try writer["ProxyRuleGroupName"].write(value.proxyRuleGroupName)
     }
 }
 
@@ -13001,36 +12432,12 @@ extension NetworkFirewallClientTypes.ProxyRuleGroupMetadata {
     }
 }
 
-extension NetworkFirewallClientTypes.RuleGroupMetadata {
+extension NetworkFirewallClientTypes.ProxyRuleGroupPriority {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleGroupMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.RuleGroupMetadata()
-        value.name = try reader["Name"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.vendorName = try reader["VendorName"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata()
-        value.name = try reader["Name"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.VpcEndpointAssociationMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.VpcEndpointAssociationMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.VpcEndpointAssociationMetadata()
-        value.vpcEndpointAssociationArn = try reader["VpcEndpointAssociationArn"].readIfPresent()
-        return value
+    static func write(value: NetworkFirewallClientTypes.ProxyRuleGroupPriority?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NewPosition"].write(value.newPosition)
+        try writer["ProxyRuleGroupName"].write(value.proxyRuleGroupName)
     }
 }
 
@@ -13062,21 +12469,586 @@ extension NetworkFirewallClientTypes.ProxyRulePriority {
     }
 }
 
-extension NetworkFirewallClientTypes.ProxyRuleGroupAttachment {
+extension NetworkFirewallClientTypes.ProxyRulesByRequestPhase {
 
-    static func write(value: NetworkFirewallClientTypes.ProxyRuleGroupAttachment?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: NetworkFirewallClientTypes.ProxyRulesByRequestPhase?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["InsertPosition"].write(value.insertPosition)
-        try writer["ProxyRuleGroupName"].write(value.proxyRuleGroupName)
+        try writer["PostRESPONSE"].writeList(value.postRESPONSE, memberWritingClosure: NetworkFirewallClientTypes.ProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PreDNS"].writeList(value.preDNS, memberWritingClosure: NetworkFirewallClientTypes.ProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PreREQUEST"].writeList(value.preREQUEST, memberWritingClosure: NetworkFirewallClientTypes.ProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyRulesByRequestPhase {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ProxyRulesByRequestPhase()
+        value.preDNS = try reader["PreDNS"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.preREQUEST = try reader["PreREQUEST"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.postRESPONSE = try reader["PostRESPONSE"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension NetworkFirewallClientTypes.ListenerPropertyRequest {
+extension NetworkFirewallClientTypes.PublishMetricAction {
 
-    static func write(value: NetworkFirewallClientTypes.ListenerPropertyRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: NetworkFirewallClientTypes.PublishMetricAction?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Port"].write(value.port)
-        try writer["Type"].write(value.type)
+        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: NetworkFirewallClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.PublishMetricAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.PublishMetricAction()
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ReferenceSets {
+
+    static func write(value: NetworkFirewallClientTypes.ReferenceSets?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IPSetReferences"].writeMap(value.ipSetReferences, valueWritingClosure: NetworkFirewallClientTypes.IPSetReference.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ReferenceSets {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ReferenceSets()
+        value.ipSetReferences = try reader["IPSetReferences"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.IPSetReference.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.RuleDefinition {
+
+    static func write(value: NetworkFirewallClientTypes.RuleDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Actions"].writeList(value.actions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MatchAttributes"].write(value.matchAttributes, with: NetworkFirewallClientTypes.MatchAttributes.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.RuleDefinition()
+        value.matchAttributes = try reader["MatchAttributes"].readIfPresent(with: NetworkFirewallClientTypes.MatchAttributes.read(from:))
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.RuleGroup {
+
+    static func write(value: NetworkFirewallClientTypes.RuleGroup?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ReferenceSets"].write(value.referenceSets, with: NetworkFirewallClientTypes.ReferenceSets.write(value:to:))
+        try writer["RuleVariables"].write(value.ruleVariables, with: NetworkFirewallClientTypes.RuleVariables.write(value:to:))
+        try writer["RulesSource"].write(value.rulesSource, with: NetworkFirewallClientTypes.RulesSource.write(value:to:))
+        try writer["StatefulRuleOptions"].write(value.statefulRuleOptions, with: NetworkFirewallClientTypes.StatefulRuleOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.RuleGroup()
+        value.ruleVariables = try reader["RuleVariables"].readIfPresent(with: NetworkFirewallClientTypes.RuleVariables.read(from:))
+        value.referenceSets = try reader["ReferenceSets"].readIfPresent(with: NetworkFirewallClientTypes.ReferenceSets.read(from:))
+        value.rulesSource = try reader["RulesSource"].readIfPresent(with: NetworkFirewallClientTypes.RulesSource.read(from:))
+        value.statefulRuleOptions = try reader["StatefulRuleOptions"].readIfPresent(with: NetworkFirewallClientTypes.StatefulRuleOptions.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.RuleGroupMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleGroupMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.RuleGroupMetadata()
+        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.vendorName = try reader["VendorName"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.RuleGroupResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleGroupResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.RuleGroupResponse()
+        value.ruleGroupArn = try reader["RuleGroupArn"].readIfPresent() ?? ""
+        value.ruleGroupName = try reader["RuleGroupName"].readIfPresent() ?? ""
+        value.ruleGroupId = try reader["RuleGroupId"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.capacity = try reader["Capacity"].readIfPresent()
+        value.ruleGroupStatus = try reader["RuleGroupStatus"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.consumedCapacity = try reader["ConsumedCapacity"].readIfPresent()
+        value.numberOfAssociations = try reader["NumberOfAssociations"].readIfPresent()
+        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.EncryptionConfiguration.read(from:))
+        value.sourceMetadata = try reader["SourceMetadata"].readIfPresent(with: NetworkFirewallClientTypes.SourceMetadata.read(from:))
+        value.snsTopic = try reader["SnsTopic"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.analysisResults = try reader["AnalysisResults"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.AnalysisResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.summaryConfiguration = try reader["SummaryConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.SummaryConfiguration.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.RuleOption {
+
+    static func write(value: NetworkFirewallClientTypes.RuleOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Keyword"].write(value.keyword)
+        try writer["Settings"].writeList(value.settings, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.RuleOption()
+        value.keyword = try reader["Keyword"].readIfPresent() ?? ""
+        value.settings = try reader["Settings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.RulesSource {
+
+    static func write(value: NetworkFirewallClientTypes.RulesSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RulesSourceList"].write(value.rulesSourceList, with: NetworkFirewallClientTypes.RulesSourceList.write(value:to:))
+        try writer["RulesString"].write(value.rulesString)
+        try writer["StatefulRules"].writeList(value.statefulRules, memberWritingClosure: NetworkFirewallClientTypes.StatefulRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StatelessRulesAndCustomActions"].write(value.statelessRulesAndCustomActions, with: NetworkFirewallClientTypes.StatelessRulesAndCustomActions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RulesSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.RulesSource()
+        value.rulesString = try reader["RulesString"].readIfPresent()
+        value.rulesSourceList = try reader["RulesSourceList"].readIfPresent(with: NetworkFirewallClientTypes.RulesSourceList.read(from:))
+        value.statefulRules = try reader["StatefulRules"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.StatefulRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statelessRulesAndCustomActions = try reader["StatelessRulesAndCustomActions"].readIfPresent(with: NetworkFirewallClientTypes.StatelessRulesAndCustomActions.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.RulesSourceList {
+
+    static func write(value: NetworkFirewallClientTypes.RulesSourceList?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GeneratedRulesType"].write(value.generatedRulesType)
+        try writer["TargetTypes"].writeList(value.targetTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkFirewallClientTypes.TargetType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Targets"].writeList(value.targets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RulesSourceList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.RulesSourceList()
+        value.targets = try reader["Targets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.targetTypes = try reader["TargetTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.TargetType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.generatedRulesType = try reader["GeneratedRulesType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.RuleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.RuleSummary()
+        value.sid = try reader["SID"].readIfPresent()
+        value.msg = try reader["Msg"].readIfPresent()
+        value.metadata = try reader["Metadata"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.RuleVariables {
+
+    static func write(value: NetworkFirewallClientTypes.RuleVariables?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IPSets"].writeMap(value.ipSets, valueWritingClosure: NetworkFirewallClientTypes.IPSet.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["PortSets"].writeMap(value.portSets, valueWritingClosure: NetworkFirewallClientTypes.PortSet.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleVariables {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.RuleVariables()
+        value.ipSets = try reader["IPSets"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.IPSet.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.portSets = try reader["PortSets"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.PortSet.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ServerCertificate {
+
+    static func write(value: NetworkFirewallClientTypes.ServerCertificate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ServerCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ServerCertificate()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ServerCertificateConfiguration {
+
+    static func write(value: NetworkFirewallClientTypes.ServerCertificateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateAuthorityArn"].write(value.certificateAuthorityArn)
+        try writer["CheckCertificateRevocationStatus"].write(value.checkCertificateRevocationStatus, with: NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions.write(value:to:))
+        try writer["Scopes"].writeList(value.scopes, memberWritingClosure: NetworkFirewallClientTypes.ServerCertificateScope.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ServerCertificates"].writeList(value.serverCertificates, memberWritingClosure: NetworkFirewallClientTypes.ServerCertificate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ServerCertificateConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ServerCertificateConfiguration()
+        value.serverCertificates = try reader["ServerCertificates"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ServerCertificate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scopes = try reader["Scopes"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ServerCertificateScope.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.certificateAuthorityArn = try reader["CertificateAuthorityArn"].readIfPresent()
+        value.checkCertificateRevocationStatus = try reader["CheckCertificateRevocationStatus"].readIfPresent(with: NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ServerCertificateScope {
+
+    static func write(value: NetworkFirewallClientTypes.ServerCertificateScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationPorts"].writeList(value.destinationPorts, memberWritingClosure: NetworkFirewallClientTypes.PortRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Destinations"].writeList(value.destinations, memberWritingClosure: NetworkFirewallClientTypes.Address.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourcePorts"].writeList(value.sourcePorts, memberWritingClosure: NetworkFirewallClientTypes.PortRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Sources"].writeList(value.sources, memberWritingClosure: NetworkFirewallClientTypes.Address.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ServerCertificateScope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ServerCertificateScope()
+        value.sources = try reader["Sources"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Address.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Address.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourcePorts = try reader["SourcePorts"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.PortRange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.destinationPorts = try reader["DestinationPorts"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.PortRange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.protocols = try reader["Protocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.SourceMetadata {
+
+    static func write(value: NetworkFirewallClientTypes.SourceMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SourceArn"].write(value.sourceArn)
+        try writer["SourceUpdateToken"].write(value.sourceUpdateToken)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.SourceMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.SourceMetadata()
+        value.sourceArn = try reader["SourceArn"].readIfPresent()
+        value.sourceUpdateToken = try reader["SourceUpdateToken"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.StatefulEngineOptions {
+
+    static func write(value: NetworkFirewallClientTypes.StatefulEngineOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FlowTimeouts"].write(value.flowTimeouts, with: NetworkFirewallClientTypes.FlowTimeouts.write(value:to:))
+        try writer["RuleOrder"].write(value.ruleOrder)
+        try writer["StreamExceptionPolicy"].write(value.streamExceptionPolicy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.StatefulEngineOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.StatefulEngineOptions()
+        value.ruleOrder = try reader["RuleOrder"].readIfPresent()
+        value.streamExceptionPolicy = try reader["StreamExceptionPolicy"].readIfPresent()
+        value.flowTimeouts = try reader["FlowTimeouts"].readIfPresent(with: NetworkFirewallClientTypes.FlowTimeouts.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.StatefulRule {
+
+    static func write(value: NetworkFirewallClientTypes.StatefulRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["Header"].write(value.header, with: NetworkFirewallClientTypes.Header.write(value:to:))
+        try writer["RuleOptions"].writeList(value.ruleOptions, memberWritingClosure: NetworkFirewallClientTypes.RuleOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.StatefulRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.StatefulRule()
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.header = try reader["Header"].readIfPresent(with: NetworkFirewallClientTypes.Header.read(from:))
+        value.ruleOptions = try reader["RuleOptions"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.RuleOption.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.StatefulRuleGroupOverride {
+
+    static func write(value: NetworkFirewallClientTypes.StatefulRuleGroupOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.StatefulRuleGroupOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.StatefulRuleGroupOverride()
+        value.action = try reader["Action"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.StatefulRuleGroupReference {
+
+    static func write(value: NetworkFirewallClientTypes.StatefulRuleGroupReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeepThreatInspection"].write(value.deepThreatInspection)
+        try writer["Override"].write(value.`override`, with: NetworkFirewallClientTypes.StatefulRuleGroupOverride.write(value:to:))
+        try writer["Priority"].write(value.priority)
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.StatefulRuleGroupReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.StatefulRuleGroupReference()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.priority = try reader["Priority"].readIfPresent()
+        value.`override` = try reader["Override"].readIfPresent(with: NetworkFirewallClientTypes.StatefulRuleGroupOverride.read(from:))
+        value.deepThreatInspection = try reader["DeepThreatInspection"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.StatefulRuleOptions {
+
+    static func write(value: NetworkFirewallClientTypes.StatefulRuleOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RuleOrder"].write(value.ruleOrder)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.StatefulRuleOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.StatefulRuleOptions()
+        value.ruleOrder = try reader["RuleOrder"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.StatelessRule {
+
+    static func write(value: NetworkFirewallClientTypes.StatelessRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Priority"].write(value.priority)
+        try writer["RuleDefinition"].write(value.ruleDefinition, with: NetworkFirewallClientTypes.RuleDefinition.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.StatelessRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.StatelessRule()
+        value.ruleDefinition = try reader["RuleDefinition"].readIfPresent(with: NetworkFirewallClientTypes.RuleDefinition.read(from:))
+        value.priority = try reader["Priority"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.StatelessRuleGroupReference {
+
+    static func write(value: NetworkFirewallClientTypes.StatelessRuleGroupReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Priority"].write(value.priority)
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.StatelessRuleGroupReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.StatelessRuleGroupReference()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.priority = try reader["Priority"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.StatelessRulesAndCustomActions {
+
+    static func write(value: NetworkFirewallClientTypes.StatelessRulesAndCustomActions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomActions"].writeList(value.customActions, memberWritingClosure: NetworkFirewallClientTypes.CustomAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StatelessRules"].writeList(value.statelessRules, memberWritingClosure: NetworkFirewallClientTypes.StatelessRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.StatelessRulesAndCustomActions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.StatelessRulesAndCustomActions()
+        value.statelessRules = try reader["StatelessRules"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.StatelessRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.customActions = try reader["CustomActions"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.CustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.SubnetMapping {
+
+    static func write(value: NetworkFirewallClientTypes.SubnetMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IPAddressType"].write(value.ipAddressType)
+        try writer["SubnetId"].write(value.subnetId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.SubnetMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.SubnetMapping()
+        value.subnetId = try reader["SubnetId"].readIfPresent() ?? ""
+        value.ipAddressType = try reader["IPAddressType"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Summary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Summary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Summary()
+        value.ruleSummaries = try reader["RuleSummaries"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.RuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.SummaryConfiguration {
+
+    static func write(value: NetworkFirewallClientTypes.SummaryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RuleOptions"].writeList(value.ruleOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkFirewallClientTypes.SummaryRuleOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.SummaryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.SummaryConfiguration()
+        value.ruleOptions = try reader["RuleOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.SummaryRuleOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.SyncState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.SyncState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.SyncState()
+        value.attachment = try reader["Attachment"].readIfPresent(with: NetworkFirewallClientTypes.Attachment.read(from:))
+        value.config = try reader["Config"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.PerObjectStatus.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Tag {
+
+    static func write(value: NetworkFirewallClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.TCPFlagField {
+
+    static func write(value: NetworkFirewallClientTypes.TCPFlagField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Flags"].writeList(value.flags, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkFirewallClientTypes.TCPFlag>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Masks"].writeList(value.masks, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkFirewallClientTypes.TCPFlag>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.TCPFlagField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.TCPFlagField()
+        value.flags = try reader["Flags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.TCPFlag>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.masks = try reader["Masks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.TCPFlag>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.TlsCertificateData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.TlsCertificateData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.TlsCertificateData()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.certificateSerial = try reader["CertificateSerial"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.TLSInspectionConfiguration {
+
+    static func write(value: NetworkFirewallClientTypes.TLSInspectionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ServerCertificateConfigurations"].writeList(value.serverCertificateConfigurations, memberWritingClosure: NetworkFirewallClientTypes.ServerCertificateConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.TLSInspectionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.TLSInspectionConfiguration()
+        value.serverCertificateConfigurations = try reader["ServerCertificateConfigurations"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ServerCertificateConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata()
+        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.TLSInspectionConfigurationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.TLSInspectionConfigurationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.TLSInspectionConfigurationResponse()
+        value.tlsInspectionConfigurationArn = try reader["TLSInspectionConfigurationArn"].readIfPresent() ?? ""
+        value.tlsInspectionConfigurationName = try reader["TLSInspectionConfigurationName"].readIfPresent() ?? ""
+        value.tlsInspectionConfigurationId = try reader["TLSInspectionConfigurationId"].readIfPresent() ?? ""
+        value.tlsInspectionConfigurationStatus = try reader["TLSInspectionConfigurationStatus"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.numberOfAssociations = try reader["NumberOfAssociations"].readIfPresent()
+        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.EncryptionConfiguration.read(from:))
+        value.certificates = try reader["Certificates"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.TlsCertificateData.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.certificateAuthority = try reader["CertificateAuthority"].readIfPresent(with: NetworkFirewallClientTypes.TlsCertificateData.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.TlsInterceptProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.TlsInterceptProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.TlsInterceptProperties()
+        value.pcaArn = try reader["PcaArn"].readIfPresent()
+        value.tlsInterceptMode = try reader["TlsInterceptMode"].readIfPresent()
+        return value
     }
 }
 
@@ -13089,34 +13061,62 @@ extension NetworkFirewallClientTypes.TlsInterceptPropertiesRequest {
     }
 }
 
-extension NetworkFirewallClientTypes.CreateProxyRulesByRequestPhase {
+extension NetworkFirewallClientTypes.TransitGatewayAttachmentSyncState {
 
-    static func write(value: NetworkFirewallClientTypes.CreateProxyRulesByRequestPhase?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PostRESPONSE"].writeList(value.postRESPONSE, memberWritingClosure: NetworkFirewallClientTypes.CreateProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PreDNS"].writeList(value.preDNS, memberWritingClosure: NetworkFirewallClientTypes.CreateProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PreREQUEST"].writeList(value.preREQUEST, memberWritingClosure: NetworkFirewallClientTypes.CreateProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.TransitGatewayAttachmentSyncState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.TransitGatewayAttachmentSyncState()
+        value.attachmentId = try reader["AttachmentId"].readIfPresent()
+        value.transitGatewayAttachmentStatus = try reader["TransitGatewayAttachmentStatus"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
     }
 }
 
-extension NetworkFirewallClientTypes.CreateProxyRule {
+extension NetworkFirewallClientTypes.UniqueSources {
 
-    static func write(value: NetworkFirewallClientTypes.CreateProxyRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["Conditions"].writeList(value.conditions, memberWritingClosure: NetworkFirewallClientTypes.ProxyRuleCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["InsertPosition"].write(value.insertPosition)
-        try writer["ProxyRuleName"].write(value.proxyRuleName)
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.UniqueSources {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.UniqueSources()
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        return value
     }
 }
 
-extension NetworkFirewallClientTypes.ProxyRuleGroupPriority {
+extension NetworkFirewallClientTypes.VpcEndpointAssociation {
 
-    static func write(value: NetworkFirewallClientTypes.ProxyRuleGroupPriority?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NewPosition"].write(value.newPosition)
-        try writer["ProxyRuleGroupName"].write(value.proxyRuleGroupName)
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.VpcEndpointAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.VpcEndpointAssociation()
+        value.vpcEndpointAssociationId = try reader["VpcEndpointAssociationId"].readIfPresent()
+        value.vpcEndpointAssociationArn = try reader["VpcEndpointAssociationArn"].readIfPresent() ?? ""
+        value.firewallArn = try reader["FirewallArn"].readIfPresent() ?? ""
+        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
+        value.subnetMapping = try reader["SubnetMapping"].readIfPresent(with: NetworkFirewallClientTypes.SubnetMapping.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.VpcEndpointAssociationMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.VpcEndpointAssociationMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.VpcEndpointAssociationMetadata()
+        value.vpcEndpointAssociationArn = try reader["VpcEndpointAssociationArn"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.VpcEndpointAssociationStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.VpcEndpointAssociationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.VpcEndpointAssociationStatus()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.associationSyncState = try reader["AssociationSyncState"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.AZSyncState.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 

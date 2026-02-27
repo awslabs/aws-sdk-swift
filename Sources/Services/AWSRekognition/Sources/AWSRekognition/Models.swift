@@ -12971,6 +12971,32 @@ extension InvalidManifestException {
     }
 }
 
+extension RekognitionClientTypes.AgeRange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.AgeRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.AgeRange()
+        value.low = try reader["Low"].readIfPresent()
+        value.high = try reader["High"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.Asset {
+
+    static func write(value: RekognitionClientTypes.Asset?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GroundTruthManifest"].write(value.groundTruthManifest, with: RekognitionClientTypes.GroundTruthManifest.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Asset {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.Asset()
+        value.groundTruthManifest = try reader["GroundTruthManifest"].readIfPresent(with: RekognitionClientTypes.GroundTruthManifest.read(from:))
+        return value
+    }
+}
+
 extension RekognitionClientTypes.AssociatedFace {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.AssociatedFace {
@@ -12981,27 +13007,48 @@ extension RekognitionClientTypes.AssociatedFace {
     }
 }
 
-extension RekognitionClientTypes.UnsuccessfulFaceAssociation {
+extension RekognitionClientTypes.AudioMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UnsuccessfulFaceAssociation {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.AudioMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.UnsuccessfulFaceAssociation()
-        value.faceId = try reader["FaceId"].readIfPresent()
-        value.userId = try reader["UserId"].readIfPresent()
-        value.confidence = try reader["Confidence"].readIfPresent()
-        value.reasons = try reader["Reasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RekognitionClientTypes.UnsuccessfulFaceAssociationReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = RekognitionClientTypes.AudioMetadata()
+        value.codec = try reader["Codec"].readIfPresent()
+        value.durationMillis = try reader["DurationMillis"].readIfPresent()
+        value.sampleRate = try reader["SampleRate"].readIfPresent()
+        value.numberOfChannels = try reader["NumberOfChannels"].readIfPresent()
         return value
     }
 }
 
-extension RekognitionClientTypes.ComparedSourceImageFace {
+extension RekognitionClientTypes.AuditImage {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ComparedSourceImageFace {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.AuditImage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.ComparedSourceImageFace()
+        var value = RekognitionClientTypes.AuditImage()
+        value.bytes = try reader["Bytes"].readIfPresent()
+        value.s3Object = try reader["S3Object"].readIfPresent(with: RekognitionClientTypes.S3Object.read(from:))
         value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.Beard {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Beard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.Beard()
+        value.value = try reader["Value"].readIfPresent() ?? false
         value.confidence = try reader["Confidence"].readIfPresent()
         return value
+    }
+}
+
+extension RekognitionClientTypes.BlackFrame {
+
+    static func write(value: RekognitionClientTypes.BlackFrame?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxPixelThreshold"].write(value.maxPixelThreshold)
+        try writer["MinCoveragePercentage"].write(value.minCoveragePercentage)
     }
 }
 
@@ -13026,14 +13073,65 @@ extension RekognitionClientTypes.BoundingBox {
     }
 }
 
-extension RekognitionClientTypes.CompareFacesMatch {
+extension RekognitionClientTypes.Celebrity {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.CompareFacesMatch {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Celebrity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.CompareFacesMatch()
-        value.similarity = try reader["Similarity"].readIfPresent()
+        var value = RekognitionClientTypes.Celebrity()
+        value.urls = try reader["Urls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
         value.face = try reader["Face"].readIfPresent(with: RekognitionClientTypes.ComparedFace.read(from:))
+        value.matchConfidence = try reader["MatchConfidence"].readIfPresent()
+        value.knownGender = try reader["KnownGender"].readIfPresent(with: RekognitionClientTypes.KnownGender.read(from:))
         return value
+    }
+}
+
+extension RekognitionClientTypes.CelebrityDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.CelebrityDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.CelebrityDetail()
+        value.urls = try reader["Urls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.confidence = try reader["Confidence"].readIfPresent()
+        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
+        value.face = try reader["Face"].readIfPresent(with: RekognitionClientTypes.FaceDetail.read(from:))
+        value.knownGender = try reader["KnownGender"].readIfPresent(with: RekognitionClientTypes.KnownGender.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.CelebrityRecognition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.CelebrityRecognition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.CelebrityRecognition()
+        value.timestamp = try reader["Timestamp"].readIfPresent() ?? 0
+        value.celebrity = try reader["Celebrity"].readIfPresent(with: RekognitionClientTypes.CelebrityDetail.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.Challenge {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Challenge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.Challenge()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.version = try reader["Version"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension RekognitionClientTypes.ChallengePreference {
+
+    static func write(value: RekognitionClientTypes.ChallengePreference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Versions"].write(value.versions, with: RekognitionClientTypes.Versions.write(value:to:))
     }
 }
 
@@ -13053,158 +13151,98 @@ extension RekognitionClientTypes.ComparedFace {
     }
 }
 
-extension RekognitionClientTypes.Smile {
+extension RekognitionClientTypes.ComparedSourceImageFace {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Smile {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ComparedSourceImageFace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Smile()
+        var value = RekognitionClientTypes.ComparedSourceImageFace()
+        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
+        value.confidence = try reader["Confidence"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.CompareFacesMatch {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.CompareFacesMatch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.CompareFacesMatch()
+        value.similarity = try reader["Similarity"].readIfPresent()
+        value.face = try reader["Face"].readIfPresent(with: RekognitionClientTypes.ComparedFace.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.ConnectedHomeSettings {
+
+    static func write(value: RekognitionClientTypes.ConnectedHomeSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Labels"].writeList(value.labels, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MinConfidence"].write(value.minConfidence)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ConnectedHomeSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.ConnectedHomeSettings()
+        value.labels = try reader["Labels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.minConfidence = try reader["MinConfidence"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.ConnectedHomeSettingsForUpdate {
+
+    static func write(value: RekognitionClientTypes.ConnectedHomeSettingsForUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Labels"].writeList(value.labels, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MinConfidence"].write(value.minConfidence)
+    }
+}
+
+extension RekognitionClientTypes.ContentModerationDetection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ContentModerationDetection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.ContentModerationDetection()
+        value.timestamp = try reader["Timestamp"].readIfPresent() ?? 0
+        value.moderationLabel = try reader["ModerationLabel"].readIfPresent(with: RekognitionClientTypes.ModerationLabel.read(from:))
+        value.startTimestampMillis = try reader["StartTimestampMillis"].readIfPresent()
+        value.endTimestampMillis = try reader["EndTimestampMillis"].readIfPresent()
+        value.durationMillis = try reader["DurationMillis"].readIfPresent()
+        value.contentTypes = try reader["ContentTypes"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.ContentType.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RekognitionClientTypes.ContentType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ContentType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.ContentType()
+        value.confidence = try reader["Confidence"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.CoversBodyPart {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.CoversBodyPart {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.CoversBodyPart()
+        value.confidence = try reader["Confidence"].readIfPresent()
         value.value = try reader["Value"].readIfPresent() ?? false
-        value.confidence = try reader["Confidence"].readIfPresent()
         return value
     }
 }
 
-extension RekognitionClientTypes.Emotion {
+extension RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Emotion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Emotion()
-        value.type = try reader["Type"].readIfPresent()
-        value.confidence = try reader["Confidence"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.ImageQuality {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ImageQuality {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.ImageQuality()
-        value.brightness = try reader["Brightness"].readIfPresent()
-        value.sharpness = try reader["Sharpness"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.Pose {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Pose {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Pose()
-        value.roll = try reader["Roll"].readIfPresent()
-        value.yaw = try reader["Yaw"].readIfPresent()
-        value.pitch = try reader["Pitch"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.Landmark {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Landmark {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Landmark()
-        value.type = try reader["Type"].readIfPresent()
-        value.x = try reader["X"].readIfPresent()
-        value.y = try reader["Y"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.UnsuccessfulFaceDeletion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UnsuccessfulFaceDeletion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.UnsuccessfulFaceDeletion()
-        value.faceId = try reader["FaceId"].readIfPresent()
-        value.userId = try reader["UserId"].readIfPresent()
-        value.reasons = try reader["Reasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RekognitionClientTypes.UnsuccessfulFaceDeletionReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RekognitionClientTypes.DatasetDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DatasetDescription()
-        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.statusMessageCode = try reader["StatusMessageCode"].readIfPresent()
-        value.datasetStats = try reader["DatasetStats"].readIfPresent(with: RekognitionClientTypes.DatasetStats.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.DatasetStats {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetStats {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DatasetStats()
-        value.labeledEntries = try reader["LabeledEntries"].readIfPresent()
-        value.totalEntries = try reader["TotalEntries"].readIfPresent()
-        value.totalLabels = try reader["TotalLabels"].readIfPresent()
-        value.errorEntries = try reader["ErrorEntries"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.ProjectDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProjectDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.ProjectDescription()
-        value.projectArn = try reader["ProjectArn"].readIfPresent()
-        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.datasets = try reader["Datasets"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.DatasetMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.feature = try reader["Feature"].readIfPresent()
-        value.autoUpdate = try reader["AutoUpdate"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.DatasetMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DatasetMetadata()
-        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.datasetType = try reader["DatasetType"].readIfPresent()
-        value.datasetArn = try reader["DatasetArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.statusMessageCode = try reader["StatusMessageCode"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.ProjectVersionDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProjectVersionDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.ProjectVersionDescription()
-        value.projectVersionArn = try reader["ProjectVersionArn"].readIfPresent()
-        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.minInferenceUnits = try reader["MinInferenceUnits"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.billableTrainingTimeInSeconds = try reader["BillableTrainingTimeInSeconds"].readIfPresent()
-        value.trainingEndTimestamp = try reader["TrainingEndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.outputConfig = try reader["OutputConfig"].readIfPresent(with: RekognitionClientTypes.OutputConfig.read(from:))
-        value.trainingDataResult = try reader["TrainingDataResult"].readIfPresent(with: RekognitionClientTypes.TrainingDataResult.read(from:))
-        value.testingDataResult = try reader["TestingDataResult"].readIfPresent(with: RekognitionClientTypes.TestingDataResult.read(from:))
-        value.evaluationResult = try reader["EvaluationResult"].readIfPresent(with: RekognitionClientTypes.EvaluationResult.read(from:))
-        value.manifestSummary = try reader["ManifestSummary"].readIfPresent(with: RekognitionClientTypes.GroundTruthManifest.read(from:))
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.maxInferenceUnits = try reader["MaxInferenceUnits"].readIfPresent()
-        value.sourceProjectVersionArn = try reader["SourceProjectVersionArn"].readIfPresent()
-        value.versionDescription = try reader["VersionDescription"].readIfPresent()
-        value.feature = try reader["Feature"].readIfPresent()
-        value.baseModelVersion = try reader["BaseModelVersion"].readIfPresent()
-        value.featureConfig = try reader["FeatureConfig"].readIfPresent(with: RekognitionClientTypes.CustomizationFeatureConfig.read(from:))
-        return value
+    static func write(value: RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuditImagesLimit"].write(value.auditImagesLimit)
+        try writer["ChallengePreferences"].writeList(value.challengePreferences, memberWritingClosure: RekognitionClientTypes.ChallengePreference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OutputConfig"].write(value.outputConfig, with: RekognitionClientTypes.LivenessOutputConfig.write(value:to:))
     }
 }
 
@@ -13238,36 +13276,237 @@ extension RekognitionClientTypes.CustomizationFeatureContentModerationConfig {
     }
 }
 
-extension RekognitionClientTypes.GroundTruthManifest {
+extension RekognitionClientTypes.CustomLabel {
 
-    static func write(value: RekognitionClientTypes.GroundTruthManifest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Object"].write(value.s3Object, with: RekognitionClientTypes.S3Object.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.GroundTruthManifest {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.CustomLabel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.GroundTruthManifest()
-        value.s3Object = try reader["S3Object"].readIfPresent(with: RekognitionClientTypes.S3Object.read(from:))
+        var value = RekognitionClientTypes.CustomLabel()
+        value.name = try reader["Name"].readIfPresent()
+        value.confidence = try reader["Confidence"].readIfPresent()
+        value.geometry = try reader["Geometry"].readIfPresent(with: RekognitionClientTypes.Geometry.read(from:))
         return value
     }
 }
 
-extension RekognitionClientTypes.S3Object {
+extension RekognitionClientTypes.DatasetChanges {
 
-    static func write(value: RekognitionClientTypes.S3Object?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: RekognitionClientTypes.DatasetChanges?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Name"].write(value.name)
-        try writer["Version"].write(value.version)
+        try writer["GroundTruth"].write(value.groundTruth)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.S3Object {
+extension RekognitionClientTypes.DatasetDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.S3Object()
-        value.bucket = try reader["Bucket"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.version = try reader["Version"].readIfPresent()
+        var value = RekognitionClientTypes.DatasetDescription()
+        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.statusMessageCode = try reader["StatusMessageCode"].readIfPresent()
+        value.datasetStats = try reader["DatasetStats"].readIfPresent(with: RekognitionClientTypes.DatasetStats.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.DatasetLabelDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetLabelDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.DatasetLabelDescription()
+        value.labelName = try reader["LabelName"].readIfPresent()
+        value.labelStats = try reader["LabelStats"].readIfPresent(with: RekognitionClientTypes.DatasetLabelStats.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.DatasetLabelStats {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetLabelStats {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.DatasetLabelStats()
+        value.entryCount = try reader["EntryCount"].readIfPresent()
+        value.boundingBoxCount = try reader["BoundingBoxCount"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.DatasetMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.DatasetMetadata()
+        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.datasetType = try reader["DatasetType"].readIfPresent()
+        value.datasetArn = try reader["DatasetArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.statusMessageCode = try reader["StatusMessageCode"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.DatasetSource {
+
+    static func write(value: RekognitionClientTypes.DatasetSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DatasetArn"].write(value.datasetArn)
+        try writer["GroundTruthManifest"].write(value.groundTruthManifest, with: RekognitionClientTypes.GroundTruthManifest.write(value:to:))
+    }
+}
+
+extension RekognitionClientTypes.DatasetStats {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetStats {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.DatasetStats()
+        value.labeledEntries = try reader["LabeledEntries"].readIfPresent()
+        value.totalEntries = try reader["TotalEntries"].readIfPresent()
+        value.totalLabels = try reader["TotalLabels"].readIfPresent()
+        value.errorEntries = try reader["ErrorEntries"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.DetectionFilter {
+
+    static func write(value: RekognitionClientTypes.DetectionFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MinBoundingBoxHeight"].write(value.minBoundingBoxHeight)
+        try writer["MinBoundingBoxWidth"].write(value.minBoundingBoxWidth)
+        try writer["MinConfidence"].write(value.minConfidence)
+    }
+}
+
+extension RekognitionClientTypes.DetectLabelsImageBackground {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DetectLabelsImageBackground {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.DetectLabelsImageBackground()
+        value.quality = try reader["Quality"].readIfPresent(with: RekognitionClientTypes.DetectLabelsImageQuality.read(from:))
+        value.dominantColors = try reader["DominantColors"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.DominantColor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RekognitionClientTypes.DetectLabelsImageForeground {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DetectLabelsImageForeground {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.DetectLabelsImageForeground()
+        value.quality = try reader["Quality"].readIfPresent(with: RekognitionClientTypes.DetectLabelsImageQuality.read(from:))
+        value.dominantColors = try reader["DominantColors"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.DominantColor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RekognitionClientTypes.DetectLabelsImageProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DetectLabelsImageProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.DetectLabelsImageProperties()
+        value.quality = try reader["Quality"].readIfPresent(with: RekognitionClientTypes.DetectLabelsImageQuality.read(from:))
+        value.dominantColors = try reader["DominantColors"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.DominantColor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.foreground = try reader["Foreground"].readIfPresent(with: RekognitionClientTypes.DetectLabelsImageForeground.read(from:))
+        value.background = try reader["Background"].readIfPresent(with: RekognitionClientTypes.DetectLabelsImageBackground.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.DetectLabelsImagePropertiesSettings {
+
+    static func write(value: RekognitionClientTypes.DetectLabelsImagePropertiesSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxDominantColors"].write(value.maxDominantColors)
+    }
+}
+
+extension RekognitionClientTypes.DetectLabelsImageQuality {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DetectLabelsImageQuality {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.DetectLabelsImageQuality()
+        value.brightness = try reader["Brightness"].readIfPresent()
+        value.sharpness = try reader["Sharpness"].readIfPresent()
+        value.contrast = try reader["Contrast"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.DetectLabelsSettings {
+
+    static func write(value: RekognitionClientTypes.DetectLabelsSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GeneralLabels"].write(value.generalLabels, with: RekognitionClientTypes.GeneralLabelsSettings.write(value:to:))
+        try writer["ImageProperties"].write(value.imageProperties, with: RekognitionClientTypes.DetectLabelsImagePropertiesSettings.write(value:to:))
+    }
+}
+
+extension RekognitionClientTypes.DetectTextFilters {
+
+    static func write(value: RekognitionClientTypes.DetectTextFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RegionsOfInterest"].writeList(value.regionsOfInterest, memberWritingClosure: RekognitionClientTypes.RegionOfInterest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WordFilter"].write(value.wordFilter, with: RekognitionClientTypes.DetectionFilter.write(value:to:))
+    }
+}
+
+extension RekognitionClientTypes.DisassociatedFace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DisassociatedFace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.DisassociatedFace()
+        value.faceId = try reader["FaceId"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.DistributeDataset {
+
+    static func write(value: RekognitionClientTypes.DistributeDataset?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+    }
+}
+
+extension RekognitionClientTypes.DominantColor {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DominantColor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.DominantColor()
+        value.red = try reader["Red"].readIfPresent()
+        value.blue = try reader["Blue"].readIfPresent()
+        value.green = try reader["Green"].readIfPresent()
+        value.hexCode = try reader["HexCode"].readIfPresent()
+        value.cssColor = try reader["CSSColor"].readIfPresent()
+        value.simplifiedColor = try reader["SimplifiedColor"].readIfPresent()
+        value.pixelPercent = try reader["PixelPercent"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.Emotion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Emotion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.Emotion()
+        value.type = try reader["Type"].readIfPresent()
+        value.confidence = try reader["Confidence"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.EquipmentDetection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.EquipmentDetection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.EquipmentDetection()
+        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
+        value.confidence = try reader["Confidence"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.coversBodyPart = try reader["CoversBodyPart"].readIfPresent(with: RekognitionClientTypes.CoversBodyPart.read(from:))
         return value
     }
 }
@@ -13283,327 +13522,52 @@ extension RekognitionClientTypes.EvaluationResult {
     }
 }
 
-extension RekognitionClientTypes.Summary {
+extension RekognitionClientTypes.EyeDirection {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Summary {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.EyeDirection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Summary()
-        value.s3Object = try reader["S3Object"].readIfPresent(with: RekognitionClientTypes.S3Object.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.TestingDataResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TestingDataResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.TestingDataResult()
-        value.input = try reader["Input"].readIfPresent(with: RekognitionClientTypes.TestingData.read(from:))
-        value.output = try reader["Output"].readIfPresent(with: RekognitionClientTypes.TestingData.read(from:))
-        value.validation = try reader["Validation"].readIfPresent(with: RekognitionClientTypes.ValidationData.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.ValidationData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ValidationData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.ValidationData()
-        value.assets = try reader["Assets"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.Asset.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RekognitionClientTypes.Asset {
-
-    static func write(value: RekognitionClientTypes.Asset?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GroundTruthManifest"].write(value.groundTruthManifest, with: RekognitionClientTypes.GroundTruthManifest.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Asset {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Asset()
-        value.groundTruthManifest = try reader["GroundTruthManifest"].readIfPresent(with: RekognitionClientTypes.GroundTruthManifest.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.TestingData {
-
-    static func write(value: RekognitionClientTypes.TestingData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Assets"].writeList(value.assets, memberWritingClosure: RekognitionClientTypes.Asset.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AutoCreate"].write(value.autoCreate)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TestingData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.TestingData()
-        value.assets = try reader["Assets"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.Asset.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.autoCreate = try reader["AutoCreate"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension RekognitionClientTypes.TrainingDataResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TrainingDataResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.TrainingDataResult()
-        value.input = try reader["Input"].readIfPresent(with: RekognitionClientTypes.TrainingData.read(from:))
-        value.output = try reader["Output"].readIfPresent(with: RekognitionClientTypes.TrainingData.read(from:))
-        value.validation = try reader["Validation"].readIfPresent(with: RekognitionClientTypes.ValidationData.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.TrainingData {
-
-    static func write(value: RekognitionClientTypes.TrainingData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Assets"].writeList(value.assets, memberWritingClosure: RekognitionClientTypes.Asset.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TrainingData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.TrainingData()
-        value.assets = try reader["Assets"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.Asset.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RekognitionClientTypes.OutputConfig {
-
-    static func write(value: RekognitionClientTypes.OutputConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Bucket"].write(value.s3Bucket)
-        try writer["S3KeyPrefix"].write(value.s3KeyPrefix)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.OutputConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.OutputConfig()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
-        value.s3KeyPrefix = try reader["S3KeyPrefix"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.StreamProcessorInput {
-
-    static func write(value: RekognitionClientTypes.StreamProcessorInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KinesisVideoStream"].write(value.kinesisVideoStream, with: RekognitionClientTypes.KinesisVideoStream.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessorInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.StreamProcessorInput()
-        value.kinesisVideoStream = try reader["KinesisVideoStream"].readIfPresent(with: RekognitionClientTypes.KinesisVideoStream.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.KinesisVideoStream {
-
-    static func write(value: RekognitionClientTypes.KinesisVideoStream?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.KinesisVideoStream {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.KinesisVideoStream()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.StreamProcessorOutput {
-
-    static func write(value: RekognitionClientTypes.StreamProcessorOutput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KinesisDataStream"].write(value.kinesisDataStream, with: RekognitionClientTypes.KinesisDataStream.write(value:to:))
-        try writer["S3Destination"].write(value.s3Destination, with: RekognitionClientTypes.S3Destination.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessorOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.StreamProcessorOutput()
-        value.kinesisDataStream = try reader["KinesisDataStream"].readIfPresent(with: RekognitionClientTypes.KinesisDataStream.read(from:))
-        value.s3Destination = try reader["S3Destination"].readIfPresent(with: RekognitionClientTypes.S3Destination.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.S3Destination {
-
-    static func write(value: RekognitionClientTypes.S3Destination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["KeyPrefix"].write(value.keyPrefix)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.S3Destination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.S3Destination()
-        value.bucket = try reader["Bucket"].readIfPresent()
-        value.keyPrefix = try reader["KeyPrefix"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.KinesisDataStream {
-
-    static func write(value: RekognitionClientTypes.KinesisDataStream?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.KinesisDataStream {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.KinesisDataStream()
-        value.arn = try reader["Arn"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.StreamProcessorSettings {
-
-    static func write(value: RekognitionClientTypes.StreamProcessorSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectedHome"].write(value.connectedHome, with: RekognitionClientTypes.ConnectedHomeSettings.write(value:to:))
-        try writer["FaceSearch"].write(value.faceSearch, with: RekognitionClientTypes.FaceSearchSettings.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessorSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.StreamProcessorSettings()
-        value.faceSearch = try reader["FaceSearch"].readIfPresent(with: RekognitionClientTypes.FaceSearchSettings.read(from:))
-        value.connectedHome = try reader["ConnectedHome"].readIfPresent(with: RekognitionClientTypes.ConnectedHomeSettings.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.ConnectedHomeSettings {
-
-    static func write(value: RekognitionClientTypes.ConnectedHomeSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Labels"].writeList(value.labels, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MinConfidence"].write(value.minConfidence)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ConnectedHomeSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.ConnectedHomeSettings()
-        value.labels = try reader["Labels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.minConfidence = try reader["MinConfidence"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.FaceSearchSettings {
-
-    static func write(value: RekognitionClientTypes.FaceSearchSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CollectionId"].write(value.collectionId)
-        try writer["FaceMatchThreshold"].write(value.faceMatchThreshold)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.FaceSearchSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.FaceSearchSettings()
-        value.collectionId = try reader["CollectionId"].readIfPresent()
-        value.faceMatchThreshold = try reader["FaceMatchThreshold"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.StreamProcessorNotificationChannel {
-
-    static func write(value: RekognitionClientTypes.StreamProcessorNotificationChannel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SNSTopicArn"].write(value.snsTopicArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessorNotificationChannel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.StreamProcessorNotificationChannel()
-        value.snsTopicArn = try reader["SNSTopicArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension RekognitionClientTypes.RegionOfInterest {
-
-    static func write(value: RekognitionClientTypes.RegionOfInterest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].write(value.boundingBox, with: RekognitionClientTypes.BoundingBox.write(value:to:))
-        try writer["Polygon"].writeList(value.polygon, memberWritingClosure: RekognitionClientTypes.Point.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.RegionOfInterest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.RegionOfInterest()
-        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
-        value.polygon = try reader["Polygon"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.Point.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RekognitionClientTypes.Point {
-
-    static func write(value: RekognitionClientTypes.Point?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["X"].write(value.x)
-        try writer["Y"].write(value.y)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Point {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Point()
-        value.x = try reader["X"].readIfPresent()
-        value.y = try reader["Y"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.StreamProcessorDataSharingPreference {
-
-    static func write(value: RekognitionClientTypes.StreamProcessorDataSharingPreference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OptIn"].write(value.optIn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessorDataSharingPreference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.StreamProcessorDataSharingPreference()
-        value.optIn = try reader["OptIn"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension RekognitionClientTypes.CustomLabel {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.CustomLabel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.CustomLabel()
-        value.name = try reader["Name"].readIfPresent()
+        var value = RekognitionClientTypes.EyeDirection()
+        value.yaw = try reader["Yaw"].readIfPresent()
+        value.pitch = try reader["Pitch"].readIfPresent()
         value.confidence = try reader["Confidence"].readIfPresent()
-        value.geometry = try reader["Geometry"].readIfPresent(with: RekognitionClientTypes.Geometry.read(from:))
         return value
     }
 }
 
-extension RekognitionClientTypes.Geometry {
+extension RekognitionClientTypes.Eyeglasses {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Geometry {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Eyeglasses {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Geometry()
+        var value = RekognitionClientTypes.Eyeglasses()
+        value.value = try reader["Value"].readIfPresent() ?? false
+        value.confidence = try reader["Confidence"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.EyeOpen {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.EyeOpen {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.EyeOpen()
+        value.value = try reader["Value"].readIfPresent() ?? false
+        value.confidence = try reader["Confidence"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.Face {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Face {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.Face()
+        value.faceId = try reader["FaceId"].readIfPresent()
         value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
-        value.polygon = try reader["Polygon"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.Point.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.imageId = try reader["ImageId"].readIfPresent()
+        value.externalImageId = try reader["ExternalImageId"].readIfPresent()
+        value.confidence = try reader["Confidence"].readIfPresent()
+        value.indexFacesModelVersion = try reader["IndexFacesModelVersion"].readIfPresent()
+        value.userId = try reader["UserId"].readIfPresent()
         return value
     }
 }
@@ -13634,14 +13598,24 @@ extension RekognitionClientTypes.FaceDetail {
     }
 }
 
-extension RekognitionClientTypes.EyeDirection {
+extension RekognitionClientTypes.FaceDetection {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.EyeDirection {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.FaceDetection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.EyeDirection()
-        value.yaw = try reader["Yaw"].readIfPresent()
-        value.pitch = try reader["Pitch"].readIfPresent()
-        value.confidence = try reader["Confidence"].readIfPresent()
+        var value = RekognitionClientTypes.FaceDetection()
+        value.timestamp = try reader["Timestamp"].readIfPresent() ?? 0
+        value.face = try reader["Face"].readIfPresent(with: RekognitionClientTypes.FaceDetail.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.FaceMatch {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.FaceMatch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.FaceMatch()
+        value.similarity = try reader["Similarity"].readIfPresent()
+        value.face = try reader["Face"].readIfPresent(with: RekognitionClientTypes.Face.read(from:))
         return value
     }
 }
@@ -13657,46 +13631,30 @@ extension RekognitionClientTypes.FaceOccluded {
     }
 }
 
-extension RekognitionClientTypes.MouthOpen {
+extension RekognitionClientTypes.FaceRecord {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MouthOpen {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.FaceRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.MouthOpen()
-        value.value = try reader["Value"].readIfPresent() ?? false
-        value.confidence = try reader["Confidence"].readIfPresent()
+        var value = RekognitionClientTypes.FaceRecord()
+        value.face = try reader["Face"].readIfPresent(with: RekognitionClientTypes.Face.read(from:))
+        value.faceDetail = try reader["FaceDetail"].readIfPresent(with: RekognitionClientTypes.FaceDetail.read(from:))
         return value
     }
 }
 
-extension RekognitionClientTypes.EyeOpen {
+extension RekognitionClientTypes.FaceSearchSettings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.EyeOpen {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.EyeOpen()
-        value.value = try reader["Value"].readIfPresent() ?? false
-        value.confidence = try reader["Confidence"].readIfPresent()
-        return value
+    static func write(value: RekognitionClientTypes.FaceSearchSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CollectionId"].write(value.collectionId)
+        try writer["FaceMatchThreshold"].write(value.faceMatchThreshold)
     }
-}
 
-extension RekognitionClientTypes.Mustache {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Mustache {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.FaceSearchSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Mustache()
-        value.value = try reader["Value"].readIfPresent() ?? false
-        value.confidence = try reader["Confidence"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.Beard {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Beard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Beard()
-        value.value = try reader["Value"].readIfPresent() ?? false
-        value.confidence = try reader["Confidence"].readIfPresent()
+        var value = RekognitionClientTypes.FaceSearchSettings()
+        value.collectionId = try reader["CollectionId"].readIfPresent()
+        value.faceMatchThreshold = try reader["FaceMatchThreshold"].readIfPresent()
         return value
     }
 }
@@ -13712,35 +13670,172 @@ extension RekognitionClientTypes.Gender {
     }
 }
 
-extension RekognitionClientTypes.Sunglasses {
+extension RekognitionClientTypes.GeneralLabelsSettings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Sunglasses {
+    static func write(value: RekognitionClientTypes.GeneralLabelsSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LabelCategoryExclusionFilters"].writeList(value.labelCategoryExclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LabelCategoryInclusionFilters"].writeList(value.labelCategoryInclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LabelExclusionFilters"].writeList(value.labelExclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LabelInclusionFilters"].writeList(value.labelInclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension RekognitionClientTypes.Geometry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Geometry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Sunglasses()
-        value.value = try reader["Value"].readIfPresent() ?? false
-        value.confidence = try reader["Confidence"].readIfPresent()
+        var value = RekognitionClientTypes.Geometry()
+        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
+        value.polygon = try reader["Polygon"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.Point.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension RekognitionClientTypes.Eyeglasses {
+extension RekognitionClientTypes.GetContentModerationRequestMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Eyeglasses {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.GetContentModerationRequestMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Eyeglasses()
-        value.value = try reader["Value"].readIfPresent() ?? false
-        value.confidence = try reader["Confidence"].readIfPresent()
+        var value = RekognitionClientTypes.GetContentModerationRequestMetadata()
+        value.sortBy = try reader["SortBy"].readIfPresent()
+        value.aggregateBy = try reader["AggregateBy"].readIfPresent()
         return value
     }
 }
 
-extension RekognitionClientTypes.AgeRange {
+extension RekognitionClientTypes.GetLabelDetectionRequestMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.AgeRange {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.GetLabelDetectionRequestMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.AgeRange()
-        value.low = try reader["Low"].readIfPresent()
-        value.high = try reader["High"].readIfPresent()
+        var value = RekognitionClientTypes.GetLabelDetectionRequestMetadata()
+        value.sortBy = try reader["SortBy"].readIfPresent()
+        value.aggregateBy = try reader["AggregateBy"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.GroundTruthManifest {
+
+    static func write(value: RekognitionClientTypes.GroundTruthManifest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Object"].write(value.s3Object, with: RekognitionClientTypes.S3Object.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.GroundTruthManifest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.GroundTruthManifest()
+        value.s3Object = try reader["S3Object"].readIfPresent(with: RekognitionClientTypes.S3Object.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.HumanLoopActivationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.HumanLoopActivationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.HumanLoopActivationOutput()
+        value.humanLoopArn = try reader["HumanLoopArn"].readIfPresent()
+        value.humanLoopActivationReasons = try reader["HumanLoopActivationReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.humanLoopActivationConditionsEvaluationResults = try reader["HumanLoopActivationConditionsEvaluationResults"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.HumanLoopConfig {
+
+    static func write(value: RekognitionClientTypes.HumanLoopConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataAttributes"].write(value.dataAttributes, with: RekognitionClientTypes.HumanLoopDataAttributes.write(value:to:))
+        try writer["FlowDefinitionArn"].write(value.flowDefinitionArn)
+        try writer["HumanLoopName"].write(value.humanLoopName)
+    }
+}
+
+extension RekognitionClientTypes.HumanLoopDataAttributes {
+
+    static func write(value: RekognitionClientTypes.HumanLoopDataAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContentClassifiers"].writeList(value.contentClassifiers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<RekognitionClientTypes.ContentClassifier>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension RekognitionClientTypes.Image {
+
+    static func write(value: RekognitionClientTypes.Image?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bytes"].write(value.bytes)
+        try writer["S3Object"].write(value.s3Object, with: RekognitionClientTypes.S3Object.write(value:to:))
+    }
+}
+
+extension RekognitionClientTypes.ImageQuality {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ImageQuality {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.ImageQuality()
+        value.brightness = try reader["Brightness"].readIfPresent()
+        value.sharpness = try reader["Sharpness"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.Instance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Instance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.Instance()
+        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
+        value.confidence = try reader["Confidence"].readIfPresent()
+        value.dominantColors = try reader["DominantColors"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.DominantColor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RekognitionClientTypes.KinesisDataStream {
+
+    static func write(value: RekognitionClientTypes.KinesisDataStream?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.KinesisDataStream {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.KinesisDataStream()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.KinesisVideoStream {
+
+    static func write(value: RekognitionClientTypes.KinesisVideoStream?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.KinesisVideoStream {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.KinesisVideoStream()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.KinesisVideoStreamStartSelector {
+
+    static func write(value: RekognitionClientTypes.KinesisVideoStreamStartSelector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FragmentNumber"].write(value.fragmentNumber)
+        try writer["ProducerTimestamp"].write(value.producerTimestamp)
+    }
+}
+
+extension RekognitionClientTypes.KnownGender {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.KnownGender {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.KnownGender()
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -13760,16 +13855,6 @@ extension RekognitionClientTypes.Label {
     }
 }
 
-extension RekognitionClientTypes.LabelCategory {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.LabelCategory {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.LabelCategory()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
 extension RekognitionClientTypes.LabelAlias {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.LabelAlias {
@@ -13780,400 +13865,12 @@ extension RekognitionClientTypes.LabelAlias {
     }
 }
 
-extension RekognitionClientTypes.Parent {
+extension RekognitionClientTypes.LabelCategory {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Parent {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.LabelCategory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Parent()
+        var value = RekognitionClientTypes.LabelCategory()
         value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.Instance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Instance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Instance()
-        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
-        value.confidence = try reader["Confidence"].readIfPresent()
-        value.dominantColors = try reader["DominantColors"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.DominantColor.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RekognitionClientTypes.DominantColor {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DominantColor {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DominantColor()
-        value.red = try reader["Red"].readIfPresent()
-        value.blue = try reader["Blue"].readIfPresent()
-        value.green = try reader["Green"].readIfPresent()
-        value.hexCode = try reader["HexCode"].readIfPresent()
-        value.cssColor = try reader["CSSColor"].readIfPresent()
-        value.simplifiedColor = try reader["SimplifiedColor"].readIfPresent()
-        value.pixelPercent = try reader["PixelPercent"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.DetectLabelsImageProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DetectLabelsImageProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DetectLabelsImageProperties()
-        value.quality = try reader["Quality"].readIfPresent(with: RekognitionClientTypes.DetectLabelsImageQuality.read(from:))
-        value.dominantColors = try reader["DominantColors"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.DominantColor.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.foreground = try reader["Foreground"].readIfPresent(with: RekognitionClientTypes.DetectLabelsImageForeground.read(from:))
-        value.background = try reader["Background"].readIfPresent(with: RekognitionClientTypes.DetectLabelsImageBackground.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.DetectLabelsImageBackground {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DetectLabelsImageBackground {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DetectLabelsImageBackground()
-        value.quality = try reader["Quality"].readIfPresent(with: RekognitionClientTypes.DetectLabelsImageQuality.read(from:))
-        value.dominantColors = try reader["DominantColors"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.DominantColor.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RekognitionClientTypes.DetectLabelsImageQuality {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DetectLabelsImageQuality {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DetectLabelsImageQuality()
-        value.brightness = try reader["Brightness"].readIfPresent()
-        value.sharpness = try reader["Sharpness"].readIfPresent()
-        value.contrast = try reader["Contrast"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.DetectLabelsImageForeground {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DetectLabelsImageForeground {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DetectLabelsImageForeground()
-        value.quality = try reader["Quality"].readIfPresent(with: RekognitionClientTypes.DetectLabelsImageQuality.read(from:))
-        value.dominantColors = try reader["DominantColors"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.DominantColor.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RekognitionClientTypes.ModerationLabel {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ModerationLabel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.ModerationLabel()
-        value.confidence = try reader["Confidence"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.parentName = try reader["ParentName"].readIfPresent()
-        value.taxonomyLevel = try reader["TaxonomyLevel"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.HumanLoopActivationOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.HumanLoopActivationOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.HumanLoopActivationOutput()
-        value.humanLoopArn = try reader["HumanLoopArn"].readIfPresent()
-        value.humanLoopActivationReasons = try reader["HumanLoopActivationReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.humanLoopActivationConditionsEvaluationResults = try reader["HumanLoopActivationConditionsEvaluationResults"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.ContentType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ContentType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.ContentType()
-        value.confidence = try reader["Confidence"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.ProtectiveEquipmentPerson {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProtectiveEquipmentPerson {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.ProtectiveEquipmentPerson()
-        value.bodyParts = try reader["BodyParts"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.ProtectiveEquipmentBodyPart.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
-        value.confidence = try reader["Confidence"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.ProtectiveEquipmentBodyPart {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProtectiveEquipmentBodyPart {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.ProtectiveEquipmentBodyPart()
-        value.name = try reader["Name"].readIfPresent()
-        value.confidence = try reader["Confidence"].readIfPresent()
-        value.equipmentDetections = try reader["EquipmentDetections"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.EquipmentDetection.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RekognitionClientTypes.EquipmentDetection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.EquipmentDetection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.EquipmentDetection()
-        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
-        value.confidence = try reader["Confidence"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.coversBodyPart = try reader["CoversBodyPart"].readIfPresent(with: RekognitionClientTypes.CoversBodyPart.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.CoversBodyPart {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.CoversBodyPart {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.CoversBodyPart()
-        value.confidence = try reader["Confidence"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension RekognitionClientTypes.ProtectiveEquipmentSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProtectiveEquipmentSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.ProtectiveEquipmentSummary()
-        value.personsWithRequiredEquipment = try reader["PersonsWithRequiredEquipment"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.personsWithoutRequiredEquipment = try reader["PersonsWithoutRequiredEquipment"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.personsIndeterminate = try reader["PersonsIndeterminate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RekognitionClientTypes.TextDetection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TextDetection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.TextDetection()
-        value.detectedText = try reader["DetectedText"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.parentId = try reader["ParentId"].readIfPresent()
-        value.confidence = try reader["Confidence"].readIfPresent()
-        value.geometry = try reader["Geometry"].readIfPresent(with: RekognitionClientTypes.Geometry.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.DisassociatedFace {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DisassociatedFace {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DisassociatedFace()
-        value.faceId = try reader["FaceId"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.UnsuccessfulFaceDisassociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UnsuccessfulFaceDisassociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.UnsuccessfulFaceDisassociation()
-        value.faceId = try reader["FaceId"].readIfPresent()
-        value.userId = try reader["UserId"].readIfPresent()
-        value.reasons = try reader["Reasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RekognitionClientTypes.UnsuccessfulFaceDisassociationReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RekognitionClientTypes.KnownGender {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.KnownGender {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.KnownGender()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.VideoMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.VideoMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.VideoMetadata()
-        value.codec = try reader["Codec"].readIfPresent()
-        value.durationMillis = try reader["DurationMillis"].readIfPresent()
-        value.format = try reader["Format"].readIfPresent()
-        value.frameRate = try reader["FrameRate"].readIfPresent()
-        value.frameHeight = try reader["FrameHeight"].readIfPresent()
-        value.frameWidth = try reader["FrameWidth"].readIfPresent()
-        value.colorRange = try reader["ColorRange"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.CelebrityRecognition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.CelebrityRecognition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.CelebrityRecognition()
-        value.timestamp = try reader["Timestamp"].readIfPresent() ?? 0
-        value.celebrity = try reader["Celebrity"].readIfPresent(with: RekognitionClientTypes.CelebrityDetail.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.CelebrityDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.CelebrityDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.CelebrityDetail()
-        value.urls = try reader["Urls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["Name"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.confidence = try reader["Confidence"].readIfPresent()
-        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
-        value.face = try reader["Face"].readIfPresent(with: RekognitionClientTypes.FaceDetail.read(from:))
-        value.knownGender = try reader["KnownGender"].readIfPresent(with: RekognitionClientTypes.KnownGender.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.Video {
-
-    static func write(value: RekognitionClientTypes.Video?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Object"].write(value.s3Object, with: RekognitionClientTypes.S3Object.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Video {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Video()
-        value.s3Object = try reader["S3Object"].readIfPresent(with: RekognitionClientTypes.S3Object.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.ContentModerationDetection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ContentModerationDetection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.ContentModerationDetection()
-        value.timestamp = try reader["Timestamp"].readIfPresent() ?? 0
-        value.moderationLabel = try reader["ModerationLabel"].readIfPresent(with: RekognitionClientTypes.ModerationLabel.read(from:))
-        value.startTimestampMillis = try reader["StartTimestampMillis"].readIfPresent()
-        value.endTimestampMillis = try reader["EndTimestampMillis"].readIfPresent()
-        value.durationMillis = try reader["DurationMillis"].readIfPresent()
-        value.contentTypes = try reader["ContentTypes"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.ContentType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RekognitionClientTypes.GetContentModerationRequestMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.GetContentModerationRequestMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.GetContentModerationRequestMetadata()
-        value.sortBy = try reader["SortBy"].readIfPresent()
-        value.aggregateBy = try reader["AggregateBy"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.FaceDetection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.FaceDetection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.FaceDetection()
-        value.timestamp = try reader["Timestamp"].readIfPresent() ?? 0
-        value.face = try reader["Face"].readIfPresent(with: RekognitionClientTypes.FaceDetail.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.AuditImage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.AuditImage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.AuditImage()
-        value.bytes = try reader["Bytes"].readIfPresent()
-        value.s3Object = try reader["S3Object"].readIfPresent(with: RekognitionClientTypes.S3Object.read(from:))
-        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.Challenge {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Challenge {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Challenge()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.version = try reader["Version"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension RekognitionClientTypes.PersonMatch {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.PersonMatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.PersonMatch()
-        value.timestamp = try reader["Timestamp"].readIfPresent() ?? 0
-        value.person = try reader["Person"].readIfPresent(with: RekognitionClientTypes.PersonDetail.read(from:))
-        value.faceMatches = try reader["FaceMatches"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.FaceMatch.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RekognitionClientTypes.FaceMatch {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.FaceMatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.FaceMatch()
-        value.similarity = try reader["Similarity"].readIfPresent()
-        value.face = try reader["Face"].readIfPresent(with: RekognitionClientTypes.Face.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.Face {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Face {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Face()
-        value.faceId = try reader["FaceId"].readIfPresent()
-        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
-        value.imageId = try reader["ImageId"].readIfPresent()
-        value.externalImageId = try reader["ExternalImageId"].readIfPresent()
-        value.confidence = try reader["Confidence"].readIfPresent()
-        value.indexFacesModelVersion = try reader["IndexFacesModelVersion"].readIfPresent()
-        value.userId = try reader["UserId"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.PersonDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.PersonDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.PersonDetail()
-        value.index = try reader["Index"].readIfPresent() ?? 0
-        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
-        value.face = try reader["Face"].readIfPresent(with: RekognitionClientTypes.FaceDetail.read(from:))
         return value
     }
 }
@@ -14192,28 +13889,42 @@ extension RekognitionClientTypes.LabelDetection {
     }
 }
 
-extension RekognitionClientTypes.GetLabelDetectionRequestMetadata {
+extension RekognitionClientTypes.LabelDetectionSettings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.GetLabelDetectionRequestMetadata {
+    static func write(value: RekognitionClientTypes.LabelDetectionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GeneralLabels"].write(value.generalLabels, with: RekognitionClientTypes.GeneralLabelsSettings.write(value:to:))
+    }
+}
+
+extension RekognitionClientTypes.Landmark {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Landmark {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.GetLabelDetectionRequestMetadata()
-        value.sortBy = try reader["SortBy"].readIfPresent()
-        value.aggregateBy = try reader["AggregateBy"].readIfPresent()
+        var value = RekognitionClientTypes.Landmark()
+        value.type = try reader["Type"].readIfPresent()
+        value.x = try reader["X"].readIfPresent()
+        value.y = try reader["Y"].readIfPresent()
         return value
     }
 }
 
-extension RekognitionClientTypes.MediaAnalysisOperationsConfig {
+extension RekognitionClientTypes.LivenessOutputConfig {
 
-    static func write(value: RekognitionClientTypes.MediaAnalysisOperationsConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: RekognitionClientTypes.LivenessOutputConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DetectModerationLabels"].write(value.detectModerationLabels, with: RekognitionClientTypes.MediaAnalysisDetectModerationLabelsConfig.write(value:to:))
+        try writer["S3Bucket"].write(value.s3Bucket)
+        try writer["S3KeyPrefix"].write(value.s3KeyPrefix)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisOperationsConfig {
+extension RekognitionClientTypes.MatchedUser {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MatchedUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.MediaAnalysisOperationsConfig()
-        value.detectModerationLabels = try reader["DetectModerationLabels"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisDetectModerationLabelsConfig.read(from:))
+        var value = RekognitionClientTypes.MatchedUser()
+        value.userId = try reader["UserId"].readIfPresent()
+        value.userStatus = try reader["UserStatus"].readIfPresent()
         return value
     }
 }
@@ -14235,17 +13946,6 @@ extension RekognitionClientTypes.MediaAnalysisDetectModerationLabelsConfig {
     }
 }
 
-extension RekognitionClientTypes.MediaAnalysisJobFailureDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisJobFailureDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.MediaAnalysisJobFailureDetails()
-        value.code = try reader["Code"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 extension RekognitionClientTypes.MediaAnalysisInput {
 
     static func write(value: RekognitionClientTypes.MediaAnalysisInput?, to writer: SmithyJSON.Writer) throws {
@@ -14257,6 +13957,73 @@ extension RekognitionClientTypes.MediaAnalysisInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RekognitionClientTypes.MediaAnalysisInput()
         value.s3Object = try reader["S3Object"].readIfPresent(with: RekognitionClientTypes.S3Object.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.MediaAnalysisJobDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisJobDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.MediaAnalysisJobDescription()
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.jobName = try reader["JobName"].readIfPresent()
+        value.operationsConfig = try reader["OperationsConfig"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisOperationsConfig.read(from:))
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisJobFailureDetails.read(from:))
+        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.completionTimestamp = try reader["CompletionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.input = try reader["Input"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisInput.read(from:))
+        value.outputConfig = try reader["OutputConfig"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisOutputConfig.read(from:))
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.results = try reader["Results"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisResults.read(from:))
+        value.manifestSummary = try reader["ManifestSummary"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisManifestSummary.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.MediaAnalysisJobFailureDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisJobFailureDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.MediaAnalysisJobFailureDetails()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.MediaAnalysisManifestSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisManifestSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.MediaAnalysisManifestSummary()
+        value.s3Object = try reader["S3Object"].readIfPresent(with: RekognitionClientTypes.S3Object.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.MediaAnalysisModelVersions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisModelVersions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.MediaAnalysisModelVersions()
+        value.moderation = try reader["Moderation"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.MediaAnalysisOperationsConfig {
+
+    static func write(value: RekognitionClientTypes.MediaAnalysisOperationsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DetectModerationLabels"].write(value.detectModerationLabels, with: RekognitionClientTypes.MediaAnalysisDetectModerationLabelsConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisOperationsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.MediaAnalysisOperationsConfig()
+        value.detectModerationLabels = try reader["DetectModerationLabels"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisDetectModerationLabelsConfig.read(from:))
         return value
     }
 }
@@ -14289,22 +14056,85 @@ extension RekognitionClientTypes.MediaAnalysisResults {
     }
 }
 
-extension RekognitionClientTypes.MediaAnalysisModelVersions {
+extension RekognitionClientTypes.ModerationLabel {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisModelVersions {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ModerationLabel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.MediaAnalysisModelVersions()
-        value.moderation = try reader["Moderation"].readIfPresent()
+        var value = RekognitionClientTypes.ModerationLabel()
+        value.confidence = try reader["Confidence"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.parentName = try reader["ParentName"].readIfPresent()
+        value.taxonomyLevel = try reader["TaxonomyLevel"].readIfPresent()
         return value
     }
 }
 
-extension RekognitionClientTypes.MediaAnalysisManifestSummary {
+extension RekognitionClientTypes.MouthOpen {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisManifestSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MouthOpen {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.MediaAnalysisManifestSummary()
-        value.s3Object = try reader["S3Object"].readIfPresent(with: RekognitionClientTypes.S3Object.read(from:))
+        var value = RekognitionClientTypes.MouthOpen()
+        value.value = try reader["Value"].readIfPresent() ?? false
+        value.confidence = try reader["Confidence"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.Mustache {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Mustache {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.Mustache()
+        value.value = try reader["Value"].readIfPresent() ?? false
+        value.confidence = try reader["Confidence"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.NotificationChannel {
+
+    static func write(value: RekognitionClientTypes.NotificationChannel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["SNSTopicArn"].write(value.snsTopicArn)
+    }
+}
+
+extension RekognitionClientTypes.OutputConfig {
+
+    static func write(value: RekognitionClientTypes.OutputConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Bucket"].write(value.s3Bucket)
+        try writer["S3KeyPrefix"].write(value.s3KeyPrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.OutputConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.OutputConfig()
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
+        value.s3KeyPrefix = try reader["S3KeyPrefix"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.Parent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Parent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.Parent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.PersonDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.PersonDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.PersonDetail()
+        value.index = try reader["Index"].readIfPresent() ?? 0
+        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
+        value.face = try reader["Face"].readIfPresent(with: RekognitionClientTypes.FaceDetail.read(from:))
         return value
     }
 }
@@ -14320,15 +14150,230 @@ extension RekognitionClientTypes.PersonDetection {
     }
 }
 
-extension RekognitionClientTypes.AudioMetadata {
+extension RekognitionClientTypes.PersonMatch {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.AudioMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.PersonMatch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.AudioMetadata()
-        value.codec = try reader["Codec"].readIfPresent()
-        value.durationMillis = try reader["DurationMillis"].readIfPresent()
-        value.sampleRate = try reader["SampleRate"].readIfPresent()
-        value.numberOfChannels = try reader["NumberOfChannels"].readIfPresent()
+        var value = RekognitionClientTypes.PersonMatch()
+        value.timestamp = try reader["Timestamp"].readIfPresent() ?? 0
+        value.person = try reader["Person"].readIfPresent(with: RekognitionClientTypes.PersonDetail.read(from:))
+        value.faceMatches = try reader["FaceMatches"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.FaceMatch.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RekognitionClientTypes.Point {
+
+    static func write(value: RekognitionClientTypes.Point?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["X"].write(value.x)
+        try writer["Y"].write(value.y)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Point {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.Point()
+        value.x = try reader["X"].readIfPresent()
+        value.y = try reader["Y"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.Pose {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Pose {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.Pose()
+        value.roll = try reader["Roll"].readIfPresent()
+        value.yaw = try reader["Yaw"].readIfPresent()
+        value.pitch = try reader["Pitch"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.ProjectDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProjectDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.ProjectDescription()
+        value.projectArn = try reader["ProjectArn"].readIfPresent()
+        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.datasets = try reader["Datasets"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.DatasetMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.feature = try reader["Feature"].readIfPresent()
+        value.autoUpdate = try reader["AutoUpdate"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.ProjectPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProjectPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.ProjectPolicy()
+        value.projectArn = try reader["ProjectArn"].readIfPresent()
+        value.policyName = try reader["PolicyName"].readIfPresent()
+        value.policyRevisionId = try reader["PolicyRevisionId"].readIfPresent()
+        value.policyDocument = try reader["PolicyDocument"].readIfPresent()
+        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension RekognitionClientTypes.ProjectVersionDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProjectVersionDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.ProjectVersionDescription()
+        value.projectVersionArn = try reader["ProjectVersionArn"].readIfPresent()
+        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.minInferenceUnits = try reader["MinInferenceUnits"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.billableTrainingTimeInSeconds = try reader["BillableTrainingTimeInSeconds"].readIfPresent()
+        value.trainingEndTimestamp = try reader["TrainingEndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.outputConfig = try reader["OutputConfig"].readIfPresent(with: RekognitionClientTypes.OutputConfig.read(from:))
+        value.trainingDataResult = try reader["TrainingDataResult"].readIfPresent(with: RekognitionClientTypes.TrainingDataResult.read(from:))
+        value.testingDataResult = try reader["TestingDataResult"].readIfPresent(with: RekognitionClientTypes.TestingDataResult.read(from:))
+        value.evaluationResult = try reader["EvaluationResult"].readIfPresent(with: RekognitionClientTypes.EvaluationResult.read(from:))
+        value.manifestSummary = try reader["ManifestSummary"].readIfPresent(with: RekognitionClientTypes.GroundTruthManifest.read(from:))
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.maxInferenceUnits = try reader["MaxInferenceUnits"].readIfPresent()
+        value.sourceProjectVersionArn = try reader["SourceProjectVersionArn"].readIfPresent()
+        value.versionDescription = try reader["VersionDescription"].readIfPresent()
+        value.feature = try reader["Feature"].readIfPresent()
+        value.baseModelVersion = try reader["BaseModelVersion"].readIfPresent()
+        value.featureConfig = try reader["FeatureConfig"].readIfPresent(with: RekognitionClientTypes.CustomizationFeatureConfig.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.ProtectiveEquipmentBodyPart {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProtectiveEquipmentBodyPart {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.ProtectiveEquipmentBodyPart()
+        value.name = try reader["Name"].readIfPresent()
+        value.confidence = try reader["Confidence"].readIfPresent()
+        value.equipmentDetections = try reader["EquipmentDetections"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.EquipmentDetection.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RekognitionClientTypes.ProtectiveEquipmentPerson {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProtectiveEquipmentPerson {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.ProtectiveEquipmentPerson()
+        value.bodyParts = try reader["BodyParts"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.ProtectiveEquipmentBodyPart.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
+        value.confidence = try reader["Confidence"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.ProtectiveEquipmentSummarizationAttributes {
+
+    static func write(value: RekognitionClientTypes.ProtectiveEquipmentSummarizationAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MinConfidence"].write(value.minConfidence)
+        try writer["RequiredEquipmentTypes"].writeList(value.requiredEquipmentTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<RekognitionClientTypes.ProtectiveEquipmentType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension RekognitionClientTypes.ProtectiveEquipmentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProtectiveEquipmentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.ProtectiveEquipmentSummary()
+        value.personsWithRequiredEquipment = try reader["PersonsWithRequiredEquipment"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.personsWithoutRequiredEquipment = try reader["PersonsWithoutRequiredEquipment"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.personsIndeterminate = try reader["PersonsIndeterminate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RekognitionClientTypes.RegionOfInterest {
+
+    static func write(value: RekognitionClientTypes.RegionOfInterest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BoundingBox"].write(value.boundingBox, with: RekognitionClientTypes.BoundingBox.write(value:to:))
+        try writer["Polygon"].writeList(value.polygon, memberWritingClosure: RekognitionClientTypes.Point.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.RegionOfInterest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.RegionOfInterest()
+        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: RekognitionClientTypes.BoundingBox.read(from:))
+        value.polygon = try reader["Polygon"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.Point.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RekognitionClientTypes.S3Destination {
+
+    static func write(value: RekognitionClientTypes.S3Destination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["KeyPrefix"].write(value.keyPrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.S3Destination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.S3Destination()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.keyPrefix = try reader["KeyPrefix"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.S3Object {
+
+    static func write(value: RekognitionClientTypes.S3Object?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["Name"].write(value.name)
+        try writer["Version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.S3Object {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.S3Object()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.SearchedFace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.SearchedFace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.SearchedFace()
+        value.faceId = try reader["FaceId"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.SearchedFaceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.SearchedFaceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.SearchedFaceDetails()
+        value.faceDetail = try reader["FaceDetail"].readIfPresent(with: RekognitionClientTypes.FaceDetail.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.SearchedUser {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.SearchedUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.SearchedUser()
+        value.userId = try reader["UserId"].readIfPresent()
         return value
     }
 }
@@ -14354,28 +14399,6 @@ extension RekognitionClientTypes.SegmentDetection {
     }
 }
 
-extension RekognitionClientTypes.ShotSegment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ShotSegment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.ShotSegment()
-        value.index = try reader["Index"].readIfPresent()
-        value.confidence = try reader["Confidence"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.TechnicalCueSegment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TechnicalCueSegment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.TechnicalCueSegment()
-        value.type = try reader["Type"].readIfPresent()
-        value.confidence = try reader["Confidence"].readIfPresent()
-        return value
-    }
-}
-
 extension RekognitionClientTypes.SegmentTypeInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.SegmentTypeInfo {
@@ -14387,348 +14410,25 @@ extension RekognitionClientTypes.SegmentTypeInfo {
     }
 }
 
-extension RekognitionClientTypes.TextDetectionResult {
+extension RekognitionClientTypes.ShotSegment {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TextDetectionResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ShotSegment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.TextDetectionResult()
-        value.timestamp = try reader["Timestamp"].readIfPresent() ?? 0
-        value.textDetection = try reader["TextDetection"].readIfPresent(with: RekognitionClientTypes.TextDetection.read(from:))
+        var value = RekognitionClientTypes.ShotSegment()
+        value.index = try reader["Index"].readIfPresent()
+        value.confidence = try reader["Confidence"].readIfPresent()
         return value
     }
 }
 
-extension RekognitionClientTypes.FaceRecord {
+extension RekognitionClientTypes.Smile {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.FaceRecord {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Smile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.FaceRecord()
-        value.face = try reader["Face"].readIfPresent(with: RekognitionClientTypes.Face.read(from:))
-        value.faceDetail = try reader["FaceDetail"].readIfPresent(with: RekognitionClientTypes.FaceDetail.read(from:))
+        var value = RekognitionClientTypes.Smile()
+        value.value = try reader["Value"].readIfPresent() ?? false
+        value.confidence = try reader["Confidence"].readIfPresent()
         return value
-    }
-}
-
-extension RekognitionClientTypes.UnindexedFace {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UnindexedFace {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.UnindexedFace()
-        value.reasons = try reader["Reasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RekognitionClientTypes.Reason>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.faceDetail = try reader["FaceDetail"].readIfPresent(with: RekognitionClientTypes.FaceDetail.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.DatasetLabelDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetLabelDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DatasetLabelDescription()
-        value.labelName = try reader["LabelName"].readIfPresent()
-        value.labelStats = try reader["LabelStats"].readIfPresent(with: RekognitionClientTypes.DatasetLabelStats.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.DatasetLabelStats {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.DatasetLabelStats {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.DatasetLabelStats()
-        value.entryCount = try reader["EntryCount"].readIfPresent()
-        value.boundingBoxCount = try reader["BoundingBoxCount"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.MediaAnalysisJobDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MediaAnalysisJobDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.MediaAnalysisJobDescription()
-        value.jobId = try reader["JobId"].readIfPresent() ?? ""
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.operationsConfig = try reader["OperationsConfig"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisOperationsConfig.read(from:))
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.failureDetails = try reader["FailureDetails"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisJobFailureDetails.read(from:))
-        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.completionTimestamp = try reader["CompletionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.input = try reader["Input"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisInput.read(from:))
-        value.outputConfig = try reader["OutputConfig"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisOutputConfig.read(from:))
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.results = try reader["Results"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisResults.read(from:))
-        value.manifestSummary = try reader["ManifestSummary"].readIfPresent(with: RekognitionClientTypes.MediaAnalysisManifestSummary.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.ProjectPolicy {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ProjectPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.ProjectPolicy()
-        value.projectArn = try reader["ProjectArn"].readIfPresent()
-        value.policyName = try reader["PolicyName"].readIfPresent()
-        value.policyRevisionId = try reader["PolicyRevisionId"].readIfPresent()
-        value.policyDocument = try reader["PolicyDocument"].readIfPresent()
-        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension RekognitionClientTypes.StreamProcessor {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessor {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.StreamProcessor()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.User {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.User {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.User()
-        value.userId = try reader["UserId"].readIfPresent()
-        value.userStatus = try reader["UserStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.Celebrity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Celebrity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.Celebrity()
-        value.urls = try reader["Urls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["Name"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.face = try reader["Face"].readIfPresent(with: RekognitionClientTypes.ComparedFace.read(from:))
-        value.matchConfidence = try reader["MatchConfidence"].readIfPresent()
-        value.knownGender = try reader["KnownGender"].readIfPresent(with: RekognitionClientTypes.KnownGender.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.UserMatch {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UserMatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.UserMatch()
-        value.similarity = try reader["Similarity"].readIfPresent()
-        value.user = try reader["User"].readIfPresent(with: RekognitionClientTypes.MatchedUser.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.MatchedUser {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.MatchedUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.MatchedUser()
-        value.userId = try reader["UserId"].readIfPresent()
-        value.userStatus = try reader["UserStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.SearchedFace {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.SearchedFace {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.SearchedFace()
-        value.faceId = try reader["FaceId"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.SearchedUser {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.SearchedUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.SearchedUser()
-        value.userId = try reader["UserId"].readIfPresent()
-        return value
-    }
-}
-
-extension RekognitionClientTypes.SearchedFaceDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.SearchedFaceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.SearchedFaceDetails()
-        value.faceDetail = try reader["FaceDetail"].readIfPresent(with: RekognitionClientTypes.FaceDetail.read(from:))
-        return value
-    }
-}
-
-extension RekognitionClientTypes.UnsearchedFace {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UnsearchedFace {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RekognitionClientTypes.UnsearchedFace()
-        value.faceDetails = try reader["FaceDetails"].readIfPresent(with: RekognitionClientTypes.FaceDetail.read(from:))
-        value.reasons = try reader["Reasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RekognitionClientTypes.UnsearchedFaceReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RekognitionClientTypes.Image {
-
-    static func write(value: RekognitionClientTypes.Image?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bytes"].write(value.bytes)
-        try writer["S3Object"].write(value.s3Object, with: RekognitionClientTypes.S3Object.write(value:to:))
-    }
-}
-
-extension RekognitionClientTypes.DatasetSource {
-
-    static func write(value: RekognitionClientTypes.DatasetSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DatasetArn"].write(value.datasetArn)
-        try writer["GroundTruthManifest"].write(value.groundTruthManifest, with: RekognitionClientTypes.GroundTruthManifest.write(value:to:))
-    }
-}
-
-extension RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings {
-
-    static func write(value: RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuditImagesLimit"].write(value.auditImagesLimit)
-        try writer["ChallengePreferences"].writeList(value.challengePreferences, memberWritingClosure: RekognitionClientTypes.ChallengePreference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OutputConfig"].write(value.outputConfig, with: RekognitionClientTypes.LivenessOutputConfig.write(value:to:))
-    }
-}
-
-extension RekognitionClientTypes.ChallengePreference {
-
-    static func write(value: RekognitionClientTypes.ChallengePreference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Versions"].write(value.versions, with: RekognitionClientTypes.Versions.write(value:to:))
-    }
-}
-
-extension RekognitionClientTypes.Versions {
-
-    static func write(value: RekognitionClientTypes.Versions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Maximum"].write(value.maximum)
-        try writer["Minimum"].write(value.minimum)
-    }
-}
-
-extension RekognitionClientTypes.LivenessOutputConfig {
-
-    static func write(value: RekognitionClientTypes.LivenessOutputConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Bucket"].write(value.s3Bucket)
-        try writer["S3KeyPrefix"].write(value.s3KeyPrefix)
-    }
-}
-
-extension RekognitionClientTypes.DetectLabelsSettings {
-
-    static func write(value: RekognitionClientTypes.DetectLabelsSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GeneralLabels"].write(value.generalLabels, with: RekognitionClientTypes.GeneralLabelsSettings.write(value:to:))
-        try writer["ImageProperties"].write(value.imageProperties, with: RekognitionClientTypes.DetectLabelsImagePropertiesSettings.write(value:to:))
-    }
-}
-
-extension RekognitionClientTypes.DetectLabelsImagePropertiesSettings {
-
-    static func write(value: RekognitionClientTypes.DetectLabelsImagePropertiesSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxDominantColors"].write(value.maxDominantColors)
-    }
-}
-
-extension RekognitionClientTypes.GeneralLabelsSettings {
-
-    static func write(value: RekognitionClientTypes.GeneralLabelsSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LabelCategoryExclusionFilters"].writeList(value.labelCategoryExclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LabelCategoryInclusionFilters"].writeList(value.labelCategoryInclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LabelExclusionFilters"].writeList(value.labelExclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LabelInclusionFilters"].writeList(value.labelInclusionFilters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension RekognitionClientTypes.HumanLoopConfig {
-
-    static func write(value: RekognitionClientTypes.HumanLoopConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAttributes"].write(value.dataAttributes, with: RekognitionClientTypes.HumanLoopDataAttributes.write(value:to:))
-        try writer["FlowDefinitionArn"].write(value.flowDefinitionArn)
-        try writer["HumanLoopName"].write(value.humanLoopName)
-    }
-}
-
-extension RekognitionClientTypes.HumanLoopDataAttributes {
-
-    static func write(value: RekognitionClientTypes.HumanLoopDataAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContentClassifiers"].writeList(value.contentClassifiers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<RekognitionClientTypes.ContentClassifier>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension RekognitionClientTypes.ProtectiveEquipmentSummarizationAttributes {
-
-    static func write(value: RekognitionClientTypes.ProtectiveEquipmentSummarizationAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MinConfidence"].write(value.minConfidence)
-        try writer["RequiredEquipmentTypes"].writeList(value.requiredEquipmentTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<RekognitionClientTypes.ProtectiveEquipmentType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension RekognitionClientTypes.DetectTextFilters {
-
-    static func write(value: RekognitionClientTypes.DetectTextFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RegionsOfInterest"].writeList(value.regionsOfInterest, memberWritingClosure: RekognitionClientTypes.RegionOfInterest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["WordFilter"].write(value.wordFilter, with: RekognitionClientTypes.DetectionFilter.write(value:to:))
-    }
-}
-
-extension RekognitionClientTypes.DetectionFilter {
-
-    static func write(value: RekognitionClientTypes.DetectionFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MinBoundingBoxHeight"].write(value.minBoundingBoxHeight)
-        try writer["MinBoundingBoxWidth"].write(value.minBoundingBoxWidth)
-        try writer["MinConfidence"].write(value.minConfidence)
-    }
-}
-
-extension RekognitionClientTypes.DistributeDataset {
-
-    static func write(value: RekognitionClientTypes.DistributeDataset?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
-}
-
-extension RekognitionClientTypes.NotificationChannel {
-
-    static func write(value: RekognitionClientTypes.NotificationChannel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["SNSTopicArn"].write(value.snsTopicArn)
-    }
-}
-
-extension RekognitionClientTypes.LabelDetectionSettings {
-
-    static func write(value: RekognitionClientTypes.LabelDetectionSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GeneralLabels"].write(value.generalLabels, with: RekognitionClientTypes.GeneralLabelsSettings.write(value:to:))
     }
 }
 
@@ -14758,12 +14458,12 @@ extension RekognitionClientTypes.StartTechnicalCueDetectionFilter {
     }
 }
 
-extension RekognitionClientTypes.BlackFrame {
+extension RekognitionClientTypes.StartTextDetectionFilters {
 
-    static func write(value: RekognitionClientTypes.BlackFrame?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: RekognitionClientTypes.StartTextDetectionFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["MaxPixelThreshold"].write(value.maxPixelThreshold)
-        try writer["MinCoveragePercentage"].write(value.minCoveragePercentage)
+        try writer["RegionsOfInterest"].writeList(value.regionsOfInterest, memberWritingClosure: RekognitionClientTypes.RegionOfInterest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WordFilter"].write(value.wordFilter, with: RekognitionClientTypes.DetectionFilter.write(value:to:))
     }
 }
 
@@ -14775,15 +14475,6 @@ extension RekognitionClientTypes.StreamProcessingStartSelector {
     }
 }
 
-extension RekognitionClientTypes.KinesisVideoStreamStartSelector {
-
-    static func write(value: RekognitionClientTypes.KinesisVideoStreamStartSelector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FragmentNumber"].write(value.fragmentNumber)
-        try writer["ProducerTimestamp"].write(value.producerTimestamp)
-    }
-}
-
 extension RekognitionClientTypes.StreamProcessingStopSelector {
 
     static func write(value: RekognitionClientTypes.StreamProcessingStopSelector?, to writer: SmithyJSON.Writer) throws {
@@ -14792,20 +14483,93 @@ extension RekognitionClientTypes.StreamProcessingStopSelector {
     }
 }
 
-extension RekognitionClientTypes.StartTextDetectionFilters {
+extension RekognitionClientTypes.StreamProcessor {
 
-    static func write(value: RekognitionClientTypes.StartTextDetectionFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RegionsOfInterest"].writeList(value.regionsOfInterest, memberWritingClosure: RekognitionClientTypes.RegionOfInterest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["WordFilter"].write(value.wordFilter, with: RekognitionClientTypes.DetectionFilter.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.StreamProcessor()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
-extension RekognitionClientTypes.DatasetChanges {
+extension RekognitionClientTypes.StreamProcessorDataSharingPreference {
 
-    static func write(value: RekognitionClientTypes.DatasetChanges?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: RekognitionClientTypes.StreamProcessorDataSharingPreference?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["GroundTruth"].write(value.groundTruth)
+        try writer["OptIn"].write(value.optIn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessorDataSharingPreference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.StreamProcessorDataSharingPreference()
+        value.optIn = try reader["OptIn"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension RekognitionClientTypes.StreamProcessorInput {
+
+    static func write(value: RekognitionClientTypes.StreamProcessorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KinesisVideoStream"].write(value.kinesisVideoStream, with: RekognitionClientTypes.KinesisVideoStream.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessorInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.StreamProcessorInput()
+        value.kinesisVideoStream = try reader["KinesisVideoStream"].readIfPresent(with: RekognitionClientTypes.KinesisVideoStream.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.StreamProcessorNotificationChannel {
+
+    static func write(value: RekognitionClientTypes.StreamProcessorNotificationChannel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SNSTopicArn"].write(value.snsTopicArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessorNotificationChannel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.StreamProcessorNotificationChannel()
+        value.snsTopicArn = try reader["SNSTopicArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension RekognitionClientTypes.StreamProcessorOutput {
+
+    static func write(value: RekognitionClientTypes.StreamProcessorOutput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KinesisDataStream"].write(value.kinesisDataStream, with: RekognitionClientTypes.KinesisDataStream.write(value:to:))
+        try writer["S3Destination"].write(value.s3Destination, with: RekognitionClientTypes.S3Destination.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessorOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.StreamProcessorOutput()
+        value.kinesisDataStream = try reader["KinesisDataStream"].readIfPresent(with: RekognitionClientTypes.KinesisDataStream.read(from:))
+        value.s3Destination = try reader["S3Destination"].readIfPresent(with: RekognitionClientTypes.S3Destination.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.StreamProcessorSettings {
+
+    static func write(value: RekognitionClientTypes.StreamProcessorSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectedHome"].write(value.connectedHome, with: RekognitionClientTypes.ConnectedHomeSettings.write(value:to:))
+        try writer["FaceSearch"].write(value.faceSearch, with: RekognitionClientTypes.FaceSearchSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.StreamProcessorSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.StreamProcessorSettings()
+        value.faceSearch = try reader["FaceSearch"].readIfPresent(with: RekognitionClientTypes.FaceSearchSettings.read(from:))
+        value.connectedHome = try reader["ConnectedHome"].readIfPresent(with: RekognitionClientTypes.ConnectedHomeSettings.read(from:))
+        return value
     }
 }
 
@@ -14817,12 +14581,248 @@ extension RekognitionClientTypes.StreamProcessorSettingsForUpdate {
     }
 }
 
-extension RekognitionClientTypes.ConnectedHomeSettingsForUpdate {
+extension RekognitionClientTypes.Summary {
 
-    static func write(value: RekognitionClientTypes.ConnectedHomeSettingsForUpdate?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Summary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.Summary()
+        value.s3Object = try reader["S3Object"].readIfPresent(with: RekognitionClientTypes.S3Object.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.Sunglasses {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Sunglasses {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.Sunglasses()
+        value.value = try reader["Value"].readIfPresent() ?? false
+        value.confidence = try reader["Confidence"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.TechnicalCueSegment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TechnicalCueSegment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.TechnicalCueSegment()
+        value.type = try reader["Type"].readIfPresent()
+        value.confidence = try reader["Confidence"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.TestingData {
+
+    static func write(value: RekognitionClientTypes.TestingData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Labels"].writeList(value.labels, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MinConfidence"].write(value.minConfidence)
+        try writer["Assets"].writeList(value.assets, memberWritingClosure: RekognitionClientTypes.Asset.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AutoCreate"].write(value.autoCreate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TestingData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.TestingData()
+        value.assets = try reader["Assets"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.Asset.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.autoCreate = try reader["AutoCreate"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension RekognitionClientTypes.TestingDataResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TestingDataResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.TestingDataResult()
+        value.input = try reader["Input"].readIfPresent(with: RekognitionClientTypes.TestingData.read(from:))
+        value.output = try reader["Output"].readIfPresent(with: RekognitionClientTypes.TestingData.read(from:))
+        value.validation = try reader["Validation"].readIfPresent(with: RekognitionClientTypes.ValidationData.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.TextDetection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TextDetection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.TextDetection()
+        value.detectedText = try reader["DetectedText"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.parentId = try reader["ParentId"].readIfPresent()
+        value.confidence = try reader["Confidence"].readIfPresent()
+        value.geometry = try reader["Geometry"].readIfPresent(with: RekognitionClientTypes.Geometry.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.TextDetectionResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TextDetectionResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.TextDetectionResult()
+        value.timestamp = try reader["Timestamp"].readIfPresent() ?? 0
+        value.textDetection = try reader["TextDetection"].readIfPresent(with: RekognitionClientTypes.TextDetection.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.TrainingData {
+
+    static func write(value: RekognitionClientTypes.TrainingData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Assets"].writeList(value.assets, memberWritingClosure: RekognitionClientTypes.Asset.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TrainingData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.TrainingData()
+        value.assets = try reader["Assets"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.Asset.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RekognitionClientTypes.TrainingDataResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.TrainingDataResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.TrainingDataResult()
+        value.input = try reader["Input"].readIfPresent(with: RekognitionClientTypes.TrainingData.read(from:))
+        value.output = try reader["Output"].readIfPresent(with: RekognitionClientTypes.TrainingData.read(from:))
+        value.validation = try reader["Validation"].readIfPresent(with: RekognitionClientTypes.ValidationData.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.UnindexedFace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UnindexedFace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.UnindexedFace()
+        value.reasons = try reader["Reasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RekognitionClientTypes.Reason>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.faceDetail = try reader["FaceDetail"].readIfPresent(with: RekognitionClientTypes.FaceDetail.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.UnsearchedFace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UnsearchedFace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.UnsearchedFace()
+        value.faceDetails = try reader["FaceDetails"].readIfPresent(with: RekognitionClientTypes.FaceDetail.read(from:))
+        value.reasons = try reader["Reasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RekognitionClientTypes.UnsearchedFaceReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RekognitionClientTypes.UnsuccessfulFaceAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UnsuccessfulFaceAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.UnsuccessfulFaceAssociation()
+        value.faceId = try reader["FaceId"].readIfPresent()
+        value.userId = try reader["UserId"].readIfPresent()
+        value.confidence = try reader["Confidence"].readIfPresent()
+        value.reasons = try reader["Reasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RekognitionClientTypes.UnsuccessfulFaceAssociationReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RekognitionClientTypes.UnsuccessfulFaceDeletion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UnsuccessfulFaceDeletion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.UnsuccessfulFaceDeletion()
+        value.faceId = try reader["FaceId"].readIfPresent()
+        value.userId = try reader["UserId"].readIfPresent()
+        value.reasons = try reader["Reasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RekognitionClientTypes.UnsuccessfulFaceDeletionReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RekognitionClientTypes.UnsuccessfulFaceDisassociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UnsuccessfulFaceDisassociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.UnsuccessfulFaceDisassociation()
+        value.faceId = try reader["FaceId"].readIfPresent()
+        value.userId = try reader["UserId"].readIfPresent()
+        value.reasons = try reader["Reasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RekognitionClientTypes.UnsuccessfulFaceDisassociationReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RekognitionClientTypes.User {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.User {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.User()
+        value.userId = try reader["UserId"].readIfPresent()
+        value.userStatus = try reader["UserStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension RekognitionClientTypes.UserMatch {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.UserMatch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.UserMatch()
+        value.similarity = try reader["Similarity"].readIfPresent()
+        value.user = try reader["User"].readIfPresent(with: RekognitionClientTypes.MatchedUser.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.ValidationData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.ValidationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.ValidationData()
+        value.assets = try reader["Assets"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.Asset.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RekognitionClientTypes.Versions {
+
+    static func write(value: RekognitionClientTypes.Versions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Maximum"].write(value.maximum)
+        try writer["Minimum"].write(value.minimum)
+    }
+}
+
+extension RekognitionClientTypes.Video {
+
+    static func write(value: RekognitionClientTypes.Video?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Object"].write(value.s3Object, with: RekognitionClientTypes.S3Object.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Video {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.Video()
+        value.s3Object = try reader["S3Object"].readIfPresent(with: RekognitionClientTypes.S3Object.read(from:))
+        return value
+    }
+}
+
+extension RekognitionClientTypes.VideoMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.VideoMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.VideoMetadata()
+        value.codec = try reader["Codec"].readIfPresent()
+        value.durationMillis = try reader["DurationMillis"].readIfPresent()
+        value.format = try reader["Format"].readIfPresent()
+        value.frameRate = try reader["FrameRate"].readIfPresent()
+        value.frameHeight = try reader["FrameHeight"].readIfPresent()
+        value.frameWidth = try reader["FrameWidth"].readIfPresent()
+        value.colorRange = try reader["ColorRange"].readIfPresent()
+        return value
     }
 }
 

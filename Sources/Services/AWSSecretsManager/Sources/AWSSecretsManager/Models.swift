@@ -1079,6 +1079,41 @@ extension GetSecretValueOutput: Swift.CustomDebugStringConvertible {
 
 extension SecretsManagerClientTypes {
 
+    public enum SortByType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createdDate
+        case lastAccessedDate
+        case lastChangedDate
+        case name
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortByType] {
+            return [
+                .createdDate,
+                .lastAccessedDate,
+                .lastChangedDate,
+                .name
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createdDate: return "created-date"
+            case .lastAccessedDate: return "last-accessed-date"
+            case .lastChangedDate: return "last-changed-date"
+            case .name: return "name"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecretsManagerClientTypes {
+
     public enum SortOrderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case asc
         case desc
@@ -1115,6 +1150,8 @@ public struct ListSecretsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A token that indicates where the output should continue from, if a previous call did not show all results. To get the next results, call ListSecrets again with this value.
     public var nextToken: Swift.String?
+    /// If not specified, secrets are listed by CreatedDate.
+    public var sortBy: SecretsManagerClientTypes.SortByType?
     /// Secrets are listed by CreatedDate.
     public var sortOrder: SecretsManagerClientTypes.SortOrderType?
 
@@ -1123,12 +1160,14 @@ public struct ListSecretsInput: Swift.Sendable {
         includePlannedDeletion: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        sortBy: SecretsManagerClientTypes.SortByType? = nil,
         sortOrder: SecretsManagerClientTypes.SortOrderType? = nil
     ) {
         self.filters = filters
         self.includePlannedDeletion = includePlannedDeletion
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.sortBy = sortBy
         self.sortOrder = sortOrder
     }
 }
@@ -2084,6 +2123,7 @@ extension ListSecretsInput {
         try writer["IncludePlannedDeletion"].write(value.includePlannedDeletion)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+        try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
     }
 }
@@ -3112,22 +3152,6 @@ extension PublicPolicyException {
     }
 }
 
-extension SecretsManagerClientTypes.SecretValueEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.SecretValueEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecretsManagerClientTypes.SecretValueEntry()
-        value.arn = try reader["ARN"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.versionId = try reader["VersionId"].readIfPresent()
-        value.secretBinary = try reader["SecretBinary"].readIfPresent()
-        value.secretString = try reader["SecretString"].readIfPresent()
-        value.versionStages = try reader["VersionStages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
 extension SecretsManagerClientTypes.APIErrorType {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.APIErrorType {
@@ -3137,6 +3161,41 @@ extension SecretsManagerClientTypes.APIErrorType {
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
         return value
+    }
+}
+
+extension SecretsManagerClientTypes.ExternalSecretRotationMetadataItem {
+
+    static func write(value: SecretsManagerClientTypes.ExternalSecretRotationMetadataItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.ExternalSecretRotationMetadataItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecretsManagerClientTypes.ExternalSecretRotationMetadataItem()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension SecretsManagerClientTypes.Filter {
+
+    static func write(value: SecretsManagerClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SecretsManagerClientTypes.ReplicaRegionType {
+
+    static func write(value: SecretsManagerClientTypes.ReplicaRegionType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["Region"].write(value.region)
     }
 }
 
@@ -3173,40 +3232,6 @@ extension SecretsManagerClientTypes.RotationRulesType {
     }
 }
 
-extension SecretsManagerClientTypes.ExternalSecretRotationMetadataItem {
-
-    static func write(value: SecretsManagerClientTypes.ExternalSecretRotationMetadataItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.ExternalSecretRotationMetadataItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecretsManagerClientTypes.ExternalSecretRotationMetadataItem()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension SecretsManagerClientTypes.Tag {
-
-    static func write(value: SecretsManagerClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecretsManagerClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
 extension SecretsManagerClientTypes.SecretListEntry {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.SecretListEntry {
@@ -3236,6 +3261,22 @@ extension SecretsManagerClientTypes.SecretListEntry {
     }
 }
 
+extension SecretsManagerClientTypes.SecretValueEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.SecretValueEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecretsManagerClientTypes.SecretValueEntry()
+        value.arn = try reader["ARN"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.versionId = try reader["VersionId"].readIfPresent()
+        value.secretBinary = try reader["SecretBinary"].readIfPresent()
+        value.secretString = try reader["SecretString"].readIfPresent()
+        value.versionStages = try reader["VersionStages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension SecretsManagerClientTypes.SecretVersionsListEntry {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.SecretVersionsListEntry {
@@ -3250,6 +3291,23 @@ extension SecretsManagerClientTypes.SecretVersionsListEntry {
     }
 }
 
+extension SecretsManagerClientTypes.Tag {
+
+    static func write(value: SecretsManagerClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecretsManagerClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
 extension SecretsManagerClientTypes.ValidationErrorsEntry {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecretsManagerClientTypes.ValidationErrorsEntry {
@@ -3258,24 +3316,6 @@ extension SecretsManagerClientTypes.ValidationErrorsEntry {
         value.checkName = try reader["CheckName"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
-    }
-}
-
-extension SecretsManagerClientTypes.Filter {
-
-    static func write(value: SecretsManagerClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension SecretsManagerClientTypes.ReplicaRegionType {
-
-    static func write(value: SecretsManagerClientTypes.ReplicaRegionType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["Region"].write(value.region)
     }
 }
 

@@ -2409,12 +2409,86 @@ extension NotAuthorizedException {
     }
 }
 
-extension PIClientTypes.ResponsePartitionKey {
+extension PIClientTypes.AnalysisReport {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.ResponsePartitionKey {
+    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.AnalysisReport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PIClientTypes.ResponsePartitionKey()
-        value.dimensions = try reader["Dimensions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        var value = PIClientTypes.AnalysisReport()
+        value.analysisReportId = try reader["AnalysisReportId"].readIfPresent() ?? ""
+        value.identifier = try reader["Identifier"].readIfPresent()
+        value.serviceType = try reader["ServiceType"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.insights = try reader["Insights"].readListIfPresent(memberReadingClosure: PIClientTypes.Insight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PIClientTypes.AnalysisReportSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.AnalysisReportSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PIClientTypes.AnalysisReportSummary()
+        value.analysisReportId = try reader["AnalysisReportId"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PIClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PIClientTypes.Data {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.Data {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PIClientTypes.Data()
+        value.performanceInsightsMetric = try reader["PerformanceInsightsMetric"].readIfPresent(with: PIClientTypes.PerformanceInsightsMetric.read(from:))
+        return value
+    }
+}
+
+extension PIClientTypes.DataPoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.DataPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PIClientTypes.DataPoint()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.value = try reader["Value"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension PIClientTypes.DimensionDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.DimensionDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PIClientTypes.DimensionDetail()
+        value.identifier = try reader["Identifier"].readIfPresent()
+        return value
+    }
+}
+
+extension PIClientTypes.DimensionGroup {
+
+    static func write(value: PIClientTypes.DimensionGroup?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Group"].write(value.group)
+        try writer["Limit"].write(value.limit)
+    }
+}
+
+extension PIClientTypes.DimensionGroupDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.DimensionGroupDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PIClientTypes.DimensionGroupDetail()
+        value.group = try reader["Group"].readIfPresent()
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: PIClientTypes.DimensionDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2444,19 +2518,12 @@ extension PIClientTypes.DimensionKeyDetail {
     }
 }
 
-extension PIClientTypes.AnalysisReport {
+extension PIClientTypes.FeatureMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.AnalysisReport {
+    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.FeatureMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PIClientTypes.AnalysisReport()
-        value.analysisReportId = try reader["AnalysisReportId"].readIfPresent() ?? ""
-        value.identifier = try reader["Identifier"].readIfPresent()
-        value.serviceType = try reader["ServiceType"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = PIClientTypes.FeatureMetadata()
         value.status = try reader["Status"].readIfPresent()
-        value.insights = try reader["Insights"].readListIfPresent(memberReadingClosure: PIClientTypes.Insight.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2481,13 +2548,35 @@ extension PIClientTypes.Insight {
     }
 }
 
-extension PIClientTypes.Data {
+extension PIClientTypes.MetricDimensionGroups {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.Data {
+    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.MetricDimensionGroups {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PIClientTypes.Data()
-        value.performanceInsightsMetric = try reader["PerformanceInsightsMetric"].readIfPresent(with: PIClientTypes.PerformanceInsightsMetric.read(from:))
+        var value = PIClientTypes.MetricDimensionGroups()
+        value.metric = try reader["Metric"].readIfPresent()
+        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: PIClientTypes.DimensionGroupDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension PIClientTypes.MetricKeyDataPoints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.MetricKeyDataPoints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PIClientTypes.MetricKeyDataPoints()
+        value.key = try reader["Key"].readIfPresent(with: PIClientTypes.ResponseResourceMetricKey.read(from:))
+        value.dataPoints = try reader["DataPoints"].readListIfPresent(memberReadingClosure: PIClientTypes.DataPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PIClientTypes.MetricQuery {
+
+    static func write(value: PIClientTypes.MetricQuery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filter"].writeMap(value.filter, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["GroupBy"].write(value.groupBy, with: PIClientTypes.DimensionGroup.write(value:to:))
+        try writer["Metric"].write(value.metric)
     }
 }
 
@@ -2516,77 +2605,12 @@ extension PIClientTypes.Recommendation {
     }
 }
 
-extension PIClientTypes.FeatureMetadata {
+extension PIClientTypes.ResponsePartitionKey {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.FeatureMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.ResponsePartitionKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PIClientTypes.FeatureMetadata()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension PIClientTypes.MetricKeyDataPoints {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.MetricKeyDataPoints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PIClientTypes.MetricKeyDataPoints()
-        value.key = try reader["Key"].readIfPresent(with: PIClientTypes.ResponseResourceMetricKey.read(from:))
-        value.dataPoints = try reader["DataPoints"].readListIfPresent(memberReadingClosure: PIClientTypes.DataPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension PIClientTypes.DataPoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.DataPoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PIClientTypes.DataPoint()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.value = try reader["Value"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
-extension PIClientTypes.ResponseResourceMetricKey {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.ResponseResourceMetricKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PIClientTypes.ResponseResourceMetricKey()
-        value.metric = try reader["Metric"].readIfPresent() ?? ""
-        value.dimensions = try reader["Dimensions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension PIClientTypes.MetricDimensionGroups {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.MetricDimensionGroups {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PIClientTypes.MetricDimensionGroups()
-        value.metric = try reader["Metric"].readIfPresent()
-        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: PIClientTypes.DimensionGroupDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension PIClientTypes.DimensionGroupDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.DimensionGroupDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PIClientTypes.DimensionGroupDetail()
-        value.group = try reader["Group"].readIfPresent()
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: PIClientTypes.DimensionDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension PIClientTypes.DimensionDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.DimensionDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PIClientTypes.DimensionDetail()
-        value.identifier = try reader["Identifier"].readIfPresent()
+        var value = PIClientTypes.ResponsePartitionKey()
+        value.dimensions = try reader["Dimensions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -2603,17 +2627,13 @@ extension PIClientTypes.ResponseResourceMetric {
     }
 }
 
-extension PIClientTypes.AnalysisReportSummary {
+extension PIClientTypes.ResponseResourceMetricKey {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.AnalysisReportSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> PIClientTypes.ResponseResourceMetricKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PIClientTypes.AnalysisReportSummary()
-        value.analysisReportId = try reader["AnalysisReportId"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: PIClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = PIClientTypes.ResponseResourceMetricKey()
+        value.metric = try reader["Metric"].readIfPresent() ?? ""
+        value.dimensions = try reader["Dimensions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -2632,26 +2652,6 @@ extension PIClientTypes.Tag {
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension PIClientTypes.DimensionGroup {
-
-    static func write(value: PIClientTypes.DimensionGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Group"].write(value.group)
-        try writer["Limit"].write(value.limit)
-    }
-}
-
-extension PIClientTypes.MetricQuery {
-
-    static func write(value: PIClientTypes.MetricQuery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Filter"].writeMap(value.filter, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["GroupBy"].write(value.groupBy, with: PIClientTypes.DimensionGroup.write(value:to:))
-        try writer["Metric"].write(value.metric)
     }
 }
 

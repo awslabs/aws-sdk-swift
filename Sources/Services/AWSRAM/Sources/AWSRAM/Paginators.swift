@@ -325,3 +325,37 @@ extension ListResourceTypesInput: ClientRuntime.PaginateToken {
             resourceRegionScope: self.resourceRegionScope
         )}
 }
+extension RAMClient {
+    /// Paginate over `[ListSourceAssociationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSourceAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSourceAssociationsOutput`
+    public func listSourceAssociationsPaginated(input: ListSourceAssociationsInput) -> ClientRuntime.PaginatorSequence<ListSourceAssociationsInput, ListSourceAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSourceAssociationsInput, ListSourceAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSourceAssociations(input:))
+    }
+}
+
+extension ListSourceAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSourceAssociationsInput {
+        return ListSourceAssociationsInput(
+            associationStatus: self.associationStatus,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceShareArns: self.resourceShareArns,
+            sourceId: self.sourceId,
+            sourceType: self.sourceType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSourceAssociationsInput, OperationStackOutput == ListSourceAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSourceAssociationsPaginated`
+    /// to access the nested member `[RAMClientTypes.AssociatedSource]`
+    /// - Returns: `[RAMClientTypes.AssociatedSource]`
+    public func sourceAssociations() async throws -> [RAMClientTypes.AssociatedSource] {
+        return try await self.asyncCompactMap { item in item.sourceAssociations }
+    }
+}

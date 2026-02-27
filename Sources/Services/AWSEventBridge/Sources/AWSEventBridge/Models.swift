@@ -8031,147 +8031,178 @@ extension PolicyLengthExceededException {
     }
 }
 
-extension EventBridgeClientTypes.RoutingConfig {
+extension EventBridgeClientTypes.ApiDestination {
 
-    static func write(value: EventBridgeClientTypes.RoutingConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailoverConfig"].write(value.failoverConfig, with: EventBridgeClientTypes.FailoverConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.RoutingConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ApiDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.RoutingConfig()
-        value.failoverConfig = try reader["FailoverConfig"].readIfPresent(with: EventBridgeClientTypes.FailoverConfig.read(from:))
+        var value = EventBridgeClientTypes.ApiDestination()
+        value.apiDestinationArn = try reader["ApiDestinationArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.apiDestinationState = try reader["ApiDestinationState"].readIfPresent()
+        value.connectionArn = try reader["ConnectionArn"].readIfPresent()
+        value.invocationEndpoint = try reader["InvocationEndpoint"].readIfPresent()
+        value.httpMethod = try reader["HttpMethod"].readIfPresent()
+        value.invocationRateLimitPerSecond = try reader["InvocationRateLimitPerSecond"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension EventBridgeClientTypes.FailoverConfig {
+extension EventBridgeClientTypes.AppSyncParameters {
 
-    static func write(value: EventBridgeClientTypes.FailoverConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EventBridgeClientTypes.AppSyncParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Primary"].write(value.primary, with: EventBridgeClientTypes.Primary.write(value:to:))
-        try writer["Secondary"].write(value.secondary, with: EventBridgeClientTypes.Secondary.write(value:to:))
+        try writer["GraphQLOperation"].write(value.graphQLOperation)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.FailoverConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.AppSyncParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.FailoverConfig()
-        value.primary = try reader["Primary"].readIfPresent(with: EventBridgeClientTypes.Primary.read(from:))
-        value.secondary = try reader["Secondary"].readIfPresent(with: EventBridgeClientTypes.Secondary.read(from:))
+        var value = EventBridgeClientTypes.AppSyncParameters()
+        value.graphQLOperation = try reader["GraphQLOperation"].readIfPresent()
         return value
     }
 }
 
-extension EventBridgeClientTypes.Secondary {
+extension EventBridgeClientTypes.Archive {
 
-    static func write(value: EventBridgeClientTypes.Secondary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Route"].write(value.route)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.Secondary {
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.Archive {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.Secondary()
-        value.route = try reader["Route"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.Primary {
-
-    static func write(value: EventBridgeClientTypes.Primary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HealthCheck"].write(value.healthCheck)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.Primary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.Primary()
-        value.healthCheck = try reader["HealthCheck"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.ReplicationConfig {
-
-    static func write(value: EventBridgeClientTypes.ReplicationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["State"].write(value.state)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ReplicationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.ReplicationConfig()
+        var value = EventBridgeClientTypes.Archive()
+        value.archiveName = try reader["ArchiveName"].readIfPresent()
+        value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
+        value.stateReason = try reader["StateReason"].readIfPresent()
+        value.retentionDays = try reader["RetentionDays"].readIfPresent()
+        value.sizeBytes = try reader["SizeBytes"].readIfPresent() ?? 0
+        value.eventCount = try reader["EventCount"].readIfPresent() ?? 0
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension EventBridgeClientTypes.EndpointEventBus {
+extension EventBridgeClientTypes.AwsVpcConfiguration {
 
-    static func write(value: EventBridgeClientTypes.EndpointEventBus?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EventBridgeClientTypes.AwsVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EventBusArn"].write(value.eventBusArn)
+        try writer["AssignPublicIp"].write(value.assignPublicIp)
+        try writer["SecurityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.EndpointEventBus {
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.AwsVpcConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.EndpointEventBus()
-        value.eventBusArn = try reader["EventBusArn"].readIfPresent() ?? ""
+        var value = EventBridgeClientTypes.AwsVpcConfiguration()
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.assignPublicIp = try reader["AssignPublicIp"].readIfPresent()
         return value
     }
 }
 
-extension EventBridgeClientTypes.DeadLetterConfig {
+extension EventBridgeClientTypes.BatchArrayProperties {
 
-    static func write(value: EventBridgeClientTypes.DeadLetterConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EventBridgeClientTypes.BatchArrayProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Arn"].write(value.arn)
+        try writer["Size"].write(value.size)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.DeadLetterConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.BatchArrayProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.DeadLetterConfig()
-        value.arn = try reader["Arn"].readIfPresent()
+        var value = EventBridgeClientTypes.BatchArrayProperties()
+        value.size = try reader["Size"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension EventBridgeClientTypes.LogConfig {
+extension EventBridgeClientTypes.BatchParameters {
 
-    static func write(value: EventBridgeClientTypes.LogConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EventBridgeClientTypes.BatchParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["IncludeDetail"].write(value.includeDetail)
-        try writer["Level"].write(value.level)
+        try writer["ArrayProperties"].write(value.arrayProperties, with: EventBridgeClientTypes.BatchArrayProperties.write(value:to:))
+        try writer["JobDefinition"].write(value.jobDefinition)
+        try writer["JobName"].write(value.jobName)
+        try writer["RetryStrategy"].write(value.retryStrategy, with: EventBridgeClientTypes.BatchRetryStrategy.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.LogConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.BatchParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.LogConfig()
-        value.includeDetail = try reader["IncludeDetail"].readIfPresent()
-        value.level = try reader["Level"].readIfPresent()
+        var value = EventBridgeClientTypes.BatchParameters()
+        value.jobDefinition = try reader["JobDefinition"].readIfPresent() ?? ""
+        value.jobName = try reader["JobName"].readIfPresent() ?? ""
+        value.arrayProperties = try reader["ArrayProperties"].readIfPresent(with: EventBridgeClientTypes.BatchArrayProperties.read(from:))
+        value.retryStrategy = try reader["RetryStrategy"].readIfPresent(with: EventBridgeClientTypes.BatchRetryStrategy.read(from:))
         return value
     }
 }
 
-extension EventBridgeClientTypes.DescribeConnectionConnectivityParameters {
+extension EventBridgeClientTypes.BatchRetryStrategy {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.DescribeConnectionConnectivityParameters {
+    static func write(value: EventBridgeClientTypes.BatchRetryStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attempts"].write(value.attempts)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.BatchRetryStrategy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.DescribeConnectionConnectivityParameters()
-        value.resourceParameters = try reader["ResourceParameters"].readIfPresent(with: EventBridgeClientTypes.DescribeConnectionResourceParameters.read(from:))
+        var value = EventBridgeClientTypes.BatchRetryStrategy()
+        value.attempts = try reader["Attempts"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension EventBridgeClientTypes.DescribeConnectionResourceParameters {
+extension EventBridgeClientTypes.CapacityProviderStrategyItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.DescribeConnectionResourceParameters {
+    static func write(value: EventBridgeClientTypes.CapacityProviderStrategyItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["base"].write(value.base)
+        try writer["capacityProvider"].write(value.capacityProvider)
+        try writer["weight"].write(value.weight)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.CapacityProviderStrategyItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.DescribeConnectionResourceParameters()
-        value.resourceConfigurationArn = try reader["ResourceConfigurationArn"].readIfPresent() ?? ""
-        value.resourceAssociationArn = try reader["ResourceAssociationArn"].readIfPresent() ?? ""
+        var value = EventBridgeClientTypes.CapacityProviderStrategyItem()
+        value.capacityProvider = try reader["capacityProvider"].readIfPresent() ?? ""
+        value.weight = try reader["weight"].readIfPresent() ?? 0
+        value.base = try reader["base"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.Condition {
+
+    static func write(value: EventBridgeClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension EventBridgeClientTypes.Connection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.Connection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.Connection()
+        value.connectionArn = try reader["ConnectionArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.connectionState = try reader["ConnectionState"].readIfPresent()
+        value.stateReason = try reader["StateReason"].readIfPresent()
+        value.authorizationType = try reader["AuthorizationType"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastAuthorizedTime = try reader["LastAuthorizedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.ConnectionApiKeyAuthResponseParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ConnectionApiKeyAuthResponseParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.ConnectionApiKeyAuthResponseParameters()
+        value.apiKeyName = try reader["ApiKeyName"].readIfPresent()
         return value
     }
 }
@@ -8190,21 +8221,12 @@ extension EventBridgeClientTypes.ConnectionAuthResponseParameters {
     }
 }
 
-extension EventBridgeClientTypes.ConnectionHttpParameters {
+extension EventBridgeClientTypes.ConnectionBasicAuthResponseParameters {
 
-    static func write(value: EventBridgeClientTypes.ConnectionHttpParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BodyParameters"].writeList(value.bodyParameters, memberWritingClosure: EventBridgeClientTypes.ConnectionBodyParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["HeaderParameters"].writeList(value.headerParameters, memberWritingClosure: EventBridgeClientTypes.ConnectionHeaderParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["QueryStringParameters"].writeList(value.queryStringParameters, memberWritingClosure: EventBridgeClientTypes.ConnectionQueryStringParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ConnectionHttpParameters {
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ConnectionBasicAuthResponseParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.ConnectionHttpParameters()
-        value.headerParameters = try reader["HeaderParameters"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.ConnectionHeaderParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.queryStringParameters = try reader["QueryStringParameters"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.ConnectionQueryStringParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.bodyParameters = try reader["BodyParameters"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.ConnectionBodyParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = EventBridgeClientTypes.ConnectionBasicAuthResponseParameters()
+        value.username = try reader["Username"].readIfPresent()
         return value
     }
 }
@@ -8221,25 +8243,6 @@ extension EventBridgeClientTypes.ConnectionBodyParameter {
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ConnectionBodyParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.ConnectionBodyParameter()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.isValueSecret = try reader["IsValueSecret"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.ConnectionQueryStringParameter {
-
-    static func write(value: EventBridgeClientTypes.ConnectionQueryStringParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IsValueSecret"].write(value.isValueSecret)
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ConnectionQueryStringParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.ConnectionQueryStringParameter()
         value.key = try reader["Key"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
         value.isValueSecret = try reader["IsValueSecret"].readIfPresent() ?? false
@@ -8266,12 +8269,31 @@ extension EventBridgeClientTypes.ConnectionHeaderParameter {
     }
 }
 
-extension EventBridgeClientTypes.ConnectionApiKeyAuthResponseParameters {
+extension EventBridgeClientTypes.ConnectionHttpParameters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ConnectionApiKeyAuthResponseParameters {
+    static func write(value: EventBridgeClientTypes.ConnectionHttpParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BodyParameters"].writeList(value.bodyParameters, memberWritingClosure: EventBridgeClientTypes.ConnectionBodyParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["HeaderParameters"].writeList(value.headerParameters, memberWritingClosure: EventBridgeClientTypes.ConnectionHeaderParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["QueryStringParameters"].writeList(value.queryStringParameters, memberWritingClosure: EventBridgeClientTypes.ConnectionQueryStringParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ConnectionHttpParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.ConnectionApiKeyAuthResponseParameters()
-        value.apiKeyName = try reader["ApiKeyName"].readIfPresent()
+        var value = EventBridgeClientTypes.ConnectionHttpParameters()
+        value.headerParameters = try reader["HeaderParameters"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.ConnectionHeaderParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.queryStringParameters = try reader["QueryStringParameters"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.ConnectionQueryStringParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.bodyParameters = try reader["BodyParameters"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.ConnectionBodyParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.ConnectionOAuthClientResponseParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ConnectionOAuthClientResponseParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.ConnectionOAuthClientResponseParameters()
+        value.clientID = try reader["ClientID"].readIfPresent()
         return value
     }
 }
@@ -8289,91 +8311,164 @@ extension EventBridgeClientTypes.ConnectionOAuthResponseParameters {
     }
 }
 
-extension EventBridgeClientTypes.ConnectionOAuthClientResponseParameters {
+extension EventBridgeClientTypes.ConnectionQueryStringParameter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ConnectionOAuthClientResponseParameters {
+    static func write(value: EventBridgeClientTypes.ConnectionQueryStringParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IsValueSecret"].write(value.isValueSecret)
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ConnectionQueryStringParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.ConnectionOAuthClientResponseParameters()
-        value.clientID = try reader["ClientID"].readIfPresent()
+        var value = EventBridgeClientTypes.ConnectionQueryStringParameter()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.isValueSecret = try reader["IsValueSecret"].readIfPresent() ?? false
         return value
     }
 }
 
-extension EventBridgeClientTypes.ConnectionBasicAuthResponseParameters {
+extension EventBridgeClientTypes.ConnectivityResourceConfigurationArn {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ConnectionBasicAuthResponseParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.ConnectionBasicAuthResponseParameters()
-        value.username = try reader["Username"].readIfPresent()
-        return value
+    static func write(value: EventBridgeClientTypes.ConnectivityResourceConfigurationArn?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceConfigurationArn"].write(value.resourceConfigurationArn)
     }
 }
 
-extension EventBridgeClientTypes.ReplayDestination {
+extension EventBridgeClientTypes.ConnectivityResourceParameters {
 
-    static func write(value: EventBridgeClientTypes.ReplayDestination?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EventBridgeClientTypes.ConnectivityResourceParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceParameters"].write(value.resourceParameters, with: EventBridgeClientTypes.ConnectivityResourceConfigurationArn.write(value:to:))
+    }
+}
+
+extension EventBridgeClientTypes.CreateConnectionApiKeyAuthRequestParameters {
+
+    static func write(value: EventBridgeClientTypes.CreateConnectionApiKeyAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApiKeyName"].write(value.apiKeyName)
+        try writer["ApiKeyValue"].write(value.apiKeyValue)
+    }
+}
+
+extension EventBridgeClientTypes.CreateConnectionAuthRequestParameters {
+
+    static func write(value: EventBridgeClientTypes.CreateConnectionAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApiKeyAuthParameters"].write(value.apiKeyAuthParameters, with: EventBridgeClientTypes.CreateConnectionApiKeyAuthRequestParameters.write(value:to:))
+        try writer["BasicAuthParameters"].write(value.basicAuthParameters, with: EventBridgeClientTypes.CreateConnectionBasicAuthRequestParameters.write(value:to:))
+        try writer["ConnectivityParameters"].write(value.connectivityParameters, with: EventBridgeClientTypes.ConnectivityResourceParameters.write(value:to:))
+        try writer["InvocationHttpParameters"].write(value.invocationHttpParameters, with: EventBridgeClientTypes.ConnectionHttpParameters.write(value:to:))
+        try writer["OAuthParameters"].write(value.oAuthParameters, with: EventBridgeClientTypes.CreateConnectionOAuthRequestParameters.write(value:to:))
+    }
+}
+
+extension EventBridgeClientTypes.CreateConnectionBasicAuthRequestParameters {
+
+    static func write(value: EventBridgeClientTypes.CreateConnectionBasicAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Password"].write(value.password)
+        try writer["Username"].write(value.username)
+    }
+}
+
+extension EventBridgeClientTypes.CreateConnectionOAuthClientRequestParameters {
+
+    static func write(value: EventBridgeClientTypes.CreateConnectionOAuthClientRequestParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientID"].write(value.clientID)
+        try writer["ClientSecret"].write(value.clientSecret)
+    }
+}
+
+extension EventBridgeClientTypes.CreateConnectionOAuthRequestParameters {
+
+    static func write(value: EventBridgeClientTypes.CreateConnectionOAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthorizationEndpoint"].write(value.authorizationEndpoint)
+        try writer["ClientParameters"].write(value.clientParameters, with: EventBridgeClientTypes.CreateConnectionOAuthClientRequestParameters.write(value:to:))
+        try writer["HttpMethod"].write(value.httpMethod)
+        try writer["OAuthHttpParameters"].write(value.oAuthHttpParameters, with: EventBridgeClientTypes.ConnectionHttpParameters.write(value:to:))
+    }
+}
+
+extension EventBridgeClientTypes.DeadLetterConfig {
+
+    static func write(value: EventBridgeClientTypes.DeadLetterConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Arn"].write(value.arn)
-        try writer["FilterArns"].writeList(value.filterArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ReplayDestination {
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.DeadLetterConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.ReplayDestination()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.filterArns = try reader["FilterArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = EventBridgeClientTypes.DeadLetterConfig()
+        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }
 
-extension EventBridgeClientTypes.ApiDestination {
+extension EventBridgeClientTypes.DescribeConnectionConnectivityParameters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ApiDestination {
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.DescribeConnectionConnectivityParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.ApiDestination()
-        value.apiDestinationArn = try reader["ApiDestinationArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.apiDestinationState = try reader["ApiDestinationState"].readIfPresent()
-        value.connectionArn = try reader["ConnectionArn"].readIfPresent()
-        value.invocationEndpoint = try reader["InvocationEndpoint"].readIfPresent()
-        value.httpMethod = try reader["HttpMethod"].readIfPresent()
-        value.invocationRateLimitPerSecond = try reader["InvocationRateLimitPerSecond"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = EventBridgeClientTypes.DescribeConnectionConnectivityParameters()
+        value.resourceParameters = try reader["ResourceParameters"].readIfPresent(with: EventBridgeClientTypes.DescribeConnectionResourceParameters.read(from:))
         return value
     }
 }
 
-extension EventBridgeClientTypes.Archive {
+extension EventBridgeClientTypes.DescribeConnectionResourceParameters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.Archive {
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.DescribeConnectionResourceParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.Archive()
-        value.archiveName = try reader["ArchiveName"].readIfPresent()
-        value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.stateReason = try reader["StateReason"].readIfPresent()
-        value.retentionDays = try reader["RetentionDays"].readIfPresent()
-        value.sizeBytes = try reader["SizeBytes"].readIfPresent() ?? 0
-        value.eventCount = try reader["EventCount"].readIfPresent() ?? 0
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = EventBridgeClientTypes.DescribeConnectionResourceParameters()
+        value.resourceConfigurationArn = try reader["ResourceConfigurationArn"].readIfPresent() ?? ""
+        value.resourceAssociationArn = try reader["ResourceAssociationArn"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension EventBridgeClientTypes.Connection {
+extension EventBridgeClientTypes.EcsParameters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.Connection {
+    static func write(value: EventBridgeClientTypes.EcsParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityProviderStrategy"].writeList(value.capacityProviderStrategy, memberWritingClosure: EventBridgeClientTypes.CapacityProviderStrategyItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnableECSManagedTags"].write(value.enableECSManagedTags)
+        try writer["EnableExecuteCommand"].write(value.enableExecuteCommand)
+        try writer["Group"].write(value.group)
+        try writer["LaunchType"].write(value.launchType)
+        try writer["NetworkConfiguration"].write(value.networkConfiguration, with: EventBridgeClientTypes.NetworkConfiguration.write(value:to:))
+        try writer["PlacementConstraints"].writeList(value.placementConstraints, memberWritingClosure: EventBridgeClientTypes.PlacementConstraint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PlacementStrategy"].writeList(value.placementStrategy, memberWritingClosure: EventBridgeClientTypes.PlacementStrategy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PlatformVersion"].write(value.platformVersion)
+        try writer["PropagateTags"].write(value.propagateTags)
+        try writer["ReferenceId"].write(value.referenceId)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: EventBridgeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TaskCount"].write(value.taskCount)
+        try writer["TaskDefinitionArn"].write(value.taskDefinitionArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.EcsParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.Connection()
-        value.connectionArn = try reader["ConnectionArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.connectionState = try reader["ConnectionState"].readIfPresent()
-        value.stateReason = try reader["StateReason"].readIfPresent()
-        value.authorizationType = try reader["AuthorizationType"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastAuthorizedTime = try reader["LastAuthorizedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = EventBridgeClientTypes.EcsParameters()
+        value.taskDefinitionArn = try reader["TaskDefinitionArn"].readIfPresent() ?? ""
+        value.taskCount = try reader["TaskCount"].readIfPresent()
+        value.launchType = try reader["LaunchType"].readIfPresent()
+        value.networkConfiguration = try reader["NetworkConfiguration"].readIfPresent(with: EventBridgeClientTypes.NetworkConfiguration.read(from:))
+        value.platformVersion = try reader["PlatformVersion"].readIfPresent()
+        value.group = try reader["Group"].readIfPresent()
+        value.capacityProviderStrategy = try reader["CapacityProviderStrategy"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.CapacityProviderStrategyItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enableECSManagedTags = try reader["EnableECSManagedTags"].readIfPresent() ?? false
+        value.enableExecuteCommand = try reader["EnableExecuteCommand"].readIfPresent() ?? false
+        value.placementConstraints = try reader["PlacementConstraints"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.PlacementConstraint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.placementStrategy = try reader["PlacementStrategy"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.PlacementStrategy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.propagateTags = try reader["PropagateTags"].readIfPresent()
+        value.referenceId = try reader["ReferenceId"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8396,6 +8491,21 @@ extension EventBridgeClientTypes.Endpoint {
         value.stateReason = try reader["StateReason"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.EndpointEventBus {
+
+    static func write(value: EventBridgeClientTypes.EndpointEventBus?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventBusArn"].write(value.eventBusArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.EndpointEventBus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.EndpointEventBus()
+        value.eventBusArn = try reader["EventBusArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8430,6 +8540,117 @@ extension EventBridgeClientTypes.EventSource {
     }
 }
 
+extension EventBridgeClientTypes.FailoverConfig {
+
+    static func write(value: EventBridgeClientTypes.FailoverConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Primary"].write(value.primary, with: EventBridgeClientTypes.Primary.write(value:to:))
+        try writer["Secondary"].write(value.secondary, with: EventBridgeClientTypes.Secondary.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.FailoverConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.FailoverConfig()
+        value.primary = try reader["Primary"].readIfPresent(with: EventBridgeClientTypes.Primary.read(from:))
+        value.secondary = try reader["Secondary"].readIfPresent(with: EventBridgeClientTypes.Secondary.read(from:))
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.HttpParameters {
+
+    static func write(value: EventBridgeClientTypes.HttpParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HeaderParameters"].writeMap(value.headerParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["PathParameterValues"].writeList(value.pathParameterValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["QueryStringParameters"].writeMap(value.queryStringParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.HttpParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.HttpParameters()
+        value.pathParameterValues = try reader["PathParameterValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.headerParameters = try reader["HeaderParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.queryStringParameters = try reader["QueryStringParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.InputTransformer {
+
+    static func write(value: EventBridgeClientTypes.InputTransformer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InputPathsMap"].writeMap(value.inputPathsMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["InputTemplate"].write(value.inputTemplate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.InputTransformer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.InputTransformer()
+        value.inputPathsMap = try reader["InputPathsMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.inputTemplate = try reader["InputTemplate"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.KinesisParameters {
+
+    static func write(value: EventBridgeClientTypes.KinesisParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PartitionKeyPath"].write(value.partitionKeyPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.KinesisParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.KinesisParameters()
+        value.partitionKeyPath = try reader["PartitionKeyPath"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.LogConfig {
+
+    static func write(value: EventBridgeClientTypes.LogConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IncludeDetail"].write(value.includeDetail)
+        try writer["Level"].write(value.level)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.LogConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.LogConfig()
+        value.includeDetail = try reader["IncludeDetail"].readIfPresent()
+        value.level = try reader["Level"].readIfPresent()
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.NetworkConfiguration {
+
+    static func write(value: EventBridgeClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsvpcConfiguration"].write(value.awsvpcConfiguration, with: EventBridgeClientTypes.AwsVpcConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.NetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.NetworkConfiguration()
+        value.awsvpcConfiguration = try reader["awsvpcConfiguration"].readIfPresent(with: EventBridgeClientTypes.AwsVpcConfiguration.read(from:))
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.PartnerEventSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.PartnerEventSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.PartnerEventSource()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
 extension EventBridgeClientTypes.PartnerEventSourceAccount {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.PartnerEventSourceAccount {
@@ -8443,13 +8664,152 @@ extension EventBridgeClientTypes.PartnerEventSourceAccount {
     }
 }
 
-extension EventBridgeClientTypes.PartnerEventSource {
+extension EventBridgeClientTypes.PlacementConstraint {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.PartnerEventSource {
+    static func write(value: EventBridgeClientTypes.PlacementConstraint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["expression"].write(value.expression)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.PlacementConstraint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.PartnerEventSource()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        var value = EventBridgeClientTypes.PlacementConstraint()
+        value.type = try reader["type"].readIfPresent()
+        value.expression = try reader["expression"].readIfPresent()
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.PlacementStrategy {
+
+    static func write(value: EventBridgeClientTypes.PlacementStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["field"].write(value.field)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.PlacementStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.PlacementStrategy()
+        value.type = try reader["type"].readIfPresent()
+        value.field = try reader["field"].readIfPresent()
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.Primary {
+
+    static func write(value: EventBridgeClientTypes.Primary?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HealthCheck"].write(value.healthCheck)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.Primary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.Primary()
+        value.healthCheck = try reader["HealthCheck"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.PutEventsRequestEntry {
+
+    static func write(value: EventBridgeClientTypes.PutEventsRequestEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Detail"].write(value.detail)
+        try writer["DetailType"].write(value.detailType)
+        try writer["EventBusName"].write(value.eventBusName)
+        try writer["Resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Source"].write(value.source)
+        try writer["Time"].writeTimestamp(value.time, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["TraceHeader"].write(value.traceHeader)
+    }
+}
+
+extension EventBridgeClientTypes.PutEventsResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.PutEventsResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.PutEventsResultEntry()
+        value.eventId = try reader["EventId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.PutPartnerEventsRequestEntry {
+
+    static func write(value: EventBridgeClientTypes.PutPartnerEventsRequestEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Detail"].write(value.detail)
+        try writer["DetailType"].write(value.detailType)
+        try writer["Resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Source"].write(value.source)
+        try writer["Time"].writeTimestamp(value.time, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension EventBridgeClientTypes.PutPartnerEventsResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.PutPartnerEventsResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.PutPartnerEventsResultEntry()
+        value.eventId = try reader["EventId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.PutTargetsResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.PutTargetsResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.PutTargetsResultEntry()
+        value.targetId = try reader["TargetId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.RedshiftDataParameters {
+
+    static func write(value: EventBridgeClientTypes.RedshiftDataParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Database"].write(value.database)
+        try writer["DbUser"].write(value.dbUser)
+        try writer["SecretManagerArn"].write(value.secretManagerArn)
+        try writer["Sql"].write(value.sql)
+        try writer["Sqls"].writeList(value.sqls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StatementName"].write(value.statementName)
+        try writer["WithEvent"].write(value.withEvent)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.RedshiftDataParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.RedshiftDataParameters()
+        value.secretManagerArn = try reader["SecretManagerArn"].readIfPresent()
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.dbUser = try reader["DbUser"].readIfPresent()
+        value.sql = try reader["Sql"].readIfPresent()
+        value.statementName = try reader["StatementName"].readIfPresent()
+        value.withEvent = try reader["WithEvent"].readIfPresent() ?? false
+        value.sqls = try reader["Sqls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.RemoveTargetsResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.RemoveTargetsResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.RemoveTargetsResultEntry()
+        value.targetId = try reader["TargetId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }
@@ -8472,6 +8832,70 @@ extension EventBridgeClientTypes.Replay {
     }
 }
 
+extension EventBridgeClientTypes.ReplayDestination {
+
+    static func write(value: EventBridgeClientTypes.ReplayDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["FilterArns"].writeList(value.filterArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ReplayDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.ReplayDestination()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.filterArns = try reader["FilterArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.ReplicationConfig {
+
+    static func write(value: EventBridgeClientTypes.ReplicationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["State"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.ReplicationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.ReplicationConfig()
+        value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.RetryPolicy {
+
+    static func write(value: EventBridgeClientTypes.RetryPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaximumEventAgeInSeconds"].write(value.maximumEventAgeInSeconds)
+        try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.RetryPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.RetryPolicy()
+        value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
+        value.maximumEventAgeInSeconds = try reader["MaximumEventAgeInSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.RoutingConfig {
+
+    static func write(value: EventBridgeClientTypes.RoutingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FailoverConfig"].write(value.failoverConfig, with: EventBridgeClientTypes.FailoverConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.RoutingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.RoutingConfig()
+        value.failoverConfig = try reader["FailoverConfig"].readIfPresent(with: EventBridgeClientTypes.FailoverConfig.read(from:))
+        return value
+    }
+}
+
 extension EventBridgeClientTypes.Rule {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.Rule {
@@ -8486,6 +8910,100 @@ extension EventBridgeClientTypes.Rule {
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.managedBy = try reader["ManagedBy"].readIfPresent()
         value.eventBusName = try reader["EventBusName"].readIfPresent()
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.RunCommandParameters {
+
+    static func write(value: EventBridgeClientTypes.RunCommandParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RunCommandTargets"].writeList(value.runCommandTargets, memberWritingClosure: EventBridgeClientTypes.RunCommandTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.RunCommandParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.RunCommandParameters()
+        value.runCommandTargets = try reader["RunCommandTargets"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.RunCommandTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.RunCommandTarget {
+
+    static func write(value: EventBridgeClientTypes.RunCommandTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.RunCommandTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.RunCommandTarget()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.SageMakerPipelineParameter {
+
+    static func write(value: EventBridgeClientTypes.SageMakerPipelineParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.SageMakerPipelineParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.SageMakerPipelineParameter()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.SageMakerPipelineParameters {
+
+    static func write(value: EventBridgeClientTypes.SageMakerPipelineParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PipelineParameterList"].writeList(value.pipelineParameterList, memberWritingClosure: EventBridgeClientTypes.SageMakerPipelineParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.SageMakerPipelineParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.SageMakerPipelineParameters()
+        value.pipelineParameterList = try reader["PipelineParameterList"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.SageMakerPipelineParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.Secondary {
+
+    static func write(value: EventBridgeClientTypes.Secondary?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Route"].write(value.route)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.Secondary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.Secondary()
+        value.route = try reader["Route"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.SqsParameters {
+
+    static func write(value: EventBridgeClientTypes.SqsParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MessageGroupId"].write(value.messageGroupId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.SqsParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.SqsParameters()
+        value.messageGroupId = try reader["MessageGroupId"].readIfPresent()
         return value
     }
 }
@@ -8554,521 +9072,12 @@ extension EventBridgeClientTypes.Target {
     }
 }
 
-extension EventBridgeClientTypes.AppSyncParameters {
+extension EventBridgeClientTypes.UpdateConnectionApiKeyAuthRequestParameters {
 
-    static func write(value: EventBridgeClientTypes.AppSyncParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GraphQLOperation"].write(value.graphQLOperation)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.AppSyncParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.AppSyncParameters()
-        value.graphQLOperation = try reader["GraphQLOperation"].readIfPresent()
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.RetryPolicy {
-
-    static func write(value: EventBridgeClientTypes.RetryPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaximumEventAgeInSeconds"].write(value.maximumEventAgeInSeconds)
-        try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.RetryPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.RetryPolicy()
-        value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
-        value.maximumEventAgeInSeconds = try reader["MaximumEventAgeInSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.SageMakerPipelineParameters {
-
-    static func write(value: EventBridgeClientTypes.SageMakerPipelineParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PipelineParameterList"].writeList(value.pipelineParameterList, memberWritingClosure: EventBridgeClientTypes.SageMakerPipelineParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.SageMakerPipelineParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.SageMakerPipelineParameters()
-        value.pipelineParameterList = try reader["PipelineParameterList"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.SageMakerPipelineParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.SageMakerPipelineParameter {
-
-    static func write(value: EventBridgeClientTypes.SageMakerPipelineParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.SageMakerPipelineParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.SageMakerPipelineParameter()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.RedshiftDataParameters {
-
-    static func write(value: EventBridgeClientTypes.RedshiftDataParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Database"].write(value.database)
-        try writer["DbUser"].write(value.dbUser)
-        try writer["SecretManagerArn"].write(value.secretManagerArn)
-        try writer["Sql"].write(value.sql)
-        try writer["Sqls"].writeList(value.sqls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StatementName"].write(value.statementName)
-        try writer["WithEvent"].write(value.withEvent)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.RedshiftDataParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.RedshiftDataParameters()
-        value.secretManagerArn = try reader["SecretManagerArn"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.dbUser = try reader["DbUser"].readIfPresent()
-        value.sql = try reader["Sql"].readIfPresent()
-        value.statementName = try reader["StatementName"].readIfPresent()
-        value.withEvent = try reader["WithEvent"].readIfPresent() ?? false
-        value.sqls = try reader["Sqls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.HttpParameters {
-
-    static func write(value: EventBridgeClientTypes.HttpParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HeaderParameters"].writeMap(value.headerParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["PathParameterValues"].writeList(value.pathParameterValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["QueryStringParameters"].writeMap(value.queryStringParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.HttpParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.HttpParameters()
-        value.pathParameterValues = try reader["PathParameterValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.headerParameters = try reader["HeaderParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.queryStringParameters = try reader["QueryStringParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.SqsParameters {
-
-    static func write(value: EventBridgeClientTypes.SqsParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MessageGroupId"].write(value.messageGroupId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.SqsParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.SqsParameters()
-        value.messageGroupId = try reader["MessageGroupId"].readIfPresent()
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.BatchParameters {
-
-    static func write(value: EventBridgeClientTypes.BatchParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ArrayProperties"].write(value.arrayProperties, with: EventBridgeClientTypes.BatchArrayProperties.write(value:to:))
-        try writer["JobDefinition"].write(value.jobDefinition)
-        try writer["JobName"].write(value.jobName)
-        try writer["RetryStrategy"].write(value.retryStrategy, with: EventBridgeClientTypes.BatchRetryStrategy.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.BatchParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.BatchParameters()
-        value.jobDefinition = try reader["JobDefinition"].readIfPresent() ?? ""
-        value.jobName = try reader["JobName"].readIfPresent() ?? ""
-        value.arrayProperties = try reader["ArrayProperties"].readIfPresent(with: EventBridgeClientTypes.BatchArrayProperties.read(from:))
-        value.retryStrategy = try reader["RetryStrategy"].readIfPresent(with: EventBridgeClientTypes.BatchRetryStrategy.read(from:))
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.BatchRetryStrategy {
-
-    static func write(value: EventBridgeClientTypes.BatchRetryStrategy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attempts"].write(value.attempts)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.BatchRetryStrategy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.BatchRetryStrategy()
-        value.attempts = try reader["Attempts"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.BatchArrayProperties {
-
-    static func write(value: EventBridgeClientTypes.BatchArrayProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Size"].write(value.size)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.BatchArrayProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.BatchArrayProperties()
-        value.size = try reader["Size"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.EcsParameters {
-
-    static func write(value: EventBridgeClientTypes.EcsParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CapacityProviderStrategy"].writeList(value.capacityProviderStrategy, memberWritingClosure: EventBridgeClientTypes.CapacityProviderStrategyItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EnableECSManagedTags"].write(value.enableECSManagedTags)
-        try writer["EnableExecuteCommand"].write(value.enableExecuteCommand)
-        try writer["Group"].write(value.group)
-        try writer["LaunchType"].write(value.launchType)
-        try writer["NetworkConfiguration"].write(value.networkConfiguration, with: EventBridgeClientTypes.NetworkConfiguration.write(value:to:))
-        try writer["PlacementConstraints"].writeList(value.placementConstraints, memberWritingClosure: EventBridgeClientTypes.PlacementConstraint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PlacementStrategy"].writeList(value.placementStrategy, memberWritingClosure: EventBridgeClientTypes.PlacementStrategy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PlatformVersion"].write(value.platformVersion)
-        try writer["PropagateTags"].write(value.propagateTags)
-        try writer["ReferenceId"].write(value.referenceId)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: EventBridgeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TaskCount"].write(value.taskCount)
-        try writer["TaskDefinitionArn"].write(value.taskDefinitionArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.EcsParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.EcsParameters()
-        value.taskDefinitionArn = try reader["TaskDefinitionArn"].readIfPresent() ?? ""
-        value.taskCount = try reader["TaskCount"].readIfPresent()
-        value.launchType = try reader["LaunchType"].readIfPresent()
-        value.networkConfiguration = try reader["NetworkConfiguration"].readIfPresent(with: EventBridgeClientTypes.NetworkConfiguration.read(from:))
-        value.platformVersion = try reader["PlatformVersion"].readIfPresent()
-        value.group = try reader["Group"].readIfPresent()
-        value.capacityProviderStrategy = try reader["CapacityProviderStrategy"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.CapacityProviderStrategyItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enableECSManagedTags = try reader["EnableECSManagedTags"].readIfPresent() ?? false
-        value.enableExecuteCommand = try reader["EnableExecuteCommand"].readIfPresent() ?? false
-        value.placementConstraints = try reader["PlacementConstraints"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.PlacementConstraint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.placementStrategy = try reader["PlacementStrategy"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.PlacementStrategy.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.propagateTags = try reader["PropagateTags"].readIfPresent()
-        value.referenceId = try reader["ReferenceId"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.PlacementStrategy {
-
-    static func write(value: EventBridgeClientTypes.PlacementStrategy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["field"].write(value.field)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.PlacementStrategy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.PlacementStrategy()
-        value.type = try reader["type"].readIfPresent()
-        value.field = try reader["field"].readIfPresent()
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.PlacementConstraint {
-
-    static func write(value: EventBridgeClientTypes.PlacementConstraint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["expression"].write(value.expression)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.PlacementConstraint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.PlacementConstraint()
-        value.type = try reader["type"].readIfPresent()
-        value.expression = try reader["expression"].readIfPresent()
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.CapacityProviderStrategyItem {
-
-    static func write(value: EventBridgeClientTypes.CapacityProviderStrategyItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["base"].write(value.base)
-        try writer["capacityProvider"].write(value.capacityProvider)
-        try writer["weight"].write(value.weight)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.CapacityProviderStrategyItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.CapacityProviderStrategyItem()
-        value.capacityProvider = try reader["capacityProvider"].readIfPresent() ?? ""
-        value.weight = try reader["weight"].readIfPresent() ?? 0
-        value.base = try reader["base"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.NetworkConfiguration {
-
-    static func write(value: EventBridgeClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsvpcConfiguration"].write(value.awsvpcConfiguration, with: EventBridgeClientTypes.AwsVpcConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.NetworkConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.NetworkConfiguration()
-        value.awsvpcConfiguration = try reader["awsvpcConfiguration"].readIfPresent(with: EventBridgeClientTypes.AwsVpcConfiguration.read(from:))
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.AwsVpcConfiguration {
-
-    static func write(value: EventBridgeClientTypes.AwsVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssignPublicIp"].write(value.assignPublicIp)
-        try writer["SecurityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.AwsVpcConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.AwsVpcConfiguration()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.assignPublicIp = try reader["AssignPublicIp"].readIfPresent()
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.RunCommandParameters {
-
-    static func write(value: EventBridgeClientTypes.RunCommandParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RunCommandTargets"].writeList(value.runCommandTargets, memberWritingClosure: EventBridgeClientTypes.RunCommandTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.RunCommandParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.RunCommandParameters()
-        value.runCommandTargets = try reader["RunCommandTargets"].readListIfPresent(memberReadingClosure: EventBridgeClientTypes.RunCommandTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.RunCommandTarget {
-
-    static func write(value: EventBridgeClientTypes.RunCommandTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.RunCommandTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.RunCommandTarget()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.KinesisParameters {
-
-    static func write(value: EventBridgeClientTypes.KinesisParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PartitionKeyPath"].write(value.partitionKeyPath)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.KinesisParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.KinesisParameters()
-        value.partitionKeyPath = try reader["PartitionKeyPath"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.InputTransformer {
-
-    static func write(value: EventBridgeClientTypes.InputTransformer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InputPathsMap"].writeMap(value.inputPathsMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["InputTemplate"].write(value.inputTemplate)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.InputTransformer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.InputTransformer()
-        value.inputPathsMap = try reader["InputPathsMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.inputTemplate = try reader["InputTemplate"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.PutEventsResultEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.PutEventsResultEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.PutEventsResultEntry()
-        value.eventId = try reader["EventId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.PutPartnerEventsResultEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.PutPartnerEventsResultEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.PutPartnerEventsResultEntry()
-        value.eventId = try reader["EventId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.PutTargetsResultEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.PutTargetsResultEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.PutTargetsResultEntry()
-        value.targetId = try reader["TargetId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.RemoveTargetsResultEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.RemoveTargetsResultEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EventBridgeClientTypes.RemoveTargetsResultEntry()
-        value.targetId = try reader["TargetId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension EventBridgeClientTypes.CreateConnectionAuthRequestParameters {
-
-    static func write(value: EventBridgeClientTypes.CreateConnectionAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApiKeyAuthParameters"].write(value.apiKeyAuthParameters, with: EventBridgeClientTypes.CreateConnectionApiKeyAuthRequestParameters.write(value:to:))
-        try writer["BasicAuthParameters"].write(value.basicAuthParameters, with: EventBridgeClientTypes.CreateConnectionBasicAuthRequestParameters.write(value:to:))
-        try writer["ConnectivityParameters"].write(value.connectivityParameters, with: EventBridgeClientTypes.ConnectivityResourceParameters.write(value:to:))
-        try writer["InvocationHttpParameters"].write(value.invocationHttpParameters, with: EventBridgeClientTypes.ConnectionHttpParameters.write(value:to:))
-        try writer["OAuthParameters"].write(value.oAuthParameters, with: EventBridgeClientTypes.CreateConnectionOAuthRequestParameters.write(value:to:))
-    }
-}
-
-extension EventBridgeClientTypes.ConnectivityResourceParameters {
-
-    static func write(value: EventBridgeClientTypes.ConnectivityResourceParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceParameters"].write(value.resourceParameters, with: EventBridgeClientTypes.ConnectivityResourceConfigurationArn.write(value:to:))
-    }
-}
-
-extension EventBridgeClientTypes.ConnectivityResourceConfigurationArn {
-
-    static func write(value: EventBridgeClientTypes.ConnectivityResourceConfigurationArn?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceConfigurationArn"].write(value.resourceConfigurationArn)
-    }
-}
-
-extension EventBridgeClientTypes.CreateConnectionApiKeyAuthRequestParameters {
-
-    static func write(value: EventBridgeClientTypes.CreateConnectionApiKeyAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EventBridgeClientTypes.UpdateConnectionApiKeyAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ApiKeyName"].write(value.apiKeyName)
         try writer["ApiKeyValue"].write(value.apiKeyValue)
-    }
-}
-
-extension EventBridgeClientTypes.CreateConnectionOAuthRequestParameters {
-
-    static func write(value: EventBridgeClientTypes.CreateConnectionOAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizationEndpoint"].write(value.authorizationEndpoint)
-        try writer["ClientParameters"].write(value.clientParameters, with: EventBridgeClientTypes.CreateConnectionOAuthClientRequestParameters.write(value:to:))
-        try writer["HttpMethod"].write(value.httpMethod)
-        try writer["OAuthHttpParameters"].write(value.oAuthHttpParameters, with: EventBridgeClientTypes.ConnectionHttpParameters.write(value:to:))
-    }
-}
-
-extension EventBridgeClientTypes.CreateConnectionOAuthClientRequestParameters {
-
-    static func write(value: EventBridgeClientTypes.CreateConnectionOAuthClientRequestParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClientID"].write(value.clientID)
-        try writer["ClientSecret"].write(value.clientSecret)
-    }
-}
-
-extension EventBridgeClientTypes.CreateConnectionBasicAuthRequestParameters {
-
-    static func write(value: EventBridgeClientTypes.CreateConnectionBasicAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Password"].write(value.password)
-        try writer["Username"].write(value.username)
-    }
-}
-
-extension EventBridgeClientTypes.PutEventsRequestEntry {
-
-    static func write(value: EventBridgeClientTypes.PutEventsRequestEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Detail"].write(value.detail)
-        try writer["DetailType"].write(value.detailType)
-        try writer["EventBusName"].write(value.eventBusName)
-        try writer["Resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Source"].write(value.source)
-        try writer["Time"].writeTimestamp(value.time, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["TraceHeader"].write(value.traceHeader)
-    }
-}
-
-extension EventBridgeClientTypes.PutPartnerEventsRequestEntry {
-
-    static func write(value: EventBridgeClientTypes.PutPartnerEventsRequestEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Detail"].write(value.detail)
-        try writer["DetailType"].write(value.detailType)
-        try writer["Resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Source"].write(value.source)
-        try writer["Time"].writeTimestamp(value.time, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension EventBridgeClientTypes.Condition {
-
-    static func write(value: EventBridgeClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
     }
 }
 
@@ -9084,23 +9093,12 @@ extension EventBridgeClientTypes.UpdateConnectionAuthRequestParameters {
     }
 }
 
-extension EventBridgeClientTypes.UpdateConnectionApiKeyAuthRequestParameters {
+extension EventBridgeClientTypes.UpdateConnectionBasicAuthRequestParameters {
 
-    static func write(value: EventBridgeClientTypes.UpdateConnectionApiKeyAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EventBridgeClientTypes.UpdateConnectionBasicAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ApiKeyName"].write(value.apiKeyName)
-        try writer["ApiKeyValue"].write(value.apiKeyValue)
-    }
-}
-
-extension EventBridgeClientTypes.UpdateConnectionOAuthRequestParameters {
-
-    static func write(value: EventBridgeClientTypes.UpdateConnectionOAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizationEndpoint"].write(value.authorizationEndpoint)
-        try writer["ClientParameters"].write(value.clientParameters, with: EventBridgeClientTypes.UpdateConnectionOAuthClientRequestParameters.write(value:to:))
-        try writer["HttpMethod"].write(value.httpMethod)
-        try writer["OAuthHttpParameters"].write(value.oAuthHttpParameters, with: EventBridgeClientTypes.ConnectionHttpParameters.write(value:to:))
+        try writer["Password"].write(value.password)
+        try writer["Username"].write(value.username)
     }
 }
 
@@ -9113,12 +9111,14 @@ extension EventBridgeClientTypes.UpdateConnectionOAuthClientRequestParameters {
     }
 }
 
-extension EventBridgeClientTypes.UpdateConnectionBasicAuthRequestParameters {
+extension EventBridgeClientTypes.UpdateConnectionOAuthRequestParameters {
 
-    static func write(value: EventBridgeClientTypes.UpdateConnectionBasicAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EventBridgeClientTypes.UpdateConnectionOAuthRequestParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Password"].write(value.password)
-        try writer["Username"].write(value.username)
+        try writer["AuthorizationEndpoint"].write(value.authorizationEndpoint)
+        try writer["ClientParameters"].write(value.clientParameters, with: EventBridgeClientTypes.UpdateConnectionOAuthClientRequestParameters.write(value:to:))
+        try writer["HttpMethod"].write(value.httpMethod)
+        try writer["OAuthHttpParameters"].write(value.oAuthHttpParameters, with: EventBridgeClientTypes.ConnectionHttpParameters.write(value:to:))
     }
 }
 

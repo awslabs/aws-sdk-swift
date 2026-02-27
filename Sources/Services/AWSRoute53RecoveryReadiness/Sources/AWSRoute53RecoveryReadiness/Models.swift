@@ -3278,23 +3278,16 @@ extension ResourceNotFoundException {
     }
 }
 
-extension Route53RecoveryReadinessClientTypes.Resource {
+extension Route53RecoveryReadinessClientTypes.CellOutput {
 
-    static func write(value: Route53RecoveryReadinessClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["componentId"].write(value.componentId)
-        try writer["dnsTargetResource"].write(value.dnsTargetResource, with: Route53RecoveryReadinessClientTypes.DNSTargetResource.write(value:to:))
-        try writer["readinessScopes"].writeList(value.readinessScopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resourceArn"].write(value.resourceArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.Resource {
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.CellOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53RecoveryReadinessClientTypes.Resource()
-        value.componentId = try reader["componentId"].readIfPresent()
-        value.dnsTargetResource = try reader["dnsTargetResource"].readIfPresent(with: Route53RecoveryReadinessClientTypes.DNSTargetResource.read(from:))
-        value.readinessScopes = try reader["readinessScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        var value = Route53RecoveryReadinessClientTypes.CellOutput()
+        value.cellArn = try reader["cellArn"].readIfPresent() ?? ""
+        value.cellName = try reader["cellName"].readIfPresent() ?? ""
+        value.cells = try reader["cells"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.parentReadinessScopes = try reader["parentReadinessScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -3322,19 +3315,39 @@ extension Route53RecoveryReadinessClientTypes.DNSTargetResource {
     }
 }
 
-extension Route53RecoveryReadinessClientTypes.TargetResource {
+extension Route53RecoveryReadinessClientTypes.ListRulesOutput {
 
-    static func write(value: Route53RecoveryReadinessClientTypes.TargetResource?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.ListRulesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53RecoveryReadinessClientTypes.ListRulesOutput()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.ruleDescription = try reader["ruleDescription"].readIfPresent() ?? ""
+        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension Route53RecoveryReadinessClientTypes.Message {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.Message {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53RecoveryReadinessClientTypes.Message()
+        value.messageText = try reader["messageText"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53RecoveryReadinessClientTypes.NLBResource {
+
+    static func write(value: Route53RecoveryReadinessClientTypes.NLBResource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["nLBResource"].write(value.nlbResource, with: Route53RecoveryReadinessClientTypes.NLBResource.write(value:to:))
-        try writer["r53Resource"].write(value.r53Resource, with: Route53RecoveryReadinessClientTypes.R53ResourceRecord.write(value:to:))
+        try writer["arn"].write(value.arn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.TargetResource {
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.NLBResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53RecoveryReadinessClientTypes.TargetResource()
-        value.nlbResource = try reader["nLBResource"].readIfPresent(with: Route53RecoveryReadinessClientTypes.NLBResource.read(from:))
-        value.r53Resource = try reader["r53Resource"].readIfPresent(with: Route53RecoveryReadinessClientTypes.R53ResourceRecord.read(from:))
+        var value = Route53RecoveryReadinessClientTypes.NLBResource()
+        value.arn = try reader["arn"].readIfPresent()
         return value
     }
 }
@@ -3356,27 +3369,15 @@ extension Route53RecoveryReadinessClientTypes.R53ResourceRecord {
     }
 }
 
-extension Route53RecoveryReadinessClientTypes.NLBResource {
+extension Route53RecoveryReadinessClientTypes.ReadinessCheckOutput {
 
-    static func write(value: Route53RecoveryReadinessClientTypes.NLBResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.NLBResource {
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.ReadinessCheckOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53RecoveryReadinessClientTypes.NLBResource()
-        value.arn = try reader["arn"].readIfPresent()
-        return value
-    }
-}
-
-extension Route53RecoveryReadinessClientTypes.Recommendation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.Recommendation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53RecoveryReadinessClientTypes.Recommendation()
-        value.recommendationText = try reader["recommendationText"].readIfPresent() ?? ""
+        var value = Route53RecoveryReadinessClientTypes.ReadinessCheckOutput()
+        value.readinessCheckArn = try reader["readinessCheckArn"].readIfPresent() ?? ""
+        value.readinessCheckName = try reader["readinessCheckName"].readIfPresent()
+        value.resourceSet = try reader["resourceSet"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -3392,65 +3393,12 @@ extension Route53RecoveryReadinessClientTypes.ReadinessCheckSummary {
     }
 }
 
-extension Route53RecoveryReadinessClientTypes.RuleResult {
+extension Route53RecoveryReadinessClientTypes.Recommendation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.RuleResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.Recommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53RecoveryReadinessClientTypes.RuleResult()
-        value.lastCheckedTimestamp = try reader["lastCheckedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: Route53RecoveryReadinessClientTypes.Message.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.readiness = try reader["readiness"].readIfPresent() ?? .sdkUnknown("")
-        value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension Route53RecoveryReadinessClientTypes.Message {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.Message {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53RecoveryReadinessClientTypes.Message()
-        value.messageText = try reader["messageText"].readIfPresent()
-        return value
-    }
-}
-
-extension Route53RecoveryReadinessClientTypes.ResourceResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.ResourceResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53RecoveryReadinessClientTypes.ResourceResult()
-        value.componentId = try reader["componentId"].readIfPresent()
-        value.lastCheckedTimestamp = try reader["lastCheckedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.readiness = try reader["readiness"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        return value
-    }
-}
-
-extension Route53RecoveryReadinessClientTypes.CellOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.CellOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53RecoveryReadinessClientTypes.CellOutput()
-        value.cellArn = try reader["cellArn"].readIfPresent() ?? ""
-        value.cellName = try reader["cellName"].readIfPresent() ?? ""
-        value.cells = try reader["cells"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.parentReadinessScopes = try reader["parentReadinessScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension Route53RecoveryReadinessClientTypes.ReadinessCheckOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.ReadinessCheckOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53RecoveryReadinessClientTypes.ReadinessCheckOutput()
-        value.readinessCheckArn = try reader["readinessCheckArn"].readIfPresent() ?? ""
-        value.readinessCheckName = try reader["readinessCheckName"].readIfPresent()
-        value.resourceSet = try reader["resourceSet"].readIfPresent() ?? ""
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = Route53RecoveryReadinessClientTypes.Recommendation()
+        value.recommendationText = try reader["recommendationText"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3464,6 +3412,40 @@ extension Route53RecoveryReadinessClientTypes.RecoveryGroupOutput {
         value.recoveryGroupArn = try reader["recoveryGroupArn"].readIfPresent() ?? ""
         value.recoveryGroupName = try reader["recoveryGroupName"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension Route53RecoveryReadinessClientTypes.Resource {
+
+    static func write(value: Route53RecoveryReadinessClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["componentId"].write(value.componentId)
+        try writer["dnsTargetResource"].write(value.dnsTargetResource, with: Route53RecoveryReadinessClientTypes.DNSTargetResource.write(value:to:))
+        try writer["readinessScopes"].writeList(value.readinessScopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resourceArn"].write(value.resourceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.Resource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53RecoveryReadinessClientTypes.Resource()
+        value.componentId = try reader["componentId"].readIfPresent()
+        value.dnsTargetResource = try reader["dnsTargetResource"].readIfPresent(with: Route53RecoveryReadinessClientTypes.DNSTargetResource.read(from:))
+        value.readinessScopes = try reader["readinessScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53RecoveryReadinessClientTypes.ResourceResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.ResourceResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53RecoveryReadinessClientTypes.ResourceResult()
+        value.componentId = try reader["componentId"].readIfPresent()
+        value.lastCheckedTimestamp = try reader["lastCheckedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.readiness = try reader["readiness"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
         return value
     }
 }
@@ -3482,14 +3464,32 @@ extension Route53RecoveryReadinessClientTypes.ResourceSetOutput {
     }
 }
 
-extension Route53RecoveryReadinessClientTypes.ListRulesOutput {
+extension Route53RecoveryReadinessClientTypes.RuleResult {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.ListRulesOutput {
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.RuleResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53RecoveryReadinessClientTypes.ListRulesOutput()
-        value.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.ruleDescription = try reader["ruleDescription"].readIfPresent() ?? ""
+        var value = Route53RecoveryReadinessClientTypes.RuleResult()
+        value.lastCheckedTimestamp = try reader["lastCheckedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: Route53RecoveryReadinessClientTypes.Message.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.readiness = try reader["readiness"].readIfPresent() ?? .sdkUnknown("")
         value.ruleId = try reader["ruleId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension Route53RecoveryReadinessClientTypes.TargetResource {
+
+    static func write(value: Route53RecoveryReadinessClientTypes.TargetResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["nLBResource"].write(value.nlbResource, with: Route53RecoveryReadinessClientTypes.NLBResource.write(value:to:))
+        try writer["r53Resource"].write(value.r53Resource, with: Route53RecoveryReadinessClientTypes.R53ResourceRecord.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryReadinessClientTypes.TargetResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53RecoveryReadinessClientTypes.TargetResource()
+        value.nlbResource = try reader["nLBResource"].readIfPresent(with: Route53RecoveryReadinessClientTypes.NLBResource.read(from:))
+        value.r53Resource = try reader["r53Resource"].readIfPresent(with: Route53RecoveryReadinessClientTypes.R53ResourceRecord.read(from:))
         return value
     }
 }

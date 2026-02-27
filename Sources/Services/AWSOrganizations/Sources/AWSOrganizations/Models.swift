@@ -2222,6 +2222,7 @@ extension OrganizationsClientTypes {
         case chatbotPolicy
         case declarativePolicyEc2
         case inspectorPolicy
+        case networkSecurityDirectorPolicy
         case resourceControlPolicy
         case s3Policy
         case securityhubPolicy
@@ -2238,6 +2239,7 @@ extension OrganizationsClientTypes {
                 .chatbotPolicy,
                 .declarativePolicyEc2,
                 .inspectorPolicy,
+                .networkSecurityDirectorPolicy,
                 .resourceControlPolicy,
                 .s3Policy,
                 .securityhubPolicy,
@@ -2260,6 +2262,7 @@ extension OrganizationsClientTypes {
             case .chatbotPolicy: return "CHATBOT_POLICY"
             case .declarativePolicyEc2: return "DECLARATIVE_POLICY_EC2"
             case .inspectorPolicy: return "INSPECTOR_POLICY"
+            case .networkSecurityDirectorPolicy: return "NETWORK_SECURITY_DIRECTOR_POLICY"
             case .resourceControlPolicy: return "RESOURCE_CONTROL_POLICY"
             case .s3Policy: return "S3_POLICY"
             case .securityhubPolicy: return "SECURITYHUB_POLICY"
@@ -2556,7 +2559,9 @@ public struct CreatePolicyInput: Swift.Sendable {
     ///
     /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
     ///
-    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_S3.html)
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     /// This member is required.
     public var type: OrganizationsClientTypes.PolicyType?
 
@@ -2909,6 +2914,7 @@ extension OrganizationsClientTypes {
         case chatbotPolicy
         case declarativePolicyEc2
         case inspectorPolicy
+        case networkSecurityDirectorPolicy
         case s3Policy
         case securityhubPolicy
         case tagPolicy
@@ -2923,6 +2929,7 @@ extension OrganizationsClientTypes {
                 .chatbotPolicy,
                 .declarativePolicyEc2,
                 .inspectorPolicy,
+                .networkSecurityDirectorPolicy,
                 .s3Policy,
                 .securityhubPolicy,
                 .tagPolicy,
@@ -2943,6 +2950,7 @@ extension OrganizationsClientTypes {
             case .chatbotPolicy: return "CHATBOT_POLICY"
             case .declarativePolicyEc2: return "DECLARATIVE_POLICY_EC2"
             case .inspectorPolicy: return "INSPECTOR_POLICY"
+            case .networkSecurityDirectorPolicy: return "NETWORK_SECURITY_DIRECTOR_POLICY"
             case .s3Policy: return "S3_POLICY"
             case .securityhubPolicy: return "SECURITYHUB_POLICY"
             case .tagPolicy: return "TAG_POLICY"
@@ -2974,7 +2982,9 @@ public struct DescribeEffectivePolicyInput: Swift.Sendable {
     ///
     /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
     ///
-    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_S3.html)
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
     /// When you're signed in as the management account, specify the ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported.
@@ -3444,7 +3454,9 @@ public struct DisablePolicyTypeInput: Swift.Sendable {
     ///
     /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
     ///
-    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_S3.html)
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.PolicyType?
     /// ID for the root in which you want to disable a policy type. You can get the ID from the [ListRoots] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
@@ -3563,7 +3575,9 @@ public struct EnablePolicyTypeInput: Swift.Sendable {
     ///
     /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
     ///
-    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_S3.html)
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.PolicyType?
     /// ID for the root in which you want to enable a policy type. You can get the ID from the [ListRoots] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
@@ -3768,7 +3782,9 @@ public struct ListAccountsWithInvalidEffectivePolicyInput: Swift.Sendable {
     ///
     /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
     ///
-    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_S3.html)
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
 
@@ -3808,7 +3824,9 @@ public struct ListAccountsWithInvalidEffectivePolicyOutput: Swift.Sendable {
     ///
     /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
     ///
-    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_S3.html)
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
 
     public init(
@@ -4169,7 +4187,9 @@ public struct ListEffectivePolicyValidationErrorsInput: Swift.Sendable {
     ///
     /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
     ///
-    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_S3.html)
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
 
@@ -4244,7 +4264,9 @@ public struct ListEffectivePolicyValidationErrorsOutput: Swift.Sendable {
     ///
     /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
     ///
-    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_S3.html)
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
 
     public init(
@@ -4573,7 +4595,9 @@ public struct ListPoliciesInput: Swift.Sendable {
     ///
     /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
     ///
-    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_S3.html)
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     /// This member is required.
     public var filter: OrganizationsClientTypes.PolicyType?
     /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
@@ -4632,7 +4656,9 @@ public struct ListPoliciesForTargetInput: Swift.Sendable {
     ///
     /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
     ///
-    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_S3.html)
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     /// This member is required.
     public var filter: OrganizationsClientTypes.PolicyType?
     /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
@@ -9143,48 +9169,30 @@ extension ResponsibilityTransferAlreadyInStatusException {
     }
 }
 
-extension OrganizationsClientTypes.Handshake {
+extension OrganizationsClientTypes.Account {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Handshake {
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Account {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.Handshake()
+        var value = OrganizationsClientTypes.Account()
         value.id = try reader["Id"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
-        value.parties = try reader["Parties"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeParty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.email = try reader["Email"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
-        value.requestedTimestamp = try reader["RequestedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.expirationTimestamp = try reader["ExpirationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.action = try reader["Action"].readIfPresent()
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
+        value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension OrganizationsClientTypes.HandshakeResource {
+extension OrganizationsClientTypes.Child {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.HandshakeResource {
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Child {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.HandshakeResource()
-        value.value = try reader["Value"].readIfPresent()
+        var value = OrganizationsClientTypes.Child()
+        value.id = try reader["Id"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeResource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.HandshakeParty {
-
-    static func write(value: OrganizationsClientTypes.HandshakeParty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.HandshakeParty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.HandshakeParty()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9206,6 +9214,127 @@ extension OrganizationsClientTypes.CreateAccountStatus {
     }
 }
 
+extension OrganizationsClientTypes.DelegatedAdministrator {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.DelegatedAdministrator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.DelegatedAdministrator()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.email = try reader["Email"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
+        value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.delegationEnabledDate = try reader["DelegationEnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.DelegatedService {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.DelegatedService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.DelegatedService()
+        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
+        value.delegationEnabledDate = try reader["DelegationEnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.EffectivePolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EffectivePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.EffectivePolicy()
+        value.policyContent = try reader["PolicyContent"].readIfPresent()
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.targetId = try reader["TargetId"].readIfPresent()
+        value.policyType = try reader["PolicyType"].readIfPresent()
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.EffectivePolicyValidationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EffectivePolicyValidationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.EffectivePolicyValidationError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.pathToError = try reader["PathToError"].readIfPresent()
+        value.contributingPolicies = try reader["ContributingPolicies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.EnabledServicePrincipal {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EnabledServicePrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.EnabledServicePrincipal()
+        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
+        value.dateEnabled = try reader["DateEnabled"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.Handshake {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Handshake {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.Handshake()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.parties = try reader["Parties"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeParty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["State"].readIfPresent()
+        value.requestedTimestamp = try reader["RequestedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expirationTimestamp = try reader["ExpirationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.action = try reader["Action"].readIfPresent()
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.HandshakeFilter {
+
+    static func write(value: OrganizationsClientTypes.HandshakeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionType"].write(value.actionType)
+        try writer["ParentHandshakeId"].write(value.parentHandshakeId)
+    }
+}
+
+extension OrganizationsClientTypes.HandshakeParty {
+
+    static func write(value: OrganizationsClientTypes.HandshakeParty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.HandshakeParty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.HandshakeParty()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.HandshakeResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.HandshakeResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.HandshakeResource()
+        value.value = try reader["Value"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension OrganizationsClientTypes.Organization {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Organization {
@@ -9222,17 +9351,6 @@ extension OrganizationsClientTypes.Organization {
     }
 }
 
-extension OrganizationsClientTypes.PolicyTypeSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.PolicyTypeSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.PolicyTypeSummary()
-        value.type = try reader["Type"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
 extension OrganizationsClientTypes.OrganizationalUnit {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.OrganizationalUnit {
@@ -9241,6 +9359,17 @@ extension OrganizationsClientTypes.OrganizationalUnit {
         value.id = try reader["Id"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.Parent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Parent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.Parent()
+        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -9271,32 +9400,26 @@ extension OrganizationsClientTypes.PolicySummary {
     }
 }
 
-extension OrganizationsClientTypes.Account {
+extension OrganizationsClientTypes.PolicyTargetSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Account {
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.PolicyTargetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.Account()
-        value.id = try reader["Id"].readIfPresent()
+        var value = OrganizationsClientTypes.PolicyTargetSummary()
+        value.targetId = try reader["TargetId"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
-        value.email = try reader["Email"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
-        value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
 
-extension OrganizationsClientTypes.EffectivePolicy {
+extension OrganizationsClientTypes.PolicyTypeSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EffectivePolicy {
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.PolicyTypeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.EffectivePolicy()
-        value.policyContent = try reader["PolicyContent"].readIfPresent()
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.targetId = try reader["TargetId"].readIfPresent()
-        value.policyType = try reader["PolicyType"].readIfPresent()
+        var value = OrganizationsClientTypes.PolicyTypeSummary()
+        value.type = try reader["Type"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -9342,17 +9465,6 @@ extension OrganizationsClientTypes.ResponsibilityTransfer {
     }
 }
 
-extension OrganizationsClientTypes.TransferParticipant {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.TransferParticipant {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.TransferParticipant()
-        value.managementAccountId = try reader["ManagementAccountId"].readIfPresent()
-        value.managementAccountEmail = try reader["ManagementAccountEmail"].readIfPresent()
-        return value
-    }
-}
-
 extension OrganizationsClientTypes.Root {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Root {
@@ -9362,81 +9474,6 @@ extension OrganizationsClientTypes.Root {
         value.arn = try reader["Arn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.policyTypes = try reader["PolicyTypes"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.PolicyTypeSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.EnabledServicePrincipal {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EnabledServicePrincipal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.EnabledServicePrincipal()
-        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
-        value.dateEnabled = try reader["DateEnabled"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.Child {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Child {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.Child()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.DelegatedAdministrator {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.DelegatedAdministrator {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.DelegatedAdministrator()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.email = try reader["Email"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
-        value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.delegationEnabledDate = try reader["DelegationEnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.DelegatedService {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.DelegatedService {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.DelegatedService()
-        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
-        value.delegationEnabledDate = try reader["DelegationEnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.EffectivePolicyValidationError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EffectivePolicyValidationError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.EffectivePolicyValidationError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.pathToError = try reader["PathToError"].readIfPresent()
-        value.contributingPolicies = try reader["ContributingPolicies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.Parent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Parent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.Parent()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -9458,25 +9495,14 @@ extension OrganizationsClientTypes.Tag {
     }
 }
 
-extension OrganizationsClientTypes.PolicyTargetSummary {
+extension OrganizationsClientTypes.TransferParticipant {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.PolicyTargetSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.TransferParticipant {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.PolicyTargetSummary()
-        value.targetId = try reader["TargetId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        var value = OrganizationsClientTypes.TransferParticipant()
+        value.managementAccountId = try reader["ManagementAccountId"].readIfPresent()
+        value.managementAccountEmail = try reader["ManagementAccountEmail"].readIfPresent()
         return value
-    }
-}
-
-extension OrganizationsClientTypes.HandshakeFilter {
-
-    static func write(value: OrganizationsClientTypes.HandshakeFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionType"].write(value.actionType)
-        try writer["ParentHandshakeId"].write(value.parentHandshakeId)
     }
 }
 

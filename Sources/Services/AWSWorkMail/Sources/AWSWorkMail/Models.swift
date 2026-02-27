@@ -10162,137 +10162,6 @@ extension InvalidConfigurationException {
     }
 }
 
-extension WorkMailClientTypes.IdentityCenterConfiguration {
-
-    static func write(value: WorkMailClientTypes.IdentityCenterConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationArn"].write(value.applicationArn)
-        try writer["InstanceArn"].write(value.instanceArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.IdentityCenterConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkMailClientTypes.IdentityCenterConfiguration()
-        value.instanceArn = try reader["InstanceArn"].readIfPresent() ?? ""
-        value.applicationArn = try reader["ApplicationArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WorkMailClientTypes.PersonalAccessTokenConfiguration {
-
-    static func write(value: WorkMailClientTypes.PersonalAccessTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LifetimeInDays"].write(value.lifetimeInDays)
-        try writer["Status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.PersonalAccessTokenConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkMailClientTypes.PersonalAccessTokenConfiguration()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.lifetimeInDays = try reader["LifetimeInDays"].readIfPresent()
-        return value
-    }
-}
-
-extension WorkMailClientTypes.BookingOptions {
-
-    static func write(value: WorkMailClientTypes.BookingOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoAcceptRequests"].write(value.autoAcceptRequests)
-        try writer["AutoDeclineConflictingRequests"].write(value.autoDeclineConflictingRequests)
-        try writer["AutoDeclineRecurringRequests"].write(value.autoDeclineRecurringRequests)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.BookingOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkMailClientTypes.BookingOptions()
-        value.autoAcceptRequests = try reader["AutoAcceptRequests"].readIfPresent() ?? false
-        value.autoDeclineRecurringRequests = try reader["AutoDeclineRecurringRequests"].readIfPresent() ?? false
-        value.autoDeclineConflictingRequests = try reader["AutoDeclineConflictingRequests"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension WorkMailClientTypes.FolderConfiguration {
-
-    static func write(value: WorkMailClientTypes.FolderConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["Name"].write(value.name)
-        try writer["Period"].write(value.period)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.FolderConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkMailClientTypes.FolderConfiguration()
-        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
-        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
-        value.period = try reader["Period"].readIfPresent()
-        return value
-    }
-}
-
-extension WorkMailClientTypes.ImpersonationRule {
-
-    static func write(value: WorkMailClientTypes.ImpersonationRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Effect"].write(value.effect)
-        try writer["ImpersonationRuleId"].write(value.impersonationRuleId)
-        try writer["Name"].write(value.name)
-        try writer["NotTargetUsers"].writeList(value.notTargetUsers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TargetUsers"].writeList(value.targetUsers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.ImpersonationRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkMailClientTypes.ImpersonationRule()
-        value.impersonationRuleId = try reader["ImpersonationRuleId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.effect = try reader["Effect"].readIfPresent() ?? .sdkUnknown("")
-        value.targetUsers = try reader["TargetUsers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.notTargetUsers = try reader["NotTargetUsers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WorkMailClientTypes.ImpersonationMatchedRule {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.ImpersonationMatchedRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkMailClientTypes.ImpersonationMatchedRule()
-        value.impersonationRuleId = try reader["ImpersonationRuleId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension WorkMailClientTypes.DnsRecord {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.DnsRecord {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkMailClientTypes.DnsRecord()
-        value.type = try reader["Type"].readIfPresent()
-        value.hostname = try reader["Hostname"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension WorkMailClientTypes.MobileDeviceAccessMatchedRule {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.MobileDeviceAccessMatchedRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkMailClientTypes.MobileDeviceAccessMatchedRule()
-        value.mobileDeviceAccessRuleId = try reader["MobileDeviceAccessRuleId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
 extension WorkMailClientTypes.AccessControlRule {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.AccessControlRule {
@@ -10330,43 +10199,82 @@ extension WorkMailClientTypes.AvailabilityConfiguration {
     }
 }
 
-extension WorkMailClientTypes.LambdaAvailabilityProvider {
+extension WorkMailClientTypes.BookingOptions {
 
-    static func write(value: WorkMailClientTypes.LambdaAvailabilityProvider?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WorkMailClientTypes.BookingOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["LambdaArn"].write(value.lambdaArn)
+        try writer["AutoAcceptRequests"].write(value.autoAcceptRequests)
+        try writer["AutoDeclineConflictingRequests"].write(value.autoDeclineConflictingRequests)
+        try writer["AutoDeclineRecurringRequests"].write(value.autoDeclineRecurringRequests)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.LambdaAvailabilityProvider {
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.BookingOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkMailClientTypes.LambdaAvailabilityProvider()
-        value.lambdaArn = try reader["LambdaArn"].readIfPresent() ?? ""
+        var value = WorkMailClientTypes.BookingOptions()
+        value.autoAcceptRequests = try reader["AutoAcceptRequests"].readIfPresent() ?? false
+        value.autoDeclineRecurringRequests = try reader["AutoDeclineRecurringRequests"].readIfPresent() ?? false
+        value.autoDeclineConflictingRequests = try reader["AutoDeclineConflictingRequests"].readIfPresent() ?? false
         return value
     }
 }
 
-extension WorkMailClientTypes.RedactedEwsAvailabilityProvider {
+extension WorkMailClientTypes.Delegate {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.RedactedEwsAvailabilityProvider {
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.Delegate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkMailClientTypes.RedactedEwsAvailabilityProvider()
-        value.ewsEndpoint = try reader["EwsEndpoint"].readIfPresent()
-        value.ewsUsername = try reader["EwsUsername"].readIfPresent()
+        var value = WorkMailClientTypes.Delegate()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension WorkMailClientTypes.Member {
+extension WorkMailClientTypes.DnsRecord {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.Member {
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.DnsRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkMailClientTypes.Member()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        var value = WorkMailClientTypes.DnsRecord()
         value.type = try reader["Type"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.enabledDate = try reader["EnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.disabledDate = try reader["DisabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.hostname = try reader["Hostname"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkMailClientTypes.Domain {
+
+    static func write(value: WorkMailClientTypes.Domain?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DomainName"].write(value.domainName)
+        try writer["HostedZoneId"].write(value.hostedZoneId)
+    }
+}
+
+extension WorkMailClientTypes.EwsAvailabilityProvider {
+
+    static func write(value: WorkMailClientTypes.EwsAvailabilityProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EwsEndpoint"].write(value.ewsEndpoint)
+        try writer["EwsPassword"].write(value.ewsPassword)
+        try writer["EwsUsername"].write(value.ewsUsername)
+    }
+}
+
+extension WorkMailClientTypes.FolderConfiguration {
+
+    static func write(value: WorkMailClientTypes.FolderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["Name"].write(value.name)
+        try writer["Period"].write(value.period)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.FolderConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkMailClientTypes.FolderConfiguration()
+        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.period = try reader["Period"].readIfPresent()
         return value
     }
 }
@@ -10397,6 +10305,34 @@ extension WorkMailClientTypes.GroupIdentifier {
     }
 }
 
+extension WorkMailClientTypes.IdentityCenterConfiguration {
+
+    static func write(value: WorkMailClientTypes.IdentityCenterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationArn"].write(value.applicationArn)
+        try writer["InstanceArn"].write(value.instanceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.IdentityCenterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkMailClientTypes.IdentityCenterConfiguration()
+        value.instanceArn = try reader["InstanceArn"].readIfPresent() ?? ""
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WorkMailClientTypes.ImpersonationMatchedRule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.ImpersonationMatchedRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkMailClientTypes.ImpersonationMatchedRule()
+        value.impersonationRuleId = try reader["ImpersonationRuleId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
 extension WorkMailClientTypes.ImpersonationRole {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.ImpersonationRole {
@@ -10408,6 +10344,86 @@ extension WorkMailClientTypes.ImpersonationRole {
         value.dateCreated = try reader["DateCreated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.dateModified = try reader["DateModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
+    }
+}
+
+extension WorkMailClientTypes.ImpersonationRule {
+
+    static func write(value: WorkMailClientTypes.ImpersonationRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Effect"].write(value.effect)
+        try writer["ImpersonationRuleId"].write(value.impersonationRuleId)
+        try writer["Name"].write(value.name)
+        try writer["NotTargetUsers"].writeList(value.notTargetUsers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetUsers"].writeList(value.targetUsers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.ImpersonationRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkMailClientTypes.ImpersonationRule()
+        value.impersonationRuleId = try reader["ImpersonationRuleId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.effect = try reader["Effect"].readIfPresent() ?? .sdkUnknown("")
+        value.targetUsers = try reader["TargetUsers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notTargetUsers = try reader["NotTargetUsers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WorkMailClientTypes.LambdaAvailabilityProvider {
+
+    static func write(value: WorkMailClientTypes.LambdaAvailabilityProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LambdaArn"].write(value.lambdaArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.LambdaAvailabilityProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkMailClientTypes.LambdaAvailabilityProvider()
+        value.lambdaArn = try reader["LambdaArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WorkMailClientTypes.ListGroupsFilters {
+
+    static func write(value: WorkMailClientTypes.ListGroupsFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NamePrefix"].write(value.namePrefix)
+        try writer["PrimaryEmailPrefix"].write(value.primaryEmailPrefix)
+        try writer["State"].write(value.state)
+    }
+}
+
+extension WorkMailClientTypes.ListGroupsForEntityFilters {
+
+    static func write(value: WorkMailClientTypes.ListGroupsForEntityFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GroupNamePrefix"].write(value.groupNamePrefix)
+    }
+}
+
+extension WorkMailClientTypes.ListResourcesFilters {
+
+    static func write(value: WorkMailClientTypes.ListResourcesFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NamePrefix"].write(value.namePrefix)
+        try writer["PrimaryEmailPrefix"].write(value.primaryEmailPrefix)
+        try writer["State"].write(value.state)
+    }
+}
+
+extension WorkMailClientTypes.ListUsersFilters {
+
+    static func write(value: WorkMailClientTypes.ListUsersFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DisplayNamePrefix"].write(value.displayNamePrefix)
+        try writer["IdentityProviderUserIdPrefix"].write(value.identityProviderUserIdPrefix)
+        try writer["PrimaryEmailPrefix"].write(value.primaryEmailPrefix)
+        try writer["State"].write(value.state)
+        try writer["UsernamePrefix"].write(value.usernamePrefix)
     }
 }
 
@@ -10429,18 +10445,6 @@ extension WorkMailClientTypes.MailboxExportJob {
     }
 }
 
-extension WorkMailClientTypes.Permission {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.Permission {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkMailClientTypes.Permission()
-        value.granteeId = try reader["GranteeId"].readIfPresent() ?? ""
-        value.granteeType = try reader["GranteeType"].readIfPresent() ?? .sdkUnknown("")
-        value.permissionValues = try reader["PermissionValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WorkMailClientTypes.PermissionType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
 extension WorkMailClientTypes.MailDomainSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.MailDomainSummary {
@@ -10448,6 +10452,32 @@ extension WorkMailClientTypes.MailDomainSummary {
         var value = WorkMailClientTypes.MailDomainSummary()
         value.domainName = try reader["DomainName"].readIfPresent()
         value.defaultDomain = try reader["DefaultDomain"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension WorkMailClientTypes.Member {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.Member {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkMailClientTypes.Member()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.enabledDate = try reader["EnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.disabledDate = try reader["DisabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension WorkMailClientTypes.MobileDeviceAccessMatchedRule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.MobileDeviceAccessMatchedRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkMailClientTypes.MobileDeviceAccessMatchedRule()
+        value.mobileDeviceAccessRuleId = try reader["MobileDeviceAccessRuleId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
@@ -10504,6 +10534,35 @@ extension WorkMailClientTypes.OrganizationSummary {
     }
 }
 
+extension WorkMailClientTypes.Permission {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.Permission {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkMailClientTypes.Permission()
+        value.granteeId = try reader["GranteeId"].readIfPresent() ?? ""
+        value.granteeType = try reader["GranteeType"].readIfPresent() ?? .sdkUnknown("")
+        value.permissionValues = try reader["PermissionValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WorkMailClientTypes.PermissionType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WorkMailClientTypes.PersonalAccessTokenConfiguration {
+
+    static func write(value: WorkMailClientTypes.PersonalAccessTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LifetimeInDays"].write(value.lifetimeInDays)
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.PersonalAccessTokenConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkMailClientTypes.PersonalAccessTokenConfiguration()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.lifetimeInDays = try reader["LifetimeInDays"].readIfPresent()
+        return value
+    }
+}
+
 extension WorkMailClientTypes.PersonalAccessTokenSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.PersonalAccessTokenSummary {
@@ -10520,13 +10579,13 @@ extension WorkMailClientTypes.PersonalAccessTokenSummary {
     }
 }
 
-extension WorkMailClientTypes.Delegate {
+extension WorkMailClientTypes.RedactedEwsAvailabilityProvider {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.Delegate {
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.RedactedEwsAvailabilityProvider {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkMailClientTypes.Delegate()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        var value = WorkMailClientTypes.RedactedEwsAvailabilityProvider()
+        value.ewsEndpoint = try reader["EwsEndpoint"].readIfPresent()
+        value.ewsUsername = try reader["EwsUsername"].readIfPresent()
         return value
     }
 }
@@ -10581,65 +10640,6 @@ extension WorkMailClientTypes.User {
         value.identityProviderUserId = try reader["IdentityProviderUserId"].readIfPresent()
         value.identityProviderIdentityStoreId = try reader["IdentityProviderIdentityStoreId"].readIfPresent()
         return value
-    }
-}
-
-extension WorkMailClientTypes.EwsAvailabilityProvider {
-
-    static func write(value: WorkMailClientTypes.EwsAvailabilityProvider?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EwsEndpoint"].write(value.ewsEndpoint)
-        try writer["EwsPassword"].write(value.ewsPassword)
-        try writer["EwsUsername"].write(value.ewsUsername)
-    }
-}
-
-extension WorkMailClientTypes.Domain {
-
-    static func write(value: WorkMailClientTypes.Domain?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DomainName"].write(value.domainName)
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-    }
-}
-
-extension WorkMailClientTypes.ListGroupsFilters {
-
-    static func write(value: WorkMailClientTypes.ListGroupsFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NamePrefix"].write(value.namePrefix)
-        try writer["PrimaryEmailPrefix"].write(value.primaryEmailPrefix)
-        try writer["State"].write(value.state)
-    }
-}
-
-extension WorkMailClientTypes.ListGroupsForEntityFilters {
-
-    static func write(value: WorkMailClientTypes.ListGroupsForEntityFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GroupNamePrefix"].write(value.groupNamePrefix)
-    }
-}
-
-extension WorkMailClientTypes.ListResourcesFilters {
-
-    static func write(value: WorkMailClientTypes.ListResourcesFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NamePrefix"].write(value.namePrefix)
-        try writer["PrimaryEmailPrefix"].write(value.primaryEmailPrefix)
-        try writer["State"].write(value.state)
-    }
-}
-
-extension WorkMailClientTypes.ListUsersFilters {
-
-    static func write(value: WorkMailClientTypes.ListUsersFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DisplayNamePrefix"].write(value.displayNamePrefix)
-        try writer["IdentityProviderUserIdPrefix"].write(value.identityProviderUserIdPrefix)
-        try writer["PrimaryEmailPrefix"].write(value.primaryEmailPrefix)
-        try writer["State"].write(value.state)
-        try writer["UsernamePrefix"].write(value.usernamePrefix)
     }
 }
 

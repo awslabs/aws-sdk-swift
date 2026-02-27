@@ -1903,6 +1903,25 @@ extension InvalidNextTokenException {
     }
 }
 
+extension Route53ProfilesClientTypes.Profile {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53ProfilesClientTypes.Profile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ProfilesClientTypes.Profile()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.ownerId = try reader["OwnerId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.shareStatus = try reader["ShareStatus"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modificationTime = try reader["ModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.clientToken = try reader["ClientToken"].readIfPresent()
+        return value
+    }
+}
+
 extension Route53ProfilesClientTypes.ProfileAssociation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ProfilesClientTypes.ProfileAssociation {
@@ -1937,25 +1956,6 @@ extension Route53ProfilesClientTypes.ProfileResourceAssociation {
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.modificationTime = try reader["ModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension Route53ProfilesClientTypes.Profile {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ProfilesClientTypes.Profile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ProfilesClientTypes.Profile()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.shareStatus = try reader["ShareStatus"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modificationTime = try reader["ModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.clientToken = try reader["ClientToken"].readIfPresent()
         return value
     }
 }

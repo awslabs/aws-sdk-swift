@@ -3863,81 +3863,6 @@ extension ThrottlingException {
     }
 }
 
-extension SecurityIRClientTypes.GetMembershipAccountDetailItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.GetMembershipAccountDetailItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityIRClientTypes.GetMembershipAccountDetailItem()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.relationshipStatus = try reader["relationshipStatus"].readIfPresent()
-        value.relationshipType = try reader["relationshipType"].readIfPresent()
-        return value
-    }
-}
-
-extension SecurityIRClientTypes.GetMembershipAccountDetailError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.GetMembershipAccountDetailError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityIRClientTypes.GetMembershipAccountDetailError()
-        value.accountId = try reader["accountId"].readIfPresent() ?? ""
-        value.error = try reader["error"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension SecurityIRClientTypes.ImpactedAwsRegion {
-
-    static func write(value: SecurityIRClientTypes.ImpactedAwsRegion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["region"].write(value.region)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.ImpactedAwsRegion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityIRClientTypes.ImpactedAwsRegion()
-        value.region = try reader["region"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension SecurityIRClientTypes.ThreatActorIp {
-
-    static func write(value: SecurityIRClientTypes.ThreatActorIp?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ipAddress"].write(value.ipAddress)
-        try writer["userAgent"].write(value.userAgent)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.ThreatActorIp {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityIRClientTypes.ThreatActorIp()
-        value.ipAddress = try reader["ipAddress"].readIfPresent() ?? ""
-        value.userAgent = try reader["userAgent"].readIfPresent()
-        return value
-    }
-}
-
-extension SecurityIRClientTypes.Watcher {
-
-    static func write(value: SecurityIRClientTypes.Watcher?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["email"].write(value.email)
-        try writer["jobTitle"].write(value.jobTitle)
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.Watcher {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityIRClientTypes.Watcher()
-        value.email = try reader["email"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent()
-        value.jobTitle = try reader["jobTitle"].readIfPresent()
-        return value
-    }
-}
-
 extension SecurityIRClientTypes.CaseAttachmentAttributes {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.CaseAttachmentAttributes {
@@ -3948,6 +3873,19 @@ extension SecurityIRClientTypes.CaseAttachmentAttributes {
         value.attachmentStatus = try reader["attachmentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.creator = try reader["creator"].readIfPresent() ?? ""
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension SecurityIRClientTypes.CaseEditItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.CaseEditItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityIRClientTypes.CaseEditItem()
+        value.eventTimestamp = try reader["eventTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.principal = try reader["principal"].readIfPresent()
+        value.action = try reader["action"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -3965,6 +3903,45 @@ extension SecurityIRClientTypes.CaseMetadataEntry {
         var value = SecurityIRClientTypes.CaseMetadataEntry()
         value.key = try reader["key"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SecurityIRClientTypes.GetMembershipAccountDetailError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.GetMembershipAccountDetailError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityIRClientTypes.GetMembershipAccountDetailError()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.error = try reader["error"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SecurityIRClientTypes.GetMembershipAccountDetailItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.GetMembershipAccountDetailItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityIRClientTypes.GetMembershipAccountDetailItem()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.relationshipStatus = try reader["relationshipStatus"].readIfPresent()
+        value.relationshipType = try reader["relationshipType"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityIRClientTypes.ImpactedAwsRegion {
+
+    static func write(value: SecurityIRClientTypes.ImpactedAwsRegion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["region"].write(value.region)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.ImpactedAwsRegion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityIRClientTypes.ImpactedAwsRegion()
+        value.region = try reader["region"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3990,43 +3967,30 @@ extension SecurityIRClientTypes.IncidentResponder {
     }
 }
 
-extension SecurityIRClientTypes.OptInFeature {
+extension SecurityIRClientTypes.InvestigationAction {
 
-    static func write(value: SecurityIRClientTypes.OptInFeature?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["featureName"].write(value.featureName)
-        try writer["isEnabled"].write(value.isEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.OptInFeature {
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.InvestigationAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityIRClientTypes.OptInFeature()
-        value.featureName = try reader["featureName"].readIfPresent() ?? .sdkUnknown("")
-        value.isEnabled = try reader["isEnabled"].readIfPresent() ?? false
+        var value = SecurityIRClientTypes.InvestigationAction()
+        value.investigationId = try reader["investigationId"].readIfPresent() ?? ""
+        value.actionType = try reader["actionType"].readIfPresent() ?? .sdkUnknown("")
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.content = try reader["content"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.feedback = try reader["feedback"].readIfPresent(with: SecurityIRClientTypes.InvestigationFeedback.read(from:))
         return value
     }
 }
 
-extension SecurityIRClientTypes.MembershipAccountsConfigurations {
+extension SecurityIRClientTypes.InvestigationFeedback {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.MembershipAccountsConfigurations {
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.InvestigationFeedback {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityIRClientTypes.MembershipAccountsConfigurations()
-        value.coverEntireOrganization = try reader["coverEntireOrganization"].readIfPresent()
-        value.organizationalUnits = try reader["organizationalUnits"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SecurityIRClientTypes.CaseEditItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.CaseEditItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityIRClientTypes.CaseEditItem()
-        value.eventTimestamp = try reader["eventTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.principal = try reader["principal"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        var value = SecurityIRClientTypes.InvestigationFeedback()
+        value.usefulness = try reader["usefulness"].readIfPresent()
+        value.comment = try reader["comment"].readIfPresent()
+        value.submittedAt = try reader["submittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -4065,34 +4029,6 @@ extension SecurityIRClientTypes.ListCommentsItem {
     }
 }
 
-extension SecurityIRClientTypes.InvestigationAction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.InvestigationAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityIRClientTypes.InvestigationAction()
-        value.investigationId = try reader["investigationId"].readIfPresent() ?? ""
-        value.actionType = try reader["actionType"].readIfPresent() ?? .sdkUnknown("")
-        value.title = try reader["title"].readIfPresent() ?? ""
-        value.content = try reader["content"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.feedback = try reader["feedback"].readIfPresent(with: SecurityIRClientTypes.InvestigationFeedback.read(from:))
-        return value
-    }
-}
-
-extension SecurityIRClientTypes.InvestigationFeedback {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.InvestigationFeedback {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityIRClientTypes.InvestigationFeedback()
-        value.usefulness = try reader["usefulness"].readIfPresent()
-        value.comment = try reader["comment"].readIfPresent()
-        value.submittedAt = try reader["submittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
 extension SecurityIRClientTypes.ListMembershipItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.ListMembershipItem {
@@ -4103,6 +4039,61 @@ extension SecurityIRClientTypes.ListMembershipItem {
         value.region = try reader["region"].readIfPresent()
         value.membershipArn = try reader["membershipArn"].readIfPresent()
         value.membershipStatus = try reader["membershipStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityIRClientTypes.MembershipAccountsConfigurations {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.MembershipAccountsConfigurations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityIRClientTypes.MembershipAccountsConfigurations()
+        value.coverEntireOrganization = try reader["coverEntireOrganization"].readIfPresent()
+        value.organizationalUnits = try reader["organizationalUnits"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SecurityIRClientTypes.MembershipAccountsConfigurationsUpdate {
+
+    static func write(value: SecurityIRClientTypes.MembershipAccountsConfigurationsUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["coverEntireOrganization"].write(value.coverEntireOrganization)
+        try writer["organizationalUnitsToAdd"].writeList(value.organizationalUnitsToAdd, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["organizationalUnitsToRemove"].writeList(value.organizationalUnitsToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SecurityIRClientTypes.OptInFeature {
+
+    static func write(value: SecurityIRClientTypes.OptInFeature?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["featureName"].write(value.featureName)
+        try writer["isEnabled"].write(value.isEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.OptInFeature {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityIRClientTypes.OptInFeature()
+        value.featureName = try reader["featureName"].readIfPresent() ?? .sdkUnknown("")
+        value.isEnabled = try reader["isEnabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension SecurityIRClientTypes.ThreatActorIp {
+
+    static func write(value: SecurityIRClientTypes.ThreatActorIp?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ipAddress"].write(value.ipAddress)
+        try writer["userAgent"].write(value.userAgent)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.ThreatActorIp {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityIRClientTypes.ThreatActorIp()
+        value.ipAddress = try reader["ipAddress"].readIfPresent() ?? ""
+        value.userAgent = try reader["userAgent"].readIfPresent()
         return value
     }
 }
@@ -4118,13 +4109,22 @@ extension SecurityIRClientTypes.ValidationExceptionField {
     }
 }
 
-extension SecurityIRClientTypes.MembershipAccountsConfigurationsUpdate {
+extension SecurityIRClientTypes.Watcher {
 
-    static func write(value: SecurityIRClientTypes.MembershipAccountsConfigurationsUpdate?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SecurityIRClientTypes.Watcher?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["coverEntireOrganization"].write(value.coverEntireOrganization)
-        try writer["organizationalUnitsToAdd"].writeList(value.organizationalUnitsToAdd, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["organizationalUnitsToRemove"].writeList(value.organizationalUnitsToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["email"].write(value.email)
+        try writer["jobTitle"].write(value.jobTitle)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.Watcher {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityIRClientTypes.Watcher()
+        value.email = try reader["email"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.jobTitle = try reader["jobTitle"].readIfPresent()
+        return value
     }
 }
 

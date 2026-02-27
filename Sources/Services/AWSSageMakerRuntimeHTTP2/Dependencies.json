@@ -1,4 +1,6 @@
-[
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/sagemaker-runtime-http2.json",
+  "dependencies": [
     "AWSClientRuntime",
     "AWSSDKChecksums",
     "AWSSDKEventStreamsAuth",
@@ -14,6 +16,6 @@
     "SmithyJSON",
     "SmithyReadWrite",
     "SmithyRetries",
-    "SmithyRetriesAPI",
-    "SmithyTestUtil"
-]
+    "SmithyRetriesAPI"
+  ]
+}

@@ -7076,6 +7076,18 @@ extension ResourceLimitExceededException {
     }
 }
 
+extension ChimeSDKMessagingClientTypes.AppInstanceUserMembershipSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.AppInstanceUserMembershipSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.AppInstanceUserMembershipSummary()
+        value.type = try reader["Type"].readIfPresent()
+        value.readMarkerTimestamp = try reader["ReadMarkerTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.subChannelId = try reader["SubChannelId"].readIfPresent()
+        return value
+    }
+}
+
 extension ChimeSDKMessagingClientTypes.BatchChannelMemberships {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.BatchChannelMemberships {
@@ -7086,17 +7098,6 @@ extension ChimeSDKMessagingClientTypes.BatchChannelMemberships {
         value.members = try reader["Members"].readListIfPresent(memberReadingClosure: ChimeSDKMessagingClientTypes.Identity.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.channelArn = try reader["ChannelArn"].readIfPresent()
         value.subChannelId = try reader["SubChannelId"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.Identity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.Identity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.Identity()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
@@ -7134,19 +7135,237 @@ extension ChimeSDKMessagingClientTypes.Channel {
     }
 }
 
-extension ChimeSDKMessagingClientTypes.ExpirationSettings {
+extension ChimeSDKMessagingClientTypes.ChannelAssociatedWithFlowSummary {
 
-    static func write(value: ChimeSDKMessagingClientTypes.ExpirationSettings?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelAssociatedWithFlowSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.ChannelAssociatedWithFlowSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.channelArn = try reader["ChannelArn"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent()
+        value.privacy = try reader["Privacy"].readIfPresent()
+        value.metadata = try reader["Metadata"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ChannelBan {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelBan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.ChannelBan()
+        value.member = try reader["Member"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
+        value.channelArn = try reader["ChannelArn"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["CreatedBy"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ChannelBanSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelBanSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.ChannelBanSummary()
+        value.member = try reader["Member"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ChannelFlow {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelFlow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.ChannelFlow()
+        value.channelFlowArn = try reader["ChannelFlowArn"].readIfPresent()
+        value.processors = try reader["Processors"].readListIfPresent(memberReadingClosure: ChimeSDKMessagingClientTypes.Processor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ChannelFlowSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelFlowSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.ChannelFlowSummary()
+        value.channelFlowArn = try reader["ChannelFlowArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.processors = try reader["Processors"].readListIfPresent(memberReadingClosure: ChimeSDKMessagingClientTypes.Processor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ChannelMembership {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.ChannelMembership()
+        value.invitedBy = try reader["InvitedBy"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
+        value.type = try reader["Type"].readIfPresent()
+        value.member = try reader["Member"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
+        value.channelArn = try reader["ChannelArn"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.subChannelId = try reader["SubChannelId"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ChannelMembershipForAppInstanceUserSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelMembershipForAppInstanceUserSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.ChannelMembershipForAppInstanceUserSummary()
+        value.channelSummary = try reader["ChannelSummary"].readIfPresent(with: ChimeSDKMessagingClientTypes.ChannelSummary.read(from:))
+        value.appInstanceUserMembershipSummary = try reader["AppInstanceUserMembershipSummary"].readIfPresent(with: ChimeSDKMessagingClientTypes.AppInstanceUserMembershipSummary.read(from:))
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ChannelMembershipPreferences {
+
+    static func write(value: ChimeSDKMessagingClientTypes.ChannelMembershipPreferences?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ExpirationCriterion"].write(value.expirationCriterion)
-        try writer["ExpirationDays"].write(value.expirationDays)
+        try writer["PushNotifications"].write(value.pushNotifications, with: ChimeSDKMessagingClientTypes.PushNotificationPreferences.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ExpirationSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelMembershipPreferences {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ExpirationSettings()
-        value.expirationDays = try reader["ExpirationDays"].readIfPresent() ?? 0
-        value.expirationCriterion = try reader["ExpirationCriterion"].readIfPresent() ?? .sdkUnknown("")
+        var value = ChimeSDKMessagingClientTypes.ChannelMembershipPreferences()
+        value.pushNotifications = try reader["PushNotifications"].readIfPresent(with: ChimeSDKMessagingClientTypes.PushNotificationPreferences.read(from:))
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ChannelMembershipSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelMembershipSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.ChannelMembershipSummary()
+        value.member = try reader["Member"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ChannelMessage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.ChannelMessage()
+        value.channelArn = try reader["ChannelArn"].readIfPresent()
+        value.messageId = try reader["MessageId"].readIfPresent()
+        value.content = try reader["Content"].readIfPresent()
+        value.metadata = try reader["Metadata"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastEditedTimestamp = try reader["LastEditedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.sender = try reader["Sender"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
+        value.redacted = try reader["Redacted"].readIfPresent() ?? false
+        value.persistence = try reader["Persistence"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent(with: ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure.read(from:))
+        value.messageAttributes = try reader["MessageAttributes"].readMapIfPresent(valueReadingClosure: ChimeSDKMessagingClientTypes.MessageAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.subChannelId = try reader["SubChannelId"].readIfPresent()
+        value.contentType = try reader["ContentType"].readIfPresent()
+        value.target = try reader["Target"].readListIfPresent(memberReadingClosure: ChimeSDKMessagingClientTypes.Target.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ChannelMessageCallback {
+
+    static func write(value: ChimeSDKMessagingClientTypes.ChannelMessageCallback?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Content"].write(value.content)
+        try writer["ContentType"].write(value.contentType)
+        try writer["MessageAttributes"].writeMap(value.messageAttributes, valueWritingClosure: ChimeSDKMessagingClientTypes.MessageAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["MessageId"].write(value.messageId)
+        try writer["Metadata"].write(value.metadata)
+        try writer["PushNotification"].write(value.pushNotification, with: ChimeSDKMessagingClientTypes.PushNotificationConfiguration.write(value:to:))
+        try writer["SubChannelId"].write(value.subChannelId)
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure()
+        value.value = try reader["Value"].readIfPresent()
+        value.detail = try reader["Detail"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ChannelMessageSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelMessageSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.ChannelMessageSummary()
+        value.messageId = try reader["MessageId"].readIfPresent()
+        value.content = try reader["Content"].readIfPresent()
+        value.metadata = try reader["Metadata"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastEditedTimestamp = try reader["LastEditedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.sender = try reader["Sender"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
+        value.redacted = try reader["Redacted"].readIfPresent() ?? false
+        value.status = try reader["Status"].readIfPresent(with: ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure.read(from:))
+        value.messageAttributes = try reader["MessageAttributes"].readMapIfPresent(valueReadingClosure: ChimeSDKMessagingClientTypes.MessageAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.contentType = try reader["ContentType"].readIfPresent()
+        value.target = try reader["Target"].readListIfPresent(memberReadingClosure: ChimeSDKMessagingClientTypes.Target.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ChannelModeratedByAppInstanceUserSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelModeratedByAppInstanceUserSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.ChannelModeratedByAppInstanceUserSummary()
+        value.channelSummary = try reader["ChannelSummary"].readIfPresent(with: ChimeSDKMessagingClientTypes.ChannelSummary.read(from:))
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ChannelModerator {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelModerator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.ChannelModerator()
+        value.moderator = try reader["Moderator"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
+        value.channelArn = try reader["ChannelArn"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["CreatedBy"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ChannelModeratorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelModeratorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.ChannelModeratorSummary()
+        value.moderator = try reader["Moderator"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ChannelSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.ChannelSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.channelArn = try reader["ChannelArn"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent()
+        value.privacy = try reader["Privacy"].readIfPresent()
+        value.metadata = try reader["Metadata"].readIfPresent()
+        value.lastMessageTimestamp = try reader["LastMessageTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -7170,29 +7389,72 @@ extension ChimeSDKMessagingClientTypes.ElasticChannelConfiguration {
     }
 }
 
-extension ChimeSDKMessagingClientTypes.ChannelBan {
+extension ChimeSDKMessagingClientTypes.ExpirationSettings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelBan {
+    static func write(value: ChimeSDKMessagingClientTypes.ExpirationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExpirationCriterion"].write(value.expirationCriterion)
+        try writer["ExpirationDays"].write(value.expirationDays)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ExpirationSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ChannelBan()
-        value.member = try reader["Member"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
-        value.channelArn = try reader["ChannelArn"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["CreatedBy"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
+        var value = ChimeSDKMessagingClientTypes.ExpirationSettings()
+        value.expirationDays = try reader["ExpirationDays"].readIfPresent() ?? 0
+        value.expirationCriterion = try reader["ExpirationCriterion"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension ChimeSDKMessagingClientTypes.ChannelFlow {
+extension ChimeSDKMessagingClientTypes.Identity {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelFlow {
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.Identity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ChannelFlow()
-        value.channelFlowArn = try reader["ChannelFlowArn"].readIfPresent()
-        value.processors = try reader["Processors"].readListIfPresent(memberReadingClosure: ChimeSDKMessagingClientTypes.Processor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ChimeSDKMessagingClientTypes.Identity()
+        value.arn = try reader["Arn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.LambdaConfiguration {
+
+    static func write(value: ChimeSDKMessagingClientTypes.LambdaConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InvocationType"].write(value.invocationType)
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.LambdaConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.LambdaConfiguration()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.invocationType = try reader["InvocationType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.MessageAttributeValue {
+
+    static func write(value: ChimeSDKMessagingClientTypes.MessageAttributeValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StringValues"].writeList(value.stringValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.MessageAttributeValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.MessageAttributeValue()
+        value.stringValues = try reader["StringValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.MessagingSessionEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.MessagingSessionEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.MessagingSessionEndpoint()
+        value.url = try reader["Url"].readIfPresent()
         return value
     }
 }
@@ -7233,112 +7495,13 @@ extension ChimeSDKMessagingClientTypes.ProcessorConfiguration {
     }
 }
 
-extension ChimeSDKMessagingClientTypes.LambdaConfiguration {
+extension ChimeSDKMessagingClientTypes.PushNotificationConfiguration {
 
-    static func write(value: ChimeSDKMessagingClientTypes.LambdaConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ChimeSDKMessagingClientTypes.PushNotificationConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["InvocationType"].write(value.invocationType)
-        try writer["ResourceArn"].write(value.resourceArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.LambdaConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.LambdaConfiguration()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
-        value.invocationType = try reader["InvocationType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.ChannelMembership {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ChannelMembership()
-        value.invitedBy = try reader["InvitedBy"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
-        value.type = try reader["Type"].readIfPresent()
-        value.member = try reader["Member"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
-        value.channelArn = try reader["ChannelArn"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.subChannelId = try reader["SubChannelId"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.ChannelMembershipForAppInstanceUserSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelMembershipForAppInstanceUserSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ChannelMembershipForAppInstanceUserSummary()
-        value.channelSummary = try reader["ChannelSummary"].readIfPresent(with: ChimeSDKMessagingClientTypes.ChannelSummary.read(from:))
-        value.appInstanceUserMembershipSummary = try reader["AppInstanceUserMembershipSummary"].readIfPresent(with: ChimeSDKMessagingClientTypes.AppInstanceUserMembershipSummary.read(from:))
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.AppInstanceUserMembershipSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.AppInstanceUserMembershipSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.AppInstanceUserMembershipSummary()
-        value.type = try reader["Type"].readIfPresent()
-        value.readMarkerTimestamp = try reader["ReadMarkerTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.subChannelId = try reader["SubChannelId"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.ChannelSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ChannelSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.channelArn = try reader["ChannelArn"].readIfPresent()
-        value.mode = try reader["Mode"].readIfPresent()
-        value.privacy = try reader["Privacy"].readIfPresent()
-        value.metadata = try reader["Metadata"].readIfPresent()
-        value.lastMessageTimestamp = try reader["LastMessageTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.ChannelModeratedByAppInstanceUserSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelModeratedByAppInstanceUserSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ChannelModeratedByAppInstanceUserSummary()
-        value.channelSummary = try reader["ChannelSummary"].readIfPresent(with: ChimeSDKMessagingClientTypes.ChannelSummary.read(from:))
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.ChannelModerator {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelModerator {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ChannelModerator()
-        value.moderator = try reader["Moderator"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
-        value.channelArn = try reader["ChannelArn"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["CreatedBy"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.ChannelMembershipPreferences {
-
-    static func write(value: ChimeSDKMessagingClientTypes.ChannelMembershipPreferences?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PushNotifications"].write(value.pushNotifications, with: ChimeSDKMessagingClientTypes.PushNotificationPreferences.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelMembershipPreferences {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ChannelMembershipPreferences()
-        value.pushNotifications = try reader["PushNotifications"].readIfPresent(with: ChimeSDKMessagingClientTypes.PushNotificationPreferences.read(from:))
-        return value
+        try writer["Body"].write(value.body)
+        try writer["Title"].write(value.title)
+        try writer["Type"].write(value.type)
     }
 }
 
@@ -7359,79 +7522,13 @@ extension ChimeSDKMessagingClientTypes.PushNotificationPreferences {
     }
 }
 
-extension ChimeSDKMessagingClientTypes.ChannelMessage {
+extension ChimeSDKMessagingClientTypes.SearchField {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ChannelMessage()
-        value.channelArn = try reader["ChannelArn"].readIfPresent()
-        value.messageId = try reader["MessageId"].readIfPresent()
-        value.content = try reader["Content"].readIfPresent()
-        value.metadata = try reader["Metadata"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastEditedTimestamp = try reader["LastEditedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.sender = try reader["Sender"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
-        value.redacted = try reader["Redacted"].readIfPresent() ?? false
-        value.persistence = try reader["Persistence"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent(with: ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure.read(from:))
-        value.messageAttributes = try reader["MessageAttributes"].readMapIfPresent(valueReadingClosure: ChimeSDKMessagingClientTypes.MessageAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.subChannelId = try reader["SubChannelId"].readIfPresent()
-        value.contentType = try reader["ContentType"].readIfPresent()
-        value.target = try reader["Target"].readListIfPresent(memberReadingClosure: ChimeSDKMessagingClientTypes.Target.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.Target {
-
-    static func write(value: ChimeSDKMessagingClientTypes.Target?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ChimeSDKMessagingClientTypes.SearchField?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["MemberArn"].write(value.memberArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.Target {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.Target()
-        value.memberArn = try reader["MemberArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.MessageAttributeValue {
-
-    static func write(value: ChimeSDKMessagingClientTypes.MessageAttributeValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StringValues"].writeList(value.stringValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.MessageAttributeValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.MessageAttributeValue()
-        value.stringValues = try reader["StringValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure()
-        value.value = try reader["Value"].readIfPresent()
-        value.detail = try reader["Detail"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.MessagingSessionEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.MessagingSessionEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.MessagingSessionEndpoint()
-        value.url = try reader["Url"].readIfPresent()
-        return value
+        try writer["Key"].write(value.key)
+        try writer["Operator"].write(value.`operator`)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -7448,84 +7545,6 @@ extension ChimeSDKMessagingClientTypes.StreamingConfiguration {
         var value = ChimeSDKMessagingClientTypes.StreamingConfiguration()
         value.dataType = try reader["DataType"].readIfPresent() ?? .sdkUnknown("")
         value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.ChannelBanSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelBanSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ChannelBanSummary()
-        value.member = try reader["Member"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.ChannelFlowSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelFlowSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ChannelFlowSummary()
-        value.channelFlowArn = try reader["ChannelFlowArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.processors = try reader["Processors"].readListIfPresent(memberReadingClosure: ChimeSDKMessagingClientTypes.Processor.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.ChannelMembershipSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelMembershipSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ChannelMembershipSummary()
-        value.member = try reader["Member"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.ChannelMessageSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelMessageSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ChannelMessageSummary()
-        value.messageId = try reader["MessageId"].readIfPresent()
-        value.content = try reader["Content"].readIfPresent()
-        value.metadata = try reader["Metadata"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastEditedTimestamp = try reader["LastEditedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.sender = try reader["Sender"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
-        value.redacted = try reader["Redacted"].readIfPresent() ?? false
-        value.status = try reader["Status"].readIfPresent(with: ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure.read(from:))
-        value.messageAttributes = try reader["MessageAttributes"].readMapIfPresent(valueReadingClosure: ChimeSDKMessagingClientTypes.MessageAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.contentType = try reader["ContentType"].readIfPresent()
-        value.target = try reader["Target"].readListIfPresent(memberReadingClosure: ChimeSDKMessagingClientTypes.Target.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.ChannelModeratorSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelModeratorSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ChannelModeratorSummary()
-        value.moderator = try reader["Moderator"].readIfPresent(with: ChimeSDKMessagingClientTypes.Identity.read(from:))
-        return value
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.ChannelAssociatedWithFlowSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.ChannelAssociatedWithFlowSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKMessagingClientTypes.ChannelAssociatedWithFlowSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.channelArn = try reader["ChannelArn"].readIfPresent()
-        value.mode = try reader["Mode"].readIfPresent()
-        value.privacy = try reader["Privacy"].readIfPresent()
-        value.metadata = try reader["Metadata"].readIfPresent()
         return value
     }
 }
@@ -7558,37 +7577,18 @@ extension ChimeSDKMessagingClientTypes.Tag {
     }
 }
 
-extension ChimeSDKMessagingClientTypes.ChannelMessageCallback {
+extension ChimeSDKMessagingClientTypes.Target {
 
-    static func write(value: ChimeSDKMessagingClientTypes.ChannelMessageCallback?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ChimeSDKMessagingClientTypes.Target?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Content"].write(value.content)
-        try writer["ContentType"].write(value.contentType)
-        try writer["MessageAttributes"].writeMap(value.messageAttributes, valueWritingClosure: ChimeSDKMessagingClientTypes.MessageAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["MessageId"].write(value.messageId)
-        try writer["Metadata"].write(value.metadata)
-        try writer["PushNotification"].write(value.pushNotification, with: ChimeSDKMessagingClientTypes.PushNotificationConfiguration.write(value:to:))
-        try writer["SubChannelId"].write(value.subChannelId)
+        try writer["MemberArn"].write(value.memberArn)
     }
-}
 
-extension ChimeSDKMessagingClientTypes.PushNotificationConfiguration {
-
-    static func write(value: ChimeSDKMessagingClientTypes.PushNotificationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Body"].write(value.body)
-        try writer["Title"].write(value.title)
-        try writer["Type"].write(value.type)
-    }
-}
-
-extension ChimeSDKMessagingClientTypes.SearchField {
-
-    static func write(value: ChimeSDKMessagingClientTypes.SearchField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Operator"].write(value.`operator`)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKMessagingClientTypes.Target {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKMessagingClientTypes.Target()
+        value.memberArn = try reader["MemberArn"].readIfPresent()
+        return value
     }
 }
 

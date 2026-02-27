@@ -54,7 +54,7 @@ extension GeoPlacesClientTypes {
 
     /// Position of the access point represented by longitude and latitude for a vehicle.
     public struct AccessPoint: Swift.Sendable {
-        /// The position, in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var position: [Swift.Double]?
 
         public init(
@@ -184,13 +184,17 @@ extension GeoPlacesClientTypes {
 
     /// Components that correspond to secondary identifiers on an address. The only component type supported currently is Unit.
     public struct SecondaryAddressComponent: Swift.Sendable {
+        /// The designator of the secondary address component. Example: Apt.
+        public var designator: Swift.String?
         /// Number that uniquely identifies a secondary address.
         /// This member is required.
         public var number: Swift.String?
 
         public init(
+            designator: Swift.String? = nil,
             number: Swift.String? = nil
         ) {
+            self.designator = designator
             self.number = number
         }
     }
@@ -198,7 +202,7 @@ extension GeoPlacesClientTypes {
 
 extension GeoPlacesClientTypes.SecondaryAddressComponent: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SecondaryAddressComponent(number: \"CONTENT_REDACTED\")"}
+        "SecondaryAddressComponent(designator: \"CONTENT_REDACTED\", number: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoPlacesClientTypes {
@@ -326,7 +330,7 @@ extension GeoPlacesClientTypes {
         public var postalCode: Swift.String?
         /// The region or state results should be present in. Example: North Rhine-Westphalia.
         public var region: GeoPlacesClientTypes.Region?
-        /// Components that correspond to secondary identifiers on an Address. Secondary address components include information such as Suite or Unit Number, Building, or Floor.
+        /// Components that correspond to secondary identifiers on an Address. Secondary address components include information such as Suite or Unit Number, Building, or Floor. Coverage for Address.SecondaryAddressComponents is available in the following countries: AUS, CAN, NZL, USA, PRI
         public var secondaryAddressComponents: [GeoPlacesClientTypes.SecondaryAddressComponent]?
         /// The name of the street results should be present in.
         public var street: Swift.String?
@@ -419,7 +423,7 @@ extension GeoPlacesClientTypes {
         public var postalCode: Swift.Double
         /// The region or state results should be to be present in. Example: North Rhine-Westphalia.
         public var region: Swift.Double
-        /// Match scores for the secondary address components in the result.
+        /// Match scores for the secondary address components in the result. Coverage for this functionality is available in the following countries: AUS, AUT, BRA, CAN, ESP, FRA, GBR, IDN, IND, NZL, TUR, TWN, USA.
         public var secondaryAddressComponents: [GeoPlacesClientTypes.SecondaryAddressComponentMatchScore]?
         /// Name of sub-block. Example: Sunny Mansion 203 sub-block: 4
         public var subBlock: Swift.Double
@@ -715,7 +719,7 @@ extension GeoPlacesClientTypes {
 
     /// The Circle that all results must be in.
     public struct FilterCircle: Swift.Sendable {
-        /// The center position, in longitude and latitude, of the FilterCircle.
+        /// The center position in World Geodetic System (WGS 84) format: [longitude, latitude].
         /// This member is required.
         public var center: [Swift.Double]?
         /// The radius, in meters, of the FilterCircle.
@@ -858,7 +862,7 @@ extension GeoPlacesClientTypes {
 public struct AutocompleteInput: Swift.Sendable {
     /// A list of optional additional parameters that can be requested for each result.
     public var additionalFeatures: [GeoPlacesClientTypes.AutocompleteAdditionalFeature]?
-    /// The position in longitude and latitude that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WSG84 format. The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
+    /// The position in longitude and latitude that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format. The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
     public var biasPosition: [Swift.Double]?
     /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
     public var filter: GeoPlacesClientTypes.AutocompleteFilter?
@@ -868,7 +872,7 @@ public struct AutocompleteInput: Swift.Sendable {
     public var key: Swift.String?
     /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
     public var language: Swift.String?
-    /// An optional limit for the number of results returned in a single call.
+    /// An optional limit for the number of results returned in a single call. Default value: 5
     public var maxResults: Swift.Int?
     /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. The following political views are currently supported:
     ///
@@ -1113,6 +1117,7 @@ extension GeoPlacesClientTypes {
         case block
         case country
         case district
+        case inferredSecondaryAddress
         case interpolatedAddress
         case intersection
         case locality
@@ -1132,6 +1137,7 @@ extension GeoPlacesClientTypes {
                 .block,
                 .country,
                 .district,
+                .inferredSecondaryAddress,
                 .interpolatedAddress,
                 .intersection,
                 .locality,
@@ -1157,6 +1163,7 @@ extension GeoPlacesClientTypes {
             case .block: return "Block"
             case .country: return "Country"
             case .district: return "District"
+            case .inferredSecondaryAddress: return "InferredSecondaryAddress"
             case .interpolatedAddress: return "InterpolatedAddress"
             case .intersection: return "Intersection"
             case .locality: return "Locality"
@@ -1551,7 +1558,7 @@ extension GeoPlacesClientTypes.GeocodeQueryComponents: Swift.CustomDebugStringCo
 public struct GeocodeInput: Swift.Sendable {
     /// A list of optional additional parameters, such as time zone, that can be requested for each result.
     public var additionalFeatures: [GeoPlacesClientTypes.GeocodeAdditionalFeature]?
-    /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WSG84 format. The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
+    /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format.
     public var biasPosition: [Swift.Double]?
     /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
     public var filter: GeoPlacesClientTypes.GeocodeFilter?
@@ -1561,13 +1568,13 @@ public struct GeocodeInput: Swift.Sendable {
     public var key: Swift.String?
     /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
     public var language: Swift.String?
-    /// An optional limit for the number of results returned in a single call.
+    /// An optional limit for the number of results returned in a single call. Default value: 20
     public var maxResults: Swift.Int?
     /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
     public var politicalView: Swift.String?
     /// A structured free text query allows you to search for places by the name or text representation of specific properties of the place.
     public var queryComponents: GeoPlacesClientTypes.GeocodeQueryComponents?
-    /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. The fields QueryText, and QueryID are mutually exclusive.
+    /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.
     public var queryText: Swift.String?
 
     public init(
@@ -1604,7 +1611,7 @@ extension GeoPlacesClientTypes {
 
     /// All Intersections that are near the provided address.
     public struct Intersection: Swift.Sendable {
-        /// Position of the access point represented by longitude and latitude.
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var accessPoints: [GeoPlacesClientTypes.AccessPoint]?
         /// The place address.
         public var address: GeoPlacesClientTypes.Address?
@@ -1615,7 +1622,7 @@ extension GeoPlacesClientTypes {
         /// The PlaceId of the place result.
         /// This member is required.
         public var placeId: Swift.String?
-        /// The position, in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var position: [Swift.Double]?
         /// The distance from the routing position of the nearby address to the street result.
         public var routeDistance: Swift.Int?
@@ -1654,7 +1661,7 @@ extension GeoPlacesClientTypes {
 
     /// Place that is related to the result item.
     public struct RelatedPlace: Swift.Sendable {
-        /// Position of the access point represented by longitude and latitude.
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var accessPoints: [GeoPlacesClientTypes.AccessPoint]?
         /// The place address.
         public var address: GeoPlacesClientTypes.Address?
@@ -1664,7 +1671,7 @@ extension GeoPlacesClientTypes {
         /// A PlaceType is a category that the result place must belong to.
         /// This member is required.
         public var placeType: GeoPlacesClientTypes.PlaceType?
-        /// The position, in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var position: [Swift.Double]?
         /// The localized display name of this result item based on request parameter language.
         /// This member is required.
@@ -1805,7 +1812,7 @@ extension GeoPlacesClientTypes {
         public var postalCode: [GeoPlacesClientTypes.ParsedQueryComponent]?
         /// The region or state results should be present in. Example: North Rhine-Westphalia.
         public var region: [GeoPlacesClientTypes.ParsedQueryComponent]?
-        /// Parsed secondary address components from the provided query text.
+        /// Parsed secondary address components from the provided query text. Coverage for ParsedQuery.Address.SecondaryAddressComponents is available in the following countries: AUS, AUT, BRA, CAN, ESP, FRA, GBR, HKG, IDN, IND, NZL, TUR, TWN, USA
         public var secondaryAddressComponents: [GeoPlacesClientTypes.ParsedQuerySecondaryAddressComponent]?
         /// The name of the street results should be present in.
         public var street: [GeoPlacesClientTypes.ParsedQueryComponent]?
@@ -2104,7 +2111,7 @@ extension GeoPlacesClientTypes {
 
     /// The Geocoded result.
     public struct GeocodeResultItem: Swift.Sendable {
-        /// Position of the access point represented by longitude and latitude.
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var accessPoints: [GeoPlacesClientTypes.AccessPoint]?
         /// The place's address.
         public var address: GeoPlacesClientTypes.Address?
@@ -2134,11 +2141,11 @@ extension GeoPlacesClientTypes {
         public var placeType: GeoPlacesClientTypes.PlaceType?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public var politicalView: Swift.String?
-        /// The position in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var position: [Swift.Double]?
         /// Contains details about the postal code of the place/result.
         public var postalCodeDetails: [GeoPlacesClientTypes.PostalCodeDetails]?
-        /// All secondary addresses that are associated with a main address. A secondary address is one that includes secondary designators, such as a Suite or Unit Number, Building, or Floor information.
+        /// All secondary addresses that are associated with a main address. A secondary address is one that includes secondary designators, such as a Suite or Unit Number, Building, or Floor information. Coverage for this functionality is available in the following countries: AUS, CAN, NZL, USA, PRI.
         public var secondaryAddresses: [GeoPlacesClientTypes.RelatedPlace]?
         /// The time zone in which the place is located.
         public var timeZone: GeoPlacesClientTypes.TimeZone?
@@ -2196,7 +2203,7 @@ extension GeoPlacesClientTypes.GeocodeResultItem: Swift.CustomDebugStringConvert
 }
 
 public struct GeocodeOutput: Swift.Sendable {
-    /// The pricing bucket for which the query is charged at. For more information on pricing, please visit [Amazon Location Service Pricing](https://aws.amazon.com/location/pricing/).
+    /// The pricing bucket for which the query is charged at, or the maximum pricing bucket when the query is charged per item within the query. For more information on pricing, please visit [Amazon Location Service Pricing](https://aws.amazon.com/location/pricing/).
     /// This member is required.
     public var pricingBucket: Swift.String?
     /// List of places or results returned for a query.
@@ -2397,7 +2404,7 @@ extension GeoPlacesClientTypes {
 }
 
 public struct GetPlaceOutput: Swift.Sendable {
-    /// Position of the access point in (lng,lat).
+    /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
     public var accessPoints: [GeoPlacesClientTypes.AccessPoint]?
     /// Indicates known access restrictions on a vehicle access point. The index correlates to an access point and indicates if access through this point has some form of restriction.
     public var accessRestrictions: [GeoPlacesClientTypes.AccessRestriction]?
@@ -2429,14 +2436,14 @@ public struct GetPlaceOutput: Swift.Sendable {
     public var placeType: GeoPlacesClientTypes.PlaceType?
     /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
     public var politicalView: Swift.String?
-    /// The position, in longitude and latitude.
+    /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
     public var position: [Swift.Double]?
     /// Contains details about the postal code of the place/result.
     public var postalCodeDetails: [GeoPlacesClientTypes.PostalCodeDetails]?
     /// The pricing bucket for which the query is charged at. For more information on pricing, please visit [Amazon Location Service Pricing](https://aws.amazon.com/location/pricing/).
     /// This member is required.
     public var pricingBucket: Swift.String?
-    /// All secondary addresses that are associated with a main address. A secondary address is one that includes secondary designators, such as a Suite or Unit Number, Building, or Floor information.
+    /// All secondary addresses that are associated with a main address. A secondary address is one that includes secondary designators, such as a Suite or Unit Number, Building, or Floor information. Coverage for this functionality is available in the following countries: AUS, CAN, NZL, USA, PRI.
     public var secondaryAddresses: [GeoPlacesClientTypes.RelatedPlace]?
     /// The time zone in which the place is located.
     public var timeZone: GeoPlacesClientTypes.TimeZone?
@@ -2617,17 +2624,19 @@ public struct ReverseGeocodeInput: Swift.Sendable {
     public var additionalFeatures: [GeoPlacesClientTypes.ReverseGeocodeAdditionalFeature]?
     /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
     public var filter: GeoPlacesClientTypes.ReverseGeocodeFilter?
+    /// The heading in degrees from true north in a navigation context. The heading is measured as the angle clockwise from the North direction. Example: North is 0 degrees, East is 90 degrees, South is 180 degrees, and West is 270 degrees.
+    public var heading: Swift.Double?
     /// Indicates if the results will be stored. Defaults to SingleUse, if left empty. Storing the response of an ReverseGeocode query is required to comply with service terms, but charged at a higher cost per request. Please review the [user agreement](https://aws.amazon.com/location/sla/) and [service pricing structure](https://aws.amazon.com/location/pricing/) to determine the correct setting for your use case.
     public var intendedUse: GeoPlacesClientTypes.ReverseGeocodeIntendedUse?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
     /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
     public var language: Swift.String?
-    /// An optional limit for the number of results returned in a single call.
+    /// An optional limit for the number of results returned in a single call. Default value: 1
     public var maxResults: Swift.Int?
     /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
     public var politicalView: Swift.String?
-    /// The position, in [lng, lat] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position
+    /// The position in World Geodetic System (WGS 84) format: [longitude, latitude] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position
     /// This member is required.
     public var queryPosition: [Swift.Double]?
     /// The maximum distance in meters from the QueryPosition from which a result will be returned.
@@ -2636,6 +2645,7 @@ public struct ReverseGeocodeInput: Swift.Sendable {
     public init(
         additionalFeatures: [GeoPlacesClientTypes.ReverseGeocodeAdditionalFeature]? = nil,
         filter: GeoPlacesClientTypes.ReverseGeocodeFilter? = nil,
+        heading: Swift.Double? = 0.0,
         intendedUse: GeoPlacesClientTypes.ReverseGeocodeIntendedUse? = nil,
         key: Swift.String? = nil,
         language: Swift.String? = nil,
@@ -2646,6 +2656,7 @@ public struct ReverseGeocodeInput: Swift.Sendable {
     ) {
         self.additionalFeatures = additionalFeatures
         self.filter = filter
+        self.heading = heading
         self.intendedUse = intendedUse
         self.key = key
         self.language = language
@@ -2658,14 +2669,14 @@ public struct ReverseGeocodeInput: Swift.Sendable {
 
 extension ReverseGeocodeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ReverseGeocodeInput(additionalFeatures: \(Swift.String(describing: additionalFeatures)), filter: \(Swift.String(describing: filter)), intendedUse: \(Swift.String(describing: intendedUse)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", queryPosition: \"CONTENT_REDACTED\", queryRadius: \"CONTENT_REDACTED\")"}
+        "ReverseGeocodeInput(additionalFeatures: \(Swift.String(describing: additionalFeatures)), filter: \(Swift.String(describing: filter)), intendedUse: \(Swift.String(describing: intendedUse)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), heading: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", queryPosition: \"CONTENT_REDACTED\", queryRadius: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoPlacesClientTypes {
 
     /// The returned location from the Reverse Geocode action.
     public struct ReverseGeocodeResultItem: Swift.Sendable {
-        /// Position of the access point represented by longitude and latitude.
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var accessPoints: [GeoPlacesClientTypes.AccessPoint]?
         /// The place's address.
         public var address: GeoPlacesClientTypes.Address?
@@ -2689,7 +2700,7 @@ extension GeoPlacesClientTypes {
         public var placeType: GeoPlacesClientTypes.PlaceType?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public var politicalView: Swift.String?
-        /// The position in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var position: [Swift.Double]?
         /// Contains details about the postal code of the place/result.
         public var postalCodeDetails: [GeoPlacesClientTypes.PostalCodeDetails]?
@@ -2881,13 +2892,13 @@ public struct SearchNearbyInput: Swift.Sendable {
     public var key: Swift.String?
     /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
     public var language: Swift.String?
-    /// An optional limit for the number of results returned in a single call.
+    /// An optional limit for the number of results returned in a single call. Default value: 20
     public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.
     public var nextToken: Swift.String?
     /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
     public var politicalView: Swift.String?
-    /// The position, in [lng, lat] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position
+    /// The position in World Geodetic System (WGS 84) format: [longitude, latitude] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position
     /// This member is required.
     public var queryPosition: [Swift.Double]?
     /// The maximum distance in meters from the QueryPosition from which a result will be returned. The fields QueryText, and QueryID are mutually exclusive.
@@ -2927,7 +2938,7 @@ extension GeoPlacesClientTypes {
 
     /// The search results of nearby places.
     public struct SearchNearbyResultItem: Swift.Sendable {
-        /// Position of the access point represent by longitude and latitude.
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var accessPoints: [GeoPlacesClientTypes.AccessPoint]?
         /// Indicates known access restrictions on a vehicle access point. The index correlates to an access point and indicates if access through this point has some form of restriction.
         public var accessRestrictions: [GeoPlacesClientTypes.AccessRestriction]?
@@ -2959,7 +2970,7 @@ extension GeoPlacesClientTypes {
         public var placeType: GeoPlacesClientTypes.PlaceType?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public var politicalView: Swift.String?
-        /// The position in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var position: [Swift.Double]?
         /// The time zone in which the place is located.
         public var timeZone: GeoPlacesClientTypes.TimeZone?
@@ -3131,7 +3142,7 @@ extension GeoPlacesClientTypes {
 public struct SearchTextInput: Swift.Sendable {
     /// A list of optional additional parameters, such as time zone, that can be requested for each result.
     public var additionalFeatures: [GeoPlacesClientTypes.SearchTextAdditionalFeature]?
-    /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WSG84 format. The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
+    /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format. Exactly one of the following fields must be set: BiasPosition, Filter.BoundingBox, or Filter.Circle.
     public var biasPosition: [Swift.Double]?
     /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
     public var filter: GeoPlacesClientTypes.SearchTextFilter?
@@ -3141,15 +3152,15 @@ public struct SearchTextInput: Swift.Sendable {
     public var key: Swift.String?
     /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
     public var language: Swift.String?
-    /// An optional limit for the number of results returned in a single call.
+    /// An optional limit for the number of results returned in a single call. Default value: 20
     public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.
     public var nextToken: Swift.String?
     /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
     public var politicalView: Swift.String?
-    /// The query Id returned by the suggest API. If passed in the request, the SearchText API will preform a SearchText query with the improved query terms for the original query made to the suggest API. The fields QueryText, and QueryID are mutually exclusive.
+    /// The query Id returned by the suggest API. If passed in the request, the SearchText API will preform a SearchText query with the improved query terms for the original query made to the suggest API. Exactly one of the following fields must be set: QueryText or QueryId.
     public var queryId: Swift.String?
-    /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. The fields QueryText, and QueryID are mutually exclusive.
+    /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. Exactly one of the following fields must be set: QueryText or QueryId.
     public var queryText: Swift.String?
 
     public init(
@@ -3188,7 +3199,7 @@ extension GeoPlacesClientTypes {
 
     /// The text search result.
     public struct SearchTextResultItem: Swift.Sendable {
-        /// Position of the access point represent by longitude and latitude.
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var accessPoints: [GeoPlacesClientTypes.AccessPoint]?
         /// Indicates known access restrictions on a vehicle access point. The index correlates to an access point and indicates if access through this point has some form of restriction.
         public var accessRestrictions: [GeoPlacesClientTypes.AccessRestriction]?
@@ -3220,7 +3231,7 @@ extension GeoPlacesClientTypes {
         public var placeType: GeoPlacesClientTypes.PlaceType?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public var politicalView: Swift.String?
-        /// The position, in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var position: [Swift.Double]?
         /// The time zone in which the place is located.
         public var timeZone: GeoPlacesClientTypes.TimeZone?
@@ -3388,7 +3399,7 @@ extension GeoPlacesClientTypes {
 public struct SuggestInput: Swift.Sendable {
     /// A list of optional additional parameters, such as time zone, that can be requested for each result.
     public var additionalFeatures: [GeoPlacesClientTypes.SuggestAdditionalFeature]?
-    /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WSG84 format. The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
+    /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format. The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
     public var biasPosition: [Swift.Double]?
     /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
     public var filter: GeoPlacesClientTypes.SuggestFilter?
@@ -3400,11 +3411,11 @@ public struct SuggestInput: Swift.Sendable {
     public var language: Swift.String?
     /// Maximum number of query terms to be returned for use with a search text query.
     public var maxQueryRefinements: Swift.Int?
-    /// An optional limit for the number of results returned in a single call.
+    /// An optional limit for the number of results returned in a single call. Default value: 20
     public var maxResults: Swift.Int?
     /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
     public var politicalView: Swift.String?
-    /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. The fields QueryText, and QueryID are mutually exclusive.
+    /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. The fields QueryText and QueryID are mutually exclusive.
     /// This member is required.
     public var queryText: Swift.String?
 
@@ -3512,7 +3523,7 @@ extension GeoPlacesClientTypes {
 
     /// The suggested place results.
     public struct SuggestPlaceResult: Swift.Sendable {
-        /// Position of the access point represent by longitude and latitude.
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var accessPoints: [GeoPlacesClientTypes.AccessPoint]?
         /// Indicates known access restrictions on a vehicle access point. The index correlates to an access point and indicates if access through this point has some form of restriction.
         public var accessRestrictions: [GeoPlacesClientTypes.AccessRestriction]?
@@ -3536,7 +3547,7 @@ extension GeoPlacesClientTypes {
         public var placeType: GeoPlacesClientTypes.PlaceType?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public var politicalView: Swift.String?
-        /// The position, in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var position: [Swift.Double]?
         /// The time zone in which the place is located.
         public var timeZone: GeoPlacesClientTypes.TimeZone?
@@ -3613,7 +3624,7 @@ extension GeoPlacesClientTypes {
 
     /// The suggested query results.
     public struct SuggestQueryResult: Swift.Sendable {
-        /// QueryId can be used to complete a follow up query through the SearchText API. The QueryId retains context from the original Suggest request such as filters, political view and language. See the SearchText API documentation for more details [SearchText API docs](https://docs.aws.amazon.com/latest/APIReference/API_geoplaces_SearchText.html). The fields QueryText, and QueryID are mutually exclusive.
+        /// QueryId can be used to complete a follow up query through the SearchText API. The QueryId retains context from the original Suggest request such as filters, political view and language. See the SearchText API documentation for more details [SearchText API docs](https://docs.aws.amazon.com/location/latest/APIReference/API_geoplaces_SearchText.html). The fields QueryText, and QueryID are mutually exclusive.
         public var queryId: Swift.String?
         /// The query type. Category queries will search for places which have an entry matching the given category, for example "doctor office". BusinessChain queries will search for instances of a given business.
         public var queryType: GeoPlacesClientTypes.QueryType?
@@ -3912,6 +3923,7 @@ extension ReverseGeocodeInput {
         guard let value else { return }
         try writer["AdditionalFeatures"].writeList(value.additionalFeatures, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoPlacesClientTypes.ReverseGeocodeAdditionalFeature>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Filter"].write(value.filter, with: GeoPlacesClientTypes.ReverseGeocodeFilter.write(value:to:))
+        try writer["Heading"].write(value.heading)
         try writer["IntendedUse"].write(value.intendedUse)
         try writer["Language"].write(value.language)
         try writer["MaxResults"].write(value.maxResults)
@@ -4270,98 +4282,23 @@ extension ValidationException {
     }
 }
 
-extension GeoPlacesClientTypes.AutocompleteResultItem {
+extension GeoPlacesClientTypes.AccessPoint {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.AutocompleteResultItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.AccessPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.AutocompleteResultItem()
-        value.placeId = try reader["PlaceId"].readIfPresent() ?? ""
-        value.placeType = try reader["PlaceType"].readIfPresent() ?? .sdkUnknown("")
-        value.title = try reader["Title"].readIfPresent() ?? ""
-        value.address = try reader["Address"].readIfPresent(with: GeoPlacesClientTypes.Address.read(from:))
-        value.distance = try reader["Distance"].readIfPresent() ?? 0
-        value.language = try reader["Language"].readIfPresent()
-        value.politicalView = try reader["PoliticalView"].readIfPresent()
-        value.highlights = try reader["Highlights"].readIfPresent(with: GeoPlacesClientTypes.AutocompleteHighlights.read(from:))
+        var value = GeoPlacesClientTypes.AccessPoint()
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GeoPlacesClientTypes.AutocompleteHighlights {
+extension GeoPlacesClientTypes.AccessRestriction {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.AutocompleteHighlights {
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.AccessRestriction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.AutocompleteHighlights()
-        value.title = try reader["Title"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.address = try reader["Address"].readIfPresent(with: GeoPlacesClientTypes.AutocompleteAddressHighlights.read(from:))
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.AutocompleteAddressHighlights {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.AutocompleteAddressHighlights {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.AutocompleteAddressHighlights()
-        value.label = try reader["Label"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.country = try reader["Country"].readIfPresent(with: GeoPlacesClientTypes.CountryHighlights.read(from:))
-        value.region = try reader["Region"].readIfPresent(with: GeoPlacesClientTypes.RegionHighlights.read(from:))
-        value.subRegion = try reader["SubRegion"].readIfPresent(with: GeoPlacesClientTypes.SubRegionHighlights.read(from:))
-        value.locality = try reader["Locality"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.district = try reader["District"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subDistrict = try reader["SubDistrict"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.street = try reader["Street"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.block = try reader["Block"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subBlock = try reader["SubBlock"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.postalCode = try reader["PostalCode"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.addressNumber = try reader["AddressNumber"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.building = try reader["Building"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.Highlight {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.Highlight {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.Highlight()
-        value.startIndex = try reader["StartIndex"].readIfPresent()
-        value.endIndex = try reader["EndIndex"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.SubRegionHighlights {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.SubRegionHighlights {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.SubRegionHighlights()
-        value.code = try reader["Code"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["Name"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.RegionHighlights {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.RegionHighlights {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.RegionHighlights()
-        value.code = try reader["Code"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["Name"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.CountryHighlights {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.CountryHighlights {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.CountryHighlights()
-        value.code = try reader["Code"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["Name"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GeoPlacesClientTypes.AccessRestriction()
+        value.restricted = try reader["Restricted"].readIfPresent()
+        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4391,51 +4328,164 @@ extension GeoPlacesClientTypes.Address {
     }
 }
 
-extension GeoPlacesClientTypes.SecondaryAddressComponent {
+extension GeoPlacesClientTypes.AddressComponentMatchScores {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.SecondaryAddressComponent {
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.AddressComponentMatchScores {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.SecondaryAddressComponent()
-        value.number = try reader["Number"].readIfPresent() ?? ""
+        var value = GeoPlacesClientTypes.AddressComponentMatchScores()
+        value.country = try reader["Country"].readIfPresent() ?? 0
+        value.region = try reader["Region"].readIfPresent() ?? 0
+        value.subRegion = try reader["SubRegion"].readIfPresent() ?? 0
+        value.locality = try reader["Locality"].readIfPresent() ?? 0
+        value.district = try reader["District"].readIfPresent() ?? 0
+        value.subDistrict = try reader["SubDistrict"].readIfPresent() ?? 0
+        value.postalCode = try reader["PostalCode"].readIfPresent() ?? 0
+        value.block = try reader["Block"].readIfPresent() ?? 0
+        value.subBlock = try reader["SubBlock"].readIfPresent() ?? 0
+        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.addressNumber = try reader["AddressNumber"].readIfPresent() ?? 0
+        value.building = try reader["Building"].readIfPresent() ?? 0
+        value.secondaryAddressComponents = try reader["SecondaryAddressComponents"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.SecondaryAddressComponentMatchScore.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GeoPlacesClientTypes.StreetComponents {
+extension GeoPlacesClientTypes.AddressComponentPhonemes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.StreetComponents {
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.AddressComponentPhonemes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.StreetComponents()
-        value.baseName = try reader["BaseName"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.typePlacement = try reader["TypePlacement"].readIfPresent()
-        value.typeSeparator = try reader["TypeSeparator"].readIfPresent()
-        value.`prefix` = try reader["Prefix"].readIfPresent()
-        value.suffix = try reader["Suffix"].readIfPresent()
-        value.direction = try reader["Direction"].readIfPresent()
+        var value = GeoPlacesClientTypes.AddressComponentPhonemes()
+        value.country = try reader["Country"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.region = try reader["Region"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subRegion = try reader["SubRegion"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.locality = try reader["Locality"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.district = try reader["District"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subDistrict = try reader["SubDistrict"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.block = try reader["Block"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subBlock = try reader["SubBlock"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.street = try reader["Street"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.AutocompleteAddressHighlights {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.AutocompleteAddressHighlights {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.AutocompleteAddressHighlights()
+        value.label = try reader["Label"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.country = try reader["Country"].readIfPresent(with: GeoPlacesClientTypes.CountryHighlights.read(from:))
+        value.region = try reader["Region"].readIfPresent(with: GeoPlacesClientTypes.RegionHighlights.read(from:))
+        value.subRegion = try reader["SubRegion"].readIfPresent(with: GeoPlacesClientTypes.SubRegionHighlights.read(from:))
+        value.locality = try reader["Locality"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.district = try reader["District"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subDistrict = try reader["SubDistrict"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.street = try reader["Street"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.block = try reader["Block"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subBlock = try reader["SubBlock"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.postalCode = try reader["PostalCode"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.addressNumber = try reader["AddressNumber"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.building = try reader["Building"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.AutocompleteFilter {
+
+    static func write(value: GeoPlacesClientTypes.AutocompleteFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Circle"].write(value.circle, with: GeoPlacesClientTypes.FilterCircle.write(value:to:))
+        try writer["IncludeCountries"].writeList(value.includeCountries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludePlaceTypes"].writeList(value.includePlaceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoPlacesClientTypes.AutocompleteFilterPlaceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoPlacesClientTypes.AutocompleteHighlights {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.AutocompleteHighlights {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.AutocompleteHighlights()
+        value.title = try reader["Title"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.address = try reader["Address"].readIfPresent(with: GeoPlacesClientTypes.AutocompleteAddressHighlights.read(from:))
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.AutocompleteResultItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.AutocompleteResultItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.AutocompleteResultItem()
+        value.placeId = try reader["PlaceId"].readIfPresent() ?? ""
+        value.placeType = try reader["PlaceType"].readIfPresent() ?? .sdkUnknown("")
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.address = try reader["Address"].readIfPresent(with: GeoPlacesClientTypes.Address.read(from:))
+        value.distance = try reader["Distance"].readIfPresent() ?? 0
         value.language = try reader["Language"].readIfPresent()
+        value.politicalView = try reader["PoliticalView"].readIfPresent()
+        value.highlights = try reader["Highlights"].readIfPresent(with: GeoPlacesClientTypes.AutocompleteHighlights.read(from:))
         return value
     }
 }
 
-extension GeoPlacesClientTypes.SubRegion {
+extension GeoPlacesClientTypes.BusinessChain {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.SubRegion {
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.BusinessChain {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.SubRegion()
-        value.code = try reader["Code"].readIfPresent()
+        var value = GeoPlacesClientTypes.BusinessChain()
         value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
         return value
     }
 }
 
-extension GeoPlacesClientTypes.Region {
+extension GeoPlacesClientTypes.Category {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.Region {
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.Category {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.Region()
-        value.code = try reader["Code"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        var value = GeoPlacesClientTypes.Category()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.localizedName = try reader["LocalizedName"].readIfPresent()
+        value.primary = try reader["Primary"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.ComponentMatchScores {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.ComponentMatchScores {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.ComponentMatchScores()
+        value.title = try reader["Title"].readIfPresent() ?? 0
+        value.address = try reader["Address"].readIfPresent(with: GeoPlacesClientTypes.AddressComponentMatchScores.read(from:))
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.ContactDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.ContactDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.ContactDetails()
+        value.label = try reader["Label"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.Contacts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.Contacts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.Contacts()
+        value.phones = try reader["Phones"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.ContactDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.faxes = try reader["Faxes"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.ContactDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.websites = try reader["Websites"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.ContactDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.emails = try reader["Emails"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.ContactDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4452,73 +4502,44 @@ extension GeoPlacesClientTypes.Country {
     }
 }
 
-extension GeoPlacesClientTypes.GeocodeResultItem {
+extension GeoPlacesClientTypes.CountryHighlights {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.GeocodeResultItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.CountryHighlights {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.GeocodeResultItem()
-        value.placeId = try reader["PlaceId"].readIfPresent() ?? ""
-        value.placeType = try reader["PlaceType"].readIfPresent() ?? .sdkUnknown("")
-        value.title = try reader["Title"].readIfPresent() ?? ""
-        value.address = try reader["Address"].readIfPresent(with: GeoPlacesClientTypes.Address.read(from:))
-        value.addressNumberCorrected = try reader["AddressNumberCorrected"].readIfPresent()
-        value.postalCodeDetails = try reader["PostalCodeDetails"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PostalCodeDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.distance = try reader["Distance"].readIfPresent() ?? 0
-        value.mapView = try reader["MapView"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.foodTypes = try reader["FoodTypes"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.FoodType.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.accessPoints = try reader["AccessPoints"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.AccessPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.timeZone = try reader["TimeZone"].readIfPresent(with: GeoPlacesClientTypes.TimeZone.read(from:))
-        value.politicalView = try reader["PoliticalView"].readIfPresent()
-        value.matchScores = try reader["MatchScores"].readIfPresent(with: GeoPlacesClientTypes.MatchScoreDetails.read(from:))
-        value.parsedQuery = try reader["ParsedQuery"].readIfPresent(with: GeoPlacesClientTypes.GeocodeParsedQuery.read(from:))
-        value.intersections = try reader["Intersections"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Intersection.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.mainAddress = try reader["MainAddress"].readIfPresent(with: GeoPlacesClientTypes.RelatedPlace.read(from:))
-        value.secondaryAddresses = try reader["SecondaryAddresses"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.RelatedPlace.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GeoPlacesClientTypes.CountryHighlights()
+        value.code = try reader["Code"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GeoPlacesClientTypes.RelatedPlace {
+extension GeoPlacesClientTypes.FilterCircle {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.RelatedPlace {
+    static func write(value: GeoPlacesClientTypes.FilterCircle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Center"].writeList(value.center, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Radius"].write(value.radius)
+    }
+}
+
+extension GeoPlacesClientTypes.FoodType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.FoodType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.RelatedPlace()
-        value.placeId = try reader["PlaceId"].readIfPresent() ?? ""
-        value.placeType = try reader["PlaceType"].readIfPresent() ?? .sdkUnknown("")
-        value.title = try reader["Title"].readIfPresent() ?? ""
-        value.address = try reader["Address"].readIfPresent(with: GeoPlacesClientTypes.Address.read(from:))
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.accessPoints = try reader["AccessPoints"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.AccessPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GeoPlacesClientTypes.FoodType()
+        value.localizedName = try reader["LocalizedName"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent()
+        value.primary = try reader["Primary"].readIfPresent()
         return value
     }
 }
 
-extension GeoPlacesClientTypes.AccessPoint {
+extension GeoPlacesClientTypes.GeocodeFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.AccessPoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.AccessPoint()
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.Intersection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.Intersection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.Intersection()
-        value.placeId = try reader["PlaceId"].readIfPresent() ?? ""
-        value.title = try reader["Title"].readIfPresent() ?? ""
-        value.address = try reader["Address"].readIfPresent(with: GeoPlacesClientTypes.Address.read(from:))
-        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.distance = try reader["Distance"].readIfPresent()
-        value.routeDistance = try reader["RouteDistance"].readIfPresent()
-        value.mapView = try reader["MapView"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.accessPoints = try reader["AccessPoints"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.AccessPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+    static func write(value: GeoPlacesClientTypes.GeocodeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IncludeCountries"].writeList(value.includeCountries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludePlaceTypes"].writeList(value.includePlaceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoPlacesClientTypes.GeocodeFilterPlaceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4555,29 +4576,74 @@ extension GeoPlacesClientTypes.GeocodeParsedQueryAddressComponents {
     }
 }
 
-extension GeoPlacesClientTypes.ParsedQuerySecondaryAddressComponent {
+extension GeoPlacesClientTypes.GeocodeQueryComponents {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.ParsedQuerySecondaryAddressComponent {
+    static func write(value: GeoPlacesClientTypes.GeocodeQueryComponents?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddressNumber"].write(value.addressNumber)
+        try writer["Country"].write(value.country)
+        try writer["District"].write(value.district)
+        try writer["Locality"].write(value.locality)
+        try writer["PostalCode"].write(value.postalCode)
+        try writer["Region"].write(value.region)
+        try writer["Street"].write(value.street)
+        try writer["SubRegion"].write(value.subRegion)
+    }
+}
+
+extension GeoPlacesClientTypes.GeocodeResultItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.GeocodeResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.ParsedQuerySecondaryAddressComponent()
-        value.startIndex = try reader["StartIndex"].readIfPresent() ?? 0
-        value.endIndex = try reader["EndIndex"].readIfPresent() ?? 0
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        value.number = try reader["Number"].readIfPresent() ?? ""
-        value.designator = try reader["Designator"].readIfPresent() ?? ""
+        var value = GeoPlacesClientTypes.GeocodeResultItem()
+        value.placeId = try reader["PlaceId"].readIfPresent() ?? ""
+        value.placeType = try reader["PlaceType"].readIfPresent() ?? .sdkUnknown("")
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.address = try reader["Address"].readIfPresent(with: GeoPlacesClientTypes.Address.read(from:))
+        value.addressNumberCorrected = try reader["AddressNumberCorrected"].readIfPresent()
+        value.postalCodeDetails = try reader["PostalCodeDetails"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PostalCodeDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.distance = try reader["Distance"].readIfPresent() ?? 0
+        value.mapView = try reader["MapView"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.foodTypes = try reader["FoodTypes"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.FoodType.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accessPoints = try reader["AccessPoints"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.AccessPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.timeZone = try reader["TimeZone"].readIfPresent(with: GeoPlacesClientTypes.TimeZone.read(from:))
+        value.politicalView = try reader["PoliticalView"].readIfPresent()
+        value.matchScores = try reader["MatchScores"].readIfPresent(with: GeoPlacesClientTypes.MatchScoreDetails.read(from:))
+        value.parsedQuery = try reader["ParsedQuery"].readIfPresent(with: GeoPlacesClientTypes.GeocodeParsedQuery.read(from:))
+        value.intersections = try reader["Intersections"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Intersection.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mainAddress = try reader["MainAddress"].readIfPresent(with: GeoPlacesClientTypes.RelatedPlace.read(from:))
+        value.secondaryAddresses = try reader["SecondaryAddresses"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.RelatedPlace.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GeoPlacesClientTypes.ParsedQueryComponent {
+extension GeoPlacesClientTypes.Highlight {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.ParsedQueryComponent {
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.Highlight {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.ParsedQueryComponent()
+        var value = GeoPlacesClientTypes.Highlight()
         value.startIndex = try reader["StartIndex"].readIfPresent()
         value.endIndex = try reader["EndIndex"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
-        value.queryComponent = try reader["QueryComponent"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.Intersection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.Intersection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.Intersection()
+        value.placeId = try reader["PlaceId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.address = try reader["Address"].readIfPresent(with: GeoPlacesClientTypes.Address.read(from:))
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.distance = try reader["Distance"].readIfPresent()
+        value.routeDistance = try reader["RouteDistance"].readIfPresent()
+        value.mapView = try reader["MapView"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accessPoints = try reader["AccessPoints"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.AccessPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4589,156 +4655,6 @@ extension GeoPlacesClientTypes.MatchScoreDetails {
         var value = GeoPlacesClientTypes.MatchScoreDetails()
         value.overall = try reader["Overall"].readIfPresent() ?? 0
         value.components = try reader["Components"].readIfPresent(with: GeoPlacesClientTypes.ComponentMatchScores.read(from:))
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.ComponentMatchScores {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.ComponentMatchScores {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.ComponentMatchScores()
-        value.title = try reader["Title"].readIfPresent() ?? 0
-        value.address = try reader["Address"].readIfPresent(with: GeoPlacesClientTypes.AddressComponentMatchScores.read(from:))
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.AddressComponentMatchScores {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.AddressComponentMatchScores {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.AddressComponentMatchScores()
-        value.country = try reader["Country"].readIfPresent() ?? 0
-        value.region = try reader["Region"].readIfPresent() ?? 0
-        value.subRegion = try reader["SubRegion"].readIfPresent() ?? 0
-        value.locality = try reader["Locality"].readIfPresent() ?? 0
-        value.district = try reader["District"].readIfPresent() ?? 0
-        value.subDistrict = try reader["SubDistrict"].readIfPresent() ?? 0
-        value.postalCode = try reader["PostalCode"].readIfPresent() ?? 0
-        value.block = try reader["Block"].readIfPresent() ?? 0
-        value.subBlock = try reader["SubBlock"].readIfPresent() ?? 0
-        value.intersection = try reader["Intersection"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.addressNumber = try reader["AddressNumber"].readIfPresent() ?? 0
-        value.building = try reader["Building"].readIfPresent() ?? 0
-        value.secondaryAddressComponents = try reader["SecondaryAddressComponents"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.SecondaryAddressComponentMatchScore.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.SecondaryAddressComponentMatchScore {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.SecondaryAddressComponentMatchScore {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.SecondaryAddressComponentMatchScore()
-        value.number = try reader["Number"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.TimeZone {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.TimeZone {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.TimeZone()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.offset = try reader["Offset"].readIfPresent()
-        value.offsetSeconds = try reader["OffsetSeconds"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.FoodType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.FoodType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.FoodType()
-        value.localizedName = try reader["LocalizedName"].readIfPresent() ?? ""
-        value.id = try reader["Id"].readIfPresent()
-        value.primary = try reader["Primary"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.Category {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.Category {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.Category()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.localizedName = try reader["LocalizedName"].readIfPresent()
-        value.primary = try reader["Primary"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.PostalCodeDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.PostalCodeDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.PostalCodeDetails()
-        value.postalCode = try reader["PostalCode"].readIfPresent()
-        value.postalAuthority = try reader["PostalAuthority"].readIfPresent()
-        value.postalCodeType = try reader["PostalCodeType"].readIfPresent()
-        value.uspsZip = try reader["UspsZip"].readIfPresent(with: GeoPlacesClientTypes.UspsZip.read(from:))
-        value.uspsZipPlus4 = try reader["UspsZipPlus4"].readIfPresent(with: GeoPlacesClientTypes.UspsZipPlus4.read(from:))
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.UspsZipPlus4 {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.UspsZipPlus4 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.UspsZipPlus4()
-        value.recordTypeCode = try reader["RecordTypeCode"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.UspsZip {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.UspsZip {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.UspsZip()
-        value.zipClassificationCode = try reader["ZipClassificationCode"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.BusinessChain {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.BusinessChain {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.BusinessChain()
-        value.name = try reader["Name"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.Contacts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.Contacts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.Contacts()
-        value.phones = try reader["Phones"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.ContactDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.faxes = try reader["Faxes"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.ContactDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.websites = try reader["Websites"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.ContactDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.emails = try reader["Emails"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.ContactDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GeoPlacesClientTypes.ContactDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.ContactDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.ContactDetails()
-        value.label = try reader["Label"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4768,13 +4684,29 @@ extension GeoPlacesClientTypes.OpeningHoursComponents {
     }
 }
 
-extension GeoPlacesClientTypes.AccessRestriction {
+extension GeoPlacesClientTypes.ParsedQueryComponent {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.AccessRestriction {
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.ParsedQueryComponent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.AccessRestriction()
-        value.restricted = try reader["Restricted"].readIfPresent()
-        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GeoPlacesClientTypes.ParsedQueryComponent()
+        value.startIndex = try reader["StartIndex"].readIfPresent()
+        value.endIndex = try reader["EndIndex"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.queryComponent = try reader["QueryComponent"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.ParsedQuerySecondaryAddressComponent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.ParsedQuerySecondaryAddressComponent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.ParsedQuerySecondaryAddressComponent()
+        value.startIndex = try reader["StartIndex"].readIfPresent() ?? 0
+        value.endIndex = try reader["EndIndex"].readIfPresent() ?? 0
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        value.number = try reader["Number"].readIfPresent() ?? ""
+        value.designator = try reader["Designator"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4790,24 +4722,6 @@ extension GeoPlacesClientTypes.PhonemeDetails {
     }
 }
 
-extension GeoPlacesClientTypes.AddressComponentPhonemes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.AddressComponentPhonemes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.AddressComponentPhonemes()
-        value.country = try reader["Country"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.region = try reader["Region"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subRegion = try reader["SubRegion"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.locality = try reader["Locality"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.district = try reader["District"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subDistrict = try reader["SubDistrict"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.block = try reader["Block"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subBlock = try reader["SubBlock"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.street = try reader["Street"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.PhonemeTranscription.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension GeoPlacesClientTypes.PhonemeTranscription {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.PhonemeTranscription {
@@ -4817,6 +4731,78 @@ extension GeoPlacesClientTypes.PhonemeTranscription {
         value.language = try reader["Language"].readIfPresent()
         value.preferred = try reader["Preferred"].readIfPresent()
         return value
+    }
+}
+
+extension GeoPlacesClientTypes.PostalCodeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.PostalCodeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.PostalCodeDetails()
+        value.postalCode = try reader["PostalCode"].readIfPresent()
+        value.postalAuthority = try reader["PostalAuthority"].readIfPresent()
+        value.postalCodeType = try reader["PostalCodeType"].readIfPresent()
+        value.uspsZip = try reader["UspsZip"].readIfPresent(with: GeoPlacesClientTypes.UspsZip.read(from:))
+        value.uspsZipPlus4 = try reader["UspsZipPlus4"].readIfPresent(with: GeoPlacesClientTypes.UspsZipPlus4.read(from:))
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.QueryRefinement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.QueryRefinement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.QueryRefinement()
+        value.refinedTerm = try reader["RefinedTerm"].readIfPresent() ?? ""
+        value.originalTerm = try reader["OriginalTerm"].readIfPresent() ?? ""
+        value.startIndex = try reader["StartIndex"].readIfPresent() ?? 0
+        value.endIndex = try reader["EndIndex"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.Region {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.Region {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.Region()
+        value.code = try reader["Code"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.RegionHighlights {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.RegionHighlights {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.RegionHighlights()
+        value.code = try reader["Code"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.RelatedPlace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.RelatedPlace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.RelatedPlace()
+        value.placeId = try reader["PlaceId"].readIfPresent() ?? ""
+        value.placeType = try reader["PlaceType"].readIfPresent() ?? .sdkUnknown("")
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.address = try reader["Address"].readIfPresent(with: GeoPlacesClientTypes.Address.read(from:))
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accessPoints = try reader["AccessPoints"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.AccessPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.ReverseGeocodeFilter {
+
+    static func write(value: GeoPlacesClientTypes.ReverseGeocodeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IncludePlaceTypes"].writeList(value.includePlaceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoPlacesClientTypes.ReverseGeocodeFilterPlaceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4841,6 +4827,21 @@ extension GeoPlacesClientTypes.ReverseGeocodeResultItem {
         value.politicalView = try reader["PoliticalView"].readIfPresent()
         value.intersections = try reader["Intersections"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Intersection.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension GeoPlacesClientTypes.SearchNearbyFilter {
+
+    static func write(value: GeoPlacesClientTypes.SearchNearbyFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludeBusinessChains"].writeList(value.excludeBusinessChains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludeCategories"].writeList(value.excludeCategories, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludeFoodTypes"].writeList(value.excludeFoodTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludeBusinessChains"].writeList(value.includeBusinessChains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludeCategories"].writeList(value.includeCategories, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludeCountries"].writeList(value.includeCountries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludeFoodTypes"].writeList(value.includeFoodTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4871,6 +4872,16 @@ extension GeoPlacesClientTypes.SearchNearbyResultItem {
     }
 }
 
+extension GeoPlacesClientTypes.SearchTextFilter {
+
+    static func write(value: GeoPlacesClientTypes.SearchTextFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Circle"].write(value.circle, with: GeoPlacesClientTypes.FilterCircle.write(value:to:))
+        try writer["IncludeCountries"].writeList(value.includeCountries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension GeoPlacesClientTypes.SearchTextResultItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.SearchTextResultItem {
@@ -4898,27 +4909,62 @@ extension GeoPlacesClientTypes.SearchTextResultItem {
     }
 }
 
-extension GeoPlacesClientTypes.SuggestResultItem {
+extension GeoPlacesClientTypes.SecondaryAddressComponent {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.SuggestResultItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.SecondaryAddressComponent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.SuggestResultItem()
-        value.title = try reader["Title"].readIfPresent() ?? ""
-        value.suggestResultItemType = try reader["SuggestResultItemType"].readIfPresent() ?? .sdkUnknown("")
-        value.place = try reader["Place"].readIfPresent(with: GeoPlacesClientTypes.SuggestPlaceResult.read(from:))
-        value.query = try reader["Query"].readIfPresent(with: GeoPlacesClientTypes.SuggestQueryResult.read(from:))
-        value.highlights = try reader["Highlights"].readIfPresent(with: GeoPlacesClientTypes.SuggestHighlights.read(from:))
+        var value = GeoPlacesClientTypes.SecondaryAddressComponent()
+        value.number = try reader["Number"].readIfPresent() ?? ""
+        value.designator = try reader["Designator"].readIfPresent()
         return value
     }
 }
 
-extension GeoPlacesClientTypes.SuggestHighlights {
+extension GeoPlacesClientTypes.SecondaryAddressComponentMatchScore {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.SuggestHighlights {
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.SecondaryAddressComponentMatchScore {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.SuggestHighlights()
-        value.title = try reader["Title"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.address = try reader["Address"].readIfPresent(with: GeoPlacesClientTypes.SuggestAddressHighlights.read(from:))
+        var value = GeoPlacesClientTypes.SecondaryAddressComponentMatchScore()
+        value.number = try reader["Number"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.StreetComponents {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.StreetComponents {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.StreetComponents()
+        value.baseName = try reader["BaseName"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.typePlacement = try reader["TypePlacement"].readIfPresent()
+        value.typeSeparator = try reader["TypeSeparator"].readIfPresent()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.suffix = try reader["Suffix"].readIfPresent()
+        value.direction = try reader["Direction"].readIfPresent()
+        value.language = try reader["Language"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.SubRegion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.SubRegion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.SubRegion()
+        value.code = try reader["Code"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.SubRegionHighlights {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.SubRegionHighlights {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.SubRegionHighlights()
+        value.code = try reader["Code"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4933,13 +4979,23 @@ extension GeoPlacesClientTypes.SuggestAddressHighlights {
     }
 }
 
-extension GeoPlacesClientTypes.SuggestQueryResult {
+extension GeoPlacesClientTypes.SuggestFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.SuggestQueryResult {
+    static func write(value: GeoPlacesClientTypes.SuggestFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Circle"].write(value.circle, with: GeoPlacesClientTypes.FilterCircle.write(value:to:))
+        try writer["IncludeCountries"].writeList(value.includeCountries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GeoPlacesClientTypes.SuggestHighlights {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.SuggestHighlights {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.SuggestQueryResult()
-        value.queryId = try reader["QueryId"].readIfPresent()
-        value.queryType = try reader["QueryType"].readIfPresent()
+        var value = GeoPlacesClientTypes.SuggestHighlights()
+        value.title = try reader["Title"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.address = try reader["Address"].readIfPresent(with: GeoPlacesClientTypes.SuggestAddressHighlights.read(from:))
         return value
     }
 }
@@ -4967,15 +5023,59 @@ extension GeoPlacesClientTypes.SuggestPlaceResult {
     }
 }
 
-extension GeoPlacesClientTypes.QueryRefinement {
+extension GeoPlacesClientTypes.SuggestQueryResult {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.QueryRefinement {
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.SuggestQueryResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GeoPlacesClientTypes.QueryRefinement()
-        value.refinedTerm = try reader["RefinedTerm"].readIfPresent() ?? ""
-        value.originalTerm = try reader["OriginalTerm"].readIfPresent() ?? ""
-        value.startIndex = try reader["StartIndex"].readIfPresent() ?? 0
-        value.endIndex = try reader["EndIndex"].readIfPresent() ?? 0
+        var value = GeoPlacesClientTypes.SuggestQueryResult()
+        value.queryId = try reader["QueryId"].readIfPresent()
+        value.queryType = try reader["QueryType"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.SuggestResultItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.SuggestResultItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.SuggestResultItem()
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.suggestResultItemType = try reader["SuggestResultItemType"].readIfPresent() ?? .sdkUnknown("")
+        value.place = try reader["Place"].readIfPresent(with: GeoPlacesClientTypes.SuggestPlaceResult.read(from:))
+        value.query = try reader["Query"].readIfPresent(with: GeoPlacesClientTypes.SuggestQueryResult.read(from:))
+        value.highlights = try reader["Highlights"].readIfPresent(with: GeoPlacesClientTypes.SuggestHighlights.read(from:))
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.TimeZone {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.TimeZone {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.TimeZone()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.offset = try reader["Offset"].readIfPresent()
+        value.offsetSeconds = try reader["OffsetSeconds"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.UspsZip {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.UspsZip {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.UspsZip()
+        value.zipClassificationCode = try reader["ZipClassificationCode"].readIfPresent()
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.UspsZipPlus4 {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.UspsZipPlus4 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.UspsZipPlus4()
+        value.recordTypeCode = try reader["RecordTypeCode"].readIfPresent()
         return value
     }
 }
@@ -4988,93 +5088,6 @@ extension GeoPlacesClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension GeoPlacesClientTypes.AutocompleteFilter {
-
-    static func write(value: GeoPlacesClientTypes.AutocompleteFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Circle"].write(value.circle, with: GeoPlacesClientTypes.FilterCircle.write(value:to:))
-        try writer["IncludeCountries"].writeList(value.includeCountries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IncludePlaceTypes"].writeList(value.includePlaceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoPlacesClientTypes.AutocompleteFilterPlaceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GeoPlacesClientTypes.FilterCircle {
-
-    static func write(value: GeoPlacesClientTypes.FilterCircle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Center"].writeList(value.center, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Radius"].write(value.radius)
-    }
-}
-
-extension GeoPlacesClientTypes.GeocodeQueryComponents {
-
-    static func write(value: GeoPlacesClientTypes.GeocodeQueryComponents?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AddressNumber"].write(value.addressNumber)
-        try writer["Country"].write(value.country)
-        try writer["District"].write(value.district)
-        try writer["Locality"].write(value.locality)
-        try writer["PostalCode"].write(value.postalCode)
-        try writer["Region"].write(value.region)
-        try writer["Street"].write(value.street)
-        try writer["SubRegion"].write(value.subRegion)
-    }
-}
-
-extension GeoPlacesClientTypes.GeocodeFilter {
-
-    static func write(value: GeoPlacesClientTypes.GeocodeFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IncludeCountries"].writeList(value.includeCountries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IncludePlaceTypes"].writeList(value.includePlaceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoPlacesClientTypes.GeocodeFilterPlaceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GeoPlacesClientTypes.ReverseGeocodeFilter {
-
-    static func write(value: GeoPlacesClientTypes.ReverseGeocodeFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IncludePlaceTypes"].writeList(value.includePlaceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoPlacesClientTypes.ReverseGeocodeFilterPlaceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GeoPlacesClientTypes.SearchNearbyFilter {
-
-    static func write(value: GeoPlacesClientTypes.SearchNearbyFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExcludeBusinessChains"].writeList(value.excludeBusinessChains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExcludeCategories"].writeList(value.excludeCategories, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExcludeFoodTypes"].writeList(value.excludeFoodTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IncludeBusinessChains"].writeList(value.includeBusinessChains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IncludeCategories"].writeList(value.includeCategories, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IncludeCountries"].writeList(value.includeCountries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IncludeFoodTypes"].writeList(value.includeFoodTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GeoPlacesClientTypes.SearchTextFilter {
-
-    static func write(value: GeoPlacesClientTypes.SearchTextFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Circle"].write(value.circle, with: GeoPlacesClientTypes.FilterCircle.write(value:to:))
-        try writer["IncludeCountries"].writeList(value.includeCountries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GeoPlacesClientTypes.SuggestFilter {
-
-    static func write(value: GeoPlacesClientTypes.SuggestFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundingBox"].writeList(value.boundingBox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Circle"].write(value.circle, with: GeoPlacesClientTypes.FilterCircle.write(value:to:))
-        try writer["IncludeCountries"].writeList(value.includeCountries, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

@@ -453,6 +453,7 @@ extension PaymentCryptographyClientTypes {
         case tr31K1KeyBlockProtectionKey
         case tr31K2Tr34AsymmetricKey
         case tr31K3AsymmetricKeyForKeyAgreement
+        case tr31M0Iso16609MacKey
         case tr31M1Iso97971MacKey
         case tr31M3Iso97973MacKey
         case tr31M6Iso97975CmacKey
@@ -480,6 +481,7 @@ extension PaymentCryptographyClientTypes {
                 .tr31K1KeyBlockProtectionKey,
                 .tr31K2Tr34AsymmetricKey,
                 .tr31K3AsymmetricKeyForKeyAgreement,
+                .tr31M0Iso16609MacKey,
                 .tr31M1Iso97971MacKey,
                 .tr31M3Iso97973MacKey,
                 .tr31M6Iso97975CmacKey,
@@ -513,6 +515,7 @@ extension PaymentCryptographyClientTypes {
             case .tr31K1KeyBlockProtectionKey: return "TR31_K1_KEY_BLOCK_PROTECTION_KEY"
             case .tr31K2Tr34AsymmetricKey: return "TR31_K2_TR34_ASYMMETRIC_KEY"
             case .tr31K3AsymmetricKeyForKeyAgreement: return "TR31_K3_ASYMMETRIC_KEY_FOR_KEY_AGREEMENT"
+            case .tr31M0Iso16609MacKey: return "TR31_M0_ISO_16609_MAC_KEY"
             case .tr31M1Iso97971MacKey: return "TR31_M1_ISO_9797_1_MAC_KEY"
             case .tr31M3Iso97973MacKey: return "TR31_M3_ISO_9797_3_MAC_KEY"
             case .tr31M6Iso97975CmacKey: return "TR31_M6_ISO_9797_5_CMAC_KEY"
@@ -1028,6 +1031,41 @@ public struct UpdateAliasOutput: Swift.Sendable {
 
 extension PaymentCryptographyClientTypes {
 
+    public enum As2805KeyVariant: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dataEncryptionKeyVariant22
+        case messageAuthenticationKeyVariant24
+        case pinEncryptionKeyVariant28
+        case terminalMajorKeyVariant00
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [As2805KeyVariant] {
+            return [
+                .dataEncryptionKeyVariant22,
+                .messageAuthenticationKeyVariant24,
+                .pinEncryptionKeyVariant28,
+                .terminalMajorKeyVariant00
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dataEncryptionKeyVariant22: return "DATA_ENCRYPTION_KEY_VARIANT_22"
+            case .messageAuthenticationKeyVariant24: return "MESSAGE_AUTHENTICATION_KEY_VARIANT_24"
+            case .pinEncryptionKeyVariant28: return "PIN_ENCRYPTION_KEY_VARIANT_28"
+            case .terminalMajorKeyVariant00: return "TERMINAL_MAJOR_KEY_VARIANT_00"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
     /// The metadata used to create the certificate signing request.
     public struct CertificateSubjectType: Swift.Sendable {
         /// The city you provide to create the certificate signing request.
@@ -1035,7 +1073,7 @@ extension PaymentCryptographyClientTypes {
         /// The name you provide to create the certificate signing request.
         /// This member is required.
         public var commonName: Swift.String?
-        /// The city you provide to create the certificate signing request.
+        /// The country you provide to create the certificate signing request.
         public var country: Swift.String?
         /// The email address you provide to create the certificate signing request.
         public var emailAddress: Swift.String?
@@ -1223,6 +1261,27 @@ public struct EnableDefaultKeyReplicationRegionsOutput: Swift.Sendable {
         enabledReplicationRegions: [Swift.String]? = nil
     ) {
         self.enabledReplicationRegions = enabledReplicationRegions
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+
+    /// Parameter information for key material export using AS2805 key cryptogram format.
+    public struct ExportAs2805KeyCryptogram: Swift.Sendable {
+        /// The cryptographic usage of the key under export.
+        /// This member is required.
+        public var as2805KeyVariant: PaymentCryptographyClientTypes.As2805KeyVariant?
+        /// A key identifier that can be either a key ARN or an alias name. This allows flexible key identification in operations. When using a key ARN, it must be a fully qualified ARN in the format: arn:aws:payment-cryptography:region:account:key/key-id. When using an alias, it must begin with alias/ followed by the alias name. Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
+        /// This member is required.
+        public var wrappingKeyIdentifier: Swift.String?
+
+        public init(
+            as2805KeyVariant: PaymentCryptographyClientTypes.As2805KeyVariant? = nil,
+            wrappingKeyIdentifier: Swift.String? = nil
+        ) {
+            self.as2805KeyVariant = as2805KeyVariant
+            self.wrappingKeyIdentifier = wrappingKeyIdentifier
+        }
     }
 }
 
@@ -1644,6 +1703,8 @@ extension PaymentCryptographyClientTypes {
         case keycryptogram(PaymentCryptographyClientTypes.ExportKeyCryptogram)
         /// Key derivation parameter information for key material export using asymmetric ECDH key exchange method.
         case diffiehellmantr31keyblock(PaymentCryptographyClientTypes.ExportDiffieHellmanTr31KeyBlock)
+        /// Parameter information for key material export using AS2805 key cryptogram format.
+        case as2805keycryptogram(PaymentCryptographyClientTypes.ExportAs2805KeyCryptogram)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2036,6 +2097,52 @@ public struct GetPublicKeyCertificateOutput: Swift.Sendable {
 
 extension PaymentCryptographyClientTypes {
 
+    /// Parameter information for key material import using AS2805 key cryptogram format.
+    public struct ImportAs2805KeyCryptogram: Swift.Sendable {
+        /// The cryptographic usage of the key under import.
+        /// This member is required.
+        public var as2805KeyVariant: PaymentCryptographyClientTypes.As2805KeyVariant?
+        /// Specified whether the key is exportable. This data is immutable after the key is imported.
+        /// This member is required.
+        public var exportable: Swift.Bool?
+        /// The key algorithm of the key under import.
+        /// This member is required.
+        public var keyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm?
+        /// The list of cryptographic operations that you can perform using the key. The modes of use are deﬁned in section A.5.3 of the TR-31 spec.
+        /// This member is required.
+        public var keyModesOfUse: PaymentCryptographyClientTypes.KeyModesOfUse?
+        /// The wrapped key cryptogram under import.
+        /// This member is required.
+        public var wrappedKeyCryptogram: Swift.String?
+        /// A key identifier that can be either a key ARN or an alias name. This allows flexible key identification in operations. When using a key ARN, it must be a fully qualified ARN in the format: arn:aws:payment-cryptography:region:account:key/key-id. When using an alias, it must begin with alias/ followed by the alias name. Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
+        /// This member is required.
+        public var wrappingKeyIdentifier: Swift.String?
+
+        public init(
+            as2805KeyVariant: PaymentCryptographyClientTypes.As2805KeyVariant? = nil,
+            exportable: Swift.Bool? = nil,
+            keyAlgorithm: PaymentCryptographyClientTypes.KeyAlgorithm? = nil,
+            keyModesOfUse: PaymentCryptographyClientTypes.KeyModesOfUse? = nil,
+            wrappedKeyCryptogram: Swift.String? = nil,
+            wrappingKeyIdentifier: Swift.String? = nil
+        ) {
+            self.as2805KeyVariant = as2805KeyVariant
+            self.exportable = exportable
+            self.keyAlgorithm = keyAlgorithm
+            self.keyModesOfUse = keyModesOfUse
+            self.wrappedKeyCryptogram = wrappedKeyCryptogram
+            self.wrappingKeyIdentifier = wrappingKeyIdentifier
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes.ImportAs2805KeyCryptogram: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ImportAs2805KeyCryptogram(as2805KeyVariant: \(Swift.String(describing: as2805KeyVariant)), exportable: \(Swift.String(describing: exportable)), keyAlgorithm: \(Swift.String(describing: keyAlgorithm)), keyModesOfUse: \(Swift.String(describing: keyModesOfUse)), wrappingKeyIdentifier: \(Swift.String(describing: wrappingKeyIdentifier)), wrappedKeyCryptogram: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyClientTypes {
+
     /// Key derivation parameter information for key material import using asymmetric ECDH key exchange method.
     public struct ImportDiffieHellmanTr31KeyBlock: Swift.Sendable {
         /// The keyARN of the CA that signed the PublicKeyCertificate for the client's receiving ECC key pair.
@@ -2271,6 +2378,8 @@ extension PaymentCryptographyClientTypes {
         case keycryptogram(PaymentCryptographyClientTypes.ImportKeyCryptogram)
         /// Key derivation parameter information for key material import using asymmetric ECDH key exchange method.
         case diffiehellmantr31keyblock(PaymentCryptographyClientTypes.ImportDiffieHellmanTr31KeyBlock)
+        /// Parameter information for key material import using AS2805 key cryptogram format.
+        case as2805keycryptogram(PaymentCryptographyClientTypes.ImportAs2805KeyCryptogram)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3936,6 +4045,229 @@ extension ServiceUnavailableException {
     }
 }
 
+extension PaymentCryptographyClientTypes.Alias {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.Alias {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PaymentCryptographyClientTypes.Alias()
+        value.aliasName = try reader["AliasName"].readIfPresent() ?? ""
+        value.keyArn = try reader["KeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension PaymentCryptographyClientTypes.CertificateSubjectType {
+
+    static func write(value: PaymentCryptographyClientTypes.CertificateSubjectType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["City"].write(value.city)
+        try writer["CommonName"].write(value.commonName)
+        try writer["Country"].write(value.country)
+        try writer["EmailAddress"].write(value.emailAddress)
+        try writer["Organization"].write(value.organization)
+        try writer["OrganizationUnit"].write(value.organizationUnit)
+        try writer["StateOrProvince"].write(value.stateOrProvince)
+    }
+}
+
+extension PaymentCryptographyClientTypes.DiffieHellmanDerivationData {
+
+    static func write(value: PaymentCryptographyClientTypes.DiffieHellmanDerivationData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .sharedinformation(sharedinformation):
+                try writer["SharedInformation"].write(sharedinformation)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes.ExportAs2805KeyCryptogram {
+
+    static func write(value: PaymentCryptographyClientTypes.ExportAs2805KeyCryptogram?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["As2805KeyVariant"].write(value.as2805KeyVariant)
+        try writer["WrappingKeyIdentifier"].write(value.wrappingKeyIdentifier)
+    }
+}
+
+extension PaymentCryptographyClientTypes.ExportAttributes {
+
+    static func write(value: PaymentCryptographyClientTypes.ExportAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExportDukptInitialKey"].write(value.exportDukptInitialKey, with: PaymentCryptographyClientTypes.ExportDukptInitialKey.write(value:to:))
+        try writer["KeyCheckValueAlgorithm"].write(value.keyCheckValueAlgorithm)
+    }
+}
+
+extension PaymentCryptographyClientTypes.ExportDiffieHellmanTr31KeyBlock {
+
+    static func write(value: PaymentCryptographyClientTypes.ExportDiffieHellmanTr31KeyBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
+        try writer["DerivationData"].write(value.derivationData, with: PaymentCryptographyClientTypes.DiffieHellmanDerivationData.write(value:to:))
+        try writer["DeriveKeyAlgorithm"].write(value.deriveKeyAlgorithm)
+        try writer["KeyBlockHeaders"].write(value.keyBlockHeaders, with: PaymentCryptographyClientTypes.KeyBlockHeaders.write(value:to:))
+        try writer["KeyDerivationFunction"].write(value.keyDerivationFunction)
+        try writer["KeyDerivationHashAlgorithm"].write(value.keyDerivationHashAlgorithm)
+        try writer["PrivateKeyIdentifier"].write(value.privateKeyIdentifier)
+        try writer["PublicKeyCertificate"].write(value.publicKeyCertificate)
+    }
+}
+
+extension PaymentCryptographyClientTypes.ExportDukptInitialKey {
+
+    static func write(value: PaymentCryptographyClientTypes.ExportDukptInitialKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeySerialNumber"].write(value.keySerialNumber)
+    }
+}
+
+extension PaymentCryptographyClientTypes.ExportKeyCryptogram {
+
+    static func write(value: PaymentCryptographyClientTypes.ExportKeyCryptogram?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
+        try writer["WrappingKeyCertificate"].write(value.wrappingKeyCertificate)
+        try writer["WrappingSpec"].write(value.wrappingSpec)
+    }
+}
+
+extension PaymentCryptographyClientTypes.ExportKeyMaterial {
+
+    static func write(value: PaymentCryptographyClientTypes.ExportKeyMaterial?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .as2805keycryptogram(as2805keycryptogram):
+                try writer["As2805KeyCryptogram"].write(as2805keycryptogram, with: PaymentCryptographyClientTypes.ExportAs2805KeyCryptogram.write(value:to:))
+            case let .diffiehellmantr31keyblock(diffiehellmantr31keyblock):
+                try writer["DiffieHellmanTr31KeyBlock"].write(diffiehellmantr31keyblock, with: PaymentCryptographyClientTypes.ExportDiffieHellmanTr31KeyBlock.write(value:to:))
+            case let .keycryptogram(keycryptogram):
+                try writer["KeyCryptogram"].write(keycryptogram, with: PaymentCryptographyClientTypes.ExportKeyCryptogram.write(value:to:))
+            case let .tr31keyblock(tr31keyblock):
+                try writer["Tr31KeyBlock"].write(tr31keyblock, with: PaymentCryptographyClientTypes.ExportTr31KeyBlock.write(value:to:))
+            case let .tr34keyblock(tr34keyblock):
+                try writer["Tr34KeyBlock"].write(tr34keyblock, with: PaymentCryptographyClientTypes.ExportTr34KeyBlock.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes.ExportTr31KeyBlock {
+
+    static func write(value: PaymentCryptographyClientTypes.ExportTr31KeyBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyBlockHeaders"].write(value.keyBlockHeaders, with: PaymentCryptographyClientTypes.KeyBlockHeaders.write(value:to:))
+        try writer["WrappingKeyIdentifier"].write(value.wrappingKeyIdentifier)
+    }
+}
+
+extension PaymentCryptographyClientTypes.ExportTr34KeyBlock {
+
+    static func write(value: PaymentCryptographyClientTypes.ExportTr34KeyBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
+        try writer["ExportToken"].write(value.exportToken)
+        try writer["KeyBlockFormat"].write(value.keyBlockFormat)
+        try writer["KeyBlockHeaders"].write(value.keyBlockHeaders, with: PaymentCryptographyClientTypes.KeyBlockHeaders.write(value:to:))
+        try writer["RandomNonce"].write(value.randomNonce)
+        try writer["SigningKeyCertificate"].write(value.signingKeyCertificate)
+        try writer["SigningKeyIdentifier"].write(value.signingKeyIdentifier)
+        try writer["WrappingKeyCertificate"].write(value.wrappingKeyCertificate)
+    }
+}
+
+extension PaymentCryptographyClientTypes.ImportAs2805KeyCryptogram {
+
+    static func write(value: PaymentCryptographyClientTypes.ImportAs2805KeyCryptogram?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["As2805KeyVariant"].write(value.as2805KeyVariant)
+        try writer["Exportable"].write(value.exportable)
+        try writer["KeyAlgorithm"].write(value.keyAlgorithm)
+        try writer["KeyModesOfUse"].write(value.keyModesOfUse, with: PaymentCryptographyClientTypes.KeyModesOfUse.write(value:to:))
+        try writer["WrappedKeyCryptogram"].write(value.wrappedKeyCryptogram)
+        try writer["WrappingKeyIdentifier"].write(value.wrappingKeyIdentifier)
+    }
+}
+
+extension PaymentCryptographyClientTypes.ImportDiffieHellmanTr31KeyBlock {
+
+    static func write(value: PaymentCryptographyClientTypes.ImportDiffieHellmanTr31KeyBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
+        try writer["DerivationData"].write(value.derivationData, with: PaymentCryptographyClientTypes.DiffieHellmanDerivationData.write(value:to:))
+        try writer["DeriveKeyAlgorithm"].write(value.deriveKeyAlgorithm)
+        try writer["KeyDerivationFunction"].write(value.keyDerivationFunction)
+        try writer["KeyDerivationHashAlgorithm"].write(value.keyDerivationHashAlgorithm)
+        try writer["PrivateKeyIdentifier"].write(value.privateKeyIdentifier)
+        try writer["PublicKeyCertificate"].write(value.publicKeyCertificate)
+        try writer["WrappedKeyBlock"].write(value.wrappedKeyBlock)
+    }
+}
+
+extension PaymentCryptographyClientTypes.ImportKeyCryptogram {
+
+    static func write(value: PaymentCryptographyClientTypes.ImportKeyCryptogram?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Exportable"].write(value.exportable)
+        try writer["ImportToken"].write(value.importToken)
+        try writer["KeyAttributes"].write(value.keyAttributes, with: PaymentCryptographyClientTypes.KeyAttributes.write(value:to:))
+        try writer["WrappedKeyCryptogram"].write(value.wrappedKeyCryptogram)
+        try writer["WrappingSpec"].write(value.wrappingSpec)
+    }
+}
+
+extension PaymentCryptographyClientTypes.ImportKeyMaterial {
+
+    static func write(value: PaymentCryptographyClientTypes.ImportKeyMaterial?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .as2805keycryptogram(as2805keycryptogram):
+                try writer["As2805KeyCryptogram"].write(as2805keycryptogram, with: PaymentCryptographyClientTypes.ImportAs2805KeyCryptogram.write(value:to:))
+            case let .diffiehellmantr31keyblock(diffiehellmantr31keyblock):
+                try writer["DiffieHellmanTr31KeyBlock"].write(diffiehellmantr31keyblock, with: PaymentCryptographyClientTypes.ImportDiffieHellmanTr31KeyBlock.write(value:to:))
+            case let .keycryptogram(keycryptogram):
+                try writer["KeyCryptogram"].write(keycryptogram, with: PaymentCryptographyClientTypes.ImportKeyCryptogram.write(value:to:))
+            case let .rootcertificatepublickey(rootcertificatepublickey):
+                try writer["RootCertificatePublicKey"].write(rootcertificatepublickey, with: PaymentCryptographyClientTypes.RootCertificatePublicKey.write(value:to:))
+            case let .tr31keyblock(tr31keyblock):
+                try writer["Tr31KeyBlock"].write(tr31keyblock, with: PaymentCryptographyClientTypes.ImportTr31KeyBlock.write(value:to:))
+            case let .tr34keyblock(tr34keyblock):
+                try writer["Tr34KeyBlock"].write(tr34keyblock, with: PaymentCryptographyClientTypes.ImportTr34KeyBlock.write(value:to:))
+            case let .trustedcertificatepublickey(trustedcertificatepublickey):
+                try writer["TrustedCertificatePublicKey"].write(trustedcertificatepublickey, with: PaymentCryptographyClientTypes.TrustedCertificatePublicKey.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes.ImportTr31KeyBlock {
+
+    static func write(value: PaymentCryptographyClientTypes.ImportTr31KeyBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["WrappedKeyBlock"].write(value.wrappedKeyBlock)
+        try writer["WrappingKeyIdentifier"].write(value.wrappingKeyIdentifier)
+    }
+}
+
+extension PaymentCryptographyClientTypes.ImportTr34KeyBlock {
+
+    static func write(value: PaymentCryptographyClientTypes.ImportTr34KeyBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
+        try writer["ImportToken"].write(value.importToken)
+        try writer["KeyBlockFormat"].write(value.keyBlockFormat)
+        try writer["RandomNonce"].write(value.randomNonce)
+        try writer["SigningKeyCertificate"].write(value.signingKeyCertificate)
+        try writer["WrappedKeyBlock"].write(value.wrappedKeyBlock)
+        try writer["WrappingKeyCertificate"].write(value.wrappingKeyCertificate)
+        try writer["WrappingKeyIdentifier"].write(value.wrappingKeyIdentifier)
+    }
+}
+
 extension PaymentCryptographyClientTypes.Key {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.Key {
@@ -3963,17 +4295,6 @@ extension PaymentCryptographyClientTypes.Key {
     }
 }
 
-extension PaymentCryptographyClientTypes.ReplicationStatusType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.ReplicationStatusType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyClientTypes.ReplicationStatusType()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        return value
-    }
-}
-
 extension PaymentCryptographyClientTypes.KeyAttributes {
 
     static func write(value: PaymentCryptographyClientTypes.KeyAttributes?, to writer: SmithyJSON.Writer) throws {
@@ -3992,6 +4313,17 @@ extension PaymentCryptographyClientTypes.KeyAttributes {
         value.keyAlgorithm = try reader["KeyAlgorithm"].readIfPresent() ?? .sdkUnknown("")
         value.keyModesOfUse = try reader["KeyModesOfUse"].readIfPresent(with: PaymentCryptographyClientTypes.KeyModesOfUse.read(from:))
         return value
+    }
+}
+
+extension PaymentCryptographyClientTypes.KeyBlockHeaders {
+
+    static func write(value: PaymentCryptographyClientTypes.KeyBlockHeaders?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyExportability"].write(value.keyExportability)
+        try writer["KeyModesOfUse"].write(value.keyModesOfUse, with: PaymentCryptographyClientTypes.KeyModesOfUse.write(value:to:))
+        try writer["KeyVersion"].write(value.keyVersion)
+        try writer["OptionalBlocks"].writeMap(value.optionalBlocks, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -4026,31 +4358,6 @@ extension PaymentCryptographyClientTypes.KeyModesOfUse {
     }
 }
 
-extension PaymentCryptographyClientTypes.Alias {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.Alias {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyClientTypes.Alias()
-        value.aliasName = try reader["AliasName"].readIfPresent() ?? ""
-        value.keyArn = try reader["KeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension PaymentCryptographyClientTypes.WrappedKey {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.WrappedKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyClientTypes.WrappedKey()
-        value.wrappingKeyArn = try reader["WrappingKeyArn"].readIfPresent() ?? ""
-        value.wrappedKeyMaterialFormat = try reader["WrappedKeyMaterialFormat"].readIfPresent() ?? .sdkUnknown("")
-        value.keyMaterial = try reader["KeyMaterial"].readIfPresent() ?? ""
-        value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent()
-        value.keyCheckValueAlgorithm = try reader["KeyCheckValueAlgorithm"].readIfPresent()
-        return value
-    }
-}
-
 extension PaymentCryptographyClientTypes.KeySummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.KeySummary {
@@ -4065,6 +4372,26 @@ extension PaymentCryptographyClientTypes.KeySummary {
         value.multiRegionKeyType = try reader["MultiRegionKeyType"].readIfPresent()
         value.primaryRegion = try reader["PrimaryRegion"].readIfPresent()
         return value
+    }
+}
+
+extension PaymentCryptographyClientTypes.ReplicationStatusType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.ReplicationStatusType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PaymentCryptographyClientTypes.ReplicationStatusType()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension PaymentCryptographyClientTypes.RootCertificatePublicKey {
+
+    static func write(value: PaymentCryptographyClientTypes.RootCertificatePublicKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyAttributes"].write(value.keyAttributes, with: PaymentCryptographyClientTypes.KeyAttributes.write(value:to:))
+        try writer["PublicKeyCertificate"].write(value.publicKeyCertificate)
     }
 }
 
@@ -4085,203 +4412,6 @@ extension PaymentCryptographyClientTypes.Tag {
     }
 }
 
-extension PaymentCryptographyClientTypes.ExportKeyMaterial {
-
-    static func write(value: PaymentCryptographyClientTypes.ExportKeyMaterial?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .diffiehellmantr31keyblock(diffiehellmantr31keyblock):
-                try writer["DiffieHellmanTr31KeyBlock"].write(diffiehellmantr31keyblock, with: PaymentCryptographyClientTypes.ExportDiffieHellmanTr31KeyBlock.write(value:to:))
-            case let .keycryptogram(keycryptogram):
-                try writer["KeyCryptogram"].write(keycryptogram, with: PaymentCryptographyClientTypes.ExportKeyCryptogram.write(value:to:))
-            case let .tr31keyblock(tr31keyblock):
-                try writer["Tr31KeyBlock"].write(tr31keyblock, with: PaymentCryptographyClientTypes.ExportTr31KeyBlock.write(value:to:))
-            case let .tr34keyblock(tr34keyblock):
-                try writer["Tr34KeyBlock"].write(tr34keyblock, with: PaymentCryptographyClientTypes.ExportTr34KeyBlock.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PaymentCryptographyClientTypes.ExportDiffieHellmanTr31KeyBlock {
-
-    static func write(value: PaymentCryptographyClientTypes.ExportDiffieHellmanTr31KeyBlock?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
-        try writer["DerivationData"].write(value.derivationData, with: PaymentCryptographyClientTypes.DiffieHellmanDerivationData.write(value:to:))
-        try writer["DeriveKeyAlgorithm"].write(value.deriveKeyAlgorithm)
-        try writer["KeyBlockHeaders"].write(value.keyBlockHeaders, with: PaymentCryptographyClientTypes.KeyBlockHeaders.write(value:to:))
-        try writer["KeyDerivationFunction"].write(value.keyDerivationFunction)
-        try writer["KeyDerivationHashAlgorithm"].write(value.keyDerivationHashAlgorithm)
-        try writer["PrivateKeyIdentifier"].write(value.privateKeyIdentifier)
-        try writer["PublicKeyCertificate"].write(value.publicKeyCertificate)
-    }
-}
-
-extension PaymentCryptographyClientTypes.KeyBlockHeaders {
-
-    static func write(value: PaymentCryptographyClientTypes.KeyBlockHeaders?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeyExportability"].write(value.keyExportability)
-        try writer["KeyModesOfUse"].write(value.keyModesOfUse, with: PaymentCryptographyClientTypes.KeyModesOfUse.write(value:to:))
-        try writer["KeyVersion"].write(value.keyVersion)
-        try writer["OptionalBlocks"].writeMap(value.optionalBlocks, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-}
-
-extension PaymentCryptographyClientTypes.DiffieHellmanDerivationData {
-
-    static func write(value: PaymentCryptographyClientTypes.DiffieHellmanDerivationData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .sharedinformation(sharedinformation):
-                try writer["SharedInformation"].write(sharedinformation)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PaymentCryptographyClientTypes.ExportKeyCryptogram {
-
-    static func write(value: PaymentCryptographyClientTypes.ExportKeyCryptogram?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
-        try writer["WrappingKeyCertificate"].write(value.wrappingKeyCertificate)
-        try writer["WrappingSpec"].write(value.wrappingSpec)
-    }
-}
-
-extension PaymentCryptographyClientTypes.ExportTr34KeyBlock {
-
-    static func write(value: PaymentCryptographyClientTypes.ExportTr34KeyBlock?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
-        try writer["ExportToken"].write(value.exportToken)
-        try writer["KeyBlockFormat"].write(value.keyBlockFormat)
-        try writer["KeyBlockHeaders"].write(value.keyBlockHeaders, with: PaymentCryptographyClientTypes.KeyBlockHeaders.write(value:to:))
-        try writer["RandomNonce"].write(value.randomNonce)
-        try writer["SigningKeyCertificate"].write(value.signingKeyCertificate)
-        try writer["SigningKeyIdentifier"].write(value.signingKeyIdentifier)
-        try writer["WrappingKeyCertificate"].write(value.wrappingKeyCertificate)
-    }
-}
-
-extension PaymentCryptographyClientTypes.ExportTr31KeyBlock {
-
-    static func write(value: PaymentCryptographyClientTypes.ExportTr31KeyBlock?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeyBlockHeaders"].write(value.keyBlockHeaders, with: PaymentCryptographyClientTypes.KeyBlockHeaders.write(value:to:))
-        try writer["WrappingKeyIdentifier"].write(value.wrappingKeyIdentifier)
-    }
-}
-
-extension PaymentCryptographyClientTypes.ExportAttributes {
-
-    static func write(value: PaymentCryptographyClientTypes.ExportAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExportDukptInitialKey"].write(value.exportDukptInitialKey, with: PaymentCryptographyClientTypes.ExportDukptInitialKey.write(value:to:))
-        try writer["KeyCheckValueAlgorithm"].write(value.keyCheckValueAlgorithm)
-    }
-}
-
-extension PaymentCryptographyClientTypes.ExportDukptInitialKey {
-
-    static func write(value: PaymentCryptographyClientTypes.ExportDukptInitialKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeySerialNumber"].write(value.keySerialNumber)
-    }
-}
-
-extension PaymentCryptographyClientTypes.CertificateSubjectType {
-
-    static func write(value: PaymentCryptographyClientTypes.CertificateSubjectType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["City"].write(value.city)
-        try writer["CommonName"].write(value.commonName)
-        try writer["Country"].write(value.country)
-        try writer["EmailAddress"].write(value.emailAddress)
-        try writer["Organization"].write(value.organization)
-        try writer["OrganizationUnit"].write(value.organizationUnit)
-        try writer["StateOrProvince"].write(value.stateOrProvince)
-    }
-}
-
-extension PaymentCryptographyClientTypes.ImportKeyMaterial {
-
-    static func write(value: PaymentCryptographyClientTypes.ImportKeyMaterial?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .diffiehellmantr31keyblock(diffiehellmantr31keyblock):
-                try writer["DiffieHellmanTr31KeyBlock"].write(diffiehellmantr31keyblock, with: PaymentCryptographyClientTypes.ImportDiffieHellmanTr31KeyBlock.write(value:to:))
-            case let .keycryptogram(keycryptogram):
-                try writer["KeyCryptogram"].write(keycryptogram, with: PaymentCryptographyClientTypes.ImportKeyCryptogram.write(value:to:))
-            case let .rootcertificatepublickey(rootcertificatepublickey):
-                try writer["RootCertificatePublicKey"].write(rootcertificatepublickey, with: PaymentCryptographyClientTypes.RootCertificatePublicKey.write(value:to:))
-            case let .tr31keyblock(tr31keyblock):
-                try writer["Tr31KeyBlock"].write(tr31keyblock, with: PaymentCryptographyClientTypes.ImportTr31KeyBlock.write(value:to:))
-            case let .tr34keyblock(tr34keyblock):
-                try writer["Tr34KeyBlock"].write(tr34keyblock, with: PaymentCryptographyClientTypes.ImportTr34KeyBlock.write(value:to:))
-            case let .trustedcertificatepublickey(trustedcertificatepublickey):
-                try writer["TrustedCertificatePublicKey"].write(trustedcertificatepublickey, with: PaymentCryptographyClientTypes.TrustedCertificatePublicKey.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PaymentCryptographyClientTypes.ImportDiffieHellmanTr31KeyBlock {
-
-    static func write(value: PaymentCryptographyClientTypes.ImportDiffieHellmanTr31KeyBlock?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
-        try writer["DerivationData"].write(value.derivationData, with: PaymentCryptographyClientTypes.DiffieHellmanDerivationData.write(value:to:))
-        try writer["DeriveKeyAlgorithm"].write(value.deriveKeyAlgorithm)
-        try writer["KeyDerivationFunction"].write(value.keyDerivationFunction)
-        try writer["KeyDerivationHashAlgorithm"].write(value.keyDerivationHashAlgorithm)
-        try writer["PrivateKeyIdentifier"].write(value.privateKeyIdentifier)
-        try writer["PublicKeyCertificate"].write(value.publicKeyCertificate)
-        try writer["WrappedKeyBlock"].write(value.wrappedKeyBlock)
-    }
-}
-
-extension PaymentCryptographyClientTypes.ImportKeyCryptogram {
-
-    static func write(value: PaymentCryptographyClientTypes.ImportKeyCryptogram?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Exportable"].write(value.exportable)
-        try writer["ImportToken"].write(value.importToken)
-        try writer["KeyAttributes"].write(value.keyAttributes, with: PaymentCryptographyClientTypes.KeyAttributes.write(value:to:))
-        try writer["WrappedKeyCryptogram"].write(value.wrappedKeyCryptogram)
-        try writer["WrappingSpec"].write(value.wrappingSpec)
-    }
-}
-
-extension PaymentCryptographyClientTypes.ImportTr34KeyBlock {
-
-    static func write(value: PaymentCryptographyClientTypes.ImportTr34KeyBlock?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
-        try writer["ImportToken"].write(value.importToken)
-        try writer["KeyBlockFormat"].write(value.keyBlockFormat)
-        try writer["RandomNonce"].write(value.randomNonce)
-        try writer["SigningKeyCertificate"].write(value.signingKeyCertificate)
-        try writer["WrappedKeyBlock"].write(value.wrappedKeyBlock)
-        try writer["WrappingKeyCertificate"].write(value.wrappingKeyCertificate)
-        try writer["WrappingKeyIdentifier"].write(value.wrappingKeyIdentifier)
-    }
-}
-
-extension PaymentCryptographyClientTypes.ImportTr31KeyBlock {
-
-    static func write(value: PaymentCryptographyClientTypes.ImportTr31KeyBlock?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["WrappedKeyBlock"].write(value.wrappedKeyBlock)
-        try writer["WrappingKeyIdentifier"].write(value.wrappingKeyIdentifier)
-    }
-}
-
 extension PaymentCryptographyClientTypes.TrustedCertificatePublicKey {
 
     static func write(value: PaymentCryptographyClientTypes.TrustedCertificatePublicKey?, to writer: SmithyJSON.Writer) throws {
@@ -4292,12 +4422,17 @@ extension PaymentCryptographyClientTypes.TrustedCertificatePublicKey {
     }
 }
 
-extension PaymentCryptographyClientTypes.RootCertificatePublicKey {
+extension PaymentCryptographyClientTypes.WrappedKey {
 
-    static func write(value: PaymentCryptographyClientTypes.RootCertificatePublicKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeyAttributes"].write(value.keyAttributes, with: PaymentCryptographyClientTypes.KeyAttributes.write(value:to:))
-        try writer["PublicKeyCertificate"].write(value.publicKeyCertificate)
+    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyClientTypes.WrappedKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PaymentCryptographyClientTypes.WrappedKey()
+        value.wrappingKeyArn = try reader["WrappingKeyArn"].readIfPresent() ?? ""
+        value.wrappedKeyMaterialFormat = try reader["WrappedKeyMaterialFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.keyMaterial = try reader["KeyMaterial"].readIfPresent() ?? ""
+        value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent()
+        value.keyCheckValueAlgorithm = try reader["KeyCheckValueAlgorithm"].readIfPresent()
+        return value
     }
 }
 

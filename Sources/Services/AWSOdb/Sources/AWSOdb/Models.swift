@@ -335,13 +335,13 @@ extension OdbClientTypes {
 }
 
 public struct AssociateIamRoleToResourceInput: Swift.Sendable {
-    /// The Amazon Web Services integration configuration settings for the IAM service role association.
+    /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role association.
     /// This member is required.
     public var awsIntegration: OdbClientTypes.SupportedAwsIntegration?
-    /// The Amazon Resource Name (ARN) of the IAM service role to associate with the resource.
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role to associate with the resource.
     /// This member is required.
     public var iamRoleArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of the target resource to associate with the IAM service role.
+    /// The Amazon Resource Name (ARN) of the target resource to associate with the Amazon Web Services Identity and Access Management (IAM) service role.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -493,6 +493,77 @@ extension OdbClientTypes {
             case .ocpu: return "OCPU"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum IamRoleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associating
+        case connected
+        case disassociating
+        case disconnected
+        case failed
+        case partiallyConnected
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IamRoleStatus] {
+            return [
+                .associating,
+                .connected,
+                .disassociating,
+                .disconnected,
+                .failed,
+                .partiallyConnected,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associating: return "ASSOCIATING"
+            case .connected: return "CONNECTED"
+            case .disassociating: return "DISASSOCIATING"
+            case .disconnected: return "DISCONNECTED"
+            case .failed: return "FAILED"
+            case .partiallyConnected: return "PARTIALLY_CONNECTED"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// Information about an Amazon Web Services Identity and Access Management (IAM) service role associated with a resource.
+    public struct IamRole: Swift.Sendable {
+        /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role.
+        public var awsIntegration: OdbClientTypes.SupportedAwsIntegration?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role.
+        public var iamRoleArn: Swift.String?
+        /// The current status of the Amazon Web Services Identity and Access Management (IAM) service role.
+        public var status: OdbClientTypes.IamRoleStatus?
+        /// Additional information about the current status of the Amazon Web Services Identity and Access Management (IAM) service role, if applicable.
+        public var statusReason: Swift.String?
+
+        public init(
+            awsIntegration: OdbClientTypes.SupportedAwsIntegration? = nil,
+            iamRoleArn: Swift.String? = nil,
+            status: OdbClientTypes.IamRoleStatus? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.awsIntegration = awsIntegration
+            self.iamRoleArn = iamRoleArn
+            self.status = status
+            self.statusReason = statusReason
         }
     }
 }
@@ -787,6 +858,8 @@ extension OdbClientTypes {
         /// The unique identifier of the Autonomous VM cluster.
         /// This member is required.
         public var cloudAutonomousVmClusterId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Cloud Exadata Infrastructure containing this Autonomous VM cluster.
+        public var cloudExadataInfrastructureArn: Swift.String?
         /// The unique identifier of the Cloud Exadata Infrastructure containing this Autonomous VM cluster.
         public var cloudExadataInfrastructureId: Swift.String?
         /// The compute model of the Autonomous VM cluster: ECPU or OCPU.
@@ -817,6 +890,8 @@ extension OdbClientTypes {
         public var exadataStorageInTBsLowestScaledValue: Swift.Double?
         /// The hostname for the Autonomous VM cluster.
         public var hostname: Swift.String?
+        /// The Amazon Web Services Identity and Access Management (IAM) service roles associated with the Autonomous VM cluster.
+        public var iamRoles: [OdbClientTypes.IamRole]?
         /// Indicates whether mutual TLS (mTLS) authentication is enabled for the Autonomous VM cluster.
         public var isMtlsEnabledVmCluster: Swift.Bool?
         /// The Oracle license model that applies to the Autonomous VM cluster.
@@ -839,6 +914,8 @@ extension OdbClientTypes {
         public var ociUrl: Swift.String?
         /// The Oracle Cloud Identifier (OCID) of the Autonomous VM cluster.
         public var ocid: Swift.String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with this Autonomous VM cluster.
+        public var odbNetworkArn: Swift.String?
         /// The unique identifier of the ODB network associated with this Autonomous VM cluster.
         public var odbNetworkId: Swift.String?
         /// The progress of the current operation on the Autonomous VM cluster, as a percentage.
@@ -880,6 +957,7 @@ extension OdbClientTypes {
             availableCpus: Swift.Float? = nil,
             cloudAutonomousVmClusterArn: Swift.String? = nil,
             cloudAutonomousVmClusterId: Swift.String? = nil,
+            cloudExadataInfrastructureArn: Swift.String? = nil,
             cloudExadataInfrastructureId: Swift.String? = nil,
             computeModel: OdbClientTypes.ComputeModel? = nil,
             cpuCoreCount: Swift.Int? = nil,
@@ -895,6 +973,7 @@ extension OdbClientTypes {
             domain: Swift.String? = nil,
             exadataStorageInTBsLowestScaledValue: Swift.Double? = nil,
             hostname: Swift.String? = nil,
+            iamRoles: [OdbClientTypes.IamRole]? = nil,
             isMtlsEnabledVmCluster: Swift.Bool? = nil,
             licenseModel: OdbClientTypes.LicenseModel? = nil,
             maintenanceWindow: OdbClientTypes.MaintenanceWindow? = nil,
@@ -906,6 +985,7 @@ extension OdbClientTypes {
             ociResourceAnchorName: Swift.String? = nil,
             ociUrl: Swift.String? = nil,
             ocid: Swift.String? = nil,
+            odbNetworkArn: Swift.String? = nil,
             odbNetworkId: Swift.String? = nil,
             percentProgress: Swift.Float? = nil,
             provisionableAutonomousContainerDatabases: Swift.Int? = nil,
@@ -930,6 +1010,7 @@ extension OdbClientTypes {
             self.availableCpus = availableCpus
             self.cloudAutonomousVmClusterArn = cloudAutonomousVmClusterArn
             self.cloudAutonomousVmClusterId = cloudAutonomousVmClusterId
+            self.cloudExadataInfrastructureArn = cloudExadataInfrastructureArn
             self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.computeModel = computeModel
             self.cpuCoreCount = cpuCoreCount
@@ -945,6 +1026,7 @@ extension OdbClientTypes {
             self.domain = domain
             self.exadataStorageInTBsLowestScaledValue = exadataStorageInTBsLowestScaledValue
             self.hostname = hostname
+            self.iamRoles = iamRoles
             self.isMtlsEnabledVmCluster = isMtlsEnabledVmCluster
             self.licenseModel = licenseModel
             self.maintenanceWindow = maintenanceWindow
@@ -956,6 +1038,7 @@ extension OdbClientTypes {
             self.ociResourceAnchorName = ociResourceAnchorName
             self.ociUrl = ociUrl
             self.ocid = ocid
+            self.odbNetworkArn = odbNetworkArn
             self.odbNetworkId = odbNetworkId
             self.percentProgress = percentProgress
             self.provisionableAutonomousContainerDatabases = provisionableAutonomousContainerDatabases
@@ -995,6 +1078,8 @@ extension OdbClientTypes {
         /// The unique identifier of the Autonomous VM cluster.
         /// This member is required.
         public var cloudAutonomousVmClusterId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Exadata infrastructure containing this Autonomous VM cluster.
+        public var cloudExadataInfrastructureArn: Swift.String?
         /// The unique identifier of the Exadata infrastructure containing this Autonomous VM cluster.
         public var cloudExadataInfrastructureId: Swift.String?
         /// The compute model of the Autonomous VM cluster: ECPU or OCPU.
@@ -1025,6 +1110,8 @@ extension OdbClientTypes {
         public var exadataStorageInTBsLowestScaledValue: Swift.Double?
         /// The host name for the Autonomous VM cluster.
         public var hostname: Swift.String?
+        /// The Amazon Web Services Identity and Access Management (IAM) service roles associated with the Autonomous VM cluster in the summary information.
+        public var iamRoles: [OdbClientTypes.IamRole]?
         /// Indicates if mutual TLS (mTLS) authentication is enabled for the Autonomous VM cluster.
         public var isMtlsEnabledVmCluster: Swift.Bool?
         /// The Oracle license model that applies to the Autonomous VM cluster.
@@ -1047,6 +1134,8 @@ extension OdbClientTypes {
         public var ociUrl: Swift.String?
         /// The Oracle Cloud Identifier (OCID) of the Autonomous VM cluster.
         public var ocid: Swift.String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with this Autonomous VM cluster.
+        public var odbNetworkArn: Swift.String?
         /// The unique identifier of the ODB network associated with this Autonomous VM cluster.
         public var odbNetworkId: Swift.String?
         /// The progress of the current operation on the Autonomous VM cluster, as a percentage.
@@ -1088,6 +1177,7 @@ extension OdbClientTypes {
             availableCpus: Swift.Float? = nil,
             cloudAutonomousVmClusterArn: Swift.String? = nil,
             cloudAutonomousVmClusterId: Swift.String? = nil,
+            cloudExadataInfrastructureArn: Swift.String? = nil,
             cloudExadataInfrastructureId: Swift.String? = nil,
             computeModel: OdbClientTypes.ComputeModel? = nil,
             cpuCoreCount: Swift.Int? = nil,
@@ -1103,6 +1193,7 @@ extension OdbClientTypes {
             domain: Swift.String? = nil,
             exadataStorageInTBsLowestScaledValue: Swift.Double? = nil,
             hostname: Swift.String? = nil,
+            iamRoles: [OdbClientTypes.IamRole]? = nil,
             isMtlsEnabledVmCluster: Swift.Bool? = nil,
             licenseModel: OdbClientTypes.LicenseModel? = nil,
             maintenanceWindow: OdbClientTypes.MaintenanceWindow? = nil,
@@ -1114,6 +1205,7 @@ extension OdbClientTypes {
             ociResourceAnchorName: Swift.String? = nil,
             ociUrl: Swift.String? = nil,
             ocid: Swift.String? = nil,
+            odbNetworkArn: Swift.String? = nil,
             odbNetworkId: Swift.String? = nil,
             percentProgress: Swift.Float? = nil,
             provisionableAutonomousContainerDatabases: Swift.Int? = nil,
@@ -1138,6 +1230,7 @@ extension OdbClientTypes {
             self.availableCpus = availableCpus
             self.cloudAutonomousVmClusterArn = cloudAutonomousVmClusterArn
             self.cloudAutonomousVmClusterId = cloudAutonomousVmClusterId
+            self.cloudExadataInfrastructureArn = cloudExadataInfrastructureArn
             self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.computeModel = computeModel
             self.cpuCoreCount = cpuCoreCount
@@ -1153,6 +1246,7 @@ extension OdbClientTypes {
             self.domain = domain
             self.exadataStorageInTBsLowestScaledValue = exadataStorageInTBsLowestScaledValue
             self.hostname = hostname
+            self.iamRoles = iamRoles
             self.isMtlsEnabledVmCluster = isMtlsEnabledVmCluster
             self.licenseModel = licenseModel
             self.maintenanceWindow = maintenanceWindow
@@ -1164,6 +1258,7 @@ extension OdbClientTypes {
             self.ociResourceAnchorName = ociResourceAnchorName
             self.ociUrl = ociUrl
             self.ocid = ocid
+            self.odbNetworkArn = odbNetworkArn
             self.odbNetworkId = odbNetworkId
             self.percentProgress = percentProgress
             self.provisionableAutonomousContainerDatabases = provisionableAutonomousContainerDatabases
@@ -2429,77 +2524,6 @@ extension OdbClientTypes {
 
 extension OdbClientTypes {
 
-    public enum IamRoleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case associating
-        case connected
-        case disassociating
-        case disconnected
-        case failed
-        case partiallyConnected
-        case unknown
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [IamRoleStatus] {
-            return [
-                .associating,
-                .connected,
-                .disassociating,
-                .disconnected,
-                .failed,
-                .partiallyConnected,
-                .unknown
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .associating: return "ASSOCIATING"
-            case .connected: return "CONNECTED"
-            case .disassociating: return "DISASSOCIATING"
-            case .disconnected: return "DISCONNECTED"
-            case .failed: return "FAILED"
-            case .partiallyConnected: return "PARTIALLY_CONNECTED"
-            case .unknown: return "UNKNOWN"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension OdbClientTypes {
-
-    /// Information about an Amazon Web Services Identity and Access Management (IAM) service role associated with a resource.
-    public struct IamRole: Swift.Sendable {
-        /// The Amazon Web Services integration configuration settings for the IAM service role.
-        public var awsIntegration: OdbClientTypes.SupportedAwsIntegration?
-        /// The Amazon Resource Name (ARN) of the IAM service role.
-        public var iamRoleArn: Swift.String?
-        /// The current status of the IAM service role.
-        public var status: OdbClientTypes.IamRoleStatus?
-        /// Additional information about the current status of the IAM service role, if applicable.
-        public var statusReason: Swift.String?
-
-        public init(
-            awsIntegration: OdbClientTypes.SupportedAwsIntegration? = nil,
-            iamRoleArn: Swift.String? = nil,
-            status: OdbClientTypes.IamRoleStatus? = nil,
-            statusReason: Swift.String? = nil
-        ) {
-            self.awsIntegration = awsIntegration
-            self.iamRoleArn = iamRoleArn
-            self.status = status
-            self.statusReason = statusReason
-        }
-    }
-}
-
-extension OdbClientTypes {
-
     /// The IORM configuration settings for the database.
     public struct DbIormConfig: Swift.Sendable {
         /// The database name. For the default DbPlan, the dbName is default.
@@ -2628,6 +2652,8 @@ extension OdbClientTypes {
 
     /// Information about a VM cluster.
     public struct CloudVmCluster: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Exadata infrastructure that this VM cluster belongs to.
+        public var cloudExadataInfrastructureArn: Swift.String?
         /// The unique identifier of the Exadata infrastructure that this VM cluster belongs to.
         public var cloudExadataInfrastructureId: Swift.String?
         /// The Amazon Resource Name (ARN) of the VM cluster.
@@ -2685,6 +2711,8 @@ extension OdbClientTypes {
         public var ociUrl: Swift.String?
         /// The OCID of the VM cluster.
         public var ocid: Swift.String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with this VM cluster.
+        public var odbNetworkArn: Swift.String?
         /// The unique identifier of the ODB network for the VM cluster.
         public var odbNetworkId: Swift.String?
         /// The amount of progress made on the current operation on the VM cluster, expressed as a percentage.
@@ -2713,6 +2741,7 @@ extension OdbClientTypes {
         public var vipIds: [Swift.String]?
 
         public init(
+            cloudExadataInfrastructureArn: Swift.String? = nil,
             cloudExadataInfrastructureId: Swift.String? = nil,
             cloudVmClusterArn: Swift.String? = nil,
             cloudVmClusterId: Swift.String? = nil,
@@ -2741,6 +2770,7 @@ extension OdbClientTypes {
             ociResourceAnchorName: Swift.String? = nil,
             ociUrl: Swift.String? = nil,
             ocid: Swift.String? = nil,
+            odbNetworkArn: Swift.String? = nil,
             odbNetworkId: Swift.String? = nil,
             percentProgress: Swift.Float? = nil,
             scanDnsName: Swift.String? = nil,
@@ -2755,6 +2785,7 @@ extension OdbClientTypes {
             timeZone: Swift.String? = nil,
             vipIds: [Swift.String]? = nil
         ) {
+            self.cloudExadataInfrastructureArn = cloudExadataInfrastructureArn
             self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.cloudVmClusterArn = cloudVmClusterArn
             self.cloudVmClusterId = cloudVmClusterId
@@ -2783,6 +2814,7 @@ extension OdbClientTypes {
             self.ociResourceAnchorName = ociResourceAnchorName
             self.ociUrl = ociUrl
             self.ocid = ocid
+            self.odbNetworkArn = odbNetworkArn
             self.odbNetworkId = odbNetworkId
             self.percentProgress = percentProgress
             self.scanDnsName = scanDnsName
@@ -2802,13 +2834,15 @@ extension OdbClientTypes {
 
 extension OdbClientTypes.CloudVmCluster: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CloudVmCluster(cloudExadataInfrastructureId: \(Swift.String(describing: cloudExadataInfrastructureId)), cloudVmClusterArn: \(Swift.String(describing: cloudVmClusterArn)), cloudVmClusterId: \(Swift.String(describing: cloudVmClusterId)), clusterName: \(Swift.String(describing: clusterName)), computeModel: \(Swift.String(describing: computeModel)), cpuCoreCount: \(Swift.String(describing: cpuCoreCount)), createdAt: \(Swift.String(describing: createdAt)), dataCollectionOptions: \(Swift.String(describing: dataCollectionOptions)), dataStorageSizeInTBs: \(Swift.String(describing: dataStorageSizeInTBs)), dbNodeStorageSizeInGBs: \(Swift.String(describing: dbNodeStorageSizeInGBs)), dbServers: \(Swift.String(describing: dbServers)), diskRedundancy: \(Swift.String(describing: diskRedundancy)), displayName: \(Swift.String(describing: displayName)), domain: \(Swift.String(describing: domain)), giVersion: \(Swift.String(describing: giVersion)), hostname: \(Swift.String(describing: hostname)), iamRoles: \(Swift.String(describing: iamRoles)), iormConfigCache: \(Swift.String(describing: iormConfigCache)), isLocalBackupEnabled: \(Swift.String(describing: isLocalBackupEnabled)), isSparseDiskgroupEnabled: \(Swift.String(describing: isSparseDiskgroupEnabled)), lastUpdateHistoryEntryId: \(Swift.String(describing: lastUpdateHistoryEntryId)), licenseModel: \(Swift.String(describing: licenseModel)), listenerPort: \(Swift.String(describing: listenerPort)), memorySizeInGBs: \(Swift.String(describing: memorySizeInGBs)), nodeCount: \(Swift.String(describing: nodeCount)), ociResourceAnchorName: \(Swift.String(describing: ociResourceAnchorName)), ociUrl: \(Swift.String(describing: ociUrl)), ocid: \(Swift.String(describing: ocid)), odbNetworkId: \(Swift.String(describing: odbNetworkId)), percentProgress: \(Swift.String(describing: percentProgress)), scanDnsName: \(Swift.String(describing: scanDnsName)), scanDnsRecordId: \(Swift.String(describing: scanDnsRecordId)), scanIpIds: \(Swift.String(describing: scanIpIds)), shape: \(Swift.String(describing: shape)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), storageSizeInGBs: \(Swift.String(describing: storageSizeInGBs)), systemVersion: \(Swift.String(describing: systemVersion)), timeZone: \(Swift.String(describing: timeZone)), vipIds: \(Swift.String(describing: vipIds)), sshPublicKeys: \"CONTENT_REDACTED\")"}
+        "CloudVmCluster(cloudExadataInfrastructureArn: \(Swift.String(describing: cloudExadataInfrastructureArn)), cloudExadataInfrastructureId: \(Swift.String(describing: cloudExadataInfrastructureId)), cloudVmClusterArn: \(Swift.String(describing: cloudVmClusterArn)), cloudVmClusterId: \(Swift.String(describing: cloudVmClusterId)), clusterName: \(Swift.String(describing: clusterName)), computeModel: \(Swift.String(describing: computeModel)), cpuCoreCount: \(Swift.String(describing: cpuCoreCount)), createdAt: \(Swift.String(describing: createdAt)), dataCollectionOptions: \(Swift.String(describing: dataCollectionOptions)), dataStorageSizeInTBs: \(Swift.String(describing: dataStorageSizeInTBs)), dbNodeStorageSizeInGBs: \(Swift.String(describing: dbNodeStorageSizeInGBs)), dbServers: \(Swift.String(describing: dbServers)), diskRedundancy: \(Swift.String(describing: diskRedundancy)), displayName: \(Swift.String(describing: displayName)), domain: \(Swift.String(describing: domain)), giVersion: \(Swift.String(describing: giVersion)), hostname: \(Swift.String(describing: hostname)), iamRoles: \(Swift.String(describing: iamRoles)), iormConfigCache: \(Swift.String(describing: iormConfigCache)), isLocalBackupEnabled: \(Swift.String(describing: isLocalBackupEnabled)), isSparseDiskgroupEnabled: \(Swift.String(describing: isSparseDiskgroupEnabled)), lastUpdateHistoryEntryId: \(Swift.String(describing: lastUpdateHistoryEntryId)), licenseModel: \(Swift.String(describing: licenseModel)), listenerPort: \(Swift.String(describing: listenerPort)), memorySizeInGBs: \(Swift.String(describing: memorySizeInGBs)), nodeCount: \(Swift.String(describing: nodeCount)), ociResourceAnchorName: \(Swift.String(describing: ociResourceAnchorName)), ociUrl: \(Swift.String(describing: ociUrl)), ocid: \(Swift.String(describing: ocid)), odbNetworkArn: \(Swift.String(describing: odbNetworkArn)), odbNetworkId: \(Swift.String(describing: odbNetworkId)), percentProgress: \(Swift.String(describing: percentProgress)), scanDnsName: \(Swift.String(describing: scanDnsName)), scanDnsRecordId: \(Swift.String(describing: scanDnsRecordId)), scanIpIds: \(Swift.String(describing: scanIpIds)), shape: \(Swift.String(describing: shape)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), storageSizeInGBs: \(Swift.String(describing: storageSizeInGBs)), systemVersion: \(Swift.String(describing: systemVersion)), timeZone: \(Swift.String(describing: timeZone)), vipIds: \(Swift.String(describing: vipIds)), sshPublicKeys: \"CONTENT_REDACTED\")"}
 }
 
 extension OdbClientTypes {
 
     /// Information about a VM cluster.
     public struct CloudVmClusterSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Exadata infrastructure that this VM cluster belongs to.
+        public var cloudExadataInfrastructureArn: Swift.String?
         /// The unique identifier of the Exadata infrastructure that this VM cluster belongs to.
         public var cloudExadataInfrastructureId: Swift.String?
         /// The Amazon Resource Name (ARN) of the VM cluster.
@@ -2866,6 +2900,8 @@ extension OdbClientTypes {
         public var ociUrl: Swift.String?
         /// The OCID of the VM cluster.
         public var ocid: Swift.String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with this VM cluster.
+        public var odbNetworkArn: Swift.String?
         /// The unique identifier of the ODB network for the VM cluster.
         public var odbNetworkId: Swift.String?
         /// The amount of progress made on the current operation on the VM cluster, expressed as a percentage.
@@ -2894,6 +2930,7 @@ extension OdbClientTypes {
         public var vipIds: [Swift.String]?
 
         public init(
+            cloudExadataInfrastructureArn: Swift.String? = nil,
             cloudExadataInfrastructureId: Swift.String? = nil,
             cloudVmClusterArn: Swift.String? = nil,
             cloudVmClusterId: Swift.String? = nil,
@@ -2922,6 +2959,7 @@ extension OdbClientTypes {
             ociResourceAnchorName: Swift.String? = nil,
             ociUrl: Swift.String? = nil,
             ocid: Swift.String? = nil,
+            odbNetworkArn: Swift.String? = nil,
             odbNetworkId: Swift.String? = nil,
             percentProgress: Swift.Float? = nil,
             scanDnsName: Swift.String? = nil,
@@ -2936,6 +2974,7 @@ extension OdbClientTypes {
             timeZone: Swift.String? = nil,
             vipIds: [Swift.String]? = nil
         ) {
+            self.cloudExadataInfrastructureArn = cloudExadataInfrastructureArn
             self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.cloudVmClusterArn = cloudVmClusterArn
             self.cloudVmClusterId = cloudVmClusterId
@@ -2964,6 +3003,7 @@ extension OdbClientTypes {
             self.ociResourceAnchorName = ociResourceAnchorName
             self.ociUrl = ociUrl
             self.ocid = ocid
+            self.odbNetworkArn = odbNetworkArn
             self.odbNetworkId = odbNetworkId
             self.percentProgress = percentProgress
             self.scanDnsName = scanDnsName
@@ -2983,7 +3023,7 @@ extension OdbClientTypes {
 
 extension OdbClientTypes.CloudVmClusterSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CloudVmClusterSummary(cloudExadataInfrastructureId: \(Swift.String(describing: cloudExadataInfrastructureId)), cloudVmClusterArn: \(Swift.String(describing: cloudVmClusterArn)), cloudVmClusterId: \(Swift.String(describing: cloudVmClusterId)), clusterName: \(Swift.String(describing: clusterName)), computeModel: \(Swift.String(describing: computeModel)), cpuCoreCount: \(Swift.String(describing: cpuCoreCount)), createdAt: \(Swift.String(describing: createdAt)), dataCollectionOptions: \(Swift.String(describing: dataCollectionOptions)), dataStorageSizeInTBs: \(Swift.String(describing: dataStorageSizeInTBs)), dbNodeStorageSizeInGBs: \(Swift.String(describing: dbNodeStorageSizeInGBs)), dbServers: \(Swift.String(describing: dbServers)), diskRedundancy: \(Swift.String(describing: diskRedundancy)), displayName: \(Swift.String(describing: displayName)), domain: \(Swift.String(describing: domain)), giVersion: \(Swift.String(describing: giVersion)), hostname: \(Swift.String(describing: hostname)), iamRoles: \(Swift.String(describing: iamRoles)), iormConfigCache: \(Swift.String(describing: iormConfigCache)), isLocalBackupEnabled: \(Swift.String(describing: isLocalBackupEnabled)), isSparseDiskgroupEnabled: \(Swift.String(describing: isSparseDiskgroupEnabled)), lastUpdateHistoryEntryId: \(Swift.String(describing: lastUpdateHistoryEntryId)), licenseModel: \(Swift.String(describing: licenseModel)), listenerPort: \(Swift.String(describing: listenerPort)), memorySizeInGBs: \(Swift.String(describing: memorySizeInGBs)), nodeCount: \(Swift.String(describing: nodeCount)), ociResourceAnchorName: \(Swift.String(describing: ociResourceAnchorName)), ociUrl: \(Swift.String(describing: ociUrl)), ocid: \(Swift.String(describing: ocid)), odbNetworkId: \(Swift.String(describing: odbNetworkId)), percentProgress: \(Swift.String(describing: percentProgress)), scanDnsName: \(Swift.String(describing: scanDnsName)), scanDnsRecordId: \(Swift.String(describing: scanDnsRecordId)), scanIpIds: \(Swift.String(describing: scanIpIds)), shape: \(Swift.String(describing: shape)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), storageSizeInGBs: \(Swift.String(describing: storageSizeInGBs)), systemVersion: \(Swift.String(describing: systemVersion)), timeZone: \(Swift.String(describing: timeZone)), vipIds: \(Swift.String(describing: vipIds)), sshPublicKeys: \"CONTENT_REDACTED\")"}
+        "CloudVmClusterSummary(cloudExadataInfrastructureArn: \(Swift.String(describing: cloudExadataInfrastructureArn)), cloudExadataInfrastructureId: \(Swift.String(describing: cloudExadataInfrastructureId)), cloudVmClusterArn: \(Swift.String(describing: cloudVmClusterArn)), cloudVmClusterId: \(Swift.String(describing: cloudVmClusterId)), clusterName: \(Swift.String(describing: clusterName)), computeModel: \(Swift.String(describing: computeModel)), cpuCoreCount: \(Swift.String(describing: cpuCoreCount)), createdAt: \(Swift.String(describing: createdAt)), dataCollectionOptions: \(Swift.String(describing: dataCollectionOptions)), dataStorageSizeInTBs: \(Swift.String(describing: dataStorageSizeInTBs)), dbNodeStorageSizeInGBs: \(Swift.String(describing: dbNodeStorageSizeInGBs)), dbServers: \(Swift.String(describing: dbServers)), diskRedundancy: \(Swift.String(describing: diskRedundancy)), displayName: \(Swift.String(describing: displayName)), domain: \(Swift.String(describing: domain)), giVersion: \(Swift.String(describing: giVersion)), hostname: \(Swift.String(describing: hostname)), iamRoles: \(Swift.String(describing: iamRoles)), iormConfigCache: \(Swift.String(describing: iormConfigCache)), isLocalBackupEnabled: \(Swift.String(describing: isLocalBackupEnabled)), isSparseDiskgroupEnabled: \(Swift.String(describing: isSparseDiskgroupEnabled)), lastUpdateHistoryEntryId: \(Swift.String(describing: lastUpdateHistoryEntryId)), licenseModel: \(Swift.String(describing: licenseModel)), listenerPort: \(Swift.String(describing: listenerPort)), memorySizeInGBs: \(Swift.String(describing: memorySizeInGBs)), nodeCount: \(Swift.String(describing: nodeCount)), ociResourceAnchorName: \(Swift.String(describing: ociResourceAnchorName)), ociUrl: \(Swift.String(describing: ociUrl)), ocid: \(Swift.String(describing: ocid)), odbNetworkArn: \(Swift.String(describing: odbNetworkArn)), odbNetworkId: \(Swift.String(describing: odbNetworkId)), percentProgress: \(Swift.String(describing: percentProgress)), scanDnsName: \(Swift.String(describing: scanDnsName)), scanDnsRecordId: \(Swift.String(describing: scanDnsRecordId)), scanIpIds: \(Swift.String(describing: scanIpIds)), shape: \(Swift.String(describing: shape)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), storageSizeInGBs: \(Swift.String(describing: storageSizeInGBs)), systemVersion: \(Swift.String(describing: systemVersion)), timeZone: \(Swift.String(describing: timeZone)), vipIds: \(Swift.String(describing: vipIds)), sshPublicKeys: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateCloudVmClusterInput: Swift.Sendable {
@@ -3242,7 +3282,7 @@ public struct CreateOdbNetworkInput: Swift.Sendable {
     public var displayName: Swift.String?
     /// The Amazon Web Services Key Management Service (KMS) access configuration for the ODB network.
     public var kmsAccess: OdbClientTypes.Access?
-    /// The KMS policy document that defines permissions for key usage within the ODB network.
+    /// The Amazon Web Services Key Management Service (KMS) policy document that defines permissions for key usage within the ODB network.
     public var kmsPolicyDocument: Swift.String?
     /// Specifies the configuration for Amazon S3 access from the ODB network.
     public var s3Access: OdbClientTypes.Access?
@@ -3250,7 +3290,7 @@ public struct CreateOdbNetworkInput: Swift.Sendable {
     public var s3PolicyDocument: Swift.String?
     /// The Amazon Web Services Security Token Service (STS) access configuration for the ODB network.
     public var stsAccess: OdbClientTypes.Access?
-    /// The STS policy document that defines permissions for token service usage within the ODB network.
+    /// The Amazon Web Services Security Token Service (STS) policy document that defines permissions for token service usage within the ODB network.
     public var stsPolicyDocument: Swift.String?
     /// The list of resource tags to apply to the ODB network.
     public var tags: [Swift.String: Swift.String]?
@@ -3418,11 +3458,11 @@ extension OdbClientTypes {
 
     /// The configuration access for the cross-Region Amazon S3 database restore source for the ODB network.
     public struct CrossRegionS3RestoreSourcesAccess: Swift.Sendable {
-        /// The IPv4 addresses allowed for cross-Region S3 restore access.
+        /// The IPv4 addresses allowed for cross-Region Amazon S3 restore access.
         public var ipv4Addresses: [Swift.String]?
-        /// The Amazon Web Services Region for cross-Region S3 restore access.
+        /// The Amazon Web Services Region for cross-Region Amazon S3 restore access.
         public var region: Swift.String?
-        /// The current status of the cross-Region S3 restore access configuration.
+        /// The current status of the cross-Region Amazon S3 restore access configuration.
         public var status: OdbClientTypes.ManagedResourceStatus?
 
         public init(
@@ -4108,13 +4148,13 @@ public struct DeleteOdbPeeringConnectionOutput: Swift.Sendable {
 }
 
 public struct DisassociateIamRoleFromResourceInput: Swift.Sendable {
-    /// The Amazon Web Services integration configuration settings for the IAM service role disassociation.
+    /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role disassociation.
     /// This member is required.
     public var awsIntegration: OdbClientTypes.SupportedAwsIntegration?
-    /// The Amazon Resource Name (ARN) of the IAM service role to disassociate from the resource.
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role to disassociate from the resource.
     /// This member is required.
     public var iamRoleArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of the target resource to disassociate from the IAM service role.
+    /// The Amazon Resource Name (ARN) of the target resource to disassociate from the Amazon Web Services Identity and Access Management (IAM) service role.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -4273,13 +4313,13 @@ extension OdbClientTypes {
 
     /// Configuration for Amazon Web Services Key Management Service (KMS) access from the ODB network.
     public struct KmsAccess: Swift.Sendable {
-        /// The domain name for KMS access configuration.
+        /// The domain name for Amazon Web Services Key Management Service (KMS) access configuration.
         public var domainName: Swift.String?
-        /// The IPv4 addresses allowed for KMS access.
+        /// The IPv4 addresses allowed for Amazon Web Services Key Management Service (KMS) access.
         public var ipv4Addresses: [Swift.String]?
-        /// The KMS policy document that defines permissions for key usage.
+        /// The Amazon Web Services Key Management Service (KMS) policy document that defines permissions for key usage.
         public var kmsPolicyDocument: Swift.String?
-        /// The current status of the KMS access configuration.
+        /// The current status of the Amazon Web Services Key Management Service (KMS) access configuration.
         public var status: OdbClientTypes.ManagedResourceStatus?
 
         public init(
@@ -4391,13 +4431,13 @@ extension OdbClientTypes {
 
     /// Configuration for Amazon Web Services Security Token Service (STS) access from the ODB network.
     public struct StsAccess: Swift.Sendable {
-        /// The domain name for STS access configuration.
+        /// The domain name for Amazon Web Services Security Token Service (STS) access configuration.
         public var domainName: Swift.String?
-        /// The IPv4 addresses allowed for STS access.
+        /// The IPv4 addresses allowed for Amazon Web Services Security Token Service (STS) access.
         public var ipv4Addresses: [Swift.String]?
-        /// The current status of the STS access configuration.
+        /// The current status of the Amazon Web Services Security Token Service (STS) access configuration.
         public var status: OdbClientTypes.ManagedResourceStatus?
-        /// The STS policy document that defines permissions for token service usage.
+        /// The Amazon Web Services Security Token Service (STS) policy document that defines permissions for token service usage.
         public var stsPolicyDocument: Swift.String?
 
         public init(
@@ -4439,7 +4479,7 @@ extension OdbClientTypes {
     public struct ManagedServices: Swift.Sendable {
         /// The access configuration for the cross-Region Amazon S3 database restore source.
         public var crossRegionS3RestoreSourcesAccess: [OdbClientTypes.CrossRegionS3RestoreSourcesAccess]?
-        /// The Amazon Web Services Key Management Service (KMS) access configuration for managed services.
+        /// The Amazon Web Services Key Management Service (KMS) access configuration.
         public var kmsAccess: OdbClientTypes.KmsAccess?
         /// The managed Amazon S3 backup access configuration.
         public var managedS3BackupAccess: OdbClientTypes.ManagedS3BackupAccess?
@@ -4453,7 +4493,7 @@ extension OdbClientTypes {
         public var serviceNetworkArn: Swift.String?
         /// The service network endpoint configuration.
         public var serviceNetworkEndpoint: OdbClientTypes.ServiceNetworkEndpoint?
-        /// The Amazon Web Services Security Token Service (STS) access configuration for managed services.
+        /// The Amazon Web Services Security Token Service (STS) access configuration.
         public var stsAccess: OdbClientTypes.StsAccess?
         /// The Zero-ETL access configuration.
         public var zeroEtlAccess: OdbClientTypes.ZeroEtlAccess?
@@ -5110,7 +5150,7 @@ public struct UpdateOdbNetworkInput: Swift.Sendable {
     public var displayName: Swift.String?
     /// The Amazon Web Services Key Management Service (KMS) access configuration for the ODB network.
     public var kmsAccess: OdbClientTypes.Access?
-    /// The KMS policy document that defines permissions for key usage within the ODB network.
+    /// The Amazon Web Services Key Management Service (KMS) policy document that defines permissions for key usage within the ODB network.
     public var kmsPolicyDocument: Swift.String?
     /// The unique identifier of the ODB network to update.
     /// This member is required.
@@ -5125,7 +5165,7 @@ public struct UpdateOdbNetworkInput: Swift.Sendable {
     public var s3PolicyDocument: Swift.String?
     /// The Amazon Web Services Security Token Service (STS) access configuration for the ODB network.
     public var stsAccess: OdbClientTypes.Access?
-    /// The STS policy document that defines permissions for token service usage within the ODB network.
+    /// The Amazon Web Services Security Token Service (STS) policy document that defines permissions for token service usage within the ODB network.
     public var stsPolicyDocument: Swift.String?
     /// Specifies the updated configuration for Zero-ETL access from the ODB network.
     public var zeroEtlAccess: OdbClientTypes.Access?
@@ -7424,6 +7464,28 @@ extension ServiceQuotaExceededException {
     }
 }
 
+extension OdbClientTypes.AutonomousVirtualMachineSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.AutonomousVirtualMachineSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.AutonomousVirtualMachineSummary()
+        value.autonomousVirtualMachineId = try reader["autonomousVirtualMachineId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.vmName = try reader["vmName"].readIfPresent()
+        value.dbServerId = try reader["dbServerId"].readIfPresent()
+        value.dbServerDisplayName = try reader["dbServerDisplayName"].readIfPresent()
+        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
+        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
+        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
+        value.clientIpAddress = try reader["clientIpAddress"].readIfPresent()
+        value.cloudAutonomousVmClusterId = try reader["cloudAutonomousVmClusterId"].readIfPresent()
+        value.ocid = try reader["ocid"].readIfPresent()
+        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
+        return value
+    }
+}
+
 extension OdbClientTypes.CloudAutonomousVmCluster {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudAutonomousVmCluster {
@@ -7432,12 +7494,14 @@ extension OdbClientTypes.CloudAutonomousVmCluster {
         value.cloudAutonomousVmClusterId = try reader["cloudAutonomousVmClusterId"].readIfPresent() ?? ""
         value.cloudAutonomousVmClusterArn = try reader["cloudAutonomousVmClusterArn"].readIfPresent()
         value.odbNetworkId = try reader["odbNetworkId"].readIfPresent()
+        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
         value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
         value.percentProgress = try reader["percentProgress"].readIfPresent()
         value.displayName = try reader["displayName"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent()
+        value.cloudExadataInfrastructureArn = try reader["cloudExadataInfrastructureArn"].readIfPresent()
         value.autonomousDataStoragePercentage = try reader["autonomousDataStoragePercentage"].readIfPresent()
         value.autonomousDataStorageSizeInTBs = try reader["autonomousDataStorageSizeInTBs"].readIfPresent()
         value.availableAutonomousDataStorageSizeInTBs = try reader["availableAutonomousDataStorageSizeInTBs"].readIfPresent()
@@ -7478,69 +7542,79 @@ extension OdbClientTypes.CloudAutonomousVmCluster {
         value.timeOrdsCertificateExpires = try reader["timeOrdsCertificateExpires"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.timeZone = try reader["timeZone"].readIfPresent()
         value.totalContainerDatabases = try reader["totalContainerDatabases"].readIfPresent()
+        value.iamRoles = try reader["iamRoles"].readListIfPresent(memberReadingClosure: OdbClientTypes.IamRole.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension OdbClientTypes.MaintenanceWindow {
+extension OdbClientTypes.CloudAutonomousVmClusterResourceDetails {
 
-    static func write(value: OdbClientTypes.MaintenanceWindow?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["customActionTimeoutInMins"].write(value.customActionTimeoutInMins)
-        try writer["daysOfWeek"].writeList(value.daysOfWeek, memberWritingClosure: OdbClientTypes.DayOfWeek.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["hoursOfDay"].writeList(value.hoursOfDay, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["isCustomActionTimeoutEnabled"].write(value.isCustomActionTimeoutEnabled)
-        try writer["leadTimeInWeeks"].write(value.leadTimeInWeeks)
-        try writer["months"].writeList(value.months, memberWritingClosure: OdbClientTypes.Month.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["patchingMode"].write(value.patchingMode)
-        try writer["preference"].write(value.preference)
-        try writer["skipRu"].write(value.skipRu)
-        try writer["weeksOfMonth"].writeList(value.weeksOfMonth, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.MaintenanceWindow {
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudAutonomousVmClusterResourceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.MaintenanceWindow()
-        value.customActionTimeoutInMins = try reader["customActionTimeoutInMins"].readIfPresent()
-        value.daysOfWeek = try reader["daysOfWeek"].readListIfPresent(memberReadingClosure: OdbClientTypes.DayOfWeek.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.hoursOfDay = try reader["hoursOfDay"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isCustomActionTimeoutEnabled = try reader["isCustomActionTimeoutEnabled"].readIfPresent()
-        value.leadTimeInWeeks = try reader["leadTimeInWeeks"].readIfPresent()
-        value.months = try reader["months"].readListIfPresent(memberReadingClosure: OdbClientTypes.Month.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.patchingMode = try reader["patchingMode"].readIfPresent()
-        value.preference = try reader["preference"].readIfPresent()
-        value.skipRu = try reader["skipRu"].readIfPresent()
-        value.weeksOfMonth = try reader["weeksOfMonth"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = OdbClientTypes.CloudAutonomousVmClusterResourceDetails()
+        value.cloudAutonomousVmClusterId = try reader["cloudAutonomousVmClusterId"].readIfPresent()
+        value.unallocatedAdbStorageInTBs = try reader["unallocatedAdbStorageInTBs"].readIfPresent()
         return value
     }
 }
 
-extension OdbClientTypes.Month {
+extension OdbClientTypes.CloudAutonomousVmClusterSummary {
 
-    static func write(value: OdbClientTypes.Month?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.Month {
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudAutonomousVmClusterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.Month()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.DayOfWeek {
-
-    static func write(value: OdbClientTypes.DayOfWeek?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DayOfWeek {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.DayOfWeek()
-        value.name = try reader["name"].readIfPresent()
+        var value = OdbClientTypes.CloudAutonomousVmClusterSummary()
+        value.cloudAutonomousVmClusterId = try reader["cloudAutonomousVmClusterId"].readIfPresent() ?? ""
+        value.cloudAutonomousVmClusterArn = try reader["cloudAutonomousVmClusterArn"].readIfPresent()
+        value.odbNetworkId = try reader["odbNetworkId"].readIfPresent()
+        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
+        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
+        value.percentProgress = try reader["percentProgress"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent()
+        value.cloudExadataInfrastructureArn = try reader["cloudExadataInfrastructureArn"].readIfPresent()
+        value.autonomousDataStoragePercentage = try reader["autonomousDataStoragePercentage"].readIfPresent()
+        value.autonomousDataStorageSizeInTBs = try reader["autonomousDataStorageSizeInTBs"].readIfPresent()
+        value.availableAutonomousDataStorageSizeInTBs = try reader["availableAutonomousDataStorageSizeInTBs"].readIfPresent()
+        value.availableContainerDatabases = try reader["availableContainerDatabases"].readIfPresent()
+        value.availableCpus = try reader["availableCpus"].readIfPresent()
+        value.computeModel = try reader["computeModel"].readIfPresent()
+        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
+        value.cpuCoreCountPerNode = try reader["cpuCoreCountPerNode"].readIfPresent()
+        value.cpuPercentage = try reader["cpuPercentage"].readIfPresent()
+        value.dataStorageSizeInGBs = try reader["dataStorageSizeInGBs"].readIfPresent()
+        value.dataStorageSizeInTBs = try reader["dataStorageSizeInTBs"].readIfPresent()
+        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
+        value.dbServers = try reader["dbServers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["description"].readIfPresent()
+        value.domain = try reader["domain"].readIfPresent()
+        value.exadataStorageInTBsLowestScaledValue = try reader["exadataStorageInTBsLowestScaledValue"].readIfPresent()
+        value.hostname = try reader["hostname"].readIfPresent()
+        value.ocid = try reader["ocid"].readIfPresent()
+        value.ociUrl = try reader["ociUrl"].readIfPresent()
+        value.isMtlsEnabledVmCluster = try reader["isMtlsEnabledVmCluster"].readIfPresent()
+        value.licenseModel = try reader["licenseModel"].readIfPresent()
+        value.maintenanceWindow = try reader["maintenanceWindow"].readIfPresent(with: OdbClientTypes.MaintenanceWindow.read(from:))
+        value.maxAcdsLowestScaledValue = try reader["maxAcdsLowestScaledValue"].readIfPresent()
+        value.memoryPerOracleComputeUnitInGBs = try reader["memoryPerOracleComputeUnitInGBs"].readIfPresent()
+        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
+        value.nodeCount = try reader["nodeCount"].readIfPresent()
+        value.nonProvisionableAutonomousContainerDatabases = try reader["nonProvisionableAutonomousContainerDatabases"].readIfPresent()
+        value.provisionableAutonomousContainerDatabases = try reader["provisionableAutonomousContainerDatabases"].readIfPresent()
+        value.provisionedAutonomousContainerDatabases = try reader["provisionedAutonomousContainerDatabases"].readIfPresent()
+        value.provisionedCpus = try reader["provisionedCpus"].readIfPresent()
+        value.reclaimableCpus = try reader["reclaimableCpus"].readIfPresent()
+        value.reservedCpus = try reader["reservedCpus"].readIfPresent()
+        value.scanListenerPortNonTls = try reader["scanListenerPortNonTls"].readIfPresent()
+        value.scanListenerPortTls = try reader["scanListenerPortTls"].readIfPresent()
+        value.shape = try reader["shape"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.timeDatabaseSslCertificateExpires = try reader["timeDatabaseSslCertificateExpires"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.timeOrdsCertificateExpires = try reader["timeOrdsCertificateExpires"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.timeZone = try reader["timeZone"].readIfPresent()
+        value.totalContainerDatabases = try reader["totalContainerDatabases"].readIfPresent()
+        value.iamRoles = try reader["iamRoles"].readListIfPresent(memberReadingClosure: OdbClientTypes.IamRole.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7592,493 +7666,6 @@ extension OdbClientTypes.CloudExadataInfrastructure {
     }
 }
 
-extension OdbClientTypes.CustomerContact {
-
-    static func write(value: OdbClientTypes.CustomerContact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["email"].write(value.email)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CustomerContact {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.CustomerContact()
-        value.email = try reader["email"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.CloudExadataInfrastructureUnallocatedResources {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudExadataInfrastructureUnallocatedResources {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.CloudExadataInfrastructureUnallocatedResources()
-        value.cloudAutonomousVmClusters = try reader["cloudAutonomousVmClusters"].readListIfPresent(memberReadingClosure: OdbClientTypes.CloudAutonomousVmClusterResourceDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cloudExadataInfrastructureDisplayName = try reader["cloudExadataInfrastructureDisplayName"].readIfPresent()
-        value.exadataStorageInTBs = try reader["exadataStorageInTBs"].readIfPresent()
-        value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent()
-        value.localStorageInGBs = try reader["localStorageInGBs"].readIfPresent()
-        value.memoryInGBs = try reader["memoryInGBs"].readIfPresent()
-        value.ocpus = try reader["ocpus"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.CloudAutonomousVmClusterResourceDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudAutonomousVmClusterResourceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.CloudAutonomousVmClusterResourceDetails()
-        value.cloudAutonomousVmClusterId = try reader["cloudAutonomousVmClusterId"].readIfPresent()
-        value.unallocatedAdbStorageInTBs = try reader["unallocatedAdbStorageInTBs"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.CloudVmCluster {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudVmCluster {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.CloudVmCluster()
-        value.cloudVmClusterId = try reader["cloudVmClusterId"].readIfPresent() ?? ""
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.cloudVmClusterArn = try reader["cloudVmClusterArn"].readIfPresent()
-        value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent()
-        value.clusterName = try reader["clusterName"].readIfPresent()
-        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
-        value.dataCollectionOptions = try reader["dataCollectionOptions"].readIfPresent(with: OdbClientTypes.DataCollectionOptions.read(from:))
-        value.dataStorageSizeInTBs = try reader["dataStorageSizeInTBs"].readIfPresent()
-        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
-        value.dbServers = try reader["dbServers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.diskRedundancy = try reader["diskRedundancy"].readIfPresent()
-        value.giVersion = try reader["giVersion"].readIfPresent()
-        value.hostname = try reader["hostname"].readIfPresent()
-        value.iormConfigCache = try reader["iormConfigCache"].readIfPresent(with: OdbClientTypes.ExadataIormConfig.read(from:))
-        value.isLocalBackupEnabled = try reader["isLocalBackupEnabled"].readIfPresent()
-        value.isSparseDiskgroupEnabled = try reader["isSparseDiskgroupEnabled"].readIfPresent()
-        value.lastUpdateHistoryEntryId = try reader["lastUpdateHistoryEntryId"].readIfPresent()
-        value.licenseModel = try reader["licenseModel"].readIfPresent()
-        value.listenerPort = try reader["listenerPort"].readIfPresent()
-        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
-        value.nodeCount = try reader["nodeCount"].readIfPresent()
-        value.ocid = try reader["ocid"].readIfPresent()
-        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
-        value.ociUrl = try reader["ociUrl"].readIfPresent()
-        value.domain = try reader["domain"].readIfPresent()
-        value.scanDnsName = try reader["scanDnsName"].readIfPresent()
-        value.scanDnsRecordId = try reader["scanDnsRecordId"].readIfPresent()
-        value.scanIpIds = try reader["scanIpIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.shape = try reader["shape"].readIfPresent()
-        value.sshPublicKeys = try reader["sshPublicKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.storageSizeInGBs = try reader["storageSizeInGBs"].readIfPresent()
-        value.systemVersion = try reader["systemVersion"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.timeZone = try reader["timeZone"].readIfPresent()
-        value.vipIds = try reader["vipIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.odbNetworkId = try reader["odbNetworkId"].readIfPresent()
-        value.percentProgress = try reader["percentProgress"].readIfPresent()
-        value.computeModel = try reader["computeModel"].readIfPresent()
-        value.iamRoles = try reader["iamRoles"].readListIfPresent(memberReadingClosure: OdbClientTypes.IamRole.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OdbClientTypes.IamRole {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.IamRole {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.IamRole()
-        value.iamRoleArn = try reader["iamRoleArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.awsIntegration = try reader["awsIntegration"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.ExadataIormConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ExadataIormConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.ExadataIormConfig()
-        value.dbPlans = try reader["dbPlans"].readListIfPresent(memberReadingClosure: OdbClientTypes.DbIormConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lifecycleDetails = try reader["lifecycleDetails"].readIfPresent()
-        value.lifecycleState = try reader["lifecycleState"].readIfPresent()
-        value.objective = try reader["objective"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.DbIormConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbIormConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.DbIormConfig()
-        value.dbName = try reader["dbName"].readIfPresent()
-        value.flashCacheLimit = try reader["flashCacheLimit"].readIfPresent()
-        value.share = try reader["share"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.DataCollectionOptions {
-
-    static func write(value: OdbClientTypes.DataCollectionOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isDiagnosticsEventsEnabled"].write(value.isDiagnosticsEventsEnabled)
-        try writer["isHealthMonitoringEnabled"].write(value.isHealthMonitoringEnabled)
-        try writer["isIncidentLogsEnabled"].write(value.isIncidentLogsEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DataCollectionOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.DataCollectionOptions()
-        value.isDiagnosticsEventsEnabled = try reader["isDiagnosticsEventsEnabled"].readIfPresent()
-        value.isHealthMonitoringEnabled = try reader["isHealthMonitoringEnabled"].readIfPresent()
-        value.isIncidentLogsEnabled = try reader["isIncidentLogsEnabled"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.DbNode {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbNode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.DbNode()
-        value.dbNodeId = try reader["dbNodeId"].readIfPresent()
-        value.dbNodeArn = try reader["dbNodeArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.additionalDetails = try reader["additionalDetails"].readIfPresent()
-        value.backupIpId = try reader["backupIpId"].readIfPresent()
-        value.backupVnic2Id = try reader["backupVnic2Id"].readIfPresent()
-        value.backupVnicId = try reader["backupVnicId"].readIfPresent()
-        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
-        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
-        value.dbServerId = try reader["dbServerId"].readIfPresent()
-        value.dbSystemId = try reader["dbSystemId"].readIfPresent()
-        value.faultDomain = try reader["faultDomain"].readIfPresent()
-        value.hostIpId = try reader["hostIpId"].readIfPresent()
-        value.hostname = try reader["hostname"].readIfPresent()
-        value.ocid = try reader["ocid"].readIfPresent()
-        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
-        value.maintenanceType = try reader["maintenanceType"].readIfPresent()
-        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
-        value.softwareStorageSizeInGB = try reader["softwareStorageSizeInGB"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.timeMaintenanceWindowEnd = try reader["timeMaintenanceWindowEnd"].readIfPresent()
-        value.timeMaintenanceWindowStart = try reader["timeMaintenanceWindowStart"].readIfPresent()
-        value.totalCpuCoreCount = try reader["totalCpuCoreCount"].readIfPresent()
-        value.vnic2Id = try reader["vnic2Id"].readIfPresent()
-        value.vnicId = try reader["vnicId"].readIfPresent()
-        value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
-        value.floatingIpAddress = try reader["floatingIpAddress"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.DbServer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbServer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.DbServer()
-        value.dbServerId = try reader["dbServerId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
-        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
-        value.dbServerPatchingDetails = try reader["dbServerPatchingDetails"].readIfPresent(with: OdbClientTypes.DbServerPatchingDetails.read(from:))
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.exadataInfrastructureId = try reader["exadataInfrastructureId"].readIfPresent()
-        value.ocid = try reader["ocid"].readIfPresent()
-        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
-        value.maxCpuCount = try reader["maxCpuCount"].readIfPresent()
-        value.maxDbNodeStorageInGBs = try reader["maxDbNodeStorageInGBs"].readIfPresent()
-        value.maxMemoryInGBs = try reader["maxMemoryInGBs"].readIfPresent()
-        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
-        value.shape = try reader["shape"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.vmClusterIds = try reader["vmClusterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.computeModel = try reader["computeModel"].readIfPresent()
-        value.autonomousVmClusterIds = try reader["autonomousVmClusterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.autonomousVirtualMachineIds = try reader["autonomousVirtualMachineIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OdbClientTypes.DbServerPatchingDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbServerPatchingDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.DbServerPatchingDetails()
-        value.estimatedPatchDuration = try reader["estimatedPatchDuration"].readIfPresent()
-        value.patchingStatus = try reader["patchingStatus"].readIfPresent()
-        value.timePatchingEnded = try reader["timePatchingEnded"].readIfPresent()
-        value.timePatchingStarted = try reader["timePatchingStarted"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.OciIdentityDomain {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OciIdentityDomain {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.OciIdentityDomain()
-        value.ociIdentityDomainId = try reader["ociIdentityDomainId"].readIfPresent()
-        value.ociIdentityDomainResourceUrl = try reader["ociIdentityDomainResourceUrl"].readIfPresent()
-        value.ociIdentityDomainUrl = try reader["ociIdentityDomainUrl"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.accountSetupCloudFormationUrl = try reader["accountSetupCloudFormationUrl"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.OdbNetwork {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OdbNetwork {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.OdbNetwork()
-        value.odbNetworkId = try reader["odbNetworkId"].readIfPresent() ?? ""
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
-        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
-        value.clientSubnetCidr = try reader["clientSubnetCidr"].readIfPresent()
-        value.backupSubnetCidr = try reader["backupSubnetCidr"].readIfPresent()
-        value.customDomainName = try reader["customDomainName"].readIfPresent()
-        value.defaultDnsPrefix = try reader["defaultDnsPrefix"].readIfPresent()
-        value.peeredCidrs = try reader["peeredCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ociNetworkAnchorId = try reader["ociNetworkAnchorId"].readIfPresent()
-        value.ociNetworkAnchorUrl = try reader["ociNetworkAnchorUrl"].readIfPresent()
-        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
-        value.ociVcnId = try reader["ociVcnId"].readIfPresent()
-        value.ociVcnUrl = try reader["ociVcnUrl"].readIfPresent()
-        value.ociDnsForwardingConfigs = try reader["ociDnsForwardingConfigs"].readListIfPresent(memberReadingClosure: OdbClientTypes.OciDnsForwardingConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.percentProgress = try reader["percentProgress"].readIfPresent()
-        value.managedServices = try reader["managedServices"].readIfPresent(with: OdbClientTypes.ManagedServices.read(from:))
-        return value
-    }
-}
-
-extension OdbClientTypes.ManagedServices {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ManagedServices {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.ManagedServices()
-        value.serviceNetworkArn = try reader["serviceNetworkArn"].readIfPresent()
-        value.resourceGatewayArn = try reader["resourceGatewayArn"].readIfPresent()
-        value.managedServicesIpv4Cidrs = try reader["managedServicesIpv4Cidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.serviceNetworkEndpoint = try reader["serviceNetworkEndpoint"].readIfPresent(with: OdbClientTypes.ServiceNetworkEndpoint.read(from:))
-        value.managedS3BackupAccess = try reader["managedS3BackupAccess"].readIfPresent(with: OdbClientTypes.ManagedS3BackupAccess.read(from:))
-        value.zeroEtlAccess = try reader["zeroEtlAccess"].readIfPresent(with: OdbClientTypes.ZeroEtlAccess.read(from:))
-        value.s3Access = try reader["s3Access"].readIfPresent(with: OdbClientTypes.S3Access.read(from:))
-        value.stsAccess = try reader["stsAccess"].readIfPresent(with: OdbClientTypes.StsAccess.read(from:))
-        value.kmsAccess = try reader["kmsAccess"].readIfPresent(with: OdbClientTypes.KmsAccess.read(from:))
-        value.crossRegionS3RestoreSourcesAccess = try reader["crossRegionS3RestoreSourcesAccess"].readListIfPresent(memberReadingClosure: OdbClientTypes.CrossRegionS3RestoreSourcesAccess.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OdbClientTypes.CrossRegionS3RestoreSourcesAccess {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CrossRegionS3RestoreSourcesAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.CrossRegionS3RestoreSourcesAccess()
-        value.region = try reader["region"].readIfPresent()
-        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.KmsAccess {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.KmsAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.KmsAccess()
-        value.status = try reader["status"].readIfPresent()
-        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.domainName = try reader["domainName"].readIfPresent()
-        value.kmsPolicyDocument = try reader["kmsPolicyDocument"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.StsAccess {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.StsAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.StsAccess()
-        value.status = try reader["status"].readIfPresent()
-        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.domainName = try reader["domainName"].readIfPresent()
-        value.stsPolicyDocument = try reader["stsPolicyDocument"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.S3Access {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.S3Access {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.S3Access()
-        value.status = try reader["status"].readIfPresent()
-        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.domainName = try reader["domainName"].readIfPresent()
-        value.s3PolicyDocument = try reader["s3PolicyDocument"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.ZeroEtlAccess {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ZeroEtlAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.ZeroEtlAccess()
-        value.status = try reader["status"].readIfPresent()
-        value.cidr = try reader["cidr"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.ManagedS3BackupAccess {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ManagedS3BackupAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.ManagedS3BackupAccess()
-        value.status = try reader["status"].readIfPresent()
-        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OdbClientTypes.ServiceNetworkEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ServiceNetworkEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.ServiceNetworkEndpoint()
-        value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
-        value.vpcEndpointType = try reader["vpcEndpointType"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.OciDnsForwardingConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OciDnsForwardingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.OciDnsForwardingConfig()
-        value.domainName = try reader["domainName"].readIfPresent()
-        value.ociDnsListenerIp = try reader["ociDnsListenerIp"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.OdbPeeringConnection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OdbPeeringConnection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.OdbPeeringConnection()
-        value.odbPeeringConnectionId = try reader["odbPeeringConnectionId"].readIfPresent() ?? ""
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.odbPeeringConnectionArn = try reader["odbPeeringConnectionArn"].readIfPresent()
-        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
-        value.peerNetworkArn = try reader["peerNetworkArn"].readIfPresent()
-        value.odbPeeringConnectionType = try reader["odbPeeringConnectionType"].readIfPresent()
-        value.peerNetworkCidrs = try reader["peerNetworkCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.percentProgress = try reader["percentProgress"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.AutonomousVirtualMachineSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.AutonomousVirtualMachineSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.AutonomousVirtualMachineSummary()
-        value.autonomousVirtualMachineId = try reader["autonomousVirtualMachineId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.vmName = try reader["vmName"].readIfPresent()
-        value.dbServerId = try reader["dbServerId"].readIfPresent()
-        value.dbServerDisplayName = try reader["dbServerDisplayName"].readIfPresent()
-        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
-        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
-        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
-        value.clientIpAddress = try reader["clientIpAddress"].readIfPresent()
-        value.cloudAutonomousVmClusterId = try reader["cloudAutonomousVmClusterId"].readIfPresent()
-        value.ocid = try reader["ocid"].readIfPresent()
-        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
-        return value
-    }
-}
-
-extension OdbClientTypes.CloudAutonomousVmClusterSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudAutonomousVmClusterSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.CloudAutonomousVmClusterSummary()
-        value.cloudAutonomousVmClusterId = try reader["cloudAutonomousVmClusterId"].readIfPresent() ?? ""
-        value.cloudAutonomousVmClusterArn = try reader["cloudAutonomousVmClusterArn"].readIfPresent()
-        value.odbNetworkId = try reader["odbNetworkId"].readIfPresent()
-        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
-        value.percentProgress = try reader["percentProgress"].readIfPresent()
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent()
-        value.autonomousDataStoragePercentage = try reader["autonomousDataStoragePercentage"].readIfPresent()
-        value.autonomousDataStorageSizeInTBs = try reader["autonomousDataStorageSizeInTBs"].readIfPresent()
-        value.availableAutonomousDataStorageSizeInTBs = try reader["availableAutonomousDataStorageSizeInTBs"].readIfPresent()
-        value.availableContainerDatabases = try reader["availableContainerDatabases"].readIfPresent()
-        value.availableCpus = try reader["availableCpus"].readIfPresent()
-        value.computeModel = try reader["computeModel"].readIfPresent()
-        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
-        value.cpuCoreCountPerNode = try reader["cpuCoreCountPerNode"].readIfPresent()
-        value.cpuPercentage = try reader["cpuPercentage"].readIfPresent()
-        value.dataStorageSizeInGBs = try reader["dataStorageSizeInGBs"].readIfPresent()
-        value.dataStorageSizeInTBs = try reader["dataStorageSizeInTBs"].readIfPresent()
-        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
-        value.dbServers = try reader["dbServers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.description = try reader["description"].readIfPresent()
-        value.domain = try reader["domain"].readIfPresent()
-        value.exadataStorageInTBsLowestScaledValue = try reader["exadataStorageInTBsLowestScaledValue"].readIfPresent()
-        value.hostname = try reader["hostname"].readIfPresent()
-        value.ocid = try reader["ocid"].readIfPresent()
-        value.ociUrl = try reader["ociUrl"].readIfPresent()
-        value.isMtlsEnabledVmCluster = try reader["isMtlsEnabledVmCluster"].readIfPresent()
-        value.licenseModel = try reader["licenseModel"].readIfPresent()
-        value.maintenanceWindow = try reader["maintenanceWindow"].readIfPresent(with: OdbClientTypes.MaintenanceWindow.read(from:))
-        value.maxAcdsLowestScaledValue = try reader["maxAcdsLowestScaledValue"].readIfPresent()
-        value.memoryPerOracleComputeUnitInGBs = try reader["memoryPerOracleComputeUnitInGBs"].readIfPresent()
-        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
-        value.nodeCount = try reader["nodeCount"].readIfPresent()
-        value.nonProvisionableAutonomousContainerDatabases = try reader["nonProvisionableAutonomousContainerDatabases"].readIfPresent()
-        value.provisionableAutonomousContainerDatabases = try reader["provisionableAutonomousContainerDatabases"].readIfPresent()
-        value.provisionedAutonomousContainerDatabases = try reader["provisionedAutonomousContainerDatabases"].readIfPresent()
-        value.provisionedCpus = try reader["provisionedCpus"].readIfPresent()
-        value.reclaimableCpus = try reader["reclaimableCpus"].readIfPresent()
-        value.reservedCpus = try reader["reservedCpus"].readIfPresent()
-        value.scanListenerPortNonTls = try reader["scanListenerPortNonTls"].readIfPresent()
-        value.scanListenerPortTls = try reader["scanListenerPortTls"].readIfPresent()
-        value.shape = try reader["shape"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.timeDatabaseSslCertificateExpires = try reader["timeDatabaseSslCertificateExpires"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.timeOrdsCertificateExpires = try reader["timeOrdsCertificateExpires"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.timeZone = try reader["timeZone"].readIfPresent()
-        value.totalContainerDatabases = try reader["totalContainerDatabases"].readIfPresent()
-        return value
-    }
-}
-
 extension OdbClientTypes.CloudExadataInfrastructureSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudExadataInfrastructureSummary {
@@ -8126,17 +7713,34 @@ extension OdbClientTypes.CloudExadataInfrastructureSummary {
     }
 }
 
-extension OdbClientTypes.CloudVmClusterSummary {
+extension OdbClientTypes.CloudExadataInfrastructureUnallocatedResources {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudVmClusterSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudExadataInfrastructureUnallocatedResources {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.CloudVmClusterSummary()
+        var value = OdbClientTypes.CloudExadataInfrastructureUnallocatedResources()
+        value.cloudAutonomousVmClusters = try reader["cloudAutonomousVmClusters"].readListIfPresent(memberReadingClosure: OdbClientTypes.CloudAutonomousVmClusterResourceDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudExadataInfrastructureDisplayName = try reader["cloudExadataInfrastructureDisplayName"].readIfPresent()
+        value.exadataStorageInTBs = try reader["exadataStorageInTBs"].readIfPresent()
+        value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent()
+        value.localStorageInGBs = try reader["localStorageInGBs"].readIfPresent()
+        value.memoryInGBs = try reader["memoryInGBs"].readIfPresent()
+        value.ocpus = try reader["ocpus"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.CloudVmCluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudVmCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.CloudVmCluster()
         value.cloudVmClusterId = try reader["cloudVmClusterId"].readIfPresent() ?? ""
         value.displayName = try reader["displayName"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.cloudVmClusterArn = try reader["cloudVmClusterArn"].readIfPresent()
         value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent()
+        value.cloudExadataInfrastructureArn = try reader["cloudExadataInfrastructureArn"].readIfPresent()
         value.clusterName = try reader["clusterName"].readIfPresent()
         value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
         value.dataCollectionOptions = try reader["dataCollectionOptions"].readIfPresent(with: OdbClientTypes.DataCollectionOptions.read(from:))
@@ -8169,9 +7773,172 @@ extension OdbClientTypes.CloudVmClusterSummary {
         value.timeZone = try reader["timeZone"].readIfPresent()
         value.vipIds = try reader["vipIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.odbNetworkId = try reader["odbNetworkId"].readIfPresent()
+        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
         value.percentProgress = try reader["percentProgress"].readIfPresent()
         value.computeModel = try reader["computeModel"].readIfPresent()
         value.iamRoles = try reader["iamRoles"].readListIfPresent(memberReadingClosure: OdbClientTypes.IamRole.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OdbClientTypes.CloudVmClusterSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CloudVmClusterSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.CloudVmClusterSummary()
+        value.cloudVmClusterId = try reader["cloudVmClusterId"].readIfPresent() ?? ""
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.cloudVmClusterArn = try reader["cloudVmClusterArn"].readIfPresent()
+        value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent()
+        value.cloudExadataInfrastructureArn = try reader["cloudExadataInfrastructureArn"].readIfPresent()
+        value.clusterName = try reader["clusterName"].readIfPresent()
+        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
+        value.dataCollectionOptions = try reader["dataCollectionOptions"].readIfPresent(with: OdbClientTypes.DataCollectionOptions.read(from:))
+        value.dataStorageSizeInTBs = try reader["dataStorageSizeInTBs"].readIfPresent()
+        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
+        value.dbServers = try reader["dbServers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.diskRedundancy = try reader["diskRedundancy"].readIfPresent()
+        value.giVersion = try reader["giVersion"].readIfPresent()
+        value.hostname = try reader["hostname"].readIfPresent()
+        value.iormConfigCache = try reader["iormConfigCache"].readIfPresent(with: OdbClientTypes.ExadataIormConfig.read(from:))
+        value.isLocalBackupEnabled = try reader["isLocalBackupEnabled"].readIfPresent()
+        value.isSparseDiskgroupEnabled = try reader["isSparseDiskgroupEnabled"].readIfPresent()
+        value.lastUpdateHistoryEntryId = try reader["lastUpdateHistoryEntryId"].readIfPresent()
+        value.licenseModel = try reader["licenseModel"].readIfPresent()
+        value.listenerPort = try reader["listenerPort"].readIfPresent()
+        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
+        value.nodeCount = try reader["nodeCount"].readIfPresent()
+        value.ocid = try reader["ocid"].readIfPresent()
+        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
+        value.ociUrl = try reader["ociUrl"].readIfPresent()
+        value.domain = try reader["domain"].readIfPresent()
+        value.scanDnsName = try reader["scanDnsName"].readIfPresent()
+        value.scanDnsRecordId = try reader["scanDnsRecordId"].readIfPresent()
+        value.scanIpIds = try reader["scanIpIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.shape = try reader["shape"].readIfPresent()
+        value.sshPublicKeys = try reader["sshPublicKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.storageSizeInGBs = try reader["storageSizeInGBs"].readIfPresent()
+        value.systemVersion = try reader["systemVersion"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.timeZone = try reader["timeZone"].readIfPresent()
+        value.vipIds = try reader["vipIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.odbNetworkId = try reader["odbNetworkId"].readIfPresent()
+        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
+        value.percentProgress = try reader["percentProgress"].readIfPresent()
+        value.computeModel = try reader["computeModel"].readIfPresent()
+        value.iamRoles = try reader["iamRoles"].readListIfPresent(memberReadingClosure: OdbClientTypes.IamRole.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OdbClientTypes.CrossRegionS3RestoreSourcesAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CrossRegionS3RestoreSourcesAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.CrossRegionS3RestoreSourcesAccess()
+        value.region = try reader["region"].readIfPresent()
+        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.CustomerContact {
+
+    static func write(value: OdbClientTypes.CustomerContact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["email"].write(value.email)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CustomerContact {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.CustomerContact()
+        value.email = try reader["email"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.DataCollectionOptions {
+
+    static func write(value: OdbClientTypes.DataCollectionOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isDiagnosticsEventsEnabled"].write(value.isDiagnosticsEventsEnabled)
+        try writer["isHealthMonitoringEnabled"].write(value.isHealthMonitoringEnabled)
+        try writer["isIncidentLogsEnabled"].write(value.isIncidentLogsEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DataCollectionOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.DataCollectionOptions()
+        value.isDiagnosticsEventsEnabled = try reader["isDiagnosticsEventsEnabled"].readIfPresent()
+        value.isHealthMonitoringEnabled = try reader["isHealthMonitoringEnabled"].readIfPresent()
+        value.isIncidentLogsEnabled = try reader["isIncidentLogsEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.DayOfWeek {
+
+    static func write(value: OdbClientTypes.DayOfWeek?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DayOfWeek {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.DayOfWeek()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.DbIormConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbIormConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.DbIormConfig()
+        value.dbName = try reader["dbName"].readIfPresent()
+        value.flashCacheLimit = try reader["flashCacheLimit"].readIfPresent()
+        value.share = try reader["share"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.DbNode {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbNode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.DbNode()
+        value.dbNodeId = try reader["dbNodeId"].readIfPresent()
+        value.dbNodeArn = try reader["dbNodeArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.additionalDetails = try reader["additionalDetails"].readIfPresent()
+        value.backupIpId = try reader["backupIpId"].readIfPresent()
+        value.backupVnic2Id = try reader["backupVnic2Id"].readIfPresent()
+        value.backupVnicId = try reader["backupVnicId"].readIfPresent()
+        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
+        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
+        value.dbServerId = try reader["dbServerId"].readIfPresent()
+        value.dbSystemId = try reader["dbSystemId"].readIfPresent()
+        value.faultDomain = try reader["faultDomain"].readIfPresent()
+        value.hostIpId = try reader["hostIpId"].readIfPresent()
+        value.hostname = try reader["hostname"].readIfPresent()
+        value.ocid = try reader["ocid"].readIfPresent()
+        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
+        value.maintenanceType = try reader["maintenanceType"].readIfPresent()
+        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
+        value.softwareStorageSizeInGB = try reader["softwareStorageSizeInGB"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.timeMaintenanceWindowEnd = try reader["timeMaintenanceWindowEnd"].readIfPresent()
+        value.timeMaintenanceWindowStart = try reader["timeMaintenanceWindowStart"].readIfPresent()
+        value.totalCpuCoreCount = try reader["totalCpuCoreCount"].readIfPresent()
+        value.vnic2Id = try reader["vnic2Id"].readIfPresent()
+        value.vnicId = try reader["vnicId"].readIfPresent()
+        value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
+        value.floatingIpAddress = try reader["floatingIpAddress"].readIfPresent()
         return value
     }
 }
@@ -8207,6 +7974,48 @@ extension OdbClientTypes.DbNodeSummary {
         value.totalCpuCoreCount = try reader["totalCpuCoreCount"].readIfPresent()
         value.vnic2Id = try reader["vnic2Id"].readIfPresent()
         value.vnicId = try reader["vnicId"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.DbServer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.DbServer()
+        value.dbServerId = try reader["dbServerId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
+        value.dbNodeStorageSizeInGBs = try reader["dbNodeStorageSizeInGBs"].readIfPresent()
+        value.dbServerPatchingDetails = try reader["dbServerPatchingDetails"].readIfPresent(with: OdbClientTypes.DbServerPatchingDetails.read(from:))
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.exadataInfrastructureId = try reader["exadataInfrastructureId"].readIfPresent()
+        value.ocid = try reader["ocid"].readIfPresent()
+        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
+        value.maxCpuCount = try reader["maxCpuCount"].readIfPresent()
+        value.maxDbNodeStorageInGBs = try reader["maxDbNodeStorageInGBs"].readIfPresent()
+        value.maxMemoryInGBs = try reader["maxMemoryInGBs"].readIfPresent()
+        value.memorySizeInGBs = try reader["memorySizeInGBs"].readIfPresent()
+        value.shape = try reader["shape"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.vmClusterIds = try reader["vmClusterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.computeModel = try reader["computeModel"].readIfPresent()
+        value.autonomousVmClusterIds = try reader["autonomousVmClusterIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.autonomousVirtualMachineIds = try reader["autonomousVirtualMachineIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OdbClientTypes.DbServerPatchingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.DbServerPatchingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.DbServerPatchingDetails()
+        value.estimatedPatchDuration = try reader["estimatedPatchDuration"].readIfPresent()
+        value.patchingStatus = try reader["patchingStatus"].readIfPresent()
+        value.timePatchingEnded = try reader["timePatchingEnded"].readIfPresent()
+        value.timePatchingStarted = try reader["timePatchingStarted"].readIfPresent()
         return value
     }
 }
@@ -8273,12 +8082,185 @@ extension OdbClientTypes.DbSystemShapeSummary {
     }
 }
 
+extension OdbClientTypes.ExadataIormConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ExadataIormConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.ExadataIormConfig()
+        value.dbPlans = try reader["dbPlans"].readListIfPresent(memberReadingClosure: OdbClientTypes.DbIormConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lifecycleDetails = try reader["lifecycleDetails"].readIfPresent()
+        value.lifecycleState = try reader["lifecycleState"].readIfPresent()
+        value.objective = try reader["objective"].readIfPresent()
+        return value
+    }
+}
+
 extension OdbClientTypes.GiVersionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.GiVersionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OdbClientTypes.GiVersionSummary()
         value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.IamRole {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.IamRole {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.IamRole()
+        value.iamRoleArn = try reader["iamRoleArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.awsIntegration = try reader["awsIntegration"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.KmsAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.KmsAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.KmsAccess()
+        value.status = try reader["status"].readIfPresent()
+        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.kmsPolicyDocument = try reader["kmsPolicyDocument"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.MaintenanceWindow {
+
+    static func write(value: OdbClientTypes.MaintenanceWindow?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customActionTimeoutInMins"].write(value.customActionTimeoutInMins)
+        try writer["daysOfWeek"].writeList(value.daysOfWeek, memberWritingClosure: OdbClientTypes.DayOfWeek.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["hoursOfDay"].writeList(value.hoursOfDay, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["isCustomActionTimeoutEnabled"].write(value.isCustomActionTimeoutEnabled)
+        try writer["leadTimeInWeeks"].write(value.leadTimeInWeeks)
+        try writer["months"].writeList(value.months, memberWritingClosure: OdbClientTypes.Month.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["patchingMode"].write(value.patchingMode)
+        try writer["preference"].write(value.preference)
+        try writer["skipRu"].write(value.skipRu)
+        try writer["weeksOfMonth"].writeList(value.weeksOfMonth, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.MaintenanceWindow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.MaintenanceWindow()
+        value.customActionTimeoutInMins = try reader["customActionTimeoutInMins"].readIfPresent()
+        value.daysOfWeek = try reader["daysOfWeek"].readListIfPresent(memberReadingClosure: OdbClientTypes.DayOfWeek.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hoursOfDay = try reader["hoursOfDay"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isCustomActionTimeoutEnabled = try reader["isCustomActionTimeoutEnabled"].readIfPresent()
+        value.leadTimeInWeeks = try reader["leadTimeInWeeks"].readIfPresent()
+        value.months = try reader["months"].readListIfPresent(memberReadingClosure: OdbClientTypes.Month.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.patchingMode = try reader["patchingMode"].readIfPresent()
+        value.preference = try reader["preference"].readIfPresent()
+        value.skipRu = try reader["skipRu"].readIfPresent()
+        value.weeksOfMonth = try reader["weeksOfMonth"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OdbClientTypes.ManagedS3BackupAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ManagedS3BackupAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.ManagedS3BackupAccess()
+        value.status = try reader["status"].readIfPresent()
+        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OdbClientTypes.ManagedServices {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ManagedServices {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.ManagedServices()
+        value.serviceNetworkArn = try reader["serviceNetworkArn"].readIfPresent()
+        value.resourceGatewayArn = try reader["resourceGatewayArn"].readIfPresent()
+        value.managedServicesIpv4Cidrs = try reader["managedServicesIpv4Cidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceNetworkEndpoint = try reader["serviceNetworkEndpoint"].readIfPresent(with: OdbClientTypes.ServiceNetworkEndpoint.read(from:))
+        value.managedS3BackupAccess = try reader["managedS3BackupAccess"].readIfPresent(with: OdbClientTypes.ManagedS3BackupAccess.read(from:))
+        value.zeroEtlAccess = try reader["zeroEtlAccess"].readIfPresent(with: OdbClientTypes.ZeroEtlAccess.read(from:))
+        value.s3Access = try reader["s3Access"].readIfPresent(with: OdbClientTypes.S3Access.read(from:))
+        value.stsAccess = try reader["stsAccess"].readIfPresent(with: OdbClientTypes.StsAccess.read(from:))
+        value.kmsAccess = try reader["kmsAccess"].readIfPresent(with: OdbClientTypes.KmsAccess.read(from:))
+        value.crossRegionS3RestoreSourcesAccess = try reader["crossRegionS3RestoreSourcesAccess"].readListIfPresent(memberReadingClosure: OdbClientTypes.CrossRegionS3RestoreSourcesAccess.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OdbClientTypes.Month {
+
+    static func write(value: OdbClientTypes.Month?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.Month {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.Month()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.OciDnsForwardingConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OciDnsForwardingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.OciDnsForwardingConfig()
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.ociDnsListenerIp = try reader["ociDnsListenerIp"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.OciIdentityDomain {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OciIdentityDomain {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.OciIdentityDomain()
+        value.ociIdentityDomainId = try reader["ociIdentityDomainId"].readIfPresent()
+        value.ociIdentityDomainResourceUrl = try reader["ociIdentityDomainResourceUrl"].readIfPresent()
+        value.ociIdentityDomainUrl = try reader["ociIdentityDomainUrl"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.accountSetupCloudFormationUrl = try reader["accountSetupCloudFormationUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.OdbNetwork {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OdbNetwork {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.OdbNetwork()
+        value.odbNetworkId = try reader["odbNetworkId"].readIfPresent() ?? ""
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
+        value.clientSubnetCidr = try reader["clientSubnetCidr"].readIfPresent()
+        value.backupSubnetCidr = try reader["backupSubnetCidr"].readIfPresent()
+        value.customDomainName = try reader["customDomainName"].readIfPresent()
+        value.defaultDnsPrefix = try reader["defaultDnsPrefix"].readIfPresent()
+        value.peeredCidrs = try reader["peeredCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ociNetworkAnchorId = try reader["ociNetworkAnchorId"].readIfPresent()
+        value.ociNetworkAnchorUrl = try reader["ociNetworkAnchorUrl"].readIfPresent()
+        value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
+        value.ociVcnId = try reader["ociVcnId"].readIfPresent()
+        value.ociVcnUrl = try reader["ociVcnUrl"].readIfPresent()
+        value.ociDnsForwardingConfigs = try reader["ociDnsForwardingConfigs"].readListIfPresent(memberReadingClosure: OdbClientTypes.OciDnsForwardingConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.percentProgress = try reader["percentProgress"].readIfPresent()
+        value.managedServices = try reader["managedServices"].readIfPresent(with: OdbClientTypes.ManagedServices.read(from:))
         return value
     }
 }
@@ -8313,6 +8295,26 @@ extension OdbClientTypes.OdbNetworkSummary {
     }
 }
 
+extension OdbClientTypes.OdbPeeringConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OdbPeeringConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.OdbPeeringConnection()
+        value.odbPeeringConnectionId = try reader["odbPeeringConnectionId"].readIfPresent() ?? ""
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.odbPeeringConnectionArn = try reader["odbPeeringConnectionArn"].readIfPresent()
+        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
+        value.peerNetworkArn = try reader["peerNetworkArn"].readIfPresent()
+        value.odbPeeringConnectionType = try reader["odbPeeringConnectionType"].readIfPresent()
+        value.peerNetworkCidrs = try reader["peerNetworkCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.percentProgress = try reader["percentProgress"].readIfPresent()
+        return value
+    }
+}
+
 extension OdbClientTypes.OdbPeeringConnectionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OdbPeeringConnectionSummary {
@@ -8329,6 +8331,43 @@ extension OdbClientTypes.OdbPeeringConnectionSummary {
         value.peerNetworkCidrs = try reader["peerNetworkCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.percentProgress = try reader["percentProgress"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.S3Access {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.S3Access {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.S3Access()
+        value.status = try reader["status"].readIfPresent()
+        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.s3PolicyDocument = try reader["s3PolicyDocument"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.ServiceNetworkEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ServiceNetworkEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.ServiceNetworkEndpoint()
+        value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
+        value.vpcEndpointType = try reader["vpcEndpointType"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.StsAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.StsAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.StsAccess()
+        value.status = try reader["status"].readIfPresent()
+        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.stsPolicyDocument = try reader["stsPolicyDocument"].readIfPresent()
         return value
     }
 }
@@ -8352,6 +8391,17 @@ extension OdbClientTypes.ValidationExceptionField {
         var value = OdbClientTypes.ValidationExceptionField()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension OdbClientTypes.ZeroEtlAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.ZeroEtlAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.ZeroEtlAccess()
+        value.status = try reader["status"].readIfPresent()
+        value.cidr = try reader["cidr"].readIfPresent()
         return value
     }
 }

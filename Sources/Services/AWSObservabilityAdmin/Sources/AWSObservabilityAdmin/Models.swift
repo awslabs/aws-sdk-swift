@@ -319,6 +319,36 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
+    /// Configuration that specifies a naming pattern for destination log groups created during centralization. The pattern supports static text and dynamic variables that are replaced with source attributes when log groups are created.
+    public struct LogGroupNameConfiguration: Swift.Sendable {
+        /// The pattern used to generate destination log group names during centralization. The pattern can contain static text and dynamic variables that are replaced with source attributes. If a variable cannot be resolved, it inherits the value from its parent variable in the hierarchy. The pattern must be between 1 and 512 characters. Supported variables:
+        ///
+        /// * ${source.logGroup} — The original log group name from the source account.
+        ///
+        /// * ${source.accountId} — The AWS account ID where the log originated.
+        ///
+        /// * ${source.region} — The AWS Region where the log originated.
+        ///
+        /// * ${source.org.id} — The AWS Organization ID of the source account.
+        ///
+        /// * ${source.org.ouId} — The organizational unit ID of the source account.
+        ///
+        /// * ${source.org.rootId} — The organization Root ID.
+        ///
+        /// * ${source.org.path} — The organizational path from account to root.
+        /// This member is required.
+        public var logGroupNamePattern: Swift.String?
+
+        public init(
+            logGroupNamePattern: Swift.String? = nil
+        ) {
+            self.logGroupNamePattern = logGroupNamePattern
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
     public enum EncryptionConflictResolutionStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allow
         case skip
@@ -405,14 +435,18 @@ extension ObservabilityAdminClientTypes {
     public struct DestinationLogsConfiguration: Swift.Sendable {
         /// Configuration defining the backup region and an optional KMS key for the backup destination.
         public var backupConfiguration: ObservabilityAdminClientTypes.LogsBackupConfiguration?
+        /// Configuration that specifies a naming pattern for destination log groups created during centralization. The pattern supports static text and dynamic variables that are replaced with source attributes when log groups are created.
+        public var logGroupNameConfiguration: ObservabilityAdminClientTypes.LogGroupNameConfiguration?
         /// The encryption configuration for centralization destination log groups.
         public var logsEncryptionConfiguration: ObservabilityAdminClientTypes.LogsEncryptionConfiguration?
 
         public init(
             backupConfiguration: ObservabilityAdminClientTypes.LogsBackupConfiguration? = nil,
+            logGroupNameConfiguration: ObservabilityAdminClientTypes.LogGroupNameConfiguration? = nil,
             logsEncryptionConfiguration: ObservabilityAdminClientTypes.LogsEncryptionConfiguration? = nil
         ) {
             self.backupConfiguration = backupConfiguration
+            self.logGroupNameConfiguration = logGroupNameConfiguration
             self.logsEncryptionConfiguration = logsEncryptionConfiguration
         }
     }
@@ -1028,7 +1062,18 @@ public struct CreateS3TableIntegrationOutput: Swift.Sendable {
 
 extension ObservabilityAdminClientTypes {
 
-    /// Defines the configuration for a telemetry pipeline, including how data flows from sources through processors to destinations.
+    /// Defines the configuration for a pipeline, including how data flows from sources through processors to destinations. The configuration is specified in YAML format and must include a valid pipeline definition with required source and sink components. This pipeline enables end-to-end telemetry data collection, transformation, and delivery while supporting optional processing steps and extensions for enhanced functionality. The primary pipeline configuration section are:
+    ///
+    /// * Source: Defines where log data originates from (S3 buckets, CloudWatch Logs, third-party APIs). Each pipeline must have exactly one source.
+    ///
+    /// * Processors (optional): Transform, parse, and enrich log data as it flows through the pipeline. Processors are applied sequentially in the order they are defined.
+    ///
+    /// * Sink: Defines the destination where processed log data is sent. Each pipeline must have exactly one sink.
+    ///
+    /// * Extensions (optional): Provide additional functionality such as Amazon Web Services Secrets Manager integration for credential management.
+    ///
+    ///
+    /// For more details on each configuration section see [CloudWatch pipelines User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch-pipelines.html). Additional comprehensive configuration examples can be found in the [CreateTelemetryPipeline API docs](https://docs.aws.amazon.com/cloudwatch/latest/observabilityadmin/API_CreateTelemetryPipeline.html#API_CreateTelemetryPipeline_Examples).
     public struct TelemetryPipelineConfiguration: Swift.Sendable {
         /// The pipeline configuration body that defines the data processing rules and transformations.
         /// This member is required.
@@ -2389,6 +2434,8 @@ extension ObservabilityAdminClientTypes {
         public var resourceType: ObservabilityAdminClientTypes.ResourceType?
         /// The configuration state for the resource, for example { Logs: NotApplicable; Metrics: Enabled; Traces: NotApplicable; }.
         public var telemetryConfigurationState: [Swift.String: ObservabilityAdminClientTypes.TelemetryState]?
+        /// Specifies the type of telemetry source for a resource, such as EKS cluster logs.
+        public var telemetrySourceType: ObservabilityAdminClientTypes.TelemetrySourceType?
 
         public init(
             accountIdentifier: Swift.String? = nil,
@@ -2396,7 +2443,8 @@ extension ObservabilityAdminClientTypes {
             resourceIdentifier: Swift.String? = nil,
             resourceTags: [Swift.String: Swift.String]? = nil,
             resourceType: ObservabilityAdminClientTypes.ResourceType? = nil,
-            telemetryConfigurationState: [Swift.String: ObservabilityAdminClientTypes.TelemetryState]? = nil
+            telemetryConfigurationState: [Swift.String: ObservabilityAdminClientTypes.TelemetryState]? = nil,
+            telemetrySourceType: ObservabilityAdminClientTypes.TelemetrySourceType? = nil
         ) {
             self.accountIdentifier = accountIdentifier
             self.lastUpdateTimeStamp = lastUpdateTimeStamp
@@ -2404,6 +2452,7 @@ extension ObservabilityAdminClientTypes {
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.telemetryConfigurationState = telemetryConfigurationState
+            self.telemetrySourceType = telemetrySourceType
         }
     }
 }
@@ -4870,346 +4919,6 @@ extension InvalidStateException {
     }
 }
 
-extension ObservabilityAdminClientTypes.CentralizationRule {
-
-    static func write(value: ObservabilityAdminClientTypes.CentralizationRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Destination"].write(value.destination, with: ObservabilityAdminClientTypes.CentralizationRuleDestination.write(value:to:))
-        try writer["Source"].write(value.source, with: ObservabilityAdminClientTypes.CentralizationRuleSource.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.CentralizationRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.CentralizationRule()
-        value.source = try reader["Source"].readIfPresent(with: ObservabilityAdminClientTypes.CentralizationRuleSource.read(from:))
-        value.destination = try reader["Destination"].readIfPresent(with: ObservabilityAdminClientTypes.CentralizationRuleDestination.read(from:))
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.CentralizationRuleDestination {
-
-    static func write(value: ObservabilityAdminClientTypes.CentralizationRuleDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Account"].write(value.account)
-        try writer["DestinationLogsConfiguration"].write(value.destinationLogsConfiguration, with: ObservabilityAdminClientTypes.DestinationLogsConfiguration.write(value:to:))
-        try writer["Region"].write(value.region)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.CentralizationRuleDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.CentralizationRuleDestination()
-        value.region = try reader["Region"].readIfPresent() ?? ""
-        value.account = try reader["Account"].readIfPresent()
-        value.destinationLogsConfiguration = try reader["DestinationLogsConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.DestinationLogsConfiguration.read(from:))
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.DestinationLogsConfiguration {
-
-    static func write(value: ObservabilityAdminClientTypes.DestinationLogsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackupConfiguration"].write(value.backupConfiguration, with: ObservabilityAdminClientTypes.LogsBackupConfiguration.write(value:to:))
-        try writer["LogsEncryptionConfiguration"].write(value.logsEncryptionConfiguration, with: ObservabilityAdminClientTypes.LogsEncryptionConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.DestinationLogsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.DestinationLogsConfiguration()
-        value.logsEncryptionConfiguration = try reader["LogsEncryptionConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.LogsEncryptionConfiguration.read(from:))
-        value.backupConfiguration = try reader["BackupConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.LogsBackupConfiguration.read(from:))
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.LogsBackupConfiguration {
-
-    static func write(value: ObservabilityAdminClientTypes.LogsBackupConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-        try writer["Region"].write(value.region)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.LogsBackupConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.LogsBackupConfiguration()
-        value.region = try reader["Region"].readIfPresent() ?? ""
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.LogsEncryptionConfiguration {
-
-    static func write(value: ObservabilityAdminClientTypes.LogsEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EncryptionConflictResolutionStrategy"].write(value.encryptionConflictResolutionStrategy)
-        try writer["EncryptionStrategy"].write(value.encryptionStrategy)
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.LogsEncryptionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.LogsEncryptionConfiguration()
-        value.encryptionStrategy = try reader["EncryptionStrategy"].readIfPresent() ?? .sdkUnknown("")
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
-        value.encryptionConflictResolutionStrategy = try reader["EncryptionConflictResolutionStrategy"].readIfPresent()
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.CentralizationRuleSource {
-
-    static func write(value: ObservabilityAdminClientTypes.CentralizationRuleSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Scope"].write(value.scope)
-        try writer["SourceLogsConfiguration"].write(value.sourceLogsConfiguration, with: ObservabilityAdminClientTypes.SourceLogsConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.CentralizationRuleSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.CentralizationRuleSource()
-        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.scope = try reader["Scope"].readIfPresent()
-        value.sourceLogsConfiguration = try reader["SourceLogsConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.SourceLogsConfiguration.read(from:))
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.SourceLogsConfiguration {
-
-    static func write(value: ObservabilityAdminClientTypes.SourceLogsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EncryptedLogGroupStrategy"].write(value.encryptedLogGroupStrategy)
-        try writer["LogGroupSelectionCriteria"].write(value.logGroupSelectionCriteria)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.SourceLogsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.SourceLogsConfiguration()
-        value.logGroupSelectionCriteria = try reader["LogGroupSelectionCriteria"].readIfPresent() ?? ""
-        value.encryptedLogGroupStrategy = try reader["EncryptedLogGroupStrategy"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.Encryption {
-
-    static func write(value: ObservabilityAdminClientTypes.Encryption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-        try writer["SseAlgorithm"].write(value.sseAlgorithm)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.Encryption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.Encryption()
-        value.sseAlgorithm = try reader["SseAlgorithm"].readIfPresent() ?? .sdkUnknown("")
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.TelemetryPipeline {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryPipeline {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.TelemetryPipeline()
-        value.createdTimeStamp = try reader["CreatedTimeStamp"].readIfPresent()
-        value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.configuration = try reader["Configuration"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryPipelineConfiguration.read(from:))
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryPipelineStatusReason.read(from:))
-        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.TelemetryPipelineStatusReason {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryPipelineStatusReason {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.TelemetryPipelineStatusReason()
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.TelemetryPipelineConfiguration {
-
-    static func write(value: ObservabilityAdminClientTypes.TelemetryPipelineConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Body"].write(value.body)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryPipelineConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.TelemetryPipelineConfiguration()
-        value.body = try reader["Body"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.TelemetryRule {
-
-    static func write(value: ObservabilityAdminClientTypes.TelemetryRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationConfiguration"].write(value.destinationConfiguration, with: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration.write(value:to:))
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Scope"].write(value.scope)
-        try writer["SelectionCriteria"].write(value.selectionCriteria)
-        try writer["TelemetrySourceTypes"].writeList(value.telemetrySourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ObservabilityAdminClientTypes.TelemetrySourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TelemetryType"].write(value.telemetryType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.TelemetryRule()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.telemetryType = try reader["TelemetryType"].readIfPresent() ?? .sdkUnknown("")
-        value.telemetrySourceTypes = try reader["TelemetrySourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ObservabilityAdminClientTypes.TelemetrySourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.destinationConfiguration = try reader["DestinationConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration.read(from:))
-        value.scope = try reader["Scope"].readIfPresent()
-        value.selectionCriteria = try reader["SelectionCriteria"].readIfPresent()
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.TelemetryDestinationConfiguration {
-
-    static func write(value: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudtrailParameters"].write(value.cloudtrailParameters, with: ObservabilityAdminClientTypes.CloudtrailParameters.write(value:to:))
-        try writer["DestinationPattern"].write(value.destinationPattern)
-        try writer["DestinationType"].write(value.destinationType)
-        try writer["ELBLoadBalancerLoggingParameters"].write(value.elbLoadBalancerLoggingParameters, with: ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters.write(value:to:))
-        try writer["LogDeliveryParameters"].write(value.logDeliveryParameters, with: ObservabilityAdminClientTypes.LogDeliveryParameters.write(value:to:))
-        try writer["RetentionInDays"].write(value.retentionInDays)
-        try writer["VPCFlowLogParameters"].write(value.vpcFlowLogParameters, with: ObservabilityAdminClientTypes.VPCFlowLogParameters.write(value:to:))
-        try writer["WAFLoggingParameters"].write(value.wafLoggingParameters, with: ObservabilityAdminClientTypes.WAFLoggingParameters.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryDestinationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.TelemetryDestinationConfiguration()
-        value.destinationType = try reader["DestinationType"].readIfPresent()
-        value.destinationPattern = try reader["DestinationPattern"].readIfPresent()
-        value.retentionInDays = try reader["RetentionInDays"].readIfPresent()
-        value.vpcFlowLogParameters = try reader["VPCFlowLogParameters"].readIfPresent(with: ObservabilityAdminClientTypes.VPCFlowLogParameters.read(from:))
-        value.cloudtrailParameters = try reader["CloudtrailParameters"].readIfPresent(with: ObservabilityAdminClientTypes.CloudtrailParameters.read(from:))
-        value.elbLoadBalancerLoggingParameters = try reader["ELBLoadBalancerLoggingParameters"].readIfPresent(with: ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters.read(from:))
-        value.wafLoggingParameters = try reader["WAFLoggingParameters"].readIfPresent(with: ObservabilityAdminClientTypes.WAFLoggingParameters.read(from:))
-        value.logDeliveryParameters = try reader["LogDeliveryParameters"].readIfPresent(with: ObservabilityAdminClientTypes.LogDeliveryParameters.read(from:))
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.LogDeliveryParameters {
-
-    static func write(value: ObservabilityAdminClientTypes.LogDeliveryParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LogTypes"].writeList(value.logTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ObservabilityAdminClientTypes.LogType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.LogDeliveryParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.LogDeliveryParameters()
-        value.logTypes = try reader["LogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ObservabilityAdminClientTypes.LogType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.WAFLoggingParameters {
-
-    static func write(value: ObservabilityAdminClientTypes.WAFLoggingParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LogType"].write(value.logType)
-        try writer["LoggingFilter"].write(value.loggingFilter, with: ObservabilityAdminClientTypes.LoggingFilter.write(value:to:))
-        try writer["RedactedFields"].writeList(value.redactedFields, memberWritingClosure: ObservabilityAdminClientTypes.FieldToMatch.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.WAFLoggingParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.WAFLoggingParameters()
-        value.redactedFields = try reader["RedactedFields"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.FieldToMatch.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.loggingFilter = try reader["LoggingFilter"].readIfPresent(with: ObservabilityAdminClientTypes.LoggingFilter.read(from:))
-        value.logType = try reader["LogType"].readIfPresent()
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.LoggingFilter {
-
-    static func write(value: ObservabilityAdminClientTypes.LoggingFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultBehavior"].write(value.defaultBehavior)
-        try writer["Filters"].writeList(value.filters, memberWritingClosure: ObservabilityAdminClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.LoggingFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.LoggingFilter()
-        value.filters = try reader["Filters"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.defaultBehavior = try reader["DefaultBehavior"].readIfPresent()
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.Filter {
-
-    static func write(value: ObservabilityAdminClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Behavior"].write(value.behavior)
-        try writer["Conditions"].writeList(value.conditions, memberWritingClosure: ObservabilityAdminClientTypes.Condition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Requirement"].write(value.requirement)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.Filter()
-        value.behavior = try reader["Behavior"].readIfPresent()
-        value.requirement = try reader["Requirement"].readIfPresent()
-        value.conditions = try reader["Conditions"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.Condition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.Condition {
-
-    static func write(value: ObservabilityAdminClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionCondition"].write(value.actionCondition, with: ObservabilityAdminClientTypes.ActionCondition.write(value:to:))
-        try writer["LabelNameCondition"].write(value.labelNameCondition, with: ObservabilityAdminClientTypes.LabelNameCondition.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.Condition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.Condition()
-        value.actionCondition = try reader["ActionCondition"].readIfPresent(with: ObservabilityAdminClientTypes.ActionCondition.read(from:))
-        value.labelNameCondition = try reader["LabelNameCondition"].readIfPresent(with: ObservabilityAdminClientTypes.LabelNameCondition.read(from:))
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.LabelNameCondition {
-
-    static func write(value: ObservabilityAdminClientTypes.LabelNameCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LabelName"].write(value.labelName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.LabelNameCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.LabelNameCondition()
-        value.labelName = try reader["LabelName"].readIfPresent()
-        return value
-    }
-}
-
 extension ObservabilityAdminClientTypes.ActionCondition {
 
     static func write(value: ObservabilityAdminClientTypes.ActionCondition?, to writer: SmithyJSON.Writer) throws {
@@ -5221,74 +4930,6 @@ extension ObservabilityAdminClientTypes.ActionCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ObservabilityAdminClientTypes.ActionCondition()
         value.action = try reader["Action"].readIfPresent()
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.FieldToMatch {
-
-    static func write(value: ObservabilityAdminClientTypes.FieldToMatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Method"].write(value.method)
-        try writer["QueryString"].write(value.queryString)
-        try writer["SingleHeader"].write(value.singleHeader, with: ObservabilityAdminClientTypes.SingleHeader.write(value:to:))
-        try writer["UriPath"].write(value.uriPath)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.FieldToMatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.FieldToMatch()
-        value.singleHeader = try reader["SingleHeader"].readIfPresent(with: ObservabilityAdminClientTypes.SingleHeader.read(from:))
-        value.uriPath = try reader["UriPath"].readIfPresent()
-        value.queryString = try reader["QueryString"].readIfPresent()
-        value.method = try reader["Method"].readIfPresent()
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.SingleHeader {
-
-    static func write(value: ObservabilityAdminClientTypes.SingleHeader?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.SingleHeader {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.SingleHeader()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters {
-
-    static func write(value: ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FieldDelimiter"].write(value.fieldDelimiter)
-        try writer["OutputFormat"].write(value.outputFormat)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters()
-        value.outputFormat = try reader["OutputFormat"].readIfPresent()
-        value.fieldDelimiter = try reader["FieldDelimiter"].readIfPresent()
-        return value
-    }
-}
-
-extension ObservabilityAdminClientTypes.CloudtrailParameters {
-
-    static func write(value: ObservabilityAdminClientTypes.CloudtrailParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdvancedEventSelectors"].writeList(value.advancedEventSelectors, memberWritingClosure: ObservabilityAdminClientTypes.AdvancedEventSelector.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.CloudtrailParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.CloudtrailParameters()
-        value.advancedEventSelectors = try reader["AdvancedEventSelectors"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.AdvancedEventSelector.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5337,21 +4978,57 @@ extension ObservabilityAdminClientTypes.AdvancedFieldSelector {
     }
 }
 
-extension ObservabilityAdminClientTypes.VPCFlowLogParameters {
+extension ObservabilityAdminClientTypes.CentralizationRule {
 
-    static func write(value: ObservabilityAdminClientTypes.VPCFlowLogParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ObservabilityAdminClientTypes.CentralizationRule?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["LogFormat"].write(value.logFormat)
-        try writer["MaxAggregationInterval"].write(value.maxAggregationInterval)
-        try writer["TrafficType"].write(value.trafficType)
+        try writer["Destination"].write(value.destination, with: ObservabilityAdminClientTypes.CentralizationRuleDestination.write(value:to:))
+        try writer["Source"].write(value.source, with: ObservabilityAdminClientTypes.CentralizationRuleSource.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.VPCFlowLogParameters {
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.CentralizationRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.VPCFlowLogParameters()
-        value.logFormat = try reader["LogFormat"].readIfPresent()
-        value.trafficType = try reader["TrafficType"].readIfPresent()
-        value.maxAggregationInterval = try reader["MaxAggregationInterval"].readIfPresent()
+        var value = ObservabilityAdminClientTypes.CentralizationRule()
+        value.source = try reader["Source"].readIfPresent(with: ObservabilityAdminClientTypes.CentralizationRuleSource.read(from:))
+        value.destination = try reader["Destination"].readIfPresent(with: ObservabilityAdminClientTypes.CentralizationRuleDestination.read(from:))
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.CentralizationRuleDestination {
+
+    static func write(value: ObservabilityAdminClientTypes.CentralizationRuleDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Account"].write(value.account)
+        try writer["DestinationLogsConfiguration"].write(value.destinationLogsConfiguration, with: ObservabilityAdminClientTypes.DestinationLogsConfiguration.write(value:to:))
+        try writer["Region"].write(value.region)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.CentralizationRuleDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.CentralizationRuleDestination()
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        value.account = try reader["Account"].readIfPresent()
+        value.destinationLogsConfiguration = try reader["DestinationLogsConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.DestinationLogsConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.CentralizationRuleSource {
+
+    static func write(value: ObservabilityAdminClientTypes.CentralizationRuleSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Scope"].write(value.scope)
+        try writer["SourceLogsConfiguration"].write(value.sourceLogsConfiguration, with: ObservabilityAdminClientTypes.SourceLogsConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.CentralizationRuleSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.CentralizationRuleSource()
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.scope = try reader["Scope"].readIfPresent()
+        value.sourceLogsConfiguration = try reader["SourceLogsConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.SourceLogsConfiguration.read(from:))
         return value
     }
 }
@@ -5375,44 +5052,34 @@ extension ObservabilityAdminClientTypes.CentralizationRuleSummary {
     }
 }
 
-extension ObservabilityAdminClientTypes.TelemetryConfiguration {
+extension ObservabilityAdminClientTypes.CloudtrailParameters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryConfiguration {
+    static func write(value: ObservabilityAdminClientTypes.CloudtrailParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdvancedEventSelectors"].writeList(value.advancedEventSelectors, memberWritingClosure: ObservabilityAdminClientTypes.AdvancedEventSelector.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.CloudtrailParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.TelemetryConfiguration()
-        value.accountIdentifier = try reader["AccountIdentifier"].readIfPresent()
-        value.telemetryConfigurationState = try reader["TelemetryConfigurationState"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<ObservabilityAdminClientTypes.TelemetryState>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
-        value.resourceTags = try reader["ResourceTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
+        var value = ObservabilityAdminClientTypes.CloudtrailParameters()
+        value.advancedEventSelectors = try reader["AdvancedEventSelectors"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.AdvancedEventSelector.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension ObservabilityAdminClientTypes.IntegrationSummary {
+extension ObservabilityAdminClientTypes.Condition {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.IntegrationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.IntegrationSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
+    static func write(value: ObservabilityAdminClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionCondition"].write(value.actionCondition, with: ObservabilityAdminClientTypes.ActionCondition.write(value:to:))
+        try writer["LabelNameCondition"].write(value.labelNameCondition, with: ObservabilityAdminClientTypes.LabelNameCondition.write(value:to:))
     }
-}
 
-extension ObservabilityAdminClientTypes.TelemetryPipelineSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryPipelineSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.Condition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.TelemetryPipelineSummary()
-        value.createdTimeStamp = try reader["CreatedTimeStamp"].readIfPresent()
-        value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.configurationSummary = try reader["ConfigurationSummary"].readIfPresent(with: ObservabilityAdminClientTypes.ConfigurationSummary.read(from:))
+        var value = ObservabilityAdminClientTypes.Condition()
+        value.actionCondition = try reader["ActionCondition"].readIfPresent(with: ObservabilityAdminClientTypes.ActionCondition.read(from:))
+        value.labelNameCondition = try reader["LabelNameCondition"].readIfPresent(with: ObservabilityAdminClientTypes.LabelNameCondition.read(from:))
         return value
     }
 }
@@ -5442,28 +5109,204 @@ extension ObservabilityAdminClientTypes.DataSource {
     }
 }
 
-extension ObservabilityAdminClientTypes.Source {
+extension ObservabilityAdminClientTypes.DestinationLogsConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.Source {
+    static func write(value: ObservabilityAdminClientTypes.DestinationLogsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BackupConfiguration"].write(value.backupConfiguration, with: ObservabilityAdminClientTypes.LogsBackupConfiguration.write(value:to:))
+        try writer["LogGroupNameConfiguration"].write(value.logGroupNameConfiguration, with: ObservabilityAdminClientTypes.LogGroupNameConfiguration.write(value:to:))
+        try writer["LogsEncryptionConfiguration"].write(value.logsEncryptionConfiguration, with: ObservabilityAdminClientTypes.LogsEncryptionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.DestinationLogsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.Source()
-        value.type = try reader["Type"].readIfPresent()
+        var value = ObservabilityAdminClientTypes.DestinationLogsConfiguration()
+        value.logsEncryptionConfiguration = try reader["LogsEncryptionConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.LogsEncryptionConfiguration.read(from:))
+        value.backupConfiguration = try reader["BackupConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.LogsBackupConfiguration.read(from:))
+        value.logGroupNameConfiguration = try reader["LogGroupNameConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.LogGroupNameConfiguration.read(from:))
         return value
     }
 }
 
-extension ObservabilityAdminClientTypes.TelemetryRuleSummary {
+extension ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryRuleSummary {
+    static func write(value: ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldDelimiter"].write(value.fieldDelimiter)
+        try writer["OutputFormat"].write(value.outputFormat)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ObservabilityAdminClientTypes.TelemetryRuleSummary()
-        value.ruleName = try reader["RuleName"].readIfPresent()
-        value.ruleArn = try reader["RuleArn"].readIfPresent()
-        value.createdTimeStamp = try reader["CreatedTimeStamp"].readIfPresent()
-        value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.telemetryType = try reader["TelemetryType"].readIfPresent()
-        value.telemetrySourceTypes = try reader["TelemetrySourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ObservabilityAdminClientTypes.TelemetrySourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters()
+        value.outputFormat = try reader["OutputFormat"].readIfPresent()
+        value.fieldDelimiter = try reader["FieldDelimiter"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.Encryption {
+
+    static func write(value: ObservabilityAdminClientTypes.Encryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+        try writer["SseAlgorithm"].write(value.sseAlgorithm)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.Encryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.Encryption()
+        value.sseAlgorithm = try reader["SseAlgorithm"].readIfPresent() ?? .sdkUnknown("")
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.FieldToMatch {
+
+    static func write(value: ObservabilityAdminClientTypes.FieldToMatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Method"].write(value.method)
+        try writer["QueryString"].write(value.queryString)
+        try writer["SingleHeader"].write(value.singleHeader, with: ObservabilityAdminClientTypes.SingleHeader.write(value:to:))
+        try writer["UriPath"].write(value.uriPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.FieldToMatch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.FieldToMatch()
+        value.singleHeader = try reader["SingleHeader"].readIfPresent(with: ObservabilityAdminClientTypes.SingleHeader.read(from:))
+        value.uriPath = try reader["UriPath"].readIfPresent()
+        value.queryString = try reader["QueryString"].readIfPresent()
+        value.method = try reader["Method"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.Filter {
+
+    static func write(value: ObservabilityAdminClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Behavior"].write(value.behavior)
+        try writer["Conditions"].writeList(value.conditions, memberWritingClosure: ObservabilityAdminClientTypes.Condition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Requirement"].write(value.requirement)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.Filter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.Filter()
+        value.behavior = try reader["Behavior"].readIfPresent()
+        value.requirement = try reader["Requirement"].readIfPresent()
+        value.conditions = try reader["Conditions"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.Condition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.IntegrationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.IntegrationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.IntegrationSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.LabelNameCondition {
+
+    static func write(value: ObservabilityAdminClientTypes.LabelNameCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LabelName"].write(value.labelName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.LabelNameCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.LabelNameCondition()
+        value.labelName = try reader["LabelName"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.LogDeliveryParameters {
+
+    static func write(value: ObservabilityAdminClientTypes.LogDeliveryParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LogTypes"].writeList(value.logTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ObservabilityAdminClientTypes.LogType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.LogDeliveryParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.LogDeliveryParameters()
+        value.logTypes = try reader["LogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ObservabilityAdminClientTypes.LogType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.LoggingFilter {
+
+    static func write(value: ObservabilityAdminClientTypes.LoggingFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultBehavior"].write(value.defaultBehavior)
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: ObservabilityAdminClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.LoggingFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.LoggingFilter()
+        value.filters = try reader["Filters"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultBehavior = try reader["DefaultBehavior"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.LogGroupNameConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.LogGroupNameConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LogGroupNamePattern"].write(value.logGroupNamePattern)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.LogGroupNameConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.LogGroupNameConfiguration()
+        value.logGroupNamePattern = try reader["LogGroupNamePattern"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.LogsBackupConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.LogsBackupConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+        try writer["Region"].write(value.region)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.LogsBackupConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.LogsBackupConfiguration()
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.LogsEncryptionConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.LogsEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptionConflictResolutionStrategy"].write(value.encryptionConflictResolutionStrategy)
+        try writer["EncryptionStrategy"].write(value.encryptionStrategy)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.LogsEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.LogsEncryptionConfiguration()
+        value.encryptionStrategy = try reader["EncryptionStrategy"].readIfPresent() ?? .sdkUnknown("")
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        value.encryptionConflictResolutionStrategy = try reader["EncryptionConflictResolutionStrategy"].readIfPresent()
         return value
     }
 }
@@ -5506,6 +5349,192 @@ extension ObservabilityAdminClientTypes.Record {
     }
 }
 
+extension ObservabilityAdminClientTypes.SingleHeader {
+
+    static func write(value: ObservabilityAdminClientTypes.SingleHeader?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.SingleHeader {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.SingleHeader()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.Source {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.Source {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.Source()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.SourceLogsConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.SourceLogsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptedLogGroupStrategy"].write(value.encryptedLogGroupStrategy)
+        try writer["LogGroupSelectionCriteria"].write(value.logGroupSelectionCriteria)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.SourceLogsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.SourceLogsConfiguration()
+        value.logGroupSelectionCriteria = try reader["LogGroupSelectionCriteria"].readIfPresent() ?? ""
+        value.encryptedLogGroupStrategy = try reader["EncryptedLogGroupStrategy"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.TelemetryConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.TelemetryConfiguration()
+        value.accountIdentifier = try reader["AccountIdentifier"].readIfPresent()
+        value.telemetryConfigurationState = try reader["TelemetryConfigurationState"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<ObservabilityAdminClientTypes.TelemetryState>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
+        value.resourceTags = try reader["ResourceTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
+        value.telemetrySourceType = try reader["TelemetrySourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.TelemetryDestinationConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CloudtrailParameters"].write(value.cloudtrailParameters, with: ObservabilityAdminClientTypes.CloudtrailParameters.write(value:to:))
+        try writer["DestinationPattern"].write(value.destinationPattern)
+        try writer["DestinationType"].write(value.destinationType)
+        try writer["ELBLoadBalancerLoggingParameters"].write(value.elbLoadBalancerLoggingParameters, with: ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters.write(value:to:))
+        try writer["LogDeliveryParameters"].write(value.logDeliveryParameters, with: ObservabilityAdminClientTypes.LogDeliveryParameters.write(value:to:))
+        try writer["RetentionInDays"].write(value.retentionInDays)
+        try writer["VPCFlowLogParameters"].write(value.vpcFlowLogParameters, with: ObservabilityAdminClientTypes.VPCFlowLogParameters.write(value:to:))
+        try writer["WAFLoggingParameters"].write(value.wafLoggingParameters, with: ObservabilityAdminClientTypes.WAFLoggingParameters.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryDestinationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.TelemetryDestinationConfiguration()
+        value.destinationType = try reader["DestinationType"].readIfPresent()
+        value.destinationPattern = try reader["DestinationPattern"].readIfPresent()
+        value.retentionInDays = try reader["RetentionInDays"].readIfPresent()
+        value.vpcFlowLogParameters = try reader["VPCFlowLogParameters"].readIfPresent(with: ObservabilityAdminClientTypes.VPCFlowLogParameters.read(from:))
+        value.cloudtrailParameters = try reader["CloudtrailParameters"].readIfPresent(with: ObservabilityAdminClientTypes.CloudtrailParameters.read(from:))
+        value.elbLoadBalancerLoggingParameters = try reader["ELBLoadBalancerLoggingParameters"].readIfPresent(with: ObservabilityAdminClientTypes.ELBLoadBalancerLoggingParameters.read(from:))
+        value.wafLoggingParameters = try reader["WAFLoggingParameters"].readIfPresent(with: ObservabilityAdminClientTypes.WAFLoggingParameters.read(from:))
+        value.logDeliveryParameters = try reader["LogDeliveryParameters"].readIfPresent(with: ObservabilityAdminClientTypes.LogDeliveryParameters.read(from:))
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.TelemetryPipeline {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryPipeline {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.TelemetryPipeline()
+        value.createdTimeStamp = try reader["CreatedTimeStamp"].readIfPresent()
+        value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.configuration = try reader["Configuration"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryPipelineConfiguration.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryPipelineStatusReason.read(from:))
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.TelemetryPipelineConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.TelemetryPipelineConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Body"].write(value.body)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryPipelineConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.TelemetryPipelineConfiguration()
+        value.body = try reader["Body"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.TelemetryPipelineStatusReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryPipelineStatusReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.TelemetryPipelineStatusReason()
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.TelemetryPipelineSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryPipelineSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.TelemetryPipelineSummary()
+        value.createdTimeStamp = try reader["CreatedTimeStamp"].readIfPresent()
+        value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.configurationSummary = try reader["ConfigurationSummary"].readIfPresent(with: ObservabilityAdminClientTypes.ConfigurationSummary.read(from:))
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.TelemetryRule {
+
+    static func write(value: ObservabilityAdminClientTypes.TelemetryRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationConfiguration"].write(value.destinationConfiguration, with: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration.write(value:to:))
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["Scope"].write(value.scope)
+        try writer["SelectionCriteria"].write(value.selectionCriteria)
+        try writer["TelemetrySourceTypes"].writeList(value.telemetrySourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ObservabilityAdminClientTypes.TelemetrySourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TelemetryType"].write(value.telemetryType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.TelemetryRule()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.telemetryType = try reader["TelemetryType"].readIfPresent() ?? .sdkUnknown("")
+        value.telemetrySourceTypes = try reader["TelemetrySourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ObservabilityAdminClientTypes.TelemetrySourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.destinationConfiguration = try reader["DestinationConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration.read(from:))
+        value.scope = try reader["Scope"].readIfPresent()
+        value.selectionCriteria = try reader["SelectionCriteria"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.TelemetryRuleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryRuleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.TelemetryRuleSummary()
+        value.ruleName = try reader["RuleName"].readIfPresent()
+        value.ruleArn = try reader["RuleArn"].readIfPresent()
+        value.createdTimeStamp = try reader["CreatedTimeStamp"].readIfPresent()
+        value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.telemetryType = try reader["TelemetryType"].readIfPresent()
+        value.telemetrySourceTypes = try reader["TelemetrySourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ObservabilityAdminClientTypes.TelemetrySourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ObservabilityAdminClientTypes.ValidationError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.ValidationError {
@@ -5514,6 +5543,44 @@ extension ObservabilityAdminClientTypes.ValidationError {
         value.message = try reader["Message"].readIfPresent()
         value.reason = try reader["Reason"].readIfPresent()
         value.fieldMap = try reader["FieldMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.VPCFlowLogParameters {
+
+    static func write(value: ObservabilityAdminClientTypes.VPCFlowLogParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LogFormat"].write(value.logFormat)
+        try writer["MaxAggregationInterval"].write(value.maxAggregationInterval)
+        try writer["TrafficType"].write(value.trafficType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.VPCFlowLogParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.VPCFlowLogParameters()
+        value.logFormat = try reader["LogFormat"].readIfPresent()
+        value.trafficType = try reader["TrafficType"].readIfPresent()
+        value.maxAggregationInterval = try reader["MaxAggregationInterval"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.WAFLoggingParameters {
+
+    static func write(value: ObservabilityAdminClientTypes.WAFLoggingParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LogType"].write(value.logType)
+        try writer["LoggingFilter"].write(value.loggingFilter, with: ObservabilityAdminClientTypes.LoggingFilter.write(value:to:))
+        try writer["RedactedFields"].writeList(value.redactedFields, memberWritingClosure: ObservabilityAdminClientTypes.FieldToMatch.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.WAFLoggingParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.WAFLoggingParameters()
+        value.redactedFields = try reader["RedactedFields"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.FieldToMatch.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.loggingFilter = try reader["LoggingFilter"].readIfPresent(with: ObservabilityAdminClientTypes.LoggingFilter.read(from:))
+        value.logType = try reader["LogType"].readIfPresent()
         return value
     }
 }

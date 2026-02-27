@@ -16,7 +16,7 @@ import struct AWSSDKIdentityAPI.S3ExpressIdentity
 public struct S3ExpressCreateSessionClient: AWSSDKIdentity.S3ExpressCreateSessionClient, Swift.Sendable {
 
     public func createSession(clientConfig: ClientRuntime.DefaultClientConfiguration, bucket: Swift.String) async throws -> AWSSDKIdentityAPI.S3ExpressIdentity {
-        guard let config = clientConfig as? S3Client.Config else {
+        guard let config = clientConfig as? S3Client.S3ClientConfig else {
             throw AWSSDKIdentity.S3ExpressClientError.clientConfigNotProvided
         }
         let client = S3Client(config: config)

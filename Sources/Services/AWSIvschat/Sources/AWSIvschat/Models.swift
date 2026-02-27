@@ -2327,6 +2327,21 @@ extension InternalServerException {
     }
 }
 
+extension IvschatClientTypes.CloudWatchLogsDestinationConfiguration {
+
+    static func write(value: IvschatClientTypes.CloudWatchLogsDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logGroupName"].write(value.logGroupName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IvschatClientTypes.CloudWatchLogsDestinationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IvschatClientTypes.CloudWatchLogsDestinationConfiguration()
+        value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension IvschatClientTypes.DestinationConfiguration {
 
     static func write(value: IvschatClientTypes.DestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -2374,32 +2389,19 @@ extension IvschatClientTypes.FirehoseDestinationConfiguration {
     }
 }
 
-extension IvschatClientTypes.CloudWatchLogsDestinationConfiguration {
+extension IvschatClientTypes.LoggingConfigurationSummary {
 
-    static func write(value: IvschatClientTypes.CloudWatchLogsDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logGroupName"].write(value.logGroupName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IvschatClientTypes.CloudWatchLogsDestinationConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> IvschatClientTypes.LoggingConfigurationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IvschatClientTypes.CloudWatchLogsDestinationConfiguration()
-        value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IvschatClientTypes.S3DestinationConfiguration {
-
-    static func write(value: IvschatClientTypes.S3DestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketName"].write(value.bucketName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IvschatClientTypes.S3DestinationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IvschatClientTypes.S3DestinationConfiguration()
-        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        var value = IvschatClientTypes.LoggingConfigurationSummary()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.name = try reader["name"].readIfPresent()
+        value.destinationConfiguration = try reader["destinationConfiguration"].readIfPresent(with: IvschatClientTypes.DestinationConfiguration.read(from:))
+        value.state = try reader["state"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -2421,23 +2423,6 @@ extension IvschatClientTypes.MessageReviewHandler {
     }
 }
 
-extension IvschatClientTypes.LoggingConfigurationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IvschatClientTypes.LoggingConfigurationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IvschatClientTypes.LoggingConfigurationSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.name = try reader["name"].readIfPresent()
-        value.destinationConfiguration = try reader["destinationConfiguration"].readIfPresent(with: IvschatClientTypes.DestinationConfiguration.read(from:))
-        value.state = try reader["state"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
 extension IvschatClientTypes.RoomSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IvschatClientTypes.RoomSummary {
@@ -2451,6 +2436,21 @@ extension IvschatClientTypes.RoomSummary {
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.loggingConfigurationIdentifiers = try reader["loggingConfigurationIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IvschatClientTypes.S3DestinationConfiguration {
+
+    static func write(value: IvschatClientTypes.S3DestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketName"].write(value.bucketName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IvschatClientTypes.S3DestinationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IvschatClientTypes.S3DestinationConfiguration()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
         return value
     }
 }

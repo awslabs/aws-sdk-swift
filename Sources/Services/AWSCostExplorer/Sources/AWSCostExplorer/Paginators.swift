@@ -180,6 +180,77 @@ extension PaginatorSequence where OperationStackInput == GetCostComparisonDriver
     }
 }
 extension CostExplorerClient {
+    /// Paginate over `[GetReservationPurchaseRecommendationOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetReservationPurchaseRecommendationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetReservationPurchaseRecommendationOutput`
+    public func getReservationPurchaseRecommendationPaginated(input: GetReservationPurchaseRecommendationInput) -> ClientRuntime.PaginatorSequence<GetReservationPurchaseRecommendationInput, GetReservationPurchaseRecommendationOutput> {
+        return ClientRuntime.PaginatorSequence<GetReservationPurchaseRecommendationInput, GetReservationPurchaseRecommendationOutput>(input: input, inputKey: \.nextPageToken, outputKey: \.nextPageToken, paginationFunction: self.getReservationPurchaseRecommendation(input:))
+    }
+}
+
+extension GetReservationPurchaseRecommendationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetReservationPurchaseRecommendationInput {
+        return GetReservationPurchaseRecommendationInput(
+            accountId: self.accountId,
+            accountScope: self.accountScope,
+            filter: self.filter,
+            lookbackPeriodInDays: self.lookbackPeriodInDays,
+            nextPageToken: token,
+            pageSize: self.pageSize,
+            paymentOption: self.paymentOption,
+            service: self.service,
+            serviceSpecification: self.serviceSpecification,
+            termInYears: self.termInYears
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetReservationPurchaseRecommendationInput, OperationStackOutput == GetReservationPurchaseRecommendationOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getReservationPurchaseRecommendationPaginated`
+    /// to access the nested member `[CostExplorerClientTypes.ReservationPurchaseRecommendation]`
+    /// - Returns: `[CostExplorerClientTypes.ReservationPurchaseRecommendation]`
+    public func recommendations() async throws -> [CostExplorerClientTypes.ReservationPurchaseRecommendation] {
+        return try await self.asyncCompactMap { item in item.recommendations }
+    }
+}
+extension CostExplorerClient {
+    /// Paginate over `[GetRightsizingRecommendationOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetRightsizingRecommendationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetRightsizingRecommendationOutput`
+    public func getRightsizingRecommendationPaginated(input: GetRightsizingRecommendationInput) -> ClientRuntime.PaginatorSequence<GetRightsizingRecommendationInput, GetRightsizingRecommendationOutput> {
+        return ClientRuntime.PaginatorSequence<GetRightsizingRecommendationInput, GetRightsizingRecommendationOutput>(input: input, inputKey: \.nextPageToken, outputKey: \.nextPageToken, paginationFunction: self.getRightsizingRecommendation(input:))
+    }
+}
+
+extension GetRightsizingRecommendationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetRightsizingRecommendationInput {
+        return GetRightsizingRecommendationInput(
+            configuration: self.configuration,
+            filter: self.filter,
+            nextPageToken: token,
+            pageSize: self.pageSize,
+            service: self.service
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetRightsizingRecommendationInput, OperationStackOutput == GetRightsizingRecommendationOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getRightsizingRecommendationPaginated`
+    /// to access the nested member `[CostExplorerClientTypes.RightsizingRecommendation]`
+    /// - Returns: `[CostExplorerClientTypes.RightsizingRecommendation]`
+    public func rightsizingRecommendations() async throws -> [CostExplorerClientTypes.RightsizingRecommendation] {
+        return try await self.asyncCompactMap { item in item.rightsizingRecommendations }
+    }
+}
+extension CostExplorerClient {
     /// Paginate over `[GetSavingsPlansCoverageOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -230,6 +301,38 @@ extension GetSavingsPlansUtilizationDetailsInput: ClientRuntime.PaginateToken {
             sortBy: self.sortBy,
             timePeriod: self.timePeriod
         )}
+}
+extension CostExplorerClient {
+    /// Paginate over `[ListCommitmentPurchaseAnalysesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCommitmentPurchaseAnalysesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCommitmentPurchaseAnalysesOutput`
+    public func listCommitmentPurchaseAnalysesPaginated(input: ListCommitmentPurchaseAnalysesInput) -> ClientRuntime.PaginatorSequence<ListCommitmentPurchaseAnalysesInput, ListCommitmentPurchaseAnalysesOutput> {
+        return ClientRuntime.PaginatorSequence<ListCommitmentPurchaseAnalysesInput, ListCommitmentPurchaseAnalysesOutput>(input: input, inputKey: \.nextPageToken, outputKey: \.nextPageToken, paginationFunction: self.listCommitmentPurchaseAnalyses(input:))
+    }
+}
+
+extension ListCommitmentPurchaseAnalysesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCommitmentPurchaseAnalysesInput {
+        return ListCommitmentPurchaseAnalysesInput(
+            analysisIds: self.analysisIds,
+            analysisStatus: self.analysisStatus,
+            nextPageToken: token,
+            pageSize: self.pageSize
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCommitmentPurchaseAnalysesInput, OperationStackOutput == ListCommitmentPurchaseAnalysesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCommitmentPurchaseAnalysesPaginated`
+    /// to access the nested member `[CostExplorerClientTypes.AnalysisSummary]`
+    /// - Returns: `[CostExplorerClientTypes.AnalysisSummary]`
+    public func analysisSummaryList() async throws -> [CostExplorerClientTypes.AnalysisSummary] {
+        return try await self.asyncCompactMap { item in item.analysisSummaryList }
+    }
 }
 extension CostExplorerClient {
     /// Paginate over `[ListCostAllocationTagBackfillHistoryOutput]` results.
@@ -355,5 +458,37 @@ extension PaginatorSequence where OperationStackInput == ListCostCategoryResourc
     /// - Returns: `[CostExplorerClientTypes.CostCategoryResourceAssociation]`
     public func costCategoryResourceAssociations() async throws -> [CostExplorerClientTypes.CostCategoryResourceAssociation] {
         return try await self.asyncCompactMap { item in item.costCategoryResourceAssociations }
+    }
+}
+extension CostExplorerClient {
+    /// Paginate over `[ListSavingsPlansPurchaseRecommendationGenerationOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSavingsPlansPurchaseRecommendationGenerationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSavingsPlansPurchaseRecommendationGenerationOutput`
+    public func listSavingsPlansPurchaseRecommendationGenerationPaginated(input: ListSavingsPlansPurchaseRecommendationGenerationInput) -> ClientRuntime.PaginatorSequence<ListSavingsPlansPurchaseRecommendationGenerationInput, ListSavingsPlansPurchaseRecommendationGenerationOutput> {
+        return ClientRuntime.PaginatorSequence<ListSavingsPlansPurchaseRecommendationGenerationInput, ListSavingsPlansPurchaseRecommendationGenerationOutput>(input: input, inputKey: \.nextPageToken, outputKey: \.nextPageToken, paginationFunction: self.listSavingsPlansPurchaseRecommendationGeneration(input:))
+    }
+}
+
+extension ListSavingsPlansPurchaseRecommendationGenerationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSavingsPlansPurchaseRecommendationGenerationInput {
+        return ListSavingsPlansPurchaseRecommendationGenerationInput(
+            generationStatus: self.generationStatus,
+            nextPageToken: token,
+            pageSize: self.pageSize,
+            recommendationIds: self.recommendationIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSavingsPlansPurchaseRecommendationGenerationInput, OperationStackOutput == ListSavingsPlansPurchaseRecommendationGenerationOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSavingsPlansPurchaseRecommendationGenerationPaginated`
+    /// to access the nested member `[CostExplorerClientTypes.GenerationSummary]`
+    /// - Returns: `[CostExplorerClientTypes.GenerationSummary]`
+    public func generationSummaryList() async throws -> [CostExplorerClientTypes.GenerationSummary] {
+        return try await self.asyncCompactMap { item in item.generationSummaryList }
     }
 }

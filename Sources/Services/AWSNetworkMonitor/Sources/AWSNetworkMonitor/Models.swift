@@ -1769,6 +1769,33 @@ extension ResourceNotFoundException {
     }
 }
 
+extension NetworkMonitorClientTypes.CreateMonitorProbeInput {
+
+    static func write(value: NetworkMonitorClientTypes.CreateMonitorProbeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destination"].write(value.destination)
+        try writer["destinationPort"].write(value.destinationPort)
+        try writer["packetSize"].write(value.packetSize)
+        try writer["probeTags"].writeMap(value.probeTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["protocol"].write(value.`protocol`)
+        try writer["sourceArn"].write(value.sourceArn)
+    }
+}
+
+extension NetworkMonitorClientTypes.MonitorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkMonitorClientTypes.MonitorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkMonitorClientTypes.MonitorSummary()
+        value.monitorArn = try reader["monitorArn"].readIfPresent() ?? ""
+        value.monitorName = try reader["monitorName"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.aggregationPeriod = try reader["aggregationPeriod"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension NetworkMonitorClientTypes.Probe {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkMonitorClientTypes.Probe {
@@ -1788,33 +1815,6 @@ extension NetworkMonitorClientTypes.Probe {
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
-    }
-}
-
-extension NetworkMonitorClientTypes.MonitorSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkMonitorClientTypes.MonitorSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkMonitorClientTypes.MonitorSummary()
-        value.monitorArn = try reader["monitorArn"].readIfPresent() ?? ""
-        value.monitorName = try reader["monitorName"].readIfPresent() ?? ""
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.aggregationPeriod = try reader["aggregationPeriod"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkMonitorClientTypes.CreateMonitorProbeInput {
-
-    static func write(value: NetworkMonitorClientTypes.CreateMonitorProbeInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destination"].write(value.destination)
-        try writer["destinationPort"].write(value.destinationPort)
-        try writer["packetSize"].write(value.packetSize)
-        try writer["probeTags"].writeMap(value.probeTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["sourceArn"].write(value.sourceArn)
     }
 }
 

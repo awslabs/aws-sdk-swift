@@ -364,6 +364,8 @@ extension ResourceExplorer2ClientTypes {
         public var scope: Swift.String?
         /// The [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the view.
         public var viewArn: Swift.String?
+        /// The name of the view.
+        public var viewName: Swift.String?
 
         public init(
             filters: ResourceExplorer2ClientTypes.SearchFilter? = nil,
@@ -371,7 +373,8 @@ extension ResourceExplorer2ClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             owner: Swift.String? = nil,
             scope: Swift.String? = nil,
-            viewArn: Swift.String? = nil
+            viewArn: Swift.String? = nil,
+            viewName: Swift.String? = nil
         ) {
             self.filters = filters
             self.includedProperties = includedProperties
@@ -379,13 +382,14 @@ extension ResourceExplorer2ClientTypes {
             self.owner = owner
             self.scope = scope
             self.viewArn = viewArn
+            self.viewName = viewName
         }
     }
 }
 
 extension ResourceExplorer2ClientTypes.View: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "View(includedProperties: \(Swift.String(describing: includedProperties)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), owner: \(Swift.String(describing: owner)), scope: \(Swift.String(describing: scope)), viewArn: \(Swift.String(describing: viewArn)), filters: \"CONTENT_REDACTED\")"}
+        "View(includedProperties: \(Swift.String(describing: includedProperties)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), owner: \(Swift.String(describing: owner)), scope: \(Swift.String(describing: scope)), viewArn: \(Swift.String(describing: viewArn)), viewName: \(Swift.String(describing: viewName)), filters: \"CONTENT_REDACTED\")"}
 }
 
 public struct BatchGetViewOutput: Swift.Sendable {
@@ -1302,6 +1306,8 @@ extension ResourceExplorer2ClientTypes {
         /// The Amazon Resource Name (ARN) of the service view.
         /// This member is required.
         public var serviceViewArn: Swift.String?
+        /// The name of the service view.
+        public var serviceViewName: Swift.String?
         /// The Amazon Web Services service that has streaming access to this view's data.
         public var streamingAccessForService: Swift.String?
 
@@ -1310,12 +1316,14 @@ extension ResourceExplorer2ClientTypes {
             includedProperties: [ResourceExplorer2ClientTypes.IncludedProperty]? = nil,
             scopeType: Swift.String? = nil,
             serviceViewArn: Swift.String? = nil,
+            serviceViewName: Swift.String? = nil,
             streamingAccessForService: Swift.String? = nil
         ) {
             self.filters = filters
             self.includedProperties = includedProperties
             self.scopeType = scopeType
             self.serviceViewArn = serviceViewArn
+            self.serviceViewName = serviceViewName
             self.streamingAccessForService = streamingAccessForService
         }
     }
@@ -1323,7 +1331,7 @@ extension ResourceExplorer2ClientTypes {
 
 extension ResourceExplorer2ClientTypes.ServiceView: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ServiceView(includedProperties: \(Swift.String(describing: includedProperties)), scopeType: \(Swift.String(describing: scopeType)), serviceViewArn: \(Swift.String(describing: serviceViewArn)), streamingAccessForService: \(Swift.String(describing: streamingAccessForService)), filters: \"CONTENT_REDACTED\")"}
+        "ServiceView(includedProperties: \(Swift.String(describing: includedProperties)), scopeType: \(Swift.String(describing: scopeType)), serviceViewArn: \(Swift.String(describing: serviceViewArn)), serviceViewName: \(Swift.String(describing: serviceViewName)), streamingAccessForService: \(Swift.String(describing: streamingAccessForService)), filters: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetServiceViewOutput: Swift.Sendable {
@@ -3437,32 +3445,24 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension ResourceExplorer2ClientTypes.View {
+extension ResourceExplorer2ClientTypes.BatchGetViewError {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.View {
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.BatchGetViewError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceExplorer2ClientTypes.View()
-        value.viewArn = try reader["ViewArn"].readIfPresent()
-        value.owner = try reader["Owner"].readIfPresent()
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.scope = try reader["Scope"].readIfPresent()
-        value.includedProperties = try reader["IncludedProperties"].readListIfPresent(memberReadingClosure: ResourceExplorer2ClientTypes.IncludedProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.filters = try reader["Filters"].readIfPresent(with: ResourceExplorer2ClientTypes.SearchFilter.read(from:))
+        var value = ResourceExplorer2ClientTypes.BatchGetViewError()
+        value.viewArn = try reader["ViewArn"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension ResourceExplorer2ClientTypes.SearchFilter {
+extension ResourceExplorer2ClientTypes.ErrorDetails {
 
-    static func write(value: ResourceExplorer2ClientTypes.SearchFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FilterString"].write(value.filterString)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.SearchFilter {
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ErrorDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceExplorer2ClientTypes.SearchFilter()
-        value.filterString = try reader["FilterString"].readIfPresent() ?? ""
+        var value = ResourceExplorer2ClientTypes.ErrorDetails()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -3482,24 +3482,26 @@ extension ResourceExplorer2ClientTypes.IncludedProperty {
     }
 }
 
-extension ResourceExplorer2ClientTypes.BatchGetViewError {
+extension ResourceExplorer2ClientTypes.Index {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.BatchGetViewError {
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.Index {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceExplorer2ClientTypes.BatchGetViewError()
-        value.viewArn = try reader["ViewArn"].readIfPresent() ?? ""
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
+        var value = ResourceExplorer2ClientTypes.Index()
+        value.region = try reader["Region"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
 
-extension ResourceExplorer2ClientTypes.OrgConfiguration {
+extension ResourceExplorer2ClientTypes.IndexStatus {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.OrgConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.IndexStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceExplorer2ClientTypes.OrgConfiguration()
-        value.awsServiceAccessStatus = try reader["AWSServiceAccessStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.serviceLinkedRole = try reader["ServiceLinkedRole"].readIfPresent()
+        var value = ResourceExplorer2ClientTypes.IndexStatus()
+        value.status = try reader["Status"].readIfPresent()
+        value.index = try reader["Index"].readIfPresent(with: ResourceExplorer2ClientTypes.Index.read(from:))
+        value.errorDetails = try reader["ErrorDetails"].readIfPresent(with: ResourceExplorer2ClientTypes.ErrorDetails.read(from:))
         return value
     }
 }
@@ -3523,79 +3525,6 @@ extension ResourceExplorer2ClientTypes.ManagedView {
     }
 }
 
-extension ResourceExplorer2ClientTypes.RegionStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.RegionStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceExplorer2ClientTypes.RegionStatus()
-        value.region = try reader["Region"].readIfPresent()
-        value.index = try reader["Index"].readIfPresent(with: ResourceExplorer2ClientTypes.IndexStatus.read(from:))
-        value.view = try reader["View"].readIfPresent(with: ResourceExplorer2ClientTypes.ViewStatus.read(from:))
-        return value
-    }
-}
-
-extension ResourceExplorer2ClientTypes.ViewStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ViewStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceExplorer2ClientTypes.ViewStatus()
-        value.status = try reader["Status"].readIfPresent()
-        value.view = try reader["View"].readIfPresent(with: ResourceExplorer2ClientTypes.View.read(from:))
-        value.errorDetails = try reader["ErrorDetails"].readIfPresent(with: ResourceExplorer2ClientTypes.ErrorDetails.read(from:))
-        return value
-    }
-}
-
-extension ResourceExplorer2ClientTypes.ErrorDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ErrorDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceExplorer2ClientTypes.ErrorDetails()
-        value.code = try reader["Code"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension ResourceExplorer2ClientTypes.IndexStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.IndexStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceExplorer2ClientTypes.IndexStatus()
-        value.status = try reader["Status"].readIfPresent()
-        value.index = try reader["Index"].readIfPresent(with: ResourceExplorer2ClientTypes.Index.read(from:))
-        value.errorDetails = try reader["ErrorDetails"].readIfPresent(with: ResourceExplorer2ClientTypes.ErrorDetails.read(from:))
-        return value
-    }
-}
-
-extension ResourceExplorer2ClientTypes.Index {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.Index {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceExplorer2ClientTypes.Index()
-        value.region = try reader["Region"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension ResourceExplorer2ClientTypes.ServiceView {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ServiceView {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceExplorer2ClientTypes.ServiceView()
-        value.serviceViewArn = try reader["ServiceViewArn"].readIfPresent() ?? ""
-        value.filters = try reader["Filters"].readIfPresent(with: ResourceExplorer2ClientTypes.SearchFilter.read(from:))
-        value.includedProperties = try reader["IncludedProperties"].readListIfPresent(memberReadingClosure: ResourceExplorer2ClientTypes.IncludedProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.streamingAccessForService = try reader["StreamingAccessForService"].readIfPresent()
-        value.scopeType = try reader["ScopeType"].readIfPresent()
-        return value
-    }
-}
-
 extension ResourceExplorer2ClientTypes.MemberIndex {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.MemberIndex {
@@ -3605,6 +3534,29 @@ extension ResourceExplorer2ClientTypes.MemberIndex {
         value.region = try reader["Region"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension ResourceExplorer2ClientTypes.OrgConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.OrgConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceExplorer2ClientTypes.OrgConfiguration()
+        value.awsServiceAccessStatus = try reader["AWSServiceAccessStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.serviceLinkedRole = try reader["ServiceLinkedRole"].readIfPresent()
+        return value
+    }
+}
+
+extension ResourceExplorer2ClientTypes.RegionStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.RegionStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceExplorer2ClientTypes.RegionStatus()
+        value.region = try reader["Region"].readIfPresent()
+        value.index = try reader["Index"].readIfPresent(with: ResourceExplorer2ClientTypes.IndexStatus.read(from:))
+        value.view = try reader["View"].readIfPresent(with: ResourceExplorer2ClientTypes.ViewStatus.read(from:))
         return value
     }
 }
@@ -3625,6 +3577,17 @@ extension ResourceExplorer2ClientTypes.Resource {
     }
 }
 
+extension ResourceExplorer2ClientTypes.ResourceCount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ResourceCount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceExplorer2ClientTypes.ResourceCount()
+        value.totalResources = try reader["TotalResources"].readIfPresent()
+        value.complete = try reader["Complete"].readIfPresent()
+        return value
+    }
+}
+
 extension ResourceExplorer2ClientTypes.ResourceProperty {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ResourceProperty {
@@ -3633,6 +3596,36 @@ extension ResourceExplorer2ClientTypes.ResourceProperty {
         value.name = try reader["Name"].readIfPresent()
         value.lastReportedAt = try reader["LastReportedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.data = try reader["Data"].readIfPresent()
+        return value
+    }
+}
+
+extension ResourceExplorer2ClientTypes.SearchFilter {
+
+    static func write(value: ResourceExplorer2ClientTypes.SearchFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FilterString"].write(value.filterString)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.SearchFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceExplorer2ClientTypes.SearchFilter()
+        value.filterString = try reader["FilterString"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ResourceExplorer2ClientTypes.ServiceView {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ServiceView {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceExplorer2ClientTypes.ServiceView()
+        value.serviceViewArn = try reader["ServiceViewArn"].readIfPresent() ?? ""
+        value.serviceViewName = try reader["ServiceViewName"].readIfPresent()
+        value.filters = try reader["Filters"].readIfPresent(with: ResourceExplorer2ClientTypes.SearchFilter.read(from:))
+        value.includedProperties = try reader["IncludedProperties"].readListIfPresent(memberReadingClosure: ResourceExplorer2ClientTypes.IncludedProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.streamingAccessForService = try reader["StreamingAccessForService"].readIfPresent()
+        value.scopeType = try reader["ScopeType"].readIfPresent()
         return value
     }
 }
@@ -3659,17 +3652,6 @@ extension ResourceExplorer2ClientTypes.SupportedResourceType {
     }
 }
 
-extension ResourceExplorer2ClientTypes.ResourceCount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ResourceCount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceExplorer2ClientTypes.ResourceCount()
-        value.totalResources = try reader["TotalResources"].readIfPresent()
-        value.complete = try reader["Complete"].readIfPresent()
-        return value
-    }
-}
-
 extension ResourceExplorer2ClientTypes.ValidationExceptionField {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ValidationExceptionField {
@@ -3677,6 +3659,34 @@ extension ResourceExplorer2ClientTypes.ValidationExceptionField {
         var value = ResourceExplorer2ClientTypes.ValidationExceptionField()
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.validationIssue = try reader["ValidationIssue"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ResourceExplorer2ClientTypes.View {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.View {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceExplorer2ClientTypes.View()
+        value.viewArn = try reader["ViewArn"].readIfPresent()
+        value.viewName = try reader["ViewName"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent()
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.scope = try reader["Scope"].readIfPresent()
+        value.includedProperties = try reader["IncludedProperties"].readListIfPresent(memberReadingClosure: ResourceExplorer2ClientTypes.IncludedProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filters = try reader["Filters"].readIfPresent(with: ResourceExplorer2ClientTypes.SearchFilter.read(from:))
+        return value
+    }
+}
+
+extension ResourceExplorer2ClientTypes.ViewStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ViewStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceExplorer2ClientTypes.ViewStatus()
+        value.status = try reader["Status"].readIfPresent()
+        value.view = try reader["View"].readIfPresent(with: ResourceExplorer2ClientTypes.View.read(from:))
+        value.errorDetails = try reader["ErrorDetails"].readIfPresent(with: ResourceExplorer2ClientTypes.ErrorDetails.read(from:))
         return value
     }
 }

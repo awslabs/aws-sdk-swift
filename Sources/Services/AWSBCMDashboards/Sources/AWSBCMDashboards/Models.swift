@@ -1183,6 +1183,8 @@ extension BCMDashboardsClientTypes {
         public var height: Swift.Int?
         /// Specifies the starting column position of the widget in the dashboard's grid layout. Used to control widget placement.
         public var horizontalOffset: Swift.Int
+        /// The unique identifier for the widget.
+        public var id: Swift.String?
         /// The title of the widget.
         /// This member is required.
         public var title: Swift.String?
@@ -1194,6 +1196,7 @@ extension BCMDashboardsClientTypes {
             description: Swift.String? = nil,
             height: Swift.Int? = 7,
             horizontalOffset: Swift.Int = 0,
+            id: Swift.String? = nil,
             title: Swift.String? = nil,
             width: Swift.Int? = 4
         ) {
@@ -1201,6 +1204,7 @@ extension BCMDashboardsClientTypes {
             self.description = description
             self.height = height
             self.horizontalOffset = horizontalOffset
+            self.id = id
             self.title = title
             self.width = width
         }
@@ -1782,44 +1786,112 @@ extension ResourceNotFoundException {
     }
 }
 
-extension BCMDashboardsClientTypes.Widget {
+extension BCMDashboardsClientTypes.CostAndUsageQuery {
 
-    static func write(value: BCMDashboardsClientTypes.Widget?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BCMDashboardsClientTypes.CostAndUsageQuery?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["configs"].writeList(value.configs, memberWritingClosure: BCMDashboardsClientTypes.WidgetConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["height"].write(value.height)
-        try writer["horizontalOffset"].write(value.horizontalOffset)
-        try writer["title"].write(value.title)
-        try writer["width"].write(value.width)
+        try writer["filter"].write(value.filter, with: BCMDashboardsClientTypes.Expression.write(value:to:))
+        try writer["granularity"].write(value.granularity)
+        try writer["groupBy"].writeList(value.groupBy, memberWritingClosure: BCMDashboardsClientTypes.GroupDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["metrics"].writeList(value.metrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BCMDashboardsClientTypes.MetricName>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["timeRange"].write(value.timeRange, with: BCMDashboardsClientTypes.DateTimeRange.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.Widget {
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.CostAndUsageQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDashboardsClientTypes.Widget()
-        value.title = try reader["title"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.width = try reader["width"].readIfPresent() ?? 4
-        value.height = try reader["height"].readIfPresent() ?? 7
-        value.horizontalOffset = try reader["horizontalOffset"].readIfPresent() ?? 0
-        value.configs = try reader["configs"].readListIfPresent(memberReadingClosure: BCMDashboardsClientTypes.WidgetConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = BCMDashboardsClientTypes.CostAndUsageQuery()
+        value.metrics = try reader["metrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMDashboardsClientTypes.MetricName>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.timeRange = try reader["timeRange"].readIfPresent(with: BCMDashboardsClientTypes.DateTimeRange.read(from:))
+        value.granularity = try reader["granularity"].readIfPresent() ?? .sdkUnknown("")
+        value.groupBy = try reader["groupBy"].readListIfPresent(memberReadingClosure: BCMDashboardsClientTypes.GroupDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filter = try reader["filter"].readIfPresent(with: BCMDashboardsClientTypes.Expression.read(from:))
         return value
     }
 }
 
-extension BCMDashboardsClientTypes.WidgetConfig {
+extension BCMDashboardsClientTypes.CostCategoryValues {
 
-    static func write(value: BCMDashboardsClientTypes.WidgetConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BCMDashboardsClientTypes.CostCategoryValues?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["displayConfig"].write(value.displayConfig, with: BCMDashboardsClientTypes.DisplayConfig.write(value:to:))
-        try writer["queryParameters"].write(value.queryParameters, with: BCMDashboardsClientTypes.QueryParameters.write(value:to:))
+        try writer["key"].write(value.key)
+        try writer["matchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BCMDashboardsClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.WidgetConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.CostCategoryValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDashboardsClientTypes.WidgetConfig()
-        value.queryParameters = try reader["queryParameters"].readIfPresent(with: BCMDashboardsClientTypes.QueryParameters.read(from:))
-        value.displayConfig = try reader["displayConfig"].readIfPresent(with: BCMDashboardsClientTypes.DisplayConfig.read(from:))
+        var value = BCMDashboardsClientTypes.CostCategoryValues()
+        value.key = try reader["key"].readIfPresent()
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchOptions = try reader["matchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMDashboardsClientTypes.MatchOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BCMDashboardsClientTypes.DashboardReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.DashboardReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDashboardsClientTypes.DashboardReference()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BCMDashboardsClientTypes.DateTimeRange {
+
+    static func write(value: BCMDashboardsClientTypes.DateTimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].write(value.endTime, with: BCMDashboardsClientTypes.DateTimeValue.write(value:to:))
+        try writer["startTime"].write(value.startTime, with: BCMDashboardsClientTypes.DateTimeValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.DateTimeRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDashboardsClientTypes.DateTimeRange()
+        value.startTime = try reader["startTime"].readIfPresent(with: BCMDashboardsClientTypes.DateTimeValue.read(from:))
+        value.endTime = try reader["endTime"].readIfPresent(with: BCMDashboardsClientTypes.DateTimeValue.read(from:))
+        return value
+    }
+}
+
+extension BCMDashboardsClientTypes.DateTimeValue {
+
+    static func write(value: BCMDashboardsClientTypes.DateTimeValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.DateTimeValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDashboardsClientTypes.DateTimeValue()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BCMDashboardsClientTypes.DimensionValues {
+
+    static func write(value: BCMDashboardsClientTypes.DimensionValues?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["matchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BCMDashboardsClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.DimensionValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDashboardsClientTypes.DimensionValues()
+        value.key = try reader["key"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.matchOptions = try reader["matchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMDashboardsClientTypes.MatchOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -1852,16 +1924,28 @@ extension BCMDashboardsClientTypes.DisplayConfig {
     }
 }
 
-extension BCMDashboardsClientTypes.TableDisplayConfigStruct {
+extension BCMDashboardsClientTypes.Expression {
 
-    static func write(value: BCMDashboardsClientTypes.TableDisplayConfigStruct?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+    static func write(value: BCMDashboardsClientTypes.Expression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["and"].writeList(value.and, memberWritingClosure: BCMDashboardsClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["costCategories"].write(value.costCategories, with: BCMDashboardsClientTypes.CostCategoryValues.write(value:to:))
+        try writer["dimensions"].write(value.dimensions, with: BCMDashboardsClientTypes.DimensionValues.write(value:to:))
+        try writer["not"].write(value.not, with: BCMDashboardsClientTypes.Expression.write(value:to:))
+        try writer["or"].writeList(value.or, memberWritingClosure: BCMDashboardsClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].write(value.tags, with: BCMDashboardsClientTypes.TagValues.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.TableDisplayConfigStruct {
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.Expression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return BCMDashboardsClientTypes.TableDisplayConfigStruct()
+        var value = BCMDashboardsClientTypes.Expression()
+        value.or = try reader["or"].readListIfPresent(memberReadingClosure: BCMDashboardsClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.and = try reader["and"].readListIfPresent(memberReadingClosure: BCMDashboardsClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.not = try reader["not"].readIfPresent(with: BCMDashboardsClientTypes.Expression.read(from:))
+        value.dimensions = try reader["dimensions"].readIfPresent(with: BCMDashboardsClientTypes.DimensionValues.read(from:))
+        value.tags = try reader["tags"].readIfPresent(with: BCMDashboardsClientTypes.TagValues.read(from:))
+        value.costCategories = try reader["costCategories"].readIfPresent(with: BCMDashboardsClientTypes.CostCategoryValues.read(from:))
+        return value
     }
 }
 
@@ -1876,6 +1960,23 @@ extension BCMDashboardsClientTypes.GraphDisplayConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMDashboardsClientTypes.GraphDisplayConfig()
         value.visualType = try reader["visualType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BCMDashboardsClientTypes.GroupDefinition {
+
+    static func write(value: BCMDashboardsClientTypes.GroupDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.GroupDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDashboardsClientTypes.GroupDefinition()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? BCMDashboardsClientTypes.GroupDefinitionType.dimension
         return value
     }
 }
@@ -1920,160 +2021,6 @@ extension BCMDashboardsClientTypes.QueryParameters {
     }
 }
 
-extension BCMDashboardsClientTypes.ReservationUtilizationQuery {
-
-    static func write(value: BCMDashboardsClientTypes.ReservationUtilizationQuery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filter"].write(value.filter, with: BCMDashboardsClientTypes.Expression.write(value:to:))
-        try writer["granularity"].write(value.granularity)
-        try writer["groupBy"].writeList(value.groupBy, memberWritingClosure: BCMDashboardsClientTypes.GroupDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["timeRange"].write(value.timeRange, with: BCMDashboardsClientTypes.DateTimeRange.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.ReservationUtilizationQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDashboardsClientTypes.ReservationUtilizationQuery()
-        value.timeRange = try reader["timeRange"].readIfPresent(with: BCMDashboardsClientTypes.DateTimeRange.read(from:))
-        value.groupBy = try reader["groupBy"].readListIfPresent(memberReadingClosure: BCMDashboardsClientTypes.GroupDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.granularity = try reader["granularity"].readIfPresent()
-        value.filter = try reader["filter"].readIfPresent(with: BCMDashboardsClientTypes.Expression.read(from:))
-        return value
-    }
-}
-
-extension BCMDashboardsClientTypes.Expression {
-
-    static func write(value: BCMDashboardsClientTypes.Expression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["and"].writeList(value.and, memberWritingClosure: BCMDashboardsClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["costCategories"].write(value.costCategories, with: BCMDashboardsClientTypes.CostCategoryValues.write(value:to:))
-        try writer["dimensions"].write(value.dimensions, with: BCMDashboardsClientTypes.DimensionValues.write(value:to:))
-        try writer["not"].write(value.not, with: BCMDashboardsClientTypes.Expression.write(value:to:))
-        try writer["or"].writeList(value.or, memberWritingClosure: BCMDashboardsClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].write(value.tags, with: BCMDashboardsClientTypes.TagValues.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.Expression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDashboardsClientTypes.Expression()
-        value.or = try reader["or"].readListIfPresent(memberReadingClosure: BCMDashboardsClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.and = try reader["and"].readListIfPresent(memberReadingClosure: BCMDashboardsClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.not = try reader["not"].readIfPresent(with: BCMDashboardsClientTypes.Expression.read(from:))
-        value.dimensions = try reader["dimensions"].readIfPresent(with: BCMDashboardsClientTypes.DimensionValues.read(from:))
-        value.tags = try reader["tags"].readIfPresent(with: BCMDashboardsClientTypes.TagValues.read(from:))
-        value.costCategories = try reader["costCategories"].readIfPresent(with: BCMDashboardsClientTypes.CostCategoryValues.read(from:))
-        return value
-    }
-}
-
-extension BCMDashboardsClientTypes.CostCategoryValues {
-
-    static func write(value: BCMDashboardsClientTypes.CostCategoryValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["matchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BCMDashboardsClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.CostCategoryValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDashboardsClientTypes.CostCategoryValues()
-        value.key = try reader["key"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.matchOptions = try reader["matchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMDashboardsClientTypes.MatchOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BCMDashboardsClientTypes.TagValues {
-
-    static func write(value: BCMDashboardsClientTypes.TagValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["matchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BCMDashboardsClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.TagValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDashboardsClientTypes.TagValues()
-        value.key = try reader["key"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.matchOptions = try reader["matchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMDashboardsClientTypes.MatchOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BCMDashboardsClientTypes.DimensionValues {
-
-    static func write(value: BCMDashboardsClientTypes.DimensionValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["matchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BCMDashboardsClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.DimensionValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDashboardsClientTypes.DimensionValues()
-        value.key = try reader["key"].readIfPresent() ?? .sdkUnknown("")
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.matchOptions = try reader["matchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMDashboardsClientTypes.MatchOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BCMDashboardsClientTypes.GroupDefinition {
-
-    static func write(value: BCMDashboardsClientTypes.GroupDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.GroupDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDashboardsClientTypes.GroupDefinition()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? BCMDashboardsClientTypes.GroupDefinitionType.dimension
-        return value
-    }
-}
-
-extension BCMDashboardsClientTypes.DateTimeRange {
-
-    static func write(value: BCMDashboardsClientTypes.DateTimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endTime"].write(value.endTime, with: BCMDashboardsClientTypes.DateTimeValue.write(value:to:))
-        try writer["startTime"].write(value.startTime, with: BCMDashboardsClientTypes.DateTimeValue.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.DateTimeRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDashboardsClientTypes.DateTimeRange()
-        value.startTime = try reader["startTime"].readIfPresent(with: BCMDashboardsClientTypes.DateTimeValue.read(from:))
-        value.endTime = try reader["endTime"].readIfPresent(with: BCMDashboardsClientTypes.DateTimeValue.read(from:))
-        return value
-    }
-}
-
-extension BCMDashboardsClientTypes.DateTimeValue {
-
-    static func write(value: BCMDashboardsClientTypes.DateTimeValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.DateTimeValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDashboardsClientTypes.DateTimeValue()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension BCMDashboardsClientTypes.ReservationCoverageQuery {
 
     static func write(value: BCMDashboardsClientTypes.ReservationCoverageQuery?, to writer: SmithyJSON.Writer) throws {
@@ -2097,21 +2044,40 @@ extension BCMDashboardsClientTypes.ReservationCoverageQuery {
     }
 }
 
-extension BCMDashboardsClientTypes.SavingsPlansUtilizationQuery {
+extension BCMDashboardsClientTypes.ReservationUtilizationQuery {
 
-    static func write(value: BCMDashboardsClientTypes.SavingsPlansUtilizationQuery?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BCMDashboardsClientTypes.ReservationUtilizationQuery?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filter"].write(value.filter, with: BCMDashboardsClientTypes.Expression.write(value:to:))
         try writer["granularity"].write(value.granularity)
+        try writer["groupBy"].writeList(value.groupBy, memberWritingClosure: BCMDashboardsClientTypes.GroupDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["timeRange"].write(value.timeRange, with: BCMDashboardsClientTypes.DateTimeRange.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.SavingsPlansUtilizationQuery {
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.ReservationUtilizationQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDashboardsClientTypes.SavingsPlansUtilizationQuery()
+        var value = BCMDashboardsClientTypes.ReservationUtilizationQuery()
         value.timeRange = try reader["timeRange"].readIfPresent(with: BCMDashboardsClientTypes.DateTimeRange.read(from:))
+        value.groupBy = try reader["groupBy"].readListIfPresent(memberReadingClosure: BCMDashboardsClientTypes.GroupDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.granularity = try reader["granularity"].readIfPresent()
         value.filter = try reader["filter"].readIfPresent(with: BCMDashboardsClientTypes.Expression.read(from:))
+        return value
+    }
+}
+
+extension BCMDashboardsClientTypes.ResourceTag {
+
+    static func write(value: BCMDashboardsClientTypes.ResourceTag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.ResourceTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDashboardsClientTypes.ResourceTag()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2139,57 +2105,97 @@ extension BCMDashboardsClientTypes.SavingsPlansCoverageQuery {
     }
 }
 
-extension BCMDashboardsClientTypes.CostAndUsageQuery {
+extension BCMDashboardsClientTypes.SavingsPlansUtilizationQuery {
 
-    static func write(value: BCMDashboardsClientTypes.CostAndUsageQuery?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BCMDashboardsClientTypes.SavingsPlansUtilizationQuery?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filter"].write(value.filter, with: BCMDashboardsClientTypes.Expression.write(value:to:))
         try writer["granularity"].write(value.granularity)
-        try writer["groupBy"].writeList(value.groupBy, memberWritingClosure: BCMDashboardsClientTypes.GroupDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["metrics"].writeList(value.metrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BCMDashboardsClientTypes.MetricName>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["timeRange"].write(value.timeRange, with: BCMDashboardsClientTypes.DateTimeRange.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.CostAndUsageQuery {
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.SavingsPlansUtilizationQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDashboardsClientTypes.CostAndUsageQuery()
-        value.metrics = try reader["metrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMDashboardsClientTypes.MetricName>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = BCMDashboardsClientTypes.SavingsPlansUtilizationQuery()
         value.timeRange = try reader["timeRange"].readIfPresent(with: BCMDashboardsClientTypes.DateTimeRange.read(from:))
-        value.granularity = try reader["granularity"].readIfPresent() ?? .sdkUnknown("")
-        value.groupBy = try reader["groupBy"].readListIfPresent(memberReadingClosure: BCMDashboardsClientTypes.GroupDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.granularity = try reader["granularity"].readIfPresent()
         value.filter = try reader["filter"].readIfPresent(with: BCMDashboardsClientTypes.Expression.read(from:))
         return value
     }
 }
 
-extension BCMDashboardsClientTypes.DashboardReference {
+extension BCMDashboardsClientTypes.TableDisplayConfigStruct {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.DashboardReference {
+    static func write(value: BCMDashboardsClientTypes.TableDisplayConfigStruct?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.TableDisplayConfigStruct {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDashboardsClientTypes.DashboardReference()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return BCMDashboardsClientTypes.TableDisplayConfigStruct()
+    }
+}
+
+extension BCMDashboardsClientTypes.TagValues {
+
+    static func write(value: BCMDashboardsClientTypes.TagValues?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["matchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BCMDashboardsClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.TagValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDashboardsClientTypes.TagValues()
+        value.key = try reader["key"].readIfPresent()
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchOptions = try reader["matchOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMDashboardsClientTypes.MatchOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension BCMDashboardsClientTypes.ResourceTag {
+extension BCMDashboardsClientTypes.Widget {
 
-    static func write(value: BCMDashboardsClientTypes.ResourceTag?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BCMDashboardsClientTypes.Widget?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
+        try writer["configs"].writeList(value.configs, memberWritingClosure: BCMDashboardsClientTypes.WidgetConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["description"].write(value.description)
+        try writer["height"].write(value.height)
+        try writer["horizontalOffset"].write(value.horizontalOffset)
+        try writer["id"].write(value.id)
+        try writer["title"].write(value.title)
+        try writer["width"].write(value.width)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.ResourceTag {
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.Widget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDashboardsClientTypes.ResourceTag()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
+        var value = BCMDashboardsClientTypes.Widget()
+        value.id = try reader["id"].readIfPresent()
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.width = try reader["width"].readIfPresent() ?? 4
+        value.height = try reader["height"].readIfPresent() ?? 7
+        value.horizontalOffset = try reader["horizontalOffset"].readIfPresent() ?? 0
+        value.configs = try reader["configs"].readListIfPresent(memberReadingClosure: BCMDashboardsClientTypes.WidgetConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BCMDashboardsClientTypes.WidgetConfig {
+
+    static func write(value: BCMDashboardsClientTypes.WidgetConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["displayConfig"].write(value.displayConfig, with: BCMDashboardsClientTypes.DisplayConfig.write(value:to:))
+        try writer["queryParameters"].write(value.queryParameters, with: BCMDashboardsClientTypes.QueryParameters.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.WidgetConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDashboardsClientTypes.WidgetConfig()
+        value.queryParameters = try reader["queryParameters"].readIfPresent(with: BCMDashboardsClientTypes.QueryParameters.read(from:))
+        value.displayConfig = try reader["displayConfig"].readIfPresent(with: BCMDashboardsClientTypes.DisplayConfig.read(from:))
         return value
     }
 }

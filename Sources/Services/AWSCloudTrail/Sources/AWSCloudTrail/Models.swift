@@ -11060,89 +11060,6 @@ extension MaxConcurrentQueriesException {
     }
 }
 
-extension CloudTrailClientTypes.Destination {
-
-    static func write(value: CloudTrailClientTypes.Destination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Location"].write(value.location)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Destination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.Destination()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.location = try reader["Location"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudTrailClientTypes.Tag {
-
-    static func write(value: CloudTrailClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudTrailClientTypes.Widget {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Widget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.Widget()
-        value.queryAlias = try reader["QueryAlias"].readIfPresent()
-        value.queryStatement = try reader["QueryStatement"].readIfPresent()
-        value.queryParameters = try reader["QueryParameters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.viewProperties = try reader["ViewProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudTrailClientTypes.RefreshSchedule {
-
-    static func write(value: CloudTrailClientTypes.RefreshSchedule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Frequency"].write(value.frequency, with: CloudTrailClientTypes.RefreshScheduleFrequency.write(value:to:))
-        try writer["Status"].write(value.status)
-        try writer["TimeOfDay"].write(value.timeOfDay)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.RefreshSchedule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.RefreshSchedule()
-        value.frequency = try reader["Frequency"].readIfPresent(with: CloudTrailClientTypes.RefreshScheduleFrequency.read(from:))
-        value.status = try reader["Status"].readIfPresent()
-        value.timeOfDay = try reader["TimeOfDay"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudTrailClientTypes.RefreshScheduleFrequency {
-
-    static func write(value: CloudTrailClientTypes.RefreshScheduleFrequency?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Unit"].write(value.unit)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.RefreshScheduleFrequency {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.RefreshScheduleFrequency()
-        value.unit = try reader["Unit"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
 extension CloudTrailClientTypes.AdvancedEventSelector {
 
     static func write(value: CloudTrailClientTypes.AdvancedEventSelector?, to writer: SmithyJSON.Writer) throws {
@@ -11187,66 +11104,30 @@ extension CloudTrailClientTypes.AdvancedFieldSelector {
     }
 }
 
-extension CloudTrailClientTypes.QueryStatisticsForDescribeQuery {
+extension CloudTrailClientTypes.AggregationConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.QueryStatisticsForDescribeQuery {
+    static func write(value: CloudTrailClientTypes.AggregationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventCategory"].write(value.eventCategory)
+        try writer["Templates"].writeList(value.templates, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudTrailClientTypes.Template>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.AggregationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.QueryStatisticsForDescribeQuery()
-        value.eventsMatched = try reader["EventsMatched"].readIfPresent()
-        value.eventsScanned = try reader["EventsScanned"].readIfPresent()
-        value.bytesScanned = try reader["BytesScanned"].readIfPresent()
-        value.executionTimeInMillis = try reader["ExecutionTimeInMillis"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = CloudTrailClientTypes.AggregationConfiguration()
+        value.templates = try reader["Templates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudTrailClientTypes.Template>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.eventCategory = try reader["EventCategory"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension CloudTrailClientTypes.Trail {
+extension CloudTrailClientTypes.Channel {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Trail {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Channel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.Trail()
+        var value = CloudTrailClientTypes.Channel()
+        value.channelArn = try reader["ChannelArn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
-        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
-        value.s3KeyPrefix = try reader["S3KeyPrefix"].readIfPresent()
-        value.snsTopicName = try reader["SnsTopicName"].readIfPresent()
-        value.snsTopicARN = try reader["SnsTopicARN"].readIfPresent()
-        value.includeGlobalServiceEvents = try reader["IncludeGlobalServiceEvents"].readIfPresent()
-        value.isMultiRegionTrail = try reader["IsMultiRegionTrail"].readIfPresent()
-        value.homeRegion = try reader["HomeRegion"].readIfPresent()
-        value.trailARN = try reader["TrailARN"].readIfPresent()
-        value.logFileValidationEnabled = try reader["LogFileValidationEnabled"].readIfPresent()
-        value.cloudWatchLogsLogGroupArn = try reader["CloudWatchLogsLogGroupArn"].readIfPresent()
-        value.cloudWatchLogsRoleArn = try reader["CloudWatchLogsRoleArn"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.hasCustomEventSelectors = try reader["HasCustomEventSelectors"].readIfPresent()
-        value.hasInsightSelectors = try reader["HasInsightSelectors"].readIfPresent()
-        value.isOrganizationTrail = try reader["IsOrganizationTrail"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudTrailClientTypes.SourceConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.SourceConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.SourceConfig()
-        value.applyToAllRegions = try reader["ApplyToAllRegions"].readIfPresent()
-        value.advancedEventSelectors = try reader["AdvancedEventSelectors"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.AdvancedEventSelector.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudTrailClientTypes.IngestionStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.IngestionStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.IngestionStatus()
-        value.latestIngestionSuccessTime = try reader["LatestIngestionSuccessTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.latestIngestionSuccessEventID = try reader["LatestIngestionSuccessEventID"].readIfPresent()
-        value.latestIngestionErrorCode = try reader["LatestIngestionErrorCode"].readIfPresent()
-        value.latestIngestionAttemptTime = try reader["LatestIngestionAttemptTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.latestIngestionAttemptEventID = try reader["LatestIngestionAttemptEventID"].readIfPresent()
         return value
     }
 }
@@ -11268,51 +11149,13 @@ extension CloudTrailClientTypes.ContextKeySelector {
     }
 }
 
-extension CloudTrailClientTypes.AggregationConfiguration {
+extension CloudTrailClientTypes.DashboardDetail {
 
-    static func write(value: CloudTrailClientTypes.AggregationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EventCategory"].write(value.eventCategory)
-        try writer["Templates"].writeList(value.templates, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudTrailClientTypes.Template>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.AggregationConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.DashboardDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.AggregationConfiguration()
-        value.templates = try reader["Templates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudTrailClientTypes.Template>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.eventCategory = try reader["EventCategory"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension CloudTrailClientTypes.PartitionKey {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.PartitionKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.PartitionKey()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudTrailClientTypes.EventSelector {
-
-    static func write(value: CloudTrailClientTypes.EventSelector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataResources"].writeList(value.dataResources, memberWritingClosure: CloudTrailClientTypes.DataResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExcludeManagementEventSources"].writeList(value.excludeManagementEventSources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IncludeManagementEvents"].write(value.includeManagementEvents)
-        try writer["ReadWriteType"].write(value.readWriteType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.EventSelector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.EventSelector()
-        value.readWriteType = try reader["ReadWriteType"].readIfPresent()
-        value.includeManagementEvents = try reader["IncludeManagementEvents"].readIfPresent()
-        value.dataResources = try reader["DataResources"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.DataResource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludeManagementEventSources = try reader["ExcludeManagementEventSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = CloudTrailClientTypes.DashboardDetail()
+        value.dashboardArn = try reader["DashboardArn"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -11334,101 +11177,37 @@ extension CloudTrailClientTypes.DataResource {
     }
 }
 
-extension CloudTrailClientTypes.ImportSource {
+extension CloudTrailClientTypes.Destination {
 
-    static func write(value: CloudTrailClientTypes.ImportSource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CloudTrailClientTypes.Destination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["S3"].write(value.s3, with: CloudTrailClientTypes.S3ImportSource.write(value:to:))
+        try writer["Location"].write(value.location)
+        try writer["Type"].write(value.type)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.ImportSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Destination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.ImportSource()
-        value.s3 = try reader["S3"].readIfPresent(with: CloudTrailClientTypes.S3ImportSource.read(from:))
+        var value = CloudTrailClientTypes.Destination()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.location = try reader["Location"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension CloudTrailClientTypes.S3ImportSource {
+extension CloudTrailClientTypes.Event {
 
-    static func write(value: CloudTrailClientTypes.S3ImportSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3BucketAccessRoleArn"].write(value.s3BucketAccessRoleArn)
-        try writer["S3BucketRegion"].write(value.s3BucketRegion)
-        try writer["S3LocationUri"].write(value.s3LocationUri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.S3ImportSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Event {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.S3ImportSource()
-        value.s3LocationUri = try reader["S3LocationUri"].readIfPresent() ?? ""
-        value.s3BucketRegion = try reader["S3BucketRegion"].readIfPresent() ?? ""
-        value.s3BucketAccessRoleArn = try reader["S3BucketAccessRoleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudTrailClientTypes.ImportStatistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.ImportStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.ImportStatistics()
-        value.prefixesFound = try reader["PrefixesFound"].readIfPresent()
-        value.prefixesCompleted = try reader["PrefixesCompleted"].readIfPresent()
-        value.filesCompleted = try reader["FilesCompleted"].readIfPresent()
-        value.eventsCompleted = try reader["EventsCompleted"].readIfPresent()
-        value.failedEntries = try reader["FailedEntries"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudTrailClientTypes.InsightSelector {
-
-    static func write(value: CloudTrailClientTypes.InsightSelector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EventCategories"].writeList(value.eventCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudTrailClientTypes.SourceEventCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InsightType"].write(value.insightType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.InsightSelector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.InsightSelector()
-        value.insightType = try reader["InsightType"].readIfPresent()
-        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudTrailClientTypes.SourceEventCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudTrailClientTypes.QueryStatistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.QueryStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.QueryStatistics()
-        value.resultsCount = try reader["ResultsCount"].readIfPresent()
-        value.totalResultsCount = try reader["TotalResultsCount"].readIfPresent()
-        value.bytesScanned = try reader["BytesScanned"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudTrailClientTypes.Channel {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Channel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.Channel()
-        value.channelArn = try reader["ChannelArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudTrailClientTypes.DashboardDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.DashboardDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.DashboardDetail()
-        value.dashboardArn = try reader["DashboardArn"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        var value = CloudTrailClientTypes.Event()
+        value.eventId = try reader["EventId"].readIfPresent()
+        value.eventName = try reader["EventName"].readIfPresent()
+        value.readOnly = try reader["ReadOnly"].readIfPresent()
+        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
+        value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.eventSource = try reader["EventSource"].readIfPresent()
+        value.username = try reader["Username"].readIfPresent()
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudTrailEvent = try reader["CloudTrailEvent"].readIfPresent()
         return value
     }
 }
@@ -11448,6 +11227,27 @@ extension CloudTrailClientTypes.EventDataStore {
         value.retentionPeriod = try reader["RetentionPeriod"].readIfPresent()
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.EventSelector {
+
+    static func write(value: CloudTrailClientTypes.EventSelector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataResources"].writeList(value.dataResources, memberWritingClosure: CloudTrailClientTypes.DataResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludeManagementEventSources"].writeList(value.excludeManagementEventSources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludeManagementEvents"].write(value.includeManagementEvents)
+        try writer["ReadWriteType"].write(value.readWriteType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.EventSelector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.EventSelector()
+        value.readWriteType = try reader["ReadWriteType"].readIfPresent()
+        value.includeManagementEvents = try reader["IncludeManagementEvents"].readIfPresent()
+        value.dataResources = try reader["DataResources"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.DataResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludeManagementEventSources = try reader["ExcludeManagementEventSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11480,31 +11280,82 @@ extension CloudTrailClientTypes.ImportsListItem {
     }
 }
 
-extension CloudTrailClientTypes.Event {
+extension CloudTrailClientTypes.ImportSource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Event {
+    static func write(value: CloudTrailClientTypes.ImportSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3"].write(value.s3, with: CloudTrailClientTypes.S3ImportSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.ImportSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.Event()
-        value.eventId = try reader["EventId"].readIfPresent()
-        value.eventName = try reader["EventName"].readIfPresent()
-        value.readOnly = try reader["ReadOnly"].readIfPresent()
-        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
-        value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.eventSource = try reader["EventSource"].readIfPresent()
-        value.username = try reader["Username"].readIfPresent()
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cloudTrailEvent = try reader["CloudTrailEvent"].readIfPresent()
+        var value = CloudTrailClientTypes.ImportSource()
+        value.s3 = try reader["S3"].readIfPresent(with: CloudTrailClientTypes.S3ImportSource.read(from:))
         return value
     }
 }
 
-extension CloudTrailClientTypes.Resource {
+extension CloudTrailClientTypes.ImportStatistics {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Resource {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.ImportStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.Resource()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceName = try reader["ResourceName"].readIfPresent()
+        var value = CloudTrailClientTypes.ImportStatistics()
+        value.prefixesFound = try reader["PrefixesFound"].readIfPresent()
+        value.prefixesCompleted = try reader["PrefixesCompleted"].readIfPresent()
+        value.filesCompleted = try reader["FilesCompleted"].readIfPresent()
+        value.eventsCompleted = try reader["EventsCompleted"].readIfPresent()
+        value.failedEntries = try reader["FailedEntries"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.IngestionStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.IngestionStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.IngestionStatus()
+        value.latestIngestionSuccessTime = try reader["LatestIngestionSuccessTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.latestIngestionSuccessEventID = try reader["LatestIngestionSuccessEventID"].readIfPresent()
+        value.latestIngestionErrorCode = try reader["LatestIngestionErrorCode"].readIfPresent()
+        value.latestIngestionAttemptTime = try reader["LatestIngestionAttemptTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.latestIngestionAttemptEventID = try reader["LatestIngestionAttemptEventID"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.InsightSelector {
+
+    static func write(value: CloudTrailClientTypes.InsightSelector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventCategories"].writeList(value.eventCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CloudTrailClientTypes.SourceEventCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InsightType"].write(value.insightType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.InsightSelector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.InsightSelector()
+        value.insightType = try reader["InsightType"].readIfPresent()
+        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudTrailClientTypes.SourceEventCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.LookupAttribute {
+
+    static func write(value: CloudTrailClientTypes.LookupAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeKey"].write(value.attributeKey)
+        try writer["AttributeValue"].write(value.attributeValue)
+    }
+}
+
+extension CloudTrailClientTypes.PartitionKey {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.PartitionKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.PartitionKey()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11534,6 +11385,89 @@ extension CloudTrailClientTypes.Query {
     }
 }
 
+extension CloudTrailClientTypes.QueryStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.QueryStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.QueryStatistics()
+        value.resultsCount = try reader["ResultsCount"].readIfPresent()
+        value.totalResultsCount = try reader["TotalResultsCount"].readIfPresent()
+        value.bytesScanned = try reader["BytesScanned"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.QueryStatisticsForDescribeQuery {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.QueryStatisticsForDescribeQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.QueryStatisticsForDescribeQuery()
+        value.eventsMatched = try reader["EventsMatched"].readIfPresent()
+        value.eventsScanned = try reader["EventsScanned"].readIfPresent()
+        value.bytesScanned = try reader["BytesScanned"].readIfPresent()
+        value.executionTimeInMillis = try reader["ExecutionTimeInMillis"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.RefreshSchedule {
+
+    static func write(value: CloudTrailClientTypes.RefreshSchedule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Frequency"].write(value.frequency, with: CloudTrailClientTypes.RefreshScheduleFrequency.write(value:to:))
+        try writer["Status"].write(value.status)
+        try writer["TimeOfDay"].write(value.timeOfDay)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.RefreshSchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.RefreshSchedule()
+        value.frequency = try reader["Frequency"].readIfPresent(with: CloudTrailClientTypes.RefreshScheduleFrequency.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.timeOfDay = try reader["TimeOfDay"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.RefreshScheduleFrequency {
+
+    static func write(value: CloudTrailClientTypes.RefreshScheduleFrequency?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Unit"].write(value.unit)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.RefreshScheduleFrequency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.RefreshScheduleFrequency()
+        value.unit = try reader["Unit"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.RequestWidget {
+
+    static func write(value: CloudTrailClientTypes.RequestWidget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["QueryParameters"].writeList(value.queryParameters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["QueryStatement"].write(value.queryStatement)
+        try writer["ViewProperties"].writeMap(value.viewProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CloudTrailClientTypes.Resource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Resource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.Resource()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceName = try reader["ResourceName"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudTrailClientTypes.ResourceTag {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.ResourceTag {
@@ -11545,14 +11479,21 @@ extension CloudTrailClientTypes.ResourceTag {
     }
 }
 
-extension CloudTrailClientTypes.TrailInfo {
+extension CloudTrailClientTypes.S3ImportSource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.TrailInfo {
+    static func write(value: CloudTrailClientTypes.S3ImportSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3BucketAccessRoleArn"].write(value.s3BucketAccessRoleArn)
+        try writer["S3BucketRegion"].write(value.s3BucketRegion)
+        try writer["S3LocationUri"].write(value.s3LocationUri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.S3ImportSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudTrailClientTypes.TrailInfo()
-        value.trailARN = try reader["TrailARN"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.homeRegion = try reader["HomeRegion"].readIfPresent()
+        var value = CloudTrailClientTypes.S3ImportSource()
+        value.s3LocationUri = try reader["S3LocationUri"].readIfPresent() ?? ""
+        value.s3BucketRegion = try reader["S3BucketRegion"].readIfPresent() ?? ""
+        value.s3BucketAccessRoleArn = try reader["S3BucketAccessRoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11570,22 +11511,81 @@ extension CloudTrailClientTypes.SearchSampleQueriesSearchResult {
     }
 }
 
-extension CloudTrailClientTypes.RequestWidget {
+extension CloudTrailClientTypes.SourceConfig {
 
-    static func write(value: CloudTrailClientTypes.RequestWidget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["QueryParameters"].writeList(value.queryParameters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["QueryStatement"].write(value.queryStatement)
-        try writer["ViewProperties"].writeMap(value.viewProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.SourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.SourceConfig()
+        value.applyToAllRegions = try reader["ApplyToAllRegions"].readIfPresent()
+        value.advancedEventSelectors = try reader["AdvancedEventSelectors"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.AdvancedEventSelector.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension CloudTrailClientTypes.LookupAttribute {
+extension CloudTrailClientTypes.Tag {
 
-    static func write(value: CloudTrailClientTypes.LookupAttribute?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CloudTrailClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AttributeKey"].write(value.attributeKey)
-        try writer["AttributeValue"].write(value.attributeValue)
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.Trail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Trail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.Trail()
+        value.name = try reader["Name"].readIfPresent()
+        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
+        value.s3KeyPrefix = try reader["S3KeyPrefix"].readIfPresent()
+        value.snsTopicName = try reader["SnsTopicName"].readIfPresent()
+        value.snsTopicARN = try reader["SnsTopicARN"].readIfPresent()
+        value.includeGlobalServiceEvents = try reader["IncludeGlobalServiceEvents"].readIfPresent()
+        value.isMultiRegionTrail = try reader["IsMultiRegionTrail"].readIfPresent()
+        value.homeRegion = try reader["HomeRegion"].readIfPresent()
+        value.trailARN = try reader["TrailARN"].readIfPresent()
+        value.logFileValidationEnabled = try reader["LogFileValidationEnabled"].readIfPresent()
+        value.cloudWatchLogsLogGroupArn = try reader["CloudWatchLogsLogGroupArn"].readIfPresent()
+        value.cloudWatchLogsRoleArn = try reader["CloudWatchLogsRoleArn"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.hasCustomEventSelectors = try reader["HasCustomEventSelectors"].readIfPresent()
+        value.hasInsightSelectors = try reader["HasInsightSelectors"].readIfPresent()
+        value.isOrganizationTrail = try reader["IsOrganizationTrail"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.TrailInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.TrailInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.TrailInfo()
+        value.trailARN = try reader["TrailARN"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.homeRegion = try reader["HomeRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.Widget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Widget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.Widget()
+        value.queryAlias = try reader["QueryAlias"].readIfPresent()
+        value.queryStatement = try reader["QueryStatement"].readIfPresent()
+        value.queryParameters = try reader["QueryParameters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.viewProperties = try reader["ViewProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 

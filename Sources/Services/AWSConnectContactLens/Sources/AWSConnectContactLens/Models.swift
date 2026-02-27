@@ -601,30 +601,6 @@ extension ThrottlingException {
     }
 }
 
-extension ConnectContactLensClientTypes.RealtimeContactAnalysisSegment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.RealtimeContactAnalysisSegment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectContactLensClientTypes.RealtimeContactAnalysisSegment()
-        value.transcript = try reader["Transcript"].readIfPresent(with: ConnectContactLensClientTypes.Transcript.read(from:))
-        value.categories = try reader["Categories"].readIfPresent(with: ConnectContactLensClientTypes.Categories.read(from:))
-        value.postContactSummary = try reader["PostContactSummary"].readIfPresent(with: ConnectContactLensClientTypes.PostContactSummary.read(from:))
-        return value
-    }
-}
-
-extension ConnectContactLensClientTypes.PostContactSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.PostContactSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectContactLensClientTypes.PostContactSummary()
-        value.content = try reader["Content"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.failureCode = try reader["FailureCode"].readIfPresent()
-        return value
-    }
-}
-
 extension ConnectContactLensClientTypes.Categories {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.Categories {
@@ -646,6 +622,27 @@ extension ConnectContactLensClientTypes.CategoryDetails {
     }
 }
 
+extension ConnectContactLensClientTypes.CharacterOffsets {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.CharacterOffsets {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectContactLensClientTypes.CharacterOffsets()
+        value.beginOffsetChar = try reader["BeginOffsetChar"].readIfPresent() ?? 0
+        value.endOffsetChar = try reader["EndOffsetChar"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ConnectContactLensClientTypes.IssueDetected {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.IssueDetected {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectContactLensClientTypes.IssueDetected()
+        value.characterOffsets = try reader["CharacterOffsets"].readIfPresent(with: ConnectContactLensClientTypes.CharacterOffsets.read(from:))
+        return value
+    }
+}
+
 extension ConnectContactLensClientTypes.PointOfInterest {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.PointOfInterest {
@@ -653,6 +650,30 @@ extension ConnectContactLensClientTypes.PointOfInterest {
         var value = ConnectContactLensClientTypes.PointOfInterest()
         value.beginOffsetMillis = try reader["BeginOffsetMillis"].readIfPresent() ?? 0
         value.endOffsetMillis = try reader["EndOffsetMillis"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ConnectContactLensClientTypes.PostContactSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.PostContactSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectContactLensClientTypes.PostContactSummary()
+        value.content = try reader["Content"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectContactLensClientTypes.RealtimeContactAnalysisSegment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.RealtimeContactAnalysisSegment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectContactLensClientTypes.RealtimeContactAnalysisSegment()
+        value.transcript = try reader["Transcript"].readIfPresent(with: ConnectContactLensClientTypes.Transcript.read(from:))
+        value.categories = try reader["Categories"].readIfPresent(with: ConnectContactLensClientTypes.Categories.read(from:))
+        value.postContactSummary = try reader["PostContactSummary"].readIfPresent(with: ConnectContactLensClientTypes.PostContactSummary.read(from:))
         return value
     }
 }
@@ -670,27 +691,6 @@ extension ConnectContactLensClientTypes.Transcript {
         value.endOffsetMillis = try reader["EndOffsetMillis"].readIfPresent() ?? 0
         value.sentiment = try reader["Sentiment"].readIfPresent()
         value.issuesDetected = try reader["IssuesDetected"].readListIfPresent(memberReadingClosure: ConnectContactLensClientTypes.IssueDetected.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConnectContactLensClientTypes.IssueDetected {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.IssueDetected {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectContactLensClientTypes.IssueDetected()
-        value.characterOffsets = try reader["CharacterOffsets"].readIfPresent(with: ConnectContactLensClientTypes.CharacterOffsets.read(from:))
-        return value
-    }
-}
-
-extension ConnectContactLensClientTypes.CharacterOffsets {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.CharacterOffsets {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectContactLensClientTypes.CharacterOffsets()
-        value.beginOffsetChar = try reader["BeginOffsetChar"].readIfPresent() ?? 0
-        value.endOffsetChar = try reader["EndOffsetChar"].readIfPresent() ?? 0
         return value
     }
 }

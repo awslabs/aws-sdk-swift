@@ -3143,6 +3143,30 @@ extension NotFoundException {
     }
 }
 
+extension ResourceGroupsClientTypes.AccountSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.AccountSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsClientTypes.AccountSettings()
+        value.groupLifecycleEventsDesiredStatus = try reader["GroupLifecycleEventsDesiredStatus"].readIfPresent()
+        value.groupLifecycleEventsStatus = try reader["GroupLifecycleEventsStatus"].readIfPresent()
+        value.groupLifecycleEventsStatusMessage = try reader["GroupLifecycleEventsStatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension ResourceGroupsClientTypes.FailedResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.FailedResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsClientTypes.FailedResource()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        return value
+    }
+}
+
 extension ResourceGroupsClientTypes.Group {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.Group {
@@ -3155,23 +3179,6 @@ extension ResourceGroupsClientTypes.Group {
         value.owner = try reader["Owner"].readIfPresent()
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.applicationTag = try reader["ApplicationTag"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension ResourceGroupsClientTypes.ResourceQuery {
-
-    static func write(value: ResourceGroupsClientTypes.ResourceQuery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Query"].write(value.query)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.ResourceQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsClientTypes.ResourceQuery()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.query = try reader["Query"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3223,47 +3230,26 @@ extension ResourceGroupsClientTypes.GroupConfigurationParameter {
     }
 }
 
-extension ResourceGroupsClientTypes.AccountSettings {
+extension ResourceGroupsClientTypes.GroupFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.AccountSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsClientTypes.AccountSettings()
-        value.groupLifecycleEventsDesiredStatus = try reader["GroupLifecycleEventsDesiredStatus"].readIfPresent()
-        value.groupLifecycleEventsStatus = try reader["GroupLifecycleEventsStatus"].readIfPresent()
-        value.groupLifecycleEventsStatusMessage = try reader["GroupLifecycleEventsStatusMessage"].readIfPresent()
-        return value
+    static func write(value: ResourceGroupsClientTypes.GroupFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension ResourceGroupsClientTypes.GroupQuery {
+extension ResourceGroupsClientTypes.GroupIdentifier {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.GroupQuery {
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.GroupIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsClientTypes.GroupQuery()
-        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
-        value.resourceQuery = try reader["ResourceQuery"].readIfPresent(with: ResourceGroupsClientTypes.ResourceQuery.read(from:))
-        return value
-    }
-}
-
-extension ResourceGroupsClientTypes.FailedResource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.FailedResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsClientTypes.FailedResource()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        return value
-    }
-}
-
-extension ResourceGroupsClientTypes.PendingResource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.PendingResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsClientTypes.PendingResource()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        var value = ResourceGroupsClientTypes.GroupIdentifier()
+        value.groupName = try reader["GroupName"].readIfPresent()
+        value.groupArn = try reader["GroupArn"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.criticality = try reader["Criticality"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
         return value
     }
 }
@@ -3283,6 +3269,26 @@ extension ResourceGroupsClientTypes.GroupingStatusesItem {
     }
 }
 
+extension ResourceGroupsClientTypes.GroupQuery {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.GroupQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsClientTypes.GroupQuery()
+        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
+        value.resourceQuery = try reader["ResourceQuery"].readIfPresent(with: ResourceGroupsClientTypes.ResourceQuery.read(from:))
+        return value
+    }
+}
+
+extension ResourceGroupsClientTypes.ListGroupingStatusesFilter {
+
+    static func write(value: ResourceGroupsClientTypes.ListGroupingStatusesFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ResourceGroupsClientTypes.ListGroupResourcesItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.ListGroupResourcesItem {
@@ -3294,23 +3300,21 @@ extension ResourceGroupsClientTypes.ListGroupResourcesItem {
     }
 }
 
-extension ResourceGroupsClientTypes.ResourceStatus {
+extension ResourceGroupsClientTypes.ListTagSyncTasksFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.ResourceStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsClientTypes.ResourceStatus()
-        value.name = try reader["Name"].readIfPresent()
-        return value
+    static func write(value: ResourceGroupsClientTypes.ListTagSyncTasksFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GroupArn"].write(value.groupArn)
+        try writer["GroupName"].write(value.groupName)
     }
 }
 
-extension ResourceGroupsClientTypes.ResourceIdentifier {
+extension ResourceGroupsClientTypes.PendingResource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.ResourceIdentifier {
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.PendingResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsClientTypes.ResourceIdentifier()
+        var value = ResourceGroupsClientTypes.PendingResource()
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
         return value
     }
 }
@@ -3326,17 +3330,49 @@ extension ResourceGroupsClientTypes.QueryError {
     }
 }
 
-extension ResourceGroupsClientTypes.GroupIdentifier {
+extension ResourceGroupsClientTypes.ResourceFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.GroupIdentifier {
+    static func write(value: ResourceGroupsClientTypes.ResourceFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ResourceGroupsClientTypes.ResourceIdentifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.ResourceIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsClientTypes.GroupIdentifier()
-        value.groupName = try reader["GroupName"].readIfPresent()
-        value.groupArn = try reader["GroupArn"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.criticality = try reader["Criticality"].readIfPresent()
-        value.owner = try reader["Owner"].readIfPresent()
-        value.displayName = try reader["DisplayName"].readIfPresent()
+        var value = ResourceGroupsClientTypes.ResourceIdentifier()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension ResourceGroupsClientTypes.ResourceQuery {
+
+    static func write(value: ResourceGroupsClientTypes.ResourceQuery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Query"].write(value.query)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.ResourceQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsClientTypes.ResourceQuery()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.query = try reader["Query"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ResourceGroupsClientTypes.ResourceStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsClientTypes.ResourceStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsClientTypes.ResourceStatus()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
@@ -3357,42 +3393,6 @@ extension ResourceGroupsClientTypes.TagSyncTaskItem {
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
-    }
-}
-
-extension ResourceGroupsClientTypes.ListGroupingStatusesFilter {
-
-    static func write(value: ResourceGroupsClientTypes.ListGroupingStatusesFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ResourceGroupsClientTypes.ResourceFilter {
-
-    static func write(value: ResourceGroupsClientTypes.ResourceFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ResourceGroupsClientTypes.GroupFilter {
-
-    static func write(value: ResourceGroupsClientTypes.GroupFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ResourceGroupsClientTypes.ListTagSyncTasksFilter {
-
-    static func write(value: ResourceGroupsClientTypes.ListTagSyncTasksFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GroupArn"].write(value.groupArn)
-        try writer["GroupName"].write(value.groupName)
     }
 }
 

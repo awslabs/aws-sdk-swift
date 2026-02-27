@@ -2800,6 +2800,49 @@ extension ServiceCatalogAppRegistryClientTypes.Application {
     }
 }
 
+extension ServiceCatalogAppRegistryClientTypes.ApplicationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ApplicationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogAppRegistryClientTypes.ApplicationSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdateTime = try reader["lastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension ServiceCatalogAppRegistryClientTypes.ApplicationTagResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ApplicationTagResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogAppRegistryClientTypes.ApplicationTagResult()
+        value.applicationTagStatus = try reader["applicationTagStatus"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: ServiceCatalogAppRegistryClientTypes.ResourcesListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration {
+
+    static func write(value: ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tagQueryConfiguration"].write(value.tagQueryConfiguration, with: ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration()
+        value.tagQueryConfiguration = try reader["tagQueryConfiguration"].readIfPresent(with: ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration.read(from:))
+        return value
+    }
+}
+
 extension ServiceCatalogAppRegistryClientTypes.AttributeGroup {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.AttributeGroup {
@@ -2816,17 +2859,15 @@ extension ServiceCatalogAppRegistryClientTypes.AttributeGroup {
     }
 }
 
-extension ServiceCatalogAppRegistryClientTypes.ApplicationSummary {
+extension ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ApplicationSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogAppRegistryClientTypes.ApplicationSummary()
+        var value = ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails()
         value.id = try reader["id"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastUpdateTime = try reader["lastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent()
         return value
     }
 }
@@ -2858,18 +2899,6 @@ extension ServiceCatalogAppRegistryClientTypes.Integrations {
     }
 }
 
-extension ServiceCatalogAppRegistryClientTypes.ResourceGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ResourceGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogAppRegistryClientTypes.ResourceGroup()
-        value.state = try reader["state"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        return value
-    }
-}
-
 extension ServiceCatalogAppRegistryClientTypes.Resource {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.Resource {
@@ -2883,68 +2912,24 @@ extension ServiceCatalogAppRegistryClientTypes.Resource {
     }
 }
 
-extension ServiceCatalogAppRegistryClientTypes.ResourceIntegrations {
+extension ServiceCatalogAppRegistryClientTypes.ResourceDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ResourceIntegrations {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ResourceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogAppRegistryClientTypes.ResourceIntegrations()
-        value.resourceGroup = try reader["resourceGroup"].readIfPresent(with: ServiceCatalogAppRegistryClientTypes.ResourceGroup.read(from:))
+        var value = ServiceCatalogAppRegistryClientTypes.ResourceDetails()
+        value.tagValue = try reader["tagValue"].readIfPresent()
         return value
     }
 }
 
-extension ServiceCatalogAppRegistryClientTypes.ApplicationTagResult {
+extension ServiceCatalogAppRegistryClientTypes.ResourceGroup {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ApplicationTagResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ResourceGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogAppRegistryClientTypes.ApplicationTagResult()
-        value.applicationTagStatus = try reader["applicationTagStatus"].readIfPresent()
+        var value = ServiceCatalogAppRegistryClientTypes.ResourceGroup()
+        value.state = try reader["state"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: ServiceCatalogAppRegistryClientTypes.ResourcesListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["nextToken"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogAppRegistryClientTypes.ResourcesListItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ResourcesListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogAppRegistryClientTypes.ResourcesListItem()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration {
-
-    static func write(value: ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["tagQueryConfiguration"].write(value.tagQueryConfiguration, with: ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration()
-        value.tagQueryConfiguration = try reader["tagQueryConfiguration"].readIfPresent(with: ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration.read(from:))
-        return value
-    }
-}
-
-extension ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration {
-
-    static func write(value: ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["tagKey"].write(value.tagKey)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration()
-        value.tagKey = try reader["tagKey"].readIfPresent()
         return value
     }
 }
@@ -2963,25 +2948,40 @@ extension ServiceCatalogAppRegistryClientTypes.ResourceInfo {
     }
 }
 
-extension ServiceCatalogAppRegistryClientTypes.ResourceDetails {
+extension ServiceCatalogAppRegistryClientTypes.ResourceIntegrations {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ResourceDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ResourceIntegrations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogAppRegistryClientTypes.ResourceDetails()
-        value.tagValue = try reader["tagValue"].readIfPresent()
+        var value = ServiceCatalogAppRegistryClientTypes.ResourceIntegrations()
+        value.resourceGroup = try reader["resourceGroup"].readIfPresent(with: ServiceCatalogAppRegistryClientTypes.ResourceGroup.read(from:))
         return value
     }
 }
 
-extension ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails {
+extension ServiceCatalogAppRegistryClientTypes.ResourcesListItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.ResourcesListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.createdBy = try reader["createdBy"].readIfPresent()
+        var value = ServiceCatalogAppRegistryClientTypes.ResourcesListItem()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration {
+
+    static func write(value: ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tagKey"].write(value.tagKey)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration()
+        value.tagKey = try reader["tagKey"].readIfPresent()
         return value
     }
 }

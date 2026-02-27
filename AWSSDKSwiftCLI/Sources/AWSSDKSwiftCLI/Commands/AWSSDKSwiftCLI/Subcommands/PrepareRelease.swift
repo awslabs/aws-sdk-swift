@@ -94,6 +94,14 @@ struct PrepareRelease {
             // This makes GitPublisher be no-op.
             return
         }
+
+        // Rename feature-service-id-smithy.json to feature-service-id.json if it exists
+        if FileManager.default.fileExists(atPath: "../feature-service-id-smithy.json") {
+            log("Renaming feature-service-id-smithy.json to feature-service-id.json.")
+            try FileManager.default.moveItem(atPath: "../feature-service-id-smithy.json", toPath: "../feature-service-id.json")
+            log("Renamed feature-service-id-smithy.json to feature-service-id.json.")
+        }
+
         guard BuildRequestReader.buildRequestAndMappingExist() else {
             // If the build request or mapping input files
             // don't exist, create an empty release-manifest.json file.

@@ -222,6 +222,7 @@ extension EC2Client {
 extension DescribeCapacityBlockOfferingsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeCapacityBlockOfferingsInput {
         return DescribeCapacityBlockOfferingsInput(
+            allAvailabilityZones: self.allAvailabilityZones,
             capacityDurationHours: self.capacityDurationHours,
             dryRun: self.dryRun,
             endDateRange: self.endDateRange,
@@ -2981,6 +2982,105 @@ extension PaginatorSequence where OperationStackInput == DescribeScheduledInstan
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeSecondaryInterfacesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeSecondaryInterfacesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSecondaryInterfacesOutput`
+    public func describeSecondaryInterfacesPaginated(input: DescribeSecondaryInterfacesInput) -> ClientRuntime.PaginatorSequence<DescribeSecondaryInterfacesInput, DescribeSecondaryInterfacesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeSecondaryInterfacesInput, DescribeSecondaryInterfacesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSecondaryInterfaces(input:))
+    }
+}
+
+extension DescribeSecondaryInterfacesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeSecondaryInterfacesInput {
+        return DescribeSecondaryInterfacesInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            secondaryInterfaceIds: self.secondaryInterfaceIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeSecondaryInterfacesInput, OperationStackOutput == DescribeSecondaryInterfacesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeSecondaryInterfacesPaginated`
+    /// to access the nested member `[EC2ClientTypes.SecondaryInterface]`
+    /// - Returns: `[EC2ClientTypes.SecondaryInterface]`
+    public func secondaryInterfaces() async throws -> [EC2ClientTypes.SecondaryInterface] {
+        return try await self.asyncCompactMap { item in item.secondaryInterfaces }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[DescribeSecondaryNetworksOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeSecondaryNetworksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSecondaryNetworksOutput`
+    public func describeSecondaryNetworksPaginated(input: DescribeSecondaryNetworksInput) -> ClientRuntime.PaginatorSequence<DescribeSecondaryNetworksInput, DescribeSecondaryNetworksOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeSecondaryNetworksInput, DescribeSecondaryNetworksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSecondaryNetworks(input:))
+    }
+}
+
+extension DescribeSecondaryNetworksInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeSecondaryNetworksInput {
+        return DescribeSecondaryNetworksInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            secondaryNetworkIds: self.secondaryNetworkIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeSecondaryNetworksInput, OperationStackOutput == DescribeSecondaryNetworksOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeSecondaryNetworksPaginated`
+    /// to access the nested member `[EC2ClientTypes.SecondaryNetwork]`
+    /// - Returns: `[EC2ClientTypes.SecondaryNetwork]`
+    public func secondaryNetworks() async throws -> [EC2ClientTypes.SecondaryNetwork] {
+        return try await self.asyncCompactMap { item in item.secondaryNetworks }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[DescribeSecondarySubnetsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeSecondarySubnetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSecondarySubnetsOutput`
+    public func describeSecondarySubnetsPaginated(input: DescribeSecondarySubnetsInput) -> ClientRuntime.PaginatorSequence<DescribeSecondarySubnetsInput, DescribeSecondarySubnetsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeSecondarySubnetsInput, DescribeSecondarySubnetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSecondarySubnets(input:))
+    }
+}
+
+extension DescribeSecondarySubnetsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeSecondarySubnetsInput {
+        return DescribeSecondarySubnetsInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            secondarySubnetIds: self.secondarySubnetIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeSecondarySubnetsInput, OperationStackOutput == DescribeSecondarySubnetsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeSecondarySubnetsPaginated`
+    /// to access the nested member `[EC2ClientTypes.SecondarySubnet]`
+    /// - Returns: `[EC2ClientTypes.SecondarySubnet]`
+    public func secondarySubnets() async throws -> [EC2ClientTypes.SecondarySubnet] {
+        return try await self.asyncCompactMap { item in item.secondarySubnets }
+    }
+}
+extension EC2Client {
     /// Paginate over `[DescribeSecurityGroupRulesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -5441,5 +5541,38 @@ extension PaginatorSequence where OperationStackInput == SearchTransitGatewayMul
     /// - Returns: `[EC2ClientTypes.TransitGatewayMulticastGroup]`
     public func multicastGroups() async throws -> [EC2ClientTypes.TransitGatewayMulticastGroup] {
         return try await self.asyncCompactMap { item in item.multicastGroups }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[SearchTransitGatewayRoutesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchTransitGatewayRoutesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchTransitGatewayRoutesOutput`
+    public func searchTransitGatewayRoutesPaginated(input: SearchTransitGatewayRoutesInput) -> ClientRuntime.PaginatorSequence<SearchTransitGatewayRoutesInput, SearchTransitGatewayRoutesOutput> {
+        return ClientRuntime.PaginatorSequence<SearchTransitGatewayRoutesInput, SearchTransitGatewayRoutesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchTransitGatewayRoutes(input:))
+    }
+}
+
+extension SearchTransitGatewayRoutesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchTransitGatewayRoutesInput {
+        return SearchTransitGatewayRoutesInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            transitGatewayRouteTableId: self.transitGatewayRouteTableId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchTransitGatewayRoutesInput, OperationStackOutput == SearchTransitGatewayRoutesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchTransitGatewayRoutesPaginated`
+    /// to access the nested member `[EC2ClientTypes.TransitGatewayRoute]`
+    /// - Returns: `[EC2ClientTypes.TransitGatewayRoute]`
+    public func routes() async throws -> [EC2ClientTypes.TransitGatewayRoute] {
+        return try await self.asyncCompactMap { item in item.routes }
     }
 }

@@ -3359,25 +3359,54 @@ extension InvalidLayerPartException {
     }
 }
 
-extension ECRPUBLICClientTypes.Layer {
+extension ECRPUBLICClientTypes.AuthorizationData {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.Layer {
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.AuthorizationData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ECRPUBLICClientTypes.Layer()
-        value.layerDigest = try reader["layerDigest"].readIfPresent()
-        value.layerAvailability = try reader["layerAvailability"].readIfPresent()
-        value.layerSize = try reader["layerSize"].readIfPresent()
-        value.mediaType = try reader["mediaType"].readIfPresent()
+        var value = ECRPUBLICClientTypes.AuthorizationData()
+        value.authorizationToken = try reader["authorizationToken"].readIfPresent()
+        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension ECRPUBLICClientTypes.LayerFailure {
+extension ECRPUBLICClientTypes.Image {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.LayerFailure {
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.Image {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ECRPUBLICClientTypes.LayerFailure()
-        value.layerDigest = try reader["layerDigest"].readIfPresent()
+        var value = ECRPUBLICClientTypes.Image()
+        value.registryId = try reader["registryId"].readIfPresent()
+        value.repositoryName = try reader["repositoryName"].readIfPresent()
+        value.imageId = try reader["imageId"].readIfPresent(with: ECRPUBLICClientTypes.ImageIdentifier.read(from:))
+        value.imageManifest = try reader["imageManifest"].readIfPresent()
+        value.imageManifestMediaType = try reader["imageManifestMediaType"].readIfPresent()
+        return value
+    }
+}
+
+extension ECRPUBLICClientTypes.ImageDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.ImageDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRPUBLICClientTypes.ImageDetail()
+        value.registryId = try reader["registryId"].readIfPresent()
+        value.repositoryName = try reader["repositoryName"].readIfPresent()
+        value.imageDigest = try reader["imageDigest"].readIfPresent()
+        value.imageTags = try reader["imageTags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.imageSizeInBytes = try reader["imageSizeInBytes"].readIfPresent()
+        value.imagePushedAt = try reader["imagePushedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.imageManifestMediaType = try reader["imageManifestMediaType"].readIfPresent()
+        value.artifactMediaType = try reader["artifactMediaType"].readIfPresent()
+        return value
+    }
+}
+
+extension ECRPUBLICClientTypes.ImageFailure {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.ImageFailure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRPUBLICClientTypes.ImageFailure()
+        value.imageId = try reader["imageId"].readIfPresent(with: ECRPUBLICClientTypes.ImageIdentifier.read(from:))
         value.failureCode = try reader["failureCode"].readIfPresent()
         value.failureReason = try reader["failureReason"].readIfPresent()
         return value
@@ -3401,65 +3430,6 @@ extension ECRPUBLICClientTypes.ImageIdentifier {
     }
 }
 
-extension ECRPUBLICClientTypes.ImageFailure {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.ImageFailure {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ECRPUBLICClientTypes.ImageFailure()
-        value.imageId = try reader["imageId"].readIfPresent(with: ECRPUBLICClientTypes.ImageIdentifier.read(from:))
-        value.failureCode = try reader["failureCode"].readIfPresent()
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension ECRPUBLICClientTypes.Repository {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.Repository {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ECRPUBLICClientTypes.Repository()
-        value.repositoryArn = try reader["repositoryArn"].readIfPresent()
-        value.registryId = try reader["registryId"].readIfPresent()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
-        value.repositoryUri = try reader["repositoryUri"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ECRPUBLICClientTypes.RepositoryCatalogData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.RepositoryCatalogData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ECRPUBLICClientTypes.RepositoryCatalogData()
-        value.description = try reader["description"].readIfPresent()
-        value.architectures = try reader["architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.operatingSystems = try reader["operatingSystems"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.logoUrl = try reader["logoUrl"].readIfPresent()
-        value.aboutText = try reader["aboutText"].readIfPresent()
-        value.usageText = try reader["usageText"].readIfPresent()
-        value.marketplaceCertified = try reader["marketplaceCertified"].readIfPresent()
-        return value
-    }
-}
-
-extension ECRPUBLICClientTypes.ImageDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.ImageDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ECRPUBLICClientTypes.ImageDetail()
-        value.registryId = try reader["registryId"].readIfPresent()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
-        value.imageDigest = try reader["imageDigest"].readIfPresent()
-        value.imageTags = try reader["imageTags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.imageSizeInBytes = try reader["imageSizeInBytes"].readIfPresent()
-        value.imagePushedAt = try reader["imagePushedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.imageManifestMediaType = try reader["imageManifestMediaType"].readIfPresent()
-        value.artifactMediaType = try reader["artifactMediaType"].readIfPresent()
-        return value
-    }
-}
-
 extension ECRPUBLICClientTypes.ImageTagDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.ImageTagDetail {
@@ -3468,6 +3438,31 @@ extension ECRPUBLICClientTypes.ImageTagDetail {
         value.imageTag = try reader["imageTag"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.imageDetail = try reader["imageDetail"].readIfPresent(with: ECRPUBLICClientTypes.ReferencedImageDetail.read(from:))
+        return value
+    }
+}
+
+extension ECRPUBLICClientTypes.Layer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.Layer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRPUBLICClientTypes.Layer()
+        value.layerDigest = try reader["layerDigest"].readIfPresent()
+        value.layerAvailability = try reader["layerAvailability"].readIfPresent()
+        value.layerSize = try reader["layerSize"].readIfPresent()
+        value.mediaType = try reader["mediaType"].readIfPresent()
+        return value
+    }
+}
+
+extension ECRPUBLICClientTypes.LayerFailure {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.LayerFailure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRPUBLICClientTypes.LayerFailure()
+        value.layerDigest = try reader["layerDigest"].readIfPresent()
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
         return value
     }
 }
@@ -3513,17 +3508,6 @@ extension ECRPUBLICClientTypes.RegistryAlias {
     }
 }
 
-extension ECRPUBLICClientTypes.AuthorizationData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.AuthorizationData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ECRPUBLICClientTypes.AuthorizationData()
-        value.authorizationToken = try reader["authorizationToken"].readIfPresent()
-        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
 extension ECRPUBLICClientTypes.RegistryCatalogData {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.RegistryCatalogData {
@@ -3531,6 +3515,49 @@ extension ECRPUBLICClientTypes.RegistryCatalogData {
         var value = ECRPUBLICClientTypes.RegistryCatalogData()
         value.displayName = try reader["displayName"].readIfPresent()
         return value
+    }
+}
+
+extension ECRPUBLICClientTypes.Repository {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.Repository {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRPUBLICClientTypes.Repository()
+        value.repositoryArn = try reader["repositoryArn"].readIfPresent()
+        value.registryId = try reader["registryId"].readIfPresent()
+        value.repositoryName = try reader["repositoryName"].readIfPresent()
+        value.repositoryUri = try reader["repositoryUri"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ECRPUBLICClientTypes.RepositoryCatalogData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.RepositoryCatalogData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRPUBLICClientTypes.RepositoryCatalogData()
+        value.description = try reader["description"].readIfPresent()
+        value.architectures = try reader["architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.operatingSystems = try reader["operatingSystems"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logoUrl = try reader["logoUrl"].readIfPresent()
+        value.aboutText = try reader["aboutText"].readIfPresent()
+        value.usageText = try reader["usageText"].readIfPresent()
+        value.marketplaceCertified = try reader["marketplaceCertified"].readIfPresent()
+        return value
+    }
+}
+
+extension ECRPUBLICClientTypes.RepositoryCatalogDataInput {
+
+    static func write(value: ECRPUBLICClientTypes.RepositoryCatalogDataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aboutText"].write(value.aboutText)
+        try writer["architectures"].writeList(value.architectures, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["description"].write(value.description)
+        try writer["logoImageBlob"].write(value.logoImageBlob)
+        try writer["operatingSystems"].writeList(value.operatingSystems, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["usageText"].write(value.usageText)
     }
 }
 
@@ -3548,33 +3575,6 @@ extension ECRPUBLICClientTypes.Tag {
         value.key = try reader["Key"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
         return value
-    }
-}
-
-extension ECRPUBLICClientTypes.Image {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ECRPUBLICClientTypes.Image {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ECRPUBLICClientTypes.Image()
-        value.registryId = try reader["registryId"].readIfPresent()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
-        value.imageId = try reader["imageId"].readIfPresent(with: ECRPUBLICClientTypes.ImageIdentifier.read(from:))
-        value.imageManifest = try reader["imageManifest"].readIfPresent()
-        value.imageManifestMediaType = try reader["imageManifestMediaType"].readIfPresent()
-        return value
-    }
-}
-
-extension ECRPUBLICClientTypes.RepositoryCatalogDataInput {
-
-    static func write(value: ECRPUBLICClientTypes.RepositoryCatalogDataInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["aboutText"].write(value.aboutText)
-        try writer["architectures"].writeList(value.architectures, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["logoImageBlob"].write(value.logoImageBlob)
-        try writer["operatingSystems"].writeList(value.operatingSystems, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["usageText"].write(value.usageText)
     }
 }
 

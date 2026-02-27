@@ -581,6 +581,17 @@ extension ModelStreamError {
     }
 }
 
+extension SageMakerRuntimeHTTP2ClientTypes.RequestPayloadPart {
+
+    static func write(value: SageMakerRuntimeHTTP2ClientTypes.RequestPayloadPart?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bytes"].write(value.bytes)
+        try writer["CompletionState"].write(value.completionState)
+        try writer["DataType"].write(value.dataType)
+        try writer["P"].write(value.p)
+    }
+}
+
 extension SageMakerRuntimeHTTP2ClientTypes.ResponsePayloadPart {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerRuntimeHTTP2ClientTypes.ResponsePayloadPart {
@@ -591,17 +602,6 @@ extension SageMakerRuntimeHTTP2ClientTypes.ResponsePayloadPart {
         value.completionState = try reader["CompletionState"].readIfPresent()
         value.p = try reader["P"].readIfPresent()
         return value
-    }
-}
-
-extension SageMakerRuntimeHTTP2ClientTypes.RequestPayloadPart {
-
-    static func write(value: SageMakerRuntimeHTTP2ClientTypes.RequestPayloadPart?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bytes"].write(value.bytes)
-        try writer["CompletionState"].write(value.completionState)
-        try writer["DataType"].write(value.dataType)
-        try writer["P"].write(value.p)
     }
 }
 

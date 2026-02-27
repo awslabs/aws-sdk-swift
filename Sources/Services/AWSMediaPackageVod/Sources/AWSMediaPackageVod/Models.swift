@@ -2664,6 +2664,23 @@ extension UnprocessableEntityException {
     }
 }
 
+extension MediaPackageVodClientTypes.AssetShallow {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.AssetShallow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageVodClientTypes.AssetShallow()
+        value.arn = try reader["arn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.packagingGroupId = try reader["packagingGroupId"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.sourceArn = try reader["sourceArn"].readIfPresent()
+        value.sourceRoleArn = try reader["sourceRoleArn"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension MediaPackageVodClientTypes.Authorization {
 
     static func write(value: MediaPackageVodClientTypes.Authorization?, to writer: SmithyJSON.Writer) throws {
@@ -2677,98 +2694,6 @@ extension MediaPackageVodClientTypes.Authorization {
         var value = MediaPackageVodClientTypes.Authorization()
         value.cdnIdentifierSecret = try reader["cdnIdentifierSecret"].readIfPresent() ?? ""
         value.secretsRoleArn = try reader["secretsRoleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaPackageVodClientTypes.EgressAccessLogs {
-
-    static func write(value: MediaPackageVodClientTypes.EgressAccessLogs?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logGroupName"].write(value.logGroupName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.EgressAccessLogs {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageVodClientTypes.EgressAccessLogs()
-        value.logGroupName = try reader["logGroupName"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageVodClientTypes.EgressEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.EgressEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageVodClientTypes.EgressEndpoint()
-        value.packagingConfigurationId = try reader["packagingConfigurationId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageVodClientTypes.CmafPackage {
-
-    static func write(value: MediaPackageVodClientTypes.CmafPackage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["encryption"].write(value.encryption, with: MediaPackageVodClientTypes.CmafEncryption.write(value:to:))
-        try writer["hlsManifests"].writeList(value.hlsManifests, memberWritingClosure: MediaPackageVodClientTypes.HlsManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["includeEncoderConfigurationInSegments"].write(value.includeEncoderConfigurationInSegments)
-        try writer["segmentDurationSeconds"].write(value.segmentDurationSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.CmafPackage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageVodClientTypes.CmafPackage()
-        value.encryption = try reader["encryption"].readIfPresent(with: MediaPackageVodClientTypes.CmafEncryption.read(from:))
-        value.hlsManifests = try reader["hlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageVodClientTypes.HlsManifest.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.includeEncoderConfigurationInSegments = try reader["includeEncoderConfigurationInSegments"].readIfPresent()
-        value.segmentDurationSeconds = try reader["segmentDurationSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaPackageVodClientTypes.HlsManifest {
-
-    static func write(value: MediaPackageVodClientTypes.HlsManifest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["adMarkers"].write(value.adMarkers)
-        try writer["includeIframeOnlyStream"].write(value.includeIframeOnlyStream)
-        try writer["manifestName"].write(value.manifestName)
-        try writer["programDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
-        try writer["repeatExtXKey"].write(value.repeatExtXKey)
-        try writer["streamSelection"].write(value.streamSelection, with: MediaPackageVodClientTypes.StreamSelection.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.HlsManifest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageVodClientTypes.HlsManifest()
-        value.adMarkers = try reader["adMarkers"].readIfPresent()
-        value.includeIframeOnlyStream = try reader["includeIframeOnlyStream"].readIfPresent()
-        value.manifestName = try reader["manifestName"].readIfPresent()
-        value.programDateTimeIntervalSeconds = try reader["programDateTimeIntervalSeconds"].readIfPresent()
-        value.repeatExtXKey = try reader["repeatExtXKey"].readIfPresent()
-        value.streamSelection = try reader["streamSelection"].readIfPresent(with: MediaPackageVodClientTypes.StreamSelection.read(from:))
-        return value
-    }
-}
-
-extension MediaPackageVodClientTypes.StreamSelection {
-
-    static func write(value: MediaPackageVodClientTypes.StreamSelection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxVideoBitsPerSecond"].write(value.maxVideoBitsPerSecond)
-        try writer["minVideoBitsPerSecond"].write(value.minVideoBitsPerSecond)
-        try writer["streamOrder"].write(value.streamOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.StreamSelection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageVodClientTypes.StreamSelection()
-        value.maxVideoBitsPerSecond = try reader["maxVideoBitsPerSecond"].readIfPresent()
-        value.minVideoBitsPerSecond = try reader["minVideoBitsPerSecond"].readIfPresent()
-        value.streamOrder = try reader["streamOrder"].readIfPresent()
         return value
     }
 }
@@ -2790,67 +2715,23 @@ extension MediaPackageVodClientTypes.CmafEncryption {
     }
 }
 
-extension MediaPackageVodClientTypes.SpekeKeyProvider {
+extension MediaPackageVodClientTypes.CmafPackage {
 
-    static func write(value: MediaPackageVodClientTypes.SpekeKeyProvider?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaPackageVodClientTypes.CmafPackage?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["encryptionContractConfiguration"].write(value.encryptionContractConfiguration, with: MediaPackageVodClientTypes.EncryptionContractConfiguration.write(value:to:))
-        try writer["roleArn"].write(value.roleArn)
-        try writer["systemIds"].writeList(value.systemIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["url"].write(value.url)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.SpekeKeyProvider {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageVodClientTypes.SpekeKeyProvider()
-        value.encryptionContractConfiguration = try reader["encryptionContractConfiguration"].readIfPresent(with: MediaPackageVodClientTypes.EncryptionContractConfiguration.read(from:))
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        value.systemIds = try reader["systemIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.url = try reader["url"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaPackageVodClientTypes.EncryptionContractConfiguration {
-
-    static func write(value: MediaPackageVodClientTypes.EncryptionContractConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["presetSpeke20Audio"].write(value.presetSpeke20Audio)
-        try writer["presetSpeke20Video"].write(value.presetSpeke20Video)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.EncryptionContractConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageVodClientTypes.EncryptionContractConfiguration()
-        value.presetSpeke20Audio = try reader["presetSpeke20Audio"].readIfPresent() ?? .sdkUnknown("")
-        value.presetSpeke20Video = try reader["presetSpeke20Video"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension MediaPackageVodClientTypes.DashPackage {
-
-    static func write(value: MediaPackageVodClientTypes.DashPackage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dashManifests"].writeList(value.dashManifests, memberWritingClosure: MediaPackageVodClientTypes.DashManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["encryption"].write(value.encryption, with: MediaPackageVodClientTypes.DashEncryption.write(value:to:))
+        try writer["encryption"].write(value.encryption, with: MediaPackageVodClientTypes.CmafEncryption.write(value:to:))
+        try writer["hlsManifests"].writeList(value.hlsManifests, memberWritingClosure: MediaPackageVodClientTypes.HlsManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["includeEncoderConfigurationInSegments"].write(value.includeEncoderConfigurationInSegments)
-        try writer["includeIframeOnlyStream"].write(value.includeIframeOnlyStream)
-        try writer["periodTriggers"].writeList(value.periodTriggers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageVodClientTypes.__PeriodTriggersElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["segmentDurationSeconds"].write(value.segmentDurationSeconds)
-        try writer["segmentTemplateFormat"].write(value.segmentTemplateFormat)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.DashPackage {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.CmafPackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageVodClientTypes.DashPackage()
-        value.dashManifests = try reader["dashManifests"].readListIfPresent(memberReadingClosure: MediaPackageVodClientTypes.DashManifest.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.encryption = try reader["encryption"].readIfPresent(with: MediaPackageVodClientTypes.DashEncryption.read(from:))
+        var value = MediaPackageVodClientTypes.CmafPackage()
+        value.encryption = try reader["encryption"].readIfPresent(with: MediaPackageVodClientTypes.CmafEncryption.read(from:))
+        value.hlsManifests = try reader["hlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageVodClientTypes.HlsManifest.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.includeEncoderConfigurationInSegments = try reader["includeEncoderConfigurationInSegments"].readIfPresent()
-        value.includeIframeOnlyStream = try reader["includeIframeOnlyStream"].readIfPresent()
-        value.periodTriggers = try reader["periodTriggers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageVodClientTypes.__PeriodTriggersElement>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.segmentDurationSeconds = try reader["segmentDurationSeconds"].readIfPresent()
-        value.segmentTemplateFormat = try reader["segmentTemplateFormat"].readIfPresent()
         return value
     }
 }
@@ -2895,25 +2776,73 @@ extension MediaPackageVodClientTypes.DashManifest {
     }
 }
 
-extension MediaPackageVodClientTypes.HlsPackage {
+extension MediaPackageVodClientTypes.DashPackage {
 
-    static func write(value: MediaPackageVodClientTypes.HlsPackage?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaPackageVodClientTypes.DashPackage?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["encryption"].write(value.encryption, with: MediaPackageVodClientTypes.HlsEncryption.write(value:to:))
-        try writer["hlsManifests"].writeList(value.hlsManifests, memberWritingClosure: MediaPackageVodClientTypes.HlsManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["includeDvbSubtitles"].write(value.includeDvbSubtitles)
+        try writer["dashManifests"].writeList(value.dashManifests, memberWritingClosure: MediaPackageVodClientTypes.DashManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["encryption"].write(value.encryption, with: MediaPackageVodClientTypes.DashEncryption.write(value:to:))
+        try writer["includeEncoderConfigurationInSegments"].write(value.includeEncoderConfigurationInSegments)
+        try writer["includeIframeOnlyStream"].write(value.includeIframeOnlyStream)
+        try writer["periodTriggers"].writeList(value.periodTriggers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageVodClientTypes.__PeriodTriggersElement>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["segmentDurationSeconds"].write(value.segmentDurationSeconds)
-        try writer["useAudioRenditionGroup"].write(value.useAudioRenditionGroup)
+        try writer["segmentTemplateFormat"].write(value.segmentTemplateFormat)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.HlsPackage {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.DashPackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageVodClientTypes.HlsPackage()
-        value.encryption = try reader["encryption"].readIfPresent(with: MediaPackageVodClientTypes.HlsEncryption.read(from:))
-        value.hlsManifests = try reader["hlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageVodClientTypes.HlsManifest.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.includeDvbSubtitles = try reader["includeDvbSubtitles"].readIfPresent()
+        var value = MediaPackageVodClientTypes.DashPackage()
+        value.dashManifests = try reader["dashManifests"].readListIfPresent(memberReadingClosure: MediaPackageVodClientTypes.DashManifest.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.encryption = try reader["encryption"].readIfPresent(with: MediaPackageVodClientTypes.DashEncryption.read(from:))
+        value.includeEncoderConfigurationInSegments = try reader["includeEncoderConfigurationInSegments"].readIfPresent()
+        value.includeIframeOnlyStream = try reader["includeIframeOnlyStream"].readIfPresent()
+        value.periodTriggers = try reader["periodTriggers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageVodClientTypes.__PeriodTriggersElement>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.segmentDurationSeconds = try reader["segmentDurationSeconds"].readIfPresent()
-        value.useAudioRenditionGroup = try reader["useAudioRenditionGroup"].readIfPresent()
+        value.segmentTemplateFormat = try reader["segmentTemplateFormat"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageVodClientTypes.EgressAccessLogs {
+
+    static func write(value: MediaPackageVodClientTypes.EgressAccessLogs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logGroupName"].write(value.logGroupName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.EgressAccessLogs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageVodClientTypes.EgressAccessLogs()
+        value.logGroupName = try reader["logGroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageVodClientTypes.EgressEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.EgressEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageVodClientTypes.EgressEndpoint()
+        value.packagingConfigurationId = try reader["packagingConfigurationId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageVodClientTypes.EncryptionContractConfiguration {
+
+    static func write(value: MediaPackageVodClientTypes.EncryptionContractConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["presetSpeke20Audio"].write(value.presetSpeke20Audio)
+        try writer["presetSpeke20Video"].write(value.presetSpeke20Video)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.EncryptionContractConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageVodClientTypes.EncryptionContractConfiguration()
+        value.presetSpeke20Audio = try reader["presetSpeke20Audio"].readIfPresent() ?? .sdkUnknown("")
+        value.presetSpeke20Video = try reader["presetSpeke20Video"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2937,21 +2866,65 @@ extension MediaPackageVodClientTypes.HlsEncryption {
     }
 }
 
-extension MediaPackageVodClientTypes.MssPackage {
+extension MediaPackageVodClientTypes.HlsManifest {
 
-    static func write(value: MediaPackageVodClientTypes.MssPackage?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaPackageVodClientTypes.HlsManifest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["encryption"].write(value.encryption, with: MediaPackageVodClientTypes.MssEncryption.write(value:to:))
-        try writer["mssManifests"].writeList(value.mssManifests, memberWritingClosure: MediaPackageVodClientTypes.MssManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["segmentDurationSeconds"].write(value.segmentDurationSeconds)
+        try writer["adMarkers"].write(value.adMarkers)
+        try writer["includeIframeOnlyStream"].write(value.includeIframeOnlyStream)
+        try writer["manifestName"].write(value.manifestName)
+        try writer["programDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
+        try writer["repeatExtXKey"].write(value.repeatExtXKey)
+        try writer["streamSelection"].write(value.streamSelection, with: MediaPackageVodClientTypes.StreamSelection.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.MssPackage {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.HlsManifest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageVodClientTypes.MssPackage()
-        value.encryption = try reader["encryption"].readIfPresent(with: MediaPackageVodClientTypes.MssEncryption.read(from:))
-        value.mssManifests = try reader["mssManifests"].readListIfPresent(memberReadingClosure: MediaPackageVodClientTypes.MssManifest.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = MediaPackageVodClientTypes.HlsManifest()
+        value.adMarkers = try reader["adMarkers"].readIfPresent()
+        value.includeIframeOnlyStream = try reader["includeIframeOnlyStream"].readIfPresent()
+        value.manifestName = try reader["manifestName"].readIfPresent()
+        value.programDateTimeIntervalSeconds = try reader["programDateTimeIntervalSeconds"].readIfPresent()
+        value.repeatExtXKey = try reader["repeatExtXKey"].readIfPresent()
+        value.streamSelection = try reader["streamSelection"].readIfPresent(with: MediaPackageVodClientTypes.StreamSelection.read(from:))
+        return value
+    }
+}
+
+extension MediaPackageVodClientTypes.HlsPackage {
+
+    static func write(value: MediaPackageVodClientTypes.HlsPackage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryption"].write(value.encryption, with: MediaPackageVodClientTypes.HlsEncryption.write(value:to:))
+        try writer["hlsManifests"].writeList(value.hlsManifests, memberWritingClosure: MediaPackageVodClientTypes.HlsManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["includeDvbSubtitles"].write(value.includeDvbSubtitles)
+        try writer["segmentDurationSeconds"].write(value.segmentDurationSeconds)
+        try writer["useAudioRenditionGroup"].write(value.useAudioRenditionGroup)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.HlsPackage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageVodClientTypes.HlsPackage()
+        value.encryption = try reader["encryption"].readIfPresent(with: MediaPackageVodClientTypes.HlsEncryption.read(from:))
+        value.hlsManifests = try reader["hlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageVodClientTypes.HlsManifest.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.includeDvbSubtitles = try reader["includeDvbSubtitles"].readIfPresent()
         value.segmentDurationSeconds = try reader["segmentDurationSeconds"].readIfPresent()
+        value.useAudioRenditionGroup = try reader["useAudioRenditionGroup"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageVodClientTypes.MssEncryption {
+
+    static func write(value: MediaPackageVodClientTypes.MssEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["spekeKeyProvider"].write(value.spekeKeyProvider, with: MediaPackageVodClientTypes.SpekeKeyProvider.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.MssEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageVodClientTypes.MssEncryption()
+        value.spekeKeyProvider = try reader["spekeKeyProvider"].readIfPresent(with: MediaPackageVodClientTypes.SpekeKeyProvider.read(from:))
         return value
     }
 }
@@ -2973,34 +2946,21 @@ extension MediaPackageVodClientTypes.MssManifest {
     }
 }
 
-extension MediaPackageVodClientTypes.MssEncryption {
+extension MediaPackageVodClientTypes.MssPackage {
 
-    static func write(value: MediaPackageVodClientTypes.MssEncryption?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaPackageVodClientTypes.MssPackage?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["spekeKeyProvider"].write(value.spekeKeyProvider, with: MediaPackageVodClientTypes.SpekeKeyProvider.write(value:to:))
+        try writer["encryption"].write(value.encryption, with: MediaPackageVodClientTypes.MssEncryption.write(value:to:))
+        try writer["mssManifests"].writeList(value.mssManifests, memberWritingClosure: MediaPackageVodClientTypes.MssManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["segmentDurationSeconds"].write(value.segmentDurationSeconds)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.MssEncryption {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.MssPackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageVodClientTypes.MssEncryption()
-        value.spekeKeyProvider = try reader["spekeKeyProvider"].readIfPresent(with: MediaPackageVodClientTypes.SpekeKeyProvider.read(from:))
-        return value
-    }
-}
-
-extension MediaPackageVodClientTypes.AssetShallow {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.AssetShallow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaPackageVodClientTypes.AssetShallow()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.packagingGroupId = try reader["packagingGroupId"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.sourceArn = try reader["sourceArn"].readIfPresent()
-        value.sourceRoleArn = try reader["sourceRoleArn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = MediaPackageVodClientTypes.MssPackage()
+        value.encryption = try reader["encryption"].readIfPresent(with: MediaPackageVodClientTypes.MssEncryption.read(from:))
+        value.mssManifests = try reader["mssManifests"].readListIfPresent(memberReadingClosure: MediaPackageVodClientTypes.MssManifest.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.segmentDurationSeconds = try reader["segmentDurationSeconds"].readIfPresent()
         return value
     }
 }
@@ -3036,6 +2996,46 @@ extension MediaPackageVodClientTypes.PackagingGroup {
         value.egressAccessLogs = try reader["egressAccessLogs"].readIfPresent(with: MediaPackageVodClientTypes.EgressAccessLogs.read(from:))
         value.id = try reader["id"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaPackageVodClientTypes.SpekeKeyProvider {
+
+    static func write(value: MediaPackageVodClientTypes.SpekeKeyProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionContractConfiguration"].write(value.encryptionContractConfiguration, with: MediaPackageVodClientTypes.EncryptionContractConfiguration.write(value:to:))
+        try writer["roleArn"].write(value.roleArn)
+        try writer["systemIds"].writeList(value.systemIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.SpekeKeyProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageVodClientTypes.SpekeKeyProvider()
+        value.encryptionContractConfiguration = try reader["encryptionContractConfiguration"].readIfPresent(with: MediaPackageVodClientTypes.EncryptionContractConfiguration.read(from:))
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.systemIds = try reader["systemIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.url = try reader["url"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaPackageVodClientTypes.StreamSelection {
+
+    static func write(value: MediaPackageVodClientTypes.StreamSelection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxVideoBitsPerSecond"].write(value.maxVideoBitsPerSecond)
+        try writer["minVideoBitsPerSecond"].write(value.minVideoBitsPerSecond)
+        try writer["streamOrder"].write(value.streamOrder)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageVodClientTypes.StreamSelection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageVodClientTypes.StreamSelection()
+        value.maxVideoBitsPerSecond = try reader["maxVideoBitsPerSecond"].readIfPresent()
+        value.minVideoBitsPerSecond = try reader["minVideoBitsPerSecond"].readIfPresent()
+        value.streamOrder = try reader["streamOrder"].readIfPresent()
         return value
     }
 }

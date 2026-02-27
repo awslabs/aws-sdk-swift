@@ -7787,69 +7787,20 @@ extension IllegalUserStateException {
     }
 }
 
-extension WorkDocsClientTypes.User {
+extension WorkDocsClientTypes.Activity {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.User {
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.Activity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.User()
-        value.id = try reader["Id"].readIfPresent()
-        value.username = try reader["Username"].readIfPresent()
-        value.emailAddress = try reader["EmailAddress"].readIfPresent()
-        value.givenName = try reader["GivenName"].readIfPresent()
-        value.surname = try reader["Surname"].readIfPresent()
-        value.organizationId = try reader["OrganizationId"].readIfPresent()
-        value.rootFolderId = try reader["RootFolderId"].readIfPresent()
-        value.recycleBinFolderId = try reader["RecycleBinFolderId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        var value = WorkDocsClientTypes.Activity()
         value.type = try reader["Type"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedTimestamp = try reader["ModifiedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.timeZoneId = try reader["TimeZoneId"].readIfPresent()
-        value.locale = try reader["Locale"].readIfPresent()
-        value.storage = try reader["Storage"].readIfPresent(with: WorkDocsClientTypes.UserStorageMetadata.read(from:))
-        return value
-    }
-}
-
-extension WorkDocsClientTypes.UserStorageMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.UserStorageMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.UserStorageMetadata()
-        value.storageUtilizedInBytes = try reader["StorageUtilizedInBytes"].readIfPresent()
-        value.storageRule = try reader["StorageRule"].readIfPresent(with: WorkDocsClientTypes.StorageRuleType.read(from:))
-        return value
-    }
-}
-
-extension WorkDocsClientTypes.StorageRuleType {
-
-    static func write(value: WorkDocsClientTypes.StorageRuleType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StorageAllocatedInBytes"].write(value.storageAllocatedInBytes)
-        try writer["StorageType"].write(value.storageType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.StorageRuleType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.StorageRuleType()
-        value.storageAllocatedInBytes = try reader["StorageAllocatedInBytes"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        return value
-    }
-}
-
-extension WorkDocsClientTypes.ShareResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.ShareResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.ShareResult()
-        value.principalId = try reader["PrincipalId"].readIfPresent()
-        value.inviteePrincipalId = try reader["InviteePrincipalId"].readIfPresent()
-        value.role = try reader["Role"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.shareId = try reader["ShareId"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.timeStamp = try reader["TimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isIndirectActivity = try reader["IsIndirectActivity"].readIfPresent() ?? false
+        value.organizationId = try reader["OrganizationId"].readIfPresent()
+        value.initiator = try reader["Initiator"].readIfPresent(with: WorkDocsClientTypes.UserMetadata.read(from:))
+        value.participants = try reader["Participants"].readIfPresent(with: WorkDocsClientTypes.Participants.read(from:))
+        value.resourceMetadata = try reader["ResourceMetadata"].readIfPresent(with: WorkDocsClientTypes.ResourceMetadata.read(from:))
+        value.originalParent = try reader["OriginalParent"].readIfPresent(with: WorkDocsClientTypes.ResourceMetadata.read(from:))
+        value.commentMetadata = try reader["CommentMetadata"].readIfPresent(with: WorkDocsClientTypes.CommentMetadata.read(from:))
         return value
     }
 }
@@ -7872,56 +7823,6 @@ extension WorkDocsClientTypes.Comment {
     }
 }
 
-extension WorkDocsClientTypes.FolderMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.FolderMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.FolderMetadata()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.creatorId = try reader["CreatorId"].readIfPresent()
-        value.parentFolderId = try reader["ParentFolderId"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedTimestamp = try reader["ModifiedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.resourceState = try reader["ResourceState"].readIfPresent()
-        value.signature = try reader["Signature"].readIfPresent()
-        value.labels = try reader["Labels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.size = try reader["Size"].readIfPresent()
-        value.latestVersionSize = try reader["LatestVersionSize"].readIfPresent()
-        return value
-    }
-}
-
-extension WorkDocsClientTypes.Subscription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.Subscription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.Subscription()
-        value.subscriptionId = try reader["SubscriptionId"].readIfPresent()
-        value.endPoint = try reader["EndPoint"].readIfPresent()
-        value.`protocol` = try reader["Protocol"].readIfPresent()
-        return value
-    }
-}
-
-extension WorkDocsClientTypes.Activity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.Activity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.Activity()
-        value.type = try reader["Type"].readIfPresent()
-        value.timeStamp = try reader["TimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.isIndirectActivity = try reader["IsIndirectActivity"].readIfPresent() ?? false
-        value.organizationId = try reader["OrganizationId"].readIfPresent()
-        value.initiator = try reader["Initiator"].readIfPresent(with: WorkDocsClientTypes.UserMetadata.read(from:))
-        value.participants = try reader["Participants"].readIfPresent(with: WorkDocsClientTypes.Participants.read(from:))
-        value.resourceMetadata = try reader["ResourceMetadata"].readIfPresent(with: WorkDocsClientTypes.ResourceMetadata.read(from:))
-        value.originalParent = try reader["OriginalParent"].readIfPresent(with: WorkDocsClientTypes.ResourceMetadata.read(from:))
-        value.commentMetadata = try reader["CommentMetadata"].readIfPresent(with: WorkDocsClientTypes.CommentMetadata.read(from:))
-        return value
-    }
-}
-
 extension WorkDocsClientTypes.CommentMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.CommentMetadata {
@@ -7937,54 +7838,28 @@ extension WorkDocsClientTypes.CommentMetadata {
     }
 }
 
-extension WorkDocsClientTypes.ResourceMetadata {
+extension WorkDocsClientTypes.DateRangeType {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.ResourceMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.ResourceMetadata()
-        value.type = try reader["Type"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.originalName = try reader["OriginalName"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.versionId = try reader["VersionId"].readIfPresent()
-        value.owner = try reader["Owner"].readIfPresent(with: WorkDocsClientTypes.UserMetadata.read(from:))
-        value.parentId = try reader["ParentId"].readIfPresent()
-        return value
+    static func write(value: WorkDocsClientTypes.DateRangeType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndValue"].writeTimestamp(value.endValue, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartValue"].writeTimestamp(value.startValue, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
 }
 
-extension WorkDocsClientTypes.UserMetadata {
+extension WorkDocsClientTypes.DocumentMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.UserMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.DocumentMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.UserMetadata()
+        var value = WorkDocsClientTypes.DocumentMetadata()
         value.id = try reader["Id"].readIfPresent()
-        value.username = try reader["Username"].readIfPresent()
-        value.givenName = try reader["GivenName"].readIfPresent()
-        value.surname = try reader["Surname"].readIfPresent()
-        value.emailAddress = try reader["EmailAddress"].readIfPresent()
-        return value
-    }
-}
-
-extension WorkDocsClientTypes.Participants {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.Participants {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.Participants()
-        value.users = try reader["Users"].readListIfPresent(memberReadingClosure: WorkDocsClientTypes.UserMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: WorkDocsClientTypes.GroupMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WorkDocsClientTypes.GroupMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.GroupMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.GroupMetadata()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        value.creatorId = try reader["CreatorId"].readIfPresent()
+        value.parentFolderId = try reader["ParentFolderId"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modifiedTimestamp = try reader["ModifiedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.latestVersionMetadata = try reader["LatestVersionMetadata"].readIfPresent(with: WorkDocsClientTypes.DocumentVersionMetadata.read(from:))
+        value.resourceState = try reader["ResourceState"].readIfPresent()
+        value.labels = try reader["Labels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8011,19 +7886,90 @@ extension WorkDocsClientTypes.DocumentVersionMetadata {
     }
 }
 
-extension WorkDocsClientTypes.DocumentMetadata {
+extension WorkDocsClientTypes.Filters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.DocumentMetadata {
+    static func write(value: WorkDocsClientTypes.Filters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AncestorIds"].writeList(value.ancestorIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ContentCategories"].writeList(value.contentCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WorkDocsClientTypes.ContentCategoryType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CreatedRange"].write(value.createdRange, with: WorkDocsClientTypes.DateRangeType.write(value:to:))
+        try writer["Labels"].writeList(value.labels, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ModifiedRange"].write(value.modifiedRange, with: WorkDocsClientTypes.DateRangeType.write(value:to:))
+        try writer["Principals"].writeList(value.principals, memberWritingClosure: WorkDocsClientTypes.SearchPrincipalType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WorkDocsClientTypes.SearchResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SearchCollectionTypes"].writeList(value.searchCollectionTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WorkDocsClientTypes.SearchCollectionType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SizeRange"].write(value.sizeRange, with: WorkDocsClientTypes.LongRangeType.write(value:to:))
+        try writer["TextLocales"].writeList(value.textLocales, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WorkDocsClientTypes.LanguageCodeType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension WorkDocsClientTypes.FolderMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.FolderMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.DocumentMetadata()
+        var value = WorkDocsClientTypes.FolderMetadata()
         value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
         value.creatorId = try reader["CreatorId"].readIfPresent()
         value.parentFolderId = try reader["ParentFolderId"].readIfPresent()
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.modifiedTimestamp = try reader["ModifiedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.latestVersionMetadata = try reader["LatestVersionMetadata"].readIfPresent(with: WorkDocsClientTypes.DocumentVersionMetadata.read(from:))
         value.resourceState = try reader["ResourceState"].readIfPresent()
+        value.signature = try reader["Signature"].readIfPresent()
         value.labels = try reader["Labels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.size = try reader["Size"].readIfPresent()
+        value.latestVersionSize = try reader["LatestVersionSize"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkDocsClientTypes.GroupMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.GroupMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkDocsClientTypes.GroupMetadata()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkDocsClientTypes.LongRangeType {
+
+    static func write(value: WorkDocsClientTypes.LongRangeType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndValue"].write(value.endValue)
+        try writer["StartValue"].write(value.startValue)
+    }
+}
+
+extension WorkDocsClientTypes.NotificationOptions {
+
+    static func write(value: WorkDocsClientTypes.NotificationOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EmailMessage"].write(value.emailMessage)
+        try writer["SendEmail"].write(value.sendEmail)
+    }
+}
+
+extension WorkDocsClientTypes.Participants {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.Participants {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkDocsClientTypes.Participants()
+        value.users = try reader["Users"].readListIfPresent(memberReadingClosure: WorkDocsClientTypes.UserMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: WorkDocsClientTypes.GroupMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WorkDocsClientTypes.PermissionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.PermissionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkDocsClientTypes.PermissionInfo()
+        value.role = try reader["Role"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -8040,13 +7986,18 @@ extension WorkDocsClientTypes.Principal {
     }
 }
 
-extension WorkDocsClientTypes.PermissionInfo {
+extension WorkDocsClientTypes.ResourceMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.PermissionInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.ResourceMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.PermissionInfo()
-        value.role = try reader["Role"].readIfPresent()
+        var value = WorkDocsClientTypes.ResourceMetadata()
         value.type = try reader["Type"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.originalName = try reader["OriginalName"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.versionId = try reader["VersionId"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent(with: WorkDocsClientTypes.UserMetadata.read(from:))
+        value.parentId = try reader["ParentId"].readIfPresent()
         return value
     }
 }
@@ -8072,17 +8023,6 @@ extension WorkDocsClientTypes.ResourcePathComponent {
     }
 }
 
-extension WorkDocsClientTypes.UploadMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.UploadMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkDocsClientTypes.UploadMetadata()
-        value.uploadUrl = try reader["UploadUrl"].readIfPresent()
-        value.signedHeaders = try reader["SignedHeaders"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
 extension WorkDocsClientTypes.ResponseItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.ResponseItem {
@@ -8095,60 +8035,6 @@ extension WorkDocsClientTypes.ResponseItem {
         value.commentMetadata = try reader["CommentMetadata"].readIfPresent(with: WorkDocsClientTypes.CommentMetadata.read(from:))
         value.documentVersionMetadata = try reader["DocumentVersionMetadata"].readIfPresent(with: WorkDocsClientTypes.DocumentVersionMetadata.read(from:))
         return value
-    }
-}
-
-extension WorkDocsClientTypes.SharePrincipal {
-
-    static func write(value: WorkDocsClientTypes.SharePrincipal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Role"].write(value.role)
-        try writer["Type"].write(value.type)
-    }
-}
-
-extension WorkDocsClientTypes.NotificationOptions {
-
-    static func write(value: WorkDocsClientTypes.NotificationOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EmailMessage"].write(value.emailMessage)
-        try writer["SendEmail"].write(value.sendEmail)
-    }
-}
-
-extension WorkDocsClientTypes.Filters {
-
-    static func write(value: WorkDocsClientTypes.Filters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AncestorIds"].writeList(value.ancestorIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ContentCategories"].writeList(value.contentCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WorkDocsClientTypes.ContentCategoryType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreatedRange"].write(value.createdRange, with: WorkDocsClientTypes.DateRangeType.write(value:to:))
-        try writer["Labels"].writeList(value.labels, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ModifiedRange"].write(value.modifiedRange, with: WorkDocsClientTypes.DateRangeType.write(value:to:))
-        try writer["Principals"].writeList(value.principals, memberWritingClosure: WorkDocsClientTypes.SearchPrincipalType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WorkDocsClientTypes.SearchResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SearchCollectionTypes"].writeList(value.searchCollectionTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WorkDocsClientTypes.SearchCollectionType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SizeRange"].write(value.sizeRange, with: WorkDocsClientTypes.LongRangeType.write(value:to:))
-        try writer["TextLocales"].writeList(value.textLocales, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WorkDocsClientTypes.LanguageCodeType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension WorkDocsClientTypes.DateRangeType {
-
-    static func write(value: WorkDocsClientTypes.DateRangeType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndValue"].writeTimestamp(value.endValue, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["StartValue"].writeTimestamp(value.startValue, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension WorkDocsClientTypes.LongRangeType {
-
-    static func write(value: WorkDocsClientTypes.LongRangeType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndValue"].write(value.endValue)
-        try writer["StartValue"].write(value.startValue)
     }
 }
 
@@ -8167,6 +8053,120 @@ extension WorkDocsClientTypes.SearchSortResult {
         guard let value else { return }
         try writer["Field"].write(value.field)
         try writer["Order"].write(value.order)
+    }
+}
+
+extension WorkDocsClientTypes.SharePrincipal {
+
+    static func write(value: WorkDocsClientTypes.SharePrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Role"].write(value.role)
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension WorkDocsClientTypes.ShareResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.ShareResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkDocsClientTypes.ShareResult()
+        value.principalId = try reader["PrincipalId"].readIfPresent()
+        value.inviteePrincipalId = try reader["InviteePrincipalId"].readIfPresent()
+        value.role = try reader["Role"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.shareId = try reader["ShareId"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkDocsClientTypes.StorageRuleType {
+
+    static func write(value: WorkDocsClientTypes.StorageRuleType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StorageAllocatedInBytes"].write(value.storageAllocatedInBytes)
+        try writer["StorageType"].write(value.storageType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.StorageRuleType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkDocsClientTypes.StorageRuleType()
+        value.storageAllocatedInBytes = try reader["StorageAllocatedInBytes"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkDocsClientTypes.Subscription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.Subscription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkDocsClientTypes.Subscription()
+        value.subscriptionId = try reader["SubscriptionId"].readIfPresent()
+        value.endPoint = try reader["EndPoint"].readIfPresent()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkDocsClientTypes.UploadMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.UploadMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkDocsClientTypes.UploadMetadata()
+        value.uploadUrl = try reader["UploadUrl"].readIfPresent()
+        value.signedHeaders = try reader["SignedHeaders"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension WorkDocsClientTypes.User {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.User {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkDocsClientTypes.User()
+        value.id = try reader["Id"].readIfPresent()
+        value.username = try reader["Username"].readIfPresent()
+        value.emailAddress = try reader["EmailAddress"].readIfPresent()
+        value.givenName = try reader["GivenName"].readIfPresent()
+        value.surname = try reader["Surname"].readIfPresent()
+        value.organizationId = try reader["OrganizationId"].readIfPresent()
+        value.rootFolderId = try reader["RootFolderId"].readIfPresent()
+        value.recycleBinFolderId = try reader["RecycleBinFolderId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modifiedTimestamp = try reader["ModifiedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.timeZoneId = try reader["TimeZoneId"].readIfPresent()
+        value.locale = try reader["Locale"].readIfPresent()
+        value.storage = try reader["Storage"].readIfPresent(with: WorkDocsClientTypes.UserStorageMetadata.read(from:))
+        return value
+    }
+}
+
+extension WorkDocsClientTypes.UserMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.UserMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkDocsClientTypes.UserMetadata()
+        value.id = try reader["Id"].readIfPresent()
+        value.username = try reader["Username"].readIfPresent()
+        value.givenName = try reader["GivenName"].readIfPresent()
+        value.surname = try reader["Surname"].readIfPresent()
+        value.emailAddress = try reader["EmailAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkDocsClientTypes.UserStorageMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkDocsClientTypes.UserStorageMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkDocsClientTypes.UserStorageMetadata()
+        value.storageUtilizedInBytes = try reader["StorageUtilizedInBytes"].readIfPresent()
+        value.storageRule = try reader["StorageRule"].readIfPresent(with: WorkDocsClientTypes.StorageRuleType.read(from:))
+        return value
     }
 }
 

@@ -408,6 +408,51 @@ extension WorkspacesInstancesClientTypes {
 
 extension WorkspacesInstancesClientTypes {
 
+    public enum BillingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hourly
+        case monthly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BillingMode] {
+            return [
+                .hourly,
+                .monthly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hourly: return "HOURLY"
+            case .monthly: return "MONTHLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkspacesInstancesClientTypes {
+
+    /// Defines billing configuration settings for WorkSpace Instances, containing the billing mode selection.
+    public struct BillingConfiguration: Swift.Sendable {
+        /// Specifies the billing mode for WorkSpace Instances. MONTHLY provides fixed monthly rates for predictable budgeting, while HOURLY enables pay-per-second billing for actual usage.
+        /// This member is required.
+        public var billingMode: WorkspacesInstancesClientTypes.BillingMode?
+
+        public init(
+            billingMode: WorkspacesInstancesClientTypes.BillingMode? = nil
+        ) {
+            self.billingMode = billingMode
+        }
+    }
+}
+
+extension WorkspacesInstancesClientTypes {
+
     public enum VolumeTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case gp2
         case gp3
@@ -1771,6 +1816,8 @@ extension WorkspacesInstancesClientTypes.ManagedInstanceRequest: Swift.CustomDeb
 
 /// Defines the configuration parameters for creating a new WorkSpaces Instance.
 public struct CreateWorkspaceInstanceInput: Swift.Sendable {
+    /// Optional billing configuration for the WorkSpace Instance. Allows customers to specify their preferred billing mode when creating a new instance. Defaults to hourly billing if not specified.
+    public var billingConfiguration: WorkspacesInstancesClientTypes.BillingConfiguration?
     /// Unique token to ensure idempotent instance creation, preventing duplicate workspace launches.
     public var clientToken: Swift.String?
     /// Comprehensive configuration settings for the WorkSpaces Instance, including network, compute, and storage parameters.
@@ -1780,10 +1827,12 @@ public struct CreateWorkspaceInstanceInput: Swift.Sendable {
     public var tags: [WorkspacesInstancesClientTypes.Tag]?
 
     public init(
+        billingConfiguration: WorkspacesInstancesClientTypes.BillingConfiguration? = nil,
         clientToken: Swift.String? = nil,
         managedInstance: WorkspacesInstancesClientTypes.ManagedInstanceRequest? = nil,
         tags: [WorkspacesInstancesClientTypes.Tag]? = nil
     ) {
+        self.billingConfiguration = billingConfiguration
         self.clientToken = clientToken
         self.managedInstance = managedInstance
         self.tags = tags
@@ -1792,7 +1841,7 @@ public struct CreateWorkspaceInstanceInput: Swift.Sendable {
 
 extension CreateWorkspaceInstanceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateWorkspaceInstanceInput(managedInstance: \(Swift.String(describing: managedInstance)), tags: \(Swift.String(describing: tags)), clientToken: \"CONTENT_REDACTED\")"}
+        "CreateWorkspaceInstanceInput(billingConfiguration: \(Swift.String(describing: billingConfiguration)), managedInstance: \(Swift.String(describing: managedInstance)), tags: \(Swift.String(describing: tags)), clientToken: \"CONTENT_REDACTED\")"}
 }
 
 /// Returns the unique identifier for the newly created WorkSpaces Instance.
@@ -2019,6 +2068,8 @@ extension WorkspacesInstancesClientTypes {
 
 /// Provides comprehensive details about the requested WorkSpaces Instance.
 public struct GetWorkspaceInstanceOutput: Swift.Sendable {
+    /// Returns the current billing configuration for the WorkSpace Instance, indicating the active billing mode.
+    public var billingConfiguration: WorkspacesInstancesClientTypes.BillingConfiguration?
     /// Includes any underlying EC2 instance errors encountered.
     public var ec2InstanceErrors: [WorkspacesInstancesClientTypes.EC2InstanceError]?
     /// Details of the associated EC2 managed instance.
@@ -2031,12 +2082,14 @@ public struct GetWorkspaceInstanceOutput: Swift.Sendable {
     public var workspaceInstanceId: Swift.String?
 
     public init(
+        billingConfiguration: WorkspacesInstancesClientTypes.BillingConfiguration? = nil,
         ec2InstanceErrors: [WorkspacesInstancesClientTypes.EC2InstanceError]? = nil,
         ec2ManagedInstance: WorkspacesInstancesClientTypes.EC2ManagedInstance? = nil,
         provisionState: WorkspacesInstancesClientTypes.ProvisionStateEnum? = nil,
         workspaceInstanceErrors: [WorkspacesInstancesClientTypes.WorkspaceInstanceError]? = nil,
         workspaceInstanceId: Swift.String? = nil
     ) {
+        self.billingConfiguration = billingConfiguration
         self.ec2InstanceErrors = ec2InstanceErrors
         self.ec2ManagedInstance = ec2ManagedInstance
         self.provisionState = provisionState
@@ -2045,17 +2098,120 @@ public struct GetWorkspaceInstanceOutput: Swift.Sendable {
     }
 }
 
+extension WorkspacesInstancesClientTypes {
+
+    public enum PlatformTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case linuxByol
+        case linuxUnix
+        case rhel
+        case suse
+        case ubuntuPro
+        case windows
+        case windowsByol
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PlatformTypeEnum] {
+            return [
+                .linuxByol,
+                .linuxUnix,
+                .rhel,
+                .suse,
+                .ubuntuPro,
+                .windows,
+                .windowsByol
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .linuxByol: return "Red Hat BYOL Linux"
+            case .linuxUnix: return "Linux/UNIX"
+            case .rhel: return "Red Hat Enterprise Linux"
+            case .suse: return "SUSE Linux"
+            case .ubuntuPro: return "Ubuntu Pro Linux"
+            case .windows: return "Windows"
+            case .windowsByol: return "Windows BYOL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkspacesInstancesClientTypes {
+
+    public enum InstanceConfigurationTenancyEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dedicated
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceConfigurationTenancyEnum] {
+            return [
+                .dedicated,
+                .shared
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dedicated: return "DEDICATED"
+            case .shared: return "SHARED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkspacesInstancesClientTypes {
+
+    /// Defines filtering criteria for WorkSpace Instance type searches. Combines multiple filter conditions including billing mode, platform type, and tenancy to help customers find instance types that meet their specific requirements.
+    public struct InstanceConfigurationFilter: Swift.Sendable {
+        /// Filters WorkSpace Instance types based on supported billing modes. Allows customers to search for instance types that support their preferred billing model, such as HOURLY or MONTHLY billing.
+        /// This member is required.
+        public var billingMode: WorkspacesInstancesClientTypes.BillingMode?
+        /// Filters WorkSpace Instance types by operating system platform. Allows customers to find instances that support their desired OS, such as Windows, Linux/UNIX, Ubuntu Pro, RHEL, or SUSE.
+        /// This member is required.
+        public var platformType: WorkspacesInstancesClientTypes.PlatformTypeEnum?
+        /// Filters WorkSpace Instance types by tenancy model. Allows customers to find instances that match their tenancy requirements, such as SHARED or DEDICATED.
+        /// This member is required.
+        public var tenancy: WorkspacesInstancesClientTypes.InstanceConfigurationTenancyEnum?
+
+        public init(
+            billingMode: WorkspacesInstancesClientTypes.BillingMode? = nil,
+            platformType: WorkspacesInstancesClientTypes.PlatformTypeEnum? = nil,
+            tenancy: WorkspacesInstancesClientTypes.InstanceConfigurationTenancyEnum? = nil
+        ) {
+            self.billingMode = billingMode
+            self.platformType = platformType
+            self.tenancy = tenancy
+        }
+    }
+}
+
 /// Defines input parameters for retrieving supported WorkSpaces Instances instance types.
 public struct ListInstanceTypesInput: Swift.Sendable {
+    /// Optional filter to narrow instance type results based on configuration requirements. Only returns instance types that support the specified combination of tenancy, platform type, and billing mode.
+    public var instanceConfigurationFilter: WorkspacesInstancesClientTypes.InstanceConfigurationFilter?
     /// Maximum number of instance types to return in a single API call. Enables pagination of instance type results.
     public var maxResults: Swift.Int?
     /// Pagination token for retrieving subsequent pages of instance type results.
     public var nextToken: Swift.String?
 
     public init(
+        instanceConfigurationFilter: WorkspacesInstancesClientTypes.InstanceConfigurationFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.instanceConfigurationFilter = instanceConfigurationFilter
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2063,7 +2219,30 @@ public struct ListInstanceTypesInput: Swift.Sendable {
 
 extension ListInstanceTypesInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListInstanceTypesInput(maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
+        "ListInstanceTypesInput(instanceConfigurationFilter: \(Swift.String(describing: instanceConfigurationFilter)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
+}
+
+extension WorkspacesInstancesClientTypes {
+
+    /// Represents a single valid configuration combination that an instance type supports, combining tenancy, platform type, and billing mode into one complete configuration specification.
+    public struct SupportedInstanceConfiguration: Swift.Sendable {
+        /// Specifies the billing mode supported in this configuration combination.
+        public var billingMode: WorkspacesInstancesClientTypes.BillingMode?
+        /// Specifies the operating system platform supported in this configuration combination.
+        public var platformType: WorkspacesInstancesClientTypes.PlatformTypeEnum?
+        /// Specifies the tenancy model supported in this configuration combination.
+        public var tenancy: WorkspacesInstancesClientTypes.InstanceConfigurationTenancyEnum?
+
+        public init(
+            billingMode: WorkspacesInstancesClientTypes.BillingMode? = nil,
+            platformType: WorkspacesInstancesClientTypes.PlatformTypeEnum? = nil,
+            tenancy: WorkspacesInstancesClientTypes.InstanceConfigurationTenancyEnum? = nil
+        ) {
+            self.billingMode = billingMode
+            self.platformType = platformType
+            self.tenancy = tenancy
+        }
+    }
 }
 
 extension WorkspacesInstancesClientTypes {
@@ -2072,11 +2251,15 @@ extension WorkspacesInstancesClientTypes {
     public struct InstanceTypeInfo: Swift.Sendable {
         /// Unique identifier for the WorkSpace Instance type.
         public var instanceType: Swift.String?
+        /// Lists all valid combinations of tenancy, platform type, and billing mode supported for the specific WorkSpace Instance type. Contains the complete set of configuration options available for this instance type.
+        public var supportedInstanceConfigurations: [WorkspacesInstancesClientTypes.SupportedInstanceConfiguration]?
 
         public init(
-            instanceType: Swift.String? = nil
+            instanceType: Swift.String? = nil,
+            supportedInstanceConfigurations: [WorkspacesInstancesClientTypes.SupportedInstanceConfiguration]? = nil
         ) {
             self.instanceType = instanceType
+            self.supportedInstanceConfigurations = supportedInstanceConfigurations
         }
     }
 }
@@ -2426,6 +2609,7 @@ extension CreateWorkspaceInstanceInput {
 
     static func write(value: CreateWorkspaceInstanceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillingConfiguration"].write(value.billingConfiguration, with: WorkspacesInstancesClientTypes.BillingConfiguration.write(value:to:))
         try writer["ClientToken"].write(value.clientToken)
         try writer["ManagedInstance"].write(value.managedInstance, with: WorkspacesInstancesClientTypes.ManagedInstanceRequest.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: WorkspacesInstancesClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -2471,6 +2655,7 @@ extension ListInstanceTypesInput {
 
     static func write(value: ListInstanceTypesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["InstanceConfigurationFilter"].write(value.instanceConfigurationFilter, with: WorkspacesInstancesClientTypes.InstanceConfigurationFilter.write(value:to:))
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
     }
@@ -2580,6 +2765,7 @@ extension GetWorkspaceInstanceOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetWorkspaceInstanceOutput()
+        value.billingConfiguration = try reader["BillingConfiguration"].readIfPresent(with: WorkspacesInstancesClientTypes.BillingConfiguration.read(from:))
         value.ec2InstanceErrors = try reader["EC2InstanceErrors"].readListIfPresent(memberReadingClosure: WorkspacesInstancesClientTypes.EC2InstanceError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ec2ManagedInstance = try reader["EC2ManagedInstance"].readIfPresent(with: WorkspacesInstancesClientTypes.EC2ManagedInstance.read(from:))
         value.provisionState = try reader["ProvisionState"].readIfPresent()
@@ -3002,14 +3188,88 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension WorkspacesInstancesClientTypes.WorkspaceInstanceError {
+extension WorkspacesInstancesClientTypes.BillingConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkspacesInstancesClientTypes.WorkspaceInstanceError {
+    static func write(value: WorkspacesInstancesClientTypes.BillingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BillingMode"].write(value.billingMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkspacesInstancesClientTypes.BillingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkspacesInstancesClientTypes.WorkspaceInstanceError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        var value = WorkspacesInstancesClientTypes.BillingConfiguration()
+        value.billingMode = try reader["BillingMode"].readIfPresent() ?? .sdkUnknown("")
         return value
+    }
+}
+
+extension WorkspacesInstancesClientTypes.BlockDeviceMappingRequest {
+
+    static func write(value: WorkspacesInstancesClientTypes.BlockDeviceMappingRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeviceName"].write(value.deviceName)
+        try writer["Ebs"].write(value.ebs, with: WorkspacesInstancesClientTypes.EbsBlockDevice.write(value:to:))
+        try writer["NoDevice"].write(value.noDevice)
+        try writer["VirtualName"].write(value.virtualName)
+    }
+}
+
+extension WorkspacesInstancesClientTypes.CapacityReservationSpecification {
+
+    static func write(value: WorkspacesInstancesClientTypes.CapacityReservationSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityReservationPreference"].write(value.capacityReservationPreference)
+        try writer["CapacityReservationTarget"].write(value.capacityReservationTarget, with: WorkspacesInstancesClientTypes.CapacityReservationTarget.write(value:to:))
+    }
+}
+
+extension WorkspacesInstancesClientTypes.CapacityReservationTarget {
+
+    static func write(value: WorkspacesInstancesClientTypes.CapacityReservationTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityReservationId"].write(value.capacityReservationId)
+        try writer["CapacityReservationResourceGroupArn"].write(value.capacityReservationResourceGroupArn)
+    }
+}
+
+extension WorkspacesInstancesClientTypes.ConnectionTrackingSpecificationRequest {
+
+    static func write(value: WorkspacesInstancesClientTypes.ConnectionTrackingSpecificationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TcpEstablishedTimeout"].write(value.tcpEstablishedTimeout)
+        try writer["UdpStreamTimeout"].write(value.udpStreamTimeout)
+        try writer["UdpTimeout"].write(value.udpTimeout)
+    }
+}
+
+extension WorkspacesInstancesClientTypes.CpuOptionsRequest {
+
+    static func write(value: WorkspacesInstancesClientTypes.CpuOptionsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AmdSevSnp"].write(value.amdSevSnp)
+        try writer["CoreCount"].write(value.coreCount)
+        try writer["ThreadsPerCore"].write(value.threadsPerCore)
+    }
+}
+
+extension WorkspacesInstancesClientTypes.CreditSpecificationRequest {
+
+    static func write(value: WorkspacesInstancesClientTypes.CreditSpecificationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CpuCredits"].write(value.cpuCredits)
+    }
+}
+
+extension WorkspacesInstancesClientTypes.EbsBlockDevice {
+
+    static func write(value: WorkspacesInstancesClientTypes.EbsBlockDevice?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Encrypted"].write(value.encrypted)
+        try writer["Iops"].write(value.iops)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["Throughput"].write(value.throughput)
+        try writer["VolumeSize"].write(value.volumeSize)
+        try writer["VolumeType"].write(value.volumeType)
     }
 }
 
@@ -3035,73 +3295,164 @@ extension WorkspacesInstancesClientTypes.EC2ManagedInstance {
     }
 }
 
+extension WorkspacesInstancesClientTypes.EnaSrdSpecificationRequest {
+
+    static func write(value: WorkspacesInstancesClientTypes.EnaSrdSpecificationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnaSrdEnabled"].write(value.enaSrdEnabled)
+        try writer["EnaSrdUdpSpecification"].write(value.enaSrdUdpSpecification, with: WorkspacesInstancesClientTypes.EnaSrdUdpSpecificationRequest.write(value:to:))
+    }
+}
+
+extension WorkspacesInstancesClientTypes.EnaSrdUdpSpecificationRequest {
+
+    static func write(value: WorkspacesInstancesClientTypes.EnaSrdUdpSpecificationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnaSrdUdpEnabled"].write(value.enaSrdUdpEnabled)
+    }
+}
+
+extension WorkspacesInstancesClientTypes.EnclaveOptionsRequest {
+
+    static func write(value: WorkspacesInstancesClientTypes.EnclaveOptionsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+    }
+}
+
+extension WorkspacesInstancesClientTypes.HibernationOptionsRequest {
+
+    static func write(value: WorkspacesInstancesClientTypes.HibernationOptionsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Configured"].write(value.configured)
+    }
+}
+
+extension WorkspacesInstancesClientTypes.IamInstanceProfileSpecification {
+
+    static func write(value: WorkspacesInstancesClientTypes.IamInstanceProfileSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["Name"].write(value.name)
+    }
+}
+
+extension WorkspacesInstancesClientTypes.InstanceConfigurationFilter {
+
+    static func write(value: WorkspacesInstancesClientTypes.InstanceConfigurationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BillingMode"].write(value.billingMode)
+        try writer["PlatformType"].write(value.platformType)
+        try writer["Tenancy"].write(value.tenancy)
+    }
+}
+
+extension WorkspacesInstancesClientTypes.InstanceIpv6Address {
+
+    static func write(value: WorkspacesInstancesClientTypes.InstanceIpv6Address?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Ipv6Address"].write(value.ipv6Address)
+        try writer["IsPrimaryIpv6"].write(value.isPrimaryIpv6)
+    }
+}
+
+extension WorkspacesInstancesClientTypes.InstanceMaintenanceOptionsRequest {
+
+    static func write(value: WorkspacesInstancesClientTypes.InstanceMaintenanceOptionsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutoRecovery"].write(value.autoRecovery)
+    }
+}
+
+extension WorkspacesInstancesClientTypes.InstanceMarketOptionsRequest {
+
+    static func write(value: WorkspacesInstancesClientTypes.InstanceMarketOptionsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MarketType"].write(value.marketType)
+        try writer["SpotOptions"].write(value.spotOptions, with: WorkspacesInstancesClientTypes.SpotMarketOptions.write(value:to:))
+    }
+}
+
+extension WorkspacesInstancesClientTypes.InstanceMetadataOptionsRequest {
+
+    static func write(value: WorkspacesInstancesClientTypes.InstanceMetadataOptionsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HttpEndpoint"].write(value.httpEndpoint)
+        try writer["HttpProtocolIpv6"].write(value.httpProtocolIpv6)
+        try writer["HttpPutResponseHopLimit"].write(value.httpPutResponseHopLimit)
+        try writer["HttpTokens"].write(value.httpTokens)
+        try writer["InstanceMetadataTags"].write(value.instanceMetadataTags)
+    }
+}
+
+extension WorkspacesInstancesClientTypes.InstanceNetworkInterfaceSpecification {
+
+    static func write(value: WorkspacesInstancesClientTypes.InstanceNetworkInterfaceSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssociateCarrierIpAddress"].write(value.associateCarrierIpAddress)
+        try writer["AssociatePublicIpAddress"].write(value.associatePublicIpAddress)
+        try writer["ConnectionTrackingSpecification"].write(value.connectionTrackingSpecification, with: WorkspacesInstancesClientTypes.ConnectionTrackingSpecificationRequest.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["DeviceIndex"].write(value.deviceIndex)
+        try writer["EnaSrdSpecification"].write(value.enaSrdSpecification, with: WorkspacesInstancesClientTypes.EnaSrdSpecificationRequest.write(value:to:))
+        try writer["Groups"].writeList(value.groups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InterfaceType"].write(value.interfaceType)
+        try writer["Ipv4PrefixCount"].write(value.ipv4PrefixCount)
+        try writer["Ipv4Prefixes"].writeList(value.ipv4Prefixes, memberWritingClosure: WorkspacesInstancesClientTypes.Ipv4PrefixSpecificationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Ipv6AddressCount"].write(value.ipv6AddressCount)
+        try writer["Ipv6Addresses"].writeList(value.ipv6Addresses, memberWritingClosure: WorkspacesInstancesClientTypes.InstanceIpv6Address.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Ipv6PrefixCount"].write(value.ipv6PrefixCount)
+        try writer["Ipv6Prefixes"].writeList(value.ipv6Prefixes, memberWritingClosure: WorkspacesInstancesClientTypes.Ipv6PrefixSpecificationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NetworkCardIndex"].write(value.networkCardIndex)
+        try writer["NetworkInterfaceId"].write(value.networkInterfaceId)
+        try writer["PrimaryIpv6"].write(value.primaryIpv6)
+        try writer["PrivateIpAddress"].write(value.privateIpAddress)
+        try writer["PrivateIpAddresses"].writeList(value.privateIpAddresses, memberWritingClosure: WorkspacesInstancesClientTypes.PrivateIpAddressSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SecondaryPrivateIpAddressCount"].write(value.secondaryPrivateIpAddressCount)
+        try writer["SubnetId"].write(value.subnetId)
+    }
+}
+
+extension WorkspacesInstancesClientTypes.InstanceNetworkPerformanceOptionsRequest {
+
+    static func write(value: WorkspacesInstancesClientTypes.InstanceNetworkPerformanceOptionsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BandwidthWeighting"].write(value.bandwidthWeighting)
+    }
+}
+
 extension WorkspacesInstancesClientTypes.InstanceTypeInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkspacesInstancesClientTypes.InstanceTypeInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WorkspacesInstancesClientTypes.InstanceTypeInfo()
         value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.supportedInstanceConfigurations = try reader["SupportedInstanceConfigurations"].readListIfPresent(memberReadingClosure: WorkspacesInstancesClientTypes.SupportedInstanceConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension WorkspacesInstancesClientTypes.Region {
+extension WorkspacesInstancesClientTypes.Ipv4PrefixSpecificationRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkspacesInstancesClientTypes.Region {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkspacesInstancesClientTypes.Region()
-        value.regionName = try reader["RegionName"].readIfPresent()
-        return value
-    }
-}
-
-extension WorkspacesInstancesClientTypes.Tag {
-
-    static func write(value: WorkspacesInstancesClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WorkspacesInstancesClientTypes.Ipv4PrefixSpecificationRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkspacesInstancesClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkspacesInstancesClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
+        try writer["Ipv4Prefix"].write(value.ipv4Prefix)
     }
 }
 
-extension WorkspacesInstancesClientTypes.WorkspaceInstance {
+extension WorkspacesInstancesClientTypes.Ipv6PrefixSpecificationRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkspacesInstancesClientTypes.WorkspaceInstance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkspacesInstancesClientTypes.WorkspaceInstance()
-        value.provisionState = try reader["ProvisionState"].readIfPresent()
-        value.workspaceInstanceId = try reader["WorkspaceInstanceId"].readIfPresent()
-        value.ec2ManagedInstance = try reader["EC2ManagedInstance"].readIfPresent(with: WorkspacesInstancesClientTypes.EC2ManagedInstance.read(from:))
-        return value
-    }
-}
-
-extension WorkspacesInstancesClientTypes.ValidationExceptionField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkspacesInstancesClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkspacesInstancesClientTypes.ValidationExceptionField()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.reason = try reader["Reason"].readIfPresent() ?? ""
-        value.message = try reader["Message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WorkspacesInstancesClientTypes.TagSpecification {
-
-    static func write(value: WorkspacesInstancesClientTypes.TagSpecification?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WorkspacesInstancesClientTypes.Ipv6PrefixSpecificationRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: WorkspacesInstancesClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Ipv6Prefix"].write(value.ipv6Prefix)
+    }
+}
+
+extension WorkspacesInstancesClientTypes.LicenseConfigurationRequest {
+
+    static func write(value: WorkspacesInstancesClientTypes.LicenseConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LicenseConfigurationArn"].write(value.licenseConfigurationArn)
     }
 }
 
@@ -3144,16 +3495,6 @@ extension WorkspacesInstancesClientTypes.ManagedInstanceRequest {
     }
 }
 
-extension WorkspacesInstancesClientTypes.PrivateDnsNameOptionsRequest {
-
-    static func write(value: WorkspacesInstancesClientTypes.PrivateDnsNameOptionsRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EnableResourceNameDnsAAAARecord"].write(value.enableResourceNameDnsAAAARecord)
-        try writer["EnableResourceNameDnsARecord"].write(value.enableResourceNameDnsARecord)
-        try writer["HostnameType"].write(value.hostnameType)
-    }
-}
-
 extension WorkspacesInstancesClientTypes.Placement {
 
     static func write(value: WorkspacesInstancesClientTypes.Placement?, to writer: SmithyJSON.Writer) throws {
@@ -3169,39 +3510,13 @@ extension WorkspacesInstancesClientTypes.Placement {
     }
 }
 
-extension WorkspacesInstancesClientTypes.InstanceNetworkPerformanceOptionsRequest {
+extension WorkspacesInstancesClientTypes.PrivateDnsNameOptionsRequest {
 
-    static func write(value: WorkspacesInstancesClientTypes.InstanceNetworkPerformanceOptionsRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WorkspacesInstancesClientTypes.PrivateDnsNameOptionsRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["BandwidthWeighting"].write(value.bandwidthWeighting)
-    }
-}
-
-extension WorkspacesInstancesClientTypes.InstanceNetworkInterfaceSpecification {
-
-    static func write(value: WorkspacesInstancesClientTypes.InstanceNetworkInterfaceSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssociateCarrierIpAddress"].write(value.associateCarrierIpAddress)
-        try writer["AssociatePublicIpAddress"].write(value.associatePublicIpAddress)
-        try writer["ConnectionTrackingSpecification"].write(value.connectionTrackingSpecification, with: WorkspacesInstancesClientTypes.ConnectionTrackingSpecificationRequest.write(value:to:))
-        try writer["Description"].write(value.description)
-        try writer["DeviceIndex"].write(value.deviceIndex)
-        try writer["EnaSrdSpecification"].write(value.enaSrdSpecification, with: WorkspacesInstancesClientTypes.EnaSrdSpecificationRequest.write(value:to:))
-        try writer["Groups"].writeList(value.groups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InterfaceType"].write(value.interfaceType)
-        try writer["Ipv4PrefixCount"].write(value.ipv4PrefixCount)
-        try writer["Ipv4Prefixes"].writeList(value.ipv4Prefixes, memberWritingClosure: WorkspacesInstancesClientTypes.Ipv4PrefixSpecificationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Ipv6AddressCount"].write(value.ipv6AddressCount)
-        try writer["Ipv6Addresses"].writeList(value.ipv6Addresses, memberWritingClosure: WorkspacesInstancesClientTypes.InstanceIpv6Address.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Ipv6PrefixCount"].write(value.ipv6PrefixCount)
-        try writer["Ipv6Prefixes"].writeList(value.ipv6Prefixes, memberWritingClosure: WorkspacesInstancesClientTypes.Ipv6PrefixSpecificationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NetworkCardIndex"].write(value.networkCardIndex)
-        try writer["NetworkInterfaceId"].write(value.networkInterfaceId)
-        try writer["PrimaryIpv6"].write(value.primaryIpv6)
-        try writer["PrivateIpAddress"].write(value.privateIpAddress)
-        try writer["PrivateIpAddresses"].writeList(value.privateIpAddresses, memberWritingClosure: WorkspacesInstancesClientTypes.PrivateIpAddressSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SecondaryPrivateIpAddressCount"].write(value.secondaryPrivateIpAddressCount)
-        try writer["SubnetId"].write(value.subnetId)
+        try writer["EnableResourceNameDnsAAAARecord"].write(value.enableResourceNameDnsAAAARecord)
+        try writer["EnableResourceNameDnsARecord"].write(value.enableResourceNameDnsARecord)
+        try writer["HostnameType"].write(value.hostnameType)
     }
 }
 
@@ -3214,55 +3529,13 @@ extension WorkspacesInstancesClientTypes.PrivateIpAddressSpecification {
     }
 }
 
-extension WorkspacesInstancesClientTypes.Ipv6PrefixSpecificationRequest {
+extension WorkspacesInstancesClientTypes.Region {
 
-    static func write(value: WorkspacesInstancesClientTypes.Ipv6PrefixSpecificationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Ipv6Prefix"].write(value.ipv6Prefix)
-    }
-}
-
-extension WorkspacesInstancesClientTypes.InstanceIpv6Address {
-
-    static func write(value: WorkspacesInstancesClientTypes.InstanceIpv6Address?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Ipv6Address"].write(value.ipv6Address)
-        try writer["IsPrimaryIpv6"].write(value.isPrimaryIpv6)
-    }
-}
-
-extension WorkspacesInstancesClientTypes.Ipv4PrefixSpecificationRequest {
-
-    static func write(value: WorkspacesInstancesClientTypes.Ipv4PrefixSpecificationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Ipv4Prefix"].write(value.ipv4Prefix)
-    }
-}
-
-extension WorkspacesInstancesClientTypes.EnaSrdSpecificationRequest {
-
-    static func write(value: WorkspacesInstancesClientTypes.EnaSrdSpecificationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EnaSrdEnabled"].write(value.enaSrdEnabled)
-        try writer["EnaSrdUdpSpecification"].write(value.enaSrdUdpSpecification, with: WorkspacesInstancesClientTypes.EnaSrdUdpSpecificationRequest.write(value:to:))
-    }
-}
-
-extension WorkspacesInstancesClientTypes.EnaSrdUdpSpecificationRequest {
-
-    static func write(value: WorkspacesInstancesClientTypes.EnaSrdUdpSpecificationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EnaSrdUdpEnabled"].write(value.enaSrdUdpEnabled)
-    }
-}
-
-extension WorkspacesInstancesClientTypes.ConnectionTrackingSpecificationRequest {
-
-    static func write(value: WorkspacesInstancesClientTypes.ConnectionTrackingSpecificationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TcpEstablishedTimeout"].write(value.tcpEstablishedTimeout)
-        try writer["UdpStreamTimeout"].write(value.udpStreamTimeout)
-        try writer["UdpTimeout"].write(value.udpTimeout)
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkspacesInstancesClientTypes.Region {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkspacesInstancesClientTypes.Region()
+        value.regionName = try reader["RegionName"].readIfPresent()
+        return value
     }
 }
 
@@ -3271,43 +3544,6 @@ extension WorkspacesInstancesClientTypes.RunInstancesMonitoringEnabled {
     static func write(value: WorkspacesInstancesClientTypes.RunInstancesMonitoringEnabled?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
-    }
-}
-
-extension WorkspacesInstancesClientTypes.InstanceMetadataOptionsRequest {
-
-    static func write(value: WorkspacesInstancesClientTypes.InstanceMetadataOptionsRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HttpEndpoint"].write(value.httpEndpoint)
-        try writer["HttpProtocolIpv6"].write(value.httpProtocolIpv6)
-        try writer["HttpPutResponseHopLimit"].write(value.httpPutResponseHopLimit)
-        try writer["HttpTokens"].write(value.httpTokens)
-        try writer["InstanceMetadataTags"].write(value.instanceMetadataTags)
-    }
-}
-
-extension WorkspacesInstancesClientTypes.InstanceMaintenanceOptionsRequest {
-
-    static func write(value: WorkspacesInstancesClientTypes.InstanceMaintenanceOptionsRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoRecovery"].write(value.autoRecovery)
-    }
-}
-
-extension WorkspacesInstancesClientTypes.LicenseConfigurationRequest {
-
-    static func write(value: WorkspacesInstancesClientTypes.LicenseConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LicenseConfigurationArn"].write(value.licenseConfigurationArn)
-    }
-}
-
-extension WorkspacesInstancesClientTypes.InstanceMarketOptionsRequest {
-
-    static func write(value: WorkspacesInstancesClientTypes.InstanceMarketOptionsRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MarketType"].write(value.marketType)
-        try writer["SpotOptions"].write(value.spotOptions, with: WorkspacesInstancesClientTypes.SpotMarketOptions.write(value:to:))
     }
 }
 
@@ -3323,88 +3559,76 @@ extension WorkspacesInstancesClientTypes.SpotMarketOptions {
     }
 }
 
-extension WorkspacesInstancesClientTypes.IamInstanceProfileSpecification {
+extension WorkspacesInstancesClientTypes.SupportedInstanceConfiguration {
 
-    static func write(value: WorkspacesInstancesClientTypes.IamInstanceProfileSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Name"].write(value.name)
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkspacesInstancesClientTypes.SupportedInstanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkspacesInstancesClientTypes.SupportedInstanceConfiguration()
+        value.billingMode = try reader["BillingMode"].readIfPresent()
+        value.platformType = try reader["PlatformType"].readIfPresent()
+        value.tenancy = try reader["Tenancy"].readIfPresent()
+        return value
     }
 }
 
-extension WorkspacesInstancesClientTypes.HibernationOptionsRequest {
+extension WorkspacesInstancesClientTypes.Tag {
 
-    static func write(value: WorkspacesInstancesClientTypes.HibernationOptionsRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WorkspacesInstancesClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Configured"].write(value.configured)
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkspacesInstancesClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkspacesInstancesClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
     }
 }
 
-extension WorkspacesInstancesClientTypes.EnclaveOptionsRequest {
+extension WorkspacesInstancesClientTypes.TagSpecification {
 
-    static func write(value: WorkspacesInstancesClientTypes.EnclaveOptionsRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WorkspacesInstancesClientTypes.TagSpecification?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: WorkspacesInstancesClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension WorkspacesInstancesClientTypes.CreditSpecificationRequest {
+extension WorkspacesInstancesClientTypes.ValidationExceptionField {
 
-    static func write(value: WorkspacesInstancesClientTypes.CreditSpecificationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CpuCredits"].write(value.cpuCredits)
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkspacesInstancesClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkspacesInstancesClientTypes.ValidationExceptionField()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.reason = try reader["Reason"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension WorkspacesInstancesClientTypes.CpuOptionsRequest {
+extension WorkspacesInstancesClientTypes.WorkspaceInstance {
 
-    static func write(value: WorkspacesInstancesClientTypes.CpuOptionsRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AmdSevSnp"].write(value.amdSevSnp)
-        try writer["CoreCount"].write(value.coreCount)
-        try writer["ThreadsPerCore"].write(value.threadsPerCore)
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkspacesInstancesClientTypes.WorkspaceInstance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkspacesInstancesClientTypes.WorkspaceInstance()
+        value.provisionState = try reader["ProvisionState"].readIfPresent()
+        value.workspaceInstanceId = try reader["WorkspaceInstanceId"].readIfPresent()
+        value.ec2ManagedInstance = try reader["EC2ManagedInstance"].readIfPresent(with: WorkspacesInstancesClientTypes.EC2ManagedInstance.read(from:))
+        return value
     }
 }
 
-extension WorkspacesInstancesClientTypes.CapacityReservationSpecification {
+extension WorkspacesInstancesClientTypes.WorkspaceInstanceError {
 
-    static func write(value: WorkspacesInstancesClientTypes.CapacityReservationSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CapacityReservationPreference"].write(value.capacityReservationPreference)
-        try writer["CapacityReservationTarget"].write(value.capacityReservationTarget, with: WorkspacesInstancesClientTypes.CapacityReservationTarget.write(value:to:))
-    }
-}
-
-extension WorkspacesInstancesClientTypes.CapacityReservationTarget {
-
-    static func write(value: WorkspacesInstancesClientTypes.CapacityReservationTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CapacityReservationId"].write(value.capacityReservationId)
-        try writer["CapacityReservationResourceGroupArn"].write(value.capacityReservationResourceGroupArn)
-    }
-}
-
-extension WorkspacesInstancesClientTypes.BlockDeviceMappingRequest {
-
-    static func write(value: WorkspacesInstancesClientTypes.BlockDeviceMappingRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeviceName"].write(value.deviceName)
-        try writer["Ebs"].write(value.ebs, with: WorkspacesInstancesClientTypes.EbsBlockDevice.write(value:to:))
-        try writer["NoDevice"].write(value.noDevice)
-        try writer["VirtualName"].write(value.virtualName)
-    }
-}
-
-extension WorkspacesInstancesClientTypes.EbsBlockDevice {
-
-    static func write(value: WorkspacesInstancesClientTypes.EbsBlockDevice?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Encrypted"].write(value.encrypted)
-        try writer["Iops"].write(value.iops)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["Throughput"].write(value.throughput)
-        try writer["VolumeSize"].write(value.volumeSize)
-        try writer["VolumeType"].write(value.volumeType)
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkspacesInstancesClientTypes.WorkspaceInstanceError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkspacesInstancesClientTypes.WorkspaceInstanceError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
     }
 }
 

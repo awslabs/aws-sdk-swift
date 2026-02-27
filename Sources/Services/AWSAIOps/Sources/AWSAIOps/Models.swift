@@ -1308,6 +1308,21 @@ extension ForbiddenException {
     }
 }
 
+extension AIOpsClientTypes.CrossAccountConfiguration {
+
+    static func write(value: AIOpsClientTypes.CrossAccountConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceRoleArn"].write(value.sourceRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AIOpsClientTypes.CrossAccountConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AIOpsClientTypes.CrossAccountConfiguration()
+        value.sourceRoleArn = try reader["sourceRoleArn"].readIfPresent()
+        return value
+    }
+}
+
 extension AIOpsClientTypes.EncryptionConfiguration {
 
     static func write(value: AIOpsClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -1321,21 +1336,6 @@ extension AIOpsClientTypes.EncryptionConfiguration {
         var value = AIOpsClientTypes.EncryptionConfiguration()
         value.type = try reader["type"].readIfPresent()
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension AIOpsClientTypes.CrossAccountConfiguration {
-
-    static func write(value: AIOpsClientTypes.CrossAccountConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sourceRoleArn"].write(value.sourceRoleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AIOpsClientTypes.CrossAccountConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AIOpsClientTypes.CrossAccountConfiguration()
-        value.sourceRoleArn = try reader["sourceRoleArn"].readIfPresent()
         return value
     }
 }

@@ -6034,6 +6034,82 @@ extension PreconditionFailedException {
     }
 }
 
+extension WisdomClientTypes.AppIntegrationsConfiguration {
+
+    static func write(value: WisdomClientTypes.AppIntegrationsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appIntegrationArn"].write(value.appIntegrationArn)
+        try writer["objectFields"].writeList(value.objectFields, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.AppIntegrationsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.AppIntegrationsConfiguration()
+        value.appIntegrationArn = try reader["appIntegrationArn"].readIfPresent() ?? ""
+        value.objectFields = try reader["objectFields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WisdomClientTypes.AssistantAssociationData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.AssistantAssociationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.AssistantAssociationData()
+        value.assistantAssociationId = try reader["assistantAssociationId"].readIfPresent() ?? ""
+        value.assistantAssociationArn = try reader["assistantAssociationArn"].readIfPresent() ?? ""
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
+        value.associationData = try reader["associationData"].readIfPresent(with: WisdomClientTypes.AssistantAssociationOutputData.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension WisdomClientTypes.AssistantAssociationInputData {
+
+    static func write(value: WisdomClientTypes.AssistantAssociationInputData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .knowledgebaseid(knowledgebaseid):
+                try writer["knowledgeBaseId"].write(knowledgebaseid)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension WisdomClientTypes.AssistantAssociationOutputData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.AssistantAssociationOutputData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "knowledgeBaseAssociation":
+                return .knowledgebaseassociation(try reader["knowledgeBaseAssociation"].read(with: WisdomClientTypes.KnowledgeBaseAssociationData.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension WisdomClientTypes.AssistantAssociationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.AssistantAssociationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.AssistantAssociationSummary()
+        value.assistantAssociationId = try reader["assistantAssociationId"].readIfPresent() ?? ""
+        value.assistantAssociationArn = try reader["assistantAssociationArn"].readIfPresent() ?? ""
+        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
+        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
+        value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
+        value.associationData = try reader["associationData"].readIfPresent(with: WisdomClientTypes.AssistantAssociationOutputData.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension WisdomClientTypes.AssistantData {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.AssistantData {
@@ -6062,310 +6138,20 @@ extension WisdomClientTypes.AssistantIntegrationConfiguration {
     }
 }
 
-extension WisdomClientTypes.ServerSideEncryptionConfiguration {
+extension WisdomClientTypes.AssistantSummary {
 
-    static func write(value: WisdomClientTypes.ServerSideEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kmsKeyId"].write(value.kmsKeyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.ServerSideEncryptionConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.AssistantSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.ServerSideEncryptionConfiguration()
-        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension WisdomClientTypes.AssistantAssociationData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.AssistantAssociationData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.AssistantAssociationData()
-        value.assistantAssociationId = try reader["assistantAssociationId"].readIfPresent() ?? ""
-        value.assistantAssociationArn = try reader["assistantAssociationArn"].readIfPresent() ?? ""
+        var value = WisdomClientTypes.AssistantSummary()
         value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
         value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
-        value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
-        value.associationData = try reader["associationData"].readIfPresent(with: WisdomClientTypes.AssistantAssociationOutputData.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension WisdomClientTypes.AssistantAssociationOutputData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.AssistantAssociationOutputData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "knowledgeBaseAssociation":
-                return .knowledgebaseassociation(try reader["knowledgeBaseAssociation"].read(with: WisdomClientTypes.KnowledgeBaseAssociationData.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension WisdomClientTypes.KnowledgeBaseAssociationData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.KnowledgeBaseAssociationData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.KnowledgeBaseAssociationData()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
-        return value
-    }
-}
-
-extension WisdomClientTypes.ContentData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.ContentData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.ContentData()
-        value.contentArn = try reader["contentArn"].readIfPresent() ?? ""
-        value.contentId = try reader["contentId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
-        value.title = try reader["title"].readIfPresent() ?? ""
-        value.contentType = try reader["contentType"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.description = try reader["description"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.linkOutUri = try reader["linkOutUri"].readIfPresent()
-        value.url = try reader["url"].readIfPresent() ?? ""
-        value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension WisdomClientTypes.KnowledgeBaseData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.KnowledgeBaseData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.KnowledgeBaseData()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.knowledgeBaseType = try reader["knowledgeBaseType"].readIfPresent() ?? .sdkUnknown("")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.lastContentModificationTime = try reader["lastContentModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.sourceConfiguration = try reader["sourceConfiguration"].readIfPresent(with: WisdomClientTypes.SourceConfiguration.read(from:))
-        value.renderingConfiguration = try reader["renderingConfiguration"].readIfPresent(with: WisdomClientTypes.RenderingConfiguration.read(from:))
         value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: WisdomClientTypes.ServerSideEncryptionConfiguration.read(from:))
-        value.description = try reader["description"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension WisdomClientTypes.RenderingConfiguration {
-
-    static func write(value: WisdomClientTypes.RenderingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["templateUri"].write(value.templateUri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.RenderingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.RenderingConfiguration()
-        value.templateUri = try reader["templateUri"].readIfPresent()
-        return value
-    }
-}
-
-extension WisdomClientTypes.SourceConfiguration {
-
-    static func write(value: WisdomClientTypes.SourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .appintegrations(appintegrations):
-                try writer["appIntegrations"].write(appintegrations, with: WisdomClientTypes.AppIntegrationsConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.SourceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "appIntegrations":
-                return .appintegrations(try reader["appIntegrations"].read(with: WisdomClientTypes.AppIntegrationsConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension WisdomClientTypes.AppIntegrationsConfiguration {
-
-    static func write(value: WisdomClientTypes.AppIntegrationsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appIntegrationArn"].write(value.appIntegrationArn)
-        try writer["objectFields"].writeList(value.objectFields, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.AppIntegrationsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.AppIntegrationsConfiguration()
-        value.appIntegrationArn = try reader["appIntegrationArn"].readIfPresent() ?? ""
-        value.objectFields = try reader["objectFields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WisdomClientTypes.QuickResponseData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.QuickResponseData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.QuickResponseData()
-        value.quickResponseArn = try reader["quickResponseArn"].readIfPresent() ?? ""
-        value.quickResponseId = try reader["quickResponseId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.contentType = try reader["contentType"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.contents = try reader["contents"].readIfPresent(with: WisdomClientTypes.QuickResponseContents.read(from:))
-        value.description = try reader["description"].readIfPresent()
-        value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: WisdomClientTypes.GroupingConfiguration.read(from:))
-        value.shortcutKey = try reader["shortcutKey"].readIfPresent()
-        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
-        value.isActive = try reader["isActive"].readIfPresent()
-        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.language = try reader["language"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension WisdomClientTypes.GroupingConfiguration {
-
-    static func write(value: WisdomClientTypes.GroupingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["criteria"].write(value.criteria)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.GroupingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.GroupingConfiguration()
-        value.criteria = try reader["criteria"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WisdomClientTypes.QuickResponseContents {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.QuickResponseContents {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.QuickResponseContents()
-        value.plainText = try reader["plainText"].readIfPresent(with: WisdomClientTypes.QuickResponseContentProvider.read(from:))
-        value.markdown = try reader["markdown"].readIfPresent(with: WisdomClientTypes.QuickResponseContentProvider.read(from:))
-        return value
-    }
-}
-
-extension WisdomClientTypes.QuickResponseContentProvider {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.QuickResponseContentProvider {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "content":
-                return .content(try reader["content"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension WisdomClientTypes.SessionData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.SessionData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.SessionData()
-        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
-        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.integrationConfiguration = try reader["integrationConfiguration"].readIfPresent(with: WisdomClientTypes.SessionIntegrationConfiguration.read(from:))
-        return value
-    }
-}
-
-extension WisdomClientTypes.SessionIntegrationConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.SessionIntegrationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.SessionIntegrationConfiguration()
-        value.topicIntegrationArn = try reader["topicIntegrationArn"].readIfPresent()
-        return value
-    }
-}
-
-extension WisdomClientTypes.ContentSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.ContentSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.ContentSummary()
-        value.contentArn = try reader["contentArn"].readIfPresent() ?? ""
-        value.contentId = try reader["contentId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
-        value.title = try reader["title"].readIfPresent() ?? ""
-        value.contentType = try reader["contentType"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension WisdomClientTypes.ImportJobData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.ImportJobData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.ImportJobData()
-        value.importJobId = try reader["importJobId"].readIfPresent() ?? ""
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.uploadId = try reader["uploadId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.importJobType = try reader["importJobType"].readIfPresent() ?? .sdkUnknown("")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.url = try reader["url"].readIfPresent() ?? ""
-        value.failedRecordReport = try reader["failedRecordReport"].readIfPresent()
-        value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.externalSourceConfiguration = try reader["externalSourceConfiguration"].readIfPresent(with: WisdomClientTypes.ExternalSourceConfiguration.read(from:))
-        return value
-    }
-}
-
-extension WisdomClientTypes.ExternalSourceConfiguration {
-
-    static func write(value: WisdomClientTypes.ExternalSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configuration"].write(value.configuration, with: WisdomClientTypes.Configuration.write(value:to:))
-        try writer["source"].write(value.source)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.ExternalSourceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.ExternalSourceConfiguration()
-        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
-        value.configuration = try reader["configuration"].readIfPresent(with: WisdomClientTypes.Configuration.read(from:))
+        value.integrationConfiguration = try reader["integrationConfiguration"].readIfPresent(with: WisdomClientTypes.AssistantIntegrationConfiguration.read(from:))
         return value
     }
 }
@@ -6409,16 +6195,58 @@ extension WisdomClientTypes.ConnectConfiguration {
     }
 }
 
-extension WisdomClientTypes.RecommendationData {
+extension WisdomClientTypes.ContentData {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.RecommendationData {
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.ContentData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.RecommendationData()
-        value.recommendationId = try reader["recommendationId"].readIfPresent() ?? ""
-        value.document = try reader["document"].readIfPresent(with: WisdomClientTypes.Document.read(from:))
-        value.relevanceScore = try reader["relevanceScore"].readIfPresent() ?? 0
-        value.relevanceLevel = try reader["relevanceLevel"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        var value = WisdomClientTypes.ContentData()
+        value.contentArn = try reader["contentArn"].readIfPresent() ?? ""
+        value.contentId = try reader["contentId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.contentType = try reader["contentType"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.linkOutUri = try reader["linkOutUri"].readIfPresent()
+        value.url = try reader["url"].readIfPresent() ?? ""
+        value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension WisdomClientTypes.ContentReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.ContentReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.ContentReference()
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
+        value.contentArn = try reader["contentArn"].readIfPresent()
+        value.contentId = try reader["contentId"].readIfPresent()
+        return value
+    }
+}
+
+extension WisdomClientTypes.ContentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.ContentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.ContentSummary()
+        value.contentArn = try reader["contentArn"].readIfPresent() ?? ""
+        value.contentId = try reader["contentId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.contentType = try reader["contentType"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -6446,6 +6274,50 @@ extension WisdomClientTypes.DocumentText {
     }
 }
 
+extension WisdomClientTypes.ExternalSourceConfiguration {
+
+    static func write(value: WisdomClientTypes.ExternalSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: WisdomClientTypes.Configuration.write(value:to:))
+        try writer["source"].write(value.source)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.ExternalSourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.ExternalSourceConfiguration()
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
+        value.configuration = try reader["configuration"].readIfPresent(with: WisdomClientTypes.Configuration.read(from:))
+        return value
+    }
+}
+
+extension WisdomClientTypes.Filter {
+
+    static func write(value: WisdomClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["field"].write(value.field)
+        try writer["operator"].write(value.`operator`)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension WisdomClientTypes.GroupingConfiguration {
+
+    static func write(value: WisdomClientTypes.GroupingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["criteria"].write(value.criteria)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.GroupingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.GroupingConfiguration()
+        value.criteria = try reader["criteria"].readIfPresent()
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension WisdomClientTypes.Highlight {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.Highlight {
@@ -6457,87 +6329,24 @@ extension WisdomClientTypes.Highlight {
     }
 }
 
-extension WisdomClientTypes.ContentReference {
+extension WisdomClientTypes.ImportJobData {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.ContentReference {
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.ImportJobData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.ContentReference()
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
-        value.contentArn = try reader["contentArn"].readIfPresent()
-        value.contentId = try reader["contentId"].readIfPresent()
-        return value
-    }
-}
-
-extension WisdomClientTypes.RecommendationTrigger {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.RecommendationTrigger {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.RecommendationTrigger()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
-        value.data = try reader["data"].readIfPresent(with: WisdomClientTypes.RecommendationTriggerData.read(from:))
-        value.recommendationIds = try reader["recommendationIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension WisdomClientTypes.RecommendationTriggerData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.RecommendationTriggerData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "query":
-                return .query(try reader["query"].read(with: WisdomClientTypes.QueryRecommendationTriggerData.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension WisdomClientTypes.QueryRecommendationTriggerData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.QueryRecommendationTriggerData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.QueryRecommendationTriggerData()
-        value.text = try reader["text"].readIfPresent()
-        return value
-    }
-}
-
-extension WisdomClientTypes.AssistantAssociationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.AssistantAssociationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.AssistantAssociationSummary()
-        value.assistantAssociationId = try reader["assistantAssociationId"].readIfPresent() ?? ""
-        value.assistantAssociationArn = try reader["assistantAssociationArn"].readIfPresent() ?? ""
-        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
-        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
-        value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
-        value.associationData = try reader["associationData"].readIfPresent(with: WisdomClientTypes.AssistantAssociationOutputData.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension WisdomClientTypes.AssistantSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.AssistantSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.AssistantSummary()
-        value.assistantId = try reader["assistantId"].readIfPresent() ?? ""
-        value.assistantArn = try reader["assistantArn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        var value = WisdomClientTypes.ImportJobData()
+        value.importJobId = try reader["importJobId"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.uploadId = try reader["uploadId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.importJobType = try reader["importJobType"].readIfPresent() ?? .sdkUnknown("")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.description = try reader["description"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: WisdomClientTypes.ServerSideEncryptionConfiguration.read(from:))
-        value.integrationConfiguration = try reader["integrationConfiguration"].readIfPresent(with: WisdomClientTypes.AssistantIntegrationConfiguration.read(from:))
+        value.url = try reader["url"].readIfPresent() ?? ""
+        value.failedRecordReport = try reader["failedRecordReport"].readIfPresent()
+        value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.externalSourceConfiguration = try reader["externalSourceConfiguration"].readIfPresent(with: WisdomClientTypes.ExternalSourceConfiguration.read(from:))
         return value
     }
 }
@@ -6561,6 +6370,37 @@ extension WisdomClientTypes.ImportJobSummary {
     }
 }
 
+extension WisdomClientTypes.KnowledgeBaseAssociationData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.KnowledgeBaseAssociationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.KnowledgeBaseAssociationData()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
+        return value
+    }
+}
+
+extension WisdomClientTypes.KnowledgeBaseData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.KnowledgeBaseData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.KnowledgeBaseData()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.knowledgeBaseType = try reader["knowledgeBaseType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.lastContentModificationTime = try reader["lastContentModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.sourceConfiguration = try reader["sourceConfiguration"].readIfPresent(with: WisdomClientTypes.SourceConfiguration.read(from:))
+        value.renderingConfiguration = try reader["renderingConfiguration"].readIfPresent(with: WisdomClientTypes.RenderingConfiguration.read(from:))
+        value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: WisdomClientTypes.ServerSideEncryptionConfiguration.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension WisdomClientTypes.KnowledgeBaseSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.KnowledgeBaseSummary {
@@ -6580,29 +6420,6 @@ extension WisdomClientTypes.KnowledgeBaseSummary {
     }
 }
 
-extension WisdomClientTypes.QuickResponseSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.QuickResponseSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.QuickResponseSummary()
-        value.quickResponseArn = try reader["quickResponseArn"].readIfPresent() ?? ""
-        value.quickResponseId = try reader["quickResponseId"].readIfPresent() ?? ""
-        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
-        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.contentType = try reader["contentType"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.description = try reader["description"].readIfPresent()
-        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
-        value.isActive = try reader["isActive"].readIfPresent()
-        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
 extension WisdomClientTypes.NotifyRecommendationsReceivedError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.NotifyRecommendationsReceivedError {
@@ -6614,15 +6431,120 @@ extension WisdomClientTypes.NotifyRecommendationsReceivedError {
     }
 }
 
-extension WisdomClientTypes.ResultData {
+extension WisdomClientTypes.QueryRecommendationTriggerData {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.ResultData {
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.QueryRecommendationTriggerData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WisdomClientTypes.ResultData()
-        value.resultId = try reader["resultId"].readIfPresent() ?? ""
-        value.document = try reader["document"].readIfPresent(with: WisdomClientTypes.Document.read(from:))
-        value.relevanceScore = try reader["relevanceScore"].readIfPresent() ?? 0
+        var value = WisdomClientTypes.QueryRecommendationTriggerData()
+        value.text = try reader["text"].readIfPresent()
         return value
+    }
+}
+
+extension WisdomClientTypes.QuickResponseContentProvider {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.QuickResponseContentProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "content":
+                return .content(try reader["content"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension WisdomClientTypes.QuickResponseContents {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.QuickResponseContents {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.QuickResponseContents()
+        value.plainText = try reader["plainText"].readIfPresent(with: WisdomClientTypes.QuickResponseContentProvider.read(from:))
+        value.markdown = try reader["markdown"].readIfPresent(with: WisdomClientTypes.QuickResponseContentProvider.read(from:))
+        return value
+    }
+}
+
+extension WisdomClientTypes.QuickResponseData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.QuickResponseData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.QuickResponseData()
+        value.quickResponseArn = try reader["quickResponseArn"].readIfPresent() ?? ""
+        value.quickResponseId = try reader["quickResponseId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.contentType = try reader["contentType"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.contents = try reader["contents"].readIfPresent(with: WisdomClientTypes.QuickResponseContents.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: WisdomClientTypes.GroupingConfiguration.read(from:))
+        value.shortcutKey = try reader["shortcutKey"].readIfPresent()
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.isActive = try reader["isActive"].readIfPresent()
+        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.language = try reader["language"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension WisdomClientTypes.QuickResponseDataProvider {
+
+    static func write(value: WisdomClientTypes.QuickResponseDataProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .content(content):
+                try writer["content"].write(content)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension WisdomClientTypes.QuickResponseFilterField {
+
+    static func write(value: WisdomClientTypes.QuickResponseFilterField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeNoExistence"].write(value.includeNoExistence)
+        try writer["name"].write(value.name)
+        try writer["operator"].write(value.`operator`)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension WisdomClientTypes.QuickResponseOrderField {
+
+    static func write(value: WisdomClientTypes.QuickResponseOrderField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["order"].write(value.order)
+    }
+}
+
+extension WisdomClientTypes.QuickResponseQueryField {
+
+    static func write(value: WisdomClientTypes.QuickResponseQueryField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowFuzziness"].write(value.allowFuzziness)
+        try writer["name"].write(value.name)
+        try writer["operator"].write(value.`operator`)
+        try writer["priority"].write(value.priority)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension WisdomClientTypes.QuickResponseSearchExpression {
+
+    static func write(value: WisdomClientTypes.QuickResponseSearchExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: WisdomClientTypes.QuickResponseFilterField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["orderOnField"].write(value.orderOnField, with: WisdomClientTypes.QuickResponseOrderField.write(value:to:))
+        try writer["queries"].writeList(value.queries, memberWritingClosure: WisdomClientTypes.QuickResponseQueryField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6655,6 +6577,146 @@ extension WisdomClientTypes.QuickResponseSearchResultData {
     }
 }
 
+extension WisdomClientTypes.QuickResponseSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.QuickResponseSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.QuickResponseSummary()
+        value.quickResponseArn = try reader["quickResponseArn"].readIfPresent() ?? ""
+        value.quickResponseId = try reader["quickResponseId"].readIfPresent() ?? ""
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent() ?? ""
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.contentType = try reader["contentType"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
+        value.isActive = try reader["isActive"].readIfPresent()
+        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension WisdomClientTypes.RecommendationData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.RecommendationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.RecommendationData()
+        value.recommendationId = try reader["recommendationId"].readIfPresent() ?? ""
+        value.document = try reader["document"].readIfPresent(with: WisdomClientTypes.Document.read(from:))
+        value.relevanceScore = try reader["relevanceScore"].readIfPresent() ?? 0
+        value.relevanceLevel = try reader["relevanceLevel"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension WisdomClientTypes.RecommendationTrigger {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.RecommendationTrigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.RecommendationTrigger()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
+        value.data = try reader["data"].readIfPresent(with: WisdomClientTypes.RecommendationTriggerData.read(from:))
+        value.recommendationIds = try reader["recommendationIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WisdomClientTypes.RecommendationTriggerData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.RecommendationTriggerData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "query":
+                return .query(try reader["query"].read(with: WisdomClientTypes.QueryRecommendationTriggerData.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension WisdomClientTypes.RenderingConfiguration {
+
+    static func write(value: WisdomClientTypes.RenderingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["templateUri"].write(value.templateUri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.RenderingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.RenderingConfiguration()
+        value.templateUri = try reader["templateUri"].readIfPresent()
+        return value
+    }
+}
+
+extension WisdomClientTypes.ResultData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.ResultData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.ResultData()
+        value.resultId = try reader["resultId"].readIfPresent() ?? ""
+        value.document = try reader["document"].readIfPresent(with: WisdomClientTypes.Document.read(from:))
+        value.relevanceScore = try reader["relevanceScore"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension WisdomClientTypes.SearchExpression {
+
+    static func write(value: WisdomClientTypes.SearchExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: WisdomClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension WisdomClientTypes.ServerSideEncryptionConfiguration {
+
+    static func write(value: WisdomClientTypes.ServerSideEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsKeyId"].write(value.kmsKeyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.ServerSideEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.ServerSideEncryptionConfiguration()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension WisdomClientTypes.SessionData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.SessionData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.SessionData()
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.integrationConfiguration = try reader["integrationConfiguration"].readIfPresent(with: WisdomClientTypes.SessionIntegrationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension WisdomClientTypes.SessionIntegrationConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.SessionIntegrationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WisdomClientTypes.SessionIntegrationConfiguration()
+        value.topicIntegrationArn = try reader["topicIntegrationArn"].readIfPresent()
+        return value
+    }
+}
+
 extension WisdomClientTypes.SessionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.SessionSummary {
@@ -6668,89 +6730,27 @@ extension WisdomClientTypes.SessionSummary {
     }
 }
 
-extension WisdomClientTypes.AssistantAssociationInputData {
+extension WisdomClientTypes.SourceConfiguration {
 
-    static func write(value: WisdomClientTypes.AssistantAssociationInputData?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WisdomClientTypes.SourceConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .knowledgebaseid(knowledgebaseid):
-                try writer["knowledgeBaseId"].write(knowledgebaseid)
+            case let .appintegrations(appintegrations):
+                try writer["appIntegrations"].write(appintegrations, with: WisdomClientTypes.AppIntegrationsConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
-}
 
-extension WisdomClientTypes.QuickResponseDataProvider {
-
-    static func write(value: WisdomClientTypes.QuickResponseDataProvider?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .content(content):
-                try writer["content"].write(content)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
+    static func read(from reader: SmithyJSON.Reader) throws -> WisdomClientTypes.SourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "appIntegrations":
+                return .appintegrations(try reader["appIntegrations"].read(with: WisdomClientTypes.AppIntegrationsConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
         }
-    }
-}
-
-extension WisdomClientTypes.SearchExpression {
-
-    static func write(value: WisdomClientTypes.SearchExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filters"].writeList(value.filters, memberWritingClosure: WisdomClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension WisdomClientTypes.Filter {
-
-    static func write(value: WisdomClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["field"].write(value.field)
-        try writer["operator"].write(value.`operator`)
-        try writer["value"].write(value.value)
-    }
-}
-
-extension WisdomClientTypes.QuickResponseSearchExpression {
-
-    static func write(value: WisdomClientTypes.QuickResponseSearchExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filters"].writeList(value.filters, memberWritingClosure: WisdomClientTypes.QuickResponseFilterField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["orderOnField"].write(value.orderOnField, with: WisdomClientTypes.QuickResponseOrderField.write(value:to:))
-        try writer["queries"].writeList(value.queries, memberWritingClosure: WisdomClientTypes.QuickResponseQueryField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension WisdomClientTypes.QuickResponseOrderField {
-
-    static func write(value: WisdomClientTypes.QuickResponseOrderField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["order"].write(value.order)
-    }
-}
-
-extension WisdomClientTypes.QuickResponseFilterField {
-
-    static func write(value: WisdomClientTypes.QuickResponseFilterField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["includeNoExistence"].write(value.includeNoExistence)
-        try writer["name"].write(value.name)
-        try writer["operator"].write(value.`operator`)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension WisdomClientTypes.QuickResponseQueryField {
-
-    static func write(value: WisdomClientTypes.QuickResponseQueryField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowFuzziness"].write(value.allowFuzziness)
-        try writer["name"].write(value.name)
-        try writer["operator"].write(value.`operator`)
-        try writer["priority"].write(value.priority)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

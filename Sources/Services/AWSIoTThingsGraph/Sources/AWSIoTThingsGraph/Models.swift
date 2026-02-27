@@ -3812,46 +3812,30 @@ extension ResourceInUseException {
     }
 }
 
-extension IoTThingsGraphClientTypes.FlowTemplateSummary {
+extension IoTThingsGraphClientTypes.DefinitionDocument {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.FlowTemplateSummary {
+    static func write(value: IoTThingsGraphClientTypes.DefinitionDocument?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["language"].write(value.language)
+        try writer["text"].write(value.text)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.DefinitionDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTThingsGraphClientTypes.FlowTemplateSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.revisionNumber = try reader["revisionNumber"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = IoTThingsGraphClientTypes.DefinitionDocument()
+        value.language = try reader["language"].readIfPresent() ?? .sdkUnknown("")
+        value.text = try reader["text"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension IoTThingsGraphClientTypes.SystemInstanceSummary {
+extension IoTThingsGraphClientTypes.DependencyRevision {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.SystemInstanceSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.DependencyRevision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTThingsGraphClientTypes.SystemInstanceSummary()
+        var value = IoTThingsGraphClientTypes.DependencyRevision()
         value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.target = try reader["target"].readIfPresent()
-        value.greengrassGroupName = try reader["greengrassGroupName"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.greengrassGroupId = try reader["greengrassGroupId"].readIfPresent()
-        value.greengrassGroupVersionId = try reader["greengrassGroupVersionId"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTThingsGraphClientTypes.SystemTemplateSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.SystemTemplateSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTThingsGraphClientTypes.SystemTemplateSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
         value.revisionNumber = try reader["revisionNumber"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -3870,19 +3854,39 @@ extension IoTThingsGraphClientTypes.EntityDescription {
     }
 }
 
-extension IoTThingsGraphClientTypes.DefinitionDocument {
+extension IoTThingsGraphClientTypes.EntityFilter {
 
-    static func write(value: IoTThingsGraphClientTypes.DefinitionDocument?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTThingsGraphClientTypes.EntityFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["language"].write(value.language)
-        try writer["text"].write(value.text)
+        try writer["name"].write(value.name)
+        try writer["value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.DefinitionDocument {
+extension IoTThingsGraphClientTypes.FlowExecutionMessage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.FlowExecutionMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTThingsGraphClientTypes.DefinitionDocument()
-        value.language = try reader["language"].readIfPresent() ?? .sdkUnknown("")
-        value.text = try reader["text"].readIfPresent() ?? ""
+        var value = IoTThingsGraphClientTypes.FlowExecutionMessage()
+        value.messageId = try reader["messageId"].readIfPresent()
+        value.eventType = try reader["eventType"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.payload = try reader["payload"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTThingsGraphClientTypes.FlowExecutionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.FlowExecutionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTThingsGraphClientTypes.FlowExecutionSummary()
+        value.flowExecutionId = try reader["flowExecutionId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.systemInstanceId = try reader["systemInstanceId"].readIfPresent()
+        value.flowTemplateId = try reader["flowTemplateId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -3899,29 +3903,24 @@ extension IoTThingsGraphClientTypes.FlowTemplateDescription {
     }
 }
 
-extension IoTThingsGraphClientTypes.SystemInstanceDescription {
+extension IoTThingsGraphClientTypes.FlowTemplateFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.SystemInstanceDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTThingsGraphClientTypes.SystemInstanceDescription()
-        value.summary = try reader["summary"].readIfPresent(with: IoTThingsGraphClientTypes.SystemInstanceSummary.read(from:))
-        value.definition = try reader["definition"].readIfPresent(with: IoTThingsGraphClientTypes.DefinitionDocument.read(from:))
-        value.s3BucketName = try reader["s3BucketName"].readIfPresent()
-        value.metricsConfiguration = try reader["metricsConfiguration"].readIfPresent(with: IoTThingsGraphClientTypes.MetricsConfiguration.read(from:))
-        value.validatedNamespaceVersion = try reader["validatedNamespaceVersion"].readIfPresent()
-        value.validatedDependencyRevisions = try reader["validatedDependencyRevisions"].readListIfPresent(memberReadingClosure: IoTThingsGraphClientTypes.DependencyRevision.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.flowActionsRoleArn = try reader["flowActionsRoleArn"].readIfPresent()
-        return value
+    static func write(value: IoTThingsGraphClientTypes.FlowTemplateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension IoTThingsGraphClientTypes.DependencyRevision {
+extension IoTThingsGraphClientTypes.FlowTemplateSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.DependencyRevision {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.FlowTemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTThingsGraphClientTypes.DependencyRevision()
+        var value = IoTThingsGraphClientTypes.FlowTemplateSummary()
         value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
         value.revisionNumber = try reader["revisionNumber"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -3943,6 +3942,49 @@ extension IoTThingsGraphClientTypes.MetricsConfiguration {
     }
 }
 
+extension IoTThingsGraphClientTypes.SystemInstanceDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.SystemInstanceDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTThingsGraphClientTypes.SystemInstanceDescription()
+        value.summary = try reader["summary"].readIfPresent(with: IoTThingsGraphClientTypes.SystemInstanceSummary.read(from:))
+        value.definition = try reader["definition"].readIfPresent(with: IoTThingsGraphClientTypes.DefinitionDocument.read(from:))
+        value.s3BucketName = try reader["s3BucketName"].readIfPresent()
+        value.metricsConfiguration = try reader["metricsConfiguration"].readIfPresent(with: IoTThingsGraphClientTypes.MetricsConfiguration.read(from:))
+        value.validatedNamespaceVersion = try reader["validatedNamespaceVersion"].readIfPresent()
+        value.validatedDependencyRevisions = try reader["validatedDependencyRevisions"].readListIfPresent(memberReadingClosure: IoTThingsGraphClientTypes.DependencyRevision.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.flowActionsRoleArn = try reader["flowActionsRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTThingsGraphClientTypes.SystemInstanceFilter {
+
+    static func write(value: IoTThingsGraphClientTypes.SystemInstanceFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension IoTThingsGraphClientTypes.SystemInstanceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.SystemInstanceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTThingsGraphClientTypes.SystemInstanceSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.target = try reader["target"].readIfPresent()
+        value.greengrassGroupName = try reader["greengrassGroupName"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.greengrassGroupId = try reader["greengrassGroupId"].readIfPresent()
+        value.greengrassGroupVersionId = try reader["greengrassGroupVersionId"].readIfPresent()
+        return value
+    }
+}
+
 extension IoTThingsGraphClientTypes.SystemTemplateDescription {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.SystemTemplateDescription {
@@ -3955,15 +3997,24 @@ extension IoTThingsGraphClientTypes.SystemTemplateDescription {
     }
 }
 
-extension IoTThingsGraphClientTypes.FlowExecutionMessage {
+extension IoTThingsGraphClientTypes.SystemTemplateFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.FlowExecutionMessage {
+    static func write(value: IoTThingsGraphClientTypes.SystemTemplateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension IoTThingsGraphClientTypes.SystemTemplateSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.SystemTemplateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTThingsGraphClientTypes.FlowExecutionMessage()
-        value.messageId = try reader["messageId"].readIfPresent()
-        value.eventType = try reader["eventType"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.payload = try reader["payload"].readIfPresent()
+        var value = IoTThingsGraphClientTypes.SystemTemplateSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.revisionNumber = try reader["revisionNumber"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -3985,21 +4036,6 @@ extension IoTThingsGraphClientTypes.Tag {
     }
 }
 
-extension IoTThingsGraphClientTypes.FlowExecutionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.FlowExecutionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTThingsGraphClientTypes.FlowExecutionSummary()
-        value.flowExecutionId = try reader["flowExecutionId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.systemInstanceId = try reader["systemInstanceId"].readIfPresent()
-        value.flowTemplateId = try reader["flowTemplateId"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
 extension IoTThingsGraphClientTypes.Thing {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTThingsGraphClientTypes.Thing {
@@ -4008,42 +4044,6 @@ extension IoTThingsGraphClientTypes.Thing {
         value.thingArn = try reader["thingArn"].readIfPresent()
         value.thingName = try reader["thingName"].readIfPresent()
         return value
-    }
-}
-
-extension IoTThingsGraphClientTypes.EntityFilter {
-
-    static func write(value: IoTThingsGraphClientTypes.EntityFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension IoTThingsGraphClientTypes.FlowTemplateFilter {
-
-    static func write(value: IoTThingsGraphClientTypes.FlowTemplateFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension IoTThingsGraphClientTypes.SystemInstanceFilter {
-
-    static func write(value: IoTThingsGraphClientTypes.SystemInstanceFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension IoTThingsGraphClientTypes.SystemTemplateFilter {
-
-    static func write(value: IoTThingsGraphClientTypes.SystemTemplateFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

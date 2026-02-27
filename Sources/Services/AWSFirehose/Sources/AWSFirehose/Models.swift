@@ -6073,132 +6073,197 @@ extension ConcurrentModificationException {
     }
 }
 
-extension FirehoseClientTypes.DeliveryStreamDescription {
+extension FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DeliveryStreamDescription {
+    static func write(value: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IntervalInSeconds"].write(value.intervalInSeconds)
+        try writer["SizeInMBs"].write(value.sizeInMBs)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.DeliveryStreamDescription()
-        value.deliveryStreamName = try reader["DeliveryStreamName"].readIfPresent() ?? ""
-        value.deliveryStreamARN = try reader["DeliveryStreamARN"].readIfPresent() ?? ""
-        value.deliveryStreamStatus = try reader["DeliveryStreamStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.failureDescription = try reader["FailureDescription"].readIfPresent(with: FirehoseClientTypes.FailureDescription.read(from:))
-        value.deliveryStreamEncryptionConfiguration = try reader["DeliveryStreamEncryptionConfiguration"].readIfPresent(with: FirehoseClientTypes.DeliveryStreamEncryptionConfiguration.read(from:))
-        value.deliveryStreamType = try reader["DeliveryStreamType"].readIfPresent() ?? .sdkUnknown("")
-        value.versionId = try reader["VersionId"].readIfPresent() ?? ""
-        value.createTimestamp = try reader["CreateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdateTimestamp = try reader["LastUpdateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.source = try reader["Source"].readIfPresent(with: FirehoseClientTypes.SourceDescription.read(from:))
-        value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: FirehoseClientTypes.DestinationDescription.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.hasMoreDestinations = try reader["HasMoreDestinations"].readIfPresent() ?? false
+        var value = FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints()
+        value.intervalInSeconds = try reader["IntervalInSeconds"].readIfPresent()
+        value.sizeInMBs = try reader["SizeInMBs"].readIfPresent()
         return value
     }
 }
 
-extension FirehoseClientTypes.DestinationDescription {
+extension FirehoseClientTypes.AmazonOpenSearchServerlessDestinationConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DestinationDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.DestinationDescription()
-        value.destinationId = try reader["DestinationId"].readIfPresent() ?? ""
-        value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
-        value.extendedS3DestinationDescription = try reader["ExtendedS3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.ExtendedS3DestinationDescription.read(from:))
-        value.redshiftDestinationDescription = try reader["RedshiftDestinationDescription"].readIfPresent(with: FirehoseClientTypes.RedshiftDestinationDescription.read(from:))
-        value.elasticsearchDestinationDescription = try reader["ElasticsearchDestinationDescription"].readIfPresent(with: FirehoseClientTypes.ElasticsearchDestinationDescription.read(from:))
-        value.amazonopensearchserviceDestinationDescription = try reader["AmazonopensearchserviceDestinationDescription"].readIfPresent(with: FirehoseClientTypes.AmazonopensearchserviceDestinationDescription.read(from:))
-        value.splunkDestinationDescription = try reader["SplunkDestinationDescription"].readIfPresent(with: FirehoseClientTypes.SplunkDestinationDescription.read(from:))
-        value.httpEndpointDestinationDescription = try reader["HttpEndpointDestinationDescription"].readIfPresent(with: FirehoseClientTypes.HttpEndpointDestinationDescription.read(from:))
-        value.snowflakeDestinationDescription = try reader["SnowflakeDestinationDescription"].readIfPresent(with: FirehoseClientTypes.SnowflakeDestinationDescription.read(from:))
-        value.amazonOpenSearchServerlessDestinationDescription = try reader["AmazonOpenSearchServerlessDestinationDescription"].readIfPresent(with: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription.read(from:))
-        value.icebergDestinationDescription = try reader["IcebergDestinationDescription"].readIfPresent(with: FirehoseClientTypes.IcebergDestinationDescription.read(from:))
-        return value
+    static func write(value: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints.write(value:to:))
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["CollectionEndpoint"].write(value.collectionEndpoint)
+        try writer["IndexName"].write(value.indexName)
+        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
+        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions.write(value:to:))
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["S3BackupMode"].write(value.s3BackupMode)
+        try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
+        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: FirehoseClientTypes.VpcConfiguration.write(value:to:))
     }
 }
 
-extension FirehoseClientTypes.IcebergDestinationDescription {
+extension FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.IcebergDestinationDescription {
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.IcebergDestinationDescription()
-        value.destinationTableConfigurationList = try reader["DestinationTableConfigurationList"].readListIfPresent(memberReadingClosure: FirehoseClientTypes.DestinationTableConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.schemaEvolutionConfiguration = try reader["SchemaEvolutionConfiguration"].readIfPresent(with: FirehoseClientTypes.SchemaEvolutionConfiguration.read(from:))
-        value.tableCreationConfiguration = try reader["TableCreationConfiguration"].readIfPresent(with: FirehoseClientTypes.TableCreationConfiguration.read(from:))
-        value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.BufferingHints.read(from:))
-        value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
-        value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
-        value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
-        value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.RetryOptions.read(from:))
+        var value = FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription()
         value.roleARN = try reader["RoleARN"].readIfPresent()
-        value.appendOnly = try reader["AppendOnly"].readIfPresent()
-        value.catalogConfiguration = try reader["CatalogConfiguration"].readIfPresent(with: FirehoseClientTypes.CatalogConfiguration.read(from:))
+        value.collectionEndpoint = try reader["CollectionEndpoint"].readIfPresent()
+        value.indexName = try reader["IndexName"].readIfPresent()
+        value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints.read(from:))
+        value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions.read(from:))
+        value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
         value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
-        return value
-    }
-}
-
-extension FirehoseClientTypes.S3DestinationDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.S3DestinationDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.S3DestinationDescription()
-        value.roleARN = try reader["RoleARN"].readIfPresent() ?? ""
-        value.bucketARN = try reader["BucketARN"].readIfPresent() ?? ""
-        value.`prefix` = try reader["Prefix"].readIfPresent()
-        value.errorOutputPrefix = try reader["ErrorOutputPrefix"].readIfPresent()
-        value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.BufferingHints.read(from:))
-        value.compressionFormat = try reader["CompressionFormat"].readIfPresent() ?? .sdkUnknown("")
-        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: FirehoseClientTypes.EncryptionConfiguration.read(from:))
+        value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
         value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
+        value.vpcConfigurationDescription = try reader["VpcConfigurationDescription"].readIfPresent(with: FirehoseClientTypes.VpcConfigurationDescription.read(from:))
         return value
     }
 }
 
-extension FirehoseClientTypes.CloudWatchLoggingOptions {
+extension FirehoseClientTypes.AmazonOpenSearchServerlessDestinationUpdate {
 
-    static func write(value: FirehoseClientTypes.CloudWatchLoggingOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["LogGroupName"].write(value.logGroupName)
-        try writer["LogStreamName"].write(value.logStreamName)
+        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints.write(value:to:))
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["CollectionEndpoint"].write(value.collectionEndpoint)
+        try writer["IndexName"].write(value.indexName)
+        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
+        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions.write(value:to:))
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["S3Update"].write(value.s3Update, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
+    }
+}
+
+extension FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions {
+
+    static func write(value: FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DurationInSeconds"].write(value.durationInSeconds)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.CloudWatchLoggingOptions {
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.CloudWatchLoggingOptions()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.logGroupName = try reader["LogGroupName"].readIfPresent()
-        value.logStreamName = try reader["LogStreamName"].readIfPresent()
+        var value = FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions()
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
         return value
     }
 }
 
-extension FirehoseClientTypes.EncryptionConfiguration {
+extension FirehoseClientTypes.AmazonopensearchserviceBufferingHints {
 
-    static func write(value: FirehoseClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FirehoseClientTypes.AmazonopensearchserviceBufferingHints?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["KMSEncryptionConfig"].write(value.kmsEncryptionConfig, with: FirehoseClientTypes.KMSEncryptionConfig.write(value:to:))
-        try writer["NoEncryptionConfig"].write(value.noEncryptionConfig)
+        try writer["IntervalInSeconds"].write(value.intervalInSeconds)
+        try writer["SizeInMBs"].write(value.sizeInMBs)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.EncryptionConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.AmazonopensearchserviceBufferingHints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.EncryptionConfiguration()
-        value.noEncryptionConfig = try reader["NoEncryptionConfig"].readIfPresent()
-        value.kmsEncryptionConfig = try reader["KMSEncryptionConfig"].readIfPresent(with: FirehoseClientTypes.KMSEncryptionConfig.read(from:))
+        var value = FirehoseClientTypes.AmazonopensearchserviceBufferingHints()
+        value.intervalInSeconds = try reader["IntervalInSeconds"].readIfPresent()
+        value.sizeInMBs = try reader["SizeInMBs"].readIfPresent()
         return value
     }
 }
 
-extension FirehoseClientTypes.KMSEncryptionConfig {
+extension FirehoseClientTypes.AmazonopensearchserviceDestinationConfiguration {
 
-    static func write(value: FirehoseClientTypes.KMSEncryptionConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FirehoseClientTypes.AmazonopensearchserviceDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AWSKMSKeyARN"].write(value.awskmsKeyARN)
+        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.AmazonopensearchserviceBufferingHints.write(value:to:))
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["ClusterEndpoint"].write(value.clusterEndpoint)
+        try writer["DocumentIdOptions"].write(value.documentIdOptions, with: FirehoseClientTypes.DocumentIdOptions.write(value:to:))
+        try writer["DomainARN"].write(value.domainARN)
+        try writer["IndexName"].write(value.indexName)
+        try writer["IndexRotationPeriod"].write(value.indexRotationPeriod)
+        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
+        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.AmazonopensearchserviceRetryOptions.write(value:to:))
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["S3BackupMode"].write(value.s3BackupMode)
+        try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
+        try writer["TypeName"].write(value.typeName)
+        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: FirehoseClientTypes.VpcConfiguration.write(value:to:))
+    }
+}
+
+extension FirehoseClientTypes.AmazonopensearchserviceDestinationDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.AmazonopensearchserviceDestinationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.AmazonopensearchserviceDestinationDescription()
+        value.roleARN = try reader["RoleARN"].readIfPresent()
+        value.domainARN = try reader["DomainARN"].readIfPresent()
+        value.clusterEndpoint = try reader["ClusterEndpoint"].readIfPresent()
+        value.indexName = try reader["IndexName"].readIfPresent()
+        value.typeName = try reader["TypeName"].readIfPresent()
+        value.indexRotationPeriod = try reader["IndexRotationPeriod"].readIfPresent()
+        value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.AmazonopensearchserviceBufferingHints.read(from:))
+        value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.AmazonopensearchserviceRetryOptions.read(from:))
+        value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
+        value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
+        value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
+        value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
+        value.vpcConfigurationDescription = try reader["VpcConfigurationDescription"].readIfPresent(with: FirehoseClientTypes.VpcConfigurationDescription.read(from:))
+        value.documentIdOptions = try reader["DocumentIdOptions"].readIfPresent(with: FirehoseClientTypes.DocumentIdOptions.read(from:))
+        return value
+    }
+}
+
+extension FirehoseClientTypes.AmazonopensearchserviceDestinationUpdate {
+
+    static func write(value: FirehoseClientTypes.AmazonopensearchserviceDestinationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.AmazonopensearchserviceBufferingHints.write(value:to:))
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["ClusterEndpoint"].write(value.clusterEndpoint)
+        try writer["DocumentIdOptions"].write(value.documentIdOptions, with: FirehoseClientTypes.DocumentIdOptions.write(value:to:))
+        try writer["DomainARN"].write(value.domainARN)
+        try writer["IndexName"].write(value.indexName)
+        try writer["IndexRotationPeriod"].write(value.indexRotationPeriod)
+        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
+        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.AmazonopensearchserviceRetryOptions.write(value:to:))
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["S3Update"].write(value.s3Update, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
+        try writer["TypeName"].write(value.typeName)
+    }
+}
+
+extension FirehoseClientTypes.AmazonopensearchserviceRetryOptions {
+
+    static func write(value: FirehoseClientTypes.AmazonopensearchserviceRetryOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DurationInSeconds"].write(value.durationInSeconds)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.KMSEncryptionConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.AmazonopensearchserviceRetryOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.KMSEncryptionConfig()
-        value.awskmsKeyARN = try reader["AWSKMSKeyARN"].readIfPresent() ?? ""
+        var value = FirehoseClientTypes.AmazonopensearchserviceRetryOptions()
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.AuthenticationConfiguration {
+
+    static func write(value: FirehoseClientTypes.AuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Connectivity"].write(value.connectivity)
+        try writer["RoleARN"].write(value.roleARN)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.AuthenticationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.AuthenticationConfiguration()
+        value.roleARN = try reader["RoleARN"].readIfPresent() ?? ""
+        value.connectivity = try reader["Connectivity"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -6237,17 +6302,952 @@ extension FirehoseClientTypes.CatalogConfiguration {
     }
 }
 
-extension FirehoseClientTypes.RetryOptions {
+extension FirehoseClientTypes.CloudWatchLoggingOptions {
 
-    static func write(value: FirehoseClientTypes.RetryOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FirehoseClientTypes.CloudWatchLoggingOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["LogGroupName"].write(value.logGroupName)
+        try writer["LogStreamName"].write(value.logStreamName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.CloudWatchLoggingOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.CloudWatchLoggingOptions()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.logGroupName = try reader["LogGroupName"].readIfPresent()
+        value.logStreamName = try reader["LogStreamName"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.CopyCommand {
+
+    static func write(value: FirehoseClientTypes.CopyCommand?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CopyOptions"].write(value.copyOptions)
+        try writer["DataTableColumns"].write(value.dataTableColumns)
+        try writer["DataTableName"].write(value.dataTableName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.CopyCommand {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.CopyCommand()
+        value.dataTableName = try reader["DataTableName"].readIfPresent() ?? ""
+        value.dataTableColumns = try reader["DataTableColumns"].readIfPresent()
+        value.copyOptions = try reader["CopyOptions"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.DatabaseColumnList {
+
+    static func write(value: FirehoseClientTypes.DatabaseColumnList?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Exclude"].writeList(value.exclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Include"].writeList(value.include, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DatabaseColumnList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.DatabaseColumnList()
+        value.include = try reader["Include"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclude = try reader["Exclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FirehoseClientTypes.DatabaseList {
+
+    static func write(value: FirehoseClientTypes.DatabaseList?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Exclude"].writeList(value.exclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Include"].writeList(value.include, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DatabaseList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.DatabaseList()
+        value.include = try reader["Include"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclude = try reader["Exclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FirehoseClientTypes.DatabaseSnapshotInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DatabaseSnapshotInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.DatabaseSnapshotInfo()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.requestTimestamp = try reader["RequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.requestedBy = try reader["RequestedBy"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.failureDescription = try reader["FailureDescription"].readIfPresent(with: FirehoseClientTypes.FailureDescription.read(from:))
+        return value
+    }
+}
+
+extension FirehoseClientTypes.DatabaseSourceAuthenticationConfiguration {
+
+    static func write(value: FirehoseClientTypes.DatabaseSourceAuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DatabaseSourceAuthenticationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.DatabaseSourceAuthenticationConfiguration()
+        value.secretsManagerConfiguration = try reader["SecretsManagerConfiguration"].readIfPresent(with: FirehoseClientTypes.SecretsManagerConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FirehoseClientTypes.DatabaseSourceConfiguration {
+
+    static func write(value: FirehoseClientTypes.DatabaseSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Columns"].write(value.columns, with: FirehoseClientTypes.DatabaseColumnList.write(value:to:))
+        try writer["DatabaseSourceAuthenticationConfiguration"].write(value.databaseSourceAuthenticationConfiguration, with: FirehoseClientTypes.DatabaseSourceAuthenticationConfiguration.write(value:to:))
+        try writer["DatabaseSourceVPCConfiguration"].write(value.databaseSourceVPCConfiguration, with: FirehoseClientTypes.DatabaseSourceVPCConfiguration.write(value:to:))
+        try writer["Databases"].write(value.databases, with: FirehoseClientTypes.DatabaseList.write(value:to:))
+        try writer["Endpoint"].write(value.endpoint)
+        try writer["Port"].write(value.port)
+        try writer["SSLMode"].write(value.sslMode)
+        try writer["SnapshotWatermarkTable"].write(value.snapshotWatermarkTable)
+        try writer["SurrogateKeys"].writeList(value.surrogateKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tables"].write(value.tables, with: FirehoseClientTypes.DatabaseTableList.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension FirehoseClientTypes.DatabaseSourceDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DatabaseSourceDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.DatabaseSourceDescription()
+        value.type = try reader["Type"].readIfPresent()
+        value.endpoint = try reader["Endpoint"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.sslMode = try reader["SSLMode"].readIfPresent()
+        value.databases = try reader["Databases"].readIfPresent(with: FirehoseClientTypes.DatabaseList.read(from:))
+        value.tables = try reader["Tables"].readIfPresent(with: FirehoseClientTypes.DatabaseTableList.read(from:))
+        value.columns = try reader["Columns"].readIfPresent(with: FirehoseClientTypes.DatabaseColumnList.read(from:))
+        value.surrogateKeys = try reader["SurrogateKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.snapshotWatermarkTable = try reader["SnapshotWatermarkTable"].readIfPresent()
+        value.snapshotInfo = try reader["SnapshotInfo"].readListIfPresent(memberReadingClosure: FirehoseClientTypes.DatabaseSnapshotInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.databaseSourceAuthenticationConfiguration = try reader["DatabaseSourceAuthenticationConfiguration"].readIfPresent(with: FirehoseClientTypes.DatabaseSourceAuthenticationConfiguration.read(from:))
+        value.databaseSourceVPCConfiguration = try reader["DatabaseSourceVPCConfiguration"].readIfPresent(with: FirehoseClientTypes.DatabaseSourceVPCConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FirehoseClientTypes.DatabaseSourceVPCConfiguration {
+
+    static func write(value: FirehoseClientTypes.DatabaseSourceVPCConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["VpcEndpointServiceName"].write(value.vpcEndpointServiceName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DatabaseSourceVPCConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.DatabaseSourceVPCConfiguration()
+        value.vpcEndpointServiceName = try reader["VpcEndpointServiceName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension FirehoseClientTypes.DatabaseTableList {
+
+    static func write(value: FirehoseClientTypes.DatabaseTableList?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Exclude"].writeList(value.exclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Include"].writeList(value.include, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DatabaseTableList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.DatabaseTableList()
+        value.include = try reader["Include"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclude = try reader["Exclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FirehoseClientTypes.DataFormatConversionConfiguration {
+
+    static func write(value: FirehoseClientTypes.DataFormatConversionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["InputFormatConfiguration"].write(value.inputFormatConfiguration, with: FirehoseClientTypes.InputFormatConfiguration.write(value:to:))
+        try writer["OutputFormatConfiguration"].write(value.outputFormatConfiguration, with: FirehoseClientTypes.OutputFormatConfiguration.write(value:to:))
+        try writer["SchemaConfiguration"].write(value.schemaConfiguration, with: FirehoseClientTypes.SchemaConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DataFormatConversionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.DataFormatConversionConfiguration()
+        value.schemaConfiguration = try reader["SchemaConfiguration"].readIfPresent(with: FirehoseClientTypes.SchemaConfiguration.read(from:))
+        value.inputFormatConfiguration = try reader["InputFormatConfiguration"].readIfPresent(with: FirehoseClientTypes.InputFormatConfiguration.read(from:))
+        value.outputFormatConfiguration = try reader["OutputFormatConfiguration"].readIfPresent(with: FirehoseClientTypes.OutputFormatConfiguration.read(from:))
+        value.enabled = try reader["Enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.DeliveryStreamDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DeliveryStreamDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.DeliveryStreamDescription()
+        value.deliveryStreamName = try reader["DeliveryStreamName"].readIfPresent() ?? ""
+        value.deliveryStreamARN = try reader["DeliveryStreamARN"].readIfPresent() ?? ""
+        value.deliveryStreamStatus = try reader["DeliveryStreamStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.failureDescription = try reader["FailureDescription"].readIfPresent(with: FirehoseClientTypes.FailureDescription.read(from:))
+        value.deliveryStreamEncryptionConfiguration = try reader["DeliveryStreamEncryptionConfiguration"].readIfPresent(with: FirehoseClientTypes.DeliveryStreamEncryptionConfiguration.read(from:))
+        value.deliveryStreamType = try reader["DeliveryStreamType"].readIfPresent() ?? .sdkUnknown("")
+        value.versionId = try reader["VersionId"].readIfPresent() ?? ""
+        value.createTimestamp = try reader["CreateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateTimestamp = try reader["LastUpdateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.source = try reader["Source"].readIfPresent(with: FirehoseClientTypes.SourceDescription.read(from:))
+        value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: FirehoseClientTypes.DestinationDescription.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.hasMoreDestinations = try reader["HasMoreDestinations"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension FirehoseClientTypes.DeliveryStreamEncryptionConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DeliveryStreamEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.DeliveryStreamEncryptionConfiguration()
+        value.keyARN = try reader["KeyARN"].readIfPresent()
+        value.keyType = try reader["KeyType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.failureDescription = try reader["FailureDescription"].readIfPresent(with: FirehoseClientTypes.FailureDescription.read(from:))
+        return value
+    }
+}
+
+extension FirehoseClientTypes.DeliveryStreamEncryptionConfigurationInput {
+
+    static func write(value: FirehoseClientTypes.DeliveryStreamEncryptionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyARN"].write(value.keyARN)
+        try writer["KeyType"].write(value.keyType)
+    }
+}
+
+extension FirehoseClientTypes.Deserializer {
+
+    static func write(value: FirehoseClientTypes.Deserializer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HiveJsonSerDe"].write(value.hiveJsonSerDe, with: FirehoseClientTypes.HiveJsonSerDe.write(value:to:))
+        try writer["OpenXJsonSerDe"].write(value.openXJsonSerDe, with: FirehoseClientTypes.OpenXJsonSerDe.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.Deserializer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.Deserializer()
+        value.openXJsonSerDe = try reader["OpenXJsonSerDe"].readIfPresent(with: FirehoseClientTypes.OpenXJsonSerDe.read(from:))
+        value.hiveJsonSerDe = try reader["HiveJsonSerDe"].readIfPresent(with: FirehoseClientTypes.HiveJsonSerDe.read(from:))
+        return value
+    }
+}
+
+extension FirehoseClientTypes.DestinationDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DestinationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.DestinationDescription()
+        value.destinationId = try reader["DestinationId"].readIfPresent() ?? ""
+        value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
+        value.extendedS3DestinationDescription = try reader["ExtendedS3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.ExtendedS3DestinationDescription.read(from:))
+        value.redshiftDestinationDescription = try reader["RedshiftDestinationDescription"].readIfPresent(with: FirehoseClientTypes.RedshiftDestinationDescription.read(from:))
+        value.elasticsearchDestinationDescription = try reader["ElasticsearchDestinationDescription"].readIfPresent(with: FirehoseClientTypes.ElasticsearchDestinationDescription.read(from:))
+        value.amazonopensearchserviceDestinationDescription = try reader["AmazonopensearchserviceDestinationDescription"].readIfPresent(with: FirehoseClientTypes.AmazonopensearchserviceDestinationDescription.read(from:))
+        value.splunkDestinationDescription = try reader["SplunkDestinationDescription"].readIfPresent(with: FirehoseClientTypes.SplunkDestinationDescription.read(from:))
+        value.httpEndpointDestinationDescription = try reader["HttpEndpointDestinationDescription"].readIfPresent(with: FirehoseClientTypes.HttpEndpointDestinationDescription.read(from:))
+        value.snowflakeDestinationDescription = try reader["SnowflakeDestinationDescription"].readIfPresent(with: FirehoseClientTypes.SnowflakeDestinationDescription.read(from:))
+        value.amazonOpenSearchServerlessDestinationDescription = try reader["AmazonOpenSearchServerlessDestinationDescription"].readIfPresent(with: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription.read(from:))
+        value.icebergDestinationDescription = try reader["IcebergDestinationDescription"].readIfPresent(with: FirehoseClientTypes.IcebergDestinationDescription.read(from:))
+        return value
+    }
+}
+
+extension FirehoseClientTypes.DestinationTableConfiguration {
+
+    static func write(value: FirehoseClientTypes.DestinationTableConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationDatabaseName"].write(value.destinationDatabaseName)
+        try writer["DestinationTableName"].write(value.destinationTableName)
+        try writer["PartitionSpec"].write(value.partitionSpec, with: FirehoseClientTypes.PartitionSpec.write(value:to:))
+        try writer["S3ErrorOutputPrefix"].write(value.s3ErrorOutputPrefix)
+        try writer["UniqueKeys"].writeList(value.uniqueKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DestinationTableConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.DestinationTableConfiguration()
+        value.destinationTableName = try reader["DestinationTableName"].readIfPresent() ?? ""
+        value.destinationDatabaseName = try reader["DestinationDatabaseName"].readIfPresent() ?? ""
+        value.uniqueKeys = try reader["UniqueKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.partitionSpec = try reader["PartitionSpec"].readIfPresent(with: FirehoseClientTypes.PartitionSpec.read(from:))
+        value.s3ErrorOutputPrefix = try reader["S3ErrorOutputPrefix"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.DirectPutSourceConfiguration {
+
+    static func write(value: FirehoseClientTypes.DirectPutSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ThroughputHintInMBs"].write(value.throughputHintInMBs)
+    }
+}
+
+extension FirehoseClientTypes.DirectPutSourceDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DirectPutSourceDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.DirectPutSourceDescription()
+        value.throughputHintInMBs = try reader["ThroughputHintInMBs"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.DocumentIdOptions {
+
+    static func write(value: FirehoseClientTypes.DocumentIdOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultDocumentIdFormat"].write(value.defaultDocumentIdFormat)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DocumentIdOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.DocumentIdOptions()
+        value.defaultDocumentIdFormat = try reader["DefaultDocumentIdFormat"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension FirehoseClientTypes.DynamicPartitioningConfiguration {
+
+    static func write(value: FirehoseClientTypes.DynamicPartitioningConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.RetryOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DynamicPartitioningConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.DynamicPartitioningConfiguration()
+        value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.RetryOptions.read(from:))
+        value.enabled = try reader["Enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.ElasticsearchBufferingHints {
+
+    static func write(value: FirehoseClientTypes.ElasticsearchBufferingHints?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IntervalInSeconds"].write(value.intervalInSeconds)
+        try writer["SizeInMBs"].write(value.sizeInMBs)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.ElasticsearchBufferingHints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.ElasticsearchBufferingHints()
+        value.intervalInSeconds = try reader["IntervalInSeconds"].readIfPresent()
+        value.sizeInMBs = try reader["SizeInMBs"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.ElasticsearchDestinationConfiguration {
+
+    static func write(value: FirehoseClientTypes.ElasticsearchDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.ElasticsearchBufferingHints.write(value:to:))
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["ClusterEndpoint"].write(value.clusterEndpoint)
+        try writer["DocumentIdOptions"].write(value.documentIdOptions, with: FirehoseClientTypes.DocumentIdOptions.write(value:to:))
+        try writer["DomainARN"].write(value.domainARN)
+        try writer["IndexName"].write(value.indexName)
+        try writer["IndexRotationPeriod"].write(value.indexRotationPeriod)
+        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
+        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.ElasticsearchRetryOptions.write(value:to:))
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["S3BackupMode"].write(value.s3BackupMode)
+        try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
+        try writer["TypeName"].write(value.typeName)
+        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: FirehoseClientTypes.VpcConfiguration.write(value:to:))
+    }
+}
+
+extension FirehoseClientTypes.ElasticsearchDestinationDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.ElasticsearchDestinationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.ElasticsearchDestinationDescription()
+        value.roleARN = try reader["RoleARN"].readIfPresent()
+        value.domainARN = try reader["DomainARN"].readIfPresent()
+        value.clusterEndpoint = try reader["ClusterEndpoint"].readIfPresent()
+        value.indexName = try reader["IndexName"].readIfPresent()
+        value.typeName = try reader["TypeName"].readIfPresent()
+        value.indexRotationPeriod = try reader["IndexRotationPeriod"].readIfPresent()
+        value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.ElasticsearchBufferingHints.read(from:))
+        value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.ElasticsearchRetryOptions.read(from:))
+        value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
+        value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
+        value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
+        value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
+        value.vpcConfigurationDescription = try reader["VpcConfigurationDescription"].readIfPresent(with: FirehoseClientTypes.VpcConfigurationDescription.read(from:))
+        value.documentIdOptions = try reader["DocumentIdOptions"].readIfPresent(with: FirehoseClientTypes.DocumentIdOptions.read(from:))
+        return value
+    }
+}
+
+extension FirehoseClientTypes.ElasticsearchDestinationUpdate {
+
+    static func write(value: FirehoseClientTypes.ElasticsearchDestinationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.ElasticsearchBufferingHints.write(value:to:))
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["ClusterEndpoint"].write(value.clusterEndpoint)
+        try writer["DocumentIdOptions"].write(value.documentIdOptions, with: FirehoseClientTypes.DocumentIdOptions.write(value:to:))
+        try writer["DomainARN"].write(value.domainARN)
+        try writer["IndexName"].write(value.indexName)
+        try writer["IndexRotationPeriod"].write(value.indexRotationPeriod)
+        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
+        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.ElasticsearchRetryOptions.write(value:to:))
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["S3Update"].write(value.s3Update, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
+        try writer["TypeName"].write(value.typeName)
+    }
+}
+
+extension FirehoseClientTypes.ElasticsearchRetryOptions {
+
+    static func write(value: FirehoseClientTypes.ElasticsearchRetryOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DurationInSeconds"].write(value.durationInSeconds)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.RetryOptions {
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.ElasticsearchRetryOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.RetryOptions()
+        var value = FirehoseClientTypes.ElasticsearchRetryOptions()
         value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.EncryptionConfiguration {
+
+    static func write(value: FirehoseClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KMSEncryptionConfig"].write(value.kmsEncryptionConfig, with: FirehoseClientTypes.KMSEncryptionConfig.write(value:to:))
+        try writer["NoEncryptionConfig"].write(value.noEncryptionConfig)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.EncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.EncryptionConfiguration()
+        value.noEncryptionConfig = try reader["NoEncryptionConfig"].readIfPresent()
+        value.kmsEncryptionConfig = try reader["KMSEncryptionConfig"].readIfPresent(with: FirehoseClientTypes.KMSEncryptionConfig.read(from:))
+        return value
+    }
+}
+
+extension FirehoseClientTypes.ExtendedS3DestinationConfiguration {
+
+    static func write(value: FirehoseClientTypes.ExtendedS3DestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BucketARN"].write(value.bucketARN)
+        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.BufferingHints.write(value:to:))
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["CompressionFormat"].write(value.compressionFormat)
+        try writer["CustomTimeZone"].write(value.customTimeZone)
+        try writer["DataFormatConversionConfiguration"].write(value.dataFormatConversionConfiguration, with: FirehoseClientTypes.DataFormatConversionConfiguration.write(value:to:))
+        try writer["DynamicPartitioningConfiguration"].write(value.dynamicPartitioningConfiguration, with: FirehoseClientTypes.DynamicPartitioningConfiguration.write(value:to:))
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: FirehoseClientTypes.EncryptionConfiguration.write(value:to:))
+        try writer["ErrorOutputPrefix"].write(value.errorOutputPrefix)
+        try writer["FileExtension"].write(value.fileExtension)
+        try writer["Prefix"].write(value.`prefix`)
+        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["S3BackupConfiguration"].write(value.s3BackupConfiguration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
+        try writer["S3BackupMode"].write(value.s3BackupMode)
+    }
+}
+
+extension FirehoseClientTypes.ExtendedS3DestinationDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.ExtendedS3DestinationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.ExtendedS3DestinationDescription()
+        value.roleARN = try reader["RoleARN"].readIfPresent() ?? ""
+        value.bucketARN = try reader["BucketARN"].readIfPresent() ?? ""
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.errorOutputPrefix = try reader["ErrorOutputPrefix"].readIfPresent()
+        value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.BufferingHints.read(from:))
+        value.compressionFormat = try reader["CompressionFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: FirehoseClientTypes.EncryptionConfiguration.read(from:))
+        value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
+        value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
+        value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
+        value.s3BackupDescription = try reader["S3BackupDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
+        value.dataFormatConversionConfiguration = try reader["DataFormatConversionConfiguration"].readIfPresent(with: FirehoseClientTypes.DataFormatConversionConfiguration.read(from:))
+        value.dynamicPartitioningConfiguration = try reader["DynamicPartitioningConfiguration"].readIfPresent(with: FirehoseClientTypes.DynamicPartitioningConfiguration.read(from:))
+        value.fileExtension = try reader["FileExtension"].readIfPresent()
+        value.customTimeZone = try reader["CustomTimeZone"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.ExtendedS3DestinationUpdate {
+
+    static func write(value: FirehoseClientTypes.ExtendedS3DestinationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BucketARN"].write(value.bucketARN)
+        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.BufferingHints.write(value:to:))
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["CompressionFormat"].write(value.compressionFormat)
+        try writer["CustomTimeZone"].write(value.customTimeZone)
+        try writer["DataFormatConversionConfiguration"].write(value.dataFormatConversionConfiguration, with: FirehoseClientTypes.DataFormatConversionConfiguration.write(value:to:))
+        try writer["DynamicPartitioningConfiguration"].write(value.dynamicPartitioningConfiguration, with: FirehoseClientTypes.DynamicPartitioningConfiguration.write(value:to:))
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: FirehoseClientTypes.EncryptionConfiguration.write(value:to:))
+        try writer["ErrorOutputPrefix"].write(value.errorOutputPrefix)
+        try writer["FileExtension"].write(value.fileExtension)
+        try writer["Prefix"].write(value.`prefix`)
+        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["S3BackupMode"].write(value.s3BackupMode)
+        try writer["S3BackupUpdate"].write(value.s3BackupUpdate, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
+    }
+}
+
+extension FirehoseClientTypes.FailureDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.FailureDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.FailureDescription()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.details = try reader["Details"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension FirehoseClientTypes.HiveJsonSerDe {
+
+    static func write(value: FirehoseClientTypes.HiveJsonSerDe?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TimestampFormats"].writeList(value.timestampFormats, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.HiveJsonSerDe {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.HiveJsonSerDe()
+        value.timestampFormats = try reader["TimestampFormats"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FirehoseClientTypes.HttpEndpointBufferingHints {
+
+    static func write(value: FirehoseClientTypes.HttpEndpointBufferingHints?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IntervalInSeconds"].write(value.intervalInSeconds)
+        try writer["SizeInMBs"].write(value.sizeInMBs)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.HttpEndpointBufferingHints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.HttpEndpointBufferingHints()
+        value.sizeInMBs = try reader["SizeInMBs"].readIfPresent()
+        value.intervalInSeconds = try reader["IntervalInSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.HttpEndpointCommonAttribute {
+
+    static func write(value: FirehoseClientTypes.HttpEndpointCommonAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeName"].write(value.attributeName)
+        try writer["AttributeValue"].write(value.attributeValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.HttpEndpointCommonAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.HttpEndpointCommonAttribute()
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.attributeValue = try reader["AttributeValue"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension FirehoseClientTypes.HttpEndpointConfiguration {
+
+    static func write(value: FirehoseClientTypes.HttpEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessKey"].write(value.accessKey)
+        try writer["Name"].write(value.name)
+        try writer["Url"].write(value.url)
+    }
+}
+
+extension FirehoseClientTypes.HttpEndpointDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.HttpEndpointDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.HttpEndpointDescription()
+        value.url = try reader["Url"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.HttpEndpointDestinationConfiguration {
+
+    static func write(value: FirehoseClientTypes.HttpEndpointDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.HttpEndpointBufferingHints.write(value:to:))
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["EndpointConfiguration"].write(value.endpointConfiguration, with: FirehoseClientTypes.HttpEndpointConfiguration.write(value:to:))
+        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
+        try writer["RequestConfiguration"].write(value.requestConfiguration, with: FirehoseClientTypes.HttpEndpointRequestConfiguration.write(value:to:))
+        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.HttpEndpointRetryOptions.write(value:to:))
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["S3BackupMode"].write(value.s3BackupMode)
+        try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
+        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
+    }
+}
+
+extension FirehoseClientTypes.HttpEndpointDestinationDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.HttpEndpointDestinationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.HttpEndpointDestinationDescription()
+        value.endpointConfiguration = try reader["EndpointConfiguration"].readIfPresent(with: FirehoseClientTypes.HttpEndpointDescription.read(from:))
+        value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.HttpEndpointBufferingHints.read(from:))
+        value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
+        value.requestConfiguration = try reader["RequestConfiguration"].readIfPresent(with: FirehoseClientTypes.HttpEndpointRequestConfiguration.read(from:))
+        value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
+        value.roleARN = try reader["RoleARN"].readIfPresent()
+        value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.HttpEndpointRetryOptions.read(from:))
+        value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
+        value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
+        value.secretsManagerConfiguration = try reader["SecretsManagerConfiguration"].readIfPresent(with: FirehoseClientTypes.SecretsManagerConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FirehoseClientTypes.HttpEndpointDestinationUpdate {
+
+    static func write(value: FirehoseClientTypes.HttpEndpointDestinationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.HttpEndpointBufferingHints.write(value:to:))
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["EndpointConfiguration"].write(value.endpointConfiguration, with: FirehoseClientTypes.HttpEndpointConfiguration.write(value:to:))
+        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
+        try writer["RequestConfiguration"].write(value.requestConfiguration, with: FirehoseClientTypes.HttpEndpointRequestConfiguration.write(value:to:))
+        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.HttpEndpointRetryOptions.write(value:to:))
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["S3BackupMode"].write(value.s3BackupMode)
+        try writer["S3Update"].write(value.s3Update, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
+        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
+    }
+}
+
+extension FirehoseClientTypes.HttpEndpointRequestConfiguration {
+
+    static func write(value: FirehoseClientTypes.HttpEndpointRequestConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CommonAttributes"].writeList(value.commonAttributes, memberWritingClosure: FirehoseClientTypes.HttpEndpointCommonAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ContentEncoding"].write(value.contentEncoding)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.HttpEndpointRequestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.HttpEndpointRequestConfiguration()
+        value.contentEncoding = try reader["ContentEncoding"].readIfPresent()
+        value.commonAttributes = try reader["CommonAttributes"].readListIfPresent(memberReadingClosure: FirehoseClientTypes.HttpEndpointCommonAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FirehoseClientTypes.HttpEndpointRetryOptions {
+
+    static func write(value: FirehoseClientTypes.HttpEndpointRetryOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DurationInSeconds"].write(value.durationInSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.HttpEndpointRetryOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.HttpEndpointRetryOptions()
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.IcebergDestinationConfiguration {
+
+    static func write(value: FirehoseClientTypes.IcebergDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AppendOnly"].write(value.appendOnly)
+        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.BufferingHints.write(value:to:))
+        try writer["CatalogConfiguration"].write(value.catalogConfiguration, with: FirehoseClientTypes.CatalogConfiguration.write(value:to:))
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["DestinationTableConfigurationList"].writeList(value.destinationTableConfigurationList, memberWritingClosure: FirehoseClientTypes.DestinationTableConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
+        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.RetryOptions.write(value:to:))
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["S3BackupMode"].write(value.s3BackupMode)
+        try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
+        try writer["SchemaEvolutionConfiguration"].write(value.schemaEvolutionConfiguration, with: FirehoseClientTypes.SchemaEvolutionConfiguration.write(value:to:))
+        try writer["TableCreationConfiguration"].write(value.tableCreationConfiguration, with: FirehoseClientTypes.TableCreationConfiguration.write(value:to:))
+    }
+}
+
+extension FirehoseClientTypes.IcebergDestinationDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.IcebergDestinationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.IcebergDestinationDescription()
+        value.destinationTableConfigurationList = try reader["DestinationTableConfigurationList"].readListIfPresent(memberReadingClosure: FirehoseClientTypes.DestinationTableConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.schemaEvolutionConfiguration = try reader["SchemaEvolutionConfiguration"].readIfPresent(with: FirehoseClientTypes.SchemaEvolutionConfiguration.read(from:))
+        value.tableCreationConfiguration = try reader["TableCreationConfiguration"].readIfPresent(with: FirehoseClientTypes.TableCreationConfiguration.read(from:))
+        value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.BufferingHints.read(from:))
+        value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
+        value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
+        value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
+        value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.RetryOptions.read(from:))
+        value.roleARN = try reader["RoleARN"].readIfPresent()
+        value.appendOnly = try reader["AppendOnly"].readIfPresent()
+        value.catalogConfiguration = try reader["CatalogConfiguration"].readIfPresent(with: FirehoseClientTypes.CatalogConfiguration.read(from:))
+        value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
+        return value
+    }
+}
+
+extension FirehoseClientTypes.IcebergDestinationUpdate {
+
+    static func write(value: FirehoseClientTypes.IcebergDestinationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AppendOnly"].write(value.appendOnly)
+        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.BufferingHints.write(value:to:))
+        try writer["CatalogConfiguration"].write(value.catalogConfiguration, with: FirehoseClientTypes.CatalogConfiguration.write(value:to:))
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["DestinationTableConfigurationList"].writeList(value.destinationTableConfigurationList, memberWritingClosure: FirehoseClientTypes.DestinationTableConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
+        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.RetryOptions.write(value:to:))
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["S3BackupMode"].write(value.s3BackupMode)
+        try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
+        try writer["SchemaEvolutionConfiguration"].write(value.schemaEvolutionConfiguration, with: FirehoseClientTypes.SchemaEvolutionConfiguration.write(value:to:))
+        try writer["TableCreationConfiguration"].write(value.tableCreationConfiguration, with: FirehoseClientTypes.TableCreationConfiguration.write(value:to:))
+    }
+}
+
+extension FirehoseClientTypes.InputFormatConfiguration {
+
+    static func write(value: FirehoseClientTypes.InputFormatConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Deserializer"].write(value.deserializer, with: FirehoseClientTypes.Deserializer.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.InputFormatConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.InputFormatConfiguration()
+        value.deserializer = try reader["Deserializer"].readIfPresent(with: FirehoseClientTypes.Deserializer.read(from:))
+        return value
+    }
+}
+
+extension FirehoseClientTypes.KinesisStreamSourceConfiguration {
+
+    static func write(value: FirehoseClientTypes.KinesisStreamSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KinesisStreamARN"].write(value.kinesisStreamARN)
+        try writer["RoleARN"].write(value.roleARN)
+    }
+}
+
+extension FirehoseClientTypes.KinesisStreamSourceDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.KinesisStreamSourceDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.KinesisStreamSourceDescription()
+        value.kinesisStreamARN = try reader["KinesisStreamARN"].readIfPresent()
+        value.roleARN = try reader["RoleARN"].readIfPresent()
+        value.deliveryStartTimestamp = try reader["DeliveryStartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension FirehoseClientTypes.KMSEncryptionConfig {
+
+    static func write(value: FirehoseClientTypes.KMSEncryptionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AWSKMSKeyARN"].write(value.awskmsKeyARN)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.KMSEncryptionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.KMSEncryptionConfig()
+        value.awskmsKeyARN = try reader["AWSKMSKeyARN"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension FirehoseClientTypes.MSKSourceConfiguration {
+
+    static func write(value: FirehoseClientTypes.MSKSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthenticationConfiguration"].write(value.authenticationConfiguration, with: FirehoseClientTypes.AuthenticationConfiguration.write(value:to:))
+        try writer["MSKClusterARN"].write(value.mskClusterARN)
+        try writer["ReadFromTimestamp"].writeTimestamp(value.readFromTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["TopicName"].write(value.topicName)
+    }
+}
+
+extension FirehoseClientTypes.MSKSourceDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.MSKSourceDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.MSKSourceDescription()
+        value.mskClusterARN = try reader["MSKClusterARN"].readIfPresent()
+        value.topicName = try reader["TopicName"].readIfPresent()
+        value.authenticationConfiguration = try reader["AuthenticationConfiguration"].readIfPresent(with: FirehoseClientTypes.AuthenticationConfiguration.read(from:))
+        value.deliveryStartTimestamp = try reader["DeliveryStartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.readFromTimestamp = try reader["ReadFromTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension FirehoseClientTypes.OpenXJsonSerDe {
+
+    static func write(value: FirehoseClientTypes.OpenXJsonSerDe?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CaseInsensitive"].write(value.caseInsensitive)
+        try writer["ColumnToJsonKeyMappings"].writeMap(value.columnToJsonKeyMappings, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ConvertDotsInJsonKeysToUnderscores"].write(value.convertDotsInJsonKeysToUnderscores)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.OpenXJsonSerDe {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.OpenXJsonSerDe()
+        value.convertDotsInJsonKeysToUnderscores = try reader["ConvertDotsInJsonKeysToUnderscores"].readIfPresent()
+        value.caseInsensitive = try reader["CaseInsensitive"].readIfPresent()
+        value.columnToJsonKeyMappings = try reader["ColumnToJsonKeyMappings"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension FirehoseClientTypes.OrcSerDe {
+
+    static func write(value: FirehoseClientTypes.OrcSerDe?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BlockSizeBytes"].write(value.blockSizeBytes)
+        try writer["BloomFilterColumns"].writeList(value.bloomFilterColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BloomFilterFalsePositiveProbability"].write(value.bloomFilterFalsePositiveProbability)
+        try writer["Compression"].write(value.compression)
+        try writer["DictionaryKeyThreshold"].write(value.dictionaryKeyThreshold)
+        try writer["EnablePadding"].write(value.enablePadding)
+        try writer["FormatVersion"].write(value.formatVersion)
+        try writer["PaddingTolerance"].write(value.paddingTolerance)
+        try writer["RowIndexStride"].write(value.rowIndexStride)
+        try writer["StripeSizeBytes"].write(value.stripeSizeBytes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.OrcSerDe {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.OrcSerDe()
+        value.stripeSizeBytes = try reader["StripeSizeBytes"].readIfPresent()
+        value.blockSizeBytes = try reader["BlockSizeBytes"].readIfPresent()
+        value.rowIndexStride = try reader["RowIndexStride"].readIfPresent()
+        value.enablePadding = try reader["EnablePadding"].readIfPresent()
+        value.paddingTolerance = try reader["PaddingTolerance"].readIfPresent()
+        value.compression = try reader["Compression"].readIfPresent()
+        value.bloomFilterColumns = try reader["BloomFilterColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.bloomFilterFalsePositiveProbability = try reader["BloomFilterFalsePositiveProbability"].readIfPresent()
+        value.dictionaryKeyThreshold = try reader["DictionaryKeyThreshold"].readIfPresent()
+        value.formatVersion = try reader["FormatVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.OutputFormatConfiguration {
+
+    static func write(value: FirehoseClientTypes.OutputFormatConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Serializer"].write(value.serializer, with: FirehoseClientTypes.Serializer.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.OutputFormatConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.OutputFormatConfiguration()
+        value.serializer = try reader["Serializer"].readIfPresent(with: FirehoseClientTypes.Serializer.read(from:))
+        return value
+    }
+}
+
+extension FirehoseClientTypes.ParquetSerDe {
+
+    static func write(value: FirehoseClientTypes.ParquetSerDe?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BlockSizeBytes"].write(value.blockSizeBytes)
+        try writer["Compression"].write(value.compression)
+        try writer["EnableDictionaryCompression"].write(value.enableDictionaryCompression)
+        try writer["MaxPaddingBytes"].write(value.maxPaddingBytes)
+        try writer["PageSizeBytes"].write(value.pageSizeBytes)
+        try writer["WriterVersion"].write(value.writerVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.ParquetSerDe {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.ParquetSerDe()
+        value.blockSizeBytes = try reader["BlockSizeBytes"].readIfPresent()
+        value.pageSizeBytes = try reader["PageSizeBytes"].readIfPresent()
+        value.compression = try reader["Compression"].readIfPresent()
+        value.enableDictionaryCompression = try reader["EnableDictionaryCompression"].readIfPresent()
+        value.maxPaddingBytes = try reader["MaxPaddingBytes"].readIfPresent()
+        value.writerVersion = try reader["WriterVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.PartitionField {
+
+    static func write(value: FirehoseClientTypes.PartitionField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SourceName"].write(value.sourceName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.PartitionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.PartitionField()
+        value.sourceName = try reader["SourceName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension FirehoseClientTypes.PartitionSpec {
+
+    static func write(value: FirehoseClientTypes.PartitionSpec?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Identity"].writeList(value.identity, memberWritingClosure: FirehoseClientTypes.PartitionField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.PartitionSpec {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.PartitionSpec()
+        value.identity = try reader["Identity"].readListIfPresent(memberReadingClosure: FirehoseClientTypes.PartitionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6303,533 +7303,42 @@ extension FirehoseClientTypes.ProcessorParameter {
     }
 }
 
-extension FirehoseClientTypes.TableCreationConfiguration {
+extension FirehoseClientTypes.PutRecordBatchResponseEntry {
 
-    static func write(value: FirehoseClientTypes.TableCreationConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.PutRecordBatchResponseEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.PutRecordBatchResponseEntry()
+        value.recordId = try reader["RecordId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.Record {
+
+    static func write(value: FirehoseClientTypes.Record?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.TableCreationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.TableCreationConfiguration()
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        return value
+        try writer["Data"].write(value.data)
     }
 }
 
-extension FirehoseClientTypes.SchemaEvolutionConfiguration {
+extension FirehoseClientTypes.RedshiftDestinationConfiguration {
 
-    static func write(value: FirehoseClientTypes.SchemaEvolutionConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FirehoseClientTypes.RedshiftDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SchemaEvolutionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.SchemaEvolutionConfiguration()
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension FirehoseClientTypes.DestinationTableConfiguration {
-
-    static func write(value: FirehoseClientTypes.DestinationTableConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationDatabaseName"].write(value.destinationDatabaseName)
-        try writer["DestinationTableName"].write(value.destinationTableName)
-        try writer["PartitionSpec"].write(value.partitionSpec, with: FirehoseClientTypes.PartitionSpec.write(value:to:))
-        try writer["S3ErrorOutputPrefix"].write(value.s3ErrorOutputPrefix)
-        try writer["UniqueKeys"].writeList(value.uniqueKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DestinationTableConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.DestinationTableConfiguration()
-        value.destinationTableName = try reader["DestinationTableName"].readIfPresent() ?? ""
-        value.destinationDatabaseName = try reader["DestinationDatabaseName"].readIfPresent() ?? ""
-        value.uniqueKeys = try reader["UniqueKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.partitionSpec = try reader["PartitionSpec"].readIfPresent(with: FirehoseClientTypes.PartitionSpec.read(from:))
-        value.s3ErrorOutputPrefix = try reader["S3ErrorOutputPrefix"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.PartitionSpec {
-
-    static func write(value: FirehoseClientTypes.PartitionSpec?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Identity"].writeList(value.identity, memberWritingClosure: FirehoseClientTypes.PartitionField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.PartitionSpec {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.PartitionSpec()
-        value.identity = try reader["Identity"].readListIfPresent(memberReadingClosure: FirehoseClientTypes.PartitionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FirehoseClientTypes.PartitionField {
-
-    static func write(value: FirehoseClientTypes.PartitionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SourceName"].write(value.sourceName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.PartitionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.PartitionField()
-        value.sourceName = try reader["SourceName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription()
-        value.roleARN = try reader["RoleARN"].readIfPresent()
-        value.collectionEndpoint = try reader["CollectionEndpoint"].readIfPresent()
-        value.indexName = try reader["IndexName"].readIfPresent()
-        value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints.read(from:))
-        value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions.read(from:))
-        value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
-        value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
-        value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
-        value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
-        value.vpcConfigurationDescription = try reader["VpcConfigurationDescription"].readIfPresent(with: FirehoseClientTypes.VpcConfigurationDescription.read(from:))
-        return value
-    }
-}
-
-extension FirehoseClientTypes.VpcConfigurationDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.VpcConfigurationDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.VpcConfigurationDescription()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.roleARN = try reader["RoleARN"].readIfPresent() ?? ""
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions {
-
-    static func write(value: FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DurationInSeconds"].write(value.durationInSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions()
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints {
-
-    static func write(value: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IntervalInSeconds"].write(value.intervalInSeconds)
-        try writer["SizeInMBs"].write(value.sizeInMBs)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints()
-        value.intervalInSeconds = try reader["IntervalInSeconds"].readIfPresent()
-        value.sizeInMBs = try reader["SizeInMBs"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.SnowflakeDestinationDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SnowflakeDestinationDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.SnowflakeDestinationDescription()
-        value.accountUrl = try reader["AccountUrl"].readIfPresent()
-        value.user = try reader["User"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
-        value.schema = try reader["Schema"].readIfPresent()
-        value.table = try reader["Table"].readIfPresent()
-        value.snowflakeRoleConfiguration = try reader["SnowflakeRoleConfiguration"].readIfPresent(with: FirehoseClientTypes.SnowflakeRoleConfiguration.read(from:))
-        value.dataLoadingOption = try reader["DataLoadingOption"].readIfPresent()
-        value.metaDataColumnName = try reader["MetaDataColumnName"].readIfPresent()
-        value.contentColumnName = try reader["ContentColumnName"].readIfPresent()
-        value.snowflakeVpcConfiguration = try reader["SnowflakeVpcConfiguration"].readIfPresent(with: FirehoseClientTypes.SnowflakeVpcConfiguration.read(from:))
-        value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
-        value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
-        value.roleARN = try reader["RoleARN"].readIfPresent()
-        value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.SnowflakeRetryOptions.read(from:))
-        value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
-        value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
-        value.secretsManagerConfiguration = try reader["SecretsManagerConfiguration"].readIfPresent(with: FirehoseClientTypes.SecretsManagerConfiguration.read(from:))
-        value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.SnowflakeBufferingHints.read(from:))
-        return value
-    }
-}
-
-extension FirehoseClientTypes.SnowflakeBufferingHints {
-
-    static func write(value: FirehoseClientTypes.SnowflakeBufferingHints?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IntervalInSeconds"].write(value.intervalInSeconds)
-        try writer["SizeInMBs"].write(value.sizeInMBs)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SnowflakeBufferingHints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.SnowflakeBufferingHints()
-        value.sizeInMBs = try reader["SizeInMBs"].readIfPresent()
-        value.intervalInSeconds = try reader["IntervalInSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.SecretsManagerConfiguration {
-
-    static func write(value: FirehoseClientTypes.SecretsManagerConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["ClusterJDBCURL"].write(value.clusterJDBCURL)
+        try writer["CopyCommand"].write(value.copyCommand, with: FirehoseClientTypes.CopyCommand.write(value:to:))
+        try writer["Password"].write(value.password)
+        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
+        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.RedshiftRetryOptions.write(value:to:))
         try writer["RoleARN"].write(value.roleARN)
-        try writer["SecretARN"].write(value.secretARN)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SecretsManagerConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.SecretsManagerConfiguration()
-        value.secretARN = try reader["SecretARN"].readIfPresent()
-        value.roleARN = try reader["RoleARN"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension FirehoseClientTypes.SnowflakeRetryOptions {
-
-    static func write(value: FirehoseClientTypes.SnowflakeRetryOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DurationInSeconds"].write(value.durationInSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SnowflakeRetryOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.SnowflakeRetryOptions()
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.SnowflakeVpcConfiguration {
-
-    static func write(value: FirehoseClientTypes.SnowflakeVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PrivateLinkVpceId"].write(value.privateLinkVpceId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SnowflakeVpcConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.SnowflakeVpcConfiguration()
-        value.privateLinkVpceId = try reader["PrivateLinkVpceId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension FirehoseClientTypes.SnowflakeRoleConfiguration {
-
-    static func write(value: FirehoseClientTypes.SnowflakeRoleConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["SnowflakeRole"].write(value.snowflakeRole)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SnowflakeRoleConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.SnowflakeRoleConfiguration()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.snowflakeRole = try reader["SnowflakeRole"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.HttpEndpointDestinationDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.HttpEndpointDestinationDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.HttpEndpointDestinationDescription()
-        value.endpointConfiguration = try reader["EndpointConfiguration"].readIfPresent(with: FirehoseClientTypes.HttpEndpointDescription.read(from:))
-        value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.HttpEndpointBufferingHints.read(from:))
-        value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
-        value.requestConfiguration = try reader["RequestConfiguration"].readIfPresent(with: FirehoseClientTypes.HttpEndpointRequestConfiguration.read(from:))
-        value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
-        value.roleARN = try reader["RoleARN"].readIfPresent()
-        value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.HttpEndpointRetryOptions.read(from:))
-        value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
-        value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
-        value.secretsManagerConfiguration = try reader["SecretsManagerConfiguration"].readIfPresent(with: FirehoseClientTypes.SecretsManagerConfiguration.read(from:))
-        return value
-    }
-}
-
-extension FirehoseClientTypes.HttpEndpointRetryOptions {
-
-    static func write(value: FirehoseClientTypes.HttpEndpointRetryOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DurationInSeconds"].write(value.durationInSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.HttpEndpointRetryOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.HttpEndpointRetryOptions()
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.HttpEndpointRequestConfiguration {
-
-    static func write(value: FirehoseClientTypes.HttpEndpointRequestConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CommonAttributes"].writeList(value.commonAttributes, memberWritingClosure: FirehoseClientTypes.HttpEndpointCommonAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ContentEncoding"].write(value.contentEncoding)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.HttpEndpointRequestConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.HttpEndpointRequestConfiguration()
-        value.contentEncoding = try reader["ContentEncoding"].readIfPresent()
-        value.commonAttributes = try reader["CommonAttributes"].readListIfPresent(memberReadingClosure: FirehoseClientTypes.HttpEndpointCommonAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FirehoseClientTypes.HttpEndpointCommonAttribute {
-
-    static func write(value: FirehoseClientTypes.HttpEndpointCommonAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeName"].write(value.attributeName)
-        try writer["AttributeValue"].write(value.attributeValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.HttpEndpointCommonAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.HttpEndpointCommonAttribute()
-        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
-        value.attributeValue = try reader["AttributeValue"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension FirehoseClientTypes.HttpEndpointBufferingHints {
-
-    static func write(value: FirehoseClientTypes.HttpEndpointBufferingHints?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IntervalInSeconds"].write(value.intervalInSeconds)
-        try writer["SizeInMBs"].write(value.sizeInMBs)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.HttpEndpointBufferingHints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.HttpEndpointBufferingHints()
-        value.sizeInMBs = try reader["SizeInMBs"].readIfPresent()
-        value.intervalInSeconds = try reader["IntervalInSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.HttpEndpointDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.HttpEndpointDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.HttpEndpointDescription()
-        value.url = try reader["Url"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.SplunkDestinationDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SplunkDestinationDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.SplunkDestinationDescription()
-        value.hecEndpoint = try reader["HECEndpoint"].readIfPresent()
-        value.hecEndpointType = try reader["HECEndpointType"].readIfPresent()
-        value.hecToken = try reader["HECToken"].readIfPresent()
-        value.hecAcknowledgmentTimeoutInSeconds = try reader["HECAcknowledgmentTimeoutInSeconds"].readIfPresent()
-        value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.SplunkRetryOptions.read(from:))
-        value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
-        value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
-        value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
-        value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
-        value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.SplunkBufferingHints.read(from:))
-        value.secretsManagerConfiguration = try reader["SecretsManagerConfiguration"].readIfPresent(with: FirehoseClientTypes.SecretsManagerConfiguration.read(from:))
-        return value
-    }
-}
-
-extension FirehoseClientTypes.SplunkBufferingHints {
-
-    static func write(value: FirehoseClientTypes.SplunkBufferingHints?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IntervalInSeconds"].write(value.intervalInSeconds)
-        try writer["SizeInMBs"].write(value.sizeInMBs)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SplunkBufferingHints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.SplunkBufferingHints()
-        value.intervalInSeconds = try reader["IntervalInSeconds"].readIfPresent()
-        value.sizeInMBs = try reader["SizeInMBs"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.SplunkRetryOptions {
-
-    static func write(value: FirehoseClientTypes.SplunkRetryOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DurationInSeconds"].write(value.durationInSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SplunkRetryOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.SplunkRetryOptions()
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.AmazonopensearchserviceDestinationDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.AmazonopensearchserviceDestinationDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.AmazonopensearchserviceDestinationDescription()
-        value.roleARN = try reader["RoleARN"].readIfPresent()
-        value.domainARN = try reader["DomainARN"].readIfPresent()
-        value.clusterEndpoint = try reader["ClusterEndpoint"].readIfPresent()
-        value.indexName = try reader["IndexName"].readIfPresent()
-        value.typeName = try reader["TypeName"].readIfPresent()
-        value.indexRotationPeriod = try reader["IndexRotationPeriod"].readIfPresent()
-        value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.AmazonopensearchserviceBufferingHints.read(from:))
-        value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.AmazonopensearchserviceRetryOptions.read(from:))
-        value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
-        value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
-        value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
-        value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
-        value.vpcConfigurationDescription = try reader["VpcConfigurationDescription"].readIfPresent(with: FirehoseClientTypes.VpcConfigurationDescription.read(from:))
-        value.documentIdOptions = try reader["DocumentIdOptions"].readIfPresent(with: FirehoseClientTypes.DocumentIdOptions.read(from:))
-        return value
-    }
-}
-
-extension FirehoseClientTypes.DocumentIdOptions {
-
-    static func write(value: FirehoseClientTypes.DocumentIdOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultDocumentIdFormat"].write(value.defaultDocumentIdFormat)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DocumentIdOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.DocumentIdOptions()
-        value.defaultDocumentIdFormat = try reader["DefaultDocumentIdFormat"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension FirehoseClientTypes.AmazonopensearchserviceRetryOptions {
-
-    static func write(value: FirehoseClientTypes.AmazonopensearchserviceRetryOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DurationInSeconds"].write(value.durationInSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.AmazonopensearchserviceRetryOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.AmazonopensearchserviceRetryOptions()
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.AmazonopensearchserviceBufferingHints {
-
-    static func write(value: FirehoseClientTypes.AmazonopensearchserviceBufferingHints?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IntervalInSeconds"].write(value.intervalInSeconds)
-        try writer["SizeInMBs"].write(value.sizeInMBs)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.AmazonopensearchserviceBufferingHints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.AmazonopensearchserviceBufferingHints()
-        value.intervalInSeconds = try reader["IntervalInSeconds"].readIfPresent()
-        value.sizeInMBs = try reader["SizeInMBs"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.ElasticsearchDestinationDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.ElasticsearchDestinationDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.ElasticsearchDestinationDescription()
-        value.roleARN = try reader["RoleARN"].readIfPresent()
-        value.domainARN = try reader["DomainARN"].readIfPresent()
-        value.clusterEndpoint = try reader["ClusterEndpoint"].readIfPresent()
-        value.indexName = try reader["IndexName"].readIfPresent()
-        value.typeName = try reader["TypeName"].readIfPresent()
-        value.indexRotationPeriod = try reader["IndexRotationPeriod"].readIfPresent()
-        value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.ElasticsearchBufferingHints.read(from:))
-        value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.ElasticsearchRetryOptions.read(from:))
-        value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
-        value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
-        value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
-        value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
-        value.vpcConfigurationDescription = try reader["VpcConfigurationDescription"].readIfPresent(with: FirehoseClientTypes.VpcConfigurationDescription.read(from:))
-        value.documentIdOptions = try reader["DocumentIdOptions"].readIfPresent(with: FirehoseClientTypes.DocumentIdOptions.read(from:))
-        return value
-    }
-}
-
-extension FirehoseClientTypes.ElasticsearchRetryOptions {
-
-    static func write(value: FirehoseClientTypes.ElasticsearchRetryOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DurationInSeconds"].write(value.durationInSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.ElasticsearchRetryOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.ElasticsearchRetryOptions()
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.ElasticsearchBufferingHints {
-
-    static func write(value: FirehoseClientTypes.ElasticsearchBufferingHints?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IntervalInSeconds"].write(value.intervalInSeconds)
-        try writer["SizeInMBs"].write(value.sizeInMBs)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.ElasticsearchBufferingHints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.ElasticsearchBufferingHints()
-        value.intervalInSeconds = try reader["IntervalInSeconds"].readIfPresent()
-        value.sizeInMBs = try reader["SizeInMBs"].readIfPresent()
-        return value
+        try writer["S3BackupConfiguration"].write(value.s3BackupConfiguration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
+        try writer["S3BackupMode"].write(value.s3BackupMode)
+        try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
+        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
+        try writer["Username"].write(value.username)
     }
 }
 
@@ -6853,6 +7362,25 @@ extension FirehoseClientTypes.RedshiftDestinationDescription {
     }
 }
 
+extension FirehoseClientTypes.RedshiftDestinationUpdate {
+
+    static func write(value: FirehoseClientTypes.RedshiftDestinationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["ClusterJDBCURL"].write(value.clusterJDBCURL)
+        try writer["CopyCommand"].write(value.copyCommand, with: FirehoseClientTypes.CopyCommand.write(value:to:))
+        try writer["Password"].write(value.password)
+        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
+        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.RedshiftRetryOptions.write(value:to:))
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["S3BackupMode"].write(value.s3BackupMode)
+        try writer["S3BackupUpdate"].write(value.s3BackupUpdate, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
+        try writer["S3Update"].write(value.s3Update, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
+        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
+        try writer["Username"].write(value.username)
+    }
+}
+
 extension FirehoseClientTypes.RedshiftRetryOptions {
 
     static func write(value: FirehoseClientTypes.RedshiftRetryOptions?, to writer: SmithyJSON.Writer) throws {
@@ -6868,30 +7396,41 @@ extension FirehoseClientTypes.RedshiftRetryOptions {
     }
 }
 
-extension FirehoseClientTypes.CopyCommand {
+extension FirehoseClientTypes.RetryOptions {
 
-    static func write(value: FirehoseClientTypes.CopyCommand?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FirehoseClientTypes.RetryOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CopyOptions"].write(value.copyOptions)
-        try writer["DataTableColumns"].write(value.dataTableColumns)
-        try writer["DataTableName"].write(value.dataTableName)
+        try writer["DurationInSeconds"].write(value.durationInSeconds)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.CopyCommand {
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.RetryOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.CopyCommand()
-        value.dataTableName = try reader["DataTableName"].readIfPresent() ?? ""
-        value.dataTableColumns = try reader["DataTableColumns"].readIfPresent()
-        value.copyOptions = try reader["CopyOptions"].readIfPresent()
+        var value = FirehoseClientTypes.RetryOptions()
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
         return value
     }
 }
 
-extension FirehoseClientTypes.ExtendedS3DestinationDescription {
+extension FirehoseClientTypes.S3DestinationConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.ExtendedS3DestinationDescription {
+    static func write(value: FirehoseClientTypes.S3DestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BucketARN"].write(value.bucketARN)
+        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.BufferingHints.write(value:to:))
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["CompressionFormat"].write(value.compressionFormat)
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: FirehoseClientTypes.EncryptionConfiguration.write(value:to:))
+        try writer["ErrorOutputPrefix"].write(value.errorOutputPrefix)
+        try writer["Prefix"].write(value.`prefix`)
+        try writer["RoleARN"].write(value.roleARN)
+    }
+}
+
+extension FirehoseClientTypes.S3DestinationDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.S3DestinationDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.ExtendedS3DestinationDescription()
+        var value = FirehoseClientTypes.S3DestinationDescription()
         value.roleARN = try reader["RoleARN"].readIfPresent() ?? ""
         value.bucketARN = try reader["BucketARN"].readIfPresent() ?? ""
         value.`prefix` = try reader["Prefix"].readIfPresent()
@@ -6900,208 +7439,22 @@ extension FirehoseClientTypes.ExtendedS3DestinationDescription {
         value.compressionFormat = try reader["CompressionFormat"].readIfPresent() ?? .sdkUnknown("")
         value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: FirehoseClientTypes.EncryptionConfiguration.read(from:))
         value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
-        value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
-        value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
-        value.s3BackupDescription = try reader["S3BackupDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
-        value.dataFormatConversionConfiguration = try reader["DataFormatConversionConfiguration"].readIfPresent(with: FirehoseClientTypes.DataFormatConversionConfiguration.read(from:))
-        value.dynamicPartitioningConfiguration = try reader["DynamicPartitioningConfiguration"].readIfPresent(with: FirehoseClientTypes.DynamicPartitioningConfiguration.read(from:))
-        value.fileExtension = try reader["FileExtension"].readIfPresent()
-        value.customTimeZone = try reader["CustomTimeZone"].readIfPresent()
         return value
     }
 }
 
-extension FirehoseClientTypes.DynamicPartitioningConfiguration {
+extension FirehoseClientTypes.S3DestinationUpdate {
 
-    static func write(value: FirehoseClientTypes.DynamicPartitioningConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FirehoseClientTypes.S3DestinationUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.RetryOptions.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DynamicPartitioningConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.DynamicPartitioningConfiguration()
-        value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.RetryOptions.read(from:))
-        value.enabled = try reader["Enabled"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.DataFormatConversionConfiguration {
-
-    static func write(value: FirehoseClientTypes.DataFormatConversionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["InputFormatConfiguration"].write(value.inputFormatConfiguration, with: FirehoseClientTypes.InputFormatConfiguration.write(value:to:))
-        try writer["OutputFormatConfiguration"].write(value.outputFormatConfiguration, with: FirehoseClientTypes.OutputFormatConfiguration.write(value:to:))
-        try writer["SchemaConfiguration"].write(value.schemaConfiguration, with: FirehoseClientTypes.SchemaConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DataFormatConversionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.DataFormatConversionConfiguration()
-        value.schemaConfiguration = try reader["SchemaConfiguration"].readIfPresent(with: FirehoseClientTypes.SchemaConfiguration.read(from:))
-        value.inputFormatConfiguration = try reader["InputFormatConfiguration"].readIfPresent(with: FirehoseClientTypes.InputFormatConfiguration.read(from:))
-        value.outputFormatConfiguration = try reader["OutputFormatConfiguration"].readIfPresent(with: FirehoseClientTypes.OutputFormatConfiguration.read(from:))
-        value.enabled = try reader["Enabled"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.OutputFormatConfiguration {
-
-    static func write(value: FirehoseClientTypes.OutputFormatConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Serializer"].write(value.serializer, with: FirehoseClientTypes.Serializer.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.OutputFormatConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.OutputFormatConfiguration()
-        value.serializer = try reader["Serializer"].readIfPresent(with: FirehoseClientTypes.Serializer.read(from:))
-        return value
-    }
-}
-
-extension FirehoseClientTypes.Serializer {
-
-    static func write(value: FirehoseClientTypes.Serializer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OrcSerDe"].write(value.orcSerDe, with: FirehoseClientTypes.OrcSerDe.write(value:to:))
-        try writer["ParquetSerDe"].write(value.parquetSerDe, with: FirehoseClientTypes.ParquetSerDe.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.Serializer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.Serializer()
-        value.parquetSerDe = try reader["ParquetSerDe"].readIfPresent(with: FirehoseClientTypes.ParquetSerDe.read(from:))
-        value.orcSerDe = try reader["OrcSerDe"].readIfPresent(with: FirehoseClientTypes.OrcSerDe.read(from:))
-        return value
-    }
-}
-
-extension FirehoseClientTypes.OrcSerDe {
-
-    static func write(value: FirehoseClientTypes.OrcSerDe?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlockSizeBytes"].write(value.blockSizeBytes)
-        try writer["BloomFilterColumns"].writeList(value.bloomFilterColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BloomFilterFalsePositiveProbability"].write(value.bloomFilterFalsePositiveProbability)
-        try writer["Compression"].write(value.compression)
-        try writer["DictionaryKeyThreshold"].write(value.dictionaryKeyThreshold)
-        try writer["EnablePadding"].write(value.enablePadding)
-        try writer["FormatVersion"].write(value.formatVersion)
-        try writer["PaddingTolerance"].write(value.paddingTolerance)
-        try writer["RowIndexStride"].write(value.rowIndexStride)
-        try writer["StripeSizeBytes"].write(value.stripeSizeBytes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.OrcSerDe {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.OrcSerDe()
-        value.stripeSizeBytes = try reader["StripeSizeBytes"].readIfPresent()
-        value.blockSizeBytes = try reader["BlockSizeBytes"].readIfPresent()
-        value.rowIndexStride = try reader["RowIndexStride"].readIfPresent()
-        value.enablePadding = try reader["EnablePadding"].readIfPresent()
-        value.paddingTolerance = try reader["PaddingTolerance"].readIfPresent()
-        value.compression = try reader["Compression"].readIfPresent()
-        value.bloomFilterColumns = try reader["BloomFilterColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.bloomFilterFalsePositiveProbability = try reader["BloomFilterFalsePositiveProbability"].readIfPresent()
-        value.dictionaryKeyThreshold = try reader["DictionaryKeyThreshold"].readIfPresent()
-        value.formatVersion = try reader["FormatVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.ParquetSerDe {
-
-    static func write(value: FirehoseClientTypes.ParquetSerDe?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlockSizeBytes"].write(value.blockSizeBytes)
-        try writer["Compression"].write(value.compression)
-        try writer["EnableDictionaryCompression"].write(value.enableDictionaryCompression)
-        try writer["MaxPaddingBytes"].write(value.maxPaddingBytes)
-        try writer["PageSizeBytes"].write(value.pageSizeBytes)
-        try writer["WriterVersion"].write(value.writerVersion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.ParquetSerDe {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.ParquetSerDe()
-        value.blockSizeBytes = try reader["BlockSizeBytes"].readIfPresent()
-        value.pageSizeBytes = try reader["PageSizeBytes"].readIfPresent()
-        value.compression = try reader["Compression"].readIfPresent()
-        value.enableDictionaryCompression = try reader["EnableDictionaryCompression"].readIfPresent()
-        value.maxPaddingBytes = try reader["MaxPaddingBytes"].readIfPresent()
-        value.writerVersion = try reader["WriterVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.InputFormatConfiguration {
-
-    static func write(value: FirehoseClientTypes.InputFormatConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Deserializer"].write(value.deserializer, with: FirehoseClientTypes.Deserializer.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.InputFormatConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.InputFormatConfiguration()
-        value.deserializer = try reader["Deserializer"].readIfPresent(with: FirehoseClientTypes.Deserializer.read(from:))
-        return value
-    }
-}
-
-extension FirehoseClientTypes.Deserializer {
-
-    static func write(value: FirehoseClientTypes.Deserializer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HiveJsonSerDe"].write(value.hiveJsonSerDe, with: FirehoseClientTypes.HiveJsonSerDe.write(value:to:))
-        try writer["OpenXJsonSerDe"].write(value.openXJsonSerDe, with: FirehoseClientTypes.OpenXJsonSerDe.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.Deserializer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.Deserializer()
-        value.openXJsonSerDe = try reader["OpenXJsonSerDe"].readIfPresent(with: FirehoseClientTypes.OpenXJsonSerDe.read(from:))
-        value.hiveJsonSerDe = try reader["HiveJsonSerDe"].readIfPresent(with: FirehoseClientTypes.HiveJsonSerDe.read(from:))
-        return value
-    }
-}
-
-extension FirehoseClientTypes.HiveJsonSerDe {
-
-    static func write(value: FirehoseClientTypes.HiveJsonSerDe?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TimestampFormats"].writeList(value.timestampFormats, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.HiveJsonSerDe {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.HiveJsonSerDe()
-        value.timestampFormats = try reader["TimestampFormats"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FirehoseClientTypes.OpenXJsonSerDe {
-
-    static func write(value: FirehoseClientTypes.OpenXJsonSerDe?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CaseInsensitive"].write(value.caseInsensitive)
-        try writer["ColumnToJsonKeyMappings"].writeMap(value.columnToJsonKeyMappings, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ConvertDotsInJsonKeysToUnderscores"].write(value.convertDotsInJsonKeysToUnderscores)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.OpenXJsonSerDe {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.OpenXJsonSerDe()
-        value.convertDotsInJsonKeysToUnderscores = try reader["ConvertDotsInJsonKeysToUnderscores"].readIfPresent()
-        value.caseInsensitive = try reader["CaseInsensitive"].readIfPresent()
-        value.columnToJsonKeyMappings = try reader["ColumnToJsonKeyMappings"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
+        try writer["BucketARN"].write(value.bucketARN)
+        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.BufferingHints.write(value:to:))
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["CompressionFormat"].write(value.compressionFormat)
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: FirehoseClientTypes.EncryptionConfiguration.write(value:to:))
+        try writer["ErrorOutputPrefix"].write(value.errorOutputPrefix)
+        try writer["Prefix"].write(value.`prefix`)
+        try writer["RoleARN"].write(value.roleARN)
     }
 }
 
@@ -7130,446 +7483,71 @@ extension FirehoseClientTypes.SchemaConfiguration {
     }
 }
 
-extension FirehoseClientTypes.SourceDescription {
+extension FirehoseClientTypes.SchemaEvolutionConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SourceDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.SourceDescription()
-        value.directPutSourceDescription = try reader["DirectPutSourceDescription"].readIfPresent(with: FirehoseClientTypes.DirectPutSourceDescription.read(from:))
-        value.kinesisStreamSourceDescription = try reader["KinesisStreamSourceDescription"].readIfPresent(with: FirehoseClientTypes.KinesisStreamSourceDescription.read(from:))
-        value.mskSourceDescription = try reader["MSKSourceDescription"].readIfPresent(with: FirehoseClientTypes.MSKSourceDescription.read(from:))
-        value.databaseSourceDescription = try reader["DatabaseSourceDescription"].readIfPresent(with: FirehoseClientTypes.DatabaseSourceDescription.read(from:))
-        return value
-    }
-}
-
-extension FirehoseClientTypes.DatabaseSourceDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DatabaseSourceDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.DatabaseSourceDescription()
-        value.type = try reader["Type"].readIfPresent()
-        value.endpoint = try reader["Endpoint"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.sslMode = try reader["SSLMode"].readIfPresent()
-        value.databases = try reader["Databases"].readIfPresent(with: FirehoseClientTypes.DatabaseList.read(from:))
-        value.tables = try reader["Tables"].readIfPresent(with: FirehoseClientTypes.DatabaseTableList.read(from:))
-        value.columns = try reader["Columns"].readIfPresent(with: FirehoseClientTypes.DatabaseColumnList.read(from:))
-        value.surrogateKeys = try reader["SurrogateKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.snapshotWatermarkTable = try reader["SnapshotWatermarkTable"].readIfPresent()
-        value.snapshotInfo = try reader["SnapshotInfo"].readListIfPresent(memberReadingClosure: FirehoseClientTypes.DatabaseSnapshotInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.databaseSourceAuthenticationConfiguration = try reader["DatabaseSourceAuthenticationConfiguration"].readIfPresent(with: FirehoseClientTypes.DatabaseSourceAuthenticationConfiguration.read(from:))
-        value.databaseSourceVPCConfiguration = try reader["DatabaseSourceVPCConfiguration"].readIfPresent(with: FirehoseClientTypes.DatabaseSourceVPCConfiguration.read(from:))
-        return value
-    }
-}
-
-extension FirehoseClientTypes.DatabaseSourceVPCConfiguration {
-
-    static func write(value: FirehoseClientTypes.DatabaseSourceVPCConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FirehoseClientTypes.SchemaEvolutionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["VpcEndpointServiceName"].write(value.vpcEndpointServiceName)
+        try writer["Enabled"].write(value.enabled)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DatabaseSourceVPCConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SchemaEvolutionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.DatabaseSourceVPCConfiguration()
-        value.vpcEndpointServiceName = try reader["VpcEndpointServiceName"].readIfPresent() ?? ""
+        var value = FirehoseClientTypes.SchemaEvolutionConfiguration()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
         return value
     }
 }
 
-extension FirehoseClientTypes.DatabaseSourceAuthenticationConfiguration {
+extension FirehoseClientTypes.SecretsManagerConfiguration {
 
-    static func write(value: FirehoseClientTypes.DatabaseSourceAuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FirehoseClientTypes.SecretsManagerConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DatabaseSourceAuthenticationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.DatabaseSourceAuthenticationConfiguration()
-        value.secretsManagerConfiguration = try reader["SecretsManagerConfiguration"].readIfPresent(with: FirehoseClientTypes.SecretsManagerConfiguration.read(from:))
-        return value
-    }
-}
-
-extension FirehoseClientTypes.DatabaseSnapshotInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DatabaseSnapshotInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.DatabaseSnapshotInfo()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        value.requestTimestamp = try reader["RequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.requestedBy = try reader["RequestedBy"].readIfPresent() ?? .sdkUnknown("")
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.failureDescription = try reader["FailureDescription"].readIfPresent(with: FirehoseClientTypes.FailureDescription.read(from:))
-        return value
-    }
-}
-
-extension FirehoseClientTypes.FailureDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.FailureDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.FailureDescription()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.details = try reader["Details"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension FirehoseClientTypes.DatabaseColumnList {
-
-    static func write(value: FirehoseClientTypes.DatabaseColumnList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Exclude"].writeList(value.exclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Include"].writeList(value.include, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DatabaseColumnList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.DatabaseColumnList()
-        value.include = try reader["Include"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclude = try reader["Exclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FirehoseClientTypes.DatabaseTableList {
-
-    static func write(value: FirehoseClientTypes.DatabaseTableList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Exclude"].writeList(value.exclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Include"].writeList(value.include, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DatabaseTableList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.DatabaseTableList()
-        value.include = try reader["Include"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclude = try reader["Exclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FirehoseClientTypes.DatabaseList {
-
-    static func write(value: FirehoseClientTypes.DatabaseList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Exclude"].writeList(value.exclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Include"].writeList(value.include, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DatabaseList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.DatabaseList()
-        value.include = try reader["Include"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclude = try reader["Exclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FirehoseClientTypes.MSKSourceDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.MSKSourceDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.MSKSourceDescription()
-        value.mskClusterARN = try reader["MSKClusterARN"].readIfPresent()
-        value.topicName = try reader["TopicName"].readIfPresent()
-        value.authenticationConfiguration = try reader["AuthenticationConfiguration"].readIfPresent(with: FirehoseClientTypes.AuthenticationConfiguration.read(from:))
-        value.deliveryStartTimestamp = try reader["DeliveryStartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.readFromTimestamp = try reader["ReadFromTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension FirehoseClientTypes.AuthenticationConfiguration {
-
-    static func write(value: FirehoseClientTypes.AuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Connectivity"].write(value.connectivity)
+        try writer["Enabled"].write(value.enabled)
         try writer["RoleARN"].write(value.roleARN)
+        try writer["SecretARN"].write(value.secretARN)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.AuthenticationConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SecretsManagerConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.AuthenticationConfiguration()
-        value.roleARN = try reader["RoleARN"].readIfPresent() ?? ""
-        value.connectivity = try reader["Connectivity"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension FirehoseClientTypes.KinesisStreamSourceDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.KinesisStreamSourceDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.KinesisStreamSourceDescription()
-        value.kinesisStreamARN = try reader["KinesisStreamARN"].readIfPresent()
+        var value = FirehoseClientTypes.SecretsManagerConfiguration()
+        value.secretARN = try reader["SecretARN"].readIfPresent()
         value.roleARN = try reader["RoleARN"].readIfPresent()
-        value.deliveryStartTimestamp = try reader["DeliveryStartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
         return value
     }
 }
 
-extension FirehoseClientTypes.DirectPutSourceDescription {
+extension FirehoseClientTypes.Serializer {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DirectPutSourceDescription {
+    static func write(value: FirehoseClientTypes.Serializer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OrcSerDe"].write(value.orcSerDe, with: FirehoseClientTypes.OrcSerDe.write(value:to:))
+        try writer["ParquetSerDe"].write(value.parquetSerDe, with: FirehoseClientTypes.ParquetSerDe.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.Serializer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.DirectPutSourceDescription()
-        value.throughputHintInMBs = try reader["ThroughputHintInMBs"].readIfPresent()
+        var value = FirehoseClientTypes.Serializer()
+        value.parquetSerDe = try reader["ParquetSerDe"].readIfPresent(with: FirehoseClientTypes.ParquetSerDe.read(from:))
+        value.orcSerDe = try reader["OrcSerDe"].readIfPresent(with: FirehoseClientTypes.OrcSerDe.read(from:))
         return value
     }
 }
 
-extension FirehoseClientTypes.DeliveryStreamEncryptionConfiguration {
+extension FirehoseClientTypes.SnowflakeBufferingHints {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.DeliveryStreamEncryptionConfiguration {
+    static func write(value: FirehoseClientTypes.SnowflakeBufferingHints?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IntervalInSeconds"].write(value.intervalInSeconds)
+        try writer["SizeInMBs"].write(value.sizeInMBs)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SnowflakeBufferingHints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.DeliveryStreamEncryptionConfiguration()
-        value.keyARN = try reader["KeyARN"].readIfPresent()
-        value.keyType = try reader["KeyType"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.failureDescription = try reader["FailureDescription"].readIfPresent(with: FirehoseClientTypes.FailureDescription.read(from:))
+        var value = FirehoseClientTypes.SnowflakeBufferingHints()
+        value.sizeInMBs = try reader["SizeInMBs"].readIfPresent()
+        value.intervalInSeconds = try reader["IntervalInSeconds"].readIfPresent()
         return value
-    }
-}
-
-extension FirehoseClientTypes.Tag {
-
-    static func write(value: FirehoseClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.PutRecordBatchResponseEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.PutRecordBatchResponseEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FirehoseClientTypes.PutRecordBatchResponseEntry()
-        value.recordId = try reader["RecordId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension FirehoseClientTypes.DirectPutSourceConfiguration {
-
-    static func write(value: FirehoseClientTypes.DirectPutSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ThroughputHintInMBs"].write(value.throughputHintInMBs)
-    }
-}
-
-extension FirehoseClientTypes.KinesisStreamSourceConfiguration {
-
-    static func write(value: FirehoseClientTypes.KinesisStreamSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KinesisStreamARN"].write(value.kinesisStreamARN)
-        try writer["RoleARN"].write(value.roleARN)
-    }
-}
-
-extension FirehoseClientTypes.DeliveryStreamEncryptionConfigurationInput {
-
-    static func write(value: FirehoseClientTypes.DeliveryStreamEncryptionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeyARN"].write(value.keyARN)
-        try writer["KeyType"].write(value.keyType)
-    }
-}
-
-extension FirehoseClientTypes.S3DestinationConfiguration {
-
-    static func write(value: FirehoseClientTypes.S3DestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BucketARN"].write(value.bucketARN)
-        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.BufferingHints.write(value:to:))
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["CompressionFormat"].write(value.compressionFormat)
-        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: FirehoseClientTypes.EncryptionConfiguration.write(value:to:))
-        try writer["ErrorOutputPrefix"].write(value.errorOutputPrefix)
-        try writer["Prefix"].write(value.`prefix`)
-        try writer["RoleARN"].write(value.roleARN)
-    }
-}
-
-extension FirehoseClientTypes.ExtendedS3DestinationConfiguration {
-
-    static func write(value: FirehoseClientTypes.ExtendedS3DestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BucketARN"].write(value.bucketARN)
-        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.BufferingHints.write(value:to:))
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["CompressionFormat"].write(value.compressionFormat)
-        try writer["CustomTimeZone"].write(value.customTimeZone)
-        try writer["DataFormatConversionConfiguration"].write(value.dataFormatConversionConfiguration, with: FirehoseClientTypes.DataFormatConversionConfiguration.write(value:to:))
-        try writer["DynamicPartitioningConfiguration"].write(value.dynamicPartitioningConfiguration, with: FirehoseClientTypes.DynamicPartitioningConfiguration.write(value:to:))
-        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: FirehoseClientTypes.EncryptionConfiguration.write(value:to:))
-        try writer["ErrorOutputPrefix"].write(value.errorOutputPrefix)
-        try writer["FileExtension"].write(value.fileExtension)
-        try writer["Prefix"].write(value.`prefix`)
-        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["S3BackupConfiguration"].write(value.s3BackupConfiguration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
-        try writer["S3BackupMode"].write(value.s3BackupMode)
-    }
-}
-
-extension FirehoseClientTypes.RedshiftDestinationConfiguration {
-
-    static func write(value: FirehoseClientTypes.RedshiftDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["ClusterJDBCURL"].write(value.clusterJDBCURL)
-        try writer["CopyCommand"].write(value.copyCommand, with: FirehoseClientTypes.CopyCommand.write(value:to:))
-        try writer["Password"].write(value.password)
-        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.RedshiftRetryOptions.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["S3BackupConfiguration"].write(value.s3BackupConfiguration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
-        try writer["S3BackupMode"].write(value.s3BackupMode)
-        try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
-        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
-        try writer["Username"].write(value.username)
-    }
-}
-
-extension FirehoseClientTypes.ElasticsearchDestinationConfiguration {
-
-    static func write(value: FirehoseClientTypes.ElasticsearchDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.ElasticsearchBufferingHints.write(value:to:))
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["ClusterEndpoint"].write(value.clusterEndpoint)
-        try writer["DocumentIdOptions"].write(value.documentIdOptions, with: FirehoseClientTypes.DocumentIdOptions.write(value:to:))
-        try writer["DomainARN"].write(value.domainARN)
-        try writer["IndexName"].write(value.indexName)
-        try writer["IndexRotationPeriod"].write(value.indexRotationPeriod)
-        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.ElasticsearchRetryOptions.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["S3BackupMode"].write(value.s3BackupMode)
-        try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
-        try writer["TypeName"].write(value.typeName)
-        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: FirehoseClientTypes.VpcConfiguration.write(value:to:))
-    }
-}
-
-extension FirehoseClientTypes.VpcConfiguration {
-
-    static func write(value: FirehoseClientTypes.VpcConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension FirehoseClientTypes.AmazonopensearchserviceDestinationConfiguration {
-
-    static func write(value: FirehoseClientTypes.AmazonopensearchserviceDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.AmazonopensearchserviceBufferingHints.write(value:to:))
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["ClusterEndpoint"].write(value.clusterEndpoint)
-        try writer["DocumentIdOptions"].write(value.documentIdOptions, with: FirehoseClientTypes.DocumentIdOptions.write(value:to:))
-        try writer["DomainARN"].write(value.domainARN)
-        try writer["IndexName"].write(value.indexName)
-        try writer["IndexRotationPeriod"].write(value.indexRotationPeriod)
-        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.AmazonopensearchserviceRetryOptions.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["S3BackupMode"].write(value.s3BackupMode)
-        try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
-        try writer["TypeName"].write(value.typeName)
-        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: FirehoseClientTypes.VpcConfiguration.write(value:to:))
-    }
-}
-
-extension FirehoseClientTypes.SplunkDestinationConfiguration {
-
-    static func write(value: FirehoseClientTypes.SplunkDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.SplunkBufferingHints.write(value:to:))
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["HECAcknowledgmentTimeoutInSeconds"].write(value.hecAcknowledgmentTimeoutInSeconds)
-        try writer["HECEndpoint"].write(value.hecEndpoint)
-        try writer["HECEndpointType"].write(value.hecEndpointType)
-        try writer["HECToken"].write(value.hecToken)
-        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.SplunkRetryOptions.write(value:to:))
-        try writer["S3BackupMode"].write(value.s3BackupMode)
-        try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
-        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
-    }
-}
-
-extension FirehoseClientTypes.HttpEndpointDestinationConfiguration {
-
-    static func write(value: FirehoseClientTypes.HttpEndpointDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.HttpEndpointBufferingHints.write(value:to:))
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["EndpointConfiguration"].write(value.endpointConfiguration, with: FirehoseClientTypes.HttpEndpointConfiguration.write(value:to:))
-        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["RequestConfiguration"].write(value.requestConfiguration, with: FirehoseClientTypes.HttpEndpointRequestConfiguration.write(value:to:))
-        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.HttpEndpointRetryOptions.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["S3BackupMode"].write(value.s3BackupMode)
-        try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
-        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
-    }
-}
-
-extension FirehoseClientTypes.HttpEndpointConfiguration {
-
-    static func write(value: FirehoseClientTypes.HttpEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessKey"].write(value.accessKey)
-        try writer["Name"].write(value.name)
-        try writer["Url"].write(value.url)
-    }
-}
-
-extension FirehoseClientTypes.AmazonOpenSearchServerlessDestinationConfiguration {
-
-    static func write(value: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints.write(value:to:))
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["CollectionEndpoint"].write(value.collectionEndpoint)
-        try writer["IndexName"].write(value.indexName)
-        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["S3BackupMode"].write(value.s3BackupMode)
-        try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
-        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: FirehoseClientTypes.VpcConfiguration.write(value:to:))
-    }
-}
-
-extension FirehoseClientTypes.MSKSourceConfiguration {
-
-    static func write(value: FirehoseClientTypes.MSKSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthenticationConfiguration"].write(value.authenticationConfiguration, with: FirehoseClientTypes.AuthenticationConfiguration.write(value:to:))
-        try writer["MSKClusterARN"].write(value.mskClusterARN)
-        try writer["ReadFromTimestamp"].writeTimestamp(value.readFromTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["TopicName"].write(value.topicName)
     }
 }
 
@@ -7600,192 +7578,30 @@ extension FirehoseClientTypes.SnowflakeDestinationConfiguration {
     }
 }
 
-extension FirehoseClientTypes.IcebergDestinationConfiguration {
+extension FirehoseClientTypes.SnowflakeDestinationDescription {
 
-    static func write(value: FirehoseClientTypes.IcebergDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AppendOnly"].write(value.appendOnly)
-        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.BufferingHints.write(value:to:))
-        try writer["CatalogConfiguration"].write(value.catalogConfiguration, with: FirehoseClientTypes.CatalogConfiguration.write(value:to:))
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["DestinationTableConfigurationList"].writeList(value.destinationTableConfigurationList, memberWritingClosure: FirehoseClientTypes.DestinationTableConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.RetryOptions.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["S3BackupMode"].write(value.s3BackupMode)
-        try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
-        try writer["SchemaEvolutionConfiguration"].write(value.schemaEvolutionConfiguration, with: FirehoseClientTypes.SchemaEvolutionConfiguration.write(value:to:))
-        try writer["TableCreationConfiguration"].write(value.tableCreationConfiguration, with: FirehoseClientTypes.TableCreationConfiguration.write(value:to:))
-    }
-}
-
-extension FirehoseClientTypes.DatabaseSourceConfiguration {
-
-    static func write(value: FirehoseClientTypes.DatabaseSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Columns"].write(value.columns, with: FirehoseClientTypes.DatabaseColumnList.write(value:to:))
-        try writer["DatabaseSourceAuthenticationConfiguration"].write(value.databaseSourceAuthenticationConfiguration, with: FirehoseClientTypes.DatabaseSourceAuthenticationConfiguration.write(value:to:))
-        try writer["DatabaseSourceVPCConfiguration"].write(value.databaseSourceVPCConfiguration, with: FirehoseClientTypes.DatabaseSourceVPCConfiguration.write(value:to:))
-        try writer["Databases"].write(value.databases, with: FirehoseClientTypes.DatabaseList.write(value:to:))
-        try writer["Endpoint"].write(value.endpoint)
-        try writer["Port"].write(value.port)
-        try writer["SSLMode"].write(value.sslMode)
-        try writer["SnapshotWatermarkTable"].write(value.snapshotWatermarkTable)
-        try writer["SurrogateKeys"].writeList(value.surrogateKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Tables"].write(value.tables, with: FirehoseClientTypes.DatabaseTableList.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
-}
-
-extension FirehoseClientTypes.Record {
-
-    static func write(value: FirehoseClientTypes.Record?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Data"].write(value.data)
-    }
-}
-
-extension FirehoseClientTypes.S3DestinationUpdate {
-
-    static func write(value: FirehoseClientTypes.S3DestinationUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BucketARN"].write(value.bucketARN)
-        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.BufferingHints.write(value:to:))
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["CompressionFormat"].write(value.compressionFormat)
-        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: FirehoseClientTypes.EncryptionConfiguration.write(value:to:))
-        try writer["ErrorOutputPrefix"].write(value.errorOutputPrefix)
-        try writer["Prefix"].write(value.`prefix`)
-        try writer["RoleARN"].write(value.roleARN)
-    }
-}
-
-extension FirehoseClientTypes.ExtendedS3DestinationUpdate {
-
-    static func write(value: FirehoseClientTypes.ExtendedS3DestinationUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BucketARN"].write(value.bucketARN)
-        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.BufferingHints.write(value:to:))
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["CompressionFormat"].write(value.compressionFormat)
-        try writer["CustomTimeZone"].write(value.customTimeZone)
-        try writer["DataFormatConversionConfiguration"].write(value.dataFormatConversionConfiguration, with: FirehoseClientTypes.DataFormatConversionConfiguration.write(value:to:))
-        try writer["DynamicPartitioningConfiguration"].write(value.dynamicPartitioningConfiguration, with: FirehoseClientTypes.DynamicPartitioningConfiguration.write(value:to:))
-        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: FirehoseClientTypes.EncryptionConfiguration.write(value:to:))
-        try writer["ErrorOutputPrefix"].write(value.errorOutputPrefix)
-        try writer["FileExtension"].write(value.fileExtension)
-        try writer["Prefix"].write(value.`prefix`)
-        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["S3BackupMode"].write(value.s3BackupMode)
-        try writer["S3BackupUpdate"].write(value.s3BackupUpdate, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
-    }
-}
-
-extension FirehoseClientTypes.RedshiftDestinationUpdate {
-
-    static func write(value: FirehoseClientTypes.RedshiftDestinationUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["ClusterJDBCURL"].write(value.clusterJDBCURL)
-        try writer["CopyCommand"].write(value.copyCommand, with: FirehoseClientTypes.CopyCommand.write(value:to:))
-        try writer["Password"].write(value.password)
-        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.RedshiftRetryOptions.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["S3BackupMode"].write(value.s3BackupMode)
-        try writer["S3BackupUpdate"].write(value.s3BackupUpdate, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
-        try writer["S3Update"].write(value.s3Update, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
-        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
-        try writer["Username"].write(value.username)
-    }
-}
-
-extension FirehoseClientTypes.ElasticsearchDestinationUpdate {
-
-    static func write(value: FirehoseClientTypes.ElasticsearchDestinationUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.ElasticsearchBufferingHints.write(value:to:))
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["ClusterEndpoint"].write(value.clusterEndpoint)
-        try writer["DocumentIdOptions"].write(value.documentIdOptions, with: FirehoseClientTypes.DocumentIdOptions.write(value:to:))
-        try writer["DomainARN"].write(value.domainARN)
-        try writer["IndexName"].write(value.indexName)
-        try writer["IndexRotationPeriod"].write(value.indexRotationPeriod)
-        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.ElasticsearchRetryOptions.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["S3Update"].write(value.s3Update, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
-        try writer["TypeName"].write(value.typeName)
-    }
-}
-
-extension FirehoseClientTypes.AmazonopensearchserviceDestinationUpdate {
-
-    static func write(value: FirehoseClientTypes.AmazonopensearchserviceDestinationUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.AmazonopensearchserviceBufferingHints.write(value:to:))
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["ClusterEndpoint"].write(value.clusterEndpoint)
-        try writer["DocumentIdOptions"].write(value.documentIdOptions, with: FirehoseClientTypes.DocumentIdOptions.write(value:to:))
-        try writer["DomainARN"].write(value.domainARN)
-        try writer["IndexName"].write(value.indexName)
-        try writer["IndexRotationPeriod"].write(value.indexRotationPeriod)
-        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.AmazonopensearchserviceRetryOptions.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["S3Update"].write(value.s3Update, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
-        try writer["TypeName"].write(value.typeName)
-    }
-}
-
-extension FirehoseClientTypes.SplunkDestinationUpdate {
-
-    static func write(value: FirehoseClientTypes.SplunkDestinationUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.SplunkBufferingHints.write(value:to:))
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["HECAcknowledgmentTimeoutInSeconds"].write(value.hecAcknowledgmentTimeoutInSeconds)
-        try writer["HECEndpoint"].write(value.hecEndpoint)
-        try writer["HECEndpointType"].write(value.hecEndpointType)
-        try writer["HECToken"].write(value.hecToken)
-        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.SplunkRetryOptions.write(value:to:))
-        try writer["S3BackupMode"].write(value.s3BackupMode)
-        try writer["S3Update"].write(value.s3Update, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
-        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
-    }
-}
-
-extension FirehoseClientTypes.HttpEndpointDestinationUpdate {
-
-    static func write(value: FirehoseClientTypes.HttpEndpointDestinationUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.HttpEndpointBufferingHints.write(value:to:))
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["EndpointConfiguration"].write(value.endpointConfiguration, with: FirehoseClientTypes.HttpEndpointConfiguration.write(value:to:))
-        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["RequestConfiguration"].write(value.requestConfiguration, with: FirehoseClientTypes.HttpEndpointRequestConfiguration.write(value:to:))
-        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.HttpEndpointRetryOptions.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["S3BackupMode"].write(value.s3BackupMode)
-        try writer["S3Update"].write(value.s3Update, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
-        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
-    }
-}
-
-extension FirehoseClientTypes.AmazonOpenSearchServerlessDestinationUpdate {
-
-    static func write(value: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.AmazonOpenSearchServerlessBufferingHints.write(value:to:))
-        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["CollectionEndpoint"].write(value.collectionEndpoint)
-        try writer["IndexName"].write(value.indexName)
-        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["S3Update"].write(value.s3Update, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SnowflakeDestinationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.SnowflakeDestinationDescription()
+        value.accountUrl = try reader["AccountUrl"].readIfPresent()
+        value.user = try reader["User"].readIfPresent()
+        value.database = try reader["Database"].readIfPresent()
+        value.schema = try reader["Schema"].readIfPresent()
+        value.table = try reader["Table"].readIfPresent()
+        value.snowflakeRoleConfiguration = try reader["SnowflakeRoleConfiguration"].readIfPresent(with: FirehoseClientTypes.SnowflakeRoleConfiguration.read(from:))
+        value.dataLoadingOption = try reader["DataLoadingOption"].readIfPresent()
+        value.metaDataColumnName = try reader["MetaDataColumnName"].readIfPresent()
+        value.contentColumnName = try reader["ContentColumnName"].readIfPresent()
+        value.snowflakeVpcConfiguration = try reader["SnowflakeVpcConfiguration"].readIfPresent(with: FirehoseClientTypes.SnowflakeVpcConfiguration.read(from:))
+        value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
+        value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
+        value.roleARN = try reader["RoleARN"].readIfPresent()
+        value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.SnowflakeRetryOptions.read(from:))
+        value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
+        value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
+        value.secretsManagerConfiguration = try reader["SecretsManagerConfiguration"].readIfPresent(with: FirehoseClientTypes.SecretsManagerConfiguration.read(from:))
+        value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.SnowflakeBufferingHints.read(from:))
+        return value
     }
 }
 
@@ -7815,22 +7631,206 @@ extension FirehoseClientTypes.SnowflakeDestinationUpdate {
     }
 }
 
-extension FirehoseClientTypes.IcebergDestinationUpdate {
+extension FirehoseClientTypes.SnowflakeRetryOptions {
 
-    static func write(value: FirehoseClientTypes.IcebergDestinationUpdate?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FirehoseClientTypes.SnowflakeRetryOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AppendOnly"].write(value.appendOnly)
-        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.BufferingHints.write(value:to:))
-        try writer["CatalogConfiguration"].write(value.catalogConfiguration, with: FirehoseClientTypes.CatalogConfiguration.write(value:to:))
+        try writer["DurationInSeconds"].write(value.durationInSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SnowflakeRetryOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.SnowflakeRetryOptions()
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.SnowflakeRoleConfiguration {
+
+    static func write(value: FirehoseClientTypes.SnowflakeRoleConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["SnowflakeRole"].write(value.snowflakeRole)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SnowflakeRoleConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.SnowflakeRoleConfiguration()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.snowflakeRole = try reader["SnowflakeRole"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.SnowflakeVpcConfiguration {
+
+    static func write(value: FirehoseClientTypes.SnowflakeVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PrivateLinkVpceId"].write(value.privateLinkVpceId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SnowflakeVpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.SnowflakeVpcConfiguration()
+        value.privateLinkVpceId = try reader["PrivateLinkVpceId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension FirehoseClientTypes.SourceDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SourceDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.SourceDescription()
+        value.directPutSourceDescription = try reader["DirectPutSourceDescription"].readIfPresent(with: FirehoseClientTypes.DirectPutSourceDescription.read(from:))
+        value.kinesisStreamSourceDescription = try reader["KinesisStreamSourceDescription"].readIfPresent(with: FirehoseClientTypes.KinesisStreamSourceDescription.read(from:))
+        value.mskSourceDescription = try reader["MSKSourceDescription"].readIfPresent(with: FirehoseClientTypes.MSKSourceDescription.read(from:))
+        value.databaseSourceDescription = try reader["DatabaseSourceDescription"].readIfPresent(with: FirehoseClientTypes.DatabaseSourceDescription.read(from:))
+        return value
+    }
+}
+
+extension FirehoseClientTypes.SplunkBufferingHints {
+
+    static func write(value: FirehoseClientTypes.SplunkBufferingHints?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IntervalInSeconds"].write(value.intervalInSeconds)
+        try writer["SizeInMBs"].write(value.sizeInMBs)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SplunkBufferingHints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.SplunkBufferingHints()
+        value.intervalInSeconds = try reader["IntervalInSeconds"].readIfPresent()
+        value.sizeInMBs = try reader["SizeInMBs"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.SplunkDestinationConfiguration {
+
+    static func write(value: FirehoseClientTypes.SplunkDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.SplunkBufferingHints.write(value:to:))
         try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
-        try writer["DestinationTableConfigurationList"].writeList(value.destinationTableConfigurationList, memberWritingClosure: FirehoseClientTypes.DestinationTableConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["HECAcknowledgmentTimeoutInSeconds"].write(value.hecAcknowledgmentTimeoutInSeconds)
+        try writer["HECEndpoint"].write(value.hecEndpoint)
+        try writer["HECEndpointType"].write(value.hecEndpointType)
+        try writer["HECToken"].write(value.hecToken)
         try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
-        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.RetryOptions.write(value:to:))
-        try writer["RoleARN"].write(value.roleARN)
+        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.SplunkRetryOptions.write(value:to:))
         try writer["S3BackupMode"].write(value.s3BackupMode)
         try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
-        try writer["SchemaEvolutionConfiguration"].write(value.schemaEvolutionConfiguration, with: FirehoseClientTypes.SchemaEvolutionConfiguration.write(value:to:))
-        try writer["TableCreationConfiguration"].write(value.tableCreationConfiguration, with: FirehoseClientTypes.TableCreationConfiguration.write(value:to:))
+        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
+    }
+}
+
+extension FirehoseClientTypes.SplunkDestinationDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SplunkDestinationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.SplunkDestinationDescription()
+        value.hecEndpoint = try reader["HECEndpoint"].readIfPresent()
+        value.hecEndpointType = try reader["HECEndpointType"].readIfPresent()
+        value.hecToken = try reader["HECToken"].readIfPresent()
+        value.hecAcknowledgmentTimeoutInSeconds = try reader["HECAcknowledgmentTimeoutInSeconds"].readIfPresent()
+        value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.SplunkRetryOptions.read(from:))
+        value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
+        value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
+        value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
+        value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
+        value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.SplunkBufferingHints.read(from:))
+        value.secretsManagerConfiguration = try reader["SecretsManagerConfiguration"].readIfPresent(with: FirehoseClientTypes.SecretsManagerConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FirehoseClientTypes.SplunkDestinationUpdate {
+
+    static func write(value: FirehoseClientTypes.SplunkDestinationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BufferingHints"].write(value.bufferingHints, with: FirehoseClientTypes.SplunkBufferingHints.write(value:to:))
+        try writer["CloudWatchLoggingOptions"].write(value.cloudWatchLoggingOptions, with: FirehoseClientTypes.CloudWatchLoggingOptions.write(value:to:))
+        try writer["HECAcknowledgmentTimeoutInSeconds"].write(value.hecAcknowledgmentTimeoutInSeconds)
+        try writer["HECEndpoint"].write(value.hecEndpoint)
+        try writer["HECEndpointType"].write(value.hecEndpointType)
+        try writer["HECToken"].write(value.hecToken)
+        try writer["ProcessingConfiguration"].write(value.processingConfiguration, with: FirehoseClientTypes.ProcessingConfiguration.write(value:to:))
+        try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.SplunkRetryOptions.write(value:to:))
+        try writer["S3BackupMode"].write(value.s3BackupMode)
+        try writer["S3Update"].write(value.s3Update, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
+        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
+    }
+}
+
+extension FirehoseClientTypes.SplunkRetryOptions {
+
+    static func write(value: FirehoseClientTypes.SplunkRetryOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DurationInSeconds"].write(value.durationInSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SplunkRetryOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.SplunkRetryOptions()
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.TableCreationConfiguration {
+
+    static func write(value: FirehoseClientTypes.TableCreationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.TableCreationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.TableCreationConfiguration()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension FirehoseClientTypes.Tag {
+
+    static func write(value: FirehoseClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension FirehoseClientTypes.VpcConfiguration {
+
+    static func write(value: FirehoseClientTypes.VpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension FirehoseClientTypes.VpcConfigurationDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.VpcConfigurationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.VpcConfigurationDescription()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.roleARN = try reader["RoleARN"].readIfPresent() ?? ""
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
+        return value
     }
 }
 

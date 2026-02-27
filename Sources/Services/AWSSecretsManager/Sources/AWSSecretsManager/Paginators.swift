@@ -54,6 +54,7 @@ extension ListSecretsInput: ClientRuntime.PaginateToken {
             includePlannedDeletion: self.includePlannedDeletion,
             maxResults: self.maxResults,
             nextToken: token,
+            sortBy: self.sortBy,
             sortOrder: self.sortOrder
         )}
 }

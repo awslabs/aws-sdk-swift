@@ -21733,34 +21733,177 @@ extension UnauthenticatedException {
     }
 }
 
-extension LightsailClientTypes.Operation {
+extension LightsailClientTypes.AccessKey {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Operation {
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AccessKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.Operation()
-        value.id = try reader["id"].readIfPresent()
-        value.resourceName = try reader["resourceName"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.location = try reader["location"].readIfPresent(with: LightsailClientTypes.ResourceLocation.read(from:))
-        value.isTerminal = try reader["isTerminal"].readIfPresent()
-        value.operationDetails = try reader["operationDetails"].readIfPresent()
-        value.operationType = try reader["operationType"].readIfPresent()
+        var value = LightsailClientTypes.AccessKey()
+        value.accessKeyId = try reader["accessKeyId"].readIfPresent()
+        value.secretAccessKey = try reader["secretAccessKey"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
-        value.statusChangedAt = try reader["statusChangedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorDetails = try reader["errorDetails"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUsed = try reader["lastUsed"].readIfPresent(with: LightsailClientTypes.AccessKeyLastUsed.read(from:))
         return value
     }
 }
 
-extension LightsailClientTypes.ResourceLocation {
+extension LightsailClientTypes.AccessKeyLastUsed {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ResourceLocation {
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AccessKeyLastUsed {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.ResourceLocation()
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
-        value.regionName = try reader["regionName"].readIfPresent()
+        var value = LightsailClientTypes.AccessKeyLastUsed()
+        value.lastUsedDate = try reader["lastUsedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.region = try reader["region"].readIfPresent()
+        value.serviceName = try reader["serviceName"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.AccessRules {
+
+    static func write(value: LightsailClientTypes.AccessRules?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowPublicOverrides"].write(value.allowPublicOverrides)
+        try writer["getObject"].write(value.getObject)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AccessRules {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.AccessRules()
+        value.getObject = try reader["getObject"].readIfPresent()
+        value.allowPublicOverrides = try reader["allowPublicOverrides"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.AccountLevelBpaSync {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AccountLevelBpaSync {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.AccountLevelBpaSync()
+        value.status = try reader["status"].readIfPresent()
+        value.lastSyncedAt = try reader["lastSyncedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.message = try reader["message"].readIfPresent()
+        value.bpaImpactsLightsail = try reader["bpaImpactsLightsail"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.AddOn {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AddOn {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.AddOn()
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.snapshotTimeOfDay = try reader["snapshotTimeOfDay"].readIfPresent()
+        value.nextSnapshotTimeOfDay = try reader["nextSnapshotTimeOfDay"].readIfPresent()
+        value.threshold = try reader["threshold"].readIfPresent()
+        value.duration = try reader["duration"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.AddOnRequest {
+
+    static func write(value: LightsailClientTypes.AddOnRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["addOnType"].write(value.addOnType)
+        try writer["autoSnapshotAddOnRequest"].write(value.autoSnapshotAddOnRequest, with: LightsailClientTypes.AutoSnapshotAddOnRequest.write(value:to:))
+        try writer["stopInstanceOnIdleRequest"].write(value.stopInstanceOnIdleRequest, with: LightsailClientTypes.StopInstanceOnIdleRequest.write(value:to:))
+    }
+}
+
+extension LightsailClientTypes.Alarm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Alarm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.Alarm()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.location = try reader["location"].readIfPresent(with: LightsailClientTypes.ResourceLocation.read(from:))
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.supportCode = try reader["supportCode"].readIfPresent()
+        value.monitoredResourceInfo = try reader["monitoredResourceInfo"].readIfPresent(with: LightsailClientTypes.MonitoredResourceInfo.read(from:))
+        value.comparisonOperator = try reader["comparisonOperator"].readIfPresent()
+        value.evaluationPeriods = try reader["evaluationPeriods"].readIfPresent()
+        value.period = try reader["period"].readIfPresent()
+        value.threshold = try reader["threshold"].readIfPresent()
+        value.datapointsToAlarm = try reader["datapointsToAlarm"].readIfPresent()
+        value.treatMissingData = try reader["treatMissingData"].readIfPresent()
+        value.statistic = try reader["statistic"].readIfPresent()
+        value.metricName = try reader["metricName"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        value.contactProtocols = try reader["contactProtocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LightsailClientTypes.ContactProtocol>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notificationTriggers = try reader["notificationTriggers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LightsailClientTypes.AlarmState>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notificationEnabled = try reader["notificationEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.AttachedDisk {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AttachedDisk {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.AttachedDisk()
+        value.path = try reader["path"].readIfPresent()
+        value.sizeInGb = try reader["sizeInGb"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.AutoSnapshotAddOnRequest {
+
+    static func write(value: LightsailClientTypes.AutoSnapshotAddOnRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["snapshotTimeOfDay"].write(value.snapshotTimeOfDay)
+    }
+}
+
+extension LightsailClientTypes.AutoSnapshotDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AutoSnapshotDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.AutoSnapshotDetails()
+        value.date = try reader["date"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.fromAttachedDisks = try reader["fromAttachedDisks"].readListIfPresent(memberReadingClosure: LightsailClientTypes.AttachedDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LightsailClientTypes.AvailabilityZone {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AvailabilityZone {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.AvailabilityZone()
+        value.zoneName = try reader["zoneName"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.Blueprint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Blueprint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.Blueprint()
+        value.blueprintId = try reader["blueprintId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.group = try reader["group"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.isActive = try reader["isActive"].readIfPresent()
+        value.minPower = try reader["minPower"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        value.versionCode = try reader["versionCode"].readIfPresent()
+        value.productUrl = try reader["productUrl"].readIfPresent()
+        value.licenseUrl = try reader["licenseUrl"].readIfPresent()
+        value.platform = try reader["platform"].readIfPresent()
+        value.appCategory = try reader["appCategory"].readIfPresent()
         return value
     }
 }
@@ -21787,6 +21930,40 @@ extension LightsailClientTypes.Bucket {
         value.state = try reader["state"].readIfPresent(with: LightsailClientTypes.BucketState.read(from:))
         value.accessLogConfig = try reader["accessLogConfig"].readIfPresent(with: LightsailClientTypes.BucketAccessLogConfig.read(from:))
         value.cors = try reader["cors"].readIfPresent(with: LightsailClientTypes.BucketCorsConfig.read(from:))
+        return value
+    }
+}
+
+extension LightsailClientTypes.BucketAccessLogConfig {
+
+    static func write(value: LightsailClientTypes.BucketAccessLogConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destination"].write(value.destination)
+        try writer["enabled"].write(value.enabled)
+        try writer["prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.BucketAccessLogConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.BucketAccessLogConfig()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.destination = try reader["destination"].readIfPresent()
+        value.`prefix` = try reader["prefix"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.BucketBundle {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.BucketBundle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.BucketBundle()
+        value.bundleId = try reader["bundleId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.price = try reader["price"].readIfPresent()
+        value.storagePerMonthInGb = try reader["storagePerMonthInGb"].readIfPresent()
+        value.transferPerMonthInGb = try reader["transferPerMonthInGb"].readIfPresent()
+        value.isActive = try reader["isActive"].readIfPresent()
         return value
     }
 }
@@ -21831,25 +22008,6 @@ extension LightsailClientTypes.BucketCorsRule {
     }
 }
 
-extension LightsailClientTypes.BucketAccessLogConfig {
-
-    static func write(value: LightsailClientTypes.BucketAccessLogConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destination"].write(value.destination)
-        try writer["enabled"].write(value.enabled)
-        try writer["prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.BucketAccessLogConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.BucketAccessLogConfig()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
-        value.destination = try reader["destination"].readIfPresent()
-        value.`prefix` = try reader["prefix"].readIfPresent()
-        return value
-    }
-}
-
 extension LightsailClientTypes.BucketState {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.BucketState {
@@ -21861,341 +22019,39 @@ extension LightsailClientTypes.BucketState {
     }
 }
 
-extension LightsailClientTypes.ResourceReceivingAccess {
+extension LightsailClientTypes.Bundle {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ResourceReceivingAccess {
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Bundle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.ResourceReceivingAccess()
-        value.name = try reader["name"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.Tag {
-
-    static func write(value: LightsailClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.AccessRules {
-
-    static func write(value: LightsailClientTypes.AccessRules?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowPublicOverrides"].write(value.allowPublicOverrides)
-        try writer["getObject"].write(value.getObject)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AccessRules {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.AccessRules()
-        value.getObject = try reader["getObject"].readIfPresent()
-        value.allowPublicOverrides = try reader["allowPublicOverrides"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.AccessKey {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AccessKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.AccessKey()
-        value.accessKeyId = try reader["accessKeyId"].readIfPresent()
-        value.secretAccessKey = try reader["secretAccessKey"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUsed = try reader["lastUsed"].readIfPresent(with: LightsailClientTypes.AccessKeyLastUsed.read(from:))
-        return value
-    }
-}
-
-extension LightsailClientTypes.AccessKeyLastUsed {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AccessKeyLastUsed {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.AccessKeyLastUsed()
-        value.lastUsedDate = try reader["lastUsedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.region = try reader["region"].readIfPresent()
-        value.serviceName = try reader["serviceName"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.CertificateSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.CertificateSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.CertificateSummary()
-        value.certificateArn = try reader["certificateArn"].readIfPresent()
-        value.certificateName = try reader["certificateName"].readIfPresent()
-        value.domainName = try reader["domainName"].readIfPresent()
-        value.certificateDetail = try reader["certificateDetail"].readIfPresent(with: LightsailClientTypes.Certificate.read(from:))
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: LightsailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LightsailClientTypes.Certificate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Certificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.Certificate()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.domainName = try reader["domainName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.serialNumber = try reader["serialNumber"].readIfPresent()
-        value.subjectAlternativeNames = try reader["subjectAlternativeNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.domainValidationRecords = try reader["domainValidationRecords"].readListIfPresent(memberReadingClosure: LightsailClientTypes.DomainValidationRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.requestFailureReason = try reader["requestFailureReason"].readIfPresent()
-        value.inUseResourceCount = try reader["inUseResourceCount"].readIfPresent() ?? 0
-        value.keyAlgorithm = try reader["keyAlgorithm"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.issuedAt = try reader["issuedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.issuerCA = try reader["issuerCA"].readIfPresent()
-        value.notBefore = try reader["notBefore"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.notAfter = try reader["notAfter"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.eligibleToRenew = try reader["eligibleToRenew"].readIfPresent()
-        value.renewalSummary = try reader["renewalSummary"].readIfPresent(with: LightsailClientTypes.RenewalSummary.read(from:))
-        value.revokedAt = try reader["revokedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.revocationReason = try reader["revocationReason"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: LightsailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportCode = try reader["supportCode"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.RenewalSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RenewalSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.RenewalSummary()
-        value.domainValidationRecords = try reader["domainValidationRecords"].readListIfPresent(memberReadingClosure: LightsailClientTypes.DomainValidationRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.renewalStatus = try reader["renewalStatus"].readIfPresent()
-        value.renewalStatusReason = try reader["renewalStatusReason"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension LightsailClientTypes.DomainValidationRecord {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DomainValidationRecord {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.DomainValidationRecord()
-        value.domainName = try reader["domainName"].readIfPresent()
-        value.resourceRecord = try reader["resourceRecord"].readIfPresent(with: LightsailClientTypes.ResourceRecord.read(from:))
-        value.dnsRecordCreationState = try reader["dnsRecordCreationState"].readIfPresent(with: LightsailClientTypes.DnsRecordCreationState.read(from:))
-        value.validationStatus = try reader["validationStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.DnsRecordCreationState {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DnsRecordCreationState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.DnsRecordCreationState()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.ResourceRecord {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ResourceRecord {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.ResourceRecord()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.ContainerService {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerService {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.ContainerService()
-        value.containerServiceName = try reader["containerServiceName"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.location = try reader["location"].readIfPresent(with: LightsailClientTypes.ResourceLocation.read(from:))
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: LightsailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.power = try reader["power"].readIfPresent()
-        value.powerId = try reader["powerId"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        value.stateDetail = try reader["stateDetail"].readIfPresent(with: LightsailClientTypes.ContainerServiceStateDetail.read(from:))
-        value.scale = try reader["scale"].readIfPresent()
-        value.currentDeployment = try reader["currentDeployment"].readIfPresent(with: LightsailClientTypes.ContainerServiceDeployment.read(from:))
-        value.nextDeployment = try reader["nextDeployment"].readIfPresent(with: LightsailClientTypes.ContainerServiceDeployment.read(from:))
-        value.isDisabled = try reader["isDisabled"].readIfPresent()
-        value.principalArn = try reader["principalArn"].readIfPresent()
-        value.privateDomainName = try reader["privateDomainName"].readIfPresent()
-        value.publicDomainNames = try reader["publicDomainNames"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.url = try reader["url"].readIfPresent()
-        value.privateRegistryAccess = try reader["privateRegistryAccess"].readIfPresent(with: LightsailClientTypes.PrivateRegistryAccess.read(from:))
-        return value
-    }
-}
-
-extension LightsailClientTypes.PrivateRegistryAccess {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.PrivateRegistryAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.PrivateRegistryAccess()
-        value.ecrImagePullerRole = try reader["ecrImagePullerRole"].readIfPresent(with: LightsailClientTypes.ContainerServiceECRImagePullerRole.read(from:))
-        return value
-    }
-}
-
-extension LightsailClientTypes.ContainerServiceECRImagePullerRole {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceECRImagePullerRole {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.ContainerServiceECRImagePullerRole()
-        value.isActive = try reader["isActive"].readIfPresent()
-        value.principalArn = try reader["principalArn"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.ContainerServiceDeployment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceDeployment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.ContainerServiceDeployment()
-        value.version = try reader["version"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        value.containers = try reader["containers"].readMapIfPresent(valueReadingClosure: LightsailClientTypes.Container.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.publicEndpoint = try reader["publicEndpoint"].readIfPresent(with: LightsailClientTypes.ContainerServiceEndpoint.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension LightsailClientTypes.ContainerServiceEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.ContainerServiceEndpoint()
-        value.containerName = try reader["containerName"].readIfPresent()
-        value.containerPort = try reader["containerPort"].readIfPresent()
-        value.healthCheck = try reader["healthCheck"].readIfPresent(with: LightsailClientTypes.ContainerServiceHealthCheckConfig.read(from:))
-        return value
-    }
-}
-
-extension LightsailClientTypes.ContainerServiceHealthCheckConfig {
-
-    static func write(value: LightsailClientTypes.ContainerServiceHealthCheckConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["healthyThreshold"].write(value.healthyThreshold)
-        try writer["intervalSeconds"].write(value.intervalSeconds)
-        try writer["path"].write(value.path)
-        try writer["successCodes"].write(value.successCodes)
-        try writer["timeoutSeconds"].write(value.timeoutSeconds)
-        try writer["unhealthyThreshold"].write(value.unhealthyThreshold)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceHealthCheckConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.ContainerServiceHealthCheckConfig()
-        value.healthyThreshold = try reader["healthyThreshold"].readIfPresent()
-        value.unhealthyThreshold = try reader["unhealthyThreshold"].readIfPresent()
-        value.timeoutSeconds = try reader["timeoutSeconds"].readIfPresent()
-        value.intervalSeconds = try reader["intervalSeconds"].readIfPresent()
-        value.path = try reader["path"].readIfPresent()
-        value.successCodes = try reader["successCodes"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.Container {
-
-    static func write(value: LightsailClientTypes.Container?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["environment"].writeMap(value.environment, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["image"].write(value.image)
-        try writer["ports"].writeMap(value.ports, valueWritingClosure: SmithyReadWrite.WritingClosureBox<LightsailClientTypes.ContainerServiceProtocol>().write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Container {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.Container()
-        value.image = try reader["image"].readIfPresent()
-        value.command = try reader["command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.environment = try reader["environment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.ports = try reader["ports"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<LightsailClientTypes.ContainerServiceProtocol>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension LightsailClientTypes.ContainerServiceStateDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceStateDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.ContainerServiceStateDetail()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.ContainerServiceRegistryLogin {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceRegistryLogin {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.ContainerServiceRegistryLogin()
-        value.username = try reader["username"].readIfPresent()
-        value.password = try reader["password"].readIfPresent()
-        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.registry = try reader["registry"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.LightsailDistribution {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LightsailDistribution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.LightsailDistribution()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.supportCode = try reader["supportCode"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.location = try reader["location"].readIfPresent(with: LightsailClientTypes.ResourceLocation.read(from:))
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.alternativeDomainNames = try reader["alternativeDomainNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
-        value.isEnabled = try reader["isEnabled"].readIfPresent()
-        value.domainName = try reader["domainName"].readIfPresent()
+        var value = LightsailClientTypes.Bundle()
+        value.price = try reader["price"].readIfPresent()
+        value.cpuCount = try reader["cpuCount"].readIfPresent()
+        value.diskSizeInGb = try reader["diskSizeInGb"].readIfPresent()
         value.bundleId = try reader["bundleId"].readIfPresent()
-        value.certificateName = try reader["certificateName"].readIfPresent()
-        value.origin = try reader["origin"].readIfPresent(with: LightsailClientTypes.Origin.read(from:))
-        value.originPublicDNS = try reader["originPublicDNS"].readIfPresent()
-        value.defaultCacheBehavior = try reader["defaultCacheBehavior"].readIfPresent(with: LightsailClientTypes.CacheBehavior.read(from:))
-        value.cacheBehaviorSettings = try reader["cacheBehaviorSettings"].readIfPresent(with: LightsailClientTypes.CacheSettings.read(from:))
-        value.cacheBehaviors = try reader["cacheBehaviors"].readListIfPresent(memberReadingClosure: LightsailClientTypes.CacheBehaviorPerPath.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ableToUpdateBundle = try reader["ableToUpdateBundle"].readIfPresent()
-        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: LightsailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.viewerMinimumTlsProtocolVersion = try reader["viewerMinimumTlsProtocolVersion"].readIfPresent()
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.isActive = try reader["isActive"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.power = try reader["power"].readIfPresent()
+        value.ramSizeInGb = try reader["ramSizeInGb"].readIfPresent()
+        value.transferPerMonthInGb = try reader["transferPerMonthInGb"].readIfPresent()
+        value.supportedPlatforms = try reader["supportedPlatforms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LightsailClientTypes.InstancePlatform>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedAppCategories = try reader["supportedAppCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LightsailClientTypes.AppCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.publicIpv4AddressCount = try reader["publicIpv4AddressCount"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.CacheBehavior {
+
+    static func write(value: LightsailClientTypes.CacheBehavior?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["behavior"].write(value.behavior)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.CacheBehavior {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.CacheBehavior()
+        value.behavior = try reader["behavior"].readIfPresent()
         return value
     }
 }
@@ -22246,264 +22102,46 @@ extension LightsailClientTypes.CacheSettings {
     }
 }
 
-extension LightsailClientTypes.QueryStringObject {
+extension LightsailClientTypes.Certificate {
 
-    static func write(value: LightsailClientTypes.QueryStringObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["option"].write(value.option)
-        try writer["queryStringsAllowList"].writeList(value.queryStringsAllowList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.QueryStringObject {
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Certificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.QueryStringObject()
-        value.option = try reader["option"].readIfPresent()
-        value.queryStringsAllowList = try reader["queryStringsAllowList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LightsailClientTypes.HeaderObject {
-
-    static func write(value: LightsailClientTypes.HeaderObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["headersAllowList"].writeList(value.headersAllowList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LightsailClientTypes.HeaderEnum>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["option"].write(value.option)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.HeaderObject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.HeaderObject()
-        value.option = try reader["option"].readIfPresent()
-        value.headersAllowList = try reader["headersAllowList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LightsailClientTypes.HeaderEnum>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LightsailClientTypes.CookieObject {
-
-    static func write(value: LightsailClientTypes.CookieObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cookiesAllowList"].writeList(value.cookiesAllowList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["option"].write(value.option)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.CookieObject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.CookieObject()
-        value.option = try reader["option"].readIfPresent()
-        value.cookiesAllowList = try reader["cookiesAllowList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LightsailClientTypes.CacheBehavior {
-
-    static func write(value: LightsailClientTypes.CacheBehavior?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["behavior"].write(value.behavior)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.CacheBehavior {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.CacheBehavior()
-        value.behavior = try reader["behavior"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.Origin {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Origin {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.Origin()
-        value.name = try reader["name"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.regionName = try reader["regionName"].readIfPresent()
-        value.protocolPolicy = try reader["protocolPolicy"].readIfPresent()
-        value.responseTimeout = try reader["responseTimeout"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.Session {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Session {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.Session()
-        value.name = try reader["name"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
-        value.isPrimary = try reader["isPrimary"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.KeyPair {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.KeyPair {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.KeyPair()
-        value.name = try reader["name"].readIfPresent()
+        var value = LightsailClientTypes.Certificate()
         value.arn = try reader["arn"].readIfPresent()
-        value.supportCode = try reader["supportCode"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.serialNumber = try reader["serialNumber"].readIfPresent()
+        value.subjectAlternativeNames = try reader["subjectAlternativeNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainValidationRecords = try reader["domainValidationRecords"].readListIfPresent(memberReadingClosure: LightsailClientTypes.DomainValidationRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestFailureReason = try reader["requestFailureReason"].readIfPresent()
+        value.inUseResourceCount = try reader["inUseResourceCount"].readIfPresent() ?? 0
+        value.keyAlgorithm = try reader["keyAlgorithm"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.location = try reader["location"].readIfPresent(with: LightsailClientTypes.ResourceLocation.read(from:))
-        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.issuedAt = try reader["issuedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.issuerCA = try reader["issuerCA"].readIfPresent()
+        value.notBefore = try reader["notBefore"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.notAfter = try reader["notAfter"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.eligibleToRenew = try reader["eligibleToRenew"].readIfPresent()
+        value.renewalSummary = try reader["renewalSummary"].readIfPresent(with: LightsailClientTypes.RenewalSummary.read(from:))
+        value.revokedAt = try reader["revokedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.revocationReason = try reader["revocationReason"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: LightsailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.fingerprint = try reader["fingerprint"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.Alarm {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Alarm {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.Alarm()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.location = try reader["location"].readIfPresent(with: LightsailClientTypes.ResourceLocation.read(from:))
-        value.resourceType = try reader["resourceType"].readIfPresent()
         value.supportCode = try reader["supportCode"].readIfPresent()
-        value.monitoredResourceInfo = try reader["monitoredResourceInfo"].readIfPresent(with: LightsailClientTypes.MonitoredResourceInfo.read(from:))
-        value.comparisonOperator = try reader["comparisonOperator"].readIfPresent()
-        value.evaluationPeriods = try reader["evaluationPeriods"].readIfPresent()
-        value.period = try reader["period"].readIfPresent()
-        value.threshold = try reader["threshold"].readIfPresent()
-        value.datapointsToAlarm = try reader["datapointsToAlarm"].readIfPresent()
-        value.treatMissingData = try reader["treatMissingData"].readIfPresent()
-        value.statistic = try reader["statistic"].readIfPresent()
-        value.metricName = try reader["metricName"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
-        value.contactProtocols = try reader["contactProtocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LightsailClientTypes.ContactProtocol>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.notificationTriggers = try reader["notificationTriggers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LightsailClientTypes.AlarmState>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.notificationEnabled = try reader["notificationEnabled"].readIfPresent()
         return value
     }
 }
 
-extension LightsailClientTypes.MonitoredResourceInfo {
+extension LightsailClientTypes.CertificateSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.MonitoredResourceInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.CertificateSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.MonitoredResourceInfo()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.AutoSnapshotDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AutoSnapshotDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.AutoSnapshotDetails()
-        value.date = try reader["date"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        value.fromAttachedDisks = try reader["fromAttachedDisks"].readListIfPresent(memberReadingClosure: LightsailClientTypes.AttachedDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LightsailClientTypes.AttachedDisk {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AttachedDisk {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.AttachedDisk()
-        value.path = try reader["path"].readIfPresent()
-        value.sizeInGb = try reader["sizeInGb"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.Blueprint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Blueprint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.Blueprint()
-        value.blueprintId = try reader["blueprintId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.group = try reader["group"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.isActive = try reader["isActive"].readIfPresent()
-        value.minPower = try reader["minPower"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        value.versionCode = try reader["versionCode"].readIfPresent()
-        value.productUrl = try reader["productUrl"].readIfPresent()
-        value.licenseUrl = try reader["licenseUrl"].readIfPresent()
-        value.platform = try reader["platform"].readIfPresent()
-        value.appCategory = try reader["appCategory"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.BucketBundle {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.BucketBundle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.BucketBundle()
-        value.bundleId = try reader["bundleId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.price = try reader["price"].readIfPresent()
-        value.storagePerMonthInGb = try reader["storagePerMonthInGb"].readIfPresent()
-        value.transferPerMonthInGb = try reader["transferPerMonthInGb"].readIfPresent()
-        value.isActive = try reader["isActive"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.MetricDatapoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.MetricDatapoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.MetricDatapoint()
-        value.average = try reader["average"].readIfPresent()
-        value.maximum = try reader["maximum"].readIfPresent()
-        value.minimum = try reader["minimum"].readIfPresent()
-        value.sampleCount = try reader["sampleCount"].readIfPresent()
-        value.sum = try reader["sum"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.unit = try reader["unit"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.AccountLevelBpaSync {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AccountLevelBpaSync {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.AccountLevelBpaSync()
-        value.status = try reader["status"].readIfPresent()
-        value.lastSyncedAt = try reader["lastSyncedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.message = try reader["message"].readIfPresent()
-        value.bpaImpactsLightsail = try reader["bpaImpactsLightsail"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.Bundle {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Bundle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.Bundle()
-        value.price = try reader["price"].readIfPresent()
-        value.cpuCount = try reader["cpuCount"].readIfPresent()
-        value.diskSizeInGb = try reader["diskSizeInGb"].readIfPresent()
-        value.bundleId = try reader["bundleId"].readIfPresent()
-        value.instanceType = try reader["instanceType"].readIfPresent()
-        value.isActive = try reader["isActive"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.power = try reader["power"].readIfPresent()
-        value.ramSizeInGb = try reader["ramSizeInGb"].readIfPresent()
-        value.transferPerMonthInGb = try reader["transferPerMonthInGb"].readIfPresent()
-        value.supportedPlatforms = try reader["supportedPlatforms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LightsailClientTypes.InstancePlatform>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportedAppCategories = try reader["supportedAppCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LightsailClientTypes.AppCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.publicIpv4AddressCount = try reader["publicIpv4AddressCount"].readIfPresent()
+        var value = LightsailClientTypes.CertificateSummary()
+        value.certificateArn = try reader["certificateArn"].readIfPresent()
+        value.certificateName = try reader["certificateName"].readIfPresent()
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.certificateDetail = try reader["certificateDetail"].readIfPresent(with: LightsailClientTypes.Certificate.read(from:))
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: LightsailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -22521,17 +22159,6 @@ extension LightsailClientTypes.CloudFormationStackRecord {
         value.state = try reader["state"].readIfPresent()
         value.sourceInfo = try reader["sourceInfo"].readListIfPresent(memberReadingClosure: LightsailClientTypes.CloudFormationStackRecordSourceInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.destinationInfo = try reader["destinationInfo"].readIfPresent(with: LightsailClientTypes.DestinationInfo.read(from:))
-        return value
-    }
-}
-
-extension LightsailClientTypes.DestinationInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DestinationInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.DestinationInfo()
-        value.id = try reader["id"].readIfPresent()
-        value.service = try reader["service"].readIfPresent()
         return value
     }
 }
@@ -22566,6 +22193,27 @@ extension LightsailClientTypes.ContactMethod {
     }
 }
 
+extension LightsailClientTypes.Container {
+
+    static func write(value: LightsailClientTypes.Container?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["environment"].writeMap(value.environment, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["image"].write(value.image)
+        try writer["ports"].writeMap(value.ports, valueWritingClosure: SmithyReadWrite.WritingClosureBox<LightsailClientTypes.ContainerServiceProtocol>().write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Container {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.Container()
+        value.image = try reader["image"].readIfPresent()
+        value.command = try reader["command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.environment = try reader["environment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.ports = try reader["ports"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<LightsailClientTypes.ContainerServiceProtocol>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension LightsailClientTypes.ContainerImage {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerImage {
@@ -22574,6 +22222,113 @@ extension LightsailClientTypes.ContainerImage {
         value.image = try reader["image"].readIfPresent()
         value.digest = try reader["digest"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension LightsailClientTypes.ContainerService {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.ContainerService()
+        value.containerServiceName = try reader["containerServiceName"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.location = try reader["location"].readIfPresent(with: LightsailClientTypes.ResourceLocation.read(from:))
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: LightsailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.power = try reader["power"].readIfPresent()
+        value.powerId = try reader["powerId"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.stateDetail = try reader["stateDetail"].readIfPresent(with: LightsailClientTypes.ContainerServiceStateDetail.read(from:))
+        value.scale = try reader["scale"].readIfPresent()
+        value.currentDeployment = try reader["currentDeployment"].readIfPresent(with: LightsailClientTypes.ContainerServiceDeployment.read(from:))
+        value.nextDeployment = try reader["nextDeployment"].readIfPresent(with: LightsailClientTypes.ContainerServiceDeployment.read(from:))
+        value.isDisabled = try reader["isDisabled"].readIfPresent()
+        value.principalArn = try reader["principalArn"].readIfPresent()
+        value.privateDomainName = try reader["privateDomainName"].readIfPresent()
+        value.publicDomainNames = try reader["publicDomainNames"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.url = try reader["url"].readIfPresent()
+        value.privateRegistryAccess = try reader["privateRegistryAccess"].readIfPresent(with: LightsailClientTypes.PrivateRegistryAccess.read(from:))
+        return value
+    }
+}
+
+extension LightsailClientTypes.ContainerServiceDeployment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceDeployment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.ContainerServiceDeployment()
+        value.version = try reader["version"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.containers = try reader["containers"].readMapIfPresent(valueReadingClosure: LightsailClientTypes.Container.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.publicEndpoint = try reader["publicEndpoint"].readIfPresent(with: LightsailClientTypes.ContainerServiceEndpoint.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension LightsailClientTypes.ContainerServiceDeploymentRequest {
+
+    static func write(value: LightsailClientTypes.ContainerServiceDeploymentRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containers"].writeMap(value.containers, valueWritingClosure: LightsailClientTypes.Container.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["publicEndpoint"].write(value.publicEndpoint, with: LightsailClientTypes.EndpointRequest.write(value:to:))
+    }
+}
+
+extension LightsailClientTypes.ContainerServiceECRImagePullerRole {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceECRImagePullerRole {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.ContainerServiceECRImagePullerRole()
+        value.isActive = try reader["isActive"].readIfPresent()
+        value.principalArn = try reader["principalArn"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.ContainerServiceECRImagePullerRoleRequest {
+
+    static func write(value: LightsailClientTypes.ContainerServiceECRImagePullerRoleRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isActive"].write(value.isActive)
+    }
+}
+
+extension LightsailClientTypes.ContainerServiceEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.ContainerServiceEndpoint()
+        value.containerName = try reader["containerName"].readIfPresent()
+        value.containerPort = try reader["containerPort"].readIfPresent()
+        value.healthCheck = try reader["healthCheck"].readIfPresent(with: LightsailClientTypes.ContainerServiceHealthCheckConfig.read(from:))
+        return value
+    }
+}
+
+extension LightsailClientTypes.ContainerServiceHealthCheckConfig {
+
+    static func write(value: LightsailClientTypes.ContainerServiceHealthCheckConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["healthyThreshold"].write(value.healthyThreshold)
+        try writer["intervalSeconds"].write(value.intervalSeconds)
+        try writer["path"].write(value.path)
+        try writer["successCodes"].write(value.successCodes)
+        try writer["timeoutSeconds"].write(value.timeoutSeconds)
+        try writer["unhealthyThreshold"].write(value.unhealthyThreshold)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceHealthCheckConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.ContainerServiceHealthCheckConfig()
+        value.healthyThreshold = try reader["healthyThreshold"].readIfPresent()
+        value.unhealthyThreshold = try reader["unhealthyThreshold"].readIfPresent()
+        value.timeoutSeconds = try reader["timeoutSeconds"].readIfPresent()
+        value.intervalSeconds = try reader["intervalSeconds"].readIfPresent()
+        value.path = try reader["path"].readIfPresent()
+        value.successCodes = try reader["successCodes"].readIfPresent()
         return value
     }
 }
@@ -22604,16 +22359,43 @@ extension LightsailClientTypes.ContainerServicePower {
     }
 }
 
-extension LightsailClientTypes.ResourceBudgetEstimate {
+extension LightsailClientTypes.ContainerServiceRegistryLogin {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ResourceBudgetEstimate {
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceRegistryLogin {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.ResourceBudgetEstimate()
-        value.resourceName = try reader["resourceName"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.costEstimates = try reader["costEstimates"].readListIfPresent(memberReadingClosure: LightsailClientTypes.CostEstimate.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = LightsailClientTypes.ContainerServiceRegistryLogin()
+        value.username = try reader["username"].readIfPresent()
+        value.password = try reader["password"].readIfPresent()
+        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.registry = try reader["registry"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.ContainerServiceStateDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ContainerServiceStateDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.ContainerServiceStateDetail()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.CookieObject {
+
+    static func write(value: LightsailClientTypes.CookieObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cookiesAllowList"].writeList(value.cookiesAllowList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["option"].write(value.option)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.CookieObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.CookieObject()
+        value.option = try reader["option"].readIfPresent()
+        value.cookiesAllowList = try reader["cookiesAllowList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -22629,27 +22411,13 @@ extension LightsailClientTypes.CostEstimate {
     }
 }
 
-extension LightsailClientTypes.EstimateByTime {
+extension LightsailClientTypes.DestinationInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.EstimateByTime {
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DestinationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.EstimateByTime()
-        value.usageCost = try reader["usageCost"].readIfPresent()
-        value.pricingUnit = try reader["pricingUnit"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
-        value.currency = try reader["currency"].readIfPresent()
-        value.timePeriod = try reader["timePeriod"].readIfPresent(with: LightsailClientTypes.TimePeriod.read(from:))
-        return value
-    }
-}
-
-extension LightsailClientTypes.TimePeriod {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.TimePeriod {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.TimePeriod()
-        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.end = try reader["end"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = LightsailClientTypes.DestinationInfo()
+        value.id = try reader["id"].readIfPresent()
+        value.service = try reader["service"].readIfPresent()
         return value
     }
 }
@@ -22681,18 +22449,25 @@ extension LightsailClientTypes.Disk {
     }
 }
 
-extension LightsailClientTypes.AddOn {
+extension LightsailClientTypes.DiskInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AddOn {
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DiskInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.AddOn()
+        var value = LightsailClientTypes.DiskInfo()
         value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.snapshotTimeOfDay = try reader["snapshotTimeOfDay"].readIfPresent()
-        value.nextSnapshotTimeOfDay = try reader["nextSnapshotTimeOfDay"].readIfPresent()
-        value.threshold = try reader["threshold"].readIfPresent()
-        value.duration = try reader["duration"].readIfPresent()
+        value.path = try reader["path"].readIfPresent()
+        value.sizeInGb = try reader["sizeInGb"].readIfPresent()
+        value.isSystemDisk = try reader["isSystemDisk"].readIfPresent()
         return value
+    }
+}
+
+extension LightsailClientTypes.DiskMap {
+
+    static func write(value: LightsailClientTypes.DiskMap?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["newDiskName"].write(value.newDiskName)
+        try writer["originalDiskPath"].write(value.originalDiskPath)
     }
 }
 
@@ -22720,6 +22495,16 @@ extension LightsailClientTypes.DiskSnapshot {
     }
 }
 
+extension LightsailClientTypes.DiskSnapshotInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DiskSnapshotInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.DiskSnapshotInfo()
+        value.sizeInGb = try reader["sizeInGb"].readIfPresent()
+        return value
+    }
+}
+
 extension LightsailClientTypes.DistributionBundle {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DistributionBundle {
@@ -22730,6 +22515,17 @@ extension LightsailClientTypes.DistributionBundle {
         value.price = try reader["price"].readIfPresent()
         value.transferPerMonthInGb = try reader["transferPerMonthInGb"].readIfPresent()
         value.isActive = try reader["isActive"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.DnsRecordCreationState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DnsRecordCreationState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.DnsRecordCreationState()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -22748,39 +22544,6 @@ extension LightsailClientTypes.Domain {
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: LightsailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.domainEntries = try reader["domainEntries"].readListIfPresent(memberReadingClosure: LightsailClientTypes.DomainEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.registeredDomainDelegationInfo = try reader["registeredDomainDelegationInfo"].readIfPresent(with: LightsailClientTypes.RegisteredDomainDelegationInfo.read(from:))
-        return value
-    }
-}
-
-extension LightsailClientTypes.RegisteredDomainDelegationInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RegisteredDomainDelegationInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.RegisteredDomainDelegationInfo()
-        value.nameServersUpdateState = try reader["nameServersUpdateState"].readIfPresent(with: LightsailClientTypes.NameServersUpdateState.read(from:))
-        value.r53HostedZoneDeletionState = try reader["r53HostedZoneDeletionState"].readIfPresent(with: LightsailClientTypes.R53HostedZoneDeletionState.read(from:))
-        return value
-    }
-}
-
-extension LightsailClientTypes.R53HostedZoneDeletionState {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.R53HostedZoneDeletionState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.R53HostedZoneDeletionState()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.NameServersUpdateState {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.NameServersUpdateState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.NameServersUpdateState()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -22806,6 +22569,43 @@ extension LightsailClientTypes.DomainEntry {
         value.isAlias = try reader["isAlias"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
         value.options = try reader["options"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension LightsailClientTypes.DomainValidationRecord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DomainValidationRecord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.DomainValidationRecord()
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.resourceRecord = try reader["resourceRecord"].readIfPresent(with: LightsailClientTypes.ResourceRecord.read(from:))
+        value.dnsRecordCreationState = try reader["dnsRecordCreationState"].readIfPresent(with: LightsailClientTypes.DnsRecordCreationState.read(from:))
+        value.validationStatus = try reader["validationStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.EndpointRequest {
+
+    static func write(value: LightsailClientTypes.EndpointRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containerName"].write(value.containerName)
+        try writer["containerPort"].write(value.containerPort)
+        try writer["healthCheck"].write(value.healthCheck, with: LightsailClientTypes.ContainerServiceHealthCheckConfig.write(value:to:))
+    }
+}
+
+extension LightsailClientTypes.EstimateByTime {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.EstimateByTime {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.EstimateByTime()
+        value.usageCost = try reader["usageCost"].readIfPresent()
+        value.pricingUnit = try reader["pricingUnit"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        value.currency = try reader["currency"].readIfPresent()
+        value.timePeriod = try reader["timePeriod"].readIfPresent(with: LightsailClientTypes.TimePeriod.read(from:))
         return value
     }
 }
@@ -22844,38 +22644,47 @@ extension LightsailClientTypes.ExportSnapshotRecordSourceInfo {
     }
 }
 
-extension LightsailClientTypes.DiskSnapshotInfo {
+extension LightsailClientTypes.HeaderObject {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DiskSnapshotInfo {
+    static func write(value: LightsailClientTypes.HeaderObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["headersAllowList"].writeList(value.headersAllowList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LightsailClientTypes.HeaderEnum>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["option"].write(value.option)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.HeaderObject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.DiskSnapshotInfo()
-        value.sizeInGb = try reader["sizeInGb"].readIfPresent()
+        var value = LightsailClientTypes.HeaderObject()
+        value.option = try reader["option"].readIfPresent()
+        value.headersAllowList = try reader["headersAllowList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LightsailClientTypes.HeaderEnum>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension LightsailClientTypes.InstanceSnapshotInfo {
+extension LightsailClientTypes.HostKeyAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceSnapshotInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.HostKeyAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.InstanceSnapshotInfo()
-        value.fromBundleId = try reader["fromBundleId"].readIfPresent()
-        value.fromBlueprintId = try reader["fromBlueprintId"].readIfPresent()
-        value.fromDiskInfo = try reader["fromDiskInfo"].readListIfPresent(memberReadingClosure: LightsailClientTypes.DiskInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = LightsailClientTypes.HostKeyAttributes()
+        value.algorithm = try reader["algorithm"].readIfPresent()
+        value.publicKey = try reader["publicKey"].readIfPresent()
+        value.witnessedAt = try reader["witnessedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fingerprintSHA1 = try reader["fingerprintSHA1"].readIfPresent()
+        value.fingerprintSHA256 = try reader["fingerprintSHA256"].readIfPresent()
+        value.notValidBefore = try reader["notValidBefore"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.notValidAfter = try reader["notValidAfter"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension LightsailClientTypes.DiskInfo {
+extension LightsailClientTypes.InputOrigin {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.DiskInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.DiskInfo()
-        value.name = try reader["name"].readIfPresent()
-        value.path = try reader["path"].readIfPresent()
-        value.sizeInGb = try reader["sizeInGb"].readIfPresent()
-        value.isSystemDisk = try reader["isSystemDisk"].readIfPresent()
-        return value
+    static func write(value: LightsailClientTypes.InputOrigin?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["protocolPolicy"].write(value.protocolPolicy)
+        try writer["regionName"].write(value.regionName)
+        try writer["responseTimeout"].write(value.responseTimeout)
     }
 }
 
@@ -22910,6 +22719,62 @@ extension LightsailClientTypes.Instance {
     }
 }
 
+extension LightsailClientTypes.InstanceAccessDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceAccessDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.InstanceAccessDetails()
+        value.certKey = try reader["certKey"].readIfPresent()
+        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ipAddress = try reader["ipAddress"].readIfPresent()
+        value.ipv6Addresses = try reader["ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.password = try reader["password"].readIfPresent()
+        value.passwordData = try reader["passwordData"].readIfPresent(with: LightsailClientTypes.PasswordData.read(from:))
+        value.privateKey = try reader["privateKey"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.instanceName = try reader["instanceName"].readIfPresent()
+        value.username = try reader["username"].readIfPresent()
+        value.hostKeys = try reader["hostKeys"].readListIfPresent(memberReadingClosure: LightsailClientTypes.HostKeyAttributes.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LightsailClientTypes.InstanceEntry {
+
+    static func write(value: LightsailClientTypes.InstanceEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["availabilityZone"].write(value.availabilityZone)
+        try writer["instanceType"].write(value.instanceType)
+        try writer["portInfoSource"].write(value.portInfoSource)
+        try writer["sourceName"].write(value.sourceName)
+        try writer["userData"].write(value.userData)
+    }
+}
+
+extension LightsailClientTypes.InstanceHardware {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceHardware {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.InstanceHardware()
+        value.cpuCount = try reader["cpuCount"].readIfPresent()
+        value.disks = try reader["disks"].readListIfPresent(memberReadingClosure: LightsailClientTypes.Disk.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ramSizeInGb = try reader["ramSizeInGb"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.InstanceHealthSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceHealthSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.InstanceHealthSummary()
+        value.instanceName = try reader["instanceName"].readIfPresent()
+        value.instanceHealth = try reader["instanceHealth"].readIfPresent()
+        value.instanceHealthReason = try reader["instanceHealthReason"].readIfPresent()
+        return value
+    }
+}
+
 extension LightsailClientTypes.InstanceMetadataOptions {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceMetadataOptions {
@@ -22920,17 +22785,6 @@ extension LightsailClientTypes.InstanceMetadataOptions {
         value.httpEndpoint = try reader["httpEndpoint"].readIfPresent()
         value.httpPutResponseHopLimit = try reader["httpPutResponseHopLimit"].readIfPresent()
         value.httpProtocolIpv6 = try reader["httpProtocolIpv6"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.InstanceState {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.InstanceState()
-        value.code = try reader["code"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
         return value
     }
 }
@@ -22961,75 +22815,6 @@ extension LightsailClientTypes.InstancePortInfo {
         value.cidrs = try reader["cidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.ipv6Cidrs = try reader["ipv6Cidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.cidrListAliases = try reader["cidrListAliases"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LightsailClientTypes.MonthlyTransfer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.MonthlyTransfer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.MonthlyTransfer()
-        value.gbPerMonthAllocated = try reader["gbPerMonthAllocated"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.InstanceHardware {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceHardware {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.InstanceHardware()
-        value.cpuCount = try reader["cpuCount"].readIfPresent()
-        value.disks = try reader["disks"].readListIfPresent(memberReadingClosure: LightsailClientTypes.Disk.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ramSizeInGb = try reader["ramSizeInGb"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.InstanceAccessDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceAccessDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.InstanceAccessDetails()
-        value.certKey = try reader["certKey"].readIfPresent()
-        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.ipAddress = try reader["ipAddress"].readIfPresent()
-        value.ipv6Addresses = try reader["ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.password = try reader["password"].readIfPresent()
-        value.passwordData = try reader["passwordData"].readIfPresent(with: LightsailClientTypes.PasswordData.read(from:))
-        value.privateKey = try reader["privateKey"].readIfPresent()
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        value.instanceName = try reader["instanceName"].readIfPresent()
-        value.username = try reader["username"].readIfPresent()
-        value.hostKeys = try reader["hostKeys"].readListIfPresent(memberReadingClosure: LightsailClientTypes.HostKeyAttributes.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LightsailClientTypes.HostKeyAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.HostKeyAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.HostKeyAttributes()
-        value.algorithm = try reader["algorithm"].readIfPresent()
-        value.publicKey = try reader["publicKey"].readIfPresent()
-        value.witnessedAt = try reader["witnessedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.fingerprintSHA1 = try reader["fingerprintSHA1"].readIfPresent()
-        value.fingerprintSHA256 = try reader["fingerprintSHA256"].readIfPresent()
-        value.notValidBefore = try reader["notValidBefore"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.notValidAfter = try reader["notValidAfter"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension LightsailClientTypes.PasswordData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.PasswordData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.PasswordData()
-        value.ciphertext = try reader["ciphertext"].readIfPresent()
-        value.keyPairName = try reader["keyPairName"].readIfPresent()
         return value
     }
 }
@@ -23075,6 +22860,76 @@ extension LightsailClientTypes.InstanceSnapshot {
     }
 }
 
+extension LightsailClientTypes.InstanceSnapshotInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceSnapshotInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.InstanceSnapshotInfo()
+        value.fromBundleId = try reader["fromBundleId"].readIfPresent()
+        value.fromBlueprintId = try reader["fromBlueprintId"].readIfPresent()
+        value.fromDiskInfo = try reader["fromDiskInfo"].readListIfPresent(memberReadingClosure: LightsailClientTypes.DiskInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LightsailClientTypes.InstanceState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.InstanceState()
+        value.code = try reader["code"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.KeyPair {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.KeyPair {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.KeyPair()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.supportCode = try reader["supportCode"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.location = try reader["location"].readIfPresent(with: LightsailClientTypes.ResourceLocation.read(from:))
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: LightsailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fingerprint = try reader["fingerprint"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.LightsailDistribution {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LightsailDistribution {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.LightsailDistribution()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.supportCode = try reader["supportCode"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.location = try reader["location"].readIfPresent(with: LightsailClientTypes.ResourceLocation.read(from:))
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.alternativeDomainNames = try reader["alternativeDomainNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        value.isEnabled = try reader["isEnabled"].readIfPresent()
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.bundleId = try reader["bundleId"].readIfPresent()
+        value.certificateName = try reader["certificateName"].readIfPresent()
+        value.origin = try reader["origin"].readIfPresent(with: LightsailClientTypes.Origin.read(from:))
+        value.originPublicDNS = try reader["originPublicDNS"].readIfPresent()
+        value.defaultCacheBehavior = try reader["defaultCacheBehavior"].readIfPresent(with: LightsailClientTypes.CacheBehavior.read(from:))
+        value.cacheBehaviorSettings = try reader["cacheBehaviorSettings"].readIfPresent(with: LightsailClientTypes.CacheSettings.read(from:))
+        value.cacheBehaviors = try reader["cacheBehaviors"].readListIfPresent(memberReadingClosure: LightsailClientTypes.CacheBehaviorPerPath.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ableToUpdateBundle = try reader["ableToUpdateBundle"].readIfPresent()
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: LightsailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.viewerMinimumTlsProtocolVersion = try reader["viewerMinimumTlsProtocolVersion"].readIfPresent()
+        return value
+    }
+}
+
 extension LightsailClientTypes.LoadBalancer {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LoadBalancer {
@@ -23099,29 +22954,6 @@ extension LightsailClientTypes.LoadBalancer {
         value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         value.httpsRedirectionEnabled = try reader["httpsRedirectionEnabled"].readIfPresent()
         value.tlsPolicyName = try reader["tlsPolicyName"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.LoadBalancerTlsCertificateSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LoadBalancerTlsCertificateSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.LoadBalancerTlsCertificateSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.isAttached = try reader["isAttached"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.InstanceHealthSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.InstanceHealthSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.InstanceHealthSummary()
-        value.instanceName = try reader["instanceName"].readIfPresent()
-        value.instanceHealth = try reader["instanceHealth"].readIfPresent()
-        value.instanceHealthReason = try reader["instanceHealthReason"].readIfPresent()
         return value
     }
 }
@@ -23160,13 +22992,13 @@ extension LightsailClientTypes.LoadBalancerTlsCertificate {
     }
 }
 
-extension LightsailClientTypes.LoadBalancerTlsCertificateRenewalSummary {
+extension LightsailClientTypes.LoadBalancerTlsCertificateDnsRecordCreationState {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LoadBalancerTlsCertificateRenewalSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LoadBalancerTlsCertificateDnsRecordCreationState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.LoadBalancerTlsCertificateRenewalSummary()
-        value.renewalStatus = try reader["renewalStatus"].readIfPresent()
-        value.domainValidationOptions = try reader["domainValidationOptions"].readListIfPresent(memberReadingClosure: LightsailClientTypes.LoadBalancerTlsCertificateDomainValidationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = LightsailClientTypes.LoadBalancerTlsCertificateDnsRecordCreationState()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -23197,13 +23029,24 @@ extension LightsailClientTypes.LoadBalancerTlsCertificateDomainValidationRecord 
     }
 }
 
-extension LightsailClientTypes.LoadBalancerTlsCertificateDnsRecordCreationState {
+extension LightsailClientTypes.LoadBalancerTlsCertificateRenewalSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LoadBalancerTlsCertificateDnsRecordCreationState {
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LoadBalancerTlsCertificateRenewalSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.LoadBalancerTlsCertificateDnsRecordCreationState()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        var value = LightsailClientTypes.LoadBalancerTlsCertificateRenewalSummary()
+        value.renewalStatus = try reader["renewalStatus"].readIfPresent()
+        value.domainValidationOptions = try reader["domainValidationOptions"].readListIfPresent(memberReadingClosure: LightsailClientTypes.LoadBalancerTlsCertificateDomainValidationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LightsailClientTypes.LoadBalancerTlsCertificateSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LoadBalancerTlsCertificateSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.LoadBalancerTlsCertificateSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.isAttached = try reader["isAttached"].readIfPresent()
         return value
     }
 }
@@ -23218,6 +23061,195 @@ extension LightsailClientTypes.LoadBalancerTlsPolicy {
         value.description = try reader["description"].readIfPresent()
         value.protocols = try reader["protocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.ciphers = try reader["ciphers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LightsailClientTypes.LogEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LogEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.LogEvent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.MetricDatapoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.MetricDatapoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.MetricDatapoint()
+        value.average = try reader["average"].readIfPresent()
+        value.maximum = try reader["maximum"].readIfPresent()
+        value.minimum = try reader["minimum"].readIfPresent()
+        value.sampleCount = try reader["sampleCount"].readIfPresent()
+        value.sum = try reader["sum"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.unit = try reader["unit"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.MonitoredResourceInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.MonitoredResourceInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.MonitoredResourceInfo()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.MonthlyTransfer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.MonthlyTransfer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.MonthlyTransfer()
+        value.gbPerMonthAllocated = try reader["gbPerMonthAllocated"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.NameServersUpdateState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.NameServersUpdateState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.NameServersUpdateState()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.Operation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Operation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.Operation()
+        value.id = try reader["id"].readIfPresent()
+        value.resourceName = try reader["resourceName"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.location = try reader["location"].readIfPresent(with: LightsailClientTypes.ResourceLocation.read(from:))
+        value.isTerminal = try reader["isTerminal"].readIfPresent()
+        value.operationDetails = try reader["operationDetails"].readIfPresent()
+        value.operationType = try reader["operationType"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusChangedAt = try reader["statusChangedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorDetails = try reader["errorDetails"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.Origin {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Origin {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.Origin()
+        value.name = try reader["name"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.regionName = try reader["regionName"].readIfPresent()
+        value.protocolPolicy = try reader["protocolPolicy"].readIfPresent()
+        value.responseTimeout = try reader["responseTimeout"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.PasswordData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.PasswordData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.PasswordData()
+        value.ciphertext = try reader["ciphertext"].readIfPresent()
+        value.keyPairName = try reader["keyPairName"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.PendingMaintenanceAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.PendingMaintenanceAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.PendingMaintenanceAction()
+        value.action = try reader["action"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.currentApplyDate = try reader["currentApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension LightsailClientTypes.PendingModifiedRelationalDatabaseValues {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.PendingModifiedRelationalDatabaseValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.PendingModifiedRelationalDatabaseValues()
+        value.masterUserPassword = try reader["masterUserPassword"].readIfPresent()
+        value.engineVersion = try reader["engineVersion"].readIfPresent()
+        value.backupRetentionEnabled = try reader["backupRetentionEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.PortInfo {
+
+    static func write(value: LightsailClientTypes.PortInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidrListAliases"].writeList(value.cidrListAliases, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cidrs"].writeList(value.cidrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["fromPort"].write(value.fromPort)
+        try writer["ipv6Cidrs"].writeList(value.ipv6Cidrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["protocol"].write(value.`protocol`)
+        try writer["toPort"].write(value.toPort)
+    }
+}
+
+extension LightsailClientTypes.PrivateRegistryAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.PrivateRegistryAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.PrivateRegistryAccess()
+        value.ecrImagePullerRole = try reader["ecrImagePullerRole"].readIfPresent(with: LightsailClientTypes.ContainerServiceECRImagePullerRole.read(from:))
+        return value
+    }
+}
+
+extension LightsailClientTypes.PrivateRegistryAccessRequest {
+
+    static func write(value: LightsailClientTypes.PrivateRegistryAccessRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ecrImagePullerRole"].write(value.ecrImagePullerRole, with: LightsailClientTypes.ContainerServiceECRImagePullerRoleRequest.write(value:to:))
+    }
+}
+
+extension LightsailClientTypes.QueryStringObject {
+
+    static func write(value: LightsailClientTypes.QueryStringObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["option"].write(value.option)
+        try writer["queryStringsAllowList"].writeList(value.queryStringsAllowList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.QueryStringObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.QueryStringObject()
+        value.option = try reader["option"].readIfPresent()
+        value.queryStringsAllowList = try reader["queryStringsAllowList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LightsailClientTypes.R53HostedZoneDeletionState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.R53HostedZoneDeletionState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.R53HostedZoneDeletionState()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -23237,13 +23269,13 @@ extension LightsailClientTypes.Region {
     }
 }
 
-extension LightsailClientTypes.AvailabilityZone {
+extension LightsailClientTypes.RegisteredDomainDelegationInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.AvailabilityZone {
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RegisteredDomainDelegationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.AvailabilityZone()
-        value.zoneName = try reader["zoneName"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
+        var value = LightsailClientTypes.RegisteredDomainDelegationInfo()
+        value.nameServersUpdateState = try reader["nameServersUpdateState"].readIfPresent(with: LightsailClientTypes.NameServersUpdateState.read(from:))
+        value.r53HostedZoneDeletionState = try reader["r53HostedZoneDeletionState"].readIfPresent(with: LightsailClientTypes.R53HostedZoneDeletionState.read(from:))
         return value
     }
 }
@@ -23283,53 +23315,6 @@ extension LightsailClientTypes.RelationalDatabase {
     }
 }
 
-extension LightsailClientTypes.PendingMaintenanceAction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.PendingMaintenanceAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.PendingMaintenanceAction()
-        value.action = try reader["action"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.currentApplyDate = try reader["currentApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension LightsailClientTypes.RelationalDatabaseEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RelationalDatabaseEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.RelationalDatabaseEndpoint()
-        value.port = try reader["port"].readIfPresent()
-        value.address = try reader["address"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.PendingModifiedRelationalDatabaseValues {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.PendingModifiedRelationalDatabaseValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.PendingModifiedRelationalDatabaseValues()
-        value.masterUserPassword = try reader["masterUserPassword"].readIfPresent()
-        value.engineVersion = try reader["engineVersion"].readIfPresent()
-        value.backupRetentionEnabled = try reader["backupRetentionEnabled"].readIfPresent()
-        return value
-    }
-}
-
-extension LightsailClientTypes.RelationalDatabaseHardware {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RelationalDatabaseHardware {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.RelationalDatabaseHardware()
-        value.cpuCount = try reader["cpuCount"].readIfPresent()
-        value.diskSizeInGb = try reader["diskSizeInGb"].readIfPresent()
-        value.ramSizeInGb = try reader["ramSizeInGb"].readIfPresent()
-        return value
-    }
-}
-
 extension LightsailClientTypes.RelationalDatabaseBlueprint {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RelationalDatabaseBlueprint {
@@ -23363,6 +23348,17 @@ extension LightsailClientTypes.RelationalDatabaseBundle {
     }
 }
 
+extension LightsailClientTypes.RelationalDatabaseEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RelationalDatabaseEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.RelationalDatabaseEndpoint()
+        value.port = try reader["port"].readIfPresent()
+        value.address = try reader["address"].readIfPresent()
+        return value
+    }
+}
+
 extension LightsailClientTypes.RelationalDatabaseEvent {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RelationalDatabaseEvent {
@@ -23376,13 +23372,14 @@ extension LightsailClientTypes.RelationalDatabaseEvent {
     }
 }
 
-extension LightsailClientTypes.LogEvent {
+extension LightsailClientTypes.RelationalDatabaseHardware {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.LogEvent {
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RelationalDatabaseHardware {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.LogEvent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.message = try reader["message"].readIfPresent()
+        var value = LightsailClientTypes.RelationalDatabaseHardware()
+        value.cpuCount = try reader["cpuCount"].readIfPresent()
+        value.diskSizeInGb = try reader["diskSizeInGb"].readIfPresent()
+        value.ramSizeInGb = try reader["ramSizeInGb"].readIfPresent()
         return value
     }
 }
@@ -23440,16 +23437,75 @@ extension LightsailClientTypes.RelationalDatabaseSnapshot {
     }
 }
 
-extension LightsailClientTypes.SetupHistory {
+extension LightsailClientTypes.RenewalSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.SetupHistory {
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.RenewalSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LightsailClientTypes.SetupHistory()
-        value.operationId = try reader["operationId"].readIfPresent()
-        value.request = try reader["request"].readIfPresent(with: LightsailClientTypes.SetupRequest.read(from:))
-        value.resource = try reader["resource"].readIfPresent(with: LightsailClientTypes.SetupHistoryResource.read(from:))
-        value.executionDetails = try reader["executionDetails"].readListIfPresent(memberReadingClosure: LightsailClientTypes.SetupExecutionDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
+        var value = LightsailClientTypes.RenewalSummary()
+        value.domainValidationRecords = try reader["domainValidationRecords"].readListIfPresent(memberReadingClosure: LightsailClientTypes.DomainValidationRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.renewalStatus = try reader["renewalStatus"].readIfPresent()
+        value.renewalStatusReason = try reader["renewalStatusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension LightsailClientTypes.ResourceBudgetEstimate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ResourceBudgetEstimate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.ResourceBudgetEstimate()
+        value.resourceName = try reader["resourceName"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.costEstimates = try reader["costEstimates"].readListIfPresent(memberReadingClosure: LightsailClientTypes.CostEstimate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension LightsailClientTypes.ResourceLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ResourceLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.ResourceLocation()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.regionName = try reader["regionName"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.ResourceReceivingAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ResourceReceivingAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.ResourceReceivingAccess()
+        value.name = try reader["name"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.ResourceRecord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.ResourceRecord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.ResourceRecord()
+        value.name = try reader["name"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.Session {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Session {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.Session()
+        value.name = try reader["name"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
+        value.isPrimary = try reader["isPrimary"].readIfPresent()
         return value
     }
 }
@@ -23466,6 +23522,20 @@ extension LightsailClientTypes.SetupExecutionDetails {
         value.standardError = try reader["standardError"].readIfPresent()
         value.standardOutput = try reader["standardOutput"].readIfPresent()
         value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
+extension LightsailClientTypes.SetupHistory {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.SetupHistory {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.SetupHistory()
+        value.operationId = try reader["operationId"].readIfPresent()
+        value.request = try reader["request"].readIfPresent(with: LightsailClientTypes.SetupRequest.read(from:))
+        value.resource = try reader["resource"].readIfPresent(with: LightsailClientTypes.SetupHistoryResource.read(from:))
+        value.executionDetails = try reader["executionDetails"].readListIfPresent(memberReadingClosure: LightsailClientTypes.SetupExecutionDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -23514,76 +23584,6 @@ extension LightsailClientTypes.StaticIp {
     }
 }
 
-extension LightsailClientTypes.PortInfo {
-
-    static func write(value: LightsailClientTypes.PortInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cidrListAliases"].writeList(value.cidrListAliases, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["cidrs"].writeList(value.cidrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["fromPort"].write(value.fromPort)
-        try writer["ipv6Cidrs"].writeList(value.ipv6Cidrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["toPort"].write(value.toPort)
-    }
-}
-
-extension LightsailClientTypes.InstanceEntry {
-
-    static func write(value: LightsailClientTypes.InstanceEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["availabilityZone"].write(value.availabilityZone)
-        try writer["instanceType"].write(value.instanceType)
-        try writer["portInfoSource"].write(value.portInfoSource)
-        try writer["sourceName"].write(value.sourceName)
-        try writer["userData"].write(value.userData)
-    }
-}
-
-extension LightsailClientTypes.ContainerServiceDeploymentRequest {
-
-    static func write(value: LightsailClientTypes.ContainerServiceDeploymentRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containers"].writeMap(value.containers, valueWritingClosure: LightsailClientTypes.Container.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["publicEndpoint"].write(value.publicEndpoint, with: LightsailClientTypes.EndpointRequest.write(value:to:))
-    }
-}
-
-extension LightsailClientTypes.EndpointRequest {
-
-    static func write(value: LightsailClientTypes.EndpointRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containerName"].write(value.containerName)
-        try writer["containerPort"].write(value.containerPort)
-        try writer["healthCheck"].write(value.healthCheck, with: LightsailClientTypes.ContainerServiceHealthCheckConfig.write(value:to:))
-    }
-}
-
-extension LightsailClientTypes.PrivateRegistryAccessRequest {
-
-    static func write(value: LightsailClientTypes.PrivateRegistryAccessRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ecrImagePullerRole"].write(value.ecrImagePullerRole, with: LightsailClientTypes.ContainerServiceECRImagePullerRoleRequest.write(value:to:))
-    }
-}
-
-extension LightsailClientTypes.ContainerServiceECRImagePullerRoleRequest {
-
-    static func write(value: LightsailClientTypes.ContainerServiceECRImagePullerRoleRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isActive"].write(value.isActive)
-    }
-}
-
-extension LightsailClientTypes.AddOnRequest {
-
-    static func write(value: LightsailClientTypes.AddOnRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addOnType"].write(value.addOnType)
-        try writer["autoSnapshotAddOnRequest"].write(value.autoSnapshotAddOnRequest, with: LightsailClientTypes.AutoSnapshotAddOnRequest.write(value:to:))
-        try writer["stopInstanceOnIdleRequest"].write(value.stopInstanceOnIdleRequest, with: LightsailClientTypes.StopInstanceOnIdleRequest.write(value:to:))
-    }
-}
-
 extension LightsailClientTypes.StopInstanceOnIdleRequest {
 
     static func write(value: LightsailClientTypes.StopInstanceOnIdleRequest?, to writer: SmithyJSON.Writer) throws {
@@ -23593,31 +23593,31 @@ extension LightsailClientTypes.StopInstanceOnIdleRequest {
     }
 }
 
-extension LightsailClientTypes.AutoSnapshotAddOnRequest {
+extension LightsailClientTypes.Tag {
 
-    static func write(value: LightsailClientTypes.AutoSnapshotAddOnRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LightsailClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["snapshotTimeOfDay"].write(value.snapshotTimeOfDay)
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
     }
 }
 
-extension LightsailClientTypes.InputOrigin {
+extension LightsailClientTypes.TimePeriod {
 
-    static func write(value: LightsailClientTypes.InputOrigin?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["protocolPolicy"].write(value.protocolPolicy)
-        try writer["regionName"].write(value.regionName)
-        try writer["responseTimeout"].write(value.responseTimeout)
-    }
-}
-
-extension LightsailClientTypes.DiskMap {
-
-    static func write(value: LightsailClientTypes.DiskMap?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["newDiskName"].write(value.newDiskName)
-        try writer["originalDiskPath"].write(value.originalDiskPath)
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.TimePeriod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.TimePeriod()
+        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.end = try reader["end"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
     }
 }
 

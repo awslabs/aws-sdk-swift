@@ -943,6 +943,14 @@ extension ValidationException {
     }
 }
 
+extension CloudFrontKeyValueStoreClientTypes.DeleteKeyRequestListItem {
+
+    static func write(value: CloudFrontKeyValueStoreClientTypes.DeleteKeyRequestListItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+    }
+}
+
 extension CloudFrontKeyValueStoreClientTypes.ListKeysResponseListItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudFrontKeyValueStoreClientTypes.ListKeysResponseListItem {
@@ -960,14 +968,6 @@ extension CloudFrontKeyValueStoreClientTypes.PutKeyRequestListItem {
         guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
-    }
-}
-
-extension CloudFrontKeyValueStoreClientTypes.DeleteKeyRequestListItem {
-
-    static func write(value: CloudFrontKeyValueStoreClientTypes.DeleteKeyRequestListItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
     }
 }
 

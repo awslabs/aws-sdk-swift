@@ -3807,16 +3807,6 @@ extension BatchRequestTooLong {
     }
 }
 
-extension SQSClientTypes.ChangeMessageVisibilityBatchResultEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SQSClientTypes.ChangeMessageVisibilityBatchResultEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SQSClientTypes.ChangeMessageVisibilityBatchResultEntry()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension SQSClientTypes.BatchResultErrorEntry {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SQSClientTypes.BatchResultErrorEntry {
@@ -3827,6 +3817,35 @@ extension SQSClientTypes.BatchResultErrorEntry {
         value.code = try reader["Code"].readIfPresent() ?? ""
         value.message = try reader["Message"].readIfPresent()
         return value
+    }
+}
+
+extension SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry {
+
+    static func write(value: SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["ReceiptHandle"].write(value.receiptHandle)
+        try writer["VisibilityTimeout"].write(value.visibilityTimeout)
+    }
+}
+
+extension SQSClientTypes.ChangeMessageVisibilityBatchResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SQSClientTypes.ChangeMessageVisibilityBatchResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SQSClientTypes.ChangeMessageVisibilityBatchResultEntry()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SQSClientTypes.DeleteMessageBatchRequestEntry {
+
+    static func write(value: SQSClientTypes.DeleteMessageBatchRequestEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["ReceiptHandle"].write(value.receiptHandle)
     }
 }
 
@@ -3897,40 +3916,6 @@ extension SQSClientTypes.MessageAttributeValue {
     }
 }
 
-extension SQSClientTypes.SendMessageBatchResultEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SQSClientTypes.SendMessageBatchResultEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SQSClientTypes.SendMessageBatchResultEntry()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.messageId = try reader["MessageId"].readIfPresent() ?? ""
-        value.md5OfMessageBody = try reader["MD5OfMessageBody"].readIfPresent() ?? ""
-        value.md5OfMessageAttributes = try reader["MD5OfMessageAttributes"].readIfPresent()
-        value.md5OfMessageSystemAttributes = try reader["MD5OfMessageSystemAttributes"].readIfPresent()
-        value.sequenceNumber = try reader["SequenceNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry {
-
-    static func write(value: SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["ReceiptHandle"].write(value.receiptHandle)
-        try writer["VisibilityTimeout"].write(value.visibilityTimeout)
-    }
-}
-
-extension SQSClientTypes.DeleteMessageBatchRequestEntry {
-
-    static func write(value: SQSClientTypes.DeleteMessageBatchRequestEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["ReceiptHandle"].write(value.receiptHandle)
-    }
-}
-
 extension SQSClientTypes.MessageSystemAttributeValue {
 
     static func write(value: SQSClientTypes.MessageSystemAttributeValue?, to writer: SmithyJSON.Writer) throws {
@@ -3954,6 +3939,21 @@ extension SQSClientTypes.SendMessageBatchRequestEntry {
         try writer["MessageDeduplicationId"].write(value.messageDeduplicationId)
         try writer["MessageGroupId"].write(value.messageGroupId)
         try writer["MessageSystemAttributes"].writeMap(value.messageSystemAttributes, valueWritingClosure: SQSClientTypes.MessageSystemAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: true)
+    }
+}
+
+extension SQSClientTypes.SendMessageBatchResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SQSClientTypes.SendMessageBatchResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SQSClientTypes.SendMessageBatchResultEntry()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.messageId = try reader["MessageId"].readIfPresent() ?? ""
+        value.md5OfMessageBody = try reader["MD5OfMessageBody"].readIfPresent() ?? ""
+        value.md5OfMessageAttributes = try reader["MD5OfMessageAttributes"].readIfPresent()
+        value.md5OfMessageSystemAttributes = try reader["MD5OfMessageSystemAttributes"].readIfPresent()
+        value.sequenceNumber = try reader["SequenceNumber"].readIfPresent()
+        return value
     }
 }
 

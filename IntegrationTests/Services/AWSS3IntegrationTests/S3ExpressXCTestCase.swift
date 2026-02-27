@@ -21,10 +21,32 @@ class S3ExpressXCTestCase: XCTestCase {
     // The S3 client
     var client: S3Client!
 
+    // The names of the buckets that were created during the test
+    var buckets = [String]()
+
+    // The object key & data contents to put in each bucket
+    let key = "text"
+    let originalContents = Data("Hello, World!".utf8)
+
     override func setUp() async throws {
         try await super.setUp()
         self.config = try await S3Client.Config(region: region)
         self.client = S3Client(config: config)
+    }
+
+    override func tearDown() async throws {
+
+        // Delete the object from each bucket
+        for bucket in buckets {
+            try? await deleteObject(bucket: bucket, key: key)
+        }
+
+        // Delete each directory bucket
+        for bucket in buckets {
+            try? await deleteBucket(bucket: bucket)
+        }
+
+        try await super.tearDown()
     }
 
     @discardableResult
@@ -40,6 +62,9 @@ class S3ExpressXCTestCase: XCTestCase {
             )
         )
         let _ = try await client.createBucket(input: input)
+
+        // Save the bucket name in the `buckets` array for use during tear down
+        buckets.append(bucket)
         return bucket
     }
 

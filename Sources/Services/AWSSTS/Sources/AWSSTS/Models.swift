@@ -1695,6 +1695,17 @@ extension SessionDurationEscalationException {
     }
 }
 
+extension STSClientTypes.AssumedRoleUser {
+
+    static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.AssumedRoleUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = STSClientTypes.AssumedRoleUser()
+        value.assumedRoleId = try reader["AssumedRoleId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension STSClientTypes.Credentials {
 
     static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.Credentials {
@@ -1704,17 +1715,6 @@ extension STSClientTypes.Credentials {
         value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent() ?? ""
         value.sessionToken = try reader["SessionToken"].readIfPresent() ?? ""
         value.expiration = try reader["Expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension STSClientTypes.AssumedRoleUser {
-
-    static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.AssumedRoleUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = STSClientTypes.AssumedRoleUser()
-        value.assumedRoleId = try reader["AssumedRoleId"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1738,15 +1738,6 @@ extension STSClientTypes.PolicyDescriptorType {
     }
 }
 
-extension STSClientTypes.Tag {
-
-    static func write(value: STSClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-}
-
 extension STSClientTypes.ProvidedContext {
 
     static func write(value: STSClientTypes.ProvidedContext?, to writer: SmithyFormURL.Writer) throws {
@@ -1756,8 +1747,17 @@ extension STSClientTypes.ProvidedContext {
     }
 }
 
+extension STSClientTypes.Tag {
+
+    static func write(value: STSClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+}
+
 extension GetCallerIdentityInput {
-    public func presign(config: STSClient.STSClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+    public func presign(config: STSClient.STSClientConfig, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
         let serviceName = "STS"
         let input = self
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
@@ -1818,6 +1818,11 @@ extension GetCallerIdentityInput {
             .executeRequest(client)
             .build()
         return try await op.presignRequest(input: input)
+    }
+
+    @available(*, deprecated, message: "Use presign(config: STSClient.STSClientConfig, expiration:) instead")
+    public func presign(config: STSClient.STSClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+        return try await self.presign(config: config.toSendable(), expiration: expiration)
     }
 }
 

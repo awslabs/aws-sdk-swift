@@ -908,17 +908,6 @@ extension ResourceNotFoundException {
     }
 }
 
-extension PricingClientTypes.Service {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PricingClientTypes.Service {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PricingClientTypes.Service()
-        value.serviceCode = try reader["ServiceCode"].readIfPresent() ?? ""
-        value.attributeNames = try reader["AttributeNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension PricingClientTypes.AttributeValue {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PricingClientTypes.AttributeValue {
@@ -926,6 +915,16 @@ extension PricingClientTypes.AttributeValue {
         var value = PricingClientTypes.AttributeValue()
         value.value = try reader["Value"].readIfPresent()
         return value
+    }
+}
+
+extension PricingClientTypes.Filter {
+
+    static func write(value: PricingClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Field"].write(value.field)
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
     }
 }
 
@@ -942,13 +941,14 @@ extension PricingClientTypes.PriceList {
     }
 }
 
-extension PricingClientTypes.Filter {
+extension PricingClientTypes.Service {
 
-    static func write(value: PricingClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Field"].write(value.field)
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
+    static func read(from reader: SmithyJSON.Reader) throws -> PricingClientTypes.Service {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PricingClientTypes.Service()
+        value.serviceCode = try reader["ServiceCode"].readIfPresent() ?? ""
+        value.attributeNames = try reader["AttributeNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

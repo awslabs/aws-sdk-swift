@@ -1511,60 +1511,6 @@ extension ValidationException {
     }
 }
 
-extension MarketplaceAgreementClientTypes.Acceptor {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Acceptor {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.Acceptor()
-        value.accountId = try reader["accountId"].readIfPresent()
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.Proposer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Proposer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.Proposer()
-        value.accountId = try reader["accountId"].readIfPresent()
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.EstimatedCharges {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.EstimatedCharges {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.EstimatedCharges()
-        value.currencyCode = try reader["currencyCode"].readIfPresent()
-        value.agreementValue = try reader["agreementValue"].readIfPresent()
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.ProposalSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ProposalSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.ProposalSummary()
-        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.offerId = try reader["offerId"].readIfPresent()
-        value.offerSetId = try reader["offerSetId"].readIfPresent()
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.Resource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Resource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.Resource()
-        value.id = try reader["id"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
 extension MarketplaceAgreementClientTypes.AcceptedTerm {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.AcceptedTerm {
@@ -1601,112 +1547,30 @@ extension MarketplaceAgreementClientTypes.AcceptedTerm {
     }
 }
 
-extension MarketplaceAgreementClientTypes.VariablePaymentTerm {
+extension MarketplaceAgreementClientTypes.Acceptor {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.VariablePaymentTerm {
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Acceptor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.VariablePaymentTerm()
-        value.type = try reader["type"].readIfPresent()
-        value.currencyCode = try reader["currencyCode"].readIfPresent()
-        value.maxTotalChargeAmount = try reader["maxTotalChargeAmount"].readIfPresent()
-        value.configuration = try reader["configuration"].readIfPresent(with: MarketplaceAgreementClientTypes.VariablePaymentTermConfiguration.read(from:))
+        var value = MarketplaceAgreementClientTypes.Acceptor()
+        value.accountId = try reader["accountId"].readIfPresent()
         return value
     }
 }
 
-extension MarketplaceAgreementClientTypes.VariablePaymentTermConfiguration {
+extension MarketplaceAgreementClientTypes.AgreementViewSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.VariablePaymentTermConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.AgreementViewSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.VariablePaymentTermConfiguration()
-        value.paymentRequestApprovalStrategy = try reader["paymentRequestApprovalStrategy"].readIfPresent() ?? .sdkUnknown("")
-        value.expirationDuration = try reader["expirationDuration"].readIfPresent()
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.FixedUpfrontPricingTerm {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.FixedUpfrontPricingTerm {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.FixedUpfrontPricingTerm()
-        value.type = try reader["type"].readIfPresent()
-        value.currencyCode = try reader["currencyCode"].readIfPresent()
-        value.duration = try reader["duration"].readIfPresent()
-        value.price = try reader["price"].readIfPresent()
-        value.grants = try reader["grants"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.GrantItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.GrantItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.GrantItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.GrantItem()
-        value.dimensionKey = try reader["dimensionKey"].readIfPresent()
-        value.maxQuantity = try reader["maxQuantity"].readIfPresent() ?? 1
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.FreeTrialPricingTerm {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.FreeTrialPricingTerm {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.FreeTrialPricingTerm()
-        value.type = try reader["type"].readIfPresent()
-        value.duration = try reader["duration"].readIfPresent()
-        value.grants = try reader["grants"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.GrantItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.PaymentScheduleTerm {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.PaymentScheduleTerm {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.PaymentScheduleTerm()
-        value.type = try reader["type"].readIfPresent()
-        value.currencyCode = try reader["currencyCode"].readIfPresent()
-        value.schedule = try reader["schedule"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.ScheduleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.ScheduleItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ScheduleItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.ScheduleItem()
-        value.chargeDate = try reader["chargeDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.chargeAmount = try reader["chargeAmount"].readIfPresent()
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.ValidityTerm {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ValidityTerm {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.ValidityTerm()
-        value.type = try reader["type"].readIfPresent()
-        value.agreementDuration = try reader["agreementDuration"].readIfPresent()
-        value.agreementStartDate = try reader["agreementStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.agreementEndDate = try reader["agreementEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.RecurringPaymentTerm {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.RecurringPaymentTerm {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.RecurringPaymentTerm()
-        value.type = try reader["type"].readIfPresent()
-        value.currencyCode = try reader["currencyCode"].readIfPresent()
-        value.billingPeriod = try reader["billingPeriod"].readIfPresent()
-        value.price = try reader["price"].readIfPresent()
+        var value = MarketplaceAgreementClientTypes.AgreementViewSummary()
+        value.agreementId = try reader["agreementId"].readIfPresent()
+        value.acceptanceTime = try reader["acceptanceTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.agreementType = try reader["agreementType"].readIfPresent()
+        value.acceptor = try reader["acceptor"].readIfPresent(with: MarketplaceAgreementClientTypes.Acceptor.read(from:))
+        value.proposer = try reader["proposer"].readIfPresent(with: MarketplaceAgreementClientTypes.Proposer.read(from:))
+        value.proposalSummary = try reader["proposalSummary"].readIfPresent(with: MarketplaceAgreementClientTypes.ProposalSummary.read(from:))
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -1745,17 +1609,6 @@ extension MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTermConfigur
     }
 }
 
-extension MarketplaceAgreementClientTypes.Dimension {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Dimension {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.Dimension()
-        value.dimensionKey = try reader["dimensionKey"].readIfPresent() ?? ""
-        value.dimensionValue = try reader["dimensionValue"].readIfPresent() ?? 0
-        return value
-    }
-}
-
 extension MarketplaceAgreementClientTypes.ConfigurableUpfrontRateCardItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ConfigurableUpfrontRateCardItem {
@@ -1764,17 +1617,6 @@ extension MarketplaceAgreementClientTypes.ConfigurableUpfrontRateCardItem {
         value.selector = try reader["selector"].readIfPresent(with: MarketplaceAgreementClientTypes.Selector.read(from:))
         value.constraints = try reader["constraints"].readIfPresent(with: MarketplaceAgreementClientTypes.Constraints.read(from:))
         value.rateCard = try reader["rateCard"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.RateCardItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.RateCardItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.RateCardItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.RateCardItem()
-        value.dimensionKey = try reader["dimensionKey"].readIfPresent()
-        value.price = try reader["price"].readIfPresent()
         return value
     }
 }
@@ -1790,6 +1632,198 @@ extension MarketplaceAgreementClientTypes.Constraints {
     }
 }
 
+extension MarketplaceAgreementClientTypes.Dimension {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Dimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.Dimension()
+        value.dimensionKey = try reader["dimensionKey"].readIfPresent() ?? ""
+        value.dimensionValue = try reader["dimensionValue"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.DocumentItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.DocumentItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.DocumentItem()
+        value.type = try reader["type"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.EstimatedCharges {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.EstimatedCharges {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.EstimatedCharges()
+        value.currencyCode = try reader["currencyCode"].readIfPresent()
+        value.agreementValue = try reader["agreementValue"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.Filter {
+
+    static func write(value: MarketplaceAgreementClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceAgreementClientTypes.FixedUpfrontPricingTerm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.FixedUpfrontPricingTerm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.FixedUpfrontPricingTerm()
+        value.type = try reader["type"].readIfPresent()
+        value.currencyCode = try reader["currencyCode"].readIfPresent()
+        value.duration = try reader["duration"].readIfPresent()
+        value.price = try reader["price"].readIfPresent()
+        value.grants = try reader["grants"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.GrantItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.FreeTrialPricingTerm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.FreeTrialPricingTerm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.FreeTrialPricingTerm()
+        value.type = try reader["type"].readIfPresent()
+        value.duration = try reader["duration"].readIfPresent()
+        value.grants = try reader["grants"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.GrantItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.GrantItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.GrantItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.GrantItem()
+        value.dimensionKey = try reader["dimensionKey"].readIfPresent()
+        value.maxQuantity = try reader["maxQuantity"].readIfPresent() ?? 1
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.LegalTerm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.LegalTerm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.LegalTerm()
+        value.type = try reader["type"].readIfPresent()
+        value.documents = try reader["documents"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.DocumentItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.PaymentScheduleTerm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.PaymentScheduleTerm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.PaymentScheduleTerm()
+        value.type = try reader["type"].readIfPresent()
+        value.currencyCode = try reader["currencyCode"].readIfPresent()
+        value.schedule = try reader["schedule"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.ScheduleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.ProposalSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ProposalSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.ProposalSummary()
+        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.offerId = try reader["offerId"].readIfPresent()
+        value.offerSetId = try reader["offerSetId"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.Proposer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Proposer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.Proposer()
+        value.accountId = try reader["accountId"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.RateCardItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.RateCardItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.RateCardItem()
+        value.dimensionKey = try reader["dimensionKey"].readIfPresent()
+        value.price = try reader["price"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.RecurringPaymentTerm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.RecurringPaymentTerm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.RecurringPaymentTerm()
+        value.type = try reader["type"].readIfPresent()
+        value.currencyCode = try reader["currencyCode"].readIfPresent()
+        value.billingPeriod = try reader["billingPeriod"].readIfPresent()
+        value.price = try reader["price"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.RenewalTerm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.RenewalTerm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.RenewalTerm()
+        value.type = try reader["type"].readIfPresent()
+        value.configuration = try reader["configuration"].readIfPresent(with: MarketplaceAgreementClientTypes.RenewalTermConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.RenewalTermConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.RenewalTermConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.RenewalTermConfiguration()
+        value.enableAutoRenew = try reader["enableAutoRenew"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.Resource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Resource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.Resource()
+        value.id = try reader["id"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.ScheduleItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ScheduleItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.ScheduleItem()
+        value.chargeDate = try reader["chargeDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.chargeAmount = try reader["chargeAmount"].readIfPresent()
+        return value
+    }
+}
+
 extension MarketplaceAgreementClientTypes.Selector {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.Selector {
@@ -1797,6 +1831,26 @@ extension MarketplaceAgreementClientTypes.Selector {
         var value = MarketplaceAgreementClientTypes.Selector()
         value.type = try reader["type"].readIfPresent()
         value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.Sort {
+
+    static func write(value: MarketplaceAgreementClientTypes.Sort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sortBy"].write(value.sortBy)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+}
+
+extension MarketplaceAgreementClientTypes.SupportTerm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.SupportTerm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.SupportTerm()
+        value.type = try reader["type"].readIfPresent()
+        value.refundPolicy = try reader["refundPolicy"].readIfPresent()
         return value
     }
 }
@@ -1823,79 +1877,6 @@ extension MarketplaceAgreementClientTypes.UsageBasedRateCardItem {
     }
 }
 
-extension MarketplaceAgreementClientTypes.RenewalTerm {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.RenewalTerm {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.RenewalTerm()
-        value.type = try reader["type"].readIfPresent()
-        value.configuration = try reader["configuration"].readIfPresent(with: MarketplaceAgreementClientTypes.RenewalTermConfiguration.read(from:))
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.RenewalTermConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.RenewalTermConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.RenewalTermConfiguration()
-        value.enableAutoRenew = try reader["enableAutoRenew"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.SupportTerm {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.SupportTerm {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.SupportTerm()
-        value.type = try reader["type"].readIfPresent()
-        value.refundPolicy = try reader["refundPolicy"].readIfPresent()
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.LegalTerm {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.LegalTerm {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.LegalTerm()
-        value.type = try reader["type"].readIfPresent()
-        value.documents = try reader["documents"].readListIfPresent(memberReadingClosure: MarketplaceAgreementClientTypes.DocumentItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.DocumentItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.DocumentItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.DocumentItem()
-        value.type = try reader["type"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        return value
-    }
-}
-
-extension MarketplaceAgreementClientTypes.AgreementViewSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.AgreementViewSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceAgreementClientTypes.AgreementViewSummary()
-        value.agreementId = try reader["agreementId"].readIfPresent()
-        value.acceptanceTime = try reader["acceptanceTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.agreementType = try reader["agreementType"].readIfPresent()
-        value.acceptor = try reader["acceptor"].readIfPresent(with: MarketplaceAgreementClientTypes.Acceptor.read(from:))
-        value.proposer = try reader["proposer"].readIfPresent(with: MarketplaceAgreementClientTypes.Proposer.read(from:))
-        value.proposalSummary = try reader["proposalSummary"].readIfPresent(with: MarketplaceAgreementClientTypes.ProposalSummary.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
 extension MarketplaceAgreementClientTypes.ValidationExceptionField {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ValidationExceptionField {
@@ -1907,21 +1888,40 @@ extension MarketplaceAgreementClientTypes.ValidationExceptionField {
     }
 }
 
-extension MarketplaceAgreementClientTypes.Filter {
+extension MarketplaceAgreementClientTypes.ValidityTerm {
 
-    static func write(value: MarketplaceAgreementClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.ValidityTerm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.ValidityTerm()
+        value.type = try reader["type"].readIfPresent()
+        value.agreementDuration = try reader["agreementDuration"].readIfPresent()
+        value.agreementStartDate = try reader["agreementStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.agreementEndDate = try reader["agreementEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
     }
 }
 
-extension MarketplaceAgreementClientTypes.Sort {
+extension MarketplaceAgreementClientTypes.VariablePaymentTerm {
 
-    static func write(value: MarketplaceAgreementClientTypes.Sort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sortBy"].write(value.sortBy)
-        try writer["sortOrder"].write(value.sortOrder)
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.VariablePaymentTerm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.VariablePaymentTerm()
+        value.type = try reader["type"].readIfPresent()
+        value.currencyCode = try reader["currencyCode"].readIfPresent()
+        value.maxTotalChargeAmount = try reader["maxTotalChargeAmount"].readIfPresent()
+        value.configuration = try reader["configuration"].readIfPresent(with: MarketplaceAgreementClientTypes.VariablePaymentTermConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MarketplaceAgreementClientTypes.VariablePaymentTermConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceAgreementClientTypes.VariablePaymentTermConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceAgreementClientTypes.VariablePaymentTermConfiguration()
+        value.paymentRequestApprovalStrategy = try reader["paymentRequestApprovalStrategy"].readIfPresent() ?? .sdkUnknown("")
+        value.expirationDuration = try reader["expirationDuration"].readIfPresent()
+        return value
     }
 }
 

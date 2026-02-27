@@ -3423,131 +3423,56 @@ extension CaseCreationLimitExceededException {
     }
 }
 
-extension TaxSettingsClientTypes.BatchDeleteTaxRegistrationError {
+extension TaxSettingsClientTypes.AccountDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.BatchDeleteTaxRegistrationError {
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.AccountDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.BatchDeleteTaxRegistrationError()
-        value.accountId = try reader["accountId"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        value.code = try reader["code"].readIfPresent()
+        var value = TaxSettingsClientTypes.AccountDetails()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.taxRegistration = try reader["taxRegistration"].readIfPresent(with: TaxSettingsClientTypes.TaxRegistrationWithJurisdiction.read(from:))
+        value.taxInheritanceDetails = try reader["taxInheritanceDetails"].readIfPresent(with: TaxSettingsClientTypes.TaxInheritanceDetails.read(from:))
+        value.accountMetaData = try reader["accountMetaData"].readIfPresent(with: TaxSettingsClientTypes.AccountMetaData.read(from:))
         return value
     }
 }
 
-extension TaxSettingsClientTypes.TaxExemptionDetails {
+extension TaxSettingsClientTypes.AccountMetaData {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.TaxExemptionDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.AccountMetaData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.TaxExemptionDetails()
-        value.taxExemptions = try reader["taxExemptions"].readListIfPresent(memberReadingClosure: TaxSettingsClientTypes.TaxExemption.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.heritageObtainedDetails = try reader["heritageObtainedDetails"].readIfPresent()
-        value.heritageObtainedParentEntity = try reader["heritageObtainedParentEntity"].readIfPresent()
-        value.heritageObtainedReason = try reader["heritageObtainedReason"].readIfPresent()
+        var value = TaxSettingsClientTypes.AccountMetaData()
+        value.accountName = try reader["accountName"].readIfPresent()
+        value.seller = try reader["seller"].readIfPresent()
+        value.address = try reader["address"].readIfPresent(with: TaxSettingsClientTypes.Address.read(from:))
+        value.addressType = try reader["addressType"].readIfPresent()
+        value.addressRoleMap = try reader["addressRoleMap"].readMapIfPresent(valueReadingClosure: TaxSettingsClientTypes.Jurisdiction.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension TaxSettingsClientTypes.TaxExemption {
+extension TaxSettingsClientTypes.AdditionalInfoRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.TaxExemption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.TaxExemption()
-        value.authority = try reader["authority"].readIfPresent(with: TaxSettingsClientTypes.Authority.read(from:))
-        value.taxExemptionType = try reader["taxExemptionType"].readIfPresent(with: TaxSettingsClientTypes.TaxExemptionType.read(from:))
-        value.effectiveDate = try reader["effectiveDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.expirationDate = try reader["expirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.systemEffectiveDate = try reader["systemEffectiveDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.TaxExemptionType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.TaxExemptionType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.TaxExemptionType()
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.applicableJurisdictions = try reader["applicableJurisdictions"].readListIfPresent(memberReadingClosure: TaxSettingsClientTypes.Authority.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.Authority {
-
-    static func write(value: TaxSettingsClientTypes.Authority?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TaxSettingsClientTypes.AdditionalInfoRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["country"].write(value.country)
-        try writer["state"].write(value.state)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.Authority {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.Authority()
-        value.country = try reader["country"].readIfPresent() ?? ""
-        value.state = try reader["state"].readIfPresent()
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.BatchPutTaxRegistrationError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.BatchPutTaxRegistrationError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.BatchPutTaxRegistrationError()
-        value.accountId = try reader["accountId"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        value.code = try reader["code"].readIfPresent()
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.TaxRegistration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.TaxRegistration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.TaxRegistration()
-        value.registrationId = try reader["registrationId"].readIfPresent() ?? ""
-        value.registrationType = try reader["registrationType"].readIfPresent() ?? .sdkUnknown("")
-        value.legalName = try reader["legalName"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.sector = try reader["sector"].readIfPresent()
-        value.taxDocumentMetadatas = try reader["taxDocumentMetadatas"].readListIfPresent(memberReadingClosure: TaxSettingsClientTypes.TaxDocumentMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.certifiedEmailId = try reader["certifiedEmailId"].readIfPresent()
-        value.additionalTaxInformation = try reader["additionalTaxInformation"].readIfPresent(with: TaxSettingsClientTypes.AdditionalInfoResponse.read(from:))
-        value.legalAddress = try reader["legalAddress"].readIfPresent(with: TaxSettingsClientTypes.Address.read(from:))
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.Address {
-
-    static func write(value: TaxSettingsClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addressLine1"].write(value.addressLine1)
-        try writer["addressLine2"].write(value.addressLine2)
-        try writer["addressLine3"].write(value.addressLine3)
-        try writer["city"].write(value.city)
-        try writer["countryCode"].write(value.countryCode)
-        try writer["districtOrCounty"].write(value.districtOrCounty)
-        try writer["postalCode"].write(value.postalCode)
-        try writer["stateOrRegion"].write(value.stateOrRegion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.Address {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.Address()
-        value.addressLine1 = try reader["addressLine1"].readIfPresent() ?? ""
-        value.addressLine2 = try reader["addressLine2"].readIfPresent()
-        value.addressLine3 = try reader["addressLine3"].readIfPresent()
-        value.districtOrCounty = try reader["districtOrCounty"].readIfPresent()
-        value.city = try reader["city"].readIfPresent() ?? ""
-        value.stateOrRegion = try reader["stateOrRegion"].readIfPresent()
-        value.postalCode = try reader["postalCode"].readIfPresent() ?? ""
-        value.countryCode = try reader["countryCode"].readIfPresent() ?? ""
-        return value
+        try writer["canadaAdditionalInfo"].write(value.canadaAdditionalInfo, with: TaxSettingsClientTypes.CanadaAdditionalInfo.write(value:to:))
+        try writer["egyptAdditionalInfo"].write(value.egyptAdditionalInfo, with: TaxSettingsClientTypes.EgyptAdditionalInfo.write(value:to:))
+        try writer["estoniaAdditionalInfo"].write(value.estoniaAdditionalInfo, with: TaxSettingsClientTypes.EstoniaAdditionalInfo.write(value:to:))
+        try writer["georgiaAdditionalInfo"].write(value.georgiaAdditionalInfo, with: TaxSettingsClientTypes.GeorgiaAdditionalInfo.write(value:to:))
+        try writer["greeceAdditionalInfo"].write(value.greeceAdditionalInfo, with: TaxSettingsClientTypes.GreeceAdditionalInfo.write(value:to:))
+        try writer["indonesiaAdditionalInfo"].write(value.indonesiaAdditionalInfo, with: TaxSettingsClientTypes.IndonesiaAdditionalInfo.write(value:to:))
+        try writer["israelAdditionalInfo"].write(value.israelAdditionalInfo, with: TaxSettingsClientTypes.IsraelAdditionalInfo.write(value:to:))
+        try writer["italyAdditionalInfo"].write(value.italyAdditionalInfo, with: TaxSettingsClientTypes.ItalyAdditionalInfo.write(value:to:))
+        try writer["kenyaAdditionalInfo"].write(value.kenyaAdditionalInfo, with: TaxSettingsClientTypes.KenyaAdditionalInfo.write(value:to:))
+        try writer["malaysiaAdditionalInfo"].write(value.malaysiaAdditionalInfo, with: TaxSettingsClientTypes.MalaysiaAdditionalInfo.write(value:to:))
+        try writer["polandAdditionalInfo"].write(value.polandAdditionalInfo, with: TaxSettingsClientTypes.PolandAdditionalInfo.write(value:to:))
+        try writer["romaniaAdditionalInfo"].write(value.romaniaAdditionalInfo, with: TaxSettingsClientTypes.RomaniaAdditionalInfo.write(value:to:))
+        try writer["saudiArabiaAdditionalInfo"].write(value.saudiArabiaAdditionalInfo, with: TaxSettingsClientTypes.SaudiArabiaAdditionalInfo.write(value:to:))
+        try writer["southKoreaAdditionalInfo"].write(value.southKoreaAdditionalInfo, with: TaxSettingsClientTypes.SouthKoreaAdditionalInfo.write(value:to:))
+        try writer["spainAdditionalInfo"].write(value.spainAdditionalInfo, with: TaxSettingsClientTypes.SpainAdditionalInfo.write(value:to:))
+        try writer["turkeyAdditionalInfo"].write(value.turkeyAdditionalInfo, with: TaxSettingsClientTypes.TurkeyAdditionalInfo.write(value:to:))
+        try writer["ukraineAdditionalInfo"].write(value.ukraineAdditionalInfo, with: TaxSettingsClientTypes.UkraineAdditionalInfo.write(value:to:))
+        try writer["uzbekistanAdditionalInfo"].write(value.uzbekistanAdditionalInfo, with: TaxSettingsClientTypes.UzbekistanAdditionalInfo.write(value:to:))
+        try writer["vietnamAdditionalInfo"].write(value.vietnamAdditionalInfo, with: TaxSettingsClientTypes.VietnamAdditionalInfo.write(value:to:))
     }
 }
 
@@ -3581,269 +3506,72 @@ extension TaxSettingsClientTypes.AdditionalInfoResponse {
     }
 }
 
-extension TaxSettingsClientTypes.UzbekistanAdditionalInfo {
+extension TaxSettingsClientTypes.Address {
 
-    static func write(value: TaxSettingsClientTypes.UzbekistanAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TaxSettingsClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["taxRegistrationNumberType"].write(value.taxRegistrationNumberType)
-        try writer["vatRegistrationNumber"].write(value.vatRegistrationNumber)
+        try writer["addressLine1"].write(value.addressLine1)
+        try writer["addressLine2"].write(value.addressLine2)
+        try writer["addressLine3"].write(value.addressLine3)
+        try writer["city"].write(value.city)
+        try writer["countryCode"].write(value.countryCode)
+        try writer["districtOrCounty"].write(value.districtOrCounty)
+        try writer["postalCode"].write(value.postalCode)
+        try writer["stateOrRegion"].write(value.stateOrRegion)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.UzbekistanAdditionalInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.Address {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.UzbekistanAdditionalInfo()
-        value.taxRegistrationNumberType = try reader["taxRegistrationNumberType"].readIfPresent()
-        value.vatRegistrationNumber = try reader["vatRegistrationNumber"].readIfPresent()
+        var value = TaxSettingsClientTypes.Address()
+        value.addressLine1 = try reader["addressLine1"].readIfPresent() ?? ""
+        value.addressLine2 = try reader["addressLine2"].readIfPresent()
+        value.addressLine3 = try reader["addressLine3"].readIfPresent()
+        value.districtOrCounty = try reader["districtOrCounty"].readIfPresent()
+        value.city = try reader["city"].readIfPresent() ?? ""
+        value.stateOrRegion = try reader["stateOrRegion"].readIfPresent()
+        value.postalCode = try reader["postalCode"].readIfPresent() ?? ""
+        value.countryCode = try reader["countryCode"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension TaxSettingsClientTypes.GreeceAdditionalInfo {
+extension TaxSettingsClientTypes.Authority {
 
-    static func write(value: TaxSettingsClientTypes.GreeceAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TaxSettingsClientTypes.Authority?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["contractingAuthorityCode"].write(value.contractingAuthorityCode)
+        try writer["country"].write(value.country)
+        try writer["state"].write(value.state)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.GreeceAdditionalInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.Authority {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.GreeceAdditionalInfo()
-        value.contractingAuthorityCode = try reader["contractingAuthorityCode"].readIfPresent()
+        var value = TaxSettingsClientTypes.Authority()
+        value.country = try reader["country"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent()
         return value
     }
 }
 
-extension TaxSettingsClientTypes.EgyptAdditionalInfo {
+extension TaxSettingsClientTypes.BatchDeleteTaxRegistrationError {
 
-    static func write(value: TaxSettingsClientTypes.EgyptAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["uniqueIdentificationNumber"].write(value.uniqueIdentificationNumber)
-        try writer["uniqueIdentificationNumberExpirationDate"].write(value.uniqueIdentificationNumberExpirationDate)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.EgyptAdditionalInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.BatchDeleteTaxRegistrationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.EgyptAdditionalInfo()
-        value.uniqueIdentificationNumber = try reader["uniqueIdentificationNumber"].readIfPresent()
-        value.uniqueIdentificationNumberExpirationDate = try reader["uniqueIdentificationNumberExpirationDate"].readIfPresent()
+        var value = TaxSettingsClientTypes.BatchDeleteTaxRegistrationError()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent()
         return value
     }
 }
 
-extension TaxSettingsClientTypes.VietnamAdditionalInfo {
+extension TaxSettingsClientTypes.BatchPutTaxRegistrationError {
 
-    static func write(value: TaxSettingsClientTypes.VietnamAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["electronicTransactionCodeNumber"].write(value.electronicTransactionCodeNumber)
-        try writer["enterpriseIdentificationNumber"].write(value.enterpriseIdentificationNumber)
-        try writer["paymentVoucherNumber"].write(value.paymentVoucherNumber)
-        try writer["paymentVoucherNumberDate"].write(value.paymentVoucherNumberDate)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.VietnamAdditionalInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.BatchPutTaxRegistrationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.VietnamAdditionalInfo()
-        value.enterpriseIdentificationNumber = try reader["enterpriseIdentificationNumber"].readIfPresent()
-        value.electronicTransactionCodeNumber = try reader["electronicTransactionCodeNumber"].readIfPresent()
-        value.paymentVoucherNumber = try reader["paymentVoucherNumber"].readIfPresent()
-        value.paymentVoucherNumberDate = try reader["paymentVoucherNumberDate"].readIfPresent()
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.IndonesiaAdditionalInfo {
-
-    static func write(value: TaxSettingsClientTypes.IndonesiaAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["decisionNumber"].write(value.decisionNumber)
-        try writer["ppnExceptionDesignationCode"].write(value.ppnExceptionDesignationCode)
-        try writer["taxRegistrationNumberType"].write(value.taxRegistrationNumberType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.IndonesiaAdditionalInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.IndonesiaAdditionalInfo()
-        value.taxRegistrationNumberType = try reader["taxRegistrationNumberType"].readIfPresent()
-        value.ppnExceptionDesignationCode = try reader["ppnExceptionDesignationCode"].readIfPresent()
-        value.decisionNumber = try reader["decisionNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.IndiaAdditionalInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.IndiaAdditionalInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.IndiaAdditionalInfo()
-        value.pan = try reader["pan"].readIfPresent()
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.SaudiArabiaAdditionalInfo {
-
-    static func write(value: TaxSettingsClientTypes.SaudiArabiaAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["taxRegistrationNumberType"].write(value.taxRegistrationNumberType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.SaudiArabiaAdditionalInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.SaudiArabiaAdditionalInfo()
-        value.taxRegistrationNumberType = try reader["taxRegistrationNumberType"].readIfPresent()
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.PolandAdditionalInfo {
-
-    static func write(value: TaxSettingsClientTypes.PolandAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["individualRegistrationNumber"].write(value.individualRegistrationNumber)
-        try writer["isGroupVatEnabled"].write(value.isGroupVatEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.PolandAdditionalInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.PolandAdditionalInfo()
-        value.individualRegistrationNumber = try reader["individualRegistrationNumber"].readIfPresent()
-        value.isGroupVatEnabled = try reader["isGroupVatEnabled"].readIfPresent()
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.UkraineAdditionalInfo {
-
-    static func write(value: TaxSettingsClientTypes.UkraineAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ukraineTrnType"].write(value.ukraineTrnType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.UkraineAdditionalInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.UkraineAdditionalInfo()
-        value.ukraineTrnType = try reader["ukraineTrnType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.RomaniaAdditionalInfo {
-
-    static func write(value: TaxSettingsClientTypes.RomaniaAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["taxRegistrationNumberType"].write(value.taxRegistrationNumberType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.RomaniaAdditionalInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.RomaniaAdditionalInfo()
-        value.taxRegistrationNumberType = try reader["taxRegistrationNumberType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.ItalyAdditionalInfo {
-
-    static func write(value: TaxSettingsClientTypes.ItalyAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cigNumber"].write(value.cigNumber)
-        try writer["cupNumber"].write(value.cupNumber)
-        try writer["sdiAccountId"].write(value.sdiAccountId)
-        try writer["taxCode"].write(value.taxCode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.ItalyAdditionalInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.ItalyAdditionalInfo()
-        value.sdiAccountId = try reader["sdiAccountId"].readIfPresent()
-        value.cigNumber = try reader["cigNumber"].readIfPresent()
-        value.cupNumber = try reader["cupNumber"].readIfPresent()
-        value.taxCode = try reader["taxCode"].readIfPresent()
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.GeorgiaAdditionalInfo {
-
-    static func write(value: TaxSettingsClientTypes.GeorgiaAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["personType"].write(value.personType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.GeorgiaAdditionalInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.GeorgiaAdditionalInfo()
-        value.personType = try reader["personType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.TurkeyAdditionalInfo {
-
-    static func write(value: TaxSettingsClientTypes.TurkeyAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["industries"].write(value.industries)
-        try writer["kepEmailId"].write(value.kepEmailId)
-        try writer["secondaryTaxId"].write(value.secondaryTaxId)
-        try writer["taxOffice"].write(value.taxOffice)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.TurkeyAdditionalInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.TurkeyAdditionalInfo()
-        value.taxOffice = try reader["taxOffice"].readIfPresent()
-        value.kepEmailId = try reader["kepEmailId"].readIfPresent()
-        value.secondaryTaxId = try reader["secondaryTaxId"].readIfPresent()
-        value.industries = try reader["industries"].readIfPresent()
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.SouthKoreaAdditionalInfo {
-
-    static func write(value: TaxSettingsClientTypes.SouthKoreaAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["businessRepresentativeName"].write(value.businessRepresentativeName)
-        try writer["itemOfBusiness"].write(value.itemOfBusiness)
-        try writer["lineOfBusiness"].write(value.lineOfBusiness)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.SouthKoreaAdditionalInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.SouthKoreaAdditionalInfo()
-        value.businessRepresentativeName = try reader["businessRepresentativeName"].readIfPresent() ?? ""
-        value.lineOfBusiness = try reader["lineOfBusiness"].readIfPresent() ?? ""
-        value.itemOfBusiness = try reader["itemOfBusiness"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.KenyaAdditionalInfo {
-
-    static func write(value: TaxSettingsClientTypes.KenyaAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["personType"].write(value.personType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.KenyaAdditionalInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.KenyaAdditionalInfo()
-        value.personType = try reader["personType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension TaxSettingsClientTypes.SpainAdditionalInfo {
-
-    static func write(value: TaxSettingsClientTypes.SpainAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["registrationType"].write(value.registrationType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.SpainAdditionalInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.SpainAdditionalInfo()
-        value.registrationType = try reader["registrationType"].readIfPresent() ?? .sdkUnknown("")
+        var value = TaxSettingsClientTypes.BatchPutTaxRegistrationError()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent()
         return value
     }
 }
@@ -3880,6 +3608,32 @@ extension TaxSettingsClientTypes.CanadaAdditionalInfo {
     }
 }
 
+extension TaxSettingsClientTypes.DestinationS3Location {
+
+    static func write(value: TaxSettingsClientTypes.DestinationS3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["prefix"].write(value.`prefix`)
+    }
+}
+
+extension TaxSettingsClientTypes.EgyptAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.EgyptAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["uniqueIdentificationNumber"].write(value.uniqueIdentificationNumber)
+        try writer["uniqueIdentificationNumberExpirationDate"].write(value.uniqueIdentificationNumberExpirationDate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.EgyptAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.EgyptAdditionalInfo()
+        value.uniqueIdentificationNumber = try reader["uniqueIdentificationNumber"].readIfPresent()
+        value.uniqueIdentificationNumberExpirationDate = try reader["uniqueIdentificationNumberExpirationDate"].readIfPresent()
+        return value
+    }
+}
+
 extension TaxSettingsClientTypes.EstoniaAdditionalInfo {
 
     static func write(value: TaxSettingsClientTypes.EstoniaAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
@@ -3891,6 +3645,74 @@ extension TaxSettingsClientTypes.EstoniaAdditionalInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TaxSettingsClientTypes.EstoniaAdditionalInfo()
         value.registryCommercialCode = try reader["registryCommercialCode"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.ExemptionCertificate {
+
+    static func write(value: TaxSettingsClientTypes.ExemptionCertificate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["documentFile"].write(value.documentFile)
+        try writer["documentName"].write(value.documentName)
+    }
+}
+
+extension TaxSettingsClientTypes.GeorgiaAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.GeorgiaAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["personType"].write(value.personType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.GeorgiaAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.GeorgiaAdditionalInfo()
+        value.personType = try reader["personType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.GreeceAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.GreeceAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["contractingAuthorityCode"].write(value.contractingAuthorityCode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.GreeceAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.GreeceAdditionalInfo()
+        value.contractingAuthorityCode = try reader["contractingAuthorityCode"].readIfPresent()
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.IndiaAdditionalInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.IndiaAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.IndiaAdditionalInfo()
+        value.pan = try reader["pan"].readIfPresent()
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.IndonesiaAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.IndonesiaAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["decisionNumber"].write(value.decisionNumber)
+        try writer["ppnExceptionDesignationCode"].write(value.ppnExceptionDesignationCode)
+        try writer["taxRegistrationNumberType"].write(value.taxRegistrationNumberType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.IndonesiaAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.IndonesiaAdditionalInfo()
+        value.taxRegistrationNumberType = try reader["taxRegistrationNumberType"].readIfPresent()
+        value.ppnExceptionDesignationCode = try reader["ppnExceptionDesignationCode"].readIfPresent()
+        value.decisionNumber = try reader["decisionNumber"].readIfPresent()
         return value
     }
 }
@@ -3908,6 +3730,53 @@ extension TaxSettingsClientTypes.IsraelAdditionalInfo {
         var value = TaxSettingsClientTypes.IsraelAdditionalInfo()
         value.dealerType = try reader["dealerType"].readIfPresent() ?? .sdkUnknown("")
         value.customerType = try reader["customerType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.ItalyAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.ItalyAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cigNumber"].write(value.cigNumber)
+        try writer["cupNumber"].write(value.cupNumber)
+        try writer["sdiAccountId"].write(value.sdiAccountId)
+        try writer["taxCode"].write(value.taxCode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.ItalyAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.ItalyAdditionalInfo()
+        value.sdiAccountId = try reader["sdiAccountId"].readIfPresent()
+        value.cigNumber = try reader["cigNumber"].readIfPresent()
+        value.cupNumber = try reader["cupNumber"].readIfPresent()
+        value.taxCode = try reader["taxCode"].readIfPresent()
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.Jurisdiction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.Jurisdiction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.Jurisdiction()
+        value.stateOrRegion = try reader["stateOrRegion"].readIfPresent()
+        value.countryCode = try reader["countryCode"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.KenyaAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.KenyaAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["personType"].write(value.personType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.KenyaAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.KenyaAdditionalInfo()
+        value.personType = try reader["personType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3931,19 +3800,92 @@ extension TaxSettingsClientTypes.MalaysiaAdditionalInfo {
     }
 }
 
-extension TaxSettingsClientTypes.TaxDocumentMetadata {
+extension TaxSettingsClientTypes.PolandAdditionalInfo {
 
-    static func write(value: TaxSettingsClientTypes.TaxDocumentMetadata?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TaxSettingsClientTypes.PolandAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["taxDocumentAccessToken"].write(value.taxDocumentAccessToken)
-        try writer["taxDocumentName"].write(value.taxDocumentName)
+        try writer["individualRegistrationNumber"].write(value.individualRegistrationNumber)
+        try writer["isGroupVatEnabled"].write(value.isGroupVatEnabled)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.TaxDocumentMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.PolandAdditionalInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.TaxDocumentMetadata()
-        value.taxDocumentAccessToken = try reader["taxDocumentAccessToken"].readIfPresent() ?? ""
-        value.taxDocumentName = try reader["taxDocumentName"].readIfPresent() ?? ""
+        var value = TaxSettingsClientTypes.PolandAdditionalInfo()
+        value.individualRegistrationNumber = try reader["individualRegistrationNumber"].readIfPresent()
+        value.isGroupVatEnabled = try reader["isGroupVatEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.RomaniaAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.RomaniaAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["taxRegistrationNumberType"].write(value.taxRegistrationNumberType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.RomaniaAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.RomaniaAdditionalInfo()
+        value.taxRegistrationNumberType = try reader["taxRegistrationNumberType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.SaudiArabiaAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.SaudiArabiaAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["taxRegistrationNumberType"].write(value.taxRegistrationNumberType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.SaudiArabiaAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.SaudiArabiaAdditionalInfo()
+        value.taxRegistrationNumberType = try reader["taxRegistrationNumberType"].readIfPresent()
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.SourceS3Location {
+
+    static func write(value: TaxSettingsClientTypes.SourceS3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["key"].write(value.key)
+    }
+}
+
+extension TaxSettingsClientTypes.SouthKoreaAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.SouthKoreaAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["businessRepresentativeName"].write(value.businessRepresentativeName)
+        try writer["itemOfBusiness"].write(value.itemOfBusiness)
+        try writer["lineOfBusiness"].write(value.lineOfBusiness)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.SouthKoreaAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.SouthKoreaAdditionalInfo()
+        value.businessRepresentativeName = try reader["businessRepresentativeName"].readIfPresent() ?? ""
+        value.lineOfBusiness = try reader["lineOfBusiness"].readIfPresent() ?? ""
+        value.itemOfBusiness = try reader["itemOfBusiness"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.SpainAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.SpainAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["registrationType"].write(value.registrationType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.SpainAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.SpainAdditionalInfo()
+        value.registrationType = try reader["registrationType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3963,40 +3905,70 @@ extension TaxSettingsClientTypes.SupplementalTaxRegistration {
     }
 }
 
-extension TaxSettingsClientTypes.AccountDetails {
+extension TaxSettingsClientTypes.SupplementalTaxRegistrationEntry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.AccountDetails {
+    static func write(value: TaxSettingsClientTypes.SupplementalTaxRegistrationEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["address"].write(value.address, with: TaxSettingsClientTypes.Address.write(value:to:))
+        try writer["legalName"].write(value.legalName)
+        try writer["registrationId"].write(value.registrationId)
+        try writer["registrationType"].write(value.registrationType)
+    }
+}
+
+extension TaxSettingsClientTypes.TaxDocumentMetadata {
+
+    static func write(value: TaxSettingsClientTypes.TaxDocumentMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["taxDocumentAccessToken"].write(value.taxDocumentAccessToken)
+        try writer["taxDocumentName"].write(value.taxDocumentName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.TaxDocumentMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.AccountDetails()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.taxRegistration = try reader["taxRegistration"].readIfPresent(with: TaxSettingsClientTypes.TaxRegistrationWithJurisdiction.read(from:))
-        value.taxInheritanceDetails = try reader["taxInheritanceDetails"].readIfPresent(with: TaxSettingsClientTypes.TaxInheritanceDetails.read(from:))
-        value.accountMetaData = try reader["accountMetaData"].readIfPresent(with: TaxSettingsClientTypes.AccountMetaData.read(from:))
+        var value = TaxSettingsClientTypes.TaxDocumentMetadata()
+        value.taxDocumentAccessToken = try reader["taxDocumentAccessToken"].readIfPresent() ?? ""
+        value.taxDocumentName = try reader["taxDocumentName"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension TaxSettingsClientTypes.AccountMetaData {
+extension TaxSettingsClientTypes.TaxExemption {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.AccountMetaData {
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.TaxExemption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.AccountMetaData()
-        value.accountName = try reader["accountName"].readIfPresent()
-        value.seller = try reader["seller"].readIfPresent()
-        value.address = try reader["address"].readIfPresent(with: TaxSettingsClientTypes.Address.read(from:))
-        value.addressType = try reader["addressType"].readIfPresent()
-        value.addressRoleMap = try reader["addressRoleMap"].readMapIfPresent(valueReadingClosure: TaxSettingsClientTypes.Jurisdiction.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = TaxSettingsClientTypes.TaxExemption()
+        value.authority = try reader["authority"].readIfPresent(with: TaxSettingsClientTypes.Authority.read(from:))
+        value.taxExemptionType = try reader["taxExemptionType"].readIfPresent(with: TaxSettingsClientTypes.TaxExemptionType.read(from:))
+        value.effectiveDate = try reader["effectiveDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expirationDate = try reader["expirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.systemEffectiveDate = try reader["systemEffectiveDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
 
-extension TaxSettingsClientTypes.Jurisdiction {
+extension TaxSettingsClientTypes.TaxExemptionDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.Jurisdiction {
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.TaxExemptionDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TaxSettingsClientTypes.Jurisdiction()
-        value.stateOrRegion = try reader["stateOrRegion"].readIfPresent()
-        value.countryCode = try reader["countryCode"].readIfPresent() ?? ""
+        var value = TaxSettingsClientTypes.TaxExemptionDetails()
+        value.taxExemptions = try reader["taxExemptions"].readListIfPresent(memberReadingClosure: TaxSettingsClientTypes.TaxExemption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.heritageObtainedDetails = try reader["heritageObtainedDetails"].readIfPresent()
+        value.heritageObtainedParentEntity = try reader["heritageObtainedParentEntity"].readIfPresent()
+        value.heritageObtainedReason = try reader["heritageObtainedReason"].readIfPresent()
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.TaxExemptionType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.TaxExemptionType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.TaxExemptionType()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.applicableJurisdictions = try reader["applicableJurisdictions"].readListIfPresent(memberReadingClosure: TaxSettingsClientTypes.Authority.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4009,6 +3981,57 @@ extension TaxSettingsClientTypes.TaxInheritanceDetails {
         value.parentEntityId = try reader["parentEntityId"].readIfPresent()
         value.inheritanceObtainedReason = try reader["inheritanceObtainedReason"].readIfPresent()
         return value
+    }
+}
+
+extension TaxSettingsClientTypes.TaxRegistration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.TaxRegistration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.TaxRegistration()
+        value.registrationId = try reader["registrationId"].readIfPresent() ?? ""
+        value.registrationType = try reader["registrationType"].readIfPresent() ?? .sdkUnknown("")
+        value.legalName = try reader["legalName"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.sector = try reader["sector"].readIfPresent()
+        value.taxDocumentMetadatas = try reader["taxDocumentMetadatas"].readListIfPresent(memberReadingClosure: TaxSettingsClientTypes.TaxDocumentMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.certifiedEmailId = try reader["certifiedEmailId"].readIfPresent()
+        value.additionalTaxInformation = try reader["additionalTaxInformation"].readIfPresent(with: TaxSettingsClientTypes.AdditionalInfoResponse.read(from:))
+        value.legalAddress = try reader["legalAddress"].readIfPresent(with: TaxSettingsClientTypes.Address.read(from:))
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.TaxRegistrationDocFile {
+
+    static func write(value: TaxSettingsClientTypes.TaxRegistrationDocFile?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fileContent"].write(value.fileContent)
+        try writer["fileName"].write(value.fileName)
+    }
+}
+
+extension TaxSettingsClientTypes.TaxRegistrationDocument {
+
+    static func write(value: TaxSettingsClientTypes.TaxRegistrationDocument?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["file"].write(value.file, with: TaxSettingsClientTypes.TaxRegistrationDocFile.write(value:to:))
+        try writer["s3Location"].write(value.s3Location, with: TaxSettingsClientTypes.SourceS3Location.write(value:to:))
+    }
+}
+
+extension TaxSettingsClientTypes.TaxRegistrationEntry {
+
+    static func write(value: TaxSettingsClientTypes.TaxRegistrationEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalTaxInformation"].write(value.additionalTaxInformation, with: TaxSettingsClientTypes.AdditionalInfoRequest.write(value:to:))
+        try writer["certifiedEmailId"].write(value.certifiedEmailId)
+        try writer["legalAddress"].write(value.legalAddress, with: TaxSettingsClientTypes.Address.write(value:to:))
+        try writer["legalName"].write(value.legalName)
+        try writer["registrationId"].write(value.registrationId)
+        try writer["registrationType"].write(value.registrationType)
+        try writer["sector"].write(value.sector)
+        try writer["verificationDetails"].write(value.verificationDetails, with: TaxSettingsClientTypes.VerificationDetails.write(value:to:))
     }
 }
 
@@ -4030,6 +4053,59 @@ extension TaxSettingsClientTypes.TaxRegistrationWithJurisdiction {
     }
 }
 
+extension TaxSettingsClientTypes.TurkeyAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.TurkeyAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["industries"].write(value.industries)
+        try writer["kepEmailId"].write(value.kepEmailId)
+        try writer["secondaryTaxId"].write(value.secondaryTaxId)
+        try writer["taxOffice"].write(value.taxOffice)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.TurkeyAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.TurkeyAdditionalInfo()
+        value.taxOffice = try reader["taxOffice"].readIfPresent()
+        value.kepEmailId = try reader["kepEmailId"].readIfPresent()
+        value.secondaryTaxId = try reader["secondaryTaxId"].readIfPresent()
+        value.industries = try reader["industries"].readIfPresent()
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.UkraineAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.UkraineAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ukraineTrnType"].write(value.ukraineTrnType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.UkraineAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.UkraineAdditionalInfo()
+        value.ukraineTrnType = try reader["ukraineTrnType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.UzbekistanAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.UzbekistanAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["taxRegistrationNumberType"].write(value.taxRegistrationNumberType)
+        try writer["vatRegistrationNumber"].write(value.vatRegistrationNumber)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.UzbekistanAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.UzbekistanAdditionalInfo()
+        value.taxRegistrationNumberType = try reader["taxRegistrationNumberType"].readIfPresent()
+        value.vatRegistrationNumber = try reader["vatRegistrationNumber"].readIfPresent()
+        return value
+    }
+}
+
 extension TaxSettingsClientTypes.ValidationExceptionField {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.ValidationExceptionField {
@@ -4037,21 +4113,6 @@ extension TaxSettingsClientTypes.ValidationExceptionField {
         var value = TaxSettingsClientTypes.ValidationExceptionField()
         value.name = try reader["name"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension TaxSettingsClientTypes.TaxRegistrationEntry {
-
-    static func write(value: TaxSettingsClientTypes.TaxRegistrationEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalTaxInformation"].write(value.additionalTaxInformation, with: TaxSettingsClientTypes.AdditionalInfoRequest.write(value:to:))
-        try writer["certifiedEmailId"].write(value.certifiedEmailId)
-        try writer["legalAddress"].write(value.legalAddress, with: TaxSettingsClientTypes.Address.write(value:to:))
-        try writer["legalName"].write(value.legalName)
-        try writer["registrationId"].write(value.registrationId)
-        try writer["registrationType"].write(value.registrationType)
-        try writer["sector"].write(value.sector)
-        try writer["verificationDetails"].write(value.verificationDetails, with: TaxSettingsClientTypes.VerificationDetails.write(value:to:))
     }
 }
 
@@ -4064,85 +4125,24 @@ extension TaxSettingsClientTypes.VerificationDetails {
     }
 }
 
-extension TaxSettingsClientTypes.TaxRegistrationDocument {
+extension TaxSettingsClientTypes.VietnamAdditionalInfo {
 
-    static func write(value: TaxSettingsClientTypes.TaxRegistrationDocument?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TaxSettingsClientTypes.VietnamAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["file"].write(value.file, with: TaxSettingsClientTypes.TaxRegistrationDocFile.write(value:to:))
-        try writer["s3Location"].write(value.s3Location, with: TaxSettingsClientTypes.SourceS3Location.write(value:to:))
+        try writer["electronicTransactionCodeNumber"].write(value.electronicTransactionCodeNumber)
+        try writer["enterpriseIdentificationNumber"].write(value.enterpriseIdentificationNumber)
+        try writer["paymentVoucherNumber"].write(value.paymentVoucherNumber)
+        try writer["paymentVoucherNumberDate"].write(value.paymentVoucherNumberDate)
     }
-}
 
-extension TaxSettingsClientTypes.TaxRegistrationDocFile {
-
-    static func write(value: TaxSettingsClientTypes.TaxRegistrationDocFile?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fileContent"].write(value.fileContent)
-        try writer["fileName"].write(value.fileName)
-    }
-}
-
-extension TaxSettingsClientTypes.SourceS3Location {
-
-    static func write(value: TaxSettingsClientTypes.SourceS3Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["key"].write(value.key)
-    }
-}
-
-extension TaxSettingsClientTypes.AdditionalInfoRequest {
-
-    static func write(value: TaxSettingsClientTypes.AdditionalInfoRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["canadaAdditionalInfo"].write(value.canadaAdditionalInfo, with: TaxSettingsClientTypes.CanadaAdditionalInfo.write(value:to:))
-        try writer["egyptAdditionalInfo"].write(value.egyptAdditionalInfo, with: TaxSettingsClientTypes.EgyptAdditionalInfo.write(value:to:))
-        try writer["estoniaAdditionalInfo"].write(value.estoniaAdditionalInfo, with: TaxSettingsClientTypes.EstoniaAdditionalInfo.write(value:to:))
-        try writer["georgiaAdditionalInfo"].write(value.georgiaAdditionalInfo, with: TaxSettingsClientTypes.GeorgiaAdditionalInfo.write(value:to:))
-        try writer["greeceAdditionalInfo"].write(value.greeceAdditionalInfo, with: TaxSettingsClientTypes.GreeceAdditionalInfo.write(value:to:))
-        try writer["indonesiaAdditionalInfo"].write(value.indonesiaAdditionalInfo, with: TaxSettingsClientTypes.IndonesiaAdditionalInfo.write(value:to:))
-        try writer["israelAdditionalInfo"].write(value.israelAdditionalInfo, with: TaxSettingsClientTypes.IsraelAdditionalInfo.write(value:to:))
-        try writer["italyAdditionalInfo"].write(value.italyAdditionalInfo, with: TaxSettingsClientTypes.ItalyAdditionalInfo.write(value:to:))
-        try writer["kenyaAdditionalInfo"].write(value.kenyaAdditionalInfo, with: TaxSettingsClientTypes.KenyaAdditionalInfo.write(value:to:))
-        try writer["malaysiaAdditionalInfo"].write(value.malaysiaAdditionalInfo, with: TaxSettingsClientTypes.MalaysiaAdditionalInfo.write(value:to:))
-        try writer["polandAdditionalInfo"].write(value.polandAdditionalInfo, with: TaxSettingsClientTypes.PolandAdditionalInfo.write(value:to:))
-        try writer["romaniaAdditionalInfo"].write(value.romaniaAdditionalInfo, with: TaxSettingsClientTypes.RomaniaAdditionalInfo.write(value:to:))
-        try writer["saudiArabiaAdditionalInfo"].write(value.saudiArabiaAdditionalInfo, with: TaxSettingsClientTypes.SaudiArabiaAdditionalInfo.write(value:to:))
-        try writer["southKoreaAdditionalInfo"].write(value.southKoreaAdditionalInfo, with: TaxSettingsClientTypes.SouthKoreaAdditionalInfo.write(value:to:))
-        try writer["spainAdditionalInfo"].write(value.spainAdditionalInfo, with: TaxSettingsClientTypes.SpainAdditionalInfo.write(value:to:))
-        try writer["turkeyAdditionalInfo"].write(value.turkeyAdditionalInfo, with: TaxSettingsClientTypes.TurkeyAdditionalInfo.write(value:to:))
-        try writer["ukraineAdditionalInfo"].write(value.ukraineAdditionalInfo, with: TaxSettingsClientTypes.UkraineAdditionalInfo.write(value:to:))
-        try writer["uzbekistanAdditionalInfo"].write(value.uzbekistanAdditionalInfo, with: TaxSettingsClientTypes.UzbekistanAdditionalInfo.write(value:to:))
-        try writer["vietnamAdditionalInfo"].write(value.vietnamAdditionalInfo, with: TaxSettingsClientTypes.VietnamAdditionalInfo.write(value:to:))
-    }
-}
-
-extension TaxSettingsClientTypes.DestinationS3Location {
-
-    static func write(value: TaxSettingsClientTypes.DestinationS3Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["prefix"].write(value.`prefix`)
-    }
-}
-
-extension TaxSettingsClientTypes.SupplementalTaxRegistrationEntry {
-
-    static func write(value: TaxSettingsClientTypes.SupplementalTaxRegistrationEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["address"].write(value.address, with: TaxSettingsClientTypes.Address.write(value:to:))
-        try writer["legalName"].write(value.legalName)
-        try writer["registrationId"].write(value.registrationId)
-        try writer["registrationType"].write(value.registrationType)
-    }
-}
-
-extension TaxSettingsClientTypes.ExemptionCertificate {
-
-    static func write(value: TaxSettingsClientTypes.ExemptionCertificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["documentFile"].write(value.documentFile)
-        try writer["documentName"].write(value.documentName)
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.VietnamAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.VietnamAdditionalInfo()
+        value.enterpriseIdentificationNumber = try reader["enterpriseIdentificationNumber"].readIfPresent()
+        value.electronicTransactionCodeNumber = try reader["electronicTransactionCodeNumber"].readIfPresent()
+        value.paymentVoucherNumber = try reader["paymentVoucherNumber"].readIfPresent()
+        value.paymentVoucherNumberDate = try reader["paymentVoucherNumberDate"].readIfPresent()
+        return value
     }
 }
 

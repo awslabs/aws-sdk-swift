@@ -1409,6 +1409,46 @@ extension VerifiedPermissionsClientTypes {
 
 extension VerifiedPermissionsClientTypes {
 
+    public struct Unit: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+
+    /// A structure that contains the KMS encryption configuration for the policy store. The encryption settings determine what customer-managed KMS key will be used to encrypt all resources within the policy store, and any user-defined context key-value pairs to append during encryption processes. This data type is used as a field that is part of the [EncryptionSettings](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EncryptionSettings.html) type.
+    public struct KmsEncryptionSettings: Swift.Sendable {
+        /// User-defined, additional context to be added to encryption processes.
+        public var encryptionContext: [Swift.String: Swift.String]?
+        /// The customer-managed KMS key [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html), alias or ID to be used for encryption processes. Users can provide the full KMS key ARN, a KMS key alias, or a KMS key ID, but it will be mapped to the full KMS key ARN after policy store creation, and referenced when encrypting child resources.
+        /// This member is required.
+        public var key: Swift.String?
+
+        public init(
+            encryptionContext: [Swift.String: Swift.String]? = nil,
+            key: Swift.String? = nil
+        ) {
+            self.encryptionContext = encryptionContext
+            self.key = key
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+
+    /// A structure that contains the encryption configuration for the policy store and child resources. This data type is used as a request parameter in the [CreatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicyStore.html) operation.
+    public enum EncryptionSettings: Swift.Sendable {
+        /// The KMS encryption settings for this policy store to encrypt data with. It will contain the customer-managed KMS key, and a user-defined encryption context.
+        case kmsencryptionsettings(VerifiedPermissionsClientTypes.KmsEncryptionSettings)
+        /// This is the default encryption setting. The policy store uses an Amazon Web Services owned key for encrypting data.
+        case `default`(VerifiedPermissionsClientTypes.Unit)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+
     public enum ValidationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case off
         case strict
@@ -1466,6 +1506,8 @@ public struct CreatePolicyStoreInput: Swift.Sendable {
     public var deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection?
     /// Descriptive text that you can provide to help with identification of the current policy store.
     public var description: Swift.String?
+    /// Specifies the encryption settings used to encrypt the policy store and their child resources. Allows for the ability to use a customer owned KMS key for encryption of data. This is an optional field to be used when providing a customer-managed KMS key for encryption.
+    public var encryptionSettings: VerifiedPermissionsClientTypes.EncryptionSettings?
     /// The list of key-value pairs to associate with the policy store.
     public var tags: [Swift.String: Swift.String]?
     /// Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode. We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore). Then, when you have a schema defined, use [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore) again to turn validation back on.
@@ -1476,12 +1518,14 @@ public struct CreatePolicyStoreInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection? = nil,
         description: Swift.String? = nil,
+        encryptionSettings: VerifiedPermissionsClientTypes.EncryptionSettings? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
     ) {
         self.clientToken = clientToken
         self.deletionProtection = deletionProtection
         self.description = description
+        self.encryptionSettings = encryptionSettings
         self.tags = tags
         self.validationSettings = validationSettings
     }
@@ -1489,7 +1533,7 @@ public struct CreatePolicyStoreInput: Swift.Sendable {
 
 extension CreatePolicyStoreInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreatePolicyStoreInput(clientToken: \(Swift.String(describing: clientToken)), deletionProtection: \(Swift.String(describing: deletionProtection)), tags: \(Swift.String(describing: tags)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
+        "CreatePolicyStoreInput(clientToken: \(Swift.String(describing: clientToken)), deletionProtection: \(Swift.String(describing: deletionProtection)), encryptionSettings: \(Swift.String(describing: encryptionSettings)), tags: \(Swift.String(describing: tags)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreatePolicyStoreOutput: Swift.Sendable {
@@ -1681,6 +1725,39 @@ public struct DeletePolicyTemplateInput: Swift.Sendable {
 public struct DeletePolicyTemplateOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension VerifiedPermissionsClientTypes {
+
+    /// A structure that contains the KMS encryption configuration for the policy store. The encryption state shows what customer-managed KMS key is being used to encrypt all resources within the policy store, and any user-defined context key-value pairs added during encryption processes. This data type is used as a field that is part of the [EncryptionState](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EncryptionState.html) type.
+    public struct KmsEncryptionState: Swift.Sendable {
+        /// User-defined, additional context added to encryption processes.
+        /// This member is required.
+        public var encryptionContext: [Swift.String: Swift.String]?
+        /// The customer-managed KMS key [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) being used for encryption processes.
+        /// This member is required.
+        public var key: Swift.String?
+
+        public init(
+            encryptionContext: [Swift.String: Swift.String]? = nil,
+            key: Swift.String? = nil
+        ) {
+            self.encryptionContext = encryptionContext
+            self.key = key
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+
+    /// A structure that contains the encryption configuration for the policy store and child resources. This data type is used as a response parameter field for the [GetPolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetPolicyStore.html) operation.
+    public enum EncryptionState: Swift.Sendable {
+        /// The KMS encryption settings currently configured for this policy store to encrypt data with. It contains the customer-managed KMS key, and a user-defined encryption context.
+        case kmsencryptionstate(VerifiedPermissionsClientTypes.KmsEncryptionState)
+        /// This is the default encryption state. The policy store is encrypted using an Amazon Web Services owned key.
+        case `default`(VerifiedPermissionsClientTypes.Unit)
+        case sdkUnknown(Swift.String)
+    }
 }
 
 extension VerifiedPermissionsClientTypes {
@@ -1920,6 +1997,8 @@ public struct GetPolicyStoreOutput: Swift.Sendable {
     public var deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection?
     /// Descriptive text that you can provide to help with identification of the current policy store.
     public var description: Swift.String?
+    /// A structure that contains the encryption configuration for the policy store.
+    public var encryptionState: VerifiedPermissionsClientTypes.EncryptionState?
     /// The date and time that the policy store was last updated.
     /// This member is required.
     public var lastUpdatedDate: Foundation.Date?
@@ -1938,6 +2017,7 @@ public struct GetPolicyStoreOutput: Swift.Sendable {
         createdDate: Foundation.Date? = nil,
         deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection? = nil,
         description: Swift.String? = nil,
+        encryptionState: VerifiedPermissionsClientTypes.EncryptionState? = nil,
         lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -1948,6 +2028,7 @@ public struct GetPolicyStoreOutput: Swift.Sendable {
         self.createdDate = createdDate
         self.deletionProtection = deletionProtection
         self.description = description
+        self.encryptionState = encryptionState
         self.lastUpdatedDate = lastUpdatedDate
         self.policyStoreId = policyStoreId
         self.tags = tags
@@ -1957,7 +2038,7 @@ public struct GetPolicyStoreOutput: Swift.Sendable {
 
 extension GetPolicyStoreOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetPolicyStoreOutput(arn: \(Swift.String(describing: arn)), cedarVersion: \(Swift.String(describing: cedarVersion)), createdDate: \(Swift.String(describing: createdDate)), deletionProtection: \(Swift.String(describing: deletionProtection)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), tags: \(Swift.String(describing: tags)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
+        "GetPolicyStoreOutput(arn: \(Swift.String(describing: arn)), cedarVersion: \(Swift.String(describing: cedarVersion)), createdDate: \(Swift.String(describing: createdDate)), deletionProtection: \(Swift.String(describing: deletionProtection)), encryptionState: \(Swift.String(describing: encryptionState)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), tags: \(Swift.String(describing: tags)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetPolicyTemplateInput: Swift.Sendable {
@@ -2987,7 +3068,6 @@ public struct UpdatePolicyInput: Swift.Sendable {
     /// * The principal referenced by the policy.
     ///
     /// * The resource referenced by the policy.
-    /// This member is required.
     public var definition: VerifiedPermissionsClientTypes.UpdatePolicyDefinition?
     /// Specifies the ID of the policy that you want to update. To find this value, you can use [ListPolicies](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html).
     /// This member is required.
@@ -4044,6 +4124,7 @@ extension CreatePolicyStoreInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["deletionProtection"].write(value.deletionProtection)
         try writer["description"].write(value.description)
+        try writer["encryptionSettings"].write(value.encryptionSettings, with: VerifiedPermissionsClientTypes.EncryptionSettings.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["validationSettings"].write(value.validationSettings, with: VerifiedPermissionsClientTypes.ValidationSettings.write(value:to:))
     }
@@ -4467,6 +4548,7 @@ extension GetPolicyStoreOutput {
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
+        value.encryptionState = try reader["encryptionState"].readIfPresent(with: VerifiedPermissionsClientTypes.EncryptionState.read(from:))
         value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.policyStoreId = try reader["policyStoreId"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -5308,169 +5390,20 @@ extension ValidationException {
     }
 }
 
-extension VerifiedPermissionsClientTypes.BatchGetPolicyOutputItem {
+extension VerifiedPermissionsClientTypes.ActionIdentifier {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.BatchGetPolicyOutputItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.BatchGetPolicyOutputItem()
-        value.policyStoreId = try reader["policyStoreId"].readIfPresent() ?? ""
-        value.policyId = try reader["policyId"].readIfPresent() ?? ""
-        value.policyType = try reader["policyType"].readIfPresent() ?? .sdkUnknown("")
-        value.definition = try reader["definition"].readIfPresent(with: VerifiedPermissionsClientTypes.PolicyDefinitionDetail.read(from:))
-        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.PolicyDefinitionDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.PolicyDefinitionDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "static":
-                return .`static`(try reader["static"].read(with: VerifiedPermissionsClientTypes.StaticPolicyDefinitionDetail.read(from:)))
-            case "templateLinked":
-                return .templatelinked(try reader["templateLinked"].read(with: VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinitionDetail.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinitionDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinitionDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinitionDetail()
-        value.policyTemplateId = try reader["policyTemplateId"].readIfPresent() ?? ""
-        value.principal = try reader["principal"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
-        value.resource = try reader["resource"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.EntityIdentifier {
-
-    static func write(value: VerifiedPermissionsClientTypes.EntityIdentifier?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: VerifiedPermissionsClientTypes.ActionIdentifier?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["entityId"].write(value.entityId)
-        try writer["entityType"].write(value.entityType)
+        try writer["actionId"].write(value.actionId)
+        try writer["actionType"].write(value.actionType)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.EntityIdentifier {
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.ActionIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.EntityIdentifier()
-        value.entityType = try reader["entityType"].readIfPresent() ?? ""
-        value.entityId = try reader["entityId"].readIfPresent() ?? ""
+        var value = VerifiedPermissionsClientTypes.ActionIdentifier()
+        value.actionType = try reader["actionType"].readIfPresent() ?? ""
+        value.actionId = try reader["actionId"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.StaticPolicyDefinitionDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.StaticPolicyDefinitionDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.StaticPolicyDefinitionDetail()
-        value.description = try reader["description"].readIfPresent()
-        value.statement = try reader["statement"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.BatchGetPolicyErrorItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.BatchGetPolicyErrorItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.BatchGetPolicyErrorItem()
-        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
-        value.policyStoreId = try reader["policyStoreId"].readIfPresent() ?? ""
-        value.policyId = try reader["policyId"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem()
-        value.request = try reader["request"].readIfPresent(with: VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem.read(from:))
-        value.decision = try reader["decision"].readIfPresent() ?? .sdkUnknown("")
-        value.determiningPolicies = try reader["determiningPolicies"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.DeterminingPolicyItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.EvaluationErrorItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.EvaluationErrorItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.EvaluationErrorItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.EvaluationErrorItem()
-        value.errorDescription = try reader["errorDescription"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.DeterminingPolicyItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.DeterminingPolicyItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.DeterminingPolicyItem()
-        value.policyId = try reader["policyId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem {
-
-    static func write(value: VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action, with: VerifiedPermissionsClientTypes.ActionIdentifier.write(value:to:))
-        try writer["context"].write(value.context, with: VerifiedPermissionsClientTypes.ContextDefinition.write(value:to:))
-        try writer["principal"].write(value.principal, with: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:))
-        try writer["resource"].write(value.resource, with: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem()
-        value.principal = try reader["principal"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
-        value.action = try reader["action"].readIfPresent(with: VerifiedPermissionsClientTypes.ActionIdentifier.read(from:))
-        value.resource = try reader["resource"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
-        value.context = try reader["context"].readIfPresent(with: VerifiedPermissionsClientTypes.ContextDefinition.read(from:))
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.ContextDefinition {
-
-    static func write(value: VerifiedPermissionsClientTypes.ContextDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .cedarjson(cedarjson):
-                try writer["cedarJson"].write(cedarjson)
-            case let .contextmap(contextmap):
-                try writer["contextMap"].writeMap(contextmap, valueWritingClosure: VerifiedPermissionsClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.ContextDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "contextMap":
-                return .contextmap(try reader["contextMap"].readMap(valueReadingClosure: VerifiedPermissionsClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
-            case "cedarJson":
-                return .cedarjson(try reader["cedarJson"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
     }
 }
 
@@ -5534,29 +5467,70 @@ extension VerifiedPermissionsClientTypes.AttributeValue {
     }
 }
 
-extension VerifiedPermissionsClientTypes.ActionIdentifier {
+extension VerifiedPermissionsClientTypes.BatchGetPolicyErrorItem {
 
-    static func write(value: VerifiedPermissionsClientTypes.ActionIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionId"].write(value.actionId)
-        try writer["actionType"].write(value.actionType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.ActionIdentifier {
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.BatchGetPolicyErrorItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.ActionIdentifier()
-        value.actionType = try reader["actionType"].readIfPresent() ?? ""
-        value.actionId = try reader["actionId"].readIfPresent() ?? ""
+        var value = VerifiedPermissionsClientTypes.BatchGetPolicyErrorItem()
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.policyStoreId = try reader["policyStoreId"].readIfPresent() ?? ""
+        value.policyId = try reader["policyId"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenOutputItem {
+extension VerifiedPermissionsClientTypes.BatchGetPolicyInputItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenOutputItem {
+    static func write(value: VerifiedPermissionsClientTypes.BatchGetPolicyInputItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["policyId"].write(value.policyId)
+        try writer["policyStoreId"].write(value.policyStoreId)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.BatchGetPolicyOutputItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.BatchGetPolicyOutputItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenOutputItem()
-        value.request = try reader["request"].readIfPresent(with: VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenInputItem.read(from:))
+        var value = VerifiedPermissionsClientTypes.BatchGetPolicyOutputItem()
+        value.policyStoreId = try reader["policyStoreId"].readIfPresent() ?? ""
+        value.policyId = try reader["policyId"].readIfPresent() ?? ""
+        value.policyType = try reader["policyType"].readIfPresent() ?? .sdkUnknown("")
+        value.definition = try reader["definition"].readIfPresent(with: VerifiedPermissionsClientTypes.PolicyDefinitionDetail.read(from:))
+        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem {
+
+    static func write(value: VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action, with: VerifiedPermissionsClientTypes.ActionIdentifier.write(value:to:))
+        try writer["context"].write(value.context, with: VerifiedPermissionsClientTypes.ContextDefinition.write(value:to:))
+        try writer["principal"].write(value.principal, with: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:))
+        try writer["resource"].write(value.resource, with: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem()
+        value.principal = try reader["principal"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
+        value.action = try reader["action"].readIfPresent(with: VerifiedPermissionsClientTypes.ActionIdentifier.read(from:))
+        value.resource = try reader["resource"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
+        value.context = try reader["context"].readIfPresent(with: VerifiedPermissionsClientTypes.ContextDefinition.read(from:))
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.BatchIsAuthorizedOutputItem()
+        value.request = try reader["request"].readIfPresent(with: VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem.read(from:))
         value.decision = try reader["decision"].readIfPresent() ?? .sdkUnknown("")
         value.determiningPolicies = try reader["determiningPolicies"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.DeterminingPolicyItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.EvaluationErrorItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -5583,16 +5557,126 @@ extension VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenInputItem {
     }
 }
 
-extension VerifiedPermissionsClientTypes.IdentitySourceDetails {
+extension VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenOutputItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.IdentitySourceDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenOutputItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.IdentitySourceDetails()
-        value.clientIds = try reader["clientIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.userPoolArn = try reader["userPoolArn"].readIfPresent()
-        value.discoveryUrl = try reader["discoveryUrl"].readIfPresent()
-        value.openIdIssuer = try reader["openIdIssuer"].readIfPresent()
+        var value = VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenOutputItem()
+        value.request = try reader["request"].readIfPresent(with: VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenInputItem.read(from:))
+        value.decision = try reader["decision"].readIfPresent() ?? .sdkUnknown("")
+        value.determiningPolicies = try reader["determiningPolicies"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.DeterminingPolicyItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.EvaluationErrorItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.CedarTagValue {
+
+    static func write(value: VerifiedPermissionsClientTypes.CedarTagValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .boolean(boolean):
+                try writer["boolean"].write(boolean)
+            case let .datetime(datetime):
+                try writer["datetime"].write(datetime)
+            case let .decimal(decimal):
+                try writer["decimal"].write(decimal)
+            case let .duration(duration):
+                try writer["duration"].write(duration)
+            case let .entityidentifier(entityidentifier):
+                try writer["entityIdentifier"].write(entityidentifier, with: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:))
+            case let .ipaddr(ipaddr):
+                try writer["ipaddr"].write(ipaddr)
+            case let .long(long):
+                try writer["long"].write(long)
+            case let .record(record):
+                try writer["record"].writeMap(record, valueWritingClosure: VerifiedPermissionsClientTypes.CedarTagValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            case let .`set`(`set`):
+                try writer["set"].writeList(`set`, memberWritingClosure: VerifiedPermissionsClientTypes.CedarTagValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .string(string):
+                try writer["string"].write(string)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.CognitoGroupConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.CognitoGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupEntityType"].write(value.groupEntityType)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.CognitoGroupConfigurationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.CognitoGroupConfigurationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.CognitoGroupConfigurationDetail()
+        value.groupEntityType = try reader["groupEntityType"].readIfPresent()
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem()
+        value.groupEntityType = try reader["groupEntityType"].readIfPresent()
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientIds"].writeList(value.clientIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["groupConfiguration"].write(value.groupConfiguration, with: VerifiedPermissionsClientTypes.CognitoGroupConfiguration.write(value:to:))
+        try writer["userPoolArn"].write(value.userPoolArn)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail()
+        value.userPoolArn = try reader["userPoolArn"].readIfPresent() ?? ""
+        value.clientIds = try reader["clientIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.issuer = try reader["issuer"].readIfPresent() ?? ""
+        value.groupConfiguration = try reader["groupConfiguration"].readIfPresent(with: VerifiedPermissionsClientTypes.CognitoGroupConfigurationDetail.read(from:))
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem()
+        value.userPoolArn = try reader["userPoolArn"].readIfPresent() ?? ""
+        value.clientIds = try reader["clientIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.issuer = try reader["issuer"].readIfPresent() ?? ""
+        value.groupConfiguration = try reader["groupConfiguration"].readIfPresent(with: VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem.read(from:))
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.Configuration {
+
+    static func write(value: VerifiedPermissionsClientTypes.Configuration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .cognitouserpoolconfiguration(cognitouserpoolconfiguration):
+                try writer["cognitoUserPoolConfiguration"].write(cognitouserpoolconfiguration, with: VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration.write(value:to:))
+            case let .openidconnectconfiguration(openidconnectconfiguration):
+                try writer["openIdConnectConfiguration"].write(openidconnectconfiguration, with: VerifiedPermissionsClientTypes.OpenIdConnectConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
@@ -5612,103 +5696,177 @@ extension VerifiedPermissionsClientTypes.ConfigurationDetail {
     }
 }
 
-extension VerifiedPermissionsClientTypes.OpenIdConnectConfigurationDetail {
+extension VerifiedPermissionsClientTypes.ConfigurationItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectConfigurationDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.OpenIdConnectConfigurationDetail()
-        value.issuer = try reader["issuer"].readIfPresent() ?? ""
-        value.entityIdPrefix = try reader["entityIdPrefix"].readIfPresent()
-        value.groupConfiguration = try reader["groupConfiguration"].readIfPresent(with: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationDetail.read(from:))
-        value.tokenSelection = try reader["tokenSelection"].readIfPresent(with: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionDetail.read(from:))
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.ConfigurationItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "accessTokenOnly":
-                return .accesstokenonly(try reader["accessTokenOnly"].read(with: VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationDetail.read(from:)))
-            case "identityTokenOnly":
-                return .identitytokenonly(try reader["identityTokenOnly"].read(with: VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationDetail.read(from:)))
+            case "cognitoUserPoolConfiguration":
+                return .cognitouserpoolconfiguration(try reader["cognitoUserPoolConfiguration"].read(with: VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem.read(from:)))
+            case "openIdConnectConfiguration":
+                return .openidconnectconfiguration(try reader["openIdConnectConfiguration"].read(with: VerifiedPermissionsClientTypes.OpenIdConnectConfigurationItem.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationDetail {
+extension VerifiedPermissionsClientTypes.ContextDefinition {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationDetail()
-        value.principalIdClaim = try reader["principalIdClaim"].readIfPresent() ?? "sub"
-        value.clientIds = try reader["clientIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationDetail()
-        value.principalIdClaim = try reader["principalIdClaim"].readIfPresent() ?? "sub"
-        value.audiences = try reader["audiences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationDetail()
-        value.groupClaim = try reader["groupClaim"].readIfPresent() ?? ""
-        value.groupEntityType = try reader["groupEntityType"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail()
-        value.userPoolArn = try reader["userPoolArn"].readIfPresent() ?? ""
-        value.clientIds = try reader["clientIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.issuer = try reader["issuer"].readIfPresent() ?? ""
-        value.groupConfiguration = try reader["groupConfiguration"].readIfPresent(with: VerifiedPermissionsClientTypes.CognitoGroupConfigurationDetail.read(from:))
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.CognitoGroupConfigurationDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.CognitoGroupConfigurationDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.CognitoGroupConfigurationDetail()
-        value.groupEntityType = try reader["groupEntityType"].readIfPresent()
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.ValidationSettings {
-
-    static func write(value: VerifiedPermissionsClientTypes.ValidationSettings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: VerifiedPermissionsClientTypes.ContextDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["mode"].write(value.mode)
+        switch value {
+            case let .cedarjson(cedarjson):
+                try writer["cedarJson"].write(cedarjson)
+            case let .contextmap(contextmap):
+                try writer["contextMap"].writeMap(contextmap, valueWritingClosure: VerifiedPermissionsClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.ValidationSettings {
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.ContextDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.ValidationSettings()
-        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "contextMap":
+                return .contextmap(try reader["contextMap"].readMap(valueReadingClosure: VerifiedPermissionsClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
+            case "cedarJson":
+                return .cedarjson(try reader["cedarJson"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.DeterminingPolicyItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.DeterminingPolicyItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.DeterminingPolicyItem()
+        value.policyId = try reader["policyId"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.EncryptionSettings {
+
+    static func write(value: VerifiedPermissionsClientTypes.EncryptionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .`default`(`default`):
+                try writer["default"].write(`default`, with: VerifiedPermissionsClientTypes.Unit.write(value:to:))
+            case let .kmsencryptionsettings(kmsencryptionsettings):
+                try writer["kmsEncryptionSettings"].write(kmsencryptionsettings, with: VerifiedPermissionsClientTypes.KmsEncryptionSettings.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.EncryptionState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.EncryptionState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "kmsEncryptionState":
+                return .kmsencryptionstate(try reader["kmsEncryptionState"].read(with: VerifiedPermissionsClientTypes.KmsEncryptionState.read(from:)))
+            case "default":
+                return .`default`(try reader["default"].read(with: VerifiedPermissionsClientTypes.Unit.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.EntitiesDefinition {
+
+    static func write(value: VerifiedPermissionsClientTypes.EntitiesDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .cedarjson(cedarjson):
+                try writer["cedarJson"].write(cedarjson)
+            case let .entitylist(entitylist):
+                try writer["entityList"].writeList(entitylist, memberWritingClosure: VerifiedPermissionsClientTypes.EntityItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.EntityIdentifier {
+
+    static func write(value: VerifiedPermissionsClientTypes.EntityIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["entityId"].write(value.entityId)
+        try writer["entityType"].write(value.entityType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.EntityIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.EntityIdentifier()
+        value.entityType = try reader["entityType"].readIfPresent() ?? ""
+        value.entityId = try reader["entityId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.EntityItem {
+
+    static func write(value: VerifiedPermissionsClientTypes.EntityItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: VerifiedPermissionsClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["identifier"].write(value.identifier, with: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:))
+        try writer["parents"].writeList(value.parents, memberWritingClosure: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: VerifiedPermissionsClientTypes.CedarTagValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.EntityReference {
+
+    static func write(value: VerifiedPermissionsClientTypes.EntityReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .identifier(identifier):
+                try writer["identifier"].write(identifier, with: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:))
+            case let .unspecified(unspecified):
+                try writer["unspecified"].write(unspecified)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.EvaluationErrorItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.EvaluationErrorItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.EvaluationErrorItem()
+        value.errorDescription = try reader["errorDescription"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.IdentitySourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.IdentitySourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.IdentitySourceDetails()
+        value.clientIds = try reader["clientIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userPoolArn = try reader["userPoolArn"].readIfPresent()
+        value.discoveryUrl = try reader["discoveryUrl"].readIfPresent()
+        value.openIdIssuer = try reader["openIdIssuer"].readIfPresent()
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.IdentitySourceFilter {
+
+    static func write(value: VerifiedPermissionsClientTypes.IdentitySourceFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["principalEntityType"].write(value.principalEntityType)
     }
 }
 
@@ -5728,19 +5886,91 @@ extension VerifiedPermissionsClientTypes.IdentitySourceItem {
     }
 }
 
-extension VerifiedPermissionsClientTypes.ConfigurationItem {
+extension VerifiedPermissionsClientTypes.IdentitySourceItemDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.ConfigurationItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.IdentitySourceItemDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "cognitoUserPoolConfiguration":
-                return .cognitouserpoolconfiguration(try reader["cognitoUserPoolConfiguration"].read(with: VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem.read(from:)))
-            case "openIdConnectConfiguration":
-                return .openidconnectconfiguration(try reader["openIdConnectConfiguration"].read(with: VerifiedPermissionsClientTypes.OpenIdConnectConfigurationItem.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+        var value = VerifiedPermissionsClientTypes.IdentitySourceItemDetails()
+        value.clientIds = try reader["clientIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userPoolArn = try reader["userPoolArn"].readIfPresent()
+        value.discoveryUrl = try reader["discoveryUrl"].readIfPresent()
+        value.openIdIssuer = try reader["openIdIssuer"].readIfPresent()
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.KmsEncryptionSettings {
+
+    static func write(value: VerifiedPermissionsClientTypes.KmsEncryptionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionContext"].writeMap(value.encryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["key"].write(value.key)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.KmsEncryptionState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.KmsEncryptionState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.KmsEncryptionState()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.encryptionContext = try reader["encryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audiences"].writeList(value.audiences, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["principalIdClaim"].write(value.principalIdClaim)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationDetail()
+        value.principalIdClaim = try reader["principalIdClaim"].readIfPresent() ?? "sub"
+        value.audiences = try reader["audiences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationItem()
+        value.principalIdClaim = try reader["principalIdClaim"].readIfPresent() ?? "sub"
+        value.audiences = try reader["audiences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.OpenIdConnectConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["entityIdPrefix"].write(value.entityIdPrefix)
+        try writer["groupConfiguration"].write(value.groupConfiguration, with: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfiguration.write(value:to:))
+        try writer["issuer"].write(value.issuer)
+        try writer["tokenSelection"].write(value.tokenSelection, with: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelection.write(value:to:))
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectConfigurationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectConfigurationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.OpenIdConnectConfigurationDetail()
+        value.issuer = try reader["issuer"].readIfPresent() ?? ""
+        value.entityIdPrefix = try reader["entityIdPrefix"].readIfPresent()
+        value.groupConfiguration = try reader["groupConfiguration"].readIfPresent(with: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationDetail.read(from:))
+        value.tokenSelection = try reader["tokenSelection"].readIfPresent(with: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionDetail.read(from:))
+        return value
     }
 }
 
@@ -5754,6 +5984,99 @@ extension VerifiedPermissionsClientTypes.OpenIdConnectConfigurationItem {
         value.groupConfiguration = try reader["groupConfiguration"].readIfPresent(with: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationItem.read(from:))
         value.tokenSelection = try reader["tokenSelection"].readIfPresent(with: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionItem.read(from:))
         return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectGroupConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupClaim"].write(value.groupClaim)
+        try writer["groupEntityType"].write(value.groupEntityType)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationDetail()
+        value.groupClaim = try reader["groupClaim"].readIfPresent() ?? ""
+        value.groupEntityType = try reader["groupEntityType"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationItem()
+        value.groupClaim = try reader["groupClaim"].readIfPresent() ?? ""
+        value.groupEntityType = try reader["groupEntityType"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientIds"].writeList(value.clientIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["principalIdClaim"].write(value.principalIdClaim)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationDetail()
+        value.principalIdClaim = try reader["principalIdClaim"].readIfPresent() ?? "sub"
+        value.clientIds = try reader["clientIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationItem()
+        value.principalIdClaim = try reader["principalIdClaim"].readIfPresent() ?? "sub"
+        value.clientIds = try reader["clientIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectTokenSelection {
+
+    static func write(value: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .accesstokenonly(accesstokenonly):
+                try writer["accessTokenOnly"].write(accesstokenonly, with: VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfiguration.write(value:to:))
+            case let .identitytokenonly(identitytokenonly):
+                try writer["identityTokenOnly"].write(identitytokenonly, with: VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "accessTokenOnly":
+                return .accesstokenonly(try reader["accessTokenOnly"].read(with: VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationDetail.read(from:)))
+            case "identityTokenOnly":
+                return .identitytokenonly(try reader["identityTokenOnly"].read(with: VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationDetail.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -5773,91 +6096,34 @@ extension VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionItem {
     }
 }
 
-extension VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationItem {
+extension VerifiedPermissionsClientTypes.PolicyDefinition {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationItem()
-        value.principalIdClaim = try reader["principalIdClaim"].readIfPresent() ?? "sub"
-        value.clientIds = try reader["clientIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+    static func write(value: VerifiedPermissionsClientTypes.PolicyDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .`static`(`static`):
+                try writer["static"].write(`static`, with: VerifiedPermissionsClientTypes.StaticPolicyDefinition.write(value:to:))
+            case let .templatelinked(templatelinked):
+                try writer["templateLinked"].write(templatelinked, with: VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinition.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
-extension VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationItem {
+extension VerifiedPermissionsClientTypes.PolicyDefinitionDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.PolicyDefinitionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationItem()
-        value.principalIdClaim = try reader["principalIdClaim"].readIfPresent() ?? "sub"
-        value.audiences = try reader["audiences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationItem()
-        value.groupClaim = try reader["groupClaim"].readIfPresent() ?? ""
-        value.groupEntityType = try reader["groupEntityType"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem()
-        value.userPoolArn = try reader["userPoolArn"].readIfPresent() ?? ""
-        value.clientIds = try reader["clientIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.issuer = try reader["issuer"].readIfPresent() ?? ""
-        value.groupConfiguration = try reader["groupConfiguration"].readIfPresent(with: VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem.read(from:))
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem()
-        value.groupEntityType = try reader["groupEntityType"].readIfPresent()
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.IdentitySourceItemDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.IdentitySourceItemDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.IdentitySourceItemDetails()
-        value.clientIds = try reader["clientIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.userPoolArn = try reader["userPoolArn"].readIfPresent()
-        value.discoveryUrl = try reader["discoveryUrl"].readIfPresent()
-        value.openIdIssuer = try reader["openIdIssuer"].readIfPresent()
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.PolicyItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.PolicyItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.PolicyItem()
-        value.policyStoreId = try reader["policyStoreId"].readIfPresent() ?? ""
-        value.policyId = try reader["policyId"].readIfPresent() ?? ""
-        value.policyType = try reader["policyType"].readIfPresent() ?? .sdkUnknown("")
-        value.principal = try reader["principal"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
-        value.resource = try reader["resource"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
-        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.ActionIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.definition = try reader["definition"].readIfPresent(with: VerifiedPermissionsClientTypes.PolicyDefinitionItem.read(from:))
-        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.effect = try reader["effect"].readIfPresent()
-        return value
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "static":
+                return .`static`(try reader["static"].read(with: VerifiedPermissionsClientTypes.StaticPolicyDefinitionDetail.read(from:)))
+            case "templateLinked":
+                return .templatelinked(try reader["templateLinked"].read(with: VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinitionDetail.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -5877,24 +6143,32 @@ extension VerifiedPermissionsClientTypes.PolicyDefinitionItem {
     }
 }
 
-extension VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinitionItem {
+extension VerifiedPermissionsClientTypes.PolicyFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinitionItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinitionItem()
-        value.policyTemplateId = try reader["policyTemplateId"].readIfPresent() ?? ""
-        value.principal = try reader["principal"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
-        value.resource = try reader["resource"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
-        return value
+    static func write(value: VerifiedPermissionsClientTypes.PolicyFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["policyTemplateId"].write(value.policyTemplateId)
+        try writer["policyType"].write(value.policyType)
+        try writer["principal"].write(value.principal, with: VerifiedPermissionsClientTypes.EntityReference.write(value:to:))
+        try writer["resource"].write(value.resource, with: VerifiedPermissionsClientTypes.EntityReference.write(value:to:))
     }
 }
 
-extension VerifiedPermissionsClientTypes.StaticPolicyDefinitionItem {
+extension VerifiedPermissionsClientTypes.PolicyItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.StaticPolicyDefinitionItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.PolicyItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.StaticPolicyDefinitionItem()
-        value.description = try reader["description"].readIfPresent()
+        var value = VerifiedPermissionsClientTypes.PolicyItem()
+        value.policyStoreId = try reader["policyStoreId"].readIfPresent() ?? ""
+        value.policyId = try reader["policyId"].readIfPresent() ?? ""
+        value.policyType = try reader["policyType"].readIfPresent() ?? .sdkUnknown("")
+        value.principal = try reader["principal"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
+        value.resource = try reader["resource"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
+        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: VerifiedPermissionsClientTypes.ActionIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.definition = try reader["definition"].readIfPresent(with: VerifiedPermissionsClientTypes.PolicyDefinitionItem.read(from:))
+        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.effect = try reader["effect"].readIfPresent()
         return value
     }
 }
@@ -5938,181 +6212,46 @@ extension VerifiedPermissionsClientTypes.ResourceConflict {
     }
 }
 
-extension VerifiedPermissionsClientTypes.ValidationExceptionField {
+extension VerifiedPermissionsClientTypes.SchemaDefinition {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = VerifiedPermissionsClientTypes.ValidationExceptionField()
-        value.path = try reader["path"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension VerifiedPermissionsClientTypes.BatchGetPolicyInputItem {
-
-    static func write(value: VerifiedPermissionsClientTypes.BatchGetPolicyInputItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["policyId"].write(value.policyId)
-        try writer["policyStoreId"].write(value.policyStoreId)
-    }
-}
-
-extension VerifiedPermissionsClientTypes.EntitiesDefinition {
-
-    static func write(value: VerifiedPermissionsClientTypes.EntitiesDefinition?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: VerifiedPermissionsClientTypes.SchemaDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
             case let .cedarjson(cedarjson):
                 try writer["cedarJson"].write(cedarjson)
-            case let .entitylist(entitylist):
-                try writer["entityList"].writeList(entitylist, memberWritingClosure: VerifiedPermissionsClientTypes.EntityItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 }
 
-extension VerifiedPermissionsClientTypes.EntityItem {
+extension VerifiedPermissionsClientTypes.StaticPolicyDefinition {
 
-    static func write(value: VerifiedPermissionsClientTypes.EntityItem?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: VerifiedPermissionsClientTypes.StaticPolicyDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: VerifiedPermissionsClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["identifier"].write(value.identifier, with: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:))
-        try writer["parents"].writeList(value.parents, memberWritingClosure: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].writeMap(value.tags, valueWritingClosure: VerifiedPermissionsClientTypes.CedarTagValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["description"].write(value.description)
+        try writer["statement"].write(value.statement)
     }
 }
 
-extension VerifiedPermissionsClientTypes.CedarTagValue {
+extension VerifiedPermissionsClientTypes.StaticPolicyDefinitionDetail {
 
-    static func write(value: VerifiedPermissionsClientTypes.CedarTagValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .boolean(boolean):
-                try writer["boolean"].write(boolean)
-            case let .datetime(datetime):
-                try writer["datetime"].write(datetime)
-            case let .decimal(decimal):
-                try writer["decimal"].write(decimal)
-            case let .duration(duration):
-                try writer["duration"].write(duration)
-            case let .entityidentifier(entityidentifier):
-                try writer["entityIdentifier"].write(entityidentifier, with: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:))
-            case let .ipaddr(ipaddr):
-                try writer["ipaddr"].write(ipaddr)
-            case let .long(long):
-                try writer["long"].write(long)
-            case let .record(record):
-                try writer["record"].writeMap(record, valueWritingClosure: VerifiedPermissionsClientTypes.CedarTagValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-            case let .`set`(`set`):
-                try writer["set"].writeList(`set`, memberWritingClosure: VerifiedPermissionsClientTypes.CedarTagValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .string(string):
-                try writer["string"].write(string)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.StaticPolicyDefinitionDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.StaticPolicyDefinitionDetail()
+        value.description = try reader["description"].readIfPresent()
+        value.statement = try reader["statement"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension VerifiedPermissionsClientTypes.Configuration {
+extension VerifiedPermissionsClientTypes.StaticPolicyDefinitionItem {
 
-    static func write(value: VerifiedPermissionsClientTypes.Configuration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .cognitouserpoolconfiguration(cognitouserpoolconfiguration):
-                try writer["cognitoUserPoolConfiguration"].write(cognitouserpoolconfiguration, with: VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration.write(value:to:))
-            case let .openidconnectconfiguration(openidconnectconfiguration):
-                try writer["openIdConnectConfiguration"].write(openidconnectconfiguration, with: VerifiedPermissionsClientTypes.OpenIdConnectConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension VerifiedPermissionsClientTypes.OpenIdConnectConfiguration {
-
-    static func write(value: VerifiedPermissionsClientTypes.OpenIdConnectConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["entityIdPrefix"].write(value.entityIdPrefix)
-        try writer["groupConfiguration"].write(value.groupConfiguration, with: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfiguration.write(value:to:))
-        try writer["issuer"].write(value.issuer)
-        try writer["tokenSelection"].write(value.tokenSelection, with: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelection.write(value:to:))
-    }
-}
-
-extension VerifiedPermissionsClientTypes.OpenIdConnectTokenSelection {
-
-    static func write(value: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .accesstokenonly(accesstokenonly):
-                try writer["accessTokenOnly"].write(accesstokenonly, with: VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfiguration.write(value:to:))
-            case let .identitytokenonly(identitytokenonly):
-                try writer["identityTokenOnly"].write(identitytokenonly, with: VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfiguration {
-
-    static func write(value: VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientIds"].writeList(value.clientIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["principalIdClaim"].write(value.principalIdClaim)
-    }
-}
-
-extension VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfiguration {
-
-    static func write(value: VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audiences"].writeList(value.audiences, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["principalIdClaim"].write(value.principalIdClaim)
-    }
-}
-
-extension VerifiedPermissionsClientTypes.OpenIdConnectGroupConfiguration {
-
-    static func write(value: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupClaim"].write(value.groupClaim)
-        try writer["groupEntityType"].write(value.groupEntityType)
-    }
-}
-
-extension VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration {
-
-    static func write(value: VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientIds"].writeList(value.clientIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["groupConfiguration"].write(value.groupConfiguration, with: VerifiedPermissionsClientTypes.CognitoGroupConfiguration.write(value:to:))
-        try writer["userPoolArn"].write(value.userPoolArn)
-    }
-}
-
-extension VerifiedPermissionsClientTypes.CognitoGroupConfiguration {
-
-    static func write(value: VerifiedPermissionsClientTypes.CognitoGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupEntityType"].write(value.groupEntityType)
-    }
-}
-
-extension VerifiedPermissionsClientTypes.PolicyDefinition {
-
-    static func write(value: VerifiedPermissionsClientTypes.PolicyDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .`static`(`static`):
-                try writer["static"].write(`static`, with: VerifiedPermissionsClientTypes.StaticPolicyDefinition.write(value:to:))
-            case let .templatelinked(templatelinked):
-                try writer["templateLinked"].write(templatelinked, with: VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinition.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.StaticPolicyDefinitionItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.StaticPolicyDefinitionItem()
+        value.description = try reader["description"].readIfPresent()
+        return value
     }
 }
 
@@ -6126,59 +6265,45 @@ extension VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinition {
     }
 }
 
-extension VerifiedPermissionsClientTypes.StaticPolicyDefinition {
+extension VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinitionDetail {
 
-    static func write(value: VerifiedPermissionsClientTypes.StaticPolicyDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["statement"].write(value.statement)
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinitionDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinitionDetail()
+        value.policyTemplateId = try reader["policyTemplateId"].readIfPresent() ?? ""
+        value.principal = try reader["principal"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
+        value.resource = try reader["resource"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
+        return value
     }
 }
 
-extension VerifiedPermissionsClientTypes.IdentitySourceFilter {
+extension VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinitionItem {
 
-    static func write(value: VerifiedPermissionsClientTypes.IdentitySourceFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["principalEntityType"].write(value.principalEntityType)
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinitionItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinitionItem()
+        value.policyTemplateId = try reader["policyTemplateId"].readIfPresent() ?? ""
+        value.principal = try reader["principal"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
+        value.resource = try reader["resource"].readIfPresent(with: VerifiedPermissionsClientTypes.EntityIdentifier.read(from:))
+        return value
     }
 }
 
-extension VerifiedPermissionsClientTypes.PolicyFilter {
+extension VerifiedPermissionsClientTypes.UpdateCognitoGroupConfiguration {
 
-    static func write(value: VerifiedPermissionsClientTypes.PolicyFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: VerifiedPermissionsClientTypes.UpdateCognitoGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["policyTemplateId"].write(value.policyTemplateId)
-        try writer["policyType"].write(value.policyType)
-        try writer["principal"].write(value.principal, with: VerifiedPermissionsClientTypes.EntityReference.write(value:to:))
-        try writer["resource"].write(value.resource, with: VerifiedPermissionsClientTypes.EntityReference.write(value:to:))
+        try writer["groupEntityType"].write(value.groupEntityType)
     }
 }
 
-extension VerifiedPermissionsClientTypes.EntityReference {
+extension VerifiedPermissionsClientTypes.UpdateCognitoUserPoolConfiguration {
 
-    static func write(value: VerifiedPermissionsClientTypes.EntityReference?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: VerifiedPermissionsClientTypes.UpdateCognitoUserPoolConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .identifier(identifier):
-                try writer["identifier"].write(identifier, with: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:))
-            case let .unspecified(unspecified):
-                try writer["unspecified"].write(unspecified)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension VerifiedPermissionsClientTypes.SchemaDefinition {
-
-    static func write(value: VerifiedPermissionsClientTypes.SchemaDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .cedarjson(cedarjson):
-                try writer["cedarJson"].write(cedarjson)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["clientIds"].writeList(value.clientIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["groupConfiguration"].write(value.groupConfiguration, with: VerifiedPermissionsClientTypes.UpdateCognitoGroupConfiguration.write(value:to:))
+        try writer["userPoolArn"].write(value.userPoolArn)
     }
 }
 
@@ -6197,6 +6322,15 @@ extension VerifiedPermissionsClientTypes.UpdateConfiguration {
     }
 }
 
+extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectAccessTokenConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.UpdateOpenIdConnectAccessTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audiences"].writeList(value.audiences, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["principalIdClaim"].write(value.principalIdClaim)
+    }
+}
+
 extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectConfiguration {
 
     static func write(value: VerifiedPermissionsClientTypes.UpdateOpenIdConnectConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -6205,6 +6339,24 @@ extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectConfiguration {
         try writer["groupConfiguration"].write(value.groupConfiguration, with: VerifiedPermissionsClientTypes.UpdateOpenIdConnectGroupConfiguration.write(value:to:))
         try writer["issuer"].write(value.issuer)
         try writer["tokenSelection"].write(value.tokenSelection, with: VerifiedPermissionsClientTypes.UpdateOpenIdConnectTokenSelection.write(value:to:))
+    }
+}
+
+extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectGroupConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.UpdateOpenIdConnectGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupClaim"].write(value.groupClaim)
+        try writer["groupEntityType"].write(value.groupEntityType)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectIdentityTokenConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.UpdateOpenIdConnectIdentityTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientIds"].writeList(value.clientIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["principalIdClaim"].write(value.principalIdClaim)
     }
 }
 
@@ -6220,51 +6372,6 @@ extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectTokenSelection {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
-    }
-}
-
-extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectIdentityTokenConfiguration {
-
-    static func write(value: VerifiedPermissionsClientTypes.UpdateOpenIdConnectIdentityTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientIds"].writeList(value.clientIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["principalIdClaim"].write(value.principalIdClaim)
-    }
-}
-
-extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectAccessTokenConfiguration {
-
-    static func write(value: VerifiedPermissionsClientTypes.UpdateOpenIdConnectAccessTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audiences"].writeList(value.audiences, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["principalIdClaim"].write(value.principalIdClaim)
-    }
-}
-
-extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectGroupConfiguration {
-
-    static func write(value: VerifiedPermissionsClientTypes.UpdateOpenIdConnectGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupClaim"].write(value.groupClaim)
-        try writer["groupEntityType"].write(value.groupEntityType)
-    }
-}
-
-extension VerifiedPermissionsClientTypes.UpdateCognitoUserPoolConfiguration {
-
-    static func write(value: VerifiedPermissionsClientTypes.UpdateCognitoUserPoolConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientIds"].writeList(value.clientIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["groupConfiguration"].write(value.groupConfiguration, with: VerifiedPermissionsClientTypes.UpdateCognitoGroupConfiguration.write(value:to:))
-        try writer["userPoolArn"].write(value.userPoolArn)
-    }
-}
-
-extension VerifiedPermissionsClientTypes.UpdateCognitoGroupConfiguration {
-
-    static func write(value: VerifiedPermissionsClientTypes.UpdateCognitoGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupEntityType"].write(value.groupEntityType)
     }
 }
 
@@ -6287,6 +6394,45 @@ extension VerifiedPermissionsClientTypes.UpdateStaticPolicyDefinition {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["statement"].write(value.statement)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.ValidationExceptionField()
+        value.path = try reader["path"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.ValidationSettings {
+
+    static func write(value: VerifiedPermissionsClientTypes.ValidationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mode"].write(value.mode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.ValidationSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.ValidationSettings()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.Unit {
+
+    static func write(value: VerifiedPermissionsClientTypes.Unit?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.Unit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return VerifiedPermissionsClientTypes.Unit()
     }
 }
 

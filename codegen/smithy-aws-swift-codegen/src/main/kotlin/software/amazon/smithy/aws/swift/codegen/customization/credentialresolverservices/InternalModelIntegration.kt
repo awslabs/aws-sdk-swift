@@ -8,39 +8,17 @@ import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import java.util.function.Predicate
 
 class InternalModelIntegration : SwiftIntegration {
-    private val stsOps =
-        listOf(
-            "com.amazonaws.sts#AssumeRole",
-            "com.amazonaws.sts#AssumeRoleWithWebIdentity",
-        )
-    private val ssoOps =
-        listOf(
-            "com.amazonaws.sso#GetRoleCredentials",
-        )
-    private val ssoOIDCOps =
-        listOf(
-            "com.amazonaws.ssooidc#CreateToken",
-        )
-    private val cognitoOps =
-        listOf(
-            "com.amazonaws.cognitoidentity#GetId",
-            "com.amazonaws.cognitoidentity#GetCredentialsForIdentity",
-        )
-    private val signinOps =
-        listOf(
-            "com.amazonaws.signin#CreateOAuth2Token",
-        )
-
     override fun enabledForService(
         model: Model,
         settings: SwiftSettings,
     ): Boolean = settings.internalClient
 
     override fun preprocessModel(
-        model: Model?,
-        settings: SwiftSettings?,
+        model: Model,
+        settings: SwiftSettings,
     ): Model {
-        val ops = neededOpsForService(settings?.sdkId)
+        val ops = settings.operations
+        if (ops.isEmpty()) return model
         return ModelTransformer.create().removeShapesIf(
             model,
             Predicate { shape ->
@@ -51,14 +29,4 @@ class InternalModelIntegration : SwiftIntegration {
             },
         )
     }
-
-    private fun neededOpsForService(sdkId: String?): List<String> =
-        when (sdkId) {
-            "STS" -> stsOps
-            "SSO" -> ssoOps
-            "SSO OIDC" -> ssoOIDCOps
-            "Cognito Identity" -> cognitoOps
-            "Signin" -> signinOps
-            else -> emptyList()
-        }
 }

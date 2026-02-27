@@ -1495,6 +1495,17 @@ extension ConflictException {
     }
 }
 
+extension EBSClientTypes.Block {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EBSClientTypes.Block {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EBSClientTypes.Block()
+        value.blockIndex = try reader["BlockIndex"].readIfPresent()
+        value.blockToken = try reader["BlockToken"].readIfPresent()
+        return value
+    }
+}
+
 extension EBSClientTypes.ChangedBlock {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EBSClientTypes.ChangedBlock {
@@ -1503,17 +1514,6 @@ extension EBSClientTypes.ChangedBlock {
         value.blockIndex = try reader["BlockIndex"].readIfPresent()
         value.firstBlockToken = try reader["FirstBlockToken"].readIfPresent()
         value.secondBlockToken = try reader["SecondBlockToken"].readIfPresent()
-        return value
-    }
-}
-
-extension EBSClientTypes.Block {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EBSClientTypes.Block {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EBSClientTypes.Block()
-        value.blockIndex = try reader["BlockIndex"].readIfPresent()
-        value.blockToken = try reader["BlockToken"].readIfPresent()
         return value
     }
 }

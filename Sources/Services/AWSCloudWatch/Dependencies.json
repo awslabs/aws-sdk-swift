@@ -1,19 +1,20 @@
-[
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/cloudwatch.json",
+  "dependencies": [
     "AWSClientRuntime",
     "AWSSDKChecksums",
     "AWSSDKHTTPAuth",
     "AWSSDKIdentity",
     "ClientRuntime",
     "Smithy",
-    "SmithyFormURL",
+    "SmithyCBOR",
     "SmithyHTTPAPI",
     "SmithyHTTPAuthAPI",
     "SmithyIdentity",
     "SmithyReadWrite",
     "SmithyRetries",
     "SmithyRetriesAPI",
-    "SmithyTestUtil",
     "SmithyTimestamps",
-    "SmithyWaitersAPI",
-    "SmithyXML"
-]
+    "SmithyWaitersAPI"
+  ]
+}

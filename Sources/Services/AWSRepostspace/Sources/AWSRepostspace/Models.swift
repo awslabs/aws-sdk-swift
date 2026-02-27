@@ -2630,17 +2630,6 @@ extension RepostspaceClientTypes.BatchError {
     }
 }
 
-extension RepostspaceClientTypes.SupportedEmailDomainsStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RepostspaceClientTypes.SupportedEmailDomainsStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RepostspaceClientTypes.SupportedEmailDomainsStatus()
-        value.enabled = try reader["enabled"].readIfPresent()
-        value.allowedDomains = try reader["allowedDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension RepostspaceClientTypes.ChannelData {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RepostspaceClientTypes.ChannelData {
@@ -2685,6 +2674,26 @@ extension RepostspaceClientTypes.SpaceData {
     }
 }
 
+extension RepostspaceClientTypes.SupportedEmailDomainsParameters {
+
+    static func write(value: RepostspaceClientTypes.SupportedEmailDomainsParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedDomains"].writeList(value.allowedDomains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["enabled"].write(value.enabled)
+    }
+}
+
+extension RepostspaceClientTypes.SupportedEmailDomainsStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RepostspaceClientTypes.SupportedEmailDomainsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RepostspaceClientTypes.SupportedEmailDomainsStatus()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.allowedDomains = try reader["allowedDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension RepostspaceClientTypes.ValidationExceptionField {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RepostspaceClientTypes.ValidationExceptionField {
@@ -2693,15 +2702,6 @@ extension RepostspaceClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension RepostspaceClientTypes.SupportedEmailDomainsParameters {
-
-    static func write(value: RepostspaceClientTypes.SupportedEmailDomainsParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowedDomains"].writeList(value.allowedDomains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["enabled"].write(value.enabled)
     }
 }
 

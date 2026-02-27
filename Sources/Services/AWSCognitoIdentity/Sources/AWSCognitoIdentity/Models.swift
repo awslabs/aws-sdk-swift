@@ -2869,17 +2869,6 @@ extension CognitoIdentityClientTypes.CognitoIdentityProvider {
     }
 }
 
-extension CognitoIdentityClientTypes.UnprocessedIdentityId {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityClientTypes.UnprocessedIdentityId {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CognitoIdentityClientTypes.UnprocessedIdentityId()
-        value.identityId = try reader["IdentityId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        return value
-    }
-}
-
 extension CognitoIdentityClientTypes.Credentials {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityClientTypes.Credentials {
@@ -2889,6 +2878,51 @@ extension CognitoIdentityClientTypes.Credentials {
         value.secretKey = try reader["SecretKey"].readIfPresent()
         value.sessionToken = try reader["SessionToken"].readIfPresent()
         value.expiration = try reader["Expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension CognitoIdentityClientTypes.IdentityDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityClientTypes.IdentityDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CognitoIdentityClientTypes.IdentityDescription()
+        value.identityId = try reader["IdentityId"].readIfPresent()
+        value.logins = try reader["Logins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension CognitoIdentityClientTypes.IdentityPoolShortDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityClientTypes.IdentityPoolShortDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CognitoIdentityClientTypes.IdentityPoolShortDescription()
+        value.identityPoolId = try reader["IdentityPoolId"].readIfPresent()
+        value.identityPoolName = try reader["IdentityPoolName"].readIfPresent()
+        return value
+    }
+}
+
+extension CognitoIdentityClientTypes.MappingRule {
+
+    static func write(value: CognitoIdentityClientTypes.MappingRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Claim"].write(value.claim)
+        try writer["MatchType"].write(value.matchType)
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityClientTypes.MappingRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CognitoIdentityClientTypes.MappingRule()
+        value.claim = try reader["Claim"].readIfPresent() ?? ""
+        value.matchType = try reader["MatchType"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        value.roleARN = try reader["RoleARN"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2927,47 +2961,13 @@ extension CognitoIdentityClientTypes.RulesConfigurationType {
     }
 }
 
-extension CognitoIdentityClientTypes.MappingRule {
+extension CognitoIdentityClientTypes.UnprocessedIdentityId {
 
-    static func write(value: CognitoIdentityClientTypes.MappingRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Claim"].write(value.claim)
-        try writer["MatchType"].write(value.matchType)
-        try writer["RoleARN"].write(value.roleARN)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityClientTypes.MappingRule {
+    static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityClientTypes.UnprocessedIdentityId {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CognitoIdentityClientTypes.MappingRule()
-        value.claim = try reader["Claim"].readIfPresent() ?? ""
-        value.matchType = try reader["MatchType"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        value.roleARN = try reader["RoleARN"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CognitoIdentityClientTypes.IdentityDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityClientTypes.IdentityDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CognitoIdentityClientTypes.IdentityDescription()
+        var value = CognitoIdentityClientTypes.UnprocessedIdentityId()
         value.identityId = try reader["IdentityId"].readIfPresent()
-        value.logins = try reader["Logins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension CognitoIdentityClientTypes.IdentityPoolShortDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityClientTypes.IdentityPoolShortDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CognitoIdentityClientTypes.IdentityPoolShortDescription()
-        value.identityPoolId = try reader["IdentityPoolId"].readIfPresent()
-        value.identityPoolName = try reader["IdentityPoolName"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
         return value
     }
 }

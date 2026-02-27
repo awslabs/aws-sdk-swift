@@ -740,6 +740,8 @@ extension Route53ResolverClientTypes {
         public var protocols: [Route53ResolverClientTypes.ModelProtocol]?
         /// The Resolver endpoint IP address type.
         public var resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
+        /// Indicates whether RNI enhanced metrics are enabled for the Resolver endpoint. When enabled, one-minute granular metrics are published in CloudWatch for each RNI associated with this endpoint. When disabled, these metrics are not published.
+        public var rniEnhancedMetricsEnabled: Swift.Bool?
         /// The ID of one or more security groups that control access to this VPC. The security group must include one or more inbound rules (for inbound endpoints) or outbound rules (for outbound endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network.
         public var securityGroupIds: [Swift.String]?
         /// A code that specifies the current status of the Resolver endpoint. Valid values include the following:
@@ -765,6 +767,8 @@ extension Route53ResolverClientTypes {
         public var status: Route53ResolverClientTypes.ResolverEndpointStatus?
         /// A detailed description of the status of the Resolver endpoint.
         public var statusMessage: Swift.String?
+        /// Indicates whether target name server metrics are enabled for the outbound Resolver endpoint. When enabled, one-minute granular metrics are published in CloudWatch for each target name server associated with this endpoint. When disabled, these metrics are not published. This feature is not supported for inbound Resolver endpoint.
+        public var targetNameServerMetricsEnabled: Swift.Bool?
 
         public init(
             arn: Swift.String? = nil,
@@ -780,9 +784,11 @@ extension Route53ResolverClientTypes {
             preferredInstanceType: Swift.String? = nil,
             protocols: [Route53ResolverClientTypes.ModelProtocol]? = nil,
             resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType? = nil,
+            rniEnhancedMetricsEnabled: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             status: Route53ResolverClientTypes.ResolverEndpointStatus? = nil,
-            statusMessage: Swift.String? = nil
+            statusMessage: Swift.String? = nil,
+            targetNameServerMetricsEnabled: Swift.Bool? = nil
         ) {
             self.arn = arn
             self.creationTime = creationTime
@@ -797,9 +803,11 @@ extension Route53ResolverClientTypes {
             self.preferredInstanceType = preferredInstanceType
             self.protocols = protocols
             self.resolverEndpointType = resolverEndpointType
+            self.rniEnhancedMetricsEnabled = rniEnhancedMetricsEnabled
             self.securityGroupIds = securityGroupIds
             self.status = status
             self.statusMessage = statusMessage
+            self.targetNameServerMetricsEnabled = targetNameServerMetricsEnabled
         }
     }
 }
@@ -998,7 +1006,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
 }
 
 public struct AssociateResolverRuleInput: Swift.Sendable {
-    /// A name for the association that you're creating between a Resolver rule and a VPC.
+    /// A name for the association that you're creating between a Resolver rule and a VPC. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers.
     public var name: Swift.String?
     /// The ID of the Resolver rule that you want to associate with the VPC. To list the existing Resolver rules, use [ListResolverRules](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRules.html).
     /// This member is required.
@@ -1062,7 +1070,7 @@ extension Route53ResolverClientTypes {
     public struct ResolverRuleAssociation: Swift.Sendable {
         /// The ID of the association between a Resolver rule and a VPC. Resolver assigns this value when you submit an [AssociateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverRule.html) request.
         public var id: Swift.String?
-        /// The name of an association between a Resolver rule and a VPC.
+        /// The name of an association between a Resolver rule and a VPC. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers.
         public var name: Swift.String?
         /// The ID of the Resolver rule that you associated with the VPC that is specified by VPCId.
         public var resolverRuleId: Swift.String?
@@ -2055,11 +2063,15 @@ public struct CreateResolverEndpointInput: Swift.Sendable {
     public var protocols: [Route53ResolverClientTypes.ModelProtocol]?
     /// For the endpoint type you can choose either IPv4, IPv6, or dual-stack. A dual-stack endpoint means that it will resolve via both IPv4 and IPv6. This endpoint type is applied to all IP addresses.
     public var resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
+    /// Specifies whether RNI enhanced metrics are enabled for the Resolver endpoints. When set to true, one-minute granular metrics are published in CloudWatch for each RNI associated with this endpoint. When set to false, metrics are not published. Default is false. Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver endpoint RNI enhanced metrics. For more information, see [Detailed metrics](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/monitoring-resolver-with-cloudwatch.html).
+    public var rniEnhancedMetricsEnabled: Swift.Bool?
     /// The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify must include one or more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network. Some security group rules will cause your connection to be tracked. For outbound resolver endpoint, it can potentially impact the maximum queries per second from outbound endpoint to your target name server. For inbound resolver endpoint, it can bring down the overall maximum queries per second per IP address to as low as 1500. To avoid connection tracking caused by security group, see [Untracked connections](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html#untracked-connectionsl).
     /// This member is required.
     public var securityGroupIds: [Swift.String]?
     /// A list of the tag keys and values that you want to associate with the endpoint.
     public var tags: [Route53ResolverClientTypes.Tag]?
+    /// Specifies whether target name server metrics are enabled for the outbound Resolver endpoints. When set to true, one-minute granular metrics are published in CloudWatch for each target name server associated with this endpoint. When set to false, metrics are not published. Default is false. This is not supported for inbound Resolver endpoints. Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver endpoint target name server metrics. For more information, see [Detailed metrics](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/monitoring-resolver-with-cloudwatch.html).
+    public var targetNameServerMetricsEnabled: Swift.Bool?
 
     public init(
         creatorRequestId: Swift.String? = nil,
@@ -2070,8 +2082,10 @@ public struct CreateResolverEndpointInput: Swift.Sendable {
         preferredInstanceType: Swift.String? = nil,
         protocols: [Route53ResolverClientTypes.ModelProtocol]? = nil,
         resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType? = nil,
+        rniEnhancedMetricsEnabled: Swift.Bool? = nil,
         securityGroupIds: [Swift.String]? = nil,
-        tags: [Route53ResolverClientTypes.Tag]? = nil
+        tags: [Route53ResolverClientTypes.Tag]? = nil,
+        targetNameServerMetricsEnabled: Swift.Bool? = nil
     ) {
         self.creatorRequestId = creatorRequestId
         self.direction = direction
@@ -2081,8 +2095,10 @@ public struct CreateResolverEndpointInput: Swift.Sendable {
         self.preferredInstanceType = preferredInstanceType
         self.protocols = protocols
         self.resolverEndpointType = resolverEndpointType
+        self.rniEnhancedMetricsEnabled = rniEnhancedMetricsEnabled
         self.securityGroupIds = securityGroupIds
         self.tags = tags
+        self.targetNameServerMetricsEnabled = targetNameServerMetricsEnabled
     }
 }
 
@@ -2312,7 +2328,7 @@ public struct CreateResolverRuleInput: Swift.Sendable {
     public var delegationRecord: Swift.String?
     /// DNS queries for this domain name are forwarded to the IP addresses that you specify in TargetIps. If a query matches multiple Resolver rules (example.com and www.example.com), outbound DNS queries are routed using the Resolver rule that contains the most specific domain name (www.example.com).
     public var domainName: Swift.String?
-    /// A friendly name that lets you easily find a rule in the Resolver dashboard in the Route 53 console.
+    /// A friendly name that lets you easily find a rule in the Resolver dashboard in the Route 53 console. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers.
     public var name: Swift.String?
     /// The ID of the outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps.
     public var resolverEndpointId: Swift.String?
@@ -2321,7 +2337,7 @@ public struct CreateResolverRuleInput: Swift.Sendable {
     public var ruleType: Route53ResolverClientTypes.RuleTypeOption?
     /// A list of the tag keys and values that you want to associate with the endpoint.
     public var tags: [Route53ResolverClientTypes.Tag]?
-    /// The IPs that you want Resolver to forward DNS queries to. You can specify either Ipv4 or Ipv6 addresses but not both in the same rule. Separate IP addresses with a space. TargetIps is available only when the value of Rule type is FORWARD.
+    /// The IPs that you want Resolver to forward DNS queries to. You can specify either Ipv4 or Ipv6 addresses but not both in the same rule. Separate IP addresses with a space. TargetIps is available only when the value of Rule type is FORWARD. You should not provide TargetIps when the Rule type is DELEGATE. when creating a DELEGATE rule, you must not provide the TargetIps parameter. If you provide the TargetIps, you may receive an ERROR message similar to "Delegate resolver rules need to specify a nameserver name". This error means you should not provide TargetIps.
     public var targetIps: [Route53ResolverClientTypes.TargetAddress]?
 
     public init(
@@ -2398,7 +2414,7 @@ extension Route53ResolverClientTypes {
         public var id: Swift.String?
         /// The date and time that the Resolver rule was last updated, in Unix time format and Coordinated Universal Time (UTC).
         public var modificationTime: Swift.String?
-        /// The name for the Resolver rule, which you specified when you created the Resolver rule.
+        /// The name for the Resolver rule, which you specified when you created the Resolver rule. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers.
         public var name: Swift.String?
         /// When a rule is shared with another Amazon Web Services account, the account ID of the account that the rule is shared with.
         public var ownerId: Swift.String?
@@ -4644,7 +4660,7 @@ extension Route53ResolverClientTypes {
 
     /// In an [UpdateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverRule.html) request, information about the changes that you want to make.
     public struct ResolverRuleConfig: Swift.Sendable {
-        /// The new name for the Resolver rule. The name that you specify appears in the Resolver dashboard in the Route 53 console.
+        /// The new name for the Resolver rule. The name that you specify appears in the Resolver dashboard in the Route 53 console. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers.
         public var name: Swift.String?
         /// The ID of the new outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps.
         public var resolverEndpointId: Swift.String?
@@ -5163,6 +5179,10 @@ public struct UpdateResolverEndpointInput: Swift.Sendable {
     public var resolverEndpointId: Swift.String?
     /// Specifies the endpoint type for what type of IP address the endpoint uses to forward DNS queries. Updating to IPV6 type isn't currently supported.
     public var resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
+    /// Updates whether RNI enhanced metrics are enabled for the Resolver endpoints. When set to true, one-minute granular metrics are published in CloudWatch for each RNI associated with this endpoint. When set to false, metrics are not published. Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver endpoint RNI enhanced metrics. For more information, see [Detailed metrics](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/monitoring-resolver-with-cloudwatch.html).
+    public var rniEnhancedMetricsEnabled: Swift.Bool?
+    /// Updates whether target name server metrics are enabled for the outbound Resolver endpoints. When set to true, one-minute granular metrics are published in CloudWatch for each target name server associated with this endpoint. When set to false, metrics are not published. This setting is not supported for inbound Resolver endpoints. Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver endpoint target name server metrics. For more information, see [Detailed metrics](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/monitoring-resolver-with-cloudwatch.html).
+    public var targetNameServerMetricsEnabled: Swift.Bool?
     /// Specifies the IPv6 address when you update the Resolver endpoint from IPv4 to dual-stack. If you don't specify an IPv6 address, one will be automatically chosen from your subnet.
     public var updateIpAddresses: [Route53ResolverClientTypes.UpdateIpAddress]?
 
@@ -5171,12 +5191,16 @@ public struct UpdateResolverEndpointInput: Swift.Sendable {
         protocols: [Route53ResolverClientTypes.ModelProtocol]? = nil,
         resolverEndpointId: Swift.String? = nil,
         resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType? = nil,
+        rniEnhancedMetricsEnabled: Swift.Bool? = nil,
+        targetNameServerMetricsEnabled: Swift.Bool? = nil,
         updateIpAddresses: [Route53ResolverClientTypes.UpdateIpAddress]? = nil
     ) {
         self.name = name
         self.protocols = protocols
         self.resolverEndpointId = resolverEndpointId
         self.resolverEndpointType = resolverEndpointType
+        self.rniEnhancedMetricsEnabled = rniEnhancedMetricsEnabled
+        self.targetNameServerMetricsEnabled = targetNameServerMetricsEnabled
         self.updateIpAddresses = updateIpAddresses
     }
 }
@@ -5804,8 +5828,10 @@ extension CreateResolverEndpointInput {
         try writer["PreferredInstanceType"].write(value.preferredInstanceType)
         try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosureBox<Route53ResolverClientTypes.ModelProtocol>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResolverEndpointType"].write(value.resolverEndpointType)
+        try writer["RniEnhancedMetricsEnabled"].write(value.rniEnhancedMetricsEnabled)
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: Route53ResolverClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetNameServerMetricsEnabled"].write(value.targetNameServerMetricsEnabled)
     }
 }
 
@@ -6357,6 +6383,8 @@ extension UpdateResolverEndpointInput {
         try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosureBox<Route53ResolverClientTypes.ModelProtocol>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResolverEndpointId"].write(value.resolverEndpointId)
         try writer["ResolverEndpointType"].write(value.resolverEndpointType)
+        try writer["RniEnhancedMetricsEnabled"].write(value.rniEnhancedMetricsEnabled)
+        try writer["TargetNameServerMetricsEnabled"].write(value.targetNameServerMetricsEnabled)
         try writer["UpdateIpAddresses"].writeList(value.updateIpAddresses, memberWritingClosure: Route53ResolverClientTypes.UpdateIpAddress.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -8703,80 +8731,24 @@ extension InvalidTagException {
     }
 }
 
-extension Route53ResolverClientTypes.FirewallRuleGroupAssociation {
+extension Route53ResolverClientTypes.Filter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.FirewallRuleGroupAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ResolverClientTypes.FirewallRuleGroupAssociation()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.firewallRuleGroupId = try reader["FirewallRuleGroupId"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.priority = try reader["Priority"].readIfPresent()
-        value.mutationProtection = try reader["MutationProtection"].readIfPresent()
-        value.managedOwnerName = try reader["ManagedOwnerName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readIfPresent()
-        value.modificationTime = try reader["ModificationTime"].readIfPresent()
-        return value
+    static func write(value: Route53ResolverClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension Route53ResolverClientTypes.ResolverEndpoint {
+extension Route53ResolverClientTypes.FirewallConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverEndpoint {
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.FirewallConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ResolverClientTypes.ResolverEndpoint()
+        var value = Route53ResolverClientTypes.FirewallConfig()
         value.id = try reader["Id"].readIfPresent()
-        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.direction = try reader["Direction"].readIfPresent()
-        value.ipAddressCount = try reader["IpAddressCount"].readIfPresent()
-        value.hostVPCId = try reader["HostVPCId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readIfPresent()
-        value.modificationTime = try reader["ModificationTime"].readIfPresent()
-        value.outpostArn = try reader["OutpostArn"].readIfPresent()
-        value.preferredInstanceType = try reader["PreferredInstanceType"].readIfPresent()
-        value.resolverEndpointType = try reader["ResolverEndpointType"].readIfPresent()
-        value.protocols = try reader["Protocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<Route53ResolverClientTypes.ModelProtocol>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension Route53ResolverClientTypes.ResolverQueryLogConfigAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverQueryLogConfigAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ResolverClientTypes.ResolverQueryLogConfigAssociation()
-        value.id = try reader["Id"].readIfPresent()
-        value.resolverQueryLogConfigId = try reader["ResolverQueryLogConfigId"].readIfPresent()
         value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readIfPresent()
-        return value
-    }
-}
-
-extension Route53ResolverClientTypes.ResolverRuleAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverRuleAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ResolverClientTypes.ResolverRuleAssociation()
-        value.id = try reader["Id"].readIfPresent()
-        value.resolverRuleId = try reader["ResolverRuleId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.vpcId = try reader["VPCId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.ownerId = try reader["OwnerId"].readIfPresent()
+        value.firewallFailOpen = try reader["FirewallFailOpen"].readIfPresent()
         return value
     }
 }
@@ -8796,6 +8768,20 @@ extension Route53ResolverClientTypes.FirewallDomainList {
         value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readIfPresent()
         value.modificationTime = try reader["ModificationTime"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ResolverClientTypes.FirewallDomainListMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.FirewallDomainListMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ResolverClientTypes.FirewallDomainListMetadata()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
+        value.managedOwnerName = try reader["ManagedOwnerName"].readIfPresent()
         return value
     }
 }
@@ -8846,6 +8832,81 @@ extension Route53ResolverClientTypes.FirewallRuleGroup {
     }
 }
 
+extension Route53ResolverClientTypes.FirewallRuleGroupAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.FirewallRuleGroupAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ResolverClientTypes.FirewallRuleGroupAssociation()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.firewallRuleGroupId = try reader["FirewallRuleGroupId"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.priority = try reader["Priority"].readIfPresent()
+        value.mutationProtection = try reader["MutationProtection"].readIfPresent()
+        value.managedOwnerName = try reader["ManagedOwnerName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readIfPresent()
+        value.modificationTime = try reader["ModificationTime"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ResolverClientTypes.FirewallRuleGroupMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.FirewallRuleGroupMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ResolverClientTypes.FirewallRuleGroupMetadata()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.ownerId = try reader["OwnerId"].readIfPresent()
+        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
+        value.shareStatus = try reader["ShareStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ResolverClientTypes.IpAddressRequest {
+
+    static func write(value: Route53ResolverClientTypes.IpAddressRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Ip"].write(value.ip)
+        try writer["Ipv6"].write(value.ipv6)
+        try writer["SubnetId"].write(value.subnetId)
+    }
+}
+
+extension Route53ResolverClientTypes.IpAddressResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.IpAddressResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ResolverClientTypes.IpAddressResponse()
+        value.ipId = try reader["IpId"].readIfPresent()
+        value.subnetId = try reader["SubnetId"].readIfPresent()
+        value.ip = try reader["Ip"].readIfPresent()
+        value.ipv6 = try reader["Ipv6"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readIfPresent()
+        value.modificationTime = try reader["ModificationTime"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ResolverClientTypes.IpAddressUpdate {
+
+    static func write(value: Route53ResolverClientTypes.IpAddressUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Ip"].write(value.ip)
+        try writer["IpId"].write(value.ipId)
+        try writer["Ipv6"].write(value.ipv6)
+        try writer["SubnetId"].write(value.subnetId)
+    }
+}
+
 extension Route53ResolverClientTypes.OutpostResolver {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.OutpostResolver {
@@ -8862,85 +8923,6 @@ extension Route53ResolverClientTypes.OutpostResolver {
         value.status = try reader["Status"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.outpostArn = try reader["OutpostArn"].readIfPresent()
-        return value
-    }
-}
-
-extension Route53ResolverClientTypes.ResolverQueryLogConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverQueryLogConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ResolverClientTypes.ResolverQueryLogConfig()
-        value.id = try reader["Id"].readIfPresent()
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.shareStatus = try reader["ShareStatus"].readIfPresent()
-        value.associationCount = try reader["AssociationCount"].readIfPresent() ?? 0
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.destinationArn = try reader["DestinationArn"].readIfPresent()
-        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readIfPresent()
-        return value
-    }
-}
-
-extension Route53ResolverClientTypes.ResolverRule {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ResolverClientTypes.ResolverRule()
-        value.id = try reader["Id"].readIfPresent()
-        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.domainName = try reader["DomainName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.ruleType = try reader["RuleType"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.targetIps = try reader["TargetIps"].readListIfPresent(memberReadingClosure: Route53ResolverClientTypes.TargetAddress.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resolverEndpointId = try reader["ResolverEndpointId"].readIfPresent()
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.shareStatus = try reader["ShareStatus"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readIfPresent()
-        value.modificationTime = try reader["ModificationTime"].readIfPresent()
-        value.delegationRecord = try reader["DelegationRecord"].readIfPresent()
-        return value
-    }
-}
-
-extension Route53ResolverClientTypes.TargetAddress {
-
-    static func write(value: Route53ResolverClientTypes.TargetAddress?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Ip"].write(value.ip)
-        try writer["Ipv6"].write(value.ipv6)
-        try writer["Port"].write(value.port)
-        try writer["Protocol"].write(value.`protocol`)
-        try writer["ServerNameIndication"].write(value.serverNameIndication)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.TargetAddress {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ResolverClientTypes.TargetAddress()
-        value.ip = try reader["Ip"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.ipv6 = try reader["Ipv6"].readIfPresent()
-        value.`protocol` = try reader["Protocol"].readIfPresent()
-        value.serverNameIndication = try reader["ServerNameIndication"].readIfPresent()
-        return value
-    }
-}
-
-extension Route53ResolverClientTypes.FirewallConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.FirewallConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ResolverClientTypes.FirewallConfig()
-        value.id = try reader["Id"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.firewallFailOpen = try reader["FirewallFailOpen"].readIfPresent()
         return value
     }
 }
@@ -8971,49 +8953,114 @@ extension Route53ResolverClientTypes.ResolverDnssecConfig {
     }
 }
 
-extension Route53ResolverClientTypes.FirewallDomainListMetadata {
+extension Route53ResolverClientTypes.ResolverEndpoint {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.FirewallDomainListMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ResolverClientTypes.FirewallDomainListMetadata()
+        var value = Route53ResolverClientTypes.ResolverEndpoint()
         value.id = try reader["Id"].readIfPresent()
+        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
-        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
-        value.managedOwnerName = try reader["ManagedOwnerName"].readIfPresent()
-        return value
-    }
-}
-
-extension Route53ResolverClientTypes.FirewallRuleGroupMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.FirewallRuleGroupMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ResolverClientTypes.FirewallRuleGroupMetadata()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
-        value.shareStatus = try reader["ShareStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension Route53ResolverClientTypes.IpAddressResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.IpAddressResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ResolverClientTypes.IpAddressResponse()
-        value.ipId = try reader["IpId"].readIfPresent()
-        value.subnetId = try reader["SubnetId"].readIfPresent()
-        value.ip = try reader["Ip"].readIfPresent()
-        value.ipv6 = try reader["Ipv6"].readIfPresent()
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.direction = try reader["Direction"].readIfPresent()
+        value.ipAddressCount = try reader["IpAddressCount"].readIfPresent()
+        value.hostVPCId = try reader["HostVPCId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readIfPresent()
         value.modificationTime = try reader["ModificationTime"].readIfPresent()
+        value.outpostArn = try reader["OutpostArn"].readIfPresent()
+        value.preferredInstanceType = try reader["PreferredInstanceType"].readIfPresent()
+        value.resolverEndpointType = try reader["ResolverEndpointType"].readIfPresent()
+        value.protocols = try reader["Protocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<Route53ResolverClientTypes.ModelProtocol>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rniEnhancedMetricsEnabled = try reader["RniEnhancedMetricsEnabled"].readIfPresent()
+        value.targetNameServerMetricsEnabled = try reader["TargetNameServerMetricsEnabled"].readIfPresent()
         return value
+    }
+}
+
+extension Route53ResolverClientTypes.ResolverQueryLogConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverQueryLogConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ResolverClientTypes.ResolverQueryLogConfig()
+        value.id = try reader["Id"].readIfPresent()
+        value.ownerId = try reader["OwnerId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.shareStatus = try reader["ShareStatus"].readIfPresent()
+        value.associationCount = try reader["AssociationCount"].readIfPresent() ?? 0
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.destinationArn = try reader["DestinationArn"].readIfPresent()
+        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ResolverClientTypes.ResolverQueryLogConfigAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverQueryLogConfigAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ResolverClientTypes.ResolverQueryLogConfigAssociation()
+        value.id = try reader["Id"].readIfPresent()
+        value.resolverQueryLogConfigId = try reader["ResolverQueryLogConfigId"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ResolverClientTypes.ResolverRule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ResolverClientTypes.ResolverRule()
+        value.id = try reader["Id"].readIfPresent()
+        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.domainName = try reader["DomainName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.ruleType = try reader["RuleType"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.targetIps = try reader["TargetIps"].readListIfPresent(memberReadingClosure: Route53ResolverClientTypes.TargetAddress.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resolverEndpointId = try reader["ResolverEndpointId"].readIfPresent()
+        value.ownerId = try reader["OwnerId"].readIfPresent()
+        value.shareStatus = try reader["ShareStatus"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readIfPresent()
+        value.modificationTime = try reader["ModificationTime"].readIfPresent()
+        value.delegationRecord = try reader["DelegationRecord"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ResolverClientTypes.ResolverRuleAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.ResolverRuleAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ResolverClientTypes.ResolverRuleAssociation()
+        value.id = try reader["Id"].readIfPresent()
+        value.resolverRuleId = try reader["ResolverRuleId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.vpcId = try reader["VPCId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ResolverClientTypes.ResolverRuleConfig {
+
+    static func write(value: Route53ResolverClientTypes.ResolverRuleConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["ResolverEndpointId"].write(value.resolverEndpointId)
+        try writer["TargetIps"].writeList(value.targetIps, memberWritingClosure: Route53ResolverClientTypes.TargetAddress.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -9034,33 +9081,26 @@ extension Route53ResolverClientTypes.Tag {
     }
 }
 
-extension Route53ResolverClientTypes.IpAddressUpdate {
+extension Route53ResolverClientTypes.TargetAddress {
 
-    static func write(value: Route53ResolverClientTypes.IpAddressUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Ip"].write(value.ip)
-        try writer["IpId"].write(value.ipId)
-        try writer["Ipv6"].write(value.ipv6)
-        try writer["SubnetId"].write(value.subnetId)
-    }
-}
-
-extension Route53ResolverClientTypes.IpAddressRequest {
-
-    static func write(value: Route53ResolverClientTypes.IpAddressRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: Route53ResolverClientTypes.TargetAddress?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Ip"].write(value.ip)
         try writer["Ipv6"].write(value.ipv6)
-        try writer["SubnetId"].write(value.subnetId)
+        try writer["Port"].write(value.port)
+        try writer["Protocol"].write(value.`protocol`)
+        try writer["ServerNameIndication"].write(value.serverNameIndication)
     }
-}
 
-extension Route53ResolverClientTypes.Filter {
-
-    static func write(value: Route53ResolverClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53ResolverClientTypes.TargetAddress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ResolverClientTypes.TargetAddress()
+        value.ip = try reader["Ip"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.ipv6 = try reader["Ipv6"].readIfPresent()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.serverNameIndication = try reader["ServerNameIndication"].readIfPresent()
+        return value
     }
 }
 
@@ -9070,16 +9110,6 @@ extension Route53ResolverClientTypes.UpdateIpAddress {
         guard let value else { return }
         try writer["IpId"].write(value.ipId)
         try writer["Ipv6"].write(value.ipv6)
-    }
-}
-
-extension Route53ResolverClientTypes.ResolverRuleConfig {
-
-    static func write(value: Route53ResolverClientTypes.ResolverRuleConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["ResolverEndpointId"].write(value.resolverEndpointId)
-        try writer["TargetIps"].writeList(value.targetIps, memberWritingClosure: Route53ResolverClientTypes.TargetAddress.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

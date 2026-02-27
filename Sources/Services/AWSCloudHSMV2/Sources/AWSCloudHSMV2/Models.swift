@@ -2211,15 +2211,56 @@ extension CloudHsmResourceLimitExceededException {
     }
 }
 
-extension CloudHSMV2ClientTypes.DestinationBackup {
+extension CloudHSMV2ClientTypes.Backup {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.DestinationBackup {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.Backup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudHSMV2ClientTypes.DestinationBackup()
+        var value = CloudHSMV2ClientTypes.Backup()
+        value.backupId = try reader["BackupId"].readIfPresent() ?? ""
+        value.backupArn = try reader["BackupArn"].readIfPresent()
+        value.backupState = try reader["BackupState"].readIfPresent()
+        value.clusterId = try reader["ClusterId"].readIfPresent()
         value.createTimestamp = try reader["CreateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.copyTimestamp = try reader["CopyTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.neverExpires = try reader["NeverExpires"].readIfPresent()
         value.sourceRegion = try reader["SourceRegion"].readIfPresent()
         value.sourceBackup = try reader["SourceBackup"].readIfPresent()
         value.sourceCluster = try reader["SourceCluster"].readIfPresent()
+        value.deleteTimestamp = try reader["DeleteTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: CloudHSMV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hsmType = try reader["HsmType"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudHSMV2ClientTypes.BackupRetentionPolicy {
+
+    static func write(value: CloudHSMV2ClientTypes.BackupRetentionPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.BackupRetentionPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudHSMV2ClientTypes.BackupRetentionPolicy()
+        value.type = try reader["Type"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudHSMV2ClientTypes.Certificates {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.Certificates {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudHSMV2ClientTypes.Certificates()
+        value.clusterCsr = try reader["ClusterCsr"].readIfPresent()
+        value.hsmCertificate = try reader["HsmCertificate"].readIfPresent()
+        value.awsHardwareCertificate = try reader["AwsHardwareCertificate"].readIfPresent()
+        value.manufacturerHardwareCertificate = try reader["ManufacturerHardwareCertificate"].readIfPresent()
+        value.clusterCertificate = try reader["ClusterCertificate"].readIfPresent()
         return value
     }
 }
@@ -2251,33 +2292,15 @@ extension CloudHSMV2ClientTypes.Cluster {
     }
 }
 
-extension CloudHSMV2ClientTypes.Tag {
+extension CloudHSMV2ClientTypes.DestinationBackup {
 
-    static func write(value: CloudHSMV2ClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.Tag {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.DestinationBackup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudHSMV2ClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudHSMV2ClientTypes.Certificates {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.Certificates {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudHSMV2ClientTypes.Certificates()
-        value.clusterCsr = try reader["ClusterCsr"].readIfPresent()
-        value.hsmCertificate = try reader["HsmCertificate"].readIfPresent()
-        value.awsHardwareCertificate = try reader["AwsHardwareCertificate"].readIfPresent()
-        value.manufacturerHardwareCertificate = try reader["ManufacturerHardwareCertificate"].readIfPresent()
-        value.clusterCertificate = try reader["ClusterCertificate"].readIfPresent()
+        var value = CloudHSMV2ClientTypes.DestinationBackup()
+        value.createTimestamp = try reader["CreateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.sourceRegion = try reader["SourceRegion"].readIfPresent()
+        value.sourceBackup = try reader["SourceBackup"].readIfPresent()
+        value.sourceCluster = try reader["SourceCluster"].readIfPresent()
         return value
     }
 }
@@ -2301,42 +2324,19 @@ extension CloudHSMV2ClientTypes.Hsm {
     }
 }
 
-extension CloudHSMV2ClientTypes.BackupRetentionPolicy {
+extension CloudHSMV2ClientTypes.Tag {
 
-    static func write(value: CloudHSMV2ClientTypes.BackupRetentionPolicy?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CloudHSMV2ClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Type"].write(value.type)
+        try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.BackupRetentionPolicy {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudHSMV2ClientTypes.BackupRetentionPolicy()
-        value.type = try reader["Type"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudHSMV2ClientTypes.Backup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudHSMV2ClientTypes.Backup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudHSMV2ClientTypes.Backup()
-        value.backupId = try reader["BackupId"].readIfPresent() ?? ""
-        value.backupArn = try reader["BackupArn"].readIfPresent()
-        value.backupState = try reader["BackupState"].readIfPresent()
-        value.clusterId = try reader["ClusterId"].readIfPresent()
-        value.createTimestamp = try reader["CreateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.copyTimestamp = try reader["CopyTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.neverExpires = try reader["NeverExpires"].readIfPresent()
-        value.sourceRegion = try reader["SourceRegion"].readIfPresent()
-        value.sourceBackup = try reader["SourceBackup"].readIfPresent()
-        value.sourceCluster = try reader["SourceCluster"].readIfPresent()
-        value.deleteTimestamp = try reader["DeleteTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: CloudHSMV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.hsmType = try reader["HsmType"].readIfPresent()
-        value.mode = try reader["Mode"].readIfPresent()
+        var value = CloudHSMV2ClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

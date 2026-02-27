@@ -1265,33 +1265,6 @@ extension ConcurrentModificationException {
     }
 }
 
-extension ResourceGroupsTaggingAPIClientTypes.Summary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.Summary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsTaggingAPIClientTypes.Summary()
-        value.lastUpdated = try reader["LastUpdated"].readIfPresent()
-        value.targetId = try reader["TargetId"].readIfPresent()
-        value.targetIdType = try reader["TargetIdType"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.nonCompliantResources = try reader["NonCompliantResources"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ResourceGroupsTaggingAPIClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.complianceDetails = try reader["ComplianceDetails"].readIfPresent(with: ResourceGroupsTaggingAPIClientTypes.ComplianceDetails.read(from:))
-        return value
-    }
-}
-
 extension ResourceGroupsTaggingAPIClientTypes.ComplianceDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.ComplianceDetails {
@@ -1304,13 +1277,14 @@ extension ResourceGroupsTaggingAPIClientTypes.ComplianceDetails {
     }
 }
 
-extension ResourceGroupsTaggingAPIClientTypes.Tag {
+extension ResourceGroupsTaggingAPIClientTypes.FailureInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.Tag {
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.FailureInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsTaggingAPIClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = ResourceGroupsTaggingAPIClientTypes.FailureInfo()
+        value.statusCode = try reader["StatusCode"].readIfPresent() ?? 0
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }
@@ -1327,14 +1301,40 @@ extension ResourceGroupsTaggingAPIClientTypes.RequiredTag {
     }
 }
 
-extension ResourceGroupsTaggingAPIClientTypes.FailureInfo {
+extension ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.FailureInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceGroupsTaggingAPIClientTypes.FailureInfo()
-        value.statusCode = try reader["StatusCode"].readIfPresent() ?? 0
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        var value = ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ResourceGroupsTaggingAPIClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.complianceDetails = try reader["ComplianceDetails"].readIfPresent(with: ResourceGroupsTaggingAPIClientTypes.ComplianceDetails.read(from:))
+        return value
+    }
+}
+
+extension ResourceGroupsTaggingAPIClientTypes.Summary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.Summary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsTaggingAPIClientTypes.Summary()
+        value.lastUpdated = try reader["LastUpdated"].readIfPresent()
+        value.targetId = try reader["TargetId"].readIfPresent()
+        value.targetIdType = try reader["TargetIdType"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.nonCompliantResources = try reader["NonCompliantResources"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ResourceGroupsTaggingAPIClientTypes.Tag {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceGroupsTaggingAPIClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceGroupsTaggingAPIClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

@@ -5256,13 +5256,39 @@ extension AgentsAlreadyRunningAssessmentException {
     }
 }
 
-extension InspectorClientTypes.FailedItemDetails {
+extension InspectorClientTypes.AgentAlreadyRunningAssessment {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.FailedItemDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.AgentAlreadyRunningAssessment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InspectorClientTypes.FailedItemDetails()
-        value.failureCode = try reader["failureCode"].readIfPresent() ?? .sdkUnknown("")
-        value.retryable = try reader["retryable"].readIfPresent() ?? false
+        var value = InspectorClientTypes.AgentAlreadyRunningAssessment()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.assessmentRunArn = try reader["assessmentRunArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension InspectorClientTypes.AgentFilter {
+
+    static func write(value: InspectorClientTypes.AgentFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentHealthCodes"].writeList(value.agentHealthCodes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<InspectorClientTypes.AgentHealthCode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["agentHealths"].writeList(value.agentHealths, memberWritingClosure: SmithyReadWrite.WritingClosureBox<InspectorClientTypes.AgentHealth>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension InspectorClientTypes.AgentPreview {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.AgentPreview {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InspectorClientTypes.AgentPreview()
+        value.hostname = try reader["hostname"].readIfPresent()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.autoScalingGroup = try reader["autoScalingGroup"].readIfPresent()
+        value.agentHealth = try reader["agentHealth"].readIfPresent()
+        value.agentVersion = try reader["agentVersion"].readIfPresent()
+        value.operatingSystem = try reader["operatingSystem"].readIfPresent()
+        value.kernelVersion = try reader["kernelVersion"].readIfPresent()
+        value.ipv4Address = try reader["ipv4Address"].readIfPresent()
         return value
     }
 }
@@ -5288,6 +5314,36 @@ extension InspectorClientTypes.AssessmentRun {
         value.notifications = try reader["notifications"].readListIfPresent(memberReadingClosure: InspectorClientTypes.AssessmentRunNotification.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.findingCounts = try reader["findingCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
+    }
+}
+
+extension InspectorClientTypes.AssessmentRunAgent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.AssessmentRunAgent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InspectorClientTypes.AssessmentRunAgent()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.assessmentRunArn = try reader["assessmentRunArn"].readIfPresent() ?? ""
+        value.agentHealth = try reader["agentHealth"].readIfPresent() ?? .sdkUnknown("")
+        value.agentHealthCode = try reader["agentHealthCode"].readIfPresent() ?? .sdkUnknown("")
+        value.agentHealthDetails = try reader["agentHealthDetails"].readIfPresent()
+        value.autoScalingGroup = try reader["autoScalingGroup"].readIfPresent()
+        value.telemetryMetadata = try reader["telemetryMetadata"].readListIfPresent(memberReadingClosure: InspectorClientTypes.TelemetryMetadata.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension InspectorClientTypes.AssessmentRunFilter {
+
+    static func write(value: InspectorClientTypes.AssessmentRunFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["completionTimeRange"].write(value.completionTimeRange, with: InspectorClientTypes.TimestampRange.write(value:to:))
+        try writer["durationRange"].write(value.durationRange, with: InspectorClientTypes.DurationRange.write(value:to:))
+        try writer["namePattern"].write(value.namePattern)
+        try writer["rulesPackageArns"].writeList(value.rulesPackageArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["startTimeRange"].write(value.startTimeRange, with: InspectorClientTypes.TimestampRange.write(value:to:))
+        try writer["stateChangeTimeRange"].write(value.stateChangeTimeRange, with: InspectorClientTypes.TimestampRange.write(value:to:))
+        try writer["states"].writeList(value.states, memberWritingClosure: SmithyReadWrite.WritingClosureBox<InspectorClientTypes.AssessmentRunState>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -5317,23 +5373,6 @@ extension InspectorClientTypes.AssessmentRunStateChange {
     }
 }
 
-extension InspectorClientTypes.Attribute {
-
-    static func write(value: InspectorClientTypes.Attribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.Attribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InspectorClientTypes.Attribute()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
 extension InspectorClientTypes.AssessmentTarget {
 
     static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.AssessmentTarget {
@@ -5345,6 +5384,14 @@ extension InspectorClientTypes.AssessmentTarget {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
+    }
+}
+
+extension InspectorClientTypes.AssessmentTargetFilter {
+
+    static func write(value: InspectorClientTypes.AssessmentTargetFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assessmentTargetNamePattern"].write(value.assessmentTargetNamePattern)
     }
 }
 
@@ -5366,6 +5413,70 @@ extension InspectorClientTypes.AssessmentTemplate {
     }
 }
 
+extension InspectorClientTypes.AssessmentTemplateFilter {
+
+    static func write(value: InspectorClientTypes.AssessmentTemplateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["durationRange"].write(value.durationRange, with: InspectorClientTypes.DurationRange.write(value:to:))
+        try writer["namePattern"].write(value.namePattern)
+        try writer["rulesPackageArns"].writeList(value.rulesPackageArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension InspectorClientTypes.AssetAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.AssetAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InspectorClientTypes.AssetAttributes()
+        value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? 0
+        value.agentId = try reader["agentId"].readIfPresent()
+        value.autoScalingGroup = try reader["autoScalingGroup"].readIfPresent()
+        value.amiId = try reader["amiId"].readIfPresent()
+        value.hostname = try reader["hostname"].readIfPresent()
+        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: InspectorClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: InspectorClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension InspectorClientTypes.Attribute {
+
+    static func write(value: InspectorClientTypes.Attribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.Attribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InspectorClientTypes.Attribute()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension InspectorClientTypes.DurationRange {
+
+    static func write(value: InspectorClientTypes.DurationRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxSeconds"].write(value.maxSeconds)
+        try writer["minSeconds"].write(value.minSeconds)
+    }
+}
+
+extension InspectorClientTypes.EventSubscription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.EventSubscription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InspectorClientTypes.EventSubscription()
+        value.event = try reader["event"].readIfPresent() ?? .sdkUnknown("")
+        value.subscribedAt = try reader["subscribedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension InspectorClientTypes.Exclusion {
 
     static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.Exclusion {
@@ -5381,13 +5492,27 @@ extension InspectorClientTypes.Exclusion {
     }
 }
 
-extension InspectorClientTypes.Scope {
+extension InspectorClientTypes.ExclusionPreview {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.Scope {
+    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.ExclusionPreview {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InspectorClientTypes.Scope()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        var value = InspectorClientTypes.ExclusionPreview()
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.recommendation = try reader["recommendation"].readIfPresent() ?? ""
+        value.scopes = try reader["scopes"].readListIfPresent(memberReadingClosure: InspectorClientTypes.Scope.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.attributes = try reader["attributes"].readListIfPresent(memberReadingClosure: InspectorClientTypes.Attribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension InspectorClientTypes.FailedItemDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.FailedItemDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InspectorClientTypes.FailedItemDetails()
+        value.failureCode = try reader["failureCode"].readIfPresent() ?? .sdkUnknown("")
+        value.retryable = try reader["retryable"].readIfPresent() ?? false
         return value
     }
 }
@@ -5419,19 +5544,29 @@ extension InspectorClientTypes.Finding {
     }
 }
 
-extension InspectorClientTypes.AssetAttributes {
+extension InspectorClientTypes.FindingFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.AssetAttributes {
+    static func write(value: InspectorClientTypes.FindingFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentIds"].writeList(value.agentIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["attributes"].writeList(value.attributes, memberWritingClosure: InspectorClientTypes.Attribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["autoScalingGroups"].writeList(value.autoScalingGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["creationTimeRange"].write(value.creationTimeRange, with: InspectorClientTypes.TimestampRange.write(value:to:))
+        try writer["ruleNames"].writeList(value.ruleNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["rulesPackageArns"].writeList(value.rulesPackageArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["severities"].writeList(value.severities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<InspectorClientTypes.Severity>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["userAttributes"].writeList(value.userAttributes, memberWritingClosure: InspectorClientTypes.Attribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension InspectorClientTypes.InspectorServiceAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.InspectorServiceAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InspectorClientTypes.AssetAttributes()
+        var value = InspectorClientTypes.InspectorServiceAttributes()
         value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? 0
-        value.agentId = try reader["agentId"].readIfPresent()
-        value.autoScalingGroup = try reader["autoScalingGroup"].readIfPresent()
-        value.amiId = try reader["amiId"].readIfPresent()
-        value.hostname = try reader["hostname"].readIfPresent()
-        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: InspectorClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: InspectorClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.assessmentRunArn = try reader["assessmentRunArn"].readIfPresent()
+        value.rulesPackageArn = try reader["rulesPackageArn"].readIfPresent()
         return value
     }
 }
@@ -5455,17 +5590,6 @@ extension InspectorClientTypes.NetworkInterface {
     }
 }
 
-extension InspectorClientTypes.SecurityGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.SecurityGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InspectorClientTypes.SecurityGroup()
-        value.groupName = try reader["groupName"].readIfPresent()
-        value.groupId = try reader["groupId"].readIfPresent()
-        return value
-    }
-}
-
 extension InspectorClientTypes.PrivateIp {
 
     static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.PrivateIp {
@@ -5473,35 +5597,6 @@ extension InspectorClientTypes.PrivateIp {
         var value = InspectorClientTypes.PrivateIp()
         value.privateDnsName = try reader["privateDnsName"].readIfPresent()
         value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
-        return value
-    }
-}
-
-extension InspectorClientTypes.Tag {
-
-    static func write(value: InspectorClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InspectorClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension InspectorClientTypes.InspectorServiceAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.InspectorServiceAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InspectorClientTypes.InspectorServiceAttributes()
-        value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? 0
-        value.assessmentRunArn = try reader["assessmentRunArn"].readIfPresent()
-        value.rulesPackageArn = try reader["rulesPackageArn"].readIfPresent()
         return value
     }
 }
@@ -5549,44 +5644,24 @@ extension InspectorClientTypes.RulesPackage {
     }
 }
 
-extension InspectorClientTypes.ExclusionPreview {
+extension InspectorClientTypes.Scope {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.ExclusionPreview {
+    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.Scope {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InspectorClientTypes.ExclusionPreview()
-        value.title = try reader["title"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent() ?? ""
-        value.recommendation = try reader["recommendation"].readIfPresent() ?? ""
-        value.scopes = try reader["scopes"].readListIfPresent(memberReadingClosure: InspectorClientTypes.Scope.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.attributes = try reader["attributes"].readListIfPresent(memberReadingClosure: InspectorClientTypes.Attribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = InspectorClientTypes.Scope()
+        value.key = try reader["key"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
         return value
     }
 }
 
-extension InspectorClientTypes.TelemetryMetadata {
+extension InspectorClientTypes.SecurityGroup {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.TelemetryMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.SecurityGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InspectorClientTypes.TelemetryMetadata()
-        value.messageType = try reader["messageType"].readIfPresent() ?? ""
-        value.count = try reader["count"].readIfPresent() ?? 0
-        value.dataSize = try reader["dataSize"].readIfPresent()
-        return value
-    }
-}
-
-extension InspectorClientTypes.AssessmentRunAgent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.AssessmentRunAgent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InspectorClientTypes.AssessmentRunAgent()
-        value.agentId = try reader["agentId"].readIfPresent() ?? ""
-        value.assessmentRunArn = try reader["assessmentRunArn"].readIfPresent() ?? ""
-        value.agentHealth = try reader["agentHealth"].readIfPresent() ?? .sdkUnknown("")
-        value.agentHealthCode = try reader["agentHealthCode"].readIfPresent() ?? .sdkUnknown("")
-        value.agentHealthDetails = try reader["agentHealthDetails"].readIfPresent()
-        value.autoScalingGroup = try reader["autoScalingGroup"].readIfPresent()
-        value.telemetryMetadata = try reader["telemetryMetadata"].readListIfPresent(memberReadingClosure: InspectorClientTypes.TelemetryMetadata.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = InspectorClientTypes.SecurityGroup()
+        value.groupName = try reader["groupName"].readIfPresent()
+        value.groupId = try reader["groupId"].readIfPresent()
         return value
     }
 }
@@ -5603,65 +5678,32 @@ extension InspectorClientTypes.Subscription {
     }
 }
 
-extension InspectorClientTypes.EventSubscription {
+extension InspectorClientTypes.Tag {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.EventSubscription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InspectorClientTypes.EventSubscription()
-        value.event = try reader["event"].readIfPresent() ?? .sdkUnknown("")
-        value.subscribedAt = try reader["subscribedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension InspectorClientTypes.AgentPreview {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.AgentPreview {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InspectorClientTypes.AgentPreview()
-        value.hostname = try reader["hostname"].readIfPresent()
-        value.agentId = try reader["agentId"].readIfPresent() ?? ""
-        value.autoScalingGroup = try reader["autoScalingGroup"].readIfPresent()
-        value.agentHealth = try reader["agentHealth"].readIfPresent()
-        value.agentVersion = try reader["agentVersion"].readIfPresent()
-        value.operatingSystem = try reader["operatingSystem"].readIfPresent()
-        value.kernelVersion = try reader["kernelVersion"].readIfPresent()
-        value.ipv4Address = try reader["ipv4Address"].readIfPresent()
-        return value
-    }
-}
-
-extension InspectorClientTypes.AgentAlreadyRunningAssessment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.AgentAlreadyRunningAssessment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InspectorClientTypes.AgentAlreadyRunningAssessment()
-        value.agentId = try reader["agentId"].readIfPresent() ?? ""
-        value.assessmentRunArn = try reader["assessmentRunArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension InspectorClientTypes.AgentFilter {
-
-    static func write(value: InspectorClientTypes.AgentFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: InspectorClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["agentHealthCodes"].writeList(value.agentHealthCodes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<InspectorClientTypes.AgentHealthCode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["agentHealths"].writeList(value.agentHealths, memberWritingClosure: SmithyReadWrite.WritingClosureBox<InspectorClientTypes.AgentHealth>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InspectorClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent()
+        return value
     }
 }
 
-extension InspectorClientTypes.AssessmentRunFilter {
+extension InspectorClientTypes.TelemetryMetadata {
 
-    static func write(value: InspectorClientTypes.AssessmentRunFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["completionTimeRange"].write(value.completionTimeRange, with: InspectorClientTypes.TimestampRange.write(value:to:))
-        try writer["durationRange"].write(value.durationRange, with: InspectorClientTypes.DurationRange.write(value:to:))
-        try writer["namePattern"].write(value.namePattern)
-        try writer["rulesPackageArns"].writeList(value.rulesPackageArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["startTimeRange"].write(value.startTimeRange, with: InspectorClientTypes.TimestampRange.write(value:to:))
-        try writer["stateChangeTimeRange"].write(value.stateChangeTimeRange, with: InspectorClientTypes.TimestampRange.write(value:to:))
-        try writer["states"].writeList(value.states, memberWritingClosure: SmithyReadWrite.WritingClosureBox<InspectorClientTypes.AssessmentRunState>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> InspectorClientTypes.TelemetryMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InspectorClientTypes.TelemetryMetadata()
+        value.messageType = try reader["messageType"].readIfPresent() ?? ""
+        value.count = try reader["count"].readIfPresent() ?? 0
+        value.dataSize = try reader["dataSize"].readIfPresent()
+        return value
     }
 }
 
@@ -5671,48 +5713,6 @@ extension InspectorClientTypes.TimestampRange {
         guard let value else { return }
         try writer["beginDate"].writeTimestamp(value.beginDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["endDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension InspectorClientTypes.DurationRange {
-
-    static func write(value: InspectorClientTypes.DurationRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxSeconds"].write(value.maxSeconds)
-        try writer["minSeconds"].write(value.minSeconds)
-    }
-}
-
-extension InspectorClientTypes.AssessmentTargetFilter {
-
-    static func write(value: InspectorClientTypes.AssessmentTargetFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assessmentTargetNamePattern"].write(value.assessmentTargetNamePattern)
-    }
-}
-
-extension InspectorClientTypes.AssessmentTemplateFilter {
-
-    static func write(value: InspectorClientTypes.AssessmentTemplateFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["durationRange"].write(value.durationRange, with: InspectorClientTypes.DurationRange.write(value:to:))
-        try writer["namePattern"].write(value.namePattern)
-        try writer["rulesPackageArns"].writeList(value.rulesPackageArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension InspectorClientTypes.FindingFilter {
-
-    static func write(value: InspectorClientTypes.FindingFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["agentIds"].writeList(value.agentIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["attributes"].writeList(value.attributes, memberWritingClosure: InspectorClientTypes.Attribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["autoScalingGroups"].writeList(value.autoScalingGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["creationTimeRange"].write(value.creationTimeRange, with: InspectorClientTypes.TimestampRange.write(value:to:))
-        try writer["ruleNames"].writeList(value.ruleNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["rulesPackageArns"].writeList(value.rulesPackageArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["severities"].writeList(value.severities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<InspectorClientTypes.Severity>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["userAttributes"].writeList(value.userAttributes, memberWritingClosure: InspectorClientTypes.Attribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

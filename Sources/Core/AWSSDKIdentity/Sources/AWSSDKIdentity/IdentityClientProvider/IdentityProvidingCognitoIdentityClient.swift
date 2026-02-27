@@ -28,7 +28,7 @@ struct IdentityProvidingCognitoIdentityClient: CognitoIdentityClientProtocol, Sw
         logins: [String: String]?,
         region: String
     ) async throws -> String {
-        let config = try await CognitoIdentityClient.CognitoIdentityClientConfiguration(region: region)
+        let config = try await CognitoIdentityClient.CognitoIdentityClientConfig(region: region)
         let client = CognitoIdentityClient(config: config)
         let input = GetIdInput(identityPoolId: identityPoolId, logins: logins)
         let output = try await client.getId(input: input)
@@ -47,7 +47,7 @@ struct IdentityProvidingCognitoIdentityClient: CognitoIdentityClientProtocol, Sw
         logins: [String: String]?,
         region: String
     ) async throws -> AWSCredentialIdentity {
-        let config = try await CognitoIdentityClient.CognitoIdentityClientConfiguration(region: region)
+        let config = try await CognitoIdentityClient.CognitoIdentityClientConfig(region: region)
         let client = CognitoIdentityClient(config: config)
         let input = GetCredentialsForIdentityInput(identityId: identityId, logins: logins)
         let output = try await client.getCredentialsForIdentity(input: input)

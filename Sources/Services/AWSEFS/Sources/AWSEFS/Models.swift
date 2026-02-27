@@ -5166,55 +5166,36 @@ extension ReplicationAlreadyExists {
     }
 }
 
-extension EFSClientTypes.Tag {
+extension EFSClientTypes.AccessPointDescription {
 
-    static func write(value: EFSClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.Tag {
+    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.AccessPointDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = EFSClientTypes.AccessPointDescription()
+        value.clientToken = try reader["ClientToken"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: EFSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accessPointId = try reader["AccessPointId"].readIfPresent()
+        value.accessPointArn = try reader["AccessPointArn"].readIfPresent()
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
+        value.posixUser = try reader["PosixUser"].readIfPresent(with: EFSClientTypes.PosixUser.read(from:))
+        value.rootDirectory = try reader["RootDirectory"].readIfPresent(with: EFSClientTypes.RootDirectory.read(from:))
+        value.ownerId = try reader["OwnerId"].readIfPresent()
+        value.lifeCycleState = try reader["LifeCycleState"].readIfPresent()
         return value
     }
 }
 
-extension EFSClientTypes.PosixUser {
+extension EFSClientTypes.BackupPolicy {
 
-    static func write(value: EFSClientTypes.PosixUser?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EFSClientTypes.BackupPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Gid"].write(value.gid)
-        try writer["SecondaryGids"].writeList(value.secondaryGids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Uid"].write(value.uid)
+        try writer["Status"].write(value.status)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.PosixUser {
+    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.BackupPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.PosixUser()
-        value.uid = try reader["Uid"].readIfPresent() ?? 0
-        value.gid = try reader["Gid"].readIfPresent() ?? 0
-        value.secondaryGids = try reader["SecondaryGids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EFSClientTypes.RootDirectory {
-
-    static func write(value: EFSClientTypes.RootDirectory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationInfo"].write(value.creationInfo, with: EFSClientTypes.CreationInfo.write(value:to:))
-        try writer["Path"].write(value.path)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.RootDirectory {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.RootDirectory()
-        value.path = try reader["Path"].readIfPresent()
-        value.creationInfo = try reader["CreationInfo"].readIfPresent(with: EFSClientTypes.CreationInfo.read(from:))
+        var value = EFSClientTypes.BackupPolicy()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5238,30 +5219,6 @@ extension EFSClientTypes.CreationInfo {
     }
 }
 
-extension EFSClientTypes.FileSystemSize {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.FileSystemSize {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.FileSystemSize()
-        value.value = try reader["Value"].readIfPresent() ?? 0
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.valueInIA = try reader["ValueInIA"].readIfPresent()
-        value.valueInStandard = try reader["ValueInStandard"].readIfPresent()
-        value.valueInArchive = try reader["ValueInArchive"].readIfPresent()
-        return value
-    }
-}
-
-extension EFSClientTypes.FileSystemProtectionDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.FileSystemProtectionDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.FileSystemProtectionDescription()
-        value.replicationOverwriteProtection = try reader["ReplicationOverwriteProtection"].readIfPresent()
-        return value
-    }
-}
-
 extension EFSClientTypes.Destination {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.Destination {
@@ -5278,48 +5235,15 @@ extension EFSClientTypes.Destination {
     }
 }
 
-extension EFSClientTypes.AccessPointDescription {
+extension EFSClientTypes.DestinationToCreate {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.AccessPointDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.AccessPointDescription()
-        value.clientToken = try reader["ClientToken"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: EFSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.accessPointId = try reader["AccessPointId"].readIfPresent()
-        value.accessPointArn = try reader["AccessPointArn"].readIfPresent()
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
-        value.posixUser = try reader["PosixUser"].readIfPresent(with: EFSClientTypes.PosixUser.read(from:))
-        value.rootDirectory = try reader["RootDirectory"].readIfPresent(with: EFSClientTypes.RootDirectory.read(from:))
-        value.ownerId = try reader["OwnerId"].readIfPresent()
-        value.lifeCycleState = try reader["LifeCycleState"].readIfPresent()
-        return value
-    }
-}
-
-extension EFSClientTypes.ResourceIdPreference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.ResourceIdPreference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.ResourceIdPreference()
-        value.resourceIdType = try reader["ResourceIdType"].readIfPresent()
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EFSClientTypes.Resource>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EFSClientTypes.BackupPolicy {
-
-    static func write(value: EFSClientTypes.BackupPolicy?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EFSClientTypes.DestinationToCreate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.BackupPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EFSClientTypes.BackupPolicy()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        return value
+        try writer["AvailabilityZoneName"].write(value.availabilityZoneName)
+        try writer["FileSystemId"].write(value.fileSystemId)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["Region"].write(value.region)
+        try writer["RoleArn"].write(value.roleArn)
     }
 }
 
@@ -5346,6 +5270,30 @@ extension EFSClientTypes.FileSystemDescription {
         value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: EFSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.fileSystemProtection = try reader["FileSystemProtection"].readIfPresent(with: EFSClientTypes.FileSystemProtectionDescription.read(from:))
+        return value
+    }
+}
+
+extension EFSClientTypes.FileSystemProtectionDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.FileSystemProtectionDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EFSClientTypes.FileSystemProtectionDescription()
+        value.replicationOverwriteProtection = try reader["ReplicationOverwriteProtection"].readIfPresent()
+        return value
+    }
+}
+
+extension EFSClientTypes.FileSystemSize {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.FileSystemSize {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EFSClientTypes.FileSystemSize()
+        value.value = try reader["Value"].readIfPresent() ?? 0
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.valueInIA = try reader["ValueInIA"].readIfPresent()
+        value.valueInStandard = try reader["ValueInStandard"].readIfPresent()
+        value.valueInArchive = try reader["ValueInArchive"].readIfPresent()
         return value
     }
 }
@@ -5389,6 +5337,25 @@ extension EFSClientTypes.MountTargetDescription {
     }
 }
 
+extension EFSClientTypes.PosixUser {
+
+    static func write(value: EFSClientTypes.PosixUser?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Gid"].write(value.gid)
+        try writer["SecondaryGids"].writeList(value.secondaryGids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Uid"].write(value.uid)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.PosixUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EFSClientTypes.PosixUser()
+        value.uid = try reader["Uid"].readIfPresent() ?? 0
+        value.gid = try reader["Gid"].readIfPresent() ?? 0
+        value.secondaryGids = try reader["SecondaryGids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension EFSClientTypes.ReplicationConfigurationDescription {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.ReplicationConfigurationDescription {
@@ -5405,15 +5372,48 @@ extension EFSClientTypes.ReplicationConfigurationDescription {
     }
 }
 
-extension EFSClientTypes.DestinationToCreate {
+extension EFSClientTypes.ResourceIdPreference {
 
-    static func write(value: EFSClientTypes.DestinationToCreate?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.ResourceIdPreference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EFSClientTypes.ResourceIdPreference()
+        value.resourceIdType = try reader["ResourceIdType"].readIfPresent()
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EFSClientTypes.Resource>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EFSClientTypes.RootDirectory {
+
+    static func write(value: EFSClientTypes.RootDirectory?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AvailabilityZoneName"].write(value.availabilityZoneName)
-        try writer["FileSystemId"].write(value.fileSystemId)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["Region"].write(value.region)
-        try writer["RoleArn"].write(value.roleArn)
+        try writer["CreationInfo"].write(value.creationInfo, with: EFSClientTypes.CreationInfo.write(value:to:))
+        try writer["Path"].write(value.path)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.RootDirectory {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EFSClientTypes.RootDirectory()
+        value.path = try reader["Path"].readIfPresent()
+        value.creationInfo = try reader["CreationInfo"].readIfPresent(with: EFSClientTypes.CreationInfo.read(from:))
+        return value
+    }
+}
+
+extension EFSClientTypes.Tag {
+
+    static func write(value: EFSClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EFSClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EFSClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
     }
 }
 

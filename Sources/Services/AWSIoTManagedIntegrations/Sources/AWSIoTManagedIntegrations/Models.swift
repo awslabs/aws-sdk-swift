@@ -499,6 +499,21 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
+extension IoTManagedIntegrationsClientTypes {
+
+    /// The General Authorization reference by authorization material name.
+    public struct GeneralAuthorizationName: Swift.Sendable {
+        /// The name of the authorization material.
+        public var authMaterialName: Swift.String?
+
+        public init(
+            authMaterialName: Swift.String? = nil
+        ) {
+            self.authMaterialName = authMaterialName
+        }
+    }
+}
+
 public struct CreateAccountAssociationInput: Swift.Sendable {
     /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
     public var clientToken: Swift.String?
@@ -507,6 +522,8 @@ public struct CreateAccountAssociationInput: Swift.Sendable {
     public var connectorDestinationId: Swift.String?
     /// A description of the account association request.
     public var description: Swift.String?
+    /// The General Authorization reference by authorization material name.
+    public var generalAuthorization: IoTManagedIntegrationsClientTypes.GeneralAuthorizationName?
     /// The name of the destination for the new account association.
     public var name: Swift.String?
     /// A set of key/value pairs that are used to manage the account association.
@@ -516,12 +533,14 @@ public struct CreateAccountAssociationInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         connectorDestinationId: Swift.String? = nil,
         description: Swift.String? = nil,
+        generalAuthorization: IoTManagedIntegrationsClientTypes.GeneralAuthorizationName? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.connectorDestinationId = connectorDestinationId
         self.description = description
+        self.generalAuthorization = generalAuthorization
         self.name = name
         self.tags = tags
     }
@@ -529,7 +548,7 @@ public struct CreateAccountAssociationInput: Swift.Sendable {
 
 extension CreateAccountAssociationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAccountAssociationInput(clientToken: \(Swift.String(describing: clientToken)), connectorDestinationId: \(Swift.String(describing: connectorDestinationId)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), tags: \"CONTENT_REDACTED\")"}
+        "CreateAccountAssociationInput(clientToken: \(Swift.String(describing: clientToken)), connectorDestinationId: \(Swift.String(describing: connectorDestinationId)), description: \(Swift.String(describing: description)), generalAuthorization: \(Swift.String(describing: generalAuthorization)), name: \(Swift.String(describing: name)), tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAccountAssociationOutput: Swift.Sendable {
@@ -541,7 +560,7 @@ public struct CreateAccountAssociationOutput: Swift.Sendable {
     /// The current state of the account association request.
     /// This member is required.
     public var associationState: IoTManagedIntegrationsClientTypes.AssociationState?
-    /// Third-party IoT platform OAuth authorization server URL backed with all the required parameters to perform end-user authentication.
+    /// Third-party IoT platform OAuth authorization server URL backed with all the required parameters to perform end-user authentication. This field will be empty when using General Authorization flows that do not require OAuth.
     /// This member is required.
     public var oAuthAuthorizationUrl: Swift.String?
 
@@ -549,7 +568,7 @@ public struct CreateAccountAssociationOutput: Swift.Sendable {
         accountAssociationId: Swift.String? = nil,
         arn: Swift.String? = nil,
         associationState: IoTManagedIntegrationsClientTypes.AssociationState? = nil,
-        oAuthAuthorizationUrl: Swift.String? = nil
+        oAuthAuthorizationUrl: Swift.String? = ""
     ) {
         self.accountAssociationId = accountAssociationId
         self.arn = arn
@@ -602,9 +621,11 @@ public struct GetAccountAssociationOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The error message explaining the current account association error.
     public var errorMessage: Swift.String?
+    /// The General Authorization reference by authorization material name.
+    public var generalAuthorization: IoTManagedIntegrationsClientTypes.GeneralAuthorizationName?
     /// The name of the account association.
     public var name: Swift.String?
-    /// Third party IoT platform OAuth authorization server URL backed with all the required parameters to perform end-user authentication.
+    /// Third party IoT platform OAuth authorization server URL backed with all the required parameters to perform end-user authentication. This field will be empty when using General Authorization flows that do not require OAuth.
     /// This member is required.
     public var oAuthAuthorizationUrl: Swift.String?
     /// A set of key/value pairs that are used to manage the account association.
@@ -617,8 +638,9 @@ public struct GetAccountAssociationOutput: Swift.Sendable {
         connectorDestinationId: Swift.String? = nil,
         description: Swift.String? = nil,
         errorMessage: Swift.String? = nil,
+        generalAuthorization: IoTManagedIntegrationsClientTypes.GeneralAuthorizationName? = nil,
         name: Swift.String? = nil,
-        oAuthAuthorizationUrl: Swift.String? = nil,
+        oAuthAuthorizationUrl: Swift.String? = "",
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.accountAssociationId = accountAssociationId
@@ -627,6 +649,7 @@ public struct GetAccountAssociationOutput: Swift.Sendable {
         self.connectorDestinationId = connectorDestinationId
         self.description = description
         self.errorMessage = errorMessage
+        self.generalAuthorization = generalAuthorization
         self.name = name
         self.oAuthAuthorizationUrl = oAuthAuthorizationUrl
         self.tags = tags
@@ -635,7 +658,7 @@ public struct GetAccountAssociationOutput: Swift.Sendable {
 
 extension GetAccountAssociationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetAccountAssociationOutput(accountAssociationId: \(Swift.String(describing: accountAssociationId)), arn: \(Swift.String(describing: arn)), associationState: \(Swift.String(describing: associationState)), connectorDestinationId: \(Swift.String(describing: connectorDestinationId)), description: \(Swift.String(describing: description)), errorMessage: \(Swift.String(describing: errorMessage)), name: \(Swift.String(describing: name)), oAuthAuthorizationUrl: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "GetAccountAssociationOutput(accountAssociationId: \(Swift.String(describing: accountAssociationId)), arn: \(Swift.String(describing: arn)), associationState: \(Swift.String(describing: associationState)), connectorDestinationId: \(Swift.String(describing: connectorDestinationId)), description: \(Swift.String(describing: description)), errorMessage: \(Swift.String(describing: errorMessage)), generalAuthorization: \(Swift.String(describing: generalAuthorization)), name: \(Swift.String(describing: name)), oAuthAuthorizationUrl: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListAccountAssociationsInput: Swift.Sendable {
@@ -685,12 +708,12 @@ public struct StartAccountAssociationRefreshInput: Swift.Sendable {
 }
 
 public struct StartAccountAssociationRefreshOutput: Swift.Sendable {
-    /// Third-party IoT platform OAuth authorization server URL with all required parameters to perform end-user authentication during the refresh process.
+    /// Third-party IoT platform OAuth authorization server URL with all required parameters to perform end-user authentication during the refresh process. This field will be empty when using General Authorization flows that do not require OAuth.
     /// This member is required.
     public var oAuthAuthorizationUrl: Swift.String?
 
     public init(
-        oAuthAuthorizationUrl: Swift.String? = nil
+        oAuthAuthorizationUrl: Swift.String? = ""
     ) {
         self.oAuthAuthorizationUrl = oAuthAuthorizationUrl
     }
@@ -718,6 +741,48 @@ public struct UpdateAccountAssociationInput: Swift.Sendable {
         self.accountAssociationId = accountAssociationId
         self.description = description
         self.name = name
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Configuration for AWS Secrets Manager, used to securely store and manage sensitive information for connector destinations.
+    public struct SecretsManager: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The version ID of the AWS Secrets Manager secret.
+        /// This member is required.
+        public var versionId: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            versionId: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.versionId = versionId
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// The authorization material containing the Secrets Manager arn and version.
+    public struct AuthMaterial: Swift.Sendable {
+        /// The name of the authorization material.
+        /// This member is required.
+        public var authMaterialName: Swift.String?
+        /// Configuration for AWS Secrets Manager, used to securely store and manage sensitive information for connector destinations.
+        /// This member is required.
+        public var secretsManager: IoTManagedIntegrationsClientTypes.SecretsManager?
+
+        public init(
+            authMaterialName: Swift.String? = nil,
+            secretsManager: IoTManagedIntegrationsClientTypes.SecretsManager? = nil
+        ) {
+            self.authMaterialName = authMaterialName
+            self.secretsManager = secretsManager
+        }
     }
 }
 
@@ -811,13 +876,36 @@ extension IoTManagedIntegrationsClientTypes {
 
     /// The authentication configuration details for a connector destination, including OAuth settings and other authentication parameters.
     public struct AuthConfig: Swift.Sendable {
+        /// The authorization materials for General Authorization.
+        public var generalAuthorization: [IoTManagedIntegrationsClientTypes.AuthMaterial]?
         /// The OAuth configuration settings used for authentication with the third-party service.
         public var oAuth: IoTManagedIntegrationsClientTypes.OAuthConfig?
 
         public init(
+            generalAuthorization: [IoTManagedIntegrationsClientTypes.AuthMaterial]? = nil,
             oAuth: IoTManagedIntegrationsClientTypes.OAuthConfig? = nil
         ) {
+            self.generalAuthorization = generalAuthorization
             self.oAuth = oAuth
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// The General Authorization update information containing authorization materials to add or update.
+    public struct GeneralAuthorizationUpdate: Swift.Sendable {
+        /// The authorization materials to add.
+        public var authMaterialsToAdd: [IoTManagedIntegrationsClientTypes.AuthMaterial]?
+        /// The authorization materials to update.
+        public var authMaterialsToUpdate: [IoTManagedIntegrationsClientTypes.AuthMaterial]?
+
+        public init(
+            authMaterialsToAdd: [IoTManagedIntegrationsClientTypes.AuthMaterial]? = nil,
+            authMaterialsToUpdate: [IoTManagedIntegrationsClientTypes.AuthMaterial]? = nil
+        ) {
+            self.authMaterialsToAdd = authMaterialsToAdd
+            self.authMaterialsToUpdate = authMaterialsToUpdate
         }
     }
 }
@@ -845,12 +933,16 @@ extension IoTManagedIntegrationsClientTypes {
 
     /// The updated authentication configuration details for a connector destination.
     public struct AuthConfigUpdate: Swift.Sendable {
+        /// The General Authorization update information containing authorization materials to add or update in Kinesis Data Streams.
+        public var generalAuthorizationUpdate: IoTManagedIntegrationsClientTypes.GeneralAuthorizationUpdate?
         /// The updated OAuth configuration settings for the authentication configuration.
         public var oAuthUpdate: IoTManagedIntegrationsClientTypes.OAuthUpdate?
 
         public init(
+            generalAuthorizationUpdate: IoTManagedIntegrationsClientTypes.GeneralAuthorizationUpdate? = nil,
             oAuthUpdate: IoTManagedIntegrationsClientTypes.OAuthUpdate? = nil
         ) {
+            self.generalAuthorizationUpdate = generalAuthorizationUpdate
             self.oAuthUpdate = oAuthUpdate
         }
     }
@@ -861,6 +953,7 @@ extension IoTManagedIntegrationsClientTypes {
     public enum AuthMaterialType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case customProtocolQrBarCode
         case discoveredDevice
+        case preOnboardedCloud
         case wifiSetupQrBarCode
         case zigbeeQrBarCode
         case zwaveQrBarCode
@@ -870,6 +963,7 @@ extension IoTManagedIntegrationsClientTypes {
             return [
                 .customProtocolQrBarCode,
                 .discoveredDevice,
+                .preOnboardedCloud,
                 .wifiSetupQrBarCode,
                 .zigbeeQrBarCode,
                 .zwaveQrBarCode
@@ -885,6 +979,7 @@ extension IoTManagedIntegrationsClientTypes {
             switch self {
             case .customProtocolQrBarCode: return "CUSTOM_PROTOCOL_QR_BAR_CODE"
             case .discoveredDevice: return "DISCOVERED_DEVICE"
+            case .preOnboardedCloud: return "PRE_ONBOARDED_CLOUD"
             case .wifiSetupQrBarCode: return "WIFI_SETUP_QR_BAR_CODE"
             case .zigbeeQrBarCode: return "ZIGBEE_QR_BAR_CODE"
             case .zwaveQrBarCode: return "ZWAVE_QR_BAR_CODE"
@@ -1541,33 +1636,11 @@ extension IoTManagedIntegrationsClientTypes {
     }
 }
 
-extension IoTManagedIntegrationsClientTypes {
-
-    /// Configuration for AWS Secrets Manager, used to securely store and manage sensitive information for connector destinations.
-    public struct SecretsManager: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret.
-        /// This member is required.
-        public var arn: Swift.String?
-        /// The version ID of the AWS Secrets Manager secret.
-        /// This member is required.
-        public var versionId: Swift.String?
-
-        public init(
-            arn: Swift.String? = nil,
-            versionId: Swift.String? = nil
-        ) {
-            self.arn = arn
-            self.versionId = versionId
-        }
-    }
-}
-
 public struct CreateConnectorDestinationInput: Swift.Sendable {
     /// The authentication configuration details for the connector destination, including OAuth settings and other authentication parameters.
     /// This member is required.
     public var authConfig: IoTManagedIntegrationsClientTypes.AuthConfig?
     /// The authentication type used for the connector destination, which determines how credentials and access are managed.
-    /// This member is required.
     public var authType: IoTManagedIntegrationsClientTypes.AuthType?
     /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
     public var clientToken: Swift.String?
@@ -1579,7 +1652,6 @@ public struct CreateConnectorDestinationInput: Swift.Sendable {
     /// The display name of the connector destination.
     public var name: Swift.String?
     /// The AWS Secrets Manager configuration used to securely store and manage sensitive information for the connector destination.
-    /// This member is required.
     public var secretsManager: IoTManagedIntegrationsClientTypes.SecretsManager?
 
     public init(
@@ -2024,8 +2096,31 @@ extension IoTManagedIntegrationsClientTypes {
     }
 }
 
+extension IoTManagedIntegrationsClientTypes {
+
+    /// The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings.
+    public struct WiFiSimpleSetupConfiguration: Swift.Sendable {
+        /// Indicates whether the device can act as a provisionee in Wi-Fi Simple Setup, allowing it to be configured by other devices.
+        public var enableAsProvisionee: Swift.Bool?
+        /// Indicates whether the device can act as a provisioner in Wi-Fi Simple Setup, allowing it to configure other devices.
+        public var enableAsProvisioner: Swift.Bool?
+        /// The timeout duration in minutes for Wi-Fi Simple Setup. Valid range is 5 to 15 minutes.
+        public var timeoutInMinutes: Swift.Int?
+
+        public init(
+            enableAsProvisionee: Swift.Bool? = nil,
+            enableAsProvisioner: Swift.Bool? = nil,
+            timeoutInMinutes: Swift.Int? = nil
+        ) {
+            self.enableAsProvisionee = enableAsProvisionee
+            self.enableAsProvisioner = enableAsProvisioner
+            self.timeoutInMinutes = timeoutInMinutes
+        }
+    }
+}
+
 public struct CreateManagedThingInput: Swift.Sendable {
-    /// The authentication material defining the device connectivity setup requests. The authentication materials used are the device bar code.
+    /// The authentication material defining the device connectivity setup requests. The authorization materials used are the device bar code.
     /// This member is required.
     public var authenticationMaterial: Swift.String?
     /// The type of authentication material used for device connectivity setup requests.
@@ -2060,6 +2155,8 @@ public struct CreateManagedThingInput: Swift.Sendable {
     public var serialNumber: Swift.String?
     /// A set of key/value pairs that are used to manage the managed thing.
     public var tags: [Swift.String: Swift.String]?
+    /// The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings.
+    public var wiFiSimpleSetupConfiguration: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration?
 
     public init(
         authenticationMaterial: Swift.String? = nil,
@@ -2077,7 +2174,8 @@ public struct CreateManagedThingInput: Swift.Sendable {
         owner: Swift.String? = nil,
         role: IoTManagedIntegrationsClientTypes.Role? = nil,
         serialNumber: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        wiFiSimpleSetupConfiguration: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration? = nil
     ) {
         self.authenticationMaterial = authenticationMaterial
         self.authenticationMaterialType = authenticationMaterialType
@@ -2095,12 +2193,13 @@ public struct CreateManagedThingInput: Swift.Sendable {
         self.role = role
         self.serialNumber = serialNumber
         self.tags = tags
+        self.wiFiSimpleSetupConfiguration = wiFiSimpleSetupConfiguration
     }
 }
 
 extension CreateManagedThingInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateManagedThingInput(authenticationMaterialType: \(Swift.String(describing: authenticationMaterialType)), capabilities: \(Swift.String(describing: capabilities)), capabilityReport: \(Swift.String(describing: capabilityReport)), capabilitySchemas: \(Swift.String(describing: capabilitySchemas)), clientToken: \(Swift.String(describing: clientToken)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), role: \(Swift.String(describing: role)), authenticationMaterial: \"CONTENT_REDACTED\", brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateManagedThingInput(authenticationMaterialType: \(Swift.String(describing: authenticationMaterialType)), capabilities: \(Swift.String(describing: capabilities)), capabilityReport: \(Swift.String(describing: capabilityReport)), capabilitySchemas: \(Swift.String(describing: capabilitySchemas)), clientToken: \(Swift.String(describing: clientToken)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), role: \(Swift.String(describing: role)), wiFiSimpleSetupConfiguration: \(Swift.String(describing: wiFiSimpleSetupConfiguration)), authenticationMaterial: \"CONTENT_REDACTED\", brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateManagedThingOutput: Swift.Sendable {
@@ -2135,6 +2234,7 @@ extension IoTManagedIntegrationsClientTypes {
         case deviceLifeCycle
         case deviceOta
         case deviceState
+        case deviceWss
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EventType] {
@@ -2148,7 +2248,8 @@ extension IoTManagedIntegrationsClientTypes {
                 .deviceEvent,
                 .deviceLifeCycle,
                 .deviceOta,
-                .deviceState
+                .deviceState,
+                .deviceWss
             ]
         }
 
@@ -2169,6 +2270,7 @@ extension IoTManagedIntegrationsClientTypes {
             case .deviceLifeCycle: return "DEVICE_LIFE_CYCLE"
             case .deviceOta: return "DEVICE_OTA"
             case .deviceState: return "DEVICE_STATE"
+            case .deviceWss: return "DEVICE_WSS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2708,6 +2810,8 @@ extension IoTManagedIntegrationsClientTypes {
 public struct CreateProvisioningProfileInput: Swift.Sendable {
     /// The id of the certificate authority (CA) certificate.
     public var caCertificate: Swift.String?
+    /// The claim certificate.
+    public var claimCertificate: Swift.String?
     /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
     public var clientToken: Swift.String?
     /// The name of the provisioning template.
@@ -2720,12 +2824,14 @@ public struct CreateProvisioningProfileInput: Swift.Sendable {
 
     public init(
         caCertificate: Swift.String? = nil,
+        claimCertificate: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         provisioningType: IoTManagedIntegrationsClientTypes.ProvisioningType? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.caCertificate = caCertificate
+        self.claimCertificate = claimCertificate
         self.clientToken = clientToken
         self.name = name
         self.provisioningType = provisioningType
@@ -2735,7 +2841,7 @@ public struct CreateProvisioningProfileInput: Swift.Sendable {
 
 extension CreateProvisioningProfileInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProvisioningProfileInput(clientToken: \(Swift.String(describing: clientToken)), name: \(Swift.String(describing: name)), provisioningType: \(Swift.String(describing: provisioningType)), caCertificate: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateProvisioningProfileInput(clientToken: \(Swift.String(describing: clientToken)), name: \(Swift.String(describing: name)), provisioningType: \(Swift.String(describing: provisioningType)), caCertificate: \"CONTENT_REDACTED\", claimCertificate: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateProvisioningProfileOutput: Swift.Sendable {
@@ -3345,13 +3451,14 @@ extension IoTManagedIntegrationsClientTypes {
 
 extension IoTManagedIntegrationsClientTypes.Device: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Device(capabilityReport: \(Swift.String(describing: capabilityReport)), capabilitySchemas: \(Swift.String(describing: capabilitySchemas)), deviceMetadata: \(Swift.String(describing: deviceMetadata)), connectorDeviceId: \"CONTENT_REDACTED\", connectorDeviceName: \"CONTENT_REDACTED\")"}
+        "Device(capabilityReport: \(Swift.String(describing: capabilityReport)), capabilitySchemas: \(Swift.String(describing: capabilitySchemas)), connectorDeviceName: \(Swift.String(describing: connectorDeviceName)), deviceMetadata: \(Swift.String(describing: deviceMetadata)), connectorDeviceId: \"CONTENT_REDACTED\")"}
 }
 
 extension IoTManagedIntegrationsClientTypes {
 
     public enum DiscoveryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cloud
+        case controllerCapabilityRediscovery
         case custom
         case zigbee
         case zwave
@@ -3360,6 +3467,7 @@ extension IoTManagedIntegrationsClientTypes {
         public static var allCases: [DiscoveryType] {
             return [
                 .cloud,
+                .controllerCapabilityRediscovery,
                 .custom,
                 .zigbee,
                 .zwave
@@ -3374,6 +3482,7 @@ extension IoTManagedIntegrationsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cloud: return "CLOUD"
+            case .controllerCapabilityRediscovery: return "CONTROLLER_CAPABILITY_REDISCOVERY"
             case .custom: return "CUSTOM"
             case .zigbee: return "ZIGBEE"
             case .zwave: return "ZWAVE"
@@ -3651,7 +3760,7 @@ extension IoTManagedIntegrationsClientTypes {
 
 extension IoTManagedIntegrationsClientTypes.DiscoveredDeviceSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DiscoveredDeviceSummary(deviceTypes: \(Swift.String(describing: deviceTypes)), discoveredAt: \(Swift.String(describing: discoveredAt)), managedThingId: \(Swift.String(describing: managedThingId)), modification: \(Swift.String(describing: modification)), authenticationMaterial: \"CONTENT_REDACTED\", brand: \"CONTENT_REDACTED\", connectorDeviceId: \"CONTENT_REDACTED\", connectorDeviceName: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\")"}
+        "DiscoveredDeviceSummary(connectorDeviceName: \(Swift.String(describing: connectorDeviceName)), deviceTypes: \(Swift.String(describing: deviceTypes)), discoveredAt: \(Swift.String(describing: discoveredAt)), managedThingId: \(Swift.String(describing: managedThingId)), modification: \(Swift.String(describing: modification)), authenticationMaterial: \"CONTENT_REDACTED\", brand: \"CONTENT_REDACTED\", connectorDeviceId: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListDiscoveredDevicesOutput: Swift.Sendable {
@@ -3695,6 +3804,38 @@ extension IoTManagedIntegrationsClientTypes {
     }
 }
 
+extension IoTManagedIntegrationsClientTypes {
+
+    public enum ProtocolType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case custom
+        case zigbee
+        case zwave
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProtocolType] {
+            return [
+                .custom,
+                .zigbee,
+                .zwave
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .custom: return "CUSTOM"
+            case .zigbee: return "ZIGBEE"
+            case .zwave: return "ZWAVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct StartDeviceDiscoveryInput: Swift.Sendable {
     /// The identifier of the cloud-to-cloud account association to use for discovery of third-party devices.
     public var accountAssociationId: Swift.String?
@@ -3707,6 +3848,8 @@ public struct StartDeviceDiscoveryInput: Swift.Sendable {
     /// The id of the connector association.
     @available(*, deprecated, message: "ConnectorAssociationIdentifier is deprecated API deprecated since 06-25-2025")
     public var connectorAssociationIdentifier: Swift.String?
+    /// Used as a filter for PLA discoveries.
+    public var connectorDeviceIdList: [Swift.String]?
     /// The id of the end-user's IoT hub.
     public var controllerIdentifier: Swift.String?
     /// Additional protocol-specific details required for device discovery, which vary based on the discovery type. For a DiscoveryType of CUSTOM, the string-to-string map must have a key value of Name set to a non-empty-string.
@@ -3714,6 +3857,10 @@ public struct StartDeviceDiscoveryInput: Swift.Sendable {
     /// The discovery type supporting the type of device to be discovered in the device discovery task request.
     /// This member is required.
     public var discoveryType: IoTManagedIntegrationsClientTypes.DiscoveryType?
+    /// The unique id of the end device for capability rediscovery. This parameter is only available when the discovery type is CONTROLLER_CAPABILITY_REDISCOVERY.
+    public var endDeviceIdentifier: Swift.String?
+    /// The protocol type for capability rediscovery (ZWAVE, ZIGBEE, or CUSTOM). This parameter is only available when the discovery type is CONTROLLER_CAPABILITY_REDISCOVERY.
+    public var `protocol`: IoTManagedIntegrationsClientTypes.ProtocolType?
     /// A set of key/value pairs that are used to manage the device discovery request.
     @available(*, deprecated, message: "Tags have been deprecated from this api API deprecated since 06-25-2025")
     public var tags: [Swift.String: Swift.String]?
@@ -3724,9 +3871,12 @@ public struct StartDeviceDiscoveryInput: Swift.Sendable {
         authenticationMaterialType: IoTManagedIntegrationsClientTypes.DiscoveryAuthMaterialType? = nil,
         clientToken: Swift.String? = nil,
         connectorAssociationIdentifier: Swift.String? = nil,
+        connectorDeviceIdList: [Swift.String]? = nil,
         controllerIdentifier: Swift.String? = nil,
         customProtocolDetail: [Swift.String: Swift.String]? = nil,
         discoveryType: IoTManagedIntegrationsClientTypes.DiscoveryType? = nil,
+        endDeviceIdentifier: Swift.String? = nil,
+        `protocol`: IoTManagedIntegrationsClientTypes.ProtocolType? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.accountAssociationId = accountAssociationId
@@ -3734,16 +3884,19 @@ public struct StartDeviceDiscoveryInput: Swift.Sendable {
         self.authenticationMaterialType = authenticationMaterialType
         self.clientToken = clientToken
         self.connectorAssociationIdentifier = connectorAssociationIdentifier
+        self.connectorDeviceIdList = connectorDeviceIdList
         self.controllerIdentifier = controllerIdentifier
         self.customProtocolDetail = customProtocolDetail
         self.discoveryType = discoveryType
+        self.endDeviceIdentifier = endDeviceIdentifier
+        self.`protocol` = `protocol`
         self.tags = tags
     }
 }
 
 extension StartDeviceDiscoveryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartDeviceDiscoveryInput(accountAssociationId: \(Swift.String(describing: accountAssociationId)), authenticationMaterialType: \(Swift.String(describing: authenticationMaterialType)), clientToken: \(Swift.String(describing: clientToken)), connectorAssociationIdentifier: \(Swift.String(describing: connectorAssociationIdentifier)), controllerIdentifier: \(Swift.String(describing: controllerIdentifier)), customProtocolDetail: \(Swift.String(describing: customProtocolDetail)), discoveryType: \(Swift.String(describing: discoveryType)), authenticationMaterial: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "StartDeviceDiscoveryInput(protocol: \(Swift.String(describing: `protocol`)), accountAssociationId: \(Swift.String(describing: accountAssociationId)), authenticationMaterialType: \(Swift.String(describing: authenticationMaterialType)), clientToken: \(Swift.String(describing: clientToken)), connectorAssociationIdentifier: \(Swift.String(describing: connectorAssociationIdentifier)), controllerIdentifier: \(Swift.String(describing: controllerIdentifier)), customProtocolDetail: \(Swift.String(describing: customProtocolDetail)), discoveryType: \(Swift.String(describing: discoveryType)), endDeviceIdentifier: \(Swift.String(describing: endDeviceIdentifier)), authenticationMaterial: \"CONTENT_REDACTED\", connectorDeviceIdList: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartDeviceDiscoveryOutput: Swift.Sendable {
@@ -4180,7 +4333,7 @@ public struct GetManagedThingOutput: Swift.Sendable {
     public var owner: Swift.String?
     /// Id of the controller device used for the discovery job.
     public var parentControllerId: Swift.String?
-    /// The provisioning status of the device in the provisioning workflow for onboarding to IoT managed integrations.
+    /// The provisioning status of the device in the provisioning workflow for onboarding to IoT managed integrations. For more information, see [Device Provisioning](https://docs.aws.amazon.com/iot-mi/latest/devguide/device-provisioning.html).
     public var provisioningStatus: IoTManagedIntegrationsClientTypes.ProvisioningStatus?
     /// The type of device used. This will be the Amazon Web Services hub controller, cloud device, or IoT device.
     public var role: IoTManagedIntegrationsClientTypes.Role?
@@ -4192,6 +4345,8 @@ public struct GetManagedThingOutput: Swift.Sendable {
     public var universalProductCode: Swift.String?
     /// The timestamp value of when the managed thing was last updated at.
     public var updatedAt: Foundation.Date?
+    /// The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings.
+    public var wiFiSimpleSetupConfiguration: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration?
 
     public init(
         activatedAt: Foundation.Date? = nil,
@@ -4219,7 +4374,8 @@ public struct GetManagedThingOutput: Swift.Sendable {
         serialNumber: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         universalProductCode: Swift.String? = nil,
-        updatedAt: Foundation.Date? = nil
+        updatedAt: Foundation.Date? = nil,
+        wiFiSimpleSetupConfiguration: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration? = nil
     ) {
         self.activatedAt = activatedAt
         self.advertisedProductId = advertisedProductId
@@ -4247,12 +4403,13 @@ public struct GetManagedThingOutput: Swift.Sendable {
         self.tags = tags
         self.universalProductCode = universalProductCode
         self.updatedAt = updatedAt
+        self.wiFiSimpleSetupConfiguration = wiFiSimpleSetupConfiguration
     }
 }
 
 extension GetManagedThingOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetManagedThingOutput(activatedAt: \(Swift.String(describing: activatedAt)), advertisedProductId: \(Swift.String(describing: advertisedProductId)), arn: \(Swift.String(describing: arn)), connectorDestinationId: \(Swift.String(describing: connectorDestinationId)), connectorPolicyId: \(Swift.String(describing: connectorPolicyId)), createdAt: \(Swift.String(describing: createdAt)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), hubNetworkMode: \(Swift.String(describing: hubNetworkMode)), id: \(Swift.String(describing: id)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), parentControllerId: \(Swift.String(describing: parentControllerId)), provisioningStatus: \(Swift.String(describing: provisioningStatus)), role: \(Swift.String(describing: role)), updatedAt: \(Swift.String(describing: updatedAt)), brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", connectorDeviceId: \"CONTENT_REDACTED\", deviceSpecificKey: \"CONTENT_REDACTED\", internationalArticleNumber: \"CONTENT_REDACTED\", macAddress: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\", universalProductCode: \"CONTENT_REDACTED\")"}
+        "GetManagedThingOutput(activatedAt: \(Swift.String(describing: activatedAt)), advertisedProductId: \(Swift.String(describing: advertisedProductId)), arn: \(Swift.String(describing: arn)), connectorDestinationId: \(Swift.String(describing: connectorDestinationId)), connectorPolicyId: \(Swift.String(describing: connectorPolicyId)), createdAt: \(Swift.String(describing: createdAt)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), hubNetworkMode: \(Swift.String(describing: hubNetworkMode)), id: \(Swift.String(describing: id)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), parentControllerId: \(Swift.String(describing: parentControllerId)), provisioningStatus: \(Swift.String(describing: provisioningStatus)), role: \(Swift.String(describing: role)), updatedAt: \(Swift.String(describing: updatedAt)), wiFiSimpleSetupConfiguration: \(Swift.String(describing: wiFiSimpleSetupConfiguration)), brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", connectorDeviceId: \"CONTENT_REDACTED\", deviceSpecificKey: \"CONTENT_REDACTED\", internationalArticleNumber: \"CONTENT_REDACTED\", macAddress: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\", universalProductCode: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetManagedThingCapabilitiesInput: Swift.Sendable {
@@ -5037,7 +5194,7 @@ public struct PutDefaultEncryptionConfigurationOutput: Swift.Sendable {
 }
 
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The ARN of the resource for which to list tags.
+    /// The Amazon Resource Name (ARN) of the resource for which to list tags.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -5089,18 +5246,51 @@ public struct ListManagedThingAccountAssociationsInput: Swift.Sendable {
 
 extension IoTManagedIntegrationsClientTypes {
 
+    public enum ManagedThingAssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associated
+        case preAssociated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedThingAssociationStatus] {
+            return [
+                .associated,
+                .preAssociated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associated: return "ASSOCIATED"
+            case .preAssociated: return "PRE_ASSOCIATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
     /// Structure representing an association between a managed thing and an account association, which connects a device to a third-party account.
     public struct ManagedThingAssociation: Swift.Sendable {
         /// The identifier of the account association in the association.
         public var accountAssociationId: Swift.String?
+        /// The status of the registration between the managed thing and the account association. Indicates whether the device is pre-associated or fully associated with the account association.
+        public var managedThingAssociationStatus: IoTManagedIntegrationsClientTypes.ManagedThingAssociationStatus?
         /// The identifier of the managed thing in the association.
         public var managedThingId: Swift.String?
 
         public init(
             accountAssociationId: Swift.String? = nil,
+            managedThingAssociationStatus: IoTManagedIntegrationsClientTypes.ManagedThingAssociationStatus? = nil,
             managedThingId: Swift.String? = nil
         ) {
             self.accountAssociationId = accountAssociationId
+            self.managedThingAssociationStatus = managedThingAssociationStatus
             self.managedThingId = managedThingId
         }
     }
@@ -5217,7 +5407,7 @@ public struct ListManagedThingsInput: Swift.Sendable {
     public var ownerFilter: Swift.String?
     /// Filter on a parent controller id for a managed thing.
     public var parentControllerIdentifierFilter: Swift.String?
-    /// Filter on the status of the device.
+    /// Filter on the status of the device. For more information, see [Device Provisioning](https://docs.aws.amazon.com/iot-mi/latest/devguide/device-provisioning.html).
     public var provisioningStatusFilter: IoTManagedIntegrationsClientTypes.ProvisioningStatus?
     /// Filter on the type of device used. This will be the Amazon Web Services hub controller, cloud device, or IoT device.
     public var roleFilter: IoTManagedIntegrationsClientTypes.Role?
@@ -5291,7 +5481,7 @@ extension IoTManagedIntegrationsClientTypes {
         public var owner: Swift.String?
         /// Id of the controller device used for the discovery job.
         public var parentControllerId: Swift.String?
-        /// The provisioning status of the device in the provisioning workflow for onboarding to IoT managed integrations.
+        /// The provisioning status of the device in the provisioning workflow for onboarding to IoT managed integrations. For more information, see [Device Provisioning](https://docs.aws.amazon.com/iot-mi/latest/devguide/device-provisioning.html).
         public var provisioningStatus: IoTManagedIntegrationsClientTypes.ProvisioningStatus?
         /// The type of device used. This will be the Amazon Web Services hub controller, cloud device, or IoT device.
         public var role: IoTManagedIntegrationsClientTypes.Role?
@@ -5458,6 +5648,8 @@ public struct UpdateManagedThingInput: Swift.Sendable {
     public var owner: Swift.String?
     /// The serial number of the device.
     public var serialNumber: Swift.String?
+    /// The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings.
+    public var wiFiSimpleSetupConfiguration: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration?
 
     public init(
         brand: Swift.String? = nil,
@@ -5472,7 +5664,8 @@ public struct UpdateManagedThingInput: Swift.Sendable {
         model: Swift.String? = nil,
         name: Swift.String? = nil,
         owner: Swift.String? = nil,
-        serialNumber: Swift.String? = nil
+        serialNumber: Swift.String? = nil,
+        wiFiSimpleSetupConfiguration: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration? = nil
     ) {
         self.brand = brand
         self.capabilities = capabilities
@@ -5487,12 +5680,13 @@ public struct UpdateManagedThingInput: Swift.Sendable {
         self.name = name
         self.owner = owner
         self.serialNumber = serialNumber
+        self.wiFiSimpleSetupConfiguration = wiFiSimpleSetupConfiguration
     }
 }
 
 extension UpdateManagedThingInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateManagedThingInput(capabilities: \(Swift.String(describing: capabilities)), capabilityReport: \(Swift.String(describing: capabilityReport)), capabilitySchemas: \(Swift.String(describing: capabilitySchemas)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), hubNetworkMode: \(Swift.String(describing: hubNetworkMode)), identifier: \(Swift.String(describing: identifier)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\")"}
+        "UpdateManagedThingInput(capabilities: \(Swift.String(describing: capabilities)), capabilityReport: \(Swift.String(describing: capabilityReport)), capabilitySchemas: \(Swift.String(describing: capabilitySchemas)), credentialLockerId: \(Swift.String(describing: credentialLockerId)), hubNetworkMode: \(Swift.String(describing: hubNetworkMode)), identifier: \(Swift.String(describing: identifier)), metaData: \(Swift.String(describing: metaData)), name: \(Swift.String(describing: name)), wiFiSimpleSetupConfiguration: \(Swift.String(describing: wiFiSimpleSetupConfiguration)), brand: \"CONTENT_REDACTED\", classification: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", owner: \"CONTENT_REDACTED\", serialNumber: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListNotificationConfigurationsInput: Swift.Sendable {
@@ -6141,7 +6335,7 @@ public struct SendConnectorEventInput: Swift.Sendable {
 
 extension SendConnectorEventInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SendConnectorEventInput(connectorId: \(Swift.String(describing: connectorId)), deviceDiscoveryId: \(Swift.String(describing: deviceDiscoveryId)), devices: \(Swift.String(describing: devices)), matterEndpoint: \(Swift.String(describing: matterEndpoint)), operation: \(Swift.String(describing: operation)), traceId: \(Swift.String(describing: traceId)), connectorDeviceId: \"CONTENT_REDACTED\", message: \"CONTENT_REDACTED\", operationVersion: \"CONTENT_REDACTED\", statusCode: \"CONTENT_REDACTED\", userId: \"CONTENT_REDACTED\")"}
+        "SendConnectorEventInput(connectorId: \(Swift.String(describing: connectorId)), deviceDiscoveryId: \(Swift.String(describing: deviceDiscoveryId)), devices: \(Swift.String(describing: devices)), matterEndpoint: \(Swift.String(describing: matterEndpoint)), operation: \(Swift.String(describing: operation)), operationVersion: \(Swift.String(describing: operationVersion)), statusCode: \(Swift.String(describing: statusCode)), traceId: \(Swift.String(describing: traceId)), connectorDeviceId: \"CONTENT_REDACTED\", message: \"CONTENT_REDACTED\", userId: \"CONTENT_REDACTED\")"}
 }
 
 public struct SendConnectorEventOutput: Swift.Sendable {
@@ -6157,10 +6351,10 @@ public struct SendConnectorEventOutput: Swift.Sendable {
 }
 
 public struct TagResourceInput: Swift.Sendable {
-    /// The ARN of the resource to which to add tags.
+    /// The Amazon Resource Name (ARN) of the resource to which to add tags.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// A set of key/value pairs that are used to manage the resource
+    /// A set of key/value pairs that are used to manage the resource.
     /// This member is required.
     public var tags: [Swift.String: Swift.String]?
 
@@ -6184,7 +6378,7 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 public struct UntagResourceInput: Swift.Sendable {
-    /// The ARN of the resource to which to add tags.
+    /// The Amazon Resource Name (ARN) of the resource from which to remove tags.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// A list of tag keys to remove from the resource.
@@ -7350,6 +7544,7 @@ extension CreateAccountAssociationInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["ConnectorDestinationId"].write(value.connectorDestinationId)
         try writer["Description"].write(value.description)
+        try writer["GeneralAuthorization"].write(value.generalAuthorization, with: IoTManagedIntegrationsClientTypes.GeneralAuthorizationName.write(value:to:))
         try writer["Name"].write(value.name)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -7436,6 +7631,7 @@ extension CreateManagedThingInput {
         try writer["Role"].write(value.role)
         try writer["SerialNumber"].write(value.serialNumber)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["WiFiSimpleSetupConfiguration"].write(value.wiFiSimpleSetupConfiguration, with: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration.write(value:to:))
     }
 }
 
@@ -7485,6 +7681,7 @@ extension CreateProvisioningProfileInput {
     static func write(value: CreateProvisioningProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CaCertificate"].write(value.caCertificate)
+        try writer["ClaimCertificate"].write(value.claimCertificate)
         try writer["ClientToken"].write(value.clientToken)
         try writer["Name"].write(value.name)
         try writer["ProvisioningType"].write(value.provisioningType)
@@ -7572,9 +7769,12 @@ extension StartDeviceDiscoveryInput {
         try writer["AuthenticationMaterialType"].write(value.authenticationMaterialType)
         try writer["ClientToken"].write(value.clientToken)
         try writer["ConnectorAssociationIdentifier"].write(value.connectorAssociationIdentifier)
+        try writer["ConnectorDeviceIdList"].writeList(value.connectorDeviceIdList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ControllerIdentifier"].write(value.controllerIdentifier)
         try writer["CustomProtocolDetail"].writeMap(value.customProtocolDetail, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["DiscoveryType"].write(value.discoveryType)
+        try writer["EndDeviceIdentifier"].write(value.endDeviceIdentifier)
+        try writer["Protocol"].write(value.`protocol`)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -7652,6 +7852,7 @@ extension UpdateManagedThingInput {
         try writer["Name"].write(value.name)
         try writer["Owner"].write(value.owner)
         try writer["SerialNumber"].write(value.serialNumber)
+        try writer["WiFiSimpleSetupConfiguration"].write(value.wiFiSimpleSetupConfiguration, with: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration.write(value:to:))
     }
 }
 
@@ -7915,6 +8116,7 @@ extension GetAccountAssociationOutput {
         value.connectorDestinationId = try reader["ConnectorDestinationId"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.generalAuthorization = try reader["GeneralAuthorization"].readIfPresent(with: IoTManagedIntegrationsClientTypes.GeneralAuthorizationName.read(from:))
         value.name = try reader["Name"].readIfPresent()
         value.oAuthAuthorizationUrl = try reader["OAuthAuthorizationUrl"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -8101,6 +8303,7 @@ extension GetManagedThingOutput {
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.universalProductCode = try reader["UniversalProductCode"].readIfPresent()
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.wiFiSimpleSetupConfiguration = try reader["WiFiSimpleSetupConfiguration"].readIfPresent(with: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration.read(from:))
         return value
     }
 }
@@ -9128,6 +9331,7 @@ enum DeregisterAccountAssociationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -10044,6 +10248,7 @@ enum StartAccountAssociationRefreshOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -10419,32 +10624,39 @@ extension InvalidRequestException {
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.EndpointConfig {
+extension IoTManagedIntegrationsClientTypes.AbortConfigCriteria {
 
-    static func write(value: IoTManagedIntegrationsClientTypes.EndpointConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTManagedIntegrationsClientTypes.AbortConfigCriteria?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["lambda"].write(value.lambda, with: IoTManagedIntegrationsClientTypes.LambdaConfig.write(value:to:))
+        try writer["Action"].write(value.action)
+        try writer["FailureType"].write(value.failureType)
+        try writer["MinNumberOfExecutedThings"].write(value.minNumberOfExecutedThings)
+        try writer["ThresholdPercentage"].write(value.thresholdPercentage)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.EndpointConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.AbortConfigCriteria {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.EndpointConfig()
-        value.lambda = try reader["lambda"].readIfPresent(with: IoTManagedIntegrationsClientTypes.LambdaConfig.read(from:))
+        var value = IoTManagedIntegrationsClientTypes.AbortConfigCriteria()
+        value.action = try reader["Action"].readIfPresent()
+        value.failureType = try reader["FailureType"].readIfPresent()
+        value.minNumberOfExecutedThings = try reader["MinNumberOfExecutedThings"].readIfPresent()
+        value.thresholdPercentage = try reader["ThresholdPercentage"].readIfPresent()
         return value
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.LambdaConfig {
+extension IoTManagedIntegrationsClientTypes.AccountAssociationItem {
 
-    static func write(value: IoTManagedIntegrationsClientTypes.LambdaConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.LambdaConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.AccountAssociationItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.LambdaConfig()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
+        var value = IoTManagedIntegrationsClientTypes.AccountAssociationItem()
+        value.accountAssociationId = try reader["AccountAssociationId"].readIfPresent() ?? ""
+        value.associationState = try reader["AssociationState"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.connectorDestinationId = try reader["ConnectorDestinationId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }
@@ -10453,6 +10665,7 @@ extension IoTManagedIntegrationsClientTypes.AuthConfig {
 
     static func write(value: IoTManagedIntegrationsClientTypes.AuthConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["GeneralAuthorization"].writeList(value.generalAuthorization, memberWritingClosure: IoTManagedIntegrationsClientTypes.AuthMaterial.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["oAuth"].write(value.oAuth, with: IoTManagedIntegrationsClientTypes.OAuthConfig.write(value:to:))
     }
 
@@ -10460,88 +10673,45 @@ extension IoTManagedIntegrationsClientTypes.AuthConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTManagedIntegrationsClientTypes.AuthConfig()
         value.oAuth = try reader["oAuth"].readIfPresent(with: IoTManagedIntegrationsClientTypes.OAuthConfig.read(from:))
+        value.generalAuthorization = try reader["GeneralAuthorization"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.AuthMaterial.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.OAuthConfig {
+extension IoTManagedIntegrationsClientTypes.AuthConfigUpdate {
 
-    static func write(value: IoTManagedIntegrationsClientTypes.OAuthConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTManagedIntegrationsClientTypes.AuthConfigUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["authUrl"].write(value.authUrl)
-        try writer["oAuthCompleteRedirectUrl"].write(value.oAuthCompleteRedirectUrl)
-        try writer["proactiveRefreshTokenRenewal"].write(value.proactiveRefreshTokenRenewal, with: IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal.write(value:to:))
-        try writer["scope"].write(value.scope)
-        try writer["tokenEndpointAuthenticationScheme"].write(value.tokenEndpointAuthenticationScheme)
-        try writer["tokenUrl"].write(value.tokenUrl)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.OAuthConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.OAuthConfig()
-        value.authUrl = try reader["authUrl"].readIfPresent() ?? ""
-        value.tokenUrl = try reader["tokenUrl"].readIfPresent() ?? ""
-        value.scope = try reader["scope"].readIfPresent()
-        value.tokenEndpointAuthenticationScheme = try reader["tokenEndpointAuthenticationScheme"].readIfPresent() ?? .sdkUnknown("")
-        value.oAuthCompleteRedirectUrl = try reader["oAuthCompleteRedirectUrl"].readIfPresent()
-        value.proactiveRefreshTokenRenewal = try reader["proactiveRefreshTokenRenewal"].readIfPresent(with: IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal.read(from:))
-        return value
+        try writer["GeneralAuthorizationUpdate"].write(value.generalAuthorizationUpdate, with: IoTManagedIntegrationsClientTypes.GeneralAuthorizationUpdate.write(value:to:))
+        try writer["oAuthUpdate"].write(value.oAuthUpdate, with: IoTManagedIntegrationsClientTypes.OAuthUpdate.write(value:to:))
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal {
+extension IoTManagedIntegrationsClientTypes.AuthMaterial {
 
-    static func write(value: IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTManagedIntegrationsClientTypes.AuthMaterial?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DaysBeforeRenewal"].write(value.daysBeforeRenewal)
-        try writer["enabled"].write(value.enabled)
+        try writer["AuthMaterialName"].write(value.authMaterialName)
+        try writer["SecretsManager"].write(value.secretsManager, with: IoTManagedIntegrationsClientTypes.SecretsManager.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.AuthMaterial {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal()
-        value.enabled = try reader["enabled"].readIfPresent()
-        value.daysBeforeRenewal = try reader["DaysBeforeRenewal"].readIfPresent()
+        var value = IoTManagedIntegrationsClientTypes.AuthMaterial()
+        value.secretsManager = try reader["SecretsManager"].readIfPresent(with: IoTManagedIntegrationsClientTypes.SecretsManager.read(from:))
+        value.authMaterialName = try reader["AuthMaterialName"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.SecretsManager {
+extension IoTManagedIntegrationsClientTypes.CapabilityAction {
 
-    static func write(value: IoTManagedIntegrationsClientTypes.SecretsManager?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTManagedIntegrationsClientTypes.CapabilityAction?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["versionId"].write(value.versionId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.SecretsManager {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.SecretsManager()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.versionId = try reader["versionId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.ConfigurationStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ConfigurationStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.ConfigurationStatus()
-        value.error = try reader["error"].readIfPresent(with: IoTManagedIntegrationsClientTypes.ConfigurationError.read(from:))
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.ConfigurationError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ConfigurationError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.ConfigurationError()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
+        try writer["actionTraceId"].write(value.actionTraceId)
+        try writer["name"].write(value.name)
+        try writer["parameters"].write(value.parameters)
+        try writer["ref"].write(value.ref)
     }
 }
 
@@ -10560,25 +10730,6 @@ extension IoTManagedIntegrationsClientTypes.CapabilityReport {
         value.version = try reader["version"].readIfPresent() ?? ""
         value.nodeId = try reader["nodeId"].readIfPresent()
         value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.CapabilityReportEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.CapabilityReportEndpoint {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.CapabilityReportEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["capabilities"].writeList(value.capabilities, memberWritingClosure: IoTManagedIntegrationsClientTypes.CapabilityReportCapability.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["deviceTypes"].writeList(value.deviceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.CapabilityReportEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.CapabilityReportEndpoint()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.deviceTypes = try reader["deviceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.CapabilityReportCapability.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -10608,282 +10759,88 @@ extension IoTManagedIntegrationsClientTypes.CapabilityReportCapability {
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.StateEndpoint {
+extension IoTManagedIntegrationsClientTypes.CapabilityReportEndpoint {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.StateEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.StateEndpoint()
-        value.endpointId = try reader["endpointId"].readIfPresent() ?? ""
-        value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.StateCapability.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
+    static func write(value: IoTManagedIntegrationsClientTypes.CapabilityReportEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capabilities"].writeList(value.capabilities, memberWritingClosure: IoTManagedIntegrationsClientTypes.CapabilityReportCapability.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["deviceTypes"].writeList(value.deviceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["id"].write(value.id)
     }
-}
 
-extension IoTManagedIntegrationsClientTypes.StateCapability {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.StateCapability {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.CapabilityReportEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.StateCapability()
+        var value = IoTManagedIntegrationsClientTypes.CapabilityReportEndpoint()
         value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.version = try reader["version"].readIfPresent() ?? ""
-        value.properties = try reader["properties"].readIfPresent()
+        value.deviceTypes = try reader["deviceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.CapabilityReportCapability.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.TaskProcessingDetails {
+extension IoTManagedIntegrationsClientTypes.CapabilitySchemaItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.TaskProcessingDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.TaskProcessingDetails()
-        value.numberOfCanceledThings = try reader["NumberOfCanceledThings"].readIfPresent()
-        value.numberOfFailedThings = try reader["NumberOfFailedThings"].readIfPresent()
-        value.numberOfInProgressThings = try reader["NumberOfInProgressThings"].readIfPresent()
-        value.numberOfQueuedThings = try reader["numberOfQueuedThings"].readIfPresent()
-        value.numberOfRejectedThings = try reader["numberOfRejectedThings"].readIfPresent()
-        value.numberOfRemovedThings = try reader["numberOfRemovedThings"].readIfPresent()
-        value.numberOfSucceededThings = try reader["numberOfSucceededThings"].readIfPresent()
-        value.numberOfTimedOutThings = try reader["numberOfTimedOutThings"].readIfPresent()
-        value.processingTargets = try reader["processingTargets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.OtaTaskSchedulingConfig {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.OtaTaskSchedulingConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTManagedIntegrationsClientTypes.CapabilitySchemaItem?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EndBehavior"].write(value.endBehavior)
-        try writer["EndTime"].write(value.endTime)
-        try writer["MaintenanceWindows"].writeList(value.maintenanceWindows, memberWritingClosure: IoTManagedIntegrationsClientTypes.ScheduleMaintenanceWindow.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StartTime"].write(value.startTime)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.OtaTaskSchedulingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.OtaTaskSchedulingConfig()
-        value.endBehavior = try reader["EndBehavior"].readIfPresent()
-        value.endTime = try reader["EndTime"].readIfPresent()
-        value.maintenanceWindows = try reader["MaintenanceWindows"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.ScheduleMaintenanceWindow.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.startTime = try reader["StartTime"].readIfPresent()
-        return value
+        try writer["CapabilityId"].write(value.capabilityId)
+        try writer["ExtrinsicId"].write(value.extrinsicId)
+        try writer["ExtrinsicVersion"].write(value.extrinsicVersion)
+        try writer["Format"].write(value.format)
+        try writer["Schema"].write(value.schema)
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.ScheduleMaintenanceWindow {
+extension IoTManagedIntegrationsClientTypes.CommandCapability {
 
-    static func write(value: IoTManagedIntegrationsClientTypes.ScheduleMaintenanceWindow?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTManagedIntegrationsClientTypes.CommandCapability?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DurationInMinutes"].write(value.durationInMinutes)
-        try writer["StartTime"].write(value.startTime)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ScheduleMaintenanceWindow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.ScheduleMaintenanceWindow()
-        value.durationInMinutes = try reader["DurationInMinutes"].readIfPresent()
-        value.startTime = try reader["StartTime"].readIfPresent()
-        return value
+        try writer["actions"].writeList(value.actions, memberWritingClosure: IoTManagedIntegrationsClientTypes.CapabilityAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+        try writer["version"].write(value.version)
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.OtaTaskExecutionRetryConfig {
+extension IoTManagedIntegrationsClientTypes.CommandEndpoint {
 
-    static func write(value: IoTManagedIntegrationsClientTypes.OtaTaskExecutionRetryConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTManagedIntegrationsClientTypes.CommandEndpoint?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["RetryConfigCriteria"].writeList(value.retryConfigCriteria, memberWritingClosure: IoTManagedIntegrationsClientTypes.RetryConfigCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["capabilities"].writeList(value.capabilities, memberWritingClosure: IoTManagedIntegrationsClientTypes.CommandCapability.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["endpointId"].write(value.endpointId)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.OtaTaskExecutionRetryConfig {
+extension IoTManagedIntegrationsClientTypes.ConfigurationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ConfigurationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.OtaTaskExecutionRetryConfig()
-        value.retryConfigCriteria = try reader["RetryConfigCriteria"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.RetryConfigCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = IoTManagedIntegrationsClientTypes.ConfigurationError()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.RetryConfigCriteria {
+extension IoTManagedIntegrationsClientTypes.ConfigurationStatus {
 
-    static func write(value: IoTManagedIntegrationsClientTypes.RetryConfigCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailureType"].write(value.failureType)
-        try writer["MinNumberOfRetries"].write(value.minNumberOfRetries)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.RetryConfigCriteria {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ConfigurationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.RetryConfigCriteria()
-        value.failureType = try reader["FailureType"].readIfPresent()
-        value.minNumberOfRetries = try reader["MinNumberOfRetries"].readIfPresent()
+        var value = IoTManagedIntegrationsClientTypes.ConfigurationStatus()
+        value.error = try reader["error"].readIfPresent(with: IoTManagedIntegrationsClientTypes.ConfigurationError.read(from:))
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.PushConfig {
+extension IoTManagedIntegrationsClientTypes.ConnectorDestinationSummary {
 
-    static func write(value: IoTManagedIntegrationsClientTypes.PushConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AbortConfig"].write(value.abortConfig, with: IoTManagedIntegrationsClientTypes.OtaTaskAbortConfig.write(value:to:))
-        try writer["RolloutConfig"].write(value.rolloutConfig, with: IoTManagedIntegrationsClientTypes.OtaTaskExecutionRolloutConfig.write(value:to:))
-        try writer["TimeoutConfig"].write(value.timeoutConfig, with: IoTManagedIntegrationsClientTypes.OtaTaskTimeoutConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.PushConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ConnectorDestinationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.PushConfig()
-        value.abortConfig = try reader["AbortConfig"].readIfPresent(with: IoTManagedIntegrationsClientTypes.OtaTaskAbortConfig.read(from:))
-        value.rolloutConfig = try reader["RolloutConfig"].readIfPresent(with: IoTManagedIntegrationsClientTypes.OtaTaskExecutionRolloutConfig.read(from:))
-        value.timeoutConfig = try reader["TimeoutConfig"].readIfPresent(with: IoTManagedIntegrationsClientTypes.OtaTaskTimeoutConfig.read(from:))
-        return value
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.OtaTaskTimeoutConfig {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.OtaTaskTimeoutConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InProgressTimeoutInMinutes"].write(value.inProgressTimeoutInMinutes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.OtaTaskTimeoutConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.OtaTaskTimeoutConfig()
-        value.inProgressTimeoutInMinutes = try reader["InProgressTimeoutInMinutes"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.OtaTaskExecutionRolloutConfig {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.OtaTaskExecutionRolloutConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExponentialRolloutRate"].write(value.exponentialRolloutRate, with: IoTManagedIntegrationsClientTypes.ExponentialRolloutRate.write(value:to:))
-        try writer["MaximumPerMinute"].write(value.maximumPerMinute)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.OtaTaskExecutionRolloutConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.OtaTaskExecutionRolloutConfig()
-        value.exponentialRolloutRate = try reader["ExponentialRolloutRate"].readIfPresent(with: IoTManagedIntegrationsClientTypes.ExponentialRolloutRate.read(from:))
-        value.maximumPerMinute = try reader["MaximumPerMinute"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.ExponentialRolloutRate {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.ExponentialRolloutRate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BaseRatePerMinute"].write(value.baseRatePerMinute)
-        try writer["IncrementFactor"].write(value.incrementFactor)
-        try writer["RateIncreaseCriteria"].write(value.rateIncreaseCriteria, with: IoTManagedIntegrationsClientTypes.RolloutRateIncreaseCriteria.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ExponentialRolloutRate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.ExponentialRolloutRate()
-        value.baseRatePerMinute = try reader["BaseRatePerMinute"].readIfPresent()
-        value.incrementFactor = try reader["IncrementFactor"].readIfPresent()
-        value.rateIncreaseCriteria = try reader["RateIncreaseCriteria"].readIfPresent(with: IoTManagedIntegrationsClientTypes.RolloutRateIncreaseCriteria.read(from:))
-        return value
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.RolloutRateIncreaseCriteria {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.RolloutRateIncreaseCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["numberOfNotifiedThings"].write(value.numberOfNotifiedThings)
-        try writer["numberOfSucceededThings"].write(value.numberOfSucceededThings)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.RolloutRateIncreaseCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.RolloutRateIncreaseCriteria()
-        value.numberOfNotifiedThings = try reader["numberOfNotifiedThings"].readIfPresent()
-        value.numberOfSucceededThings = try reader["numberOfSucceededThings"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.OtaTaskAbortConfig {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.OtaTaskAbortConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AbortConfigCriteriaList"].writeList(value.abortConfigCriteriaList, memberWritingClosure: IoTManagedIntegrationsClientTypes.AbortConfigCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.OtaTaskAbortConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.OtaTaskAbortConfig()
-        value.abortConfigCriteriaList = try reader["AbortConfigCriteriaList"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.AbortConfigCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.AbortConfigCriteria {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.AbortConfigCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["FailureType"].write(value.failureType)
-        try writer["MinNumberOfExecutedThings"].write(value.minNumberOfExecutedThings)
-        try writer["ThresholdPercentage"].write(value.thresholdPercentage)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.AbortConfigCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.AbortConfigCriteria()
-        value.action = try reader["Action"].readIfPresent()
-        value.failureType = try reader["FailureType"].readIfPresent()
-        value.minNumberOfExecutedThings = try reader["MinNumberOfExecutedThings"].readIfPresent()
-        value.thresholdPercentage = try reader["ThresholdPercentage"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.RuntimeLogConfigurations {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.RuntimeLogConfigurations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeleteLocalStoreAfterUpload"].write(value.deleteLocalStoreAfterUpload)
-        try writer["LocalStoreFileRotationMaxBytes"].write(value.localStoreFileRotationMaxBytes)
-        try writer["LocalStoreFileRotationMaxFiles"].write(value.localStoreFileRotationMaxFiles)
-        try writer["LocalStoreLocation"].write(value.localStoreLocation)
-        try writer["LogFlushLevel"].write(value.logFlushLevel)
-        try writer["LogLevel"].write(value.logLevel)
-        try writer["UploadLog"].write(value.uploadLog)
-        try writer["UploadPeriodMinutes"].write(value.uploadPeriodMinutes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.RuntimeLogConfigurations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.RuntimeLogConfigurations()
-        value.logLevel = try reader["LogLevel"].readIfPresent()
-        value.logFlushLevel = try reader["LogFlushLevel"].readIfPresent()
-        value.localStoreLocation = try reader["LocalStoreLocation"].readIfPresent()
-        value.localStoreFileRotationMaxFiles = try reader["LocalStoreFileRotationMaxFiles"].readIfPresent()
-        value.localStoreFileRotationMaxBytes = try reader["LocalStoreFileRotationMaxBytes"].readIfPresent()
-        value.uploadLog = try reader["UploadLog"].readIfPresent()
-        value.uploadPeriodMinutes = try reader["UploadPeriodMinutes"].readIfPresent()
-        value.deleteLocalStoreAfterUpload = try reader["DeleteLocalStoreAfterUpload"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.AccountAssociationItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.AccountAssociationItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.AccountAssociationItem()
-        value.accountAssociationId = try reader["AccountAssociationId"].readIfPresent() ?? ""
-        value.associationState = try reader["AssociationState"].readIfPresent() ?? .sdkUnknown("")
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.connectorDestinationId = try reader["ConnectorDestinationId"].readIfPresent()
+        var value = IoTManagedIntegrationsClientTypes.ConnectorDestinationSummary()
         value.name = try reader["Name"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
+        value.cloudConnectorId = try reader["CloudConnectorId"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
         return value
     }
 }
@@ -10899,19 +10856,6 @@ extension IoTManagedIntegrationsClientTypes.ConnectorItem {
         value.endpointType = try reader["EndpointType"].readIfPresent()
         value.id = try reader["Id"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.ConnectorDestinationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ConnectorDestinationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.ConnectorDestinationSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.cloudConnectorId = try reader["CloudConnectorId"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
         return value
     }
 }
@@ -10940,6 +10884,18 @@ extension IoTManagedIntegrationsClientTypes.DestinationSummary {
         value.name = try reader["Name"].readIfPresent()
         value.roleArn = try reader["RoleArn"].readIfPresent()
         return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.Device {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.Device?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapabilityReport"].write(value.capabilityReport, with: IoTManagedIntegrationsClientTypes.MatterCapabilityReport.write(value:to:))
+        try writer["CapabilitySchemas"].writeList(value.capabilitySchemas, memberWritingClosure: IoTManagedIntegrationsClientTypes.CapabilitySchemaItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ConnectorDeviceId"].write(value.connectorDeviceId)
+        try writer["ConnectorDeviceName"].write(value.connectorDeviceName)
+        try writer["DeviceMetadata"].write(value.deviceMetadata)
     }
 }
 
@@ -10973,6 +10929,21 @@ extension IoTManagedIntegrationsClientTypes.DiscoveredDeviceSummary {
     }
 }
 
+extension IoTManagedIntegrationsClientTypes.EndpointConfig {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.EndpointConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["lambda"].write(value.lambda, with: IoTManagedIntegrationsClientTypes.LambdaConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.EndpointConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.EndpointConfig()
+        value.lambda = try reader["lambda"].readIfPresent(with: IoTManagedIntegrationsClientTypes.LambdaConfig.read(from:))
+        return value
+    }
+}
+
 extension IoTManagedIntegrationsClientTypes.EventLogConfigurationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.EventLogConfigurationSummary {
@@ -10986,6 +10957,64 @@ extension IoTManagedIntegrationsClientTypes.EventLogConfigurationSummary {
     }
 }
 
+extension IoTManagedIntegrationsClientTypes.ExponentialRolloutRate {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.ExponentialRolloutRate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BaseRatePerMinute"].write(value.baseRatePerMinute)
+        try writer["IncrementFactor"].write(value.incrementFactor)
+        try writer["RateIncreaseCriteria"].write(value.rateIncreaseCriteria, with: IoTManagedIntegrationsClientTypes.RolloutRateIncreaseCriteria.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ExponentialRolloutRate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.ExponentialRolloutRate()
+        value.baseRatePerMinute = try reader["BaseRatePerMinute"].readIfPresent()
+        value.incrementFactor = try reader["IncrementFactor"].readIfPresent()
+        value.rateIncreaseCriteria = try reader["RateIncreaseCriteria"].readIfPresent(with: IoTManagedIntegrationsClientTypes.RolloutRateIncreaseCriteria.read(from:))
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.GeneralAuthorizationName {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.GeneralAuthorizationName?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthMaterialName"].write(value.authMaterialName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.GeneralAuthorizationName {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.GeneralAuthorizationName()
+        value.authMaterialName = try reader["AuthMaterialName"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.GeneralAuthorizationUpdate {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.GeneralAuthorizationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthMaterialsToAdd"].writeList(value.authMaterialsToAdd, memberWritingClosure: IoTManagedIntegrationsClientTypes.AuthMaterial.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AuthMaterialsToUpdate"].writeList(value.authMaterialsToUpdate, memberWritingClosure: IoTManagedIntegrationsClientTypes.AuthMaterial.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.LambdaConfig {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.LambdaConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.LambdaConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.LambdaConfig()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension IoTManagedIntegrationsClientTypes.ManagedThingAssociation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ManagedThingAssociation {
@@ -10993,6 +11022,19 @@ extension IoTManagedIntegrationsClientTypes.ManagedThingAssociation {
         var value = IoTManagedIntegrationsClientTypes.ManagedThingAssociation()
         value.managedThingId = try reader["ManagedThingId"].readIfPresent()
         value.accountAssociationId = try reader["AccountAssociationId"].readIfPresent()
+        value.managedThingAssociationStatus = try reader["ManagedThingAssociationStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.ManagedThingSchemaListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ManagedThingSchemaListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.ManagedThingSchemaListItem()
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        value.capabilityId = try reader["CapabilityId"].readIfPresent()
+        value.schema = try reader["Schema"].readIfPresent()
         return value
     }
 }
@@ -11025,15 +11067,74 @@ extension IoTManagedIntegrationsClientTypes.ManagedThingSummary {
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.ManagedThingSchemaListItem {
+extension IoTManagedIntegrationsClientTypes.MatterCapabilityReport {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ManagedThingSchemaListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.ManagedThingSchemaListItem()
-        value.endpointId = try reader["EndpointId"].readIfPresent()
-        value.capabilityId = try reader["CapabilityId"].readIfPresent()
-        value.schema = try reader["Schema"].readIfPresent()
-        return value
+    static func write(value: IoTManagedIntegrationsClientTypes.MatterCapabilityReport?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endpoints"].writeList(value.endpoints, memberWritingClosure: IoTManagedIntegrationsClientTypes.MatterCapabilityReportEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["nodeId"].write(value.nodeId)
+        try writer["version"].write(value.version)
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.MatterCapabilityReportAttribute {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.MatterCapabilityReportAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.MatterCapabilityReportCluster {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.MatterCapabilityReportCluster?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributes"].writeList(value.attributes, memberWritingClosure: IoTManagedIntegrationsClientTypes.MatterCapabilityReportAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["commands"].writeList(value.commands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["events"].writeList(value.events, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["fabricIndex"].write(value.fabricIndex)
+        try writer["featureMap"].write(value.featureMap)
+        try writer["generatedCommands"].writeList(value.generatedCommands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+        try writer["publicId"].write(value.publicId)
+        try writer["revision"].write(value.revision)
+        try writer["specVersion"].write(value.specVersion)
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.MatterCapabilityReportEndpoint {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.MatterCapabilityReportEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientClusters"].writeList(value.clientClusters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["clusters"].writeList(value.clusters, memberWritingClosure: IoTManagedIntegrationsClientTypes.MatterCapabilityReportCluster.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["deviceTypes"].writeList(value.deviceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["id"].write(value.id)
+        try writer["parts"].writeList(value.parts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["semanticTags"].writeList(value.semanticTags, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.MatterCluster {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.MatterCluster?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributes"].write(value.attributes)
+        try writer["commands"].writeMap(value.commands, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["events"].writeMap(value.events, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["id"].write(value.id)
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.MatterEndpoint {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.MatterEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clusters"].writeList(value.clusters, memberWritingClosure: IoTManagedIntegrationsClientTypes.MatterCluster.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["id"].write(value.id)
     }
 }
 
@@ -11048,6 +11149,55 @@ extension IoTManagedIntegrationsClientTypes.NotificationConfigurationSummary {
     }
 }
 
+extension IoTManagedIntegrationsClientTypes.OAuthConfig {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.OAuthConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authUrl"].write(value.authUrl)
+        try writer["oAuthCompleteRedirectUrl"].write(value.oAuthCompleteRedirectUrl)
+        try writer["proactiveRefreshTokenRenewal"].write(value.proactiveRefreshTokenRenewal, with: IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal.write(value:to:))
+        try writer["scope"].write(value.scope)
+        try writer["tokenEndpointAuthenticationScheme"].write(value.tokenEndpointAuthenticationScheme)
+        try writer["tokenUrl"].write(value.tokenUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.OAuthConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.OAuthConfig()
+        value.authUrl = try reader["authUrl"].readIfPresent() ?? ""
+        value.tokenUrl = try reader["tokenUrl"].readIfPresent() ?? ""
+        value.scope = try reader["scope"].readIfPresent()
+        value.tokenEndpointAuthenticationScheme = try reader["tokenEndpointAuthenticationScheme"].readIfPresent() ?? .sdkUnknown("")
+        value.oAuthCompleteRedirectUrl = try reader["oAuthCompleteRedirectUrl"].readIfPresent()
+        value.proactiveRefreshTokenRenewal = try reader["proactiveRefreshTokenRenewal"].readIfPresent(with: IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal.read(from:))
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.OAuthUpdate {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.OAuthUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["oAuthCompleteRedirectUrl"].write(value.oAuthCompleteRedirectUrl)
+        try writer["proactiveRefreshTokenRenewal"].write(value.proactiveRefreshTokenRenewal, with: IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal.write(value:to:))
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.OtaTaskAbortConfig {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.OtaTaskAbortConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AbortConfigCriteriaList"].writeList(value.abortConfigCriteriaList, memberWritingClosure: IoTManagedIntegrationsClientTypes.AbortConfigCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.OtaTaskAbortConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.OtaTaskAbortConfig()
+        value.abortConfigCriteriaList = try reader["AbortConfigCriteriaList"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.AbortConfigCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension IoTManagedIntegrationsClientTypes.OtaTaskConfigurationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.OtaTaskConfigurationSummary {
@@ -11056,6 +11206,38 @@ extension IoTManagedIntegrationsClientTypes.OtaTaskConfigurationSummary {
         value.taskConfigurationId = try reader["TaskConfigurationId"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.OtaTaskExecutionRetryConfig {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.OtaTaskExecutionRetryConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RetryConfigCriteria"].writeList(value.retryConfigCriteria, memberWritingClosure: IoTManagedIntegrationsClientTypes.RetryConfigCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.OtaTaskExecutionRetryConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.OtaTaskExecutionRetryConfig()
+        value.retryConfigCriteria = try reader["RetryConfigCriteria"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.RetryConfigCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.OtaTaskExecutionRolloutConfig {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.OtaTaskExecutionRolloutConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExponentialRolloutRate"].write(value.exponentialRolloutRate, with: IoTManagedIntegrationsClientTypes.ExponentialRolloutRate.write(value:to:))
+        try writer["MaximumPerMinute"].write(value.maximumPerMinute)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.OtaTaskExecutionRolloutConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.OtaTaskExecutionRolloutConfig()
+        value.exponentialRolloutRate = try reader["ExponentialRolloutRate"].readIfPresent(with: IoTManagedIntegrationsClientTypes.ExponentialRolloutRate.read(from:))
+        value.maximumPerMinute = try reader["MaximumPerMinute"].readIfPresent()
         return value
     }
 }
@@ -11086,6 +11268,27 @@ extension IoTManagedIntegrationsClientTypes.OtaTaskExecutionSummary {
     }
 }
 
+extension IoTManagedIntegrationsClientTypes.OtaTaskSchedulingConfig {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.OtaTaskSchedulingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndBehavior"].write(value.endBehavior)
+        try writer["EndTime"].write(value.endTime)
+        try writer["MaintenanceWindows"].writeList(value.maintenanceWindows, memberWritingClosure: IoTManagedIntegrationsClientTypes.ScheduleMaintenanceWindow.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StartTime"].write(value.startTime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.OtaTaskSchedulingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.OtaTaskSchedulingConfig()
+        value.endBehavior = try reader["EndBehavior"].readIfPresent()
+        value.endTime = try reader["EndTime"].readIfPresent()
+        value.maintenanceWindows = try reader["MaintenanceWindows"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.ScheduleMaintenanceWindow.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.startTime = try reader["StartTime"].readIfPresent()
+        return value
+    }
+}
+
 extension IoTManagedIntegrationsClientTypes.OtaTaskSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.OtaTaskSummary {
@@ -11101,6 +11304,38 @@ extension IoTManagedIntegrationsClientTypes.OtaTaskSummary {
     }
 }
 
+extension IoTManagedIntegrationsClientTypes.OtaTaskTimeoutConfig {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.OtaTaskTimeoutConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InProgressTimeoutInMinutes"].write(value.inProgressTimeoutInMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.OtaTaskTimeoutConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.OtaTaskTimeoutConfig()
+        value.inProgressTimeoutInMinutes = try reader["InProgressTimeoutInMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DaysBeforeRenewal"].write(value.daysBeforeRenewal)
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.daysBeforeRenewal = try reader["DaysBeforeRenewal"].readIfPresent()
+        return value
+    }
+}
+
 extension IoTManagedIntegrationsClientTypes.ProvisioningProfileSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ProvisioningProfileSummary {
@@ -11110,6 +11345,105 @@ extension IoTManagedIntegrationsClientTypes.ProvisioningProfileSummary {
         value.id = try reader["Id"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
         value.provisioningType = try reader["ProvisioningType"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.PushConfig {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.PushConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AbortConfig"].write(value.abortConfig, with: IoTManagedIntegrationsClientTypes.OtaTaskAbortConfig.write(value:to:))
+        try writer["RolloutConfig"].write(value.rolloutConfig, with: IoTManagedIntegrationsClientTypes.OtaTaskExecutionRolloutConfig.write(value:to:))
+        try writer["TimeoutConfig"].write(value.timeoutConfig, with: IoTManagedIntegrationsClientTypes.OtaTaskTimeoutConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.PushConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.PushConfig()
+        value.abortConfig = try reader["AbortConfig"].readIfPresent(with: IoTManagedIntegrationsClientTypes.OtaTaskAbortConfig.read(from:))
+        value.rolloutConfig = try reader["RolloutConfig"].readIfPresent(with: IoTManagedIntegrationsClientTypes.OtaTaskExecutionRolloutConfig.read(from:))
+        value.timeoutConfig = try reader["TimeoutConfig"].readIfPresent(with: IoTManagedIntegrationsClientTypes.OtaTaskTimeoutConfig.read(from:))
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.RetryConfigCriteria {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.RetryConfigCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FailureType"].write(value.failureType)
+        try writer["MinNumberOfRetries"].write(value.minNumberOfRetries)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.RetryConfigCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.RetryConfigCriteria()
+        value.failureType = try reader["FailureType"].readIfPresent()
+        value.minNumberOfRetries = try reader["MinNumberOfRetries"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.RolloutRateIncreaseCriteria {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.RolloutRateIncreaseCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["numberOfNotifiedThings"].write(value.numberOfNotifiedThings)
+        try writer["numberOfSucceededThings"].write(value.numberOfSucceededThings)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.RolloutRateIncreaseCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.RolloutRateIncreaseCriteria()
+        value.numberOfNotifiedThings = try reader["numberOfNotifiedThings"].readIfPresent()
+        value.numberOfSucceededThings = try reader["numberOfSucceededThings"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.RuntimeLogConfigurations {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.RuntimeLogConfigurations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeleteLocalStoreAfterUpload"].write(value.deleteLocalStoreAfterUpload)
+        try writer["LocalStoreFileRotationMaxBytes"].write(value.localStoreFileRotationMaxBytes)
+        try writer["LocalStoreFileRotationMaxFiles"].write(value.localStoreFileRotationMaxFiles)
+        try writer["LocalStoreLocation"].write(value.localStoreLocation)
+        try writer["LogFlushLevel"].write(value.logFlushLevel)
+        try writer["LogLevel"].write(value.logLevel)
+        try writer["UploadLog"].write(value.uploadLog)
+        try writer["UploadPeriodMinutes"].write(value.uploadPeriodMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.RuntimeLogConfigurations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.RuntimeLogConfigurations()
+        value.logLevel = try reader["LogLevel"].readIfPresent()
+        value.logFlushLevel = try reader["LogFlushLevel"].readIfPresent()
+        value.localStoreLocation = try reader["LocalStoreLocation"].readIfPresent()
+        value.localStoreFileRotationMaxFiles = try reader["LocalStoreFileRotationMaxFiles"].readIfPresent()
+        value.localStoreFileRotationMaxBytes = try reader["LocalStoreFileRotationMaxBytes"].readIfPresent()
+        value.uploadLog = try reader["UploadLog"].readIfPresent()
+        value.uploadPeriodMinutes = try reader["UploadPeriodMinutes"].readIfPresent()
+        value.deleteLocalStoreAfterUpload = try reader["DeleteLocalStoreAfterUpload"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.ScheduleMaintenanceWindow {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.ScheduleMaintenanceWindow?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DurationInMinutes"].write(value.durationInMinutes)
+        try writer["StartTime"].write(value.startTime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.ScheduleMaintenanceWindow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.ScheduleMaintenanceWindow()
+        value.durationInMinutes = try reader["DurationInMinutes"].readIfPresent()
+        value.startTime = try reader["StartTime"].readIfPresent()
         return value
     }
 }
@@ -11129,146 +11463,81 @@ extension IoTManagedIntegrationsClientTypes.SchemaVersionListItem {
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.CapabilitySchemaItem {
+extension IoTManagedIntegrationsClientTypes.SecretsManager {
 
-    static func write(value: IoTManagedIntegrationsClientTypes.CapabilitySchemaItem?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTManagedIntegrationsClientTypes.SecretsManager?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CapabilityId"].write(value.capabilityId)
-        try writer["ExtrinsicId"].write(value.extrinsicId)
-        try writer["ExtrinsicVersion"].write(value.extrinsicVersion)
-        try writer["Format"].write(value.format)
-        try writer["Schema"].write(value.schema)
+        try writer["arn"].write(value.arn)
+        try writer["versionId"].write(value.versionId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.SecretsManager {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.SecretsManager()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.versionId = try reader["versionId"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.Device {
+extension IoTManagedIntegrationsClientTypes.StateCapability {
 
-    static func write(value: IoTManagedIntegrationsClientTypes.Device?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CapabilityReport"].write(value.capabilityReport, with: IoTManagedIntegrationsClientTypes.MatterCapabilityReport.write(value:to:))
-        try writer["CapabilitySchemas"].writeList(value.capabilitySchemas, memberWritingClosure: IoTManagedIntegrationsClientTypes.CapabilitySchemaItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ConnectorDeviceId"].write(value.connectorDeviceId)
-        try writer["ConnectorDeviceName"].write(value.connectorDeviceName)
-        try writer["DeviceMetadata"].write(value.deviceMetadata)
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.StateCapability {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.StateCapability()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.properties = try reader["properties"].readIfPresent()
+        return value
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.MatterCapabilityReport {
+extension IoTManagedIntegrationsClientTypes.StateEndpoint {
 
-    static func write(value: IoTManagedIntegrationsClientTypes.MatterCapabilityReport?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["endpoints"].writeList(value.endpoints, memberWritingClosure: IoTManagedIntegrationsClientTypes.MatterCapabilityReportEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["nodeId"].write(value.nodeId)
-        try writer["version"].write(value.version)
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.StateEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.StateEndpoint()
+        value.endpointId = try reader["endpointId"].readIfPresent() ?? ""
+        value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.StateCapability.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.MatterCapabilityReportEndpoint {
+extension IoTManagedIntegrationsClientTypes.TaskProcessingDetails {
 
-    static func write(value: IoTManagedIntegrationsClientTypes.MatterCapabilityReportEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientClusters"].writeList(value.clientClusters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["clusters"].writeList(value.clusters, memberWritingClosure: IoTManagedIntegrationsClientTypes.MatterCapabilityReportCluster.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["deviceTypes"].writeList(value.deviceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["parts"].writeList(value.parts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["semanticTags"].writeList(value.semanticTags, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.TaskProcessingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.TaskProcessingDetails()
+        value.numberOfCanceledThings = try reader["NumberOfCanceledThings"].readIfPresent()
+        value.numberOfFailedThings = try reader["NumberOfFailedThings"].readIfPresent()
+        value.numberOfInProgressThings = try reader["NumberOfInProgressThings"].readIfPresent()
+        value.numberOfQueuedThings = try reader["numberOfQueuedThings"].readIfPresent()
+        value.numberOfRejectedThings = try reader["numberOfRejectedThings"].readIfPresent()
+        value.numberOfRemovedThings = try reader["numberOfRemovedThings"].readIfPresent()
+        value.numberOfSucceededThings = try reader["numberOfSucceededThings"].readIfPresent()
+        value.numberOfTimedOutThings = try reader["numberOfTimedOutThings"].readIfPresent()
+        value.processingTargets = try reader["processingTargets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension IoTManagedIntegrationsClientTypes.MatterCapabilityReportCluster {
+extension IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration {
 
-    static func write(value: IoTManagedIntegrationsClientTypes.MatterCapabilityReportCluster?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["attributes"].writeList(value.attributes, memberWritingClosure: IoTManagedIntegrationsClientTypes.MatterCapabilityReportAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["commands"].writeList(value.commands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["events"].writeList(value.events, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["fabricIndex"].write(value.fabricIndex)
-        try writer["featureMap"].write(value.featureMap)
-        try writer["generatedCommands"].writeList(value.generatedCommands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["publicId"].write(value.publicId)
-        try writer["revision"].write(value.revision)
-        try writer["specVersion"].write(value.specVersion)
+        try writer["EnableAsProvisionee"].write(value.enableAsProvisionee)
+        try writer["EnableAsProvisioner"].write(value.enableAsProvisioner)
+        try writer["TimeoutInMinutes"].write(value.timeoutInMinutes)
     }
-}
 
-extension IoTManagedIntegrationsClientTypes.MatterCapabilityReportAttribute {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.MatterCapabilityReportAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.MatterEndpoint {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.MatterEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clusters"].writeList(value.clusters, memberWritingClosure: IoTManagedIntegrationsClientTypes.MatterCluster.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.MatterCluster {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.MatterCluster?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributes"].write(value.attributes)
-        try writer["commands"].writeMap(value.commands, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["events"].writeMap(value.events, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["id"].write(value.id)
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.CommandEndpoint {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.CommandEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["capabilities"].writeList(value.capabilities, memberWritingClosure: IoTManagedIntegrationsClientTypes.CommandCapability.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["endpointId"].write(value.endpointId)
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.CommandCapability {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.CommandCapability?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actions"].writeList(value.actions, memberWritingClosure: IoTManagedIntegrationsClientTypes.CapabilityAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["version"].write(value.version)
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.CapabilityAction {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.CapabilityAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionTraceId"].write(value.actionTraceId)
-        try writer["name"].write(value.name)
-        try writer["parameters"].write(value.parameters)
-        try writer["ref"].write(value.ref)
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.AuthConfigUpdate {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.AuthConfigUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["oAuthUpdate"].write(value.oAuthUpdate, with: IoTManagedIntegrationsClientTypes.OAuthUpdate.write(value:to:))
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.OAuthUpdate {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.OAuthUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["oAuthCompleteRedirectUrl"].write(value.oAuthCompleteRedirectUrl)
-        try writer["proactiveRefreshTokenRenewal"].write(value.proactiveRefreshTokenRenewal, with: IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.WiFiSimpleSetupConfiguration()
+        value.enableAsProvisioner = try reader["EnableAsProvisioner"].readIfPresent()
+        value.enableAsProvisionee = try reader["EnableAsProvisionee"].readIfPresent()
+        value.timeoutInMinutes = try reader["TimeoutInMinutes"].readIfPresent()
+        return value
     }
 }
 

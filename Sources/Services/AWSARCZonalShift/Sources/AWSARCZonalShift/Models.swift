@@ -2502,55 +2502,6 @@ extension ValidationException {
     }
 }
 
-extension ARCZonalShiftClientTypes.PracticeRunConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ARCZonalShiftClientTypes.PracticeRunConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCZonalShiftClientTypes.PracticeRunConfiguration()
-        value.blockingAlarms = try reader["blockingAlarms"].readListIfPresent(memberReadingClosure: ARCZonalShiftClientTypes.ControlCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.outcomeAlarms = try reader["outcomeAlarms"].readListIfPresent(memberReadingClosure: ARCZonalShiftClientTypes.ControlCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.blockedWindows = try reader["blockedWindows"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allowedWindows = try reader["allowedWindows"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.blockedDates = try reader["blockedDates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension ARCZonalShiftClientTypes.ControlCondition {
-
-    static func write(value: ARCZonalShiftClientTypes.ControlCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alarmIdentifier"].write(value.alarmIdentifier)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ARCZonalShiftClientTypes.ControlCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCZonalShiftClientTypes.ControlCondition()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.alarmIdentifier = try reader["alarmIdentifier"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ARCZonalShiftClientTypes.ZonalShiftInResource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ARCZonalShiftClientTypes.ZonalShiftInResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ARCZonalShiftClientTypes.ZonalShiftInResource()
-        value.appliedStatus = try reader["appliedStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.zonalShiftId = try reader["zonalShiftId"].readIfPresent() ?? ""
-        value.resourceIdentifier = try reader["resourceIdentifier"].readIfPresent() ?? ""
-        value.awayFrom = try reader["awayFrom"].readIfPresent() ?? ""
-        value.expiryTime = try reader["expiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.comment = try reader["comment"].readIfPresent() ?? ""
-        value.shiftType = try reader["shiftType"].readIfPresent()
-        value.practiceRunOutcome = try reader["practiceRunOutcome"].readIfPresent()
-        return value
-    }
-}
-
 extension ARCZonalShiftClientTypes.AutoshiftInResource {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ARCZonalShiftClientTypes.AutoshiftInResource {
@@ -2576,6 +2527,23 @@ extension ARCZonalShiftClientTypes.AutoshiftSummary {
     }
 }
 
+extension ARCZonalShiftClientTypes.ControlCondition {
+
+    static func write(value: ARCZonalShiftClientTypes.ControlCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["alarmIdentifier"].write(value.alarmIdentifier)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ARCZonalShiftClientTypes.ControlCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCZonalShiftClientTypes.ControlCondition()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.alarmIdentifier = try reader["alarmIdentifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ARCZonalShiftClientTypes.ManagedResourceSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ARCZonalShiftClientTypes.ManagedResourceSummary {
@@ -2589,6 +2557,38 @@ extension ARCZonalShiftClientTypes.ManagedResourceSummary {
         value.autoshifts = try reader["autoshifts"].readListIfPresent(memberReadingClosure: ARCZonalShiftClientTypes.AutoshiftInResource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.zonalAutoshiftStatus = try reader["zonalAutoshiftStatus"].readIfPresent()
         value.practiceRunStatus = try reader["practiceRunStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension ARCZonalShiftClientTypes.PracticeRunConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ARCZonalShiftClientTypes.PracticeRunConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCZonalShiftClientTypes.PracticeRunConfiguration()
+        value.blockingAlarms = try reader["blockingAlarms"].readListIfPresent(memberReadingClosure: ARCZonalShiftClientTypes.ControlCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outcomeAlarms = try reader["outcomeAlarms"].readListIfPresent(memberReadingClosure: ARCZonalShiftClientTypes.ControlCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.blockedWindows = try reader["blockedWindows"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedWindows = try reader["allowedWindows"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.blockedDates = try reader["blockedDates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ARCZonalShiftClientTypes.ZonalShiftInResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ARCZonalShiftClientTypes.ZonalShiftInResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ARCZonalShiftClientTypes.ZonalShiftInResource()
+        value.appliedStatus = try reader["appliedStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.zonalShiftId = try reader["zonalShiftId"].readIfPresent() ?? ""
+        value.resourceIdentifier = try reader["resourceIdentifier"].readIfPresent() ?? ""
+        value.awayFrom = try reader["awayFrom"].readIfPresent() ?? ""
+        value.expiryTime = try reader["expiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.comment = try reader["comment"].readIfPresent() ?? ""
+        value.shiftType = try reader["shiftType"].readIfPresent()
+        value.practiceRunOutcome = try reader["practiceRunOutcome"].readIfPresent()
         return value
     }
 }

@@ -4083,22 +4083,6 @@ extension InvalidNextTokenException {
     }
 }
 
-extension SnowballClientTypes.JobListEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.JobListEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.JobListEntry()
-        value.jobId = try reader["JobId"].readIfPresent()
-        value.jobState = try reader["JobState"].readIfPresent()
-        value.isMaster = try reader["IsMaster"].readIfPresent() ?? false
-        value.jobType = try reader["JobType"].readIfPresent()
-        value.snowballType = try reader["SnowballType"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
 extension SnowballClientTypes.Address {
 
     static func write(value: SnowballClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
@@ -4142,6 +4126,19 @@ extension SnowballClientTypes.Address {
     }
 }
 
+extension SnowballClientTypes.ClusterListEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.ClusterListEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowballClientTypes.ClusterListEntry()
+        value.clusterId = try reader["ClusterId"].readIfPresent()
+        value.clusterState = try reader["ClusterState"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
 extension SnowballClientTypes.ClusterMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.ClusterMetadata {
@@ -4166,165 +4163,58 @@ extension SnowballClientTypes.ClusterMetadata {
     }
 }
 
-extension SnowballClientTypes.OnDeviceServiceConfiguration {
+extension SnowballClientTypes.CompatibleImage {
 
-    static func write(value: SnowballClientTypes.OnDeviceServiceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EKSOnDeviceService"].write(value.eksOnDeviceService, with: SnowballClientTypes.EKSOnDeviceServiceConfiguration.write(value:to:))
-        try writer["NFSOnDeviceService"].write(value.nfsOnDeviceService, with: SnowballClientTypes.NFSOnDeviceServiceConfiguration.write(value:to:))
-        try writer["S3OnDeviceService"].write(value.s3OnDeviceService, with: SnowballClientTypes.S3OnDeviceServiceConfiguration.write(value:to:))
-        try writer["TGWOnDeviceService"].write(value.tgwOnDeviceService, with: SnowballClientTypes.TGWOnDeviceServiceConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.OnDeviceServiceConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.CompatibleImage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.OnDeviceServiceConfiguration()
-        value.nfsOnDeviceService = try reader["NFSOnDeviceService"].readIfPresent(with: SnowballClientTypes.NFSOnDeviceServiceConfiguration.read(from:))
-        value.tgwOnDeviceService = try reader["TGWOnDeviceService"].readIfPresent(with: SnowballClientTypes.TGWOnDeviceServiceConfiguration.read(from:))
-        value.eksOnDeviceService = try reader["EKSOnDeviceService"].readIfPresent(with: SnowballClientTypes.EKSOnDeviceServiceConfiguration.read(from:))
-        value.s3OnDeviceService = try reader["S3OnDeviceService"].readIfPresent(with: SnowballClientTypes.S3OnDeviceServiceConfiguration.read(from:))
+        var value = SnowballClientTypes.CompatibleImage()
+        value.amiId = try reader["AmiId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
 
-extension SnowballClientTypes.S3OnDeviceServiceConfiguration {
+extension SnowballClientTypes.DataTransfer {
 
-    static func write(value: SnowballClientTypes.S3OnDeviceServiceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FaultTolerance"].write(value.faultTolerance)
-        try writer["ServiceSize"].write(value.serviceSize)
-        try writer["StorageLimit"].write(value.storageLimit)
-        try writer["StorageUnit"].write(value.storageUnit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.S3OnDeviceServiceConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.DataTransfer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.S3OnDeviceServiceConfiguration()
-        value.storageLimit = try reader["StorageLimit"].readIfPresent()
-        value.storageUnit = try reader["StorageUnit"].readIfPresent()
-        value.serviceSize = try reader["ServiceSize"].readIfPresent()
-        value.faultTolerance = try reader["FaultTolerance"].readIfPresent()
+        var value = SnowballClientTypes.DataTransfer()
+        value.bytesTransferred = try reader["BytesTransferred"].readIfPresent() ?? 0
+        value.objectsTransferred = try reader["ObjectsTransferred"].readIfPresent() ?? 0
+        value.totalBytes = try reader["TotalBytes"].readIfPresent() ?? 0
+        value.totalObjects = try reader["TotalObjects"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension SnowballClientTypes.EKSOnDeviceServiceConfiguration {
+extension SnowballClientTypes.DependentService {
 
-    static func write(value: SnowballClientTypes.EKSOnDeviceServiceConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.DependentService?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EKSAnywhereVersion"].write(value.eksAnywhereVersion)
-        try writer["KubernetesVersion"].write(value.kubernetesVersion)
+        try writer["ServiceName"].write(value.serviceName)
+        try writer["ServiceVersion"].write(value.serviceVersion, with: SnowballClientTypes.ServiceVersion.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.EKSOnDeviceServiceConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.DependentService {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.EKSOnDeviceServiceConfiguration()
-        value.kubernetesVersion = try reader["KubernetesVersion"].readIfPresent()
-        value.eksAnywhereVersion = try reader["EKSAnywhereVersion"].readIfPresent()
+        var value = SnowballClientTypes.DependentService()
+        value.serviceName = try reader["ServiceName"].readIfPresent()
+        value.serviceVersion = try reader["ServiceVersion"].readIfPresent(with: SnowballClientTypes.ServiceVersion.read(from:))
         return value
     }
 }
 
-extension SnowballClientTypes.TGWOnDeviceServiceConfiguration {
+extension SnowballClientTypes.DeviceConfiguration {
 
-    static func write(value: SnowballClientTypes.TGWOnDeviceServiceConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.DeviceConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["StorageLimit"].write(value.storageLimit)
-        try writer["StorageUnit"].write(value.storageUnit)
+        try writer["SnowconeDeviceConfiguration"].write(value.snowconeDeviceConfiguration, with: SnowballClientTypes.SnowconeDeviceConfiguration.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.TGWOnDeviceServiceConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.DeviceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.TGWOnDeviceServiceConfiguration()
-        value.storageLimit = try reader["StorageLimit"].readIfPresent() ?? 0
-        value.storageUnit = try reader["StorageUnit"].readIfPresent()
-        return value
-    }
-}
-
-extension SnowballClientTypes.NFSOnDeviceServiceConfiguration {
-
-    static func write(value: SnowballClientTypes.NFSOnDeviceServiceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StorageLimit"].write(value.storageLimit)
-        try writer["StorageUnit"].write(value.storageUnit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.NFSOnDeviceServiceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.NFSOnDeviceServiceConfiguration()
-        value.storageLimit = try reader["StorageLimit"].readIfPresent() ?? 0
-        value.storageUnit = try reader["StorageUnit"].readIfPresent()
-        return value
-    }
-}
-
-extension SnowballClientTypes.TaxDocuments {
-
-    static func write(value: SnowballClientTypes.TaxDocuments?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IND"].write(value.ind, with: SnowballClientTypes.INDTaxDocuments.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.TaxDocuments {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.TaxDocuments()
-        value.ind = try reader["IND"].readIfPresent(with: SnowballClientTypes.INDTaxDocuments.read(from:))
-        return value
-    }
-}
-
-extension SnowballClientTypes.INDTaxDocuments {
-
-    static func write(value: SnowballClientTypes.INDTaxDocuments?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GSTIN"].write(value.gstin)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.INDTaxDocuments {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.INDTaxDocuments()
-        value.gstin = try reader["GSTIN"].readIfPresent()
-        return value
-    }
-}
-
-extension SnowballClientTypes.Notification {
-
-    static func write(value: SnowballClientTypes.Notification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DevicePickupSnsTopicARN"].write(value.devicePickupSnsTopicARN)
-        try writer["JobStatesToNotify"].writeList(value.jobStatesToNotify, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SnowballClientTypes.JobState>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NotifyAll"].write(value.notifyAll)
-        try writer["SnsTopicARN"].write(value.snsTopicARN)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.Notification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.Notification()
-        value.snsTopicARN = try reader["SnsTopicARN"].readIfPresent()
-        value.jobStatesToNotify = try reader["JobStatesToNotify"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SnowballClientTypes.JobState>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.notifyAll = try reader["NotifyAll"].readIfPresent() ?? false
-        value.devicePickupSnsTopicARN = try reader["DevicePickupSnsTopicARN"].readIfPresent()
-        return value
-    }
-}
-
-extension SnowballClientTypes.JobResource {
-
-    static func write(value: SnowballClientTypes.JobResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Ec2AmiResources"].writeList(value.ec2AmiResources, memberWritingClosure: SnowballClientTypes.Ec2AmiResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LambdaResources"].writeList(value.lambdaResources, memberWritingClosure: SnowballClientTypes.LambdaResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["S3Resources"].writeList(value.s3Resources, memberWritingClosure: SnowballClientTypes.S3Resource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.JobResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.JobResource()
-        value.s3Resources = try reader["S3Resources"].readListIfPresent(memberReadingClosure: SnowballClientTypes.S3Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lambdaResources = try reader["LambdaResources"].readListIfPresent(memberReadingClosure: SnowballClientTypes.LambdaResource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ec2AmiResources = try reader["Ec2AmiResources"].readListIfPresent(memberReadingClosure: SnowballClientTypes.Ec2AmiResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = SnowballClientTypes.DeviceConfiguration()
+        value.snowconeDeviceConfiguration = try reader["SnowconeDeviceConfiguration"].readIfPresent(with: SnowballClientTypes.SnowconeDeviceConfiguration.read(from:))
         return value
     }
 }
@@ -4346,19 +4236,19 @@ extension SnowballClientTypes.Ec2AmiResource {
     }
 }
 
-extension SnowballClientTypes.LambdaResource {
+extension SnowballClientTypes.EKSOnDeviceServiceConfiguration {
 
-    static func write(value: SnowballClientTypes.LambdaResource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.EKSOnDeviceServiceConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EventTriggers"].writeList(value.eventTriggers, memberWritingClosure: SnowballClientTypes.EventTriggerDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LambdaArn"].write(value.lambdaArn)
+        try writer["EKSAnywhereVersion"].write(value.eksAnywhereVersion)
+        try writer["KubernetesVersion"].write(value.kubernetesVersion)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.LambdaResource {
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.EKSOnDeviceServiceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.LambdaResource()
-        value.lambdaArn = try reader["LambdaArn"].readIfPresent()
-        value.eventTriggers = try reader["EventTriggers"].readListIfPresent(memberReadingClosure: SnowballClientTypes.EventTriggerDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = SnowballClientTypes.EKSOnDeviceServiceConfiguration()
+        value.kubernetesVersion = try reader["KubernetesVersion"].readIfPresent()
+        value.eksAnywhereVersion = try reader["EKSAnywhereVersion"].readIfPresent()
         return value
     }
 }
@@ -4378,55 +4268,45 @@ extension SnowballClientTypes.EventTriggerDefinition {
     }
 }
 
-extension SnowballClientTypes.S3Resource {
+extension SnowballClientTypes.INDTaxDocuments {
 
-    static func write(value: SnowballClientTypes.S3Resource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.INDTaxDocuments?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["BucketArn"].write(value.bucketArn)
-        try writer["KeyRange"].write(value.keyRange, with: SnowballClientTypes.KeyRange.write(value:to:))
-        try writer["TargetOnDeviceServices"].writeList(value.targetOnDeviceServices, memberWritingClosure: SnowballClientTypes.TargetOnDeviceService.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["GSTIN"].write(value.gstin)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.S3Resource {
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.INDTaxDocuments {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.S3Resource()
-        value.bucketArn = try reader["BucketArn"].readIfPresent()
-        value.keyRange = try reader["KeyRange"].readIfPresent(with: SnowballClientTypes.KeyRange.read(from:))
-        value.targetOnDeviceServices = try reader["TargetOnDeviceServices"].readListIfPresent(memberReadingClosure: SnowballClientTypes.TargetOnDeviceService.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = SnowballClientTypes.INDTaxDocuments()
+        value.gstin = try reader["GSTIN"].readIfPresent()
         return value
     }
 }
 
-extension SnowballClientTypes.TargetOnDeviceService {
+extension SnowballClientTypes.JobListEntry {
 
-    static func write(value: SnowballClientTypes.TargetOnDeviceService?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ServiceName"].write(value.serviceName)
-        try writer["TransferOption"].write(value.transferOption)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.TargetOnDeviceService {
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.JobListEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.TargetOnDeviceService()
-        value.serviceName = try reader["ServiceName"].readIfPresent()
-        value.transferOption = try reader["TransferOption"].readIfPresent()
+        var value = SnowballClientTypes.JobListEntry()
+        value.jobId = try reader["JobId"].readIfPresent()
+        value.jobState = try reader["JobState"].readIfPresent()
+        value.isMaster = try reader["IsMaster"].readIfPresent() ?? false
+        value.jobType = try reader["JobType"].readIfPresent()
+        value.snowballType = try reader["SnowballType"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }
 
-extension SnowballClientTypes.KeyRange {
+extension SnowballClientTypes.JobLogs {
 
-    static func write(value: SnowballClientTypes.KeyRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BeginMarker"].write(value.beginMarker)
-        try writer["EndMarker"].write(value.endMarker)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.KeyRange {
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.JobLogs {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.KeyRange()
-        value.beginMarker = try reader["BeginMarker"].readIfPresent()
-        value.endMarker = try reader["EndMarker"].readIfPresent()
+        var value = SnowballClientTypes.JobLogs()
+        value.jobCompletionReportURI = try reader["JobCompletionReportURI"].readIfPresent()
+        value.jobSuccessLogURI = try reader["JobSuccessLogURI"].readIfPresent()
+        value.jobFailureLogURI = try reader["JobFailureLogURI"].readIfPresent()
         return value
     }
 }
@@ -4465,6 +4345,137 @@ extension SnowballClientTypes.JobMetadata {
     }
 }
 
+extension SnowballClientTypes.JobResource {
+
+    static func write(value: SnowballClientTypes.JobResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Ec2AmiResources"].writeList(value.ec2AmiResources, memberWritingClosure: SnowballClientTypes.Ec2AmiResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LambdaResources"].writeList(value.lambdaResources, memberWritingClosure: SnowballClientTypes.LambdaResource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["S3Resources"].writeList(value.s3Resources, memberWritingClosure: SnowballClientTypes.S3Resource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.JobResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowballClientTypes.JobResource()
+        value.s3Resources = try reader["S3Resources"].readListIfPresent(memberReadingClosure: SnowballClientTypes.S3Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lambdaResources = try reader["LambdaResources"].readListIfPresent(memberReadingClosure: SnowballClientTypes.LambdaResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ec2AmiResources = try reader["Ec2AmiResources"].readListIfPresent(memberReadingClosure: SnowballClientTypes.Ec2AmiResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SnowballClientTypes.KeyRange {
+
+    static func write(value: SnowballClientTypes.KeyRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BeginMarker"].write(value.beginMarker)
+        try writer["EndMarker"].write(value.endMarker)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.KeyRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowballClientTypes.KeyRange()
+        value.beginMarker = try reader["BeginMarker"].readIfPresent()
+        value.endMarker = try reader["EndMarker"].readIfPresent()
+        return value
+    }
+}
+
+extension SnowballClientTypes.LambdaResource {
+
+    static func write(value: SnowballClientTypes.LambdaResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventTriggers"].writeList(value.eventTriggers, memberWritingClosure: SnowballClientTypes.EventTriggerDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LambdaArn"].write(value.lambdaArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.LambdaResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowballClientTypes.LambdaResource()
+        value.lambdaArn = try reader["LambdaArn"].readIfPresent()
+        value.eventTriggers = try reader["EventTriggers"].readListIfPresent(memberReadingClosure: SnowballClientTypes.EventTriggerDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SnowballClientTypes.LongTermPricingListEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.LongTermPricingListEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowballClientTypes.LongTermPricingListEntry()
+        value.longTermPricingId = try reader["LongTermPricingId"].readIfPresent()
+        value.longTermPricingEndDate = try reader["LongTermPricingEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.longTermPricingStartDate = try reader["LongTermPricingStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.longTermPricingType = try reader["LongTermPricingType"].readIfPresent()
+        value.currentActiveJob = try reader["CurrentActiveJob"].readIfPresent()
+        value.replacementJob = try reader["ReplacementJob"].readIfPresent()
+        value.isLongTermPricingAutoRenew = try reader["IsLongTermPricingAutoRenew"].readIfPresent()
+        value.longTermPricingStatus = try reader["LongTermPricingStatus"].readIfPresent()
+        value.snowballType = try reader["SnowballType"].readIfPresent()
+        value.jobIds = try reader["JobIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SnowballClientTypes.NFSOnDeviceServiceConfiguration {
+
+    static func write(value: SnowballClientTypes.NFSOnDeviceServiceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StorageLimit"].write(value.storageLimit)
+        try writer["StorageUnit"].write(value.storageUnit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.NFSOnDeviceServiceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowballClientTypes.NFSOnDeviceServiceConfiguration()
+        value.storageLimit = try reader["StorageLimit"].readIfPresent() ?? 0
+        value.storageUnit = try reader["StorageUnit"].readIfPresent()
+        return value
+    }
+}
+
+extension SnowballClientTypes.Notification {
+
+    static func write(value: SnowballClientTypes.Notification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DevicePickupSnsTopicARN"].write(value.devicePickupSnsTopicARN)
+        try writer["JobStatesToNotify"].writeList(value.jobStatesToNotify, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SnowballClientTypes.JobState>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NotifyAll"].write(value.notifyAll)
+        try writer["SnsTopicARN"].write(value.snsTopicARN)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.Notification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowballClientTypes.Notification()
+        value.snsTopicARN = try reader["SnsTopicARN"].readIfPresent()
+        value.jobStatesToNotify = try reader["JobStatesToNotify"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SnowballClientTypes.JobState>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notifyAll = try reader["NotifyAll"].readIfPresent() ?? false
+        value.devicePickupSnsTopicARN = try reader["DevicePickupSnsTopicARN"].readIfPresent()
+        return value
+    }
+}
+
+extension SnowballClientTypes.OnDeviceServiceConfiguration {
+
+    static func write(value: SnowballClientTypes.OnDeviceServiceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EKSOnDeviceService"].write(value.eksOnDeviceService, with: SnowballClientTypes.EKSOnDeviceServiceConfiguration.write(value:to:))
+        try writer["NFSOnDeviceService"].write(value.nfsOnDeviceService, with: SnowballClientTypes.NFSOnDeviceServiceConfiguration.write(value:to:))
+        try writer["S3OnDeviceService"].write(value.s3OnDeviceService, with: SnowballClientTypes.S3OnDeviceServiceConfiguration.write(value:to:))
+        try writer["TGWOnDeviceService"].write(value.tgwOnDeviceService, with: SnowballClientTypes.TGWOnDeviceServiceConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.OnDeviceServiceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowballClientTypes.OnDeviceServiceConfiguration()
+        value.nfsOnDeviceService = try reader["NFSOnDeviceService"].readIfPresent(with: SnowballClientTypes.NFSOnDeviceServiceConfiguration.read(from:))
+        value.tgwOnDeviceService = try reader["TGWOnDeviceService"].readIfPresent(with: SnowballClientTypes.TGWOnDeviceServiceConfiguration.read(from:))
+        value.eksOnDeviceService = try reader["EKSOnDeviceService"].readIfPresent(with: SnowballClientTypes.EKSOnDeviceServiceConfiguration.read(from:))
+        value.s3OnDeviceService = try reader["S3OnDeviceService"].readIfPresent(with: SnowballClientTypes.S3OnDeviceServiceConfiguration.read(from:))
+        return value
+    }
+}
+
 extension SnowballClientTypes.PickupDetails {
 
     static func write(value: SnowballClientTypes.PickupDetails?, to writer: SmithyJSON.Writer) throws {
@@ -4492,138 +4503,42 @@ extension SnowballClientTypes.PickupDetails {
     }
 }
 
-extension SnowballClientTypes.DeviceConfiguration {
+extension SnowballClientTypes.S3OnDeviceServiceConfiguration {
 
-    static func write(value: SnowballClientTypes.DeviceConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.S3OnDeviceServiceConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["SnowconeDeviceConfiguration"].write(value.snowconeDeviceConfiguration, with: SnowballClientTypes.SnowconeDeviceConfiguration.write(value:to:))
+        try writer["FaultTolerance"].write(value.faultTolerance)
+        try writer["ServiceSize"].write(value.serviceSize)
+        try writer["StorageLimit"].write(value.storageLimit)
+        try writer["StorageUnit"].write(value.storageUnit)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.DeviceConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.S3OnDeviceServiceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.DeviceConfiguration()
-        value.snowconeDeviceConfiguration = try reader["SnowconeDeviceConfiguration"].readIfPresent(with: SnowballClientTypes.SnowconeDeviceConfiguration.read(from:))
+        var value = SnowballClientTypes.S3OnDeviceServiceConfiguration()
+        value.storageLimit = try reader["StorageLimit"].readIfPresent()
+        value.storageUnit = try reader["StorageUnit"].readIfPresent()
+        value.serviceSize = try reader["ServiceSize"].readIfPresent()
+        value.faultTolerance = try reader["FaultTolerance"].readIfPresent()
         return value
     }
 }
 
-extension SnowballClientTypes.SnowconeDeviceConfiguration {
+extension SnowballClientTypes.S3Resource {
 
-    static func write(value: SnowballClientTypes.SnowconeDeviceConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SnowballClientTypes.S3Resource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["WirelessConnection"].write(value.wirelessConnection, with: SnowballClientTypes.WirelessConnection.write(value:to:))
+        try writer["BucketArn"].write(value.bucketArn)
+        try writer["KeyRange"].write(value.keyRange, with: SnowballClientTypes.KeyRange.write(value:to:))
+        try writer["TargetOnDeviceServices"].writeList(value.targetOnDeviceServices, memberWritingClosure: SnowballClientTypes.TargetOnDeviceService.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.SnowconeDeviceConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.S3Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.SnowconeDeviceConfiguration()
-        value.wirelessConnection = try reader["WirelessConnection"].readIfPresent(with: SnowballClientTypes.WirelessConnection.read(from:))
-        return value
-    }
-}
-
-extension SnowballClientTypes.WirelessConnection {
-
-    static func write(value: SnowballClientTypes.WirelessConnection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IsWifiEnabled"].write(value.isWifiEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.WirelessConnection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.WirelessConnection()
-        value.isWifiEnabled = try reader["IsWifiEnabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension SnowballClientTypes.JobLogs {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.JobLogs {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.JobLogs()
-        value.jobCompletionReportURI = try reader["JobCompletionReportURI"].readIfPresent()
-        value.jobSuccessLogURI = try reader["JobSuccessLogURI"].readIfPresent()
-        value.jobFailureLogURI = try reader["JobFailureLogURI"].readIfPresent()
-        return value
-    }
-}
-
-extension SnowballClientTypes.DataTransfer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.DataTransfer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.DataTransfer()
-        value.bytesTransferred = try reader["BytesTransferred"].readIfPresent() ?? 0
-        value.objectsTransferred = try reader["ObjectsTransferred"].readIfPresent() ?? 0
-        value.totalBytes = try reader["TotalBytes"].readIfPresent() ?? 0
-        value.totalObjects = try reader["TotalObjects"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SnowballClientTypes.ShippingDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.ShippingDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.ShippingDetails()
-        value.shippingOption = try reader["ShippingOption"].readIfPresent()
-        value.inboundShipment = try reader["InboundShipment"].readIfPresent(with: SnowballClientTypes.Shipment.read(from:))
-        value.outboundShipment = try reader["OutboundShipment"].readIfPresent(with: SnowballClientTypes.Shipment.read(from:))
-        return value
-    }
-}
-
-extension SnowballClientTypes.Shipment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.Shipment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.Shipment()
-        value.status = try reader["Status"].readIfPresent()
-        value.trackingNumber = try reader["TrackingNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension SnowballClientTypes.ClusterListEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.ClusterListEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.ClusterListEntry()
-        value.clusterId = try reader["ClusterId"].readIfPresent()
-        value.clusterState = try reader["ClusterState"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension SnowballClientTypes.CompatibleImage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.CompatibleImage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.CompatibleImage()
-        value.amiId = try reader["AmiId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension SnowballClientTypes.LongTermPricingListEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.LongTermPricingListEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.LongTermPricingListEntry()
-        value.longTermPricingId = try reader["LongTermPricingId"].readIfPresent()
-        value.longTermPricingEndDate = try reader["LongTermPricingEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.longTermPricingStartDate = try reader["LongTermPricingStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.longTermPricingType = try reader["LongTermPricingType"].readIfPresent()
-        value.currentActiveJob = try reader["CurrentActiveJob"].readIfPresent()
-        value.replacementJob = try reader["ReplacementJob"].readIfPresent()
-        value.isLongTermPricingAutoRenew = try reader["IsLongTermPricingAutoRenew"].readIfPresent()
-        value.longTermPricingStatus = try reader["LongTermPricingStatus"].readIfPresent()
-        value.snowballType = try reader["SnowballType"].readIfPresent()
-        value.jobIds = try reader["JobIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = SnowballClientTypes.S3Resource()
+        value.bucketArn = try reader["BucketArn"].readIfPresent()
+        value.keyRange = try reader["KeyRange"].readIfPresent(with: SnowballClientTypes.KeyRange.read(from:))
+        value.targetOnDeviceServices = try reader["TargetOnDeviceServices"].readListIfPresent(memberReadingClosure: SnowballClientTypes.TargetOnDeviceService.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4643,19 +4558,104 @@ extension SnowballClientTypes.ServiceVersion {
     }
 }
 
-extension SnowballClientTypes.DependentService {
+extension SnowballClientTypes.Shipment {
 
-    static func write(value: SnowballClientTypes.DependentService?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.Shipment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowballClientTypes.Shipment()
+        value.status = try reader["Status"].readIfPresent()
+        value.trackingNumber = try reader["TrackingNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension SnowballClientTypes.ShippingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.ShippingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowballClientTypes.ShippingDetails()
+        value.shippingOption = try reader["ShippingOption"].readIfPresent()
+        value.inboundShipment = try reader["InboundShipment"].readIfPresent(with: SnowballClientTypes.Shipment.read(from:))
+        value.outboundShipment = try reader["OutboundShipment"].readIfPresent(with: SnowballClientTypes.Shipment.read(from:))
+        return value
+    }
+}
+
+extension SnowballClientTypes.SnowconeDeviceConfiguration {
+
+    static func write(value: SnowballClientTypes.SnowconeDeviceConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ServiceName"].write(value.serviceName)
-        try writer["ServiceVersion"].write(value.serviceVersion, with: SnowballClientTypes.ServiceVersion.write(value:to:))
+        try writer["WirelessConnection"].write(value.wirelessConnection, with: SnowballClientTypes.WirelessConnection.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.DependentService {
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.SnowconeDeviceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowballClientTypes.DependentService()
+        var value = SnowballClientTypes.SnowconeDeviceConfiguration()
+        value.wirelessConnection = try reader["WirelessConnection"].readIfPresent(with: SnowballClientTypes.WirelessConnection.read(from:))
+        return value
+    }
+}
+
+extension SnowballClientTypes.TargetOnDeviceService {
+
+    static func write(value: SnowballClientTypes.TargetOnDeviceService?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ServiceName"].write(value.serviceName)
+        try writer["TransferOption"].write(value.transferOption)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.TargetOnDeviceService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowballClientTypes.TargetOnDeviceService()
         value.serviceName = try reader["ServiceName"].readIfPresent()
-        value.serviceVersion = try reader["ServiceVersion"].readIfPresent(with: SnowballClientTypes.ServiceVersion.read(from:))
+        value.transferOption = try reader["TransferOption"].readIfPresent()
+        return value
+    }
+}
+
+extension SnowballClientTypes.TaxDocuments {
+
+    static func write(value: SnowballClientTypes.TaxDocuments?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IND"].write(value.ind, with: SnowballClientTypes.INDTaxDocuments.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.TaxDocuments {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowballClientTypes.TaxDocuments()
+        value.ind = try reader["IND"].readIfPresent(with: SnowballClientTypes.INDTaxDocuments.read(from:))
+        return value
+    }
+}
+
+extension SnowballClientTypes.TGWOnDeviceServiceConfiguration {
+
+    static func write(value: SnowballClientTypes.TGWOnDeviceServiceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StorageLimit"].write(value.storageLimit)
+        try writer["StorageUnit"].write(value.storageUnit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.TGWOnDeviceServiceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowballClientTypes.TGWOnDeviceServiceConfiguration()
+        value.storageLimit = try reader["StorageLimit"].readIfPresent() ?? 0
+        value.storageUnit = try reader["StorageUnit"].readIfPresent()
+        return value
+    }
+}
+
+extension SnowballClientTypes.WirelessConnection {
+
+    static func write(value: SnowballClientTypes.WirelessConnection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IsWifiEnabled"].write(value.isWifiEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowballClientTypes.WirelessConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowballClientTypes.WirelessConnection()
+        value.isWifiEnabled = try reader["IsWifiEnabled"].readIfPresent() ?? false
         return value
     }
 }

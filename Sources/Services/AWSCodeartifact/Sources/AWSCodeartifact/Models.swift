@@ -7769,64 +7769,27 @@ extension ValidationException {
     }
 }
 
-extension CodeartifactClientTypes.RepositoryDescription {
+extension CodeartifactClientTypes.AssetSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.RepositoryDescription {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.AssetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.RepositoryDescription()
-        value.name = try reader["name"].readIfPresent()
-        value.administratorAccount = try reader["administratorAccount"].readIfPresent()
-        value.domainName = try reader["domainName"].readIfPresent()
-        value.domainOwner = try reader["domainOwner"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.upstreams = try reader["upstreams"].readListIfPresent(memberReadingClosure: CodeartifactClientTypes.UpstreamRepositoryInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.externalConnections = try reader["externalConnections"].readListIfPresent(memberReadingClosure: CodeartifactClientTypes.RepositoryExternalConnectionInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = CodeartifactClientTypes.AssetSummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.size = try reader["size"].readIfPresent()
+        value.hashes = try reader["hashes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension CodeartifactClientTypes.RepositoryExternalConnectionInfo {
+extension CodeartifactClientTypes.AssociatedPackage {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.RepositoryExternalConnectionInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.AssociatedPackage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.RepositoryExternalConnectionInfo()
-        value.externalConnectionName = try reader["externalConnectionName"].readIfPresent()
-        value.packageFormat = try reader["packageFormat"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeartifactClientTypes.UpstreamRepositoryInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.UpstreamRepositoryInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.UpstreamRepositoryInfo()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeartifactClientTypes.SuccessfulPackageVersionInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.SuccessfulPackageVersionInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.SuccessfulPackageVersionInfo()
-        value.revision = try reader["revision"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeartifactClientTypes.PackageVersionError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageVersionError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.PackageVersionError()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        var value = CodeartifactClientTypes.AssociatedPackage()
+        value.format = try reader["format"].readIfPresent()
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.`package` = try reader["package"].readIfPresent()
+        value.associationType = try reader["associationType"].readIfPresent()
         return value
     }
 }
@@ -7849,6 +7812,78 @@ extension CodeartifactClientTypes.DomainDescription {
     }
 }
 
+extension CodeartifactClientTypes.DomainEntryPoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.DomainEntryPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeartifactClientTypes.DomainEntryPoint()
+        value.repositoryName = try reader["repositoryName"].readIfPresent()
+        value.externalConnectionName = try reader["externalConnectionName"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeartifactClientTypes.DomainSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.DomainSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeartifactClientTypes.DomainSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.owner = try reader["owner"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.encryptionKey = try reader["encryptionKey"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeartifactClientTypes.LicenseInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.LicenseInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeartifactClientTypes.LicenseInfo()
+        value.name = try reader["name"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeartifactClientTypes.PackageDependency {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageDependency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeartifactClientTypes.PackageDependency()
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.`package` = try reader["package"].readIfPresent()
+        value.dependencyType = try reader["dependencyType"].readIfPresent()
+        value.versionRequirement = try reader["versionRequirement"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeartifactClientTypes.PackageDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeartifactClientTypes.PackageDescription()
+        value.format = try reader["format"].readIfPresent()
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.originConfiguration = try reader["originConfiguration"].readIfPresent(with: CodeartifactClientTypes.PackageOriginConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CodeartifactClientTypes.PackageGroupAllowedRepository {
+
+    static func write(value: CodeartifactClientTypes.PackageGroupAllowedRepository?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["originRestrictionType"].write(value.originRestrictionType)
+        try writer["repositoryName"].write(value.repositoryName)
+    }
+}
+
 extension CodeartifactClientTypes.PackageGroupDescription {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageGroupDescription {
@@ -7863,17 +7898,6 @@ extension CodeartifactClientTypes.PackageGroupDescription {
         value.description = try reader["description"].readIfPresent()
         value.originConfiguration = try reader["originConfiguration"].readIfPresent(with: CodeartifactClientTypes.PackageGroupOriginConfiguration.read(from:))
         value.parent = try reader["parent"].readIfPresent(with: CodeartifactClientTypes.PackageGroupReference.read(from:))
-        return value
-    }
-}
-
-extension CodeartifactClientTypes.PackageGroupReference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageGroupReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.PackageGroupReference()
-        value.arn = try reader["arn"].readIfPresent()
-        value.pattern = try reader["pattern"].readIfPresent()
         return value
     }
 }
@@ -7901,27 +7925,31 @@ extension CodeartifactClientTypes.PackageGroupOriginRestriction {
     }
 }
 
-extension CodeartifactClientTypes.ResourcePolicy {
+extension CodeartifactClientTypes.PackageGroupReference {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.ResourcePolicy {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageGroupReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.ResourcePolicy()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent()
-        value.document = try reader["document"].readIfPresent()
+        var value = CodeartifactClientTypes.PackageGroupReference()
+        value.arn = try reader["arn"].readIfPresent()
+        value.pattern = try reader["pattern"].readIfPresent()
         return value
     }
 }
 
-extension CodeartifactClientTypes.PackageSummary {
+extension CodeartifactClientTypes.PackageGroupSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.PackageSummary()
-        value.format = try reader["format"].readIfPresent()
-        value.namespace = try reader["namespace"].readIfPresent()
-        value.`package` = try reader["package"].readIfPresent()
-        value.originConfiguration = try reader["originConfiguration"].readIfPresent(with: CodeartifactClientTypes.PackageOriginConfiguration.read(from:))
+        var value = CodeartifactClientTypes.PackageGroupSummary()
+        value.arn = try reader["arn"].readIfPresent()
+        value.pattern = try reader["pattern"].readIfPresent()
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.domainOwner = try reader["domainOwner"].readIfPresent()
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.contactInfo = try reader["contactInfo"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.originConfiguration = try reader["originConfiguration"].readIfPresent(with: CodeartifactClientTypes.PackageGroupOriginConfiguration.read(from:))
+        value.parent = try reader["parent"].readIfPresent(with: CodeartifactClientTypes.PackageGroupReference.read(from:))
         return value
     }
 }
@@ -7953,14 +7981,14 @@ extension CodeartifactClientTypes.PackageOriginRestrictions {
     }
 }
 
-extension CodeartifactClientTypes.PackageDescription {
+extension CodeartifactClientTypes.PackageSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageDescription {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.PackageDescription()
+        var value = CodeartifactClientTypes.PackageSummary()
         value.format = try reader["format"].readIfPresent()
         value.namespace = try reader["namespace"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        value.`package` = try reader["package"].readIfPresent()
         value.originConfiguration = try reader["originConfiguration"].readIfPresent(with: CodeartifactClientTypes.PackageOriginConfiguration.read(from:))
         return value
     }
@@ -7988,6 +8016,17 @@ extension CodeartifactClientTypes.PackageVersionDescription {
     }
 }
 
+extension CodeartifactClientTypes.PackageVersionError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageVersionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeartifactClientTypes.PackageVersionError()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
 extension CodeartifactClientTypes.PackageVersionOrigin {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageVersionOrigin {
@@ -7995,99 +8034,6 @@ extension CodeartifactClientTypes.PackageVersionOrigin {
         var value = CodeartifactClientTypes.PackageVersionOrigin()
         value.domainEntryPoint = try reader["domainEntryPoint"].readIfPresent(with: CodeartifactClientTypes.DomainEntryPoint.read(from:))
         value.originType = try reader["originType"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeartifactClientTypes.DomainEntryPoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.DomainEntryPoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.DomainEntryPoint()
-        value.repositoryName = try reader["repositoryName"].readIfPresent()
-        value.externalConnectionName = try reader["externalConnectionName"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeartifactClientTypes.LicenseInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.LicenseInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.LicenseInfo()
-        value.name = try reader["name"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeartifactClientTypes.AssociatedPackage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.AssociatedPackage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.AssociatedPackage()
-        value.format = try reader["format"].readIfPresent()
-        value.namespace = try reader["namespace"].readIfPresent()
-        value.`package` = try reader["package"].readIfPresent()
-        value.associationType = try reader["associationType"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeartifactClientTypes.DomainSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.DomainSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.DomainSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.owner = try reader["owner"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.encryptionKey = try reader["encryptionKey"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeartifactClientTypes.PackageGroupSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageGroupSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.PackageGroupSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.pattern = try reader["pattern"].readIfPresent()
-        value.domainName = try reader["domainName"].readIfPresent()
-        value.domainOwner = try reader["domainOwner"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.contactInfo = try reader["contactInfo"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.originConfiguration = try reader["originConfiguration"].readIfPresent(with: CodeartifactClientTypes.PackageGroupOriginConfiguration.read(from:))
-        value.parent = try reader["parent"].readIfPresent(with: CodeartifactClientTypes.PackageGroupReference.read(from:))
-        return value
-    }
-}
-
-extension CodeartifactClientTypes.AssetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.AssetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.AssetSummary()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.size = try reader["size"].readIfPresent()
-        value.hashes = try reader["hashes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension CodeartifactClientTypes.PackageDependency {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.PackageDependency {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeartifactClientTypes.PackageDependency()
-        value.namespace = try reader["namespace"].readIfPresent()
-        value.`package` = try reader["package"].readIfPresent()
-        value.dependencyType = try reader["dependencyType"].readIfPresent()
-        value.versionRequirement = try reader["versionRequirement"].readIfPresent()
         return value
     }
 }
@@ -8105,6 +8051,36 @@ extension CodeartifactClientTypes.PackageVersionSummary {
     }
 }
 
+extension CodeartifactClientTypes.RepositoryDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.RepositoryDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeartifactClientTypes.RepositoryDescription()
+        value.name = try reader["name"].readIfPresent()
+        value.administratorAccount = try reader["administratorAccount"].readIfPresent()
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.domainOwner = try reader["domainOwner"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.upstreams = try reader["upstreams"].readListIfPresent(memberReadingClosure: CodeartifactClientTypes.UpstreamRepositoryInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.externalConnections = try reader["externalConnections"].readListIfPresent(memberReadingClosure: CodeartifactClientTypes.RepositoryExternalConnectionInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension CodeartifactClientTypes.RepositoryExternalConnectionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.RepositoryExternalConnectionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeartifactClientTypes.RepositoryExternalConnectionInfo()
+        value.externalConnectionName = try reader["externalConnectionName"].readIfPresent()
+        value.packageFormat = try reader["packageFormat"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension CodeartifactClientTypes.RepositorySummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.RepositorySummary {
@@ -8117,6 +8093,29 @@ extension CodeartifactClientTypes.RepositorySummary {
         value.arn = try reader["arn"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension CodeartifactClientTypes.ResourcePolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.ResourcePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeartifactClientTypes.ResourcePolicy()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.revision = try reader["revision"].readIfPresent()
+        value.document = try reader["document"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeartifactClientTypes.SuccessfulPackageVersionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.SuccessfulPackageVersionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeartifactClientTypes.SuccessfulPackageVersionInfo()
+        value.revision = try reader["revision"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -8146,12 +8145,13 @@ extension CodeartifactClientTypes.UpstreamRepository {
     }
 }
 
-extension CodeartifactClientTypes.PackageGroupAllowedRepository {
+extension CodeartifactClientTypes.UpstreamRepositoryInfo {
 
-    static func write(value: CodeartifactClientTypes.PackageGroupAllowedRepository?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["originRestrictionType"].write(value.originRestrictionType)
-        try writer["repositoryName"].write(value.repositoryName)
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeartifactClientTypes.UpstreamRepositoryInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeartifactClientTypes.UpstreamRepositoryInfo()
+        value.repositoryName = try reader["repositoryName"].readIfPresent()
+        return value
     }
 }
 

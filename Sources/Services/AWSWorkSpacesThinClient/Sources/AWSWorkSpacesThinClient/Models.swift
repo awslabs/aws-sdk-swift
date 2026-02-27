@@ -2531,6 +2531,89 @@ extension ValidationException {
     }
 }
 
+extension WorkSpacesThinClientClientTypes.Device {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.Device {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesThinClientClientTypes.Device()
+        value.id = try reader["id"].readIfPresent()
+        value.serialNumber = try reader["serialNumber"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.model = try reader["model"].readIfPresent()
+        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.currentSoftwareSetId = try reader["currentSoftwareSetId"].readIfPresent()
+        value.currentSoftwareSetVersion = try reader["currentSoftwareSetVersion"].readIfPresent()
+        value.desiredSoftwareSetId = try reader["desiredSoftwareSetId"].readIfPresent()
+        value.pendingSoftwareSetId = try reader["pendingSoftwareSetId"].readIfPresent()
+        value.pendingSoftwareSetVersion = try reader["pendingSoftwareSetVersion"].readIfPresent()
+        value.softwareSetUpdateSchedule = try reader["softwareSetUpdateSchedule"].readIfPresent()
+        value.softwareSetComplianceStatus = try reader["softwareSetComplianceStatus"].readIfPresent()
+        value.softwareSetUpdateStatus = try reader["softwareSetUpdateStatus"].readIfPresent()
+        value.lastConnectedAt = try reader["lastConnectedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastPostureAt = try reader["lastPostureAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.lastUserId = try reader["lastUserId"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkSpacesThinClientClientTypes.DeviceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.DeviceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesThinClientClientTypes.DeviceSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.serialNumber = try reader["serialNumber"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.model = try reader["model"].readIfPresent()
+        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.currentSoftwareSetId = try reader["currentSoftwareSetId"].readIfPresent()
+        value.desiredSoftwareSetId = try reader["desiredSoftwareSetId"].readIfPresent()
+        value.pendingSoftwareSetId = try reader["pendingSoftwareSetId"].readIfPresent()
+        value.softwareSetUpdateSchedule = try reader["softwareSetUpdateSchedule"].readIfPresent()
+        value.lastConnectedAt = try reader["lastConnectedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastPostureAt = try reader["lastPostureAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent()
+        value.lastUserId = try reader["lastUserId"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkSpacesThinClientClientTypes.Environment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.Environment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesThinClientClientTypes.Environment()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.desktopArn = try reader["desktopArn"].readIfPresent()
+        value.desktopEndpoint = try reader["desktopEndpoint"].readIfPresent()
+        value.desktopType = try reader["desktopType"].readIfPresent()
+        value.activationCode = try reader["activationCode"].readIfPresent()
+        value.registeredDevicesCount = try reader["registeredDevicesCount"].readIfPresent()
+        value.softwareSetUpdateSchedule = try reader["softwareSetUpdateSchedule"].readIfPresent()
+        value.maintenanceWindow = try reader["maintenanceWindow"].readIfPresent(with: WorkSpacesThinClientClientTypes.MaintenanceWindow.read(from:))
+        value.softwareSetUpdateMode = try reader["softwareSetUpdateMode"].readIfPresent()
+        value.desiredSoftwareSetId = try reader["desiredSoftwareSetId"].readIfPresent()
+        value.pendingSoftwareSetId = try reader["pendingSoftwareSetId"].readIfPresent()
+        value.pendingSoftwareSetVersion = try reader["pendingSoftwareSetVersion"].readIfPresent()
+        value.softwareSetComplianceStatus = try reader["softwareSetComplianceStatus"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["arn"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.deviceCreationTags = try reader["deviceCreationTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension WorkSpacesThinClientClientTypes.EnvironmentSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.EnvironmentSummary {
@@ -2581,60 +2664,13 @@ extension WorkSpacesThinClientClientTypes.MaintenanceWindow {
     }
 }
 
-extension WorkSpacesThinClientClientTypes.Device {
+extension WorkSpacesThinClientClientTypes.Software {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.Device {
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.Software {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkSpacesThinClientClientTypes.Device()
-        value.id = try reader["id"].readIfPresent()
-        value.serialNumber = try reader["serialNumber"].readIfPresent()
+        var value = WorkSpacesThinClientClientTypes.Software()
         value.name = try reader["name"].readIfPresent()
-        value.model = try reader["model"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.currentSoftwareSetId = try reader["currentSoftwareSetId"].readIfPresent()
-        value.currentSoftwareSetVersion = try reader["currentSoftwareSetVersion"].readIfPresent()
-        value.desiredSoftwareSetId = try reader["desiredSoftwareSetId"].readIfPresent()
-        value.pendingSoftwareSetId = try reader["pendingSoftwareSetId"].readIfPresent()
-        value.pendingSoftwareSetVersion = try reader["pendingSoftwareSetVersion"].readIfPresent()
-        value.softwareSetUpdateSchedule = try reader["softwareSetUpdateSchedule"].readIfPresent()
-        value.softwareSetComplianceStatus = try reader["softwareSetComplianceStatus"].readIfPresent()
-        value.softwareSetUpdateStatus = try reader["softwareSetUpdateStatus"].readIfPresent()
-        value.lastConnectedAt = try reader["lastConnectedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastPostureAt = try reader["lastPostureAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.arn = try reader["arn"].readIfPresent()
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        value.lastUserId = try reader["lastUserId"].readIfPresent()
-        return value
-    }
-}
-
-extension WorkSpacesThinClientClientTypes.Environment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.Environment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkSpacesThinClientClientTypes.Environment()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.desktopArn = try reader["desktopArn"].readIfPresent()
-        value.desktopEndpoint = try reader["desktopEndpoint"].readIfPresent()
-        value.desktopType = try reader["desktopType"].readIfPresent()
-        value.activationCode = try reader["activationCode"].readIfPresent()
-        value.registeredDevicesCount = try reader["registeredDevicesCount"].readIfPresent()
-        value.softwareSetUpdateSchedule = try reader["softwareSetUpdateSchedule"].readIfPresent()
-        value.maintenanceWindow = try reader["maintenanceWindow"].readIfPresent(with: WorkSpacesThinClientClientTypes.MaintenanceWindow.read(from:))
-        value.softwareSetUpdateMode = try reader["softwareSetUpdateMode"].readIfPresent()
-        value.desiredSoftwareSetId = try reader["desiredSoftwareSetId"].readIfPresent()
-        value.pendingSoftwareSetId = try reader["pendingSoftwareSetId"].readIfPresent()
-        value.pendingSoftwareSetVersion = try reader["pendingSoftwareSetVersion"].readIfPresent()
-        value.softwareSetComplianceStatus = try reader["softwareSetComplianceStatus"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.arn = try reader["arn"].readIfPresent()
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        value.deviceCreationTags = try reader["deviceCreationTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.version = try reader["version"].readIfPresent()
         return value
     }
 }
@@ -2651,42 +2687,6 @@ extension WorkSpacesThinClientClientTypes.SoftwareSet {
         value.validationStatus = try reader["validationStatus"].readIfPresent()
         value.software = try reader["software"].readListIfPresent(memberReadingClosure: WorkSpacesThinClientClientTypes.Software.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.arn = try reader["arn"].readIfPresent()
-        return value
-    }
-}
-
-extension WorkSpacesThinClientClientTypes.Software {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.Software {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkSpacesThinClientClientTypes.Software()
-        value.name = try reader["name"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        return value
-    }
-}
-
-extension WorkSpacesThinClientClientTypes.DeviceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesThinClientClientTypes.DeviceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WorkSpacesThinClientClientTypes.DeviceSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.serialNumber = try reader["serialNumber"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.model = try reader["model"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.currentSoftwareSetId = try reader["currentSoftwareSetId"].readIfPresent()
-        value.desiredSoftwareSetId = try reader["desiredSoftwareSetId"].readIfPresent()
-        value.pendingSoftwareSetId = try reader["pendingSoftwareSetId"].readIfPresent()
-        value.softwareSetUpdateSchedule = try reader["softwareSetUpdateSchedule"].readIfPresent()
-        value.lastConnectedAt = try reader["lastConnectedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastPostureAt = try reader["lastPostureAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.arn = try reader["arn"].readIfPresent()
-        value.lastUserId = try reader["lastUserId"].readIfPresent()
         return value
     }
 }

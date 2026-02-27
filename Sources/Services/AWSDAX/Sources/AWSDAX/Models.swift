@@ -3506,46 +3506,27 @@ extension DAXClientTypes.Cluster {
     }
 }
 
-extension DAXClientTypes.SSEDescription {
+extension DAXClientTypes.Endpoint {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.SSEDescription {
+    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.Endpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DAXClientTypes.SSEDescription()
-        value.status = try reader["Status"].readIfPresent()
+        var value = DAXClientTypes.Endpoint()
+        value.address = try reader["Address"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.url = try reader["URL"].readIfPresent()
         return value
     }
 }
 
-extension DAXClientTypes.ParameterGroupStatus {
+extension DAXClientTypes.Event {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.ParameterGroupStatus {
+    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.Event {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DAXClientTypes.ParameterGroupStatus()
-        value.parameterGroupName = try reader["ParameterGroupName"].readIfPresent()
-        value.parameterApplyStatus = try reader["ParameterApplyStatus"].readIfPresent()
-        value.nodeIdsToReboot = try reader["NodeIdsToReboot"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DAXClientTypes.SecurityGroupMembership {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.SecurityGroupMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DAXClientTypes.SecurityGroupMembership()
-        value.securityGroupIdentifier = try reader["SecurityGroupIdentifier"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension DAXClientTypes.NotificationConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.NotificationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DAXClientTypes.NotificationConfiguration()
-        value.topicArn = try reader["TopicArn"].readIfPresent()
-        value.topicStatus = try reader["TopicStatus"].readIfPresent()
+        var value = DAXClientTypes.Event()
+        value.sourceName = try reader["SourceName"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -3565,51 +3546,24 @@ extension DAXClientTypes.Node {
     }
 }
 
-extension DAXClientTypes.Endpoint {
+extension DAXClientTypes.NodeTypeSpecificValue {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.Endpoint {
+    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.NodeTypeSpecificValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DAXClientTypes.Endpoint()
-        value.address = try reader["Address"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent() ?? 0
-        value.url = try reader["URL"].readIfPresent()
+        var value = DAXClientTypes.NodeTypeSpecificValue()
+        value.nodeType = try reader["NodeType"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }
 
-extension DAXClientTypes.ParameterGroup {
+extension DAXClientTypes.NotificationConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.ParameterGroup {
+    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.NotificationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DAXClientTypes.ParameterGroup()
-        value.parameterGroupName = try reader["ParameterGroupName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension DAXClientTypes.SubnetGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.SubnetGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DAXClientTypes.SubnetGroup()
-        value.subnetGroupName = try reader["SubnetGroupName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: DAXClientTypes.Subnet.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DAXClientTypes.NetworkType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DAXClientTypes.Subnet {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.Subnet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DAXClientTypes.Subnet()
-        value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
-        value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent()
-        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DAXClientTypes.NetworkType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = DAXClientTypes.NotificationConfiguration()
+        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.topicStatus = try reader["TopicStatus"].readIfPresent()
         return value
     }
 }
@@ -3633,26 +3587,89 @@ extension DAXClientTypes.Parameter {
     }
 }
 
-extension DAXClientTypes.NodeTypeSpecificValue {
+extension DAXClientTypes.ParameterGroup {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.NodeTypeSpecificValue {
+    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.ParameterGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DAXClientTypes.NodeTypeSpecificValue()
-        value.nodeType = try reader["NodeType"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        var value = DAXClientTypes.ParameterGroup()
+        value.parameterGroupName = try reader["ParameterGroupName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }
 
-extension DAXClientTypes.Event {
+extension DAXClientTypes.ParameterGroupStatus {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.Event {
+    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.ParameterGroupStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DAXClientTypes.Event()
-        value.sourceName = try reader["SourceName"].readIfPresent()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = DAXClientTypes.ParameterGroupStatus()
+        value.parameterGroupName = try reader["ParameterGroupName"].readIfPresent()
+        value.parameterApplyStatus = try reader["ParameterApplyStatus"].readIfPresent()
+        value.nodeIdsToReboot = try reader["NodeIdsToReboot"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DAXClientTypes.ParameterNameValue {
+
+    static func write(value: DAXClientTypes.ParameterNameValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ParameterName"].write(value.parameterName)
+        try writer["ParameterValue"].write(value.parameterValue)
+    }
+}
+
+extension DAXClientTypes.SecurityGroupMembership {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.SecurityGroupMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DAXClientTypes.SecurityGroupMembership()
+        value.securityGroupIdentifier = try reader["SecurityGroupIdentifier"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension DAXClientTypes.SSEDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.SSEDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DAXClientTypes.SSEDescription()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension DAXClientTypes.SSESpecification {
+
+    static func write(value: DAXClientTypes.SSESpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+    }
+}
+
+extension DAXClientTypes.Subnet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.Subnet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DAXClientTypes.Subnet()
+        value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
+        value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent()
+        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DAXClientTypes.NetworkType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DAXClientTypes.SubnetGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DAXClientTypes.SubnetGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DAXClientTypes.SubnetGroup()
+        value.subnetGroupName = try reader["SubnetGroupName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: DAXClientTypes.Subnet.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DAXClientTypes.NetworkType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3671,23 +3688,6 @@ extension DAXClientTypes.Tag {
         value.key = try reader["Key"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
         return value
-    }
-}
-
-extension DAXClientTypes.SSESpecification {
-
-    static func write(value: DAXClientTypes.SSESpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-    }
-}
-
-extension DAXClientTypes.ParameterNameValue {
-
-    static func write(value: DAXClientTypes.ParameterNameValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ParameterName"].write(value.parameterName)
-        try writer["ParameterValue"].write(value.parameterValue)
     }
 }
 

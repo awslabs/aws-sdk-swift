@@ -30,6 +30,7 @@ import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
+import func ClientRuntime.initialize
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol AWSClientRuntime.AWSServiceClient
@@ -57,6 +58,8 @@ import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
+import struct ClientRuntime.SendableHttpInterceptorProviderBox
+import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
@@ -68,31 +71,49 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SecurityHubClient: AWSClientRuntime.AWSServiceClient {
+public final class SecurityHubClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SecurityHubClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SecurityHubClient.SecurityHubClientConfiguration
+    public let config: SecurityHubClient.SecurityHubClientConfig
     let serviceName = "SecurityHub"
 
-    public required init(config: SecurityHubClient.SecurityHubClientConfiguration) {
+    @available(*, deprecated, message: "Use SecurityHubClient.SecurityHubClientConfig instead")
+    public typealias Config = SecurityHubClient.SecurityHubClientConfiguration
+    public typealias Configuration = SecurityHubClient.SecurityHubClientConfig
+
+    public required init(config: SecurityHubClient.SecurityHubClientConfig) {
+        ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
     }
 
+    @available(*, deprecated, message: "Use init(config: SecurityHubClient.SecurityHubClientConfig) instead")
+    public convenience init(config: SecurityHubClient.SecurityHubClientConfiguration) {
+        do {
+            try self.init(config: config.toSendable())
+        } catch {
+            // This should never happen since all values are already initialized in the class
+            fatalError("Failed to convert deprecated configuration: \(error)")
+        }
+    }
+
     public convenience init(region: Swift.String) throws {
-        let config = try SecurityHubClient.SecurityHubClientConfiguration(region: region)
+        let config = try SecurityHubClient.SecurityHubClientConfig(region: region)
         self.init(config: config)
     }
 
-    public convenience required init() async throws {
-        let config = try await SecurityHubClient.SecurityHubClientConfiguration()
+    public convenience init() async throws {
+        let config = try await SecurityHubClient.SecurityHubClientConfig()
         self.init(config: config)
     }
 }
 
 extension SecurityHubClient {
 
-    public class SecurityHubClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    /// Client configuration for SecurityHubClient
+    ///
+    /// Conforms to `Sendable` for safe concurrent access across threads.
+    public struct SecurityHubClientConfig: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Swift.Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -116,66 +137,29 @@ extension SecurityHubClient {
         public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-        public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-        public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        public let logger: Smithy.LogAgent
-
-        private init(
-            _ useFIPS: Swift.Bool?,
-            _ useDualStack: Swift.Bool?,
-            _ appID: Swift.String?,
-            _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
-            _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
-            _ maxAttempts: Swift.Int?,
-            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
-            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
-            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
-            _ region: Swift.String?,
-            _ signingRegion: Swift.String?,
-            _ endpointResolver: EndpointResolver,
-            _ telemetryProvider: ClientRuntime.TelemetryProvider,
-            _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions,
-            _ clientLogMode: ClientRuntime.ClientLogMode,
-            _ endpoint: Swift.String?,
-            _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator,
-            _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
-            _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
-            _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
-            _ authSchemePreference: [String]?,
-            _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
-            _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
-            _ interceptorProviders: [ClientRuntime.InterceptorProvider],
-            _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-        ) {
-            self.useFIPS = useFIPS
-            self.useDualStack = useDualStack
-            self.appID = appID
-            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
-            self.awsRetryMode = awsRetryMode
-            self.maxAttempts = maxAttempts
-            self.requestChecksumCalculation = requestChecksumCalculation
-            self.responseChecksumValidation = responseChecksumValidation
-            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
-            self.region = region
-            self.signingRegion = signingRegion
-            self.endpointResolver = endpointResolver
-            self.telemetryProvider = telemetryProvider
-            self.retryStrategyOptions = retryStrategyOptions
-            self.clientLogMode = clientLogMode
-            self.endpoint = endpoint
-            self.idempotencyTokenGenerator = idempotencyTokenGenerator
-            self.httpClientEngine = httpClientEngine
-            self.httpClientConfiguration = httpClientConfiguration
-            self.authSchemes = authSchemes
-            self.authSchemePreference = authSchemePreference
-            self.authSchemeResolver = authSchemeResolver
-            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
-            self.interceptorProviders = interceptorProviders
-            self.httpInterceptorProviders = httpInterceptorProviders
-            self.logger = telemetryProvider.loggerProvider.getLogger(name: SecurityHubClient.clientName)
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
         }
 
-        public convenience init(
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
+        public var logger: Smithy.LogAgent
+
+        public init(
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -202,36 +186,35 @@ extension SecurityHubClient {
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) throws {
-            self.init(
-                useFIPS,
-                useDualStack,
-                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                maxAttempts,
-                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
-                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
-                ignoreConfiguredEndpointURLs,
-                region,
-                signingRegion,
-                try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
-                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
-                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
-                endpoint,
-                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
-                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultSecurityHubAuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                interceptorProviders ?? [],
-                httpInterceptorProviders ?? []
-            )
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = region
+            self.signingRegion = signingRegion
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultSecurityHubAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: SecurityHubClient.clientName)
         }
 
-        public convenience init(
+        public init(
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -258,36 +241,266 @@ extension SecurityHubClient {
             interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) async throws {
-            self.init(
-                useFIPS,
-                useDualStack,
-                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                maxAttempts,
-                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
-                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
-                ignoreConfiguredEndpointURLs,
-                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
-                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
-                try endpointResolver ?? DefaultEndpointResolver(),
-                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
-                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
-                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
-                endpoint,
-                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
-                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultSecurityHubAuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                interceptorProviders ?? [],
-                httpInterceptorProviders ?? []
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultSecurityHubAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: SecurityHubClient.clientName)
+        }
+
+        public init() async throws {
+            try await self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: nil,
+                awsCredentialIdentityResolver: nil,
+                awsRetryMode: nil,
+                maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
+                ignoreConfiguredEndpointURLs: nil,
+                region: nil,
+                signingRegion: nil,
+                endpointResolver: nil,
+                telemetryProvider: nil,
+                retryStrategyOptions: nil,
+                clientLogMode: nil,
+                endpoint: nil,
+                idempotencyTokenGenerator: nil,
+                httpClientEngine: nil,
+                httpClientConfiguration: nil,
+                authSchemes: nil,
+                authSchemePreference: nil,
+                authSchemeResolver: nil,
+                bearerTokenIdentityResolver: nil,
+                interceptorProviders: nil,
+                httpInterceptorProviders: nil
             )
         }
 
-        public convenience required init() async throws {
+        public init(region: Swift.String) throws {
+            try self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                awsCredentialIdentityResolver: AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsRetryMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts: nil,
+                requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                ignoreConfiguredEndpointURLs: nil,
+                region: region,
+                signingRegion: region,
+                endpointResolver: try DefaultEndpointResolver(),
+                telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint: nil,
+                idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference: nil,
+                authSchemeResolver: DefaultSecurityHubAuthSchemeResolver(),
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
+            )
+        }
+
+        public var partitionID: String? {
+            return "\(SecurityHubClient.clientName) - \(region ?? "")"
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
+        }
+
+        public mutating func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
+        }
+
+    }
+
+    @available(*, deprecated, message: "Use SecurityHubClientConfig instead. This class will be removed in a future version.")
+    public final class SecurityHubClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+        public var useFIPS: Swift.Bool?
+        public var useDualStack: Swift.Bool?
+        public var appID: Swift.String?
+        public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
+        public var awsRetryMode: AWSClientRuntime.AWSRetryMode
+        public var maxAttempts: Swift.Int?
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
+        public var region: Swift.String?
+        public var signingRegion: Swift.String?
+        public var endpointResolver: EndpointResolver
+        public var telemetryProvider: ClientRuntime.TelemetryProvider
+        public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
+        public var clientLogMode: ClientRuntime.ClientLogMode
+        public var endpoint: Swift.String?
+        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
+        public var httpClientEngine: SmithyHTTPAPI.HTTPClient
+        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
+        public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+        public var authSchemePreference: [String]?
+        public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
+        public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
+        }
+
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
+        public var logger: Smithy.LogAgent
+
+        public init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) throws {
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = region
+            self.signingRegion = signingRegion
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultSecurityHubAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: SecurityHubClient.clientName)
+        }
+
+        public init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemePreference: [String]? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) async throws {
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
+            self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
+            self.responseChecksumValidation = try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation)
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
+            self.region = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
+            self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
+            self.httpClientEngine = httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)
+            self.httpClientConfiguration = httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration()
+            self.authSchemes = authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()]
+            self.authSchemePreference = authSchemePreference ?? nil
+            self.authSchemeResolver = authSchemeResolver ?? DefaultSecurityHubAuthSchemeResolver()
+            self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: SecurityHubClient.clientName)
+        }
+
+        public convenience init() async throws {
             try await self.init(
                 useFIPS: nil,
                 useDualStack: nil,
@@ -318,32 +531,32 @@ extension SecurityHubClient {
         }
 
         public convenience init(region: Swift.String) throws {
-            self.init(
-                nil,
-                nil,
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
-                try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
-                nil,
-                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
-                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
-                nil,
-                region,
-                region,
-                try DefaultEndpointResolver(),
-                ClientRuntime.DefaultTelemetry.provider,
-                try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
-                AWSClientConfigDefaultsProvider.clientLogMode(),
-                nil,
-                AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
-                AWSClientConfigDefaultsProvider.httpClientEngine(),
-                AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                [AWSSDKHTTPAuth.SigV4AuthScheme()],
-                nil,
-                DefaultSecurityHubAuthSchemeResolver(),
-                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
-                [],
-                []
+            try self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                awsCredentialIdentityResolver: AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsRetryMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts: nil,
+                requestChecksumCalculation: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                responseChecksumValidation: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                ignoreConfiguredEndpointURLs: nil,
+                region: region,
+                signingRegion: region,
+                endpointResolver: try DefaultEndpointResolver(),
+                telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint: nil,
+                idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine: AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration: AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes: [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemePreference: nil,
+                authSchemeResolver: DefaultSecurityHubAuthSchemeResolver(),
+                bearerTokenIdentityResolver: SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders: [],
+                httpInterceptorProviders: []
             )
         }
 
@@ -351,12 +564,42 @@ extension SecurityHubClient {
             return "\(SecurityHubClient.clientName) - \(region ?? "")"
         }
 
+        public func toSendable() throws -> SecurityHubClientConfig {
+            return try SecurityHubClientConfig(
+                useFIPS: self.useFIPS,
+                useDualStack: self.useDualStack,
+                appID: self.appID,
+                awsCredentialIdentityResolver: self.awsCredentialIdentityResolver,
+                awsRetryMode: self.awsRetryMode,
+                maxAttempts: self.maxAttempts,
+                requestChecksumCalculation: self.requestChecksumCalculation,
+                responseChecksumValidation: self.responseChecksumValidation,
+                ignoreConfiguredEndpointURLs: self.ignoreConfiguredEndpointURLs,
+                region: self.region,
+                signingRegion: self.signingRegion,
+                endpointResolver: self.endpointResolver,
+                telemetryProvider: self.telemetryProvider,
+                retryStrategyOptions: self.retryStrategyOptions,
+                clientLogMode: self.clientLogMode,
+                endpoint: self.endpoint,
+                idempotencyTokenGenerator: self.idempotencyTokenGenerator,
+                httpClientEngine: self.httpClientEngine,
+                httpClientConfiguration: self.httpClientConfiguration,
+                authSchemes: self.authSchemes,
+                authSchemePreference: self.authSchemePreference,
+                authSchemeResolver: self.authSchemeResolver,
+                bearerTokenIdentityResolver: self.bearerTokenIdentityResolver,
+                interceptorProviders: self.interceptorProviders,
+                httpInterceptorProviders: self.httpInterceptorProviders
+            )
+        }
+
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
         }
 
         public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
         }
 
     }
@@ -373,7 +616,7 @@ extension SecurityHubClient {
 extension SecurityHubClient {
     /// Performs the `AcceptAdministratorInvitation` operation on the `SecurityHub` service.
     ///
-    /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
+    /// We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see [Managing Security Hub CSPM administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub CSPM User Guide. Accepts the invitation to be a member account and be monitored by the Security Hub CSPM administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     ///
     /// - Parameter input: [no documentation found] (Type: `AcceptAdministratorInvitationInput`)
     ///
@@ -445,7 +688,7 @@ extension SecurityHubClient {
 
     /// Performs the `AcceptInvitation` operation on the `SecurityHub` service.
     ///
-    /// This method is deprecated. Instead, use AcceptAdministratorInvitation. The Security Hub console continues to use AcceptInvitation. It will eventually change to use AcceptAdministratorInvitation. Any IAM policies that specifically control access to this function must continue to use AcceptInvitation. You should also add AcceptAdministratorInvitation to your policies to ensure that the correct permissions are in place after the console begins to use AcceptAdministratorInvitation. Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
+    /// This method is deprecated. Instead, use AcceptAdministratorInvitation. The Security Hub CSPM console continues to use AcceptInvitation. It will eventually change to use AcceptAdministratorInvitation. Any IAM policies that specifically control access to this function must continue to use AcceptInvitation. You should also add AcceptAdministratorInvitation to your policies to ensure that the correct permissions are in place after the console begins to use AcceptAdministratorInvitation. Accepts the invitation to be a member account and be monitored by the Security Hub CSPM administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     @available(*, deprecated, message: "This API has been deprecated, use AcceptAdministratorInvitation API instead.")
     ///
     /// - Parameter input: [no documentation found] (Type: `AcceptInvitationInput`)
@@ -590,7 +833,7 @@ extension SecurityHubClient {
 
     /// Performs the `BatchDisableStandards` operation on the `SecurityHub` service.
     ///
-    /// Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see [Security Standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html) section of the Security Hub User Guide.
+    /// Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see [Security Standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html) section of the Security Hub CSPM User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `BatchDisableStandardsInput`)
     ///
@@ -662,7 +905,7 @@ extension SecurityHubClient {
 
     /// Performs the `BatchEnableStandards` operation on the `SecurityHub` service.
     ///
-    /// Enables the standards specified by the provided StandardsArn. To obtain the ARN for a standard, use the DescribeStandards operation. For more information, see the [Security Standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html) section of the Security Hub User Guide.
+    /// Enables the standards specified by the provided StandardsArn. To obtain the ARN for a standard, use the DescribeStandards operation. For more information, see the [Security Standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html) section of the Security Hub CSPM User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `BatchEnableStandardsInput`)
     ///
@@ -807,7 +1050,7 @@ extension SecurityHubClient {
 
     /// Performs the `BatchGetConfigurationPolicyAssociations` operation on the `SecurityHub` service.
     ///
-    /// Returns associations between an Security Hub configuration and a batch of target accounts, organizational units, or the root. Only the Security Hub delegated administrator can invoke this operation from the home Region. A configuration can refer to a configuration policy or to a self-managed configuration.
+    /// Returns associations between an Security Hub CSPM configuration and a batch of target accounts, organizational units, or the root. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region. A configuration can refer to a configuration policy or to a self-managed configuration.
     ///
     /// - Parameter input: [no documentation found] (Type: `BatchGetConfigurationPolicyAssociationsInput`)
     ///
@@ -1022,14 +1265,14 @@ extension SecurityHubClient {
 
     /// Performs the `BatchImportFindings` operation on the `SecurityHub` service.
     ///
-    /// Imports security findings generated by a finding provider into Security Hub. This action is requested by the finding provider to import its findings into Security Hub. BatchImportFindings must be called by one of the following:
+    /// Imports security findings generated by a finding provider into Security Hub CSPM. This action is requested by the finding provider to import its findings into Security Hub CSPM. BatchImportFindings must be called by one of the following:
     ///
     /// * The Amazon Web Services account that is associated with a finding if you are using the [default product ARN](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-custom-providers.html#securityhub-custom-providers-bfi-reqs) or are a partner sending findings from within a customer's Amazon Web Services account. In these cases, the identifier of the account that you are calling BatchImportFindings from needs to be the same as the AwsAccountId attribute for the finding.
     ///
-    /// * An Amazon Web Services account that Security Hub has allow-listed for an official partner integration. In this case, you can call BatchImportFindings from the allow-listed account and send findings from different customer accounts in the same batch.
+    /// * An Amazon Web Services account that Security Hub CSPM has allow-listed for an official partner integration. In this case, you can call BatchImportFindings from the allow-listed account and send findings from different customer accounts in the same batch.
     ///
     ///
-    /// The maximum allowed size for a finding is 240 Kb. An error is returned for any finding larger than 240 Kb. After a finding is created, BatchImportFindings cannot be used to update the following finding fields and objects, which Security Hub customers use to manage their investigation workflow.
+    /// The maximum allowed size for a finding is 240 Kb. An error is returned for any finding larger than 240 Kb. After a finding is created, BatchImportFindings cannot be used to update the following finding fields and objects, which Security Hub CSPM customers use to manage their investigation workflow.
     ///
     /// * Note
     ///
@@ -1196,7 +1439,7 @@ extension SecurityHubClient {
 
     /// Performs the `BatchUpdateFindings` operation on the `SecurityHub` service.
     ///
-    /// Used by Security Hub customers to update information about their investigation into one or more findings. Requested by administrator accounts or member accounts. Administrator accounts can update findings for their account and their member accounts. A member account can update findings only for their own account. Administrator and member accounts can use this operation to update the following fields and objects for one or more findings:
+    /// Used by Security Hub CSPM customers to update information about their investigation into one or more findings. Requested by administrator accounts or member accounts. Administrator accounts can update findings for their account and their member accounts. A member account can update findings only for their own account. Administrator and member accounts can use this operation to update the following fields and objects for one or more findings:
     ///
     /// * Confidence
     ///
@@ -1217,7 +1460,7 @@ extension SecurityHubClient {
     /// * Workflow
     ///
     ///
-    /// If you use this operation to update a finding, your updates don’t affect the value for the UpdatedAt field of the finding. Also note that it can take several minutes for Security Hub to process your request and update each finding specified in the request. You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. For more information see [Configuring access to BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-update-batchupdatefindings.html#batchupdatefindings-configure-access) in the Security Hub User Guide.
+    /// If you use this operation to update a finding, your updates don’t affect the value for the UpdatedAt field of the finding. Also note that it can take several minutes for Security Hub CSPM to process your request and update each finding specified in the request. You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. For more information see [Configuring access to BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-update-batchupdatefindings.html#batchupdatefindings-configure-access) in the Security Hub CSPM User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `BatchUpdateFindingsInput`)
     ///
@@ -1432,7 +1675,7 @@ extension SecurityHubClient {
 
     /// Performs the `CreateActionTarget` operation on the `SecurityHub` service.
     ///
-    /// Creates a custom action target in Security Hub. You can use custom actions on findings and insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
+    /// Creates a custom action target in Security Hub CSPM. You can use custom actions on findings and insights in Security Hub CSPM to trigger target actions in Amazon CloudWatch Events.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateActionTargetInput`)
     ///
@@ -1725,7 +1968,7 @@ extension SecurityHubClient {
 
     /// Performs the `CreateConfigurationPolicy` operation on the `SecurityHub` service.
     ///
-    /// Creates a configuration policy with the defined configuration. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    /// Creates a configuration policy with the defined configuration. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateConfigurationPolicyInput`)
     ///
@@ -1873,7 +2116,7 @@ extension SecurityHubClient {
 
     /// Performs the `CreateFindingAggregator` operation on the `SecurityHub` service.
     ///
-    /// The aggregation Region is now called the home Region. Used to enable cross-Region aggregation. This operation can be invoked from the home Region only. For information about how cross-Region aggregation works, see [Understanding cross-Region aggregation in Security Hub](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-aggregation.html) in the Security Hub User Guide.
+    /// The aggregation Region is now called the home Region. Used to enable cross-Region aggregation. This operation can be invoked from the home Region only. For information about how cross-Region aggregation works, see [Understanding cross-Region aggregation in Security Hub CSPM](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-aggregation.html) in the Security Hub CSPM User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateFindingAggregatorInput`)
     ///
@@ -1945,7 +2188,7 @@ extension SecurityHubClient {
 
     /// Performs the `CreateInsight` operation on the `SecurityHub` service.
     ///
-    /// Creates a custom insight in Security Hub. An insight is a consolidation of findings that relate to a security issue that requires attention or remediation. To group the related findings in the insight, use the GroupByAttribute.
+    /// Creates a custom insight in Security Hub CSPM. An insight is a consolidation of findings that relate to a security issue that requires attention or remediation. To group the related findings in the insight, use the GroupByAttribute.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateInsightInput`)
     ///
@@ -2017,18 +2260,18 @@ extension SecurityHubClient {
 
     /// Performs the `CreateMembers` operation on the `SecurityHub` service.
     ///
-    /// Creates a member association in Security Hub between the specified accounts and the account used to make the request, which is the administrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management account. CreateMembers is always used to add accounts that are not organization members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases:
+    /// Creates a member association in Security Hub CSPM between the specified accounts and the account used to make the request, which is the administrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management account. CreateMembers is always used to add accounts that are not organization members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases:
     ///
-    /// * Security Hub is not configured to automatically add new organization accounts.
+    /// * Security Hub CSPM is not configured to automatically add new organization accounts.
     ///
-    /// * The account was disassociated or deleted in Security Hub.
+    /// * The account was disassociated or deleted in Security Hub CSPM.
     ///
     ///
-    /// This action can only be used by an account that has Security Hub enabled. To enable Security Hub, you can use the EnableSecurityHub operation. For accounts that are not organization members, you create the account association and then send an invitation to the member account. To send the invitation, you use the InviteMembers operation. If the account owner accepts the invitation, the account becomes a member account in Security Hub. Accounts that are managed using Organizations don't receive an invitation. They automatically become a member account in Security Hub.
+    /// This action can only be used by an account that has Security Hub CSPM enabled. To enable Security Hub CSPM, you can use the EnableSecurityHub operation. For accounts that are not organization members, you create the account association and then send an invitation to the member account. To send the invitation, you use the InviteMembers operation. If the account owner accepts the invitation, the account becomes a member account in Security Hub CSPM. Accounts that are managed using Organizations don't receive an invitation. They automatically become a member account in Security Hub CSPM.
     ///
-    /// * If the organization account does not have Security Hub enabled, then Security Hub and the default standards are automatically enabled. Note that Security Hub cannot be enabled automatically for the organization management account. The organization management account must enable Security Hub before the administrator account enables it as a member account.
+    /// * If the organization account does not have Security Hub CSPM enabled, then Security Hub CSPM and the default standards are automatically enabled. Note that Security Hub CSPM cannot be enabled automatically for the organization management account. The organization management account must enable Security Hub CSPM before the administrator account enables it as a member account.
     ///
-    /// * For organization accounts that already have Security Hub enabled, Security Hub does not make any other changes to those accounts. It does not change their enabled standards or controls.
+    /// * For organization accounts that already have Security Hub CSPM enabled, Security Hub CSPM does not make any other changes to those accounts. It does not change their enabled standards or controls.
     ///
     ///
     /// A permissions policy is added that permits the administrator account to view the findings generated in the member account. To remove the association between the administrator and member accounts, use the DisassociateFromMasterAccount or DisassociateMembers operation.
@@ -2178,7 +2421,7 @@ extension SecurityHubClient {
 
     /// Performs the `DeclineInvitations` operation on the `SecurityHub` service.
     ///
-    /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Declines invitations to become a Security Hub member account. A prospective member account uses this operation to decline an invitation to become a member. Only member accounts that aren't part of an Amazon Web Services organization should use this operation. Organization accounts don't receive invitations.
+    /// We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see [Managing Security Hub CSPM administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub CSPM User Guide. Declines invitations to become a Security Hub CSPM member account. A prospective member account uses this operation to decline an invitation to become a member. Only member accounts that aren't part of an Amazon Web Services organization should use this operation. Organization accounts don't receive invitations.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeclineInvitationsInput`)
     ///
@@ -2249,7 +2492,7 @@ extension SecurityHubClient {
 
     /// Performs the `DeleteActionTarget` operation on the `SecurityHub` service.
     ///
-    /// Deletes a custom action target from Security Hub. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
+    /// Deletes a custom action target from Security Hub CSPM. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteActionTargetInput`)
     ///
@@ -2457,7 +2700,7 @@ extension SecurityHubClient {
 
     /// Performs the `DeleteConfigurationPolicy` operation on the `SecurityHub` service.
     ///
-    /// Deletes a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts, organizational units, or the root by invoking the StartConfigurationPolicyDisassociation operation.
+    /// Deletes a configuration policy. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts, organizational units, or the root by invoking the StartConfigurationPolicyDisassociation operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteConfigurationPolicyInput`)
     ///
@@ -2737,7 +2980,7 @@ extension SecurityHubClient {
 
     /// Performs the `DeleteInvitations` operation on the `SecurityHub` service.
     ///
-    /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Deletes invitations to become a Security Hub member account. A Security Hub administrator account can use this operation to delete invitations sent to one or more prospective member accounts. This operation is only used to delete invitations that are sent to prospective member accounts that aren't part of an Amazon Web Services organization. Organization accounts don't receive invitations.
+    /// We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see [Managing Security Hub CSPM administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub CSPM User Guide. Deletes invitations to become a Security Hub CSPM member account. A Security Hub CSPM administrator account can use this operation to delete invitations sent to one or more prospective member accounts. This operation is only used to delete invitations that are sent to prospective member accounts that aren't part of an Amazon Web Services organization. Organization accounts don't receive invitations.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteInvitationsInput`)
     ///
@@ -2809,7 +3052,7 @@ extension SecurityHubClient {
 
     /// Performs the `DeleteMembers` operation on the `SecurityHub` service.
     ///
-    /// Deletes the specified member accounts from Security Hub. You can invoke this API only to delete accounts that became members through invitation. You can't invoke this API to delete accounts that belong to an Organizations organization.
+    /// Deletes the specified member accounts from Security Hub CSPM. You can invoke this API only to delete accounts that became members through invitation. You can't invoke this API to delete accounts that belong to an Organizations organization.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteMembersInput`)
     ///
@@ -2881,7 +3124,7 @@ extension SecurityHubClient {
 
     /// Performs the `DescribeActionTargets` operation on the `SecurityHub` service.
     ///
-    /// Returns a list of the custom action targets in Security Hub in your account.
+    /// Returns a list of the custom action targets in Security Hub CSPM in your account.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeActionTargetsInput`)
     ///
@@ -2952,7 +3195,7 @@ extension SecurityHubClient {
 
     /// Performs the `DescribeHub` operation on the `SecurityHub` service.
     ///
-    /// Returns details about the Hub resource in your account, including the HubArn and the time when you enabled Security Hub.
+    /// Returns details about the Hub resource in your account, including the HubArn and the time when you enabled Security Hub CSPM.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeHubInput`)
     ///
@@ -3022,7 +3265,7 @@ extension SecurityHubClient {
 
     /// Performs the `DescribeOrganizationConfiguration` operation on the `SecurityHub` service.
     ///
-    /// Returns information about the way your organization is configured in Security Hub. Only the Security Hub administrator account can invoke this operation.
+    /// Returns information about the way your organization is configured in Security Hub CSPM. Only the Security Hub CSPM administrator account can invoke this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationConfigurationInput`)
     ///
@@ -3090,7 +3333,7 @@ extension SecurityHubClient {
 
     /// Performs the `DescribeProducts` operation on the `SecurityHub` service.
     ///
-    /// Returns information about product integrations in Security Hub. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you don't provide an integration ARN, then the results include all of the available product integrations.
+    /// Returns information about product integrations in Security Hub CSPM. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you don't provide an integration ARN, then the results include all of the available product integrations.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeProductsInput`)
     ///
@@ -3297,7 +3540,7 @@ extension SecurityHubClient {
 
     /// Performs the `DescribeStandards` operation on the `SecurityHub` service.
     ///
-    /// Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description.
+    /// Returns a list of the available standards in Security Hub CSPM. For each standard, the results include the standard ARN, the name, and a description.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeStandardsInput`)
     ///
@@ -3434,7 +3677,7 @@ extension SecurityHubClient {
 
     /// Performs the `DisableImportFindingsForProduct` operation on the `SecurityHub` service.
     ///
-    /// Disables the integration of the specified product with Security Hub. After the integration is disabled, findings from that product are no longer sent to Security Hub.
+    /// Disables the integration of the specified product with Security Hub CSPM. After the integration is disabled, findings from that product are no longer sent to Security Hub CSPM.
     ///
     /// - Parameter input: [no documentation found] (Type: `DisableImportFindingsForProductInput`)
     ///
@@ -3503,7 +3746,7 @@ extension SecurityHubClient {
 
     /// Performs the `DisableOrganizationAdminAccount` operation on the `SecurityHub` service.
     ///
-    /// Disables a Security Hub administrator account. Can only be called by the organization management account.
+    /// Disables a Security Hub CSPM administrator account. Can only be called by the organization management account.
     ///
     /// - Parameter input: [no documentation found] (Type: `DisableOrganizationAdminAccountInput`)
     ///
@@ -3575,7 +3818,7 @@ extension SecurityHubClient {
 
     /// Performs the `DisableSecurityHub` operation on the `SecurityHub` service.
     ///
-    /// Disables Security Hub in your account only in the current Amazon Web Services Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. You can't disable Security Hub in an account that is currently the Security Hub administrator. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your administrator and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
+    /// Disables Security Hub CSPM in your account only in the current Amazon Web Services Region. To disable Security Hub CSPM in all Regions, you must submit one request per Region where you have enabled Security Hub CSPM. You can't disable Security Hub CSPM in an account that is currently the Security Hub CSPM administrator. When you disable Security Hub CSPM, your existing findings and insights and any Security Hub CSPM configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your administrator and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub CSPM.
     ///
     /// - Parameter input: [no documentation found] (Type: `DisableSecurityHubInput`)
     ///
@@ -3712,7 +3955,7 @@ extension SecurityHubClient {
 
     /// Performs the `DisassociateFromAdministratorAccount` operation on the `SecurityHub` service.
     ///
-    /// Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
+    /// Disassociates the current Security Hub CSPM member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     ///
     /// - Parameter input: [no documentation found] (Type: `DisassociateFromAdministratorAccountInput`)
     ///
@@ -3781,7 +4024,7 @@ extension SecurityHubClient {
 
     /// Performs the `DisassociateFromMasterAccount` operation on the `SecurityHub` service.
     ///
-    /// This method is deprecated. Instead, use DisassociateFromAdministratorAccount. The Security Hub console continues to use DisassociateFromMasterAccount. It will eventually change to use DisassociateFromAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use DisassociateFromMasterAccount. You should also add DisassociateFromAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use DisassociateFromAdministratorAccount. Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
+    /// This method is deprecated. Instead, use DisassociateFromAdministratorAccount. The Security Hub CSPM console continues to use DisassociateFromMasterAccount. It will eventually change to use DisassociateFromAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use DisassociateFromMasterAccount. You should also add DisassociateFromAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use DisassociateFromAdministratorAccount. Disassociates the current Security Hub CSPM member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     @available(*, deprecated, message: "This API has been deprecated, use DisassociateFromAdministratorAccount API instead.")
     ///
     /// - Parameter input: [no documentation found] (Type: `DisassociateFromMasterAccountInput`)
@@ -3924,7 +4167,7 @@ extension SecurityHubClient {
 
     /// Performs the `EnableImportFindingsForProduct` operation on the `SecurityHub` service.
     ///
-    /// Enables the integration of a partner product with Security Hub. Integrated products send findings to Security Hub. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub is applied.
+    /// Enables the integration of a partner product with Security Hub CSPM. Integrated products send findings to Security Hub CSPM. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub CSPM is applied.
     ///
     /// - Parameter input: [no documentation found] (Type: `EnableImportFindingsForProductInput`)
     ///
@@ -3996,7 +4239,7 @@ extension SecurityHubClient {
 
     /// Performs the `EnableOrganizationAdminAccount` operation on the `SecurityHub` service.
     ///
-    /// Designates the Security Hub administrator account for an organization. Can only be called by the organization management account.
+    /// Designates the Security Hub CSPM administrator account for an organization. Can only be called by the organization management account.
     ///
     /// - Parameter input: [no documentation found] (Type: `EnableOrganizationAdminAccountInput`)
     ///
@@ -4068,14 +4311,14 @@ extension SecurityHubClient {
 
     /// Performs the `EnableSecurityHub` operation on the `SecurityHub` service.
     ///
-    /// Enables Security Hub for your account in the current Region or the Region you specify in the request. When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings from other services that are integrated with Security Hub. When you use the EnableSecurityHub operation to enable Security Hub, you also automatically enable the following standards:
+    /// Enables Security Hub CSPM for your account in the current Region or the Region you specify in the request. When you enable Security Hub CSPM, you grant to Security Hub CSPM the permissions necessary to gather findings from other services that are integrated with Security Hub CSPM. When you use the EnableSecurityHub operation to enable Security Hub CSPM, you also automatically enable the following standards:
     ///
     /// * Center for Internet Security (CIS) Amazon Web Services Foundations Benchmark v1.2.0
     ///
     /// * Amazon Web Services Foundational Security Best Practices
     ///
     ///
-    /// Other standards are not automatically enabled. To opt out of automatically enabled standards, set EnableDefaultStandards to false. After you enable Security Hub, to enable a standard, use the BatchEnableStandards operation. To disable a standard, use the BatchDisableStandards operation. To learn more, see the [setup information](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-settingup.html) in the Security Hub User Guide.
+    /// Other standards are not automatically enabled. To opt out of automatically enabled standards, set EnableDefaultStandards to false. After you enable Security Hub CSPM, to enable a standard, use the BatchEnableStandards operation. To disable a standard, use the BatchDisableStandards operation. To learn more, see the [setup information](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-settingup.html) in the Security Hub CSPM User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `EnableSecurityHubInput`)
     ///
@@ -4218,7 +4461,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetAdministratorAccount` operation on the `SecurityHub` service.
     ///
-    /// Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
+    /// Provides the details for the Security Hub CSPM administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetAdministratorAccountInput`)
     ///
@@ -4427,7 +4670,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetConfigurationPolicy` operation on the `SecurityHub` service.
     ///
-    /// Provides information about a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    /// Provides information about a configuration policy. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetConfigurationPolicyInput`)
     ///
@@ -4497,7 +4740,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetConfigurationPolicyAssociation` operation on the `SecurityHub` service.
     ///
-    /// Returns the association between a configuration and a target account, organizational unit, or the root. The configuration can be a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    /// Returns the association between a configuration and a target account, organizational unit, or the root. The configuration can be a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetConfigurationPolicyAssociationInput`)
     ///
@@ -4781,7 +5024,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetFindingHistory` operation on the `SecurityHub` service.
     ///
-    /// Returns the history of a Security Hub finding. The history includes changes made to any fields in the Amazon Web Services Security Finding Format (ASFF) except top-level timestamp fields, such as the CreatedAt and UpdatedAt fields. This operation might return fewer results than the maximum number of results (MaxResults) specified in a request, even when more results are available. If this occurs, the response includes a NextToken value, which you should use to retrieve the next set of results in the response. The presence of a NextToken value in a response doesn't necessarily indicate that the results are incomplete. However, you should continue to specify a NextToken value until you receive a response that doesn't include this value.
+    /// Returns the history of a Security Hub CSPM finding. The history includes changes made to any fields in the Amazon Web Services Security Finding Format (ASFF) except top-level timestamp fields, such as the CreatedAt and UpdatedAt fields. This operation might return fewer results than the maximum number of results (MaxResults) specified in a request, even when more results are available. If this occurs, the response includes a NextToken value, which you should use to retrieve the next set of results in the response. The presence of a NextToken value in a response doesn't necessarily indicate that the results are incomplete. However, you should continue to specify a NextToken value until you receive a response that doesn't include this value.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetFindingHistoryInput`)
     ///
@@ -5138,7 +5381,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetInsightResults` operation on the `SecurityHub` service.
     ///
-    /// Lists the results of the Security Hub insight specified by the insight ARN.
+    /// Lists the results of the Security Hub CSPM insight specified by the insight ARN.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetInsightResultsInput`)
     ///
@@ -5279,7 +5522,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetInvitationsCount` operation on the `SecurityHub` service.
     ///
-    /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Returns the count of all Security Hub membership invitations that were sent to the calling member account, not including the currently accepted invitation.
+    /// We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see [Managing Security Hub CSPM administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub CSPM User Guide. Returns the count of all Security Hub CSPM membership invitations that were sent to the calling member account, not including the currently accepted invitation.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetInvitationsCountInput`)
     ///
@@ -5347,7 +5590,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetMasterAccount` operation on the `SecurityHub` service.
     ///
-    /// This method is deprecated. Instead, use GetAdministratorAccount. The Security Hub console continues to use GetMasterAccount. It will eventually change to use GetAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use GetMasterAccount. You should also add GetAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use GetAdministratorAccount. Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
+    /// This method is deprecated. Instead, use GetAdministratorAccount. The Security Hub CSPM console continues to use GetMasterAccount. It will eventually change to use GetAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use GetMasterAccount. You should also add GetAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use GetAdministratorAccount. Provides the details for the Security Hub CSPM administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     @available(*, deprecated, message: "This API has been deprecated, use GetAdministratorAccount API instead.")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetMasterAccountInput`)
@@ -5417,7 +5660,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetMembers` operation on the `SecurityHub` service.
     ///
-    /// Returns the details for the Security Hub member accounts for the specified account IDs. An administrator account can be either the delegated Security Hub administrator account for an organization or an administrator account that enabled Security Hub manually. The results include both member accounts that are managed using Organizations and accounts that were invited manually.
+    /// Returns the details for the Security Hub CSPM member accounts for the specified account IDs. An administrator account can be either the delegated Security Hub CSPM administrator account for an organization or an administrator account that enabled Security Hub CSPM manually. The results include both member accounts that are managed using Organizations and accounts that were invited manually.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetMembersInput`)
     ///
@@ -5776,7 +6019,7 @@ extension SecurityHubClient {
 
     /// Performs the `InviteMembers` operation on the `SecurityHub` service.
     ///
-    /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Invites other Amazon Web Services accounts to become member accounts for the Security Hub administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organization. Organization accounts don't receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub. When the account owner enables Security Hub and accepts the invitation to become a member account, the administrator account can view the findings generated in the member account.
+    /// We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see [Managing Security Hub CSPM administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub CSPM User Guide. Invites other Amazon Web Services accounts to become member accounts for the Security Hub CSPM administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organization. Organization accounts don't receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub CSPM. When the account owner enables Security Hub CSPM and accepts the invitation to become a member account, the administrator account can view the findings generated in the member account.
     ///
     /// - Parameter input: [no documentation found] (Type: `InviteMembersInput`)
     ///
@@ -6059,7 +6302,7 @@ extension SecurityHubClient {
 
     /// Performs the `ListConfigurationPolicies` operation on the `SecurityHub` service.
     ///
-    /// Lists the configuration policies that the Security Hub delegated administrator has created for your organization. Only the delegated administrator can invoke this operation from the home Region.
+    /// Lists the configuration policies that the Security Hub CSPM delegated administrator has created for your organization. Only the delegated administrator can invoke this operation from the home Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListConfigurationPoliciesInput`)
     ///
@@ -6129,7 +6372,7 @@ extension SecurityHubClient {
 
     /// Performs the `ListConfigurationPolicyAssociations` operation on the `SecurityHub` service.
     ///
-    /// Provides information about the associations for your configuration policies and self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    /// Provides information about the associations for your configuration policies and self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListConfigurationPolicyAssociationsInput`)
     ///
@@ -6272,7 +6515,7 @@ extension SecurityHubClient {
 
     /// Performs the `ListEnabledProductsForImport` operation on the `SecurityHub` service.
     ///
-    /// Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
+    /// Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub CSPM.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListEnabledProductsForImportInput`)
     ///
@@ -6410,7 +6653,7 @@ extension SecurityHubClient {
 
     /// Performs the `ListInvitations` operation on the `SecurityHub` service.
     ///
-    /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Lists all Security Hub membership invitations that were sent to the calling account. Only accounts that are managed by invitation can use this operation. Accounts that are managed using the integration with Organizations don't receive invitations.
+    /// We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see [Managing Security Hub CSPM administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub CSPM User Guide. Lists all Security Hub CSPM membership invitations that were sent to the calling account. Only accounts that are managed by invitation can use this operation. Accounts that are managed using the integration with Organizations don't receive invitations.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListInvitationsInput`)
     ///
@@ -6479,7 +6722,7 @@ extension SecurityHubClient {
 
     /// Performs the `ListMembers` operation on the `SecurityHub` service.
     ///
-    /// Lists details about all member accounts for the current Security Hub administrator account. The results include both member accounts that belong to an organization and member accounts that were invited manually.
+    /// Lists details about all member accounts for the current Security Hub CSPM administrator account. The results include both member accounts that belong to an organization and member accounts that were invited manually.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListMembersInput`)
     ///
@@ -6548,7 +6791,7 @@ extension SecurityHubClient {
 
     /// Performs the `ListOrganizationAdminAccounts` operation on the `SecurityHub` service.
     ///
-    /// Lists the Security Hub administrator accounts. Can only be called by the organization management account.
+    /// Lists the Security Hub CSPM administrator accounts. Can only be called by the organization management account.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListOrganizationAdminAccountsInput`)
     ///
@@ -6895,7 +7138,7 @@ extension SecurityHubClient {
 
     /// Performs the `StartConfigurationPolicyAssociation` operation on the `SecurityHub` service.
     ///
-    /// Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    /// Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartConfigurationPolicyAssociationInput`)
     ///
@@ -6968,7 +7211,7 @@ extension SecurityHubClient {
 
     /// Performs the `StartConfigurationPolicyDisassociation` operation on the `SecurityHub` service.
     ///
-    /// Disassociates a target account, organizational unit, or the root from a specified configuration. When you disassociate a configuration from its target, the target inherits the configuration of the closest parent. If there’s no configuration to inherit, the target retains its settings but becomes a self-managed account. A target can be disassociated from a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    /// Disassociates a target account, organizational unit, or the root from a specified configuration. When you disassociate a configuration from its target, the target inherits the configuration of the closest parent. If there’s no configuration to inherit, the target retains its settings but becomes a self-managed account. A target can be disassociated from a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartConfigurationPolicyDisassociationInput`)
     ///
@@ -7179,7 +7422,7 @@ extension SecurityHubClient {
 
     /// Performs the `UpdateActionTarget` operation on the `SecurityHub` service.
     ///
-    /// Updates the name and description of a custom action target in Security Hub.
+    /// Updates the name and description of a custom action target in Security Hub CSPM.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateActionTargetInput`)
     ///
@@ -7396,7 +7639,7 @@ extension SecurityHubClient {
 
     /// Performs the `UpdateConfigurationPolicy` operation on the `SecurityHub` service.
     ///
-    /// Updates a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    /// Updates a configuration policy. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateConfigurationPolicyInput`)
     ///
@@ -7616,7 +7859,7 @@ extension SecurityHubClient {
 
     /// Performs the `UpdateFindings` operation on the `SecurityHub` service.
     ///
-    /// UpdateFindings is a deprecated operation. Instead of UpdateFindings, use the BatchUpdateFindings operation. The UpdateFindings operation updates the Note and RecordState of the Security Hub aggregated findings that the filter attributes specify. Any member account that can view the finding can also see the update to the finding. Finding updates made with UpdateFindings aren't persisted if the same finding is later updated by the finding provider through the BatchImportFindings operation. In addition, Security Hub doesn't record updates made with UpdateFindings in the finding history.
+    /// UpdateFindings is a deprecated operation. Instead of UpdateFindings, use the BatchUpdateFindings operation. The UpdateFindings operation updates the Note and RecordState of the Security Hub CSPM aggregated findings that the filter attributes specify. Any member account that can view the finding can also see the update to the finding. Finding updates made with UpdateFindings aren't persisted if the same finding is later updated by the finding provider through the BatchImportFindings operation. In addition, Security Hub CSPM doesn't record updates made with UpdateFindings in the finding history.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateFindingsInput`)
     ///
@@ -7688,7 +7931,7 @@ extension SecurityHubClient {
 
     /// Performs the `UpdateInsight` operation on the `SecurityHub` service.
     ///
-    /// Updates the Security Hub insight identified by the specified insight ARN.
+    /// Updates the Security Hub CSPM insight identified by the specified insight ARN.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateInsightInput`)
     ///
@@ -7760,7 +8003,7 @@ extension SecurityHubClient {
 
     /// Performs the `UpdateOrganizationConfiguration` operation on the `SecurityHub` service.
     ///
-    /// Updates the configuration of your organization in Security Hub. Only the Security Hub administrator account can invoke this operation.
+    /// Updates the configuration of your organization in Security Hub CSPM. Only the Security Hub CSPM administrator account can invoke this operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateOrganizationConfigurationInput`)
     ///
@@ -7908,7 +8151,7 @@ extension SecurityHubClient {
 
     /// Performs the `UpdateSecurityHubConfiguration` operation on the `SecurityHub` service.
     ///
-    /// Updates configuration options for Security Hub.
+    /// Updates configuration options for Security Hub CSPM.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateSecurityHubConfigurationInput`)
     ///

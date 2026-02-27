@@ -3541,82 +3541,23 @@ extension TooManyRequestsException {
     }
 }
 
-extension DetectiveClientTypes.MembershipDatasources {
+extension DetectiveClientTypes.Account {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.MembershipDatasources {
+    static func write(value: DetectiveClientTypes.Account?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["EmailAddress"].write(value.emailAddress)
+    }
+}
+
+extension DetectiveClientTypes.Administrator {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.Administrator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DetectiveClientTypes.MembershipDatasources()
+        var value = DetectiveClientTypes.Administrator()
         value.accountId = try reader["AccountId"].readIfPresent()
         value.graphArn = try reader["GraphArn"].readIfPresent()
-        value.datasourcePackageIngestHistory = try reader["DatasourcePackageIngestHistory"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: DetectiveClientTypes.TimestampForCollection.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension DetectiveClientTypes.TimestampForCollection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.TimestampForCollection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DetectiveClientTypes.TimestampForCollection()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension DetectiveClientTypes.UnprocessedAccount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.UnprocessedAccount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DetectiveClientTypes.UnprocessedAccount()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
-        return value
-    }
-}
-
-extension DetectiveClientTypes.UnprocessedGraph {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.UnprocessedGraph {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DetectiveClientTypes.UnprocessedGraph()
-        value.graphArn = try reader["GraphArn"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
-        return value
-    }
-}
-
-extension DetectiveClientTypes.MemberDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.MemberDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DetectiveClientTypes.MemberDetail()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.emailAddress = try reader["EmailAddress"].readIfPresent()
-        value.graphArn = try reader["GraphArn"].readIfPresent()
-        value.masterId = try reader["MasterId"].readIfPresent()
-        value.administratorId = try reader["AdministratorId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.disabledReason = try reader["DisabledReason"].readIfPresent()
-        value.invitedTime = try reader["InvitedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedTime = try reader["UpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.volumeUsageInBytes = try reader["VolumeUsageInBytes"].readIfPresent()
-        value.volumeUsageUpdatedTime = try reader["VolumeUsageUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.percentOfGraphUtilization = try reader["PercentOfGraphUtilization"].readIfPresent()
-        value.percentOfGraphUtilizationUpdatedTime = try reader["PercentOfGraphUtilizationUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.invitationType = try reader["InvitationType"].readIfPresent()
-        value.volumeUsageByDatasourcePackage = try reader["VolumeUsageByDatasourcePackage"].readMapIfPresent(valueReadingClosure: DetectiveClientTypes.DatasourcePackageUsageInfo.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.datasourcePackageIngestStates = try reader["DatasourcePackageIngestStates"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<DetectiveClientTypes.DatasourcePackageIngestState>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension DetectiveClientTypes.DatasourcePackageUsageInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.DatasourcePackageUsageInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DetectiveClientTypes.DatasourcePackageUsageInfo()
-        value.volumeUsageInBytes = try reader["VolumeUsageInBytes"].readIfPresent()
-        value.volumeUsageUpdateTime = try reader["VolumeUsageUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.delegationTime = try reader["DelegationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -3632,6 +3573,49 @@ extension DetectiveClientTypes.DatasourcePackageIngestDetail {
     }
 }
 
+extension DetectiveClientTypes.DatasourcePackageUsageInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.DatasourcePackageUsageInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DetectiveClientTypes.DatasourcePackageUsageInfo()
+        value.volumeUsageInBytes = try reader["VolumeUsageInBytes"].readIfPresent()
+        value.volumeUsageUpdateTime = try reader["VolumeUsageUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension DetectiveClientTypes.DateFilter {
+
+    static func write(value: DetectiveClientTypes.DateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndInclusive"].writeTimestamp(value.endInclusive, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["StartInclusive"].writeTimestamp(value.startInclusive, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+}
+
+extension DetectiveClientTypes.FilterCriteria {
+
+    static func write(value: DetectiveClientTypes.FilterCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CreatedTime"].write(value.createdTime, with: DetectiveClientTypes.DateFilter.write(value:to:))
+        try writer["EntityArn"].write(value.entityArn, with: DetectiveClientTypes.StringFilter.write(value:to:))
+        try writer["Severity"].write(value.severity, with: DetectiveClientTypes.StringFilter.write(value:to:))
+        try writer["State"].write(value.state, with: DetectiveClientTypes.StringFilter.write(value:to:))
+        try writer["Status"].write(value.status, with: DetectiveClientTypes.StringFilter.write(value:to:))
+    }
+}
+
+extension DetectiveClientTypes.FlaggedIpAddressDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.FlaggedIpAddressDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DetectiveClientTypes.FlaggedIpAddressDetail()
+        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
+        return value
+    }
+}
+
 extension DetectiveClientTypes.Graph {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.Graph {
@@ -3639,6 +3623,20 @@ extension DetectiveClientTypes.Graph {
         var value = DetectiveClientTypes.Graph()
         value.arn = try reader["Arn"].readIfPresent()
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension DetectiveClientTypes.ImpossibleTravelDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.ImpossibleTravelDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DetectiveClientTypes.ImpossibleTravelDetail()
+        value.startingIpAddress = try reader["StartingIpAddress"].readIfPresent()
+        value.endingIpAddress = try reader["EndingIpAddress"].readIfPresent()
+        value.startingLocation = try reader["StartingLocation"].readIfPresent()
+        value.endingLocation = try reader["EndingLocation"].readIfPresent()
+        value.hourlyTimeDelta = try reader["HourlyTimeDelta"].readIfPresent()
         return value
     }
 }
@@ -3671,35 +3669,55 @@ extension DetectiveClientTypes.IndicatorDetail {
     }
 }
 
-extension DetectiveClientTypes.RelatedFindingGroupDetail {
+extension DetectiveClientTypes.InvestigationDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.RelatedFindingGroupDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.InvestigationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DetectiveClientTypes.RelatedFindingGroupDetail()
-        value.id = try reader["Id"].readIfPresent()
+        var value = DetectiveClientTypes.InvestigationDetail()
+        value.investigationId = try reader["InvestigationId"].readIfPresent()
+        value.severity = try reader["Severity"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.entityArn = try reader["EntityArn"].readIfPresent()
+        value.entityType = try reader["EntityType"].readIfPresent()
         return value
     }
 }
 
-extension DetectiveClientTypes.RelatedFindingDetail {
+extension DetectiveClientTypes.MemberDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.RelatedFindingDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.MemberDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DetectiveClientTypes.RelatedFindingDetail()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        var value = DetectiveClientTypes.MemberDetail()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.emailAddress = try reader["EmailAddress"].readIfPresent()
+        value.graphArn = try reader["GraphArn"].readIfPresent()
+        value.masterId = try reader["MasterId"].readIfPresent()
+        value.administratorId = try reader["AdministratorId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.disabledReason = try reader["DisabledReason"].readIfPresent()
+        value.invitedTime = try reader["InvitedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedTime = try reader["UpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.volumeUsageInBytes = try reader["VolumeUsageInBytes"].readIfPresent()
+        value.volumeUsageUpdatedTime = try reader["VolumeUsageUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.percentOfGraphUtilization = try reader["PercentOfGraphUtilization"].readIfPresent()
+        value.percentOfGraphUtilizationUpdatedTime = try reader["PercentOfGraphUtilizationUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.invitationType = try reader["InvitationType"].readIfPresent()
+        value.volumeUsageByDatasourcePackage = try reader["VolumeUsageByDatasourcePackage"].readMapIfPresent(valueReadingClosure: DetectiveClientTypes.DatasourcePackageUsageInfo.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.datasourcePackageIngestStates = try reader["DatasourcePackageIngestStates"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<DetectiveClientTypes.DatasourcePackageIngestState>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension DetectiveClientTypes.NewUserAgentDetail {
+extension DetectiveClientTypes.MembershipDatasources {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.NewUserAgentDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.MembershipDatasources {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DetectiveClientTypes.NewUserAgentDetail()
-        value.userAgent = try reader["UserAgent"].readIfPresent()
-        value.isNewForEntireAccount = try reader["IsNewForEntireAccount"].readIfPresent() ?? false
+        var value = DetectiveClientTypes.MembershipDatasources()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.graphArn = try reader["GraphArn"].readIfPresent()
+        value.datasourcePackageIngestHistory = try reader["DatasourcePackageIngestHistory"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: DetectiveClientTypes.TimestampForCollection.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -3727,27 +3745,62 @@ extension DetectiveClientTypes.NewGeolocationDetail {
     }
 }
 
-extension DetectiveClientTypes.FlaggedIpAddressDetail {
+extension DetectiveClientTypes.NewUserAgentDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.FlaggedIpAddressDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.NewUserAgentDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DetectiveClientTypes.FlaggedIpAddressDetail()
-        value.ipAddress = try reader["IpAddress"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
+        var value = DetectiveClientTypes.NewUserAgentDetail()
+        value.userAgent = try reader["UserAgent"].readIfPresent()
+        value.isNewForEntireAccount = try reader["IsNewForEntireAccount"].readIfPresent() ?? false
         return value
     }
 }
 
-extension DetectiveClientTypes.ImpossibleTravelDetail {
+extension DetectiveClientTypes.RelatedFindingDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.ImpossibleTravelDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.RelatedFindingDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DetectiveClientTypes.ImpossibleTravelDetail()
-        value.startingIpAddress = try reader["StartingIpAddress"].readIfPresent()
-        value.endingIpAddress = try reader["EndingIpAddress"].readIfPresent()
-        value.startingLocation = try reader["StartingLocation"].readIfPresent()
-        value.endingLocation = try reader["EndingLocation"].readIfPresent()
-        value.hourlyTimeDelta = try reader["HourlyTimeDelta"].readIfPresent()
+        var value = DetectiveClientTypes.RelatedFindingDetail()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension DetectiveClientTypes.RelatedFindingGroupDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.RelatedFindingGroupDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DetectiveClientTypes.RelatedFindingGroupDetail()
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension DetectiveClientTypes.SortCriteria {
+
+    static func write(value: DetectiveClientTypes.SortCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Field"].write(value.field)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension DetectiveClientTypes.StringFilter {
+
+    static func write(value: DetectiveClientTypes.StringFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension DetectiveClientTypes.TimestampForCollection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.TimestampForCollection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DetectiveClientTypes.TimestampForCollection()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -3768,78 +3821,25 @@ extension DetectiveClientTypes.TTPsObservedDetail {
     }
 }
 
-extension DetectiveClientTypes.InvestigationDetail {
+extension DetectiveClientTypes.UnprocessedAccount {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.InvestigationDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.UnprocessedAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DetectiveClientTypes.InvestigationDetail()
-        value.investigationId = try reader["InvestigationId"].readIfPresent()
-        value.severity = try reader["Severity"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.entityArn = try reader["EntityArn"].readIfPresent()
-        value.entityType = try reader["EntityType"].readIfPresent()
-        return value
-    }
-}
-
-extension DetectiveClientTypes.Administrator {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.Administrator {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DetectiveClientTypes.Administrator()
+        var value = DetectiveClientTypes.UnprocessedAccount()
         value.accountId = try reader["AccountId"].readIfPresent()
-        value.graphArn = try reader["GraphArn"].readIfPresent()
-        value.delegationTime = try reader["DelegationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.reason = try reader["Reason"].readIfPresent()
         return value
     }
 }
 
-extension DetectiveClientTypes.Account {
+extension DetectiveClientTypes.UnprocessedGraph {
 
-    static func write(value: DetectiveClientTypes.Account?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["EmailAddress"].write(value.emailAddress)
-    }
-}
-
-extension DetectiveClientTypes.FilterCriteria {
-
-    static func write(value: DetectiveClientTypes.FilterCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedTime"].write(value.createdTime, with: DetectiveClientTypes.DateFilter.write(value:to:))
-        try writer["EntityArn"].write(value.entityArn, with: DetectiveClientTypes.StringFilter.write(value:to:))
-        try writer["Severity"].write(value.severity, with: DetectiveClientTypes.StringFilter.write(value:to:))
-        try writer["State"].write(value.state, with: DetectiveClientTypes.StringFilter.write(value:to:))
-        try writer["Status"].write(value.status, with: DetectiveClientTypes.StringFilter.write(value:to:))
-    }
-}
-
-extension DetectiveClientTypes.DateFilter {
-
-    static func write(value: DetectiveClientTypes.DateFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndInclusive"].writeTimestamp(value.endInclusive, format: SmithyTimestamps.TimestampFormat.dateTime)
-        try writer["StartInclusive"].writeTimestamp(value.startInclusive, format: SmithyTimestamps.TimestampFormat.dateTime)
-    }
-}
-
-extension DetectiveClientTypes.StringFilter {
-
-    static func write(value: DetectiveClientTypes.StringFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Value"].write(value.value)
-    }
-}
-
-extension DetectiveClientTypes.SortCriteria {
-
-    static func write(value: DetectiveClientTypes.SortCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Field"].write(value.field)
-        try writer["SortOrder"].write(value.sortOrder)
+    static func read(from reader: SmithyJSON.Reader) throws -> DetectiveClientTypes.UnprocessedGraph {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DetectiveClientTypes.UnprocessedGraph()
+        value.graphArn = try reader["GraphArn"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
+        return value
     }
 }
 

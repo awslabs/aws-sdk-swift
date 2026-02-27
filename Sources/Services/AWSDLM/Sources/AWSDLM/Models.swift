@@ -2144,17 +2144,281 @@ extension ResourceNotFoundException {
     }
 }
 
-extension DLMClientTypes.LifecyclePolicySummary {
+extension DLMClientTypes.Action {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.LifecyclePolicySummary {
+    static func write(value: DLMClientTypes.Action?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CrossRegionCopy"].writeList(value.crossRegionCopy, memberWritingClosure: DLMClientTypes.CrossRegionCopyAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.Action {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.LifecyclePolicySummary()
-        value.policyId = try reader["PolicyId"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.policyType = try reader["PolicyType"].readIfPresent()
-        value.defaultPolicy = try reader["DefaultPolicy"].readIfPresent()
+        var value = DLMClientTypes.Action()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.crossRegionCopy = try reader["CrossRegionCopy"].readListIfPresent(memberReadingClosure: DLMClientTypes.CrossRegionCopyAction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DLMClientTypes.ArchiveRetainRule {
+
+    static func write(value: DLMClientTypes.ArchiveRetainRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RetentionArchiveTier"].write(value.retentionArchiveTier, with: DLMClientTypes.RetentionArchiveTier.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.ArchiveRetainRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DLMClientTypes.ArchiveRetainRule()
+        value.retentionArchiveTier = try reader["RetentionArchiveTier"].readIfPresent(with: DLMClientTypes.RetentionArchiveTier.read(from:))
+        return value
+    }
+}
+
+extension DLMClientTypes.ArchiveRule {
+
+    static func write(value: DLMClientTypes.ArchiveRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RetainRule"].write(value.retainRule, with: DLMClientTypes.ArchiveRetainRule.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.ArchiveRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DLMClientTypes.ArchiveRule()
+        value.retainRule = try reader["RetainRule"].readIfPresent(with: DLMClientTypes.ArchiveRetainRule.read(from:))
+        return value
+    }
+}
+
+extension DLMClientTypes.CreateRule {
+
+    static func write(value: DLMClientTypes.CreateRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CronExpression"].write(value.cronExpression)
+        try writer["Interval"].write(value.interval)
+        try writer["IntervalUnit"].write(value.intervalUnit)
+        try writer["Location"].write(value.location)
+        try writer["Scripts"].writeList(value.scripts, memberWritingClosure: DLMClientTypes.Script.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Times"].writeList(value.times, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.CreateRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DLMClientTypes.CreateRule()
+        value.location = try reader["Location"].readIfPresent()
+        value.interval = try reader["Interval"].readIfPresent()
+        value.intervalUnit = try reader["IntervalUnit"].readIfPresent()
+        value.times = try reader["Times"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cronExpression = try reader["CronExpression"].readIfPresent()
+        value.scripts = try reader["Scripts"].readListIfPresent(memberReadingClosure: DLMClientTypes.Script.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DLMClientTypes.CrossRegionCopyAction {
+
+    static func write(value: DLMClientTypes.CrossRegionCopyAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: DLMClientTypes.EncryptionConfiguration.write(value:to:))
+        try writer["RetainRule"].write(value.retainRule, with: DLMClientTypes.CrossRegionCopyRetainRule.write(value:to:))
+        try writer["Target"].write(value.target)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.CrossRegionCopyAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DLMClientTypes.CrossRegionCopyAction()
+        value.target = try reader["Target"].readIfPresent() ?? ""
+        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: DLMClientTypes.EncryptionConfiguration.read(from:))
+        value.retainRule = try reader["RetainRule"].readIfPresent(with: DLMClientTypes.CrossRegionCopyRetainRule.read(from:))
+        return value
+    }
+}
+
+extension DLMClientTypes.CrossRegionCopyDeprecateRule {
+
+    static func write(value: DLMClientTypes.CrossRegionCopyDeprecateRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Interval"].write(value.interval)
+        try writer["IntervalUnit"].write(value.intervalUnit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.CrossRegionCopyDeprecateRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DLMClientTypes.CrossRegionCopyDeprecateRule()
+        value.interval = try reader["Interval"].readIfPresent()
+        value.intervalUnit = try reader["IntervalUnit"].readIfPresent()
+        return value
+    }
+}
+
+extension DLMClientTypes.CrossRegionCopyRetainRule {
+
+    static func write(value: DLMClientTypes.CrossRegionCopyRetainRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Interval"].write(value.interval)
+        try writer["IntervalUnit"].write(value.intervalUnit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.CrossRegionCopyRetainRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DLMClientTypes.CrossRegionCopyRetainRule()
+        value.interval = try reader["Interval"].readIfPresent()
+        value.intervalUnit = try reader["IntervalUnit"].readIfPresent()
+        return value
+    }
+}
+
+extension DLMClientTypes.CrossRegionCopyRule {
+
+    static func write(value: DLMClientTypes.CrossRegionCopyRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CmkArn"].write(value.cmkArn)
+        try writer["CopyTags"].write(value.copyTags)
+        try writer["DeprecateRule"].write(value.deprecateRule, with: DLMClientTypes.CrossRegionCopyDeprecateRule.write(value:to:))
+        try writer["Encrypted"].write(value.encrypted)
+        try writer["RetainRule"].write(value.retainRule, with: DLMClientTypes.CrossRegionCopyRetainRule.write(value:to:))
+        try writer["Target"].write(value.target)
+        try writer["TargetRegion"].write(value.targetRegion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.CrossRegionCopyRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DLMClientTypes.CrossRegionCopyRule()
+        value.targetRegion = try reader["TargetRegion"].readIfPresent()
+        value.target = try reader["Target"].readIfPresent()
+        value.encrypted = try reader["Encrypted"].readIfPresent() ?? false
+        value.cmkArn = try reader["CmkArn"].readIfPresent()
+        value.copyTags = try reader["CopyTags"].readIfPresent()
+        value.retainRule = try reader["RetainRule"].readIfPresent(with: DLMClientTypes.CrossRegionCopyRetainRule.read(from:))
+        value.deprecateRule = try reader["DeprecateRule"].readIfPresent(with: DLMClientTypes.CrossRegionCopyDeprecateRule.read(from:))
+        return value
+    }
+}
+
+extension DLMClientTypes.CrossRegionCopyTarget {
+
+    static func write(value: DLMClientTypes.CrossRegionCopyTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TargetRegion"].write(value.targetRegion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.CrossRegionCopyTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DLMClientTypes.CrossRegionCopyTarget()
+        value.targetRegion = try reader["TargetRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension DLMClientTypes.DeprecateRule {
+
+    static func write(value: DLMClientTypes.DeprecateRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Count"].write(value.count)
+        try writer["Interval"].write(value.interval)
+        try writer["IntervalUnit"].write(value.intervalUnit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.DeprecateRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DLMClientTypes.DeprecateRule()
+        value.count = try reader["Count"].readIfPresent()
+        value.interval = try reader["Interval"].readIfPresent()
+        value.intervalUnit = try reader["IntervalUnit"].readIfPresent()
+        return value
+    }
+}
+
+extension DLMClientTypes.EncryptionConfiguration {
+
+    static func write(value: DLMClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CmkArn"].write(value.cmkArn)
+        try writer["Encrypted"].write(value.encrypted)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.EncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DLMClientTypes.EncryptionConfiguration()
+        value.encrypted = try reader["Encrypted"].readIfPresent() ?? false
+        value.cmkArn = try reader["CmkArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DLMClientTypes.EventParameters {
+
+    static func write(value: DLMClientTypes.EventParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DescriptionRegex"].write(value.descriptionRegex)
+        try writer["EventType"].write(value.eventType)
+        try writer["SnapshotOwner"].writeList(value.snapshotOwner, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.EventParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DLMClientTypes.EventParameters()
+        value.eventType = try reader["EventType"].readIfPresent() ?? .sdkUnknown("")
+        value.snapshotOwner = try reader["SnapshotOwner"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.descriptionRegex = try reader["DescriptionRegex"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DLMClientTypes.EventSource {
+
+    static func write(value: DLMClientTypes.EventSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Parameters"].write(value.parameters, with: DLMClientTypes.EventParameters.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.EventSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DLMClientTypes.EventSource()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.parameters = try reader["Parameters"].readIfPresent(with: DLMClientTypes.EventParameters.read(from:))
+        return value
+    }
+}
+
+extension DLMClientTypes.Exclusions {
+
+    static func write(value: DLMClientTypes.Exclusions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExcludeBootVolumes"].write(value.excludeBootVolumes)
+        try writer["ExcludeTags"].writeList(value.excludeTags, memberWritingClosure: DLMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludeVolumeTypes"].writeList(value.excludeVolumeTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.Exclusions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DLMClientTypes.Exclusions()
+        value.excludeBootVolumes = try reader["ExcludeBootVolumes"].readIfPresent()
+        value.excludeVolumeTypes = try reader["ExcludeVolumeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludeTags = try reader["ExcludeTags"].readListIfPresent(memberReadingClosure: DLMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DLMClientTypes.FastRestoreRule {
+
+    static func write(value: DLMClientTypes.FastRestoreRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Count"].write(value.count)
+        try writer["Interval"].write(value.interval)
+        try writer["IntervalUnit"].write(value.intervalUnit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.FastRestoreRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DLMClientTypes.FastRestoreRule()
+        value.count = try reader["Count"].readIfPresent()
+        value.interval = try reader["Interval"].readIfPresent()
+        value.intervalUnit = try reader["IntervalUnit"].readIfPresent()
+        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2175,6 +2439,40 @@ extension DLMClientTypes.LifecyclePolicy {
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.policyArn = try reader["PolicyArn"].readIfPresent()
         value.defaultPolicy = try reader["DefaultPolicy"].readIfPresent()
+        return value
+    }
+}
+
+extension DLMClientTypes.LifecyclePolicySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.LifecyclePolicySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DLMClientTypes.LifecyclePolicySummary()
+        value.policyId = try reader["PolicyId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.policyType = try reader["PolicyType"].readIfPresent()
+        value.defaultPolicy = try reader["DefaultPolicy"].readIfPresent()
+        return value
+    }
+}
+
+extension DLMClientTypes.Parameters {
+
+    static func write(value: DLMClientTypes.Parameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExcludeBootVolume"].write(value.excludeBootVolume)
+        try writer["ExcludeDataVolumeTags"].writeList(value.excludeDataVolumeTags, memberWritingClosure: DLMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NoReboot"].write(value.noReboot)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.Parameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DLMClientTypes.Parameters()
+        value.excludeBootVolume = try reader["ExcludeBootVolume"].readIfPresent()
+        value.noReboot = try reader["NoReboot"].readIfPresent()
+        value.excludeDataVolumeTags = try reader["ExcludeDataVolumeTags"].readListIfPresent(memberReadingClosure: DLMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2224,178 +2522,40 @@ extension DLMClientTypes.PolicyDetails {
     }
 }
 
-extension DLMClientTypes.Exclusions {
+extension DLMClientTypes.RetainRule {
 
-    static func write(value: DLMClientTypes.Exclusions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DLMClientTypes.RetainRule?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ExcludeBootVolumes"].write(value.excludeBootVolumes)
-        try writer["ExcludeTags"].writeList(value.excludeTags, memberWritingClosure: DLMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExcludeVolumeTypes"].writeList(value.excludeVolumeTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.Exclusions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.Exclusions()
-        value.excludeBootVolumes = try reader["ExcludeBootVolumes"].readIfPresent()
-        value.excludeVolumeTypes = try reader["ExcludeVolumeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludeTags = try reader["ExcludeTags"].readListIfPresent(memberReadingClosure: DLMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DLMClientTypes.Tag {
-
-    static func write(value: DLMClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DLMClientTypes.CrossRegionCopyTarget {
-
-    static func write(value: DLMClientTypes.CrossRegionCopyTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TargetRegion"].write(value.targetRegion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.CrossRegionCopyTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.CrossRegionCopyTarget()
-        value.targetRegion = try reader["TargetRegion"].readIfPresent()
-        return value
-    }
-}
-
-extension DLMClientTypes.Action {
-
-    static func write(value: DLMClientTypes.Action?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CrossRegionCopy"].writeList(value.crossRegionCopy, memberWritingClosure: DLMClientTypes.CrossRegionCopyAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.Action {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.Action()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.crossRegionCopy = try reader["CrossRegionCopy"].readListIfPresent(memberReadingClosure: DLMClientTypes.CrossRegionCopyAction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension DLMClientTypes.CrossRegionCopyAction {
-
-    static func write(value: DLMClientTypes.CrossRegionCopyAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: DLMClientTypes.EncryptionConfiguration.write(value:to:))
-        try writer["RetainRule"].write(value.retainRule, with: DLMClientTypes.CrossRegionCopyRetainRule.write(value:to:))
-        try writer["Target"].write(value.target)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.CrossRegionCopyAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.CrossRegionCopyAction()
-        value.target = try reader["Target"].readIfPresent() ?? ""
-        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: DLMClientTypes.EncryptionConfiguration.read(from:))
-        value.retainRule = try reader["RetainRule"].readIfPresent(with: DLMClientTypes.CrossRegionCopyRetainRule.read(from:))
-        return value
-    }
-}
-
-extension DLMClientTypes.CrossRegionCopyRetainRule {
-
-    static func write(value: DLMClientTypes.CrossRegionCopyRetainRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
+        try writer["Count"].write(value.count)
         try writer["Interval"].write(value.interval)
         try writer["IntervalUnit"].write(value.intervalUnit)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.CrossRegionCopyRetainRule {
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.RetainRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.CrossRegionCopyRetainRule()
+        var value = DLMClientTypes.RetainRule()
+        value.count = try reader["Count"].readIfPresent()
         value.interval = try reader["Interval"].readIfPresent()
         value.intervalUnit = try reader["IntervalUnit"].readIfPresent()
         return value
     }
 }
 
-extension DLMClientTypes.EncryptionConfiguration {
+extension DLMClientTypes.RetentionArchiveTier {
 
-    static func write(value: DLMClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DLMClientTypes.RetentionArchiveTier?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CmkArn"].write(value.cmkArn)
-        try writer["Encrypted"].write(value.encrypted)
+        try writer["Count"].write(value.count)
+        try writer["Interval"].write(value.interval)
+        try writer["IntervalUnit"].write(value.intervalUnit)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.EncryptionConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.RetentionArchiveTier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.EncryptionConfiguration()
-        value.encrypted = try reader["Encrypted"].readIfPresent() ?? false
-        value.cmkArn = try reader["CmkArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DLMClientTypes.EventSource {
-
-    static func write(value: DLMClientTypes.EventSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Parameters"].write(value.parameters, with: DLMClientTypes.EventParameters.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.EventSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.EventSource()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.parameters = try reader["Parameters"].readIfPresent(with: DLMClientTypes.EventParameters.read(from:))
-        return value
-    }
-}
-
-extension DLMClientTypes.EventParameters {
-
-    static func write(value: DLMClientTypes.EventParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DescriptionRegex"].write(value.descriptionRegex)
-        try writer["EventType"].write(value.eventType)
-        try writer["SnapshotOwner"].writeList(value.snapshotOwner, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.EventParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.EventParameters()
-        value.eventType = try reader["EventType"].readIfPresent() ?? .sdkUnknown("")
-        value.snapshotOwner = try reader["SnapshotOwner"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.descriptionRegex = try reader["DescriptionRegex"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DLMClientTypes.Parameters {
-
-    static func write(value: DLMClientTypes.Parameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExcludeBootVolume"].write(value.excludeBootVolume)
-        try writer["ExcludeDataVolumeTags"].writeList(value.excludeDataVolumeTags, memberWritingClosure: DLMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["NoReboot"].write(value.noReboot)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.Parameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.Parameters()
-        value.excludeBootVolume = try reader["ExcludeBootVolume"].readIfPresent()
-        value.noReboot = try reader["NoReboot"].readIfPresent()
-        value.excludeDataVolumeTags = try reader["ExcludeDataVolumeTags"].readListIfPresent(memberReadingClosure: DLMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = DLMClientTypes.RetentionArchiveTier()
+        value.count = try reader["Count"].readIfPresent()
+        value.interval = try reader["Interval"].readIfPresent()
+        value.intervalUnit = try reader["IntervalUnit"].readIfPresent()
         return value
     }
 }
@@ -2435,70 +2595,27 @@ extension DLMClientTypes.Schedule {
     }
 }
 
-extension DLMClientTypes.ArchiveRule {
+extension DLMClientTypes.Script {
 
-    static func write(value: DLMClientTypes.ArchiveRule?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DLMClientTypes.Script?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["RetainRule"].write(value.retainRule, with: DLMClientTypes.ArchiveRetainRule.write(value:to:))
+        try writer["ExecuteOperationOnScriptFailure"].write(value.executeOperationOnScriptFailure)
+        try writer["ExecutionHandler"].write(value.executionHandler)
+        try writer["ExecutionHandlerService"].write(value.executionHandlerService)
+        try writer["ExecutionTimeout"].write(value.executionTimeout)
+        try writer["MaximumRetryCount"].write(value.maximumRetryCount)
+        try writer["Stages"].writeList(value.stages, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DLMClientTypes.StageValues>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.ArchiveRule {
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.Script {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.ArchiveRule()
-        value.retainRule = try reader["RetainRule"].readIfPresent(with: DLMClientTypes.ArchiveRetainRule.read(from:))
-        return value
-    }
-}
-
-extension DLMClientTypes.ArchiveRetainRule {
-
-    static func write(value: DLMClientTypes.ArchiveRetainRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RetentionArchiveTier"].write(value.retentionArchiveTier, with: DLMClientTypes.RetentionArchiveTier.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.ArchiveRetainRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.ArchiveRetainRule()
-        value.retentionArchiveTier = try reader["RetentionArchiveTier"].readIfPresent(with: DLMClientTypes.RetentionArchiveTier.read(from:))
-        return value
-    }
-}
-
-extension DLMClientTypes.RetentionArchiveTier {
-
-    static func write(value: DLMClientTypes.RetentionArchiveTier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Count"].write(value.count)
-        try writer["Interval"].write(value.interval)
-        try writer["IntervalUnit"].write(value.intervalUnit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.RetentionArchiveTier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.RetentionArchiveTier()
-        value.count = try reader["Count"].readIfPresent()
-        value.interval = try reader["Interval"].readIfPresent()
-        value.intervalUnit = try reader["IntervalUnit"].readIfPresent()
-        return value
-    }
-}
-
-extension DLMClientTypes.DeprecateRule {
-
-    static func write(value: DLMClientTypes.DeprecateRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Count"].write(value.count)
-        try writer["Interval"].write(value.interval)
-        try writer["IntervalUnit"].write(value.intervalUnit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.DeprecateRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.DeprecateRule()
-        value.count = try reader["Count"].readIfPresent()
-        value.interval = try reader["Interval"].readIfPresent()
-        value.intervalUnit = try reader["IntervalUnit"].readIfPresent()
+        var value = DLMClientTypes.Script()
+        value.stages = try reader["Stages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DLMClientTypes.StageValues>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.executionHandlerService = try reader["ExecutionHandlerService"].readIfPresent()
+        value.executionHandler = try reader["ExecutionHandler"].readIfPresent() ?? ""
+        value.executeOperationOnScriptFailure = try reader["ExecuteOperationOnScriptFailure"].readIfPresent()
+        value.executionTimeout = try reader["ExecutionTimeout"].readIfPresent()
+        value.maximumRetryCount = try reader["MaximumRetryCount"].readIfPresent()
         return value
     }
 }
@@ -2522,136 +2639,19 @@ extension DLMClientTypes.ShareRule {
     }
 }
 
-extension DLMClientTypes.CrossRegionCopyRule {
+extension DLMClientTypes.Tag {
 
-    static func write(value: DLMClientTypes.CrossRegionCopyRule?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DLMClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CmkArn"].write(value.cmkArn)
-        try writer["CopyTags"].write(value.copyTags)
-        try writer["DeprecateRule"].write(value.deprecateRule, with: DLMClientTypes.CrossRegionCopyDeprecateRule.write(value:to:))
-        try writer["Encrypted"].write(value.encrypted)
-        try writer["RetainRule"].write(value.retainRule, with: DLMClientTypes.CrossRegionCopyRetainRule.write(value:to:))
-        try writer["Target"].write(value.target)
-        try writer["TargetRegion"].write(value.targetRegion)
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.CrossRegionCopyRule {
+    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.CrossRegionCopyRule()
-        value.targetRegion = try reader["TargetRegion"].readIfPresent()
-        value.target = try reader["Target"].readIfPresent()
-        value.encrypted = try reader["Encrypted"].readIfPresent() ?? false
-        value.cmkArn = try reader["CmkArn"].readIfPresent()
-        value.copyTags = try reader["CopyTags"].readIfPresent()
-        value.retainRule = try reader["RetainRule"].readIfPresent(with: DLMClientTypes.CrossRegionCopyRetainRule.read(from:))
-        value.deprecateRule = try reader["DeprecateRule"].readIfPresent(with: DLMClientTypes.CrossRegionCopyDeprecateRule.read(from:))
-        return value
-    }
-}
-
-extension DLMClientTypes.CrossRegionCopyDeprecateRule {
-
-    static func write(value: DLMClientTypes.CrossRegionCopyDeprecateRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Interval"].write(value.interval)
-        try writer["IntervalUnit"].write(value.intervalUnit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.CrossRegionCopyDeprecateRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.CrossRegionCopyDeprecateRule()
-        value.interval = try reader["Interval"].readIfPresent()
-        value.intervalUnit = try reader["IntervalUnit"].readIfPresent()
-        return value
-    }
-}
-
-extension DLMClientTypes.FastRestoreRule {
-
-    static func write(value: DLMClientTypes.FastRestoreRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Count"].write(value.count)
-        try writer["Interval"].write(value.interval)
-        try writer["IntervalUnit"].write(value.intervalUnit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.FastRestoreRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.FastRestoreRule()
-        value.count = try reader["Count"].readIfPresent()
-        value.interval = try reader["Interval"].readIfPresent()
-        value.intervalUnit = try reader["IntervalUnit"].readIfPresent()
-        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension DLMClientTypes.RetainRule {
-
-    static func write(value: DLMClientTypes.RetainRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Count"].write(value.count)
-        try writer["Interval"].write(value.interval)
-        try writer["IntervalUnit"].write(value.intervalUnit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.RetainRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.RetainRule()
-        value.count = try reader["Count"].readIfPresent()
-        value.interval = try reader["Interval"].readIfPresent()
-        value.intervalUnit = try reader["IntervalUnit"].readIfPresent()
-        return value
-    }
-}
-
-extension DLMClientTypes.CreateRule {
-
-    static func write(value: DLMClientTypes.CreateRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CronExpression"].write(value.cronExpression)
-        try writer["Interval"].write(value.interval)
-        try writer["IntervalUnit"].write(value.intervalUnit)
-        try writer["Location"].write(value.location)
-        try writer["Scripts"].writeList(value.scripts, memberWritingClosure: DLMClientTypes.Script.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Times"].writeList(value.times, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.CreateRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.CreateRule()
-        value.location = try reader["Location"].readIfPresent()
-        value.interval = try reader["Interval"].readIfPresent()
-        value.intervalUnit = try reader["IntervalUnit"].readIfPresent()
-        value.times = try reader["Times"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cronExpression = try reader["CronExpression"].readIfPresent()
-        value.scripts = try reader["Scripts"].readListIfPresent(memberReadingClosure: DLMClientTypes.Script.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DLMClientTypes.Script {
-
-    static func write(value: DLMClientTypes.Script?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExecuteOperationOnScriptFailure"].write(value.executeOperationOnScriptFailure)
-        try writer["ExecutionHandler"].write(value.executionHandler)
-        try writer["ExecutionHandlerService"].write(value.executionHandlerService)
-        try writer["ExecutionTimeout"].write(value.executionTimeout)
-        try writer["MaximumRetryCount"].write(value.maximumRetryCount)
-        try writer["Stages"].writeList(value.stages, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DLMClientTypes.StageValues>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DLMClientTypes.Script {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DLMClientTypes.Script()
-        value.stages = try reader["Stages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DLMClientTypes.StageValues>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.executionHandlerService = try reader["ExecutionHandlerService"].readIfPresent()
-        value.executionHandler = try reader["ExecutionHandler"].readIfPresent() ?? ""
-        value.executeOperationOnScriptFailure = try reader["ExecuteOperationOnScriptFailure"].readIfPresent()
-        value.executionTimeout = try reader["ExecutionTimeout"].readIfPresent()
-        value.maximumRetryCount = try reader["MaximumRetryCount"].readIfPresent()
+        var value = DLMClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }

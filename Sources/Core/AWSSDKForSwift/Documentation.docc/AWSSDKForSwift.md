@@ -383,15 +383,13 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSElasticLoadBalancingv2](../../../../../swift/api/awselasticloadbalancingv2/latest)
 
-[AWSElasticTranscoder](../../../../../swift/api/awselastictranscoder/latest)
-
 [AWSElasticsearchService](../../../../../swift/api/awselasticsearchservice/latest)
+
+[AWSElementalInference](../../../../../swift/api/awselementalinference/latest)
 
 [AWSEntityResolution](../../../../../swift/api/awsentityresolution/latest)
 
 [AWSEventBridge](../../../../../swift/api/awseventbridge/latest)
-
-[AWSEvidently](../../../../../swift/api/awsevidently/latest)
 
 [AWSEvs](../../../../../swift/api/awsevs/latest)
 
@@ -464,8 +462,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSInvoicing](../../../../../swift/api/awsinvoicing/latest)
 
 [AWSIoT](../../../../../swift/api/awsiot/latest)
-
-[AWSIoTAnalytics](../../../../../swift/api/awsiotanalytics/latest)
 
 [AWSIoTDataPlane](../../../../../swift/api/awsiotdataplane/latest)
 
@@ -843,6 +839,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSigner](../../../../../swift/api/awssigner/latest)
 
+[AWSSignerData](../../../../../swift/api/awssignerdata/latest)
+
 [AWSSignin](../../../../../swift/api/awssignin/latest)
 
 [AWSSimSpaceWeaver](../../../../../swift/api/awssimspaceweaver/latest)
@@ -900,6 +898,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSWAFV2](../../../../../swift/api/awswafv2/latest)
 
 [AWSWellArchitected](../../../../../swift/api/awswellarchitected/latest)
+
+[AWSWickr](../../../../../swift/api/awswickr/latest)
 
 [AWSWisdom](../../../../../swift/api/awswisdom/latest)
 

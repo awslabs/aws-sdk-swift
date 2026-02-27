@@ -4797,12 +4797,87 @@ extension InvalidJobIdException {
     }
 }
 
-extension TextractClientTypes.DocumentMetadata {
+extension TextractClientTypes.Adapter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.DocumentMetadata {
+    static func write(value: TextractClientTypes.Adapter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdapterId"].write(value.adapterId)
+        try writer["Pages"].writeList(value.pages, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Version"].write(value.version)
+    }
+}
+
+extension TextractClientTypes.AdapterOverview {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.AdapterOverview {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.DocumentMetadata()
-        value.pages = try reader["Pages"].readIfPresent()
+        var value = TextractClientTypes.AdapterOverview()
+        value.adapterId = try reader["AdapterId"].readIfPresent()
+        value.adapterName = try reader["AdapterName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.featureTypes = try reader["FeatureTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TextractClientTypes.FeatureType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TextractClientTypes.AdaptersConfig {
+
+    static func write(value: TextractClientTypes.AdaptersConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Adapters"].writeList(value.adapters, memberWritingClosure: TextractClientTypes.Adapter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension TextractClientTypes.AdapterVersionDatasetConfig {
+
+    static func write(value: TextractClientTypes.AdapterVersionDatasetConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ManifestS3Object"].write(value.manifestS3Object, with: TextractClientTypes.S3Object.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.AdapterVersionDatasetConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.AdapterVersionDatasetConfig()
+        value.manifestS3Object = try reader["ManifestS3Object"].readIfPresent(with: TextractClientTypes.S3Object.read(from:))
+        return value
+    }
+}
+
+extension TextractClientTypes.AdapterVersionEvaluationMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.AdapterVersionEvaluationMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.AdapterVersionEvaluationMetric()
+        value.baseline = try reader["Baseline"].readIfPresent(with: TextractClientTypes.EvaluationMetric.read(from:))
+        value.adapterVersion = try reader["AdapterVersion"].readIfPresent(with: TextractClientTypes.EvaluationMetric.read(from:))
+        value.featureType = try reader["FeatureType"].readIfPresent()
+        return value
+    }
+}
+
+extension TextractClientTypes.AdapterVersionOverview {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.AdapterVersionOverview {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.AdapterVersionOverview()
+        value.adapterId = try reader["AdapterId"].readIfPresent()
+        value.adapterVersion = try reader["AdapterVersion"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.featureTypes = try reader["FeatureTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TextractClientTypes.FeatureType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension TextractClientTypes.AnalyzeIDDetections {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.AnalyzeIDDetections {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.AnalyzeIDDetections()
+        value.text = try reader["Text"].readIfPresent() ?? ""
+        value.normalizedValue = try reader["NormalizedValue"].readIfPresent(with: TextractClientTypes.NormalizedValue.read(from:))
+        value.confidence = try reader["Confidence"].readIfPresent()
         return value
     }
 }
@@ -4828,6 +4903,389 @@ extension TextractClientTypes.Block {
         value.page = try reader["Page"].readIfPresent()
         value.query = try reader["Query"].readIfPresent(with: TextractClientTypes.Query.read(from:))
         return value
+    }
+}
+
+extension TextractClientTypes.BoundingBox {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.BoundingBox {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.BoundingBox()
+        value.width = try reader["Width"].readIfPresent() ?? 0
+        value.height = try reader["Height"].readIfPresent() ?? 0
+        value.`left` = try reader["Left"].readIfPresent() ?? 0
+        value.top = try reader["Top"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension TextractClientTypes.DetectedSignature {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.DetectedSignature {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.DetectedSignature()
+        value.page = try reader["Page"].readIfPresent()
+        return value
+    }
+}
+
+extension TextractClientTypes.Document {
+
+    static func write(value: TextractClientTypes.Document?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bytes"].write(value.bytes)
+        try writer["S3Object"].write(value.s3Object, with: TextractClientTypes.S3Object.write(value:to:))
+    }
+}
+
+extension TextractClientTypes.DocumentGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.DocumentGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.DocumentGroup()
+        value.type = try reader["Type"].readIfPresent()
+        value.splitDocuments = try reader["SplitDocuments"].readListIfPresent(memberReadingClosure: TextractClientTypes.SplitDocument.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.detectedSignatures = try reader["DetectedSignatures"].readListIfPresent(memberReadingClosure: TextractClientTypes.DetectedSignature.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.undetectedSignatures = try reader["UndetectedSignatures"].readListIfPresent(memberReadingClosure: TextractClientTypes.UndetectedSignature.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TextractClientTypes.DocumentLocation {
+
+    static func write(value: TextractClientTypes.DocumentLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Object"].write(value.s3Object, with: TextractClientTypes.S3Object.write(value:to:))
+    }
+}
+
+extension TextractClientTypes.DocumentMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.DocumentMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.DocumentMetadata()
+        value.pages = try reader["Pages"].readIfPresent()
+        return value
+    }
+}
+
+extension TextractClientTypes.EvaluationMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.EvaluationMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.EvaluationMetric()
+        value.f1Score = try reader["F1Score"].readIfPresent() ?? 0
+        value.precision = try reader["Precision"].readIfPresent() ?? 0
+        value.recall = try reader["Recall"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension TextractClientTypes.ExpenseCurrency {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseCurrency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.ExpenseCurrency()
+        value.code = try reader["Code"].readIfPresent()
+        value.confidence = try reader["Confidence"].readIfPresent()
+        return value
+    }
+}
+
+extension TextractClientTypes.ExpenseDetection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseDetection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.ExpenseDetection()
+        value.text = try reader["Text"].readIfPresent()
+        value.geometry = try reader["Geometry"].readIfPresent(with: TextractClientTypes.Geometry.read(from:))
+        value.confidence = try reader["Confidence"].readIfPresent()
+        return value
+    }
+}
+
+extension TextractClientTypes.ExpenseDocument {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.ExpenseDocument()
+        value.expenseIndex = try reader["ExpenseIndex"].readIfPresent()
+        value.summaryFields = try reader["SummaryFields"].readListIfPresent(memberReadingClosure: TextractClientTypes.ExpenseField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lineItemGroups = try reader["LineItemGroups"].readListIfPresent(memberReadingClosure: TextractClientTypes.LineItemGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.blocks = try reader["Blocks"].readListIfPresent(memberReadingClosure: TextractClientTypes.Block.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TextractClientTypes.ExpenseField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.ExpenseField()
+        value.type = try reader["Type"].readIfPresent(with: TextractClientTypes.ExpenseType.read(from:))
+        value.labelDetection = try reader["LabelDetection"].readIfPresent(with: TextractClientTypes.ExpenseDetection.read(from:))
+        value.valueDetection = try reader["ValueDetection"].readIfPresent(with: TextractClientTypes.ExpenseDetection.read(from:))
+        value.pageNumber = try reader["PageNumber"].readIfPresent()
+        value.currency = try reader["Currency"].readIfPresent(with: TextractClientTypes.ExpenseCurrency.read(from:))
+        value.groupProperties = try reader["GroupProperties"].readListIfPresent(memberReadingClosure: TextractClientTypes.ExpenseGroupProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TextractClientTypes.ExpenseGroupProperty {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseGroupProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.ExpenseGroupProperty()
+        value.types = try reader["Types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension TextractClientTypes.ExpenseType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.ExpenseType()
+        value.text = try reader["Text"].readIfPresent()
+        value.confidence = try reader["Confidence"].readIfPresent()
+        return value
+    }
+}
+
+extension TextractClientTypes.Extraction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Extraction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.Extraction()
+        value.lendingDocument = try reader["LendingDocument"].readIfPresent(with: TextractClientTypes.LendingDocument.read(from:))
+        value.expenseDocument = try reader["ExpenseDocument"].readIfPresent(with: TextractClientTypes.ExpenseDocument.read(from:))
+        value.identityDocument = try reader["IdentityDocument"].readIfPresent(with: TextractClientTypes.IdentityDocument.read(from:))
+        return value
+    }
+}
+
+extension TextractClientTypes.Geometry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Geometry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.Geometry()
+        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: TextractClientTypes.BoundingBox.read(from:))
+        value.polygon = try reader["Polygon"].readListIfPresent(memberReadingClosure: TextractClientTypes.Point.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rotationAngle = try reader["RotationAngle"].readIfPresent()
+        return value
+    }
+}
+
+extension TextractClientTypes.HumanLoopActivationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.HumanLoopActivationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.HumanLoopActivationOutput()
+        value.humanLoopArn = try reader["HumanLoopArn"].readIfPresent()
+        value.humanLoopActivationReasons = try reader["HumanLoopActivationReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.humanLoopActivationConditionsEvaluationResults = try reader["HumanLoopActivationConditionsEvaluationResults"].readIfPresent()
+        return value
+    }
+}
+
+extension TextractClientTypes.HumanLoopConfig {
+
+    static func write(value: TextractClientTypes.HumanLoopConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataAttributes"].write(value.dataAttributes, with: TextractClientTypes.HumanLoopDataAttributes.write(value:to:))
+        try writer["FlowDefinitionArn"].write(value.flowDefinitionArn)
+        try writer["HumanLoopName"].write(value.humanLoopName)
+    }
+}
+
+extension TextractClientTypes.HumanLoopDataAttributes {
+
+    static func write(value: TextractClientTypes.HumanLoopDataAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContentClassifiers"].writeList(value.contentClassifiers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<TextractClientTypes.ContentClassifier>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension TextractClientTypes.IdentityDocument {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.IdentityDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.IdentityDocument()
+        value.documentIndex = try reader["DocumentIndex"].readIfPresent()
+        value.identityDocumentFields = try reader["IdentityDocumentFields"].readListIfPresent(memberReadingClosure: TextractClientTypes.IdentityDocumentField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.blocks = try reader["Blocks"].readListIfPresent(memberReadingClosure: TextractClientTypes.Block.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TextractClientTypes.IdentityDocumentField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.IdentityDocumentField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.IdentityDocumentField()
+        value.type = try reader["Type"].readIfPresent(with: TextractClientTypes.AnalyzeIDDetections.read(from:))
+        value.valueDetection = try reader["ValueDetection"].readIfPresent(with: TextractClientTypes.AnalyzeIDDetections.read(from:))
+        return value
+    }
+}
+
+extension TextractClientTypes.LendingDetection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LendingDetection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.LendingDetection()
+        value.text = try reader["Text"].readIfPresent()
+        value.selectionStatus = try reader["SelectionStatus"].readIfPresent()
+        value.geometry = try reader["Geometry"].readIfPresent(with: TextractClientTypes.Geometry.read(from:))
+        value.confidence = try reader["Confidence"].readIfPresent()
+        return value
+    }
+}
+
+extension TextractClientTypes.LendingDocument {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LendingDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.LendingDocument()
+        value.lendingFields = try reader["LendingFields"].readListIfPresent(memberReadingClosure: TextractClientTypes.LendingField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.signatureDetections = try reader["SignatureDetections"].readListIfPresent(memberReadingClosure: TextractClientTypes.SignatureDetection.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TextractClientTypes.LendingField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LendingField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.LendingField()
+        value.type = try reader["Type"].readIfPresent()
+        value.keyDetection = try reader["KeyDetection"].readIfPresent(with: TextractClientTypes.LendingDetection.read(from:))
+        value.valueDetections = try reader["ValueDetections"].readListIfPresent(memberReadingClosure: TextractClientTypes.LendingDetection.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TextractClientTypes.LendingResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LendingResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.LendingResult()
+        value.page = try reader["Page"].readIfPresent()
+        value.pageClassification = try reader["PageClassification"].readIfPresent(with: TextractClientTypes.PageClassification.read(from:))
+        value.extractions = try reader["Extractions"].readListIfPresent(memberReadingClosure: TextractClientTypes.Extraction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TextractClientTypes.LendingSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LendingSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.LendingSummary()
+        value.documentGroups = try reader["DocumentGroups"].readListIfPresent(memberReadingClosure: TextractClientTypes.DocumentGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.undetectedDocumentTypes = try reader["UndetectedDocumentTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TextractClientTypes.LineItemFields {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LineItemFields {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.LineItemFields()
+        value.lineItemExpenseFields = try reader["LineItemExpenseFields"].readListIfPresent(memberReadingClosure: TextractClientTypes.ExpenseField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TextractClientTypes.LineItemGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LineItemGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.LineItemGroup()
+        value.lineItemGroupIndex = try reader["LineItemGroupIndex"].readIfPresent()
+        value.lineItems = try reader["LineItems"].readListIfPresent(memberReadingClosure: TextractClientTypes.LineItemFields.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TextractClientTypes.NormalizedValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.NormalizedValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.NormalizedValue()
+        value.value = try reader["Value"].readIfPresent()
+        value.valueType = try reader["ValueType"].readIfPresent()
+        return value
+    }
+}
+
+extension TextractClientTypes.NotificationChannel {
+
+    static func write(value: TextractClientTypes.NotificationChannel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["SNSTopicArn"].write(value.snsTopicArn)
+    }
+}
+
+extension TextractClientTypes.OutputConfig {
+
+    static func write(value: TextractClientTypes.OutputConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Bucket"].write(value.s3Bucket)
+        try writer["S3Prefix"].write(value.s3Prefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.OutputConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.OutputConfig()
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
+        value.s3Prefix = try reader["S3Prefix"].readIfPresent()
+        return value
+    }
+}
+
+extension TextractClientTypes.PageClassification {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.PageClassification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.PageClassification()
+        value.pageType = try reader["PageType"].readListIfPresent(memberReadingClosure: TextractClientTypes.Prediction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.pageNumber = try reader["PageNumber"].readListIfPresent(memberReadingClosure: TextractClientTypes.Prediction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension TextractClientTypes.Point {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Point {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.Point()
+        value.x = try reader["X"].readIfPresent() ?? 0
+        value.y = try reader["Y"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension TextractClientTypes.Prediction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Prediction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TextractClientTypes.Prediction()
+        value.value = try reader["Value"].readIfPresent()
+        value.confidence = try reader["Confidence"].readIfPresent()
+        return value
+    }
+}
+
+extension TextractClientTypes.QueriesConfig {
+
+    static func write(value: TextractClientTypes.QueriesConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Queries"].writeList(value.queries, memberWritingClosure: TextractClientTypes.Query.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4861,209 +5319,6 @@ extension TextractClientTypes.Relationship {
     }
 }
 
-extension TextractClientTypes.Geometry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Geometry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.Geometry()
-        value.boundingBox = try reader["BoundingBox"].readIfPresent(with: TextractClientTypes.BoundingBox.read(from:))
-        value.polygon = try reader["Polygon"].readListIfPresent(memberReadingClosure: TextractClientTypes.Point.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.rotationAngle = try reader["RotationAngle"].readIfPresent()
-        return value
-    }
-}
-
-extension TextractClientTypes.Point {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Point {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.Point()
-        value.x = try reader["X"].readIfPresent() ?? 0
-        value.y = try reader["Y"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension TextractClientTypes.BoundingBox {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.BoundingBox {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.BoundingBox()
-        value.width = try reader["Width"].readIfPresent() ?? 0
-        value.height = try reader["Height"].readIfPresent() ?? 0
-        value.`left` = try reader["Left"].readIfPresent() ?? 0
-        value.top = try reader["Top"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension TextractClientTypes.HumanLoopActivationOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.HumanLoopActivationOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.HumanLoopActivationOutput()
-        value.humanLoopArn = try reader["HumanLoopArn"].readIfPresent()
-        value.humanLoopActivationReasons = try reader["HumanLoopActivationReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.humanLoopActivationConditionsEvaluationResults = try reader["HumanLoopActivationConditionsEvaluationResults"].readIfPresent()
-        return value
-    }
-}
-
-extension TextractClientTypes.ExpenseDocument {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseDocument {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.ExpenseDocument()
-        value.expenseIndex = try reader["ExpenseIndex"].readIfPresent()
-        value.summaryFields = try reader["SummaryFields"].readListIfPresent(memberReadingClosure: TextractClientTypes.ExpenseField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lineItemGroups = try reader["LineItemGroups"].readListIfPresent(memberReadingClosure: TextractClientTypes.LineItemGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.blocks = try reader["Blocks"].readListIfPresent(memberReadingClosure: TextractClientTypes.Block.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TextractClientTypes.LineItemGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LineItemGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.LineItemGroup()
-        value.lineItemGroupIndex = try reader["LineItemGroupIndex"].readIfPresent()
-        value.lineItems = try reader["LineItems"].readListIfPresent(memberReadingClosure: TextractClientTypes.LineItemFields.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TextractClientTypes.LineItemFields {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LineItemFields {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.LineItemFields()
-        value.lineItemExpenseFields = try reader["LineItemExpenseFields"].readListIfPresent(memberReadingClosure: TextractClientTypes.ExpenseField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TextractClientTypes.ExpenseField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.ExpenseField()
-        value.type = try reader["Type"].readIfPresent(with: TextractClientTypes.ExpenseType.read(from:))
-        value.labelDetection = try reader["LabelDetection"].readIfPresent(with: TextractClientTypes.ExpenseDetection.read(from:))
-        value.valueDetection = try reader["ValueDetection"].readIfPresent(with: TextractClientTypes.ExpenseDetection.read(from:))
-        value.pageNumber = try reader["PageNumber"].readIfPresent()
-        value.currency = try reader["Currency"].readIfPresent(with: TextractClientTypes.ExpenseCurrency.read(from:))
-        value.groupProperties = try reader["GroupProperties"].readListIfPresent(memberReadingClosure: TextractClientTypes.ExpenseGroupProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TextractClientTypes.ExpenseGroupProperty {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseGroupProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.ExpenseGroupProperty()
-        value.types = try reader["Types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["Id"].readIfPresent()
-        return value
-    }
-}
-
-extension TextractClientTypes.ExpenseCurrency {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseCurrency {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.ExpenseCurrency()
-        value.code = try reader["Code"].readIfPresent()
-        value.confidence = try reader["Confidence"].readIfPresent()
-        return value
-    }
-}
-
-extension TextractClientTypes.ExpenseDetection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseDetection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.ExpenseDetection()
-        value.text = try reader["Text"].readIfPresent()
-        value.geometry = try reader["Geometry"].readIfPresent(with: TextractClientTypes.Geometry.read(from:))
-        value.confidence = try reader["Confidence"].readIfPresent()
-        return value
-    }
-}
-
-extension TextractClientTypes.ExpenseType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.ExpenseType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.ExpenseType()
-        value.text = try reader["Text"].readIfPresent()
-        value.confidence = try reader["Confidence"].readIfPresent()
-        return value
-    }
-}
-
-extension TextractClientTypes.IdentityDocument {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.IdentityDocument {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.IdentityDocument()
-        value.documentIndex = try reader["DocumentIndex"].readIfPresent()
-        value.identityDocumentFields = try reader["IdentityDocumentFields"].readListIfPresent(memberReadingClosure: TextractClientTypes.IdentityDocumentField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.blocks = try reader["Blocks"].readListIfPresent(memberReadingClosure: TextractClientTypes.Block.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TextractClientTypes.IdentityDocumentField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.IdentityDocumentField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.IdentityDocumentField()
-        value.type = try reader["Type"].readIfPresent(with: TextractClientTypes.AnalyzeIDDetections.read(from:))
-        value.valueDetection = try reader["ValueDetection"].readIfPresent(with: TextractClientTypes.AnalyzeIDDetections.read(from:))
-        return value
-    }
-}
-
-extension TextractClientTypes.AnalyzeIDDetections {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.AnalyzeIDDetections {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.AnalyzeIDDetections()
-        value.text = try reader["Text"].readIfPresent() ?? ""
-        value.normalizedValue = try reader["NormalizedValue"].readIfPresent(with: TextractClientTypes.NormalizedValue.read(from:))
-        value.confidence = try reader["Confidence"].readIfPresent()
-        return value
-    }
-}
-
-extension TextractClientTypes.NormalizedValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.NormalizedValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.NormalizedValue()
-        value.value = try reader["Value"].readIfPresent()
-        value.valueType = try reader["ValueType"].readIfPresent()
-        return value
-    }
-}
-
-extension TextractClientTypes.AdapterVersionDatasetConfig {
-
-    static func write(value: TextractClientTypes.AdapterVersionDatasetConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ManifestS3Object"].write(value.manifestS3Object, with: TextractClientTypes.S3Object.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.AdapterVersionDatasetConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.AdapterVersionDatasetConfig()
-        value.manifestS3Object = try reader["ManifestS3Object"].readIfPresent(with: TextractClientTypes.S3Object.read(from:))
-        return value
-    }
-}
-
 extension TextractClientTypes.S3Object {
 
     static func write(value: TextractClientTypes.S3Object?, to writer: SmithyJSON.Writer) throws {
@@ -5083,93 +5338,6 @@ extension TextractClientTypes.S3Object {
     }
 }
 
-extension TextractClientTypes.OutputConfig {
-
-    static func write(value: TextractClientTypes.OutputConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Bucket"].write(value.s3Bucket)
-        try writer["S3Prefix"].write(value.s3Prefix)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.OutputConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.OutputConfig()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
-        value.s3Prefix = try reader["S3Prefix"].readIfPresent()
-        return value
-    }
-}
-
-extension TextractClientTypes.AdapterVersionEvaluationMetric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.AdapterVersionEvaluationMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.AdapterVersionEvaluationMetric()
-        value.baseline = try reader["Baseline"].readIfPresent(with: TextractClientTypes.EvaluationMetric.read(from:))
-        value.adapterVersion = try reader["AdapterVersion"].readIfPresent(with: TextractClientTypes.EvaluationMetric.read(from:))
-        value.featureType = try reader["FeatureType"].readIfPresent()
-        return value
-    }
-}
-
-extension TextractClientTypes.EvaluationMetric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.EvaluationMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.EvaluationMetric()
-        value.f1Score = try reader["F1Score"].readIfPresent() ?? 0
-        value.precision = try reader["Precision"].readIfPresent() ?? 0
-        value.recall = try reader["Recall"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension TextractClientTypes.Warning {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Warning {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.Warning()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.pages = try reader["Pages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TextractClientTypes.LendingResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LendingResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.LendingResult()
-        value.page = try reader["Page"].readIfPresent()
-        value.pageClassification = try reader["PageClassification"].readIfPresent(with: TextractClientTypes.PageClassification.read(from:))
-        value.extractions = try reader["Extractions"].readListIfPresent(memberReadingClosure: TextractClientTypes.Extraction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TextractClientTypes.Extraction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Extraction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.Extraction()
-        value.lendingDocument = try reader["LendingDocument"].readIfPresent(with: TextractClientTypes.LendingDocument.read(from:))
-        value.expenseDocument = try reader["ExpenseDocument"].readIfPresent(with: TextractClientTypes.ExpenseDocument.read(from:))
-        value.identityDocument = try reader["IdentityDocument"].readIfPresent(with: TextractClientTypes.IdentityDocument.read(from:))
-        return value
-    }
-}
-
-extension TextractClientTypes.LendingDocument {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LendingDocument {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.LendingDocument()
-        value.lendingFields = try reader["LendingFields"].readListIfPresent(memberReadingClosure: TextractClientTypes.LendingField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.signatureDetections = try reader["SignatureDetections"].readListIfPresent(memberReadingClosure: TextractClientTypes.SignatureDetection.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension TextractClientTypes.SignatureDetection {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.SignatureDetection {
@@ -5177,97 +5345,6 @@ extension TextractClientTypes.SignatureDetection {
         var value = TextractClientTypes.SignatureDetection()
         value.confidence = try reader["Confidence"].readIfPresent()
         value.geometry = try reader["Geometry"].readIfPresent(with: TextractClientTypes.Geometry.read(from:))
-        return value
-    }
-}
-
-extension TextractClientTypes.LendingField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LendingField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.LendingField()
-        value.type = try reader["Type"].readIfPresent()
-        value.keyDetection = try reader["KeyDetection"].readIfPresent(with: TextractClientTypes.LendingDetection.read(from:))
-        value.valueDetections = try reader["ValueDetections"].readListIfPresent(memberReadingClosure: TextractClientTypes.LendingDetection.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TextractClientTypes.LendingDetection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LendingDetection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.LendingDetection()
-        value.text = try reader["Text"].readIfPresent()
-        value.selectionStatus = try reader["SelectionStatus"].readIfPresent()
-        value.geometry = try reader["Geometry"].readIfPresent(with: TextractClientTypes.Geometry.read(from:))
-        value.confidence = try reader["Confidence"].readIfPresent()
-        return value
-    }
-}
-
-extension TextractClientTypes.PageClassification {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.PageClassification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.PageClassification()
-        value.pageType = try reader["PageType"].readListIfPresent(memberReadingClosure: TextractClientTypes.Prediction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.pageNumber = try reader["PageNumber"].readListIfPresent(memberReadingClosure: TextractClientTypes.Prediction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension TextractClientTypes.Prediction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Prediction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.Prediction()
-        value.value = try reader["Value"].readIfPresent()
-        value.confidence = try reader["Confidence"].readIfPresent()
-        return value
-    }
-}
-
-extension TextractClientTypes.LendingSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.LendingSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.LendingSummary()
-        value.documentGroups = try reader["DocumentGroups"].readListIfPresent(memberReadingClosure: TextractClientTypes.DocumentGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.undetectedDocumentTypes = try reader["UndetectedDocumentTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TextractClientTypes.DocumentGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.DocumentGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.DocumentGroup()
-        value.type = try reader["Type"].readIfPresent()
-        value.splitDocuments = try reader["SplitDocuments"].readListIfPresent(memberReadingClosure: TextractClientTypes.SplitDocument.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.detectedSignatures = try reader["DetectedSignatures"].readListIfPresent(memberReadingClosure: TextractClientTypes.DetectedSignature.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.undetectedSignatures = try reader["UndetectedSignatures"].readListIfPresent(memberReadingClosure: TextractClientTypes.UndetectedSignature.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TextractClientTypes.UndetectedSignature {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.UndetectedSignature {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.UndetectedSignature()
-        value.page = try reader["Page"].readIfPresent()
-        return value
-    }
-}
-
-extension TextractClientTypes.DetectedSignature {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.DetectedSignature {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.DetectedSignature()
-        value.page = try reader["Page"].readIfPresent()
         return value
     }
 }
@@ -5283,101 +5360,24 @@ extension TextractClientTypes.SplitDocument {
     }
 }
 
-extension TextractClientTypes.AdapterOverview {
+extension TextractClientTypes.UndetectedSignature {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.AdapterOverview {
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.UndetectedSignature {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.AdapterOverview()
-        value.adapterId = try reader["AdapterId"].readIfPresent()
-        value.adapterName = try reader["AdapterName"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.featureTypes = try reader["FeatureTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TextractClientTypes.FeatureType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = TextractClientTypes.UndetectedSignature()
+        value.page = try reader["Page"].readIfPresent()
         return value
     }
 }
 
-extension TextractClientTypes.AdapterVersionOverview {
+extension TextractClientTypes.Warning {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.AdapterVersionOverview {
+    static func read(from reader: SmithyJSON.Reader) throws -> TextractClientTypes.Warning {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TextractClientTypes.AdapterVersionOverview()
-        value.adapterId = try reader["AdapterId"].readIfPresent()
-        value.adapterVersion = try reader["AdapterVersion"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.featureTypes = try reader["FeatureTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TextractClientTypes.FeatureType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        var value = TextractClientTypes.Warning()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.pages = try reader["Pages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         return value
-    }
-}
-
-extension TextractClientTypes.Document {
-
-    static func write(value: TextractClientTypes.Document?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bytes"].write(value.bytes)
-        try writer["S3Object"].write(value.s3Object, with: TextractClientTypes.S3Object.write(value:to:))
-    }
-}
-
-extension TextractClientTypes.HumanLoopConfig {
-
-    static func write(value: TextractClientTypes.HumanLoopConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataAttributes"].write(value.dataAttributes, with: TextractClientTypes.HumanLoopDataAttributes.write(value:to:))
-        try writer["FlowDefinitionArn"].write(value.flowDefinitionArn)
-        try writer["HumanLoopName"].write(value.humanLoopName)
-    }
-}
-
-extension TextractClientTypes.HumanLoopDataAttributes {
-
-    static func write(value: TextractClientTypes.HumanLoopDataAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContentClassifiers"].writeList(value.contentClassifiers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<TextractClientTypes.ContentClassifier>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension TextractClientTypes.QueriesConfig {
-
-    static func write(value: TextractClientTypes.QueriesConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Queries"].writeList(value.queries, memberWritingClosure: TextractClientTypes.Query.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension TextractClientTypes.AdaptersConfig {
-
-    static func write(value: TextractClientTypes.AdaptersConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Adapters"].writeList(value.adapters, memberWritingClosure: TextractClientTypes.Adapter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension TextractClientTypes.Adapter {
-
-    static func write(value: TextractClientTypes.Adapter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdapterId"].write(value.adapterId)
-        try writer["Pages"].writeList(value.pages, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Version"].write(value.version)
-    }
-}
-
-extension TextractClientTypes.DocumentLocation {
-
-    static func write(value: TextractClientTypes.DocumentLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Object"].write(value.s3Object, with: TextractClientTypes.S3Object.write(value:to:))
-    }
-}
-
-extension TextractClientTypes.NotificationChannel {
-
-    static func write(value: TextractClientTypes.NotificationChannel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["SNSTopicArn"].write(value.snsTopicArn)
     }
 }
 

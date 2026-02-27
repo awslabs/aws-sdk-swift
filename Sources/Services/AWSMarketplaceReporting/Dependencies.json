@@ -1,4 +1,6 @@
-[
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/marketplace-reporting.json",
+  "dependencies": [
     "AWSClientRuntime",
     "AWSSDKChecksums",
     "AWSSDKHTTPAuth",
@@ -11,6 +13,6 @@
     "SmithyJSON",
     "SmithyReadWrite",
     "SmithyRetries",
-    "SmithyRetriesAPI",
-    "SmithyTestUtil"
-]
+    "SmithyRetriesAPI"
+  ]
+}

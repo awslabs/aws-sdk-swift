@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+/// Protocol for AWS region client configuration.
 public protocol AWSRegionClientConfiguration {
 
     /// The AWS region to use, i.e. `us-east-1` or `us-west-2`, etc.

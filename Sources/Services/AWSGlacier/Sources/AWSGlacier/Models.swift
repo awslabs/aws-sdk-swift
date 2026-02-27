@@ -153,6 +153,38 @@ public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
+/// Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
+public struct NoLongerSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// 400 Bad Request
+        public internal(set) var code: Swift.String? = nil
+        /// This API is no longer supported for new accounts. Please use Amazon S3 Glacier storage classes instead.
+        public internal(set) var message: Swift.String? = nil
+        /// Client
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoLongerSupportedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
 /// Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -217,9 +249,9 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-/// Provides options to abort a multipart upload identified by the upload ID. For information about the underlying REST API, see [Abort Multipart Upload](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-abort-upload.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
+/// Provides options to abort a multipart upload identified by the upload ID. For information about the underlying REST API, see [Abort Multipart Upload](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-multipart-abort-upload.html). For conceptual information, see [Working with Archives in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
 public struct AbortMultipartUploadInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The upload ID of the multipart upload to delete.
@@ -445,7 +477,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 /// The input values for AddTagsToVault.
 public struct AddTagsToVaultInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The tags to add to the vault. Each tag is composed of a key and a value. The value can be an empty string.
@@ -509,14 +541,14 @@ extension GlacierClientTypes {
     }
 }
 
-/// Provides options to complete a multipart upload operation. This informs Amazon Glacier that all the archive parts have been uploaded and Amazon S3 Glacier (Glacier) can now assemble the archive from the uploaded parts. After assembling and saving the archive to the vault, Glacier returns the URI path of the newly created archive resource.
+/// Provides options to complete a multipart upload operation. This informs Amazon Glacier that all the archive parts have been uploaded and Amazon Glacier (Glacier) can now assemble the archive from the uploaded parts. After assembling and saving the archive to the vault, Glacier returns the URI path of the newly created archive resource.
 public struct CompleteMultipartUploadInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The total size, in bytes, of the entire archive. This value should be the sum of all the sizes of the individual parts that you uploaded.
     public var archiveSize: Swift.String?
-    /// The SHA256 tree hash of the entire archive. It is the tree hash of SHA256 tree hash of the individual parts. If the value you specify in the request does not match the SHA256 tree hash of the final assembled archive as computed by Amazon S3 Glacier (Glacier), Glacier returns an error and the request fails.
+    /// The SHA256 tree hash of the entire archive. It is the tree hash of SHA256 tree hash of the individual parts. If the value you specify in the request does not match the SHA256 tree hash of the final assembled archive as computed by Amazon Glacier (Glacier), Glacier returns an error and the request fails.
     public var checksum: Swift.String?
     /// The upload ID of the multipart upload.
     /// This member is required.
@@ -540,11 +572,11 @@ public struct CompleteMultipartUploadInput: Swift.Sendable {
     }
 }
 
-/// Contains the Amazon S3 Glacier response to your request. For information about the underlying REST API, see [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
+/// Contains the Amazon Glacier response to your request. For information about the underlying REST API, see [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html). For conceptual information, see [Working with Archives in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
 public struct CompleteMultipartUploadOutput: Swift.Sendable {
     /// The ID of the archive. This value is also included as part of the location.
     public var archiveId: Swift.String?
-    /// The checksum of the archive computed by Amazon S3 Glacier.
+    /// The checksum of the archive computed by Amazon Glacier.
     public var checksum: Swift.String?
     /// The relative URI path of the newly added archive resource.
     public var location: Swift.String?
@@ -601,7 +633,7 @@ public struct CreateVaultInput: Swift.Sendable {
     }
 }
 
-/// Contains the Amazon S3 Glacier response to your request.
+/// Contains the Amazon Glacier response to your request.
 public struct CreateVaultOutput: Swift.Sendable {
     /// The URI of the vault that was created.
     public var location: Swift.String?
@@ -774,9 +806,9 @@ extension GlacierClientTypes {
     }
 }
 
-/// Provides options for deleting an archive from an Amazon S3 Glacier vault.
+/// Provides options for deleting an archive from an Amazon Glacier vault.
 public struct DeleteArchiveInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The ID of the archive to delete.
@@ -797,9 +829,9 @@ public struct DeleteArchiveInput: Swift.Sendable {
     }
 }
 
-/// Provides options for deleting a vault from Amazon S3 Glacier.
+/// Provides options for deleting a vault from Amazon Glacier.
 public struct DeleteVaultInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The name of the vault.
@@ -817,7 +849,7 @@ public struct DeleteVaultInput: Swift.Sendable {
 
 /// DeleteVaultAccessPolicy input.
 public struct DeleteVaultAccessPolicyInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The name of the vault.
@@ -835,7 +867,7 @@ public struct DeleteVaultAccessPolicyInput: Swift.Sendable {
 
 /// Provides options for deleting a vault notification configuration from an Amazon Glacier vault.
 public struct DeleteVaultNotificationsInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The name of the vault.
@@ -853,7 +885,7 @@ public struct DeleteVaultNotificationsInput: Swift.Sendable {
 
 /// Provides options for retrieving a job description.
 public struct DescribeJobInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The ID of the job to describe.
@@ -1270,7 +1302,7 @@ public struct DescribeJobOutput: Swift.Sendable {
 
 /// Provides options for retrieving metadata for a specific vault in Amazon Glacier.
 public struct DescribeVaultInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The name of the vault.
@@ -1286,11 +1318,11 @@ public struct DescribeVaultInput: Swift.Sendable {
     }
 }
 
-/// Contains the Amazon S3 Glacier response to your request.
+/// Contains the Amazon Glacier response to your request.
 public struct DescribeVaultOutput: Swift.Sendable {
     /// The Universal Coordinated Time (UTC) date when the vault was created. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
     public var creationDate: Swift.String?
-    /// The Universal Coordinated Time (UTC) date when Amazon S3 Glacier completed the last vault inventory. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
+    /// The Universal Coordinated Time (UTC) date when Amazon Glacier completed the last vault inventory. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
     public var lastInventoryDate: Swift.String?
     /// The number of archives in the vault as of the last inventory date. This field will return null if an inventory has not yet run on the vault, for example if you just created the vault.
     public var numberOfArchives: Swift.Int
@@ -1320,11 +1352,11 @@ public struct DescribeVaultOutput: Swift.Sendable {
 
 extension GlacierClientTypes {
 
-    /// Contains the Amazon S3 Glacier response to your request.
+    /// Contains the Amazon Glacier response to your request.
     public struct DescribeVaultOutput: Swift.Sendable {
         /// The Universal Coordinated Time (UTC) date when the vault was created. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
         public var creationDate: Swift.String?
-        /// The Universal Coordinated Time (UTC) date when Amazon S3 Glacier completed the last vault inventory. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
+        /// The Universal Coordinated Time (UTC) date when Amazon Glacier completed the last vault inventory. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
         public var lastInventoryDate: Swift.String?
         /// The number of archives in the vault as of the last inventory date. This field will return null if an inventory has not yet run on the vault, for example if you just created the vault.
         public var numberOfArchives: Swift.Int
@@ -1366,7 +1398,7 @@ public struct GetDataRetrievalPolicyInput: Swift.Sendable {
     }
 }
 
-/// Contains the Amazon S3 Glacier response to the GetDataRetrievalPolicy request.
+/// Contains the Amazon Glacier response to the GetDataRetrievalPolicy request.
 public struct GetDataRetrievalPolicyOutput: Swift.Sendable {
     /// Contains the returned data retrieval policy in JSON format.
     public var policy: GlacierClientTypes.DataRetrievalPolicy?
@@ -1378,9 +1410,9 @@ public struct GetDataRetrievalPolicyOutput: Swift.Sendable {
     }
 }
 
-/// Provides options for downloading output of an Amazon S3 Glacier job.
+/// Provides options for downloading output of an Amazon Glacier job.
 public struct GetJobOutputInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The job ID whose data is downloaded.
@@ -1394,7 +1426,7 @@ public struct GetJobOutputInput: Swift.Sendable {
     ///
     /// * Repeat steps 1 and 2 for all the eight 128 MB chunks of output data, each time specifying the appropriate byte range.
     ///
-    /// * After downloading all the parts of the job output, you have a list of eight checksum values. Compute the tree hash of these values to find the checksum of the entire output. Using the [DescribeJob] API, obtain job information of the job that provided you the output. The response includes the checksum of the entire archive stored in Amazon S3 Glacier. You compare this value with the checksum you computed to ensure you have downloaded the entire archive content with no errors.
+    /// * After downloading all the parts of the job output, you have a list of eight checksum values. Compute the tree hash of these values to find the checksum of the entire output. Using the [DescribeJob] API, obtain job information of the job that provided you the output. The response includes the checksum of the entire archive stored in Amazon Glacier. You compare this value with the checksum you computed to ensure you have downloaded the entire archive content with no errors.
     public var range: Swift.String?
     /// The name of the vault.
     /// This member is required.
@@ -1413,7 +1445,7 @@ public struct GetJobOutputInput: Swift.Sendable {
     }
 }
 
-/// Contains the Amazon S3 Glacier response to your request.
+/// Contains the Amazon Glacier response to your request.
 public struct GetJobOutputOutput: Swift.Sendable {
     /// Indicates the range units accepted. For more information, see [RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html).
     public var acceptRanges: Swift.String?
@@ -1429,7 +1461,7 @@ public struct GetJobOutputOutput: Swift.Sendable {
     ///
     /// * You request a range of the archive to return that starts on a multiple of 1 MB and goes to the end of the archive. For example, if you have a 3.1 MB archive and you specify a range that starts at 2 MB and ends at 3.1 MB (the end of the archive), then the x-amz-sha256-tree-hash is returned as a response header.
     public var checksum: Swift.String?
-    /// The range of bytes returned by Amazon S3 Glacier. If only partial output is downloaded, the response provides the range of bytes Amazon S3 Glacier returned. For example, bytes 0-1048575/8388608 returns the first 1 MB from 8 MB.
+    /// The range of bytes returned by Amazon Glacier. If only partial output is downloaded, the response provides the range of bytes Amazon Glacier returned. For example, bytes 0-1048575/8388608 returns the first 1 MB from 8 MB.
     public var contentRange: Swift.String?
     /// The Content-Type depends on whether the job output is an archive or a vault inventory. For archive data, the Content-Type is application/octet-stream. For vault inventory, if you requested CSV format when you initiated the job, the Content-Type is text/csv. Otherwise, by default, vault inventory is returned as JSON, and the Content-Type is application/json.
     public var contentType: Swift.String?
@@ -1457,7 +1489,7 @@ public struct GetJobOutputOutput: Swift.Sendable {
 
 /// Input for GetVaultAccessPolicy.
 public struct GetVaultAccessPolicyInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The name of the vault.
@@ -1502,7 +1534,7 @@ public struct GetVaultAccessPolicyOutput: Swift.Sendable {
 
 /// The input values for GetVaultLock.
 public struct GetVaultLockInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The name of the vault.
@@ -1518,7 +1550,7 @@ public struct GetVaultLockInput: Swift.Sendable {
     }
 }
 
-/// Contains the Amazon S3 Glacier response to your request.
+/// Contains the Amazon Glacier response to your request.
 public struct GetVaultLockOutput: Swift.Sendable {
     /// The UTC date and time at which the vault lock was put into the InProgress state.
     public var creationDate: Swift.String?
@@ -1544,7 +1576,7 @@ public struct GetVaultLockOutput: Swift.Sendable {
 
 /// Provides options for retrieving the notification configuration set on an Amazon Glacier vault.
 public struct GetVaultNotificationsInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The name of the vault.
@@ -1564,7 +1596,7 @@ extension GlacierClientTypes {
 
     /// Represents a vault's notification configuration.
     public struct VaultNotificationConfig: Swift.Sendable {
-        /// A list of one or more events for which Amazon S3 Glacier will send a notification to the specified Amazon SNS topic.
+        /// A list of one or more events for which Amazon Glacier will send a notification to the specified Amazon SNS topic.
         public var events: [Swift.String]?
         /// The Amazon Simple Notification Service (Amazon SNS) topic Amazon Resource Name (ARN).
         public var snsTopic: Swift.String?
@@ -1579,7 +1611,7 @@ extension GlacierClientTypes {
     }
 }
 
-/// Contains the Amazon S3 Glacier response to your request.
+/// Contains the Amazon Glacier response to your request.
 public struct GetVaultNotificationsOutput: Swift.Sendable {
     /// Returns the notification configuration set on the vault.
     public var vaultNotificationConfig: GlacierClientTypes.VaultNotificationConfig?
@@ -1697,7 +1729,7 @@ extension GlacierClientTypes {
         public var retrievalByteRange: Swift.String?
         /// Contains the parameters that define a job.
         public var selectParameters: GlacierClientTypes.SelectParameters?
-        /// The Amazon SNS topic ARN to which Amazon S3 Glacier sends a notification when the job is completed and the output is ready for you to download. The specified topic publishes the notification to its subscribers. The SNS topic must exist.
+        /// The Amazon SNS topic ARN to which Amazon Glacier sends a notification when the job is completed and the output is ready for you to download. The specified topic publishes the notification to its subscribers. The SNS topic must exist.
         public var snsTopic: Swift.String?
         /// The tier to use for a select or an archive retrieval job. Valid values are Expedited, Standard, or Bulk. Standard is the default.
         public var tier: Swift.String?
@@ -1730,9 +1762,9 @@ extension GlacierClientTypes {
     }
 }
 
-/// Provides options for initiating an Amazon S3 Glacier job.
+/// Provides options for initiating an Amazon Glacier job.
 public struct InitiateJobInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// Provides options for specifying job information.
@@ -1752,7 +1784,7 @@ public struct InitiateJobInput: Swift.Sendable {
     }
 }
 
-/// Contains the Amazon S3 Glacier response to your request.
+/// Contains the Amazon Glacier response to your request.
 public struct InitiateJobOutput: Swift.Sendable {
     /// The ID of the job.
     public var jobId: Swift.String?
@@ -1772,9 +1804,9 @@ public struct InitiateJobOutput: Swift.Sendable {
     }
 }
 
-/// Provides options for initiating a multipart upload to an Amazon S3 Glacier vault.
+/// Provides options for initiating a multipart upload to an Amazon Glacier vault.
 public struct InitiateMultipartUploadInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The archive description that you are uploading in parts. The part size must be a megabyte (1024 KB) multiplied by a power of 2, for example 1048576 (1 MB), 2097152 (2 MB), 4194304 (4 MB), 8388608 (8 MB), and so on. The minimum allowable part size is 1 MB, and the maximum is 4 GB (4096 MB).
@@ -1798,9 +1830,9 @@ public struct InitiateMultipartUploadInput: Swift.Sendable {
     }
 }
 
-/// The Amazon S3 Glacier response to your request.
+/// The Amazon Glacier response to your request.
 public struct InitiateMultipartUploadOutput: Swift.Sendable {
-    /// The relative URI path of the multipart upload ID Amazon S3 Glacier created.
+    /// The relative URI path of the multipart upload ID Amazon Glacier created.
     public var location: Swift.String?
     /// The ID of the multipart upload. This value is also included as part of the location.
     public var uploadId: Swift.String?
@@ -1851,7 +1883,7 @@ public struct InitiateVaultLockInput: Swift.Sendable {
     }
 }
 
-/// Contains the Amazon S3 Glacier response to your request.
+/// Contains the Amazon Glacier response to your request.
 public struct InitiateVaultLockOutput: Swift.Sendable {
     /// The lock ID, which is used to complete the vault locking process.
     public var lockId: Swift.String?
@@ -1863,9 +1895,9 @@ public struct InitiateVaultLockOutput: Swift.Sendable {
     }
 }
 
-/// Provides options for retrieving a job list for an Amazon S3 Glacier vault.
+/// Provides options for retrieving a job list for an Amazon Glacier vault.
 public struct ListJobsInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The state of the jobs to return. You can specify true or false.
@@ -2006,7 +2038,7 @@ extension GlacierClientTypes {
     }
 }
 
-/// Contains the Amazon S3 Glacier response to your request.
+/// Contains the Amazon Glacier response to your request.
 public struct ListJobsOutput: Swift.Sendable {
     /// A list of job objects. Each job object contains metadata describing the job.
     public var jobList: [GlacierClientTypes.GlacierJobDescription]?
@@ -2024,7 +2056,7 @@ public struct ListJobsOutput: Swift.Sendable {
 
 /// Provides options for retrieving list of in-progress multipart uploads for an Amazon Glacier vault.
 public struct ListMultipartUploadsInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// Specifies the maximum number of uploads returned in the response body. If this value is not specified, the List Uploads operation returns up to 50 uploads.
@@ -2079,7 +2111,7 @@ extension GlacierClientTypes {
     }
 }
 
-/// Contains the Amazon S3 Glacier response to your request.
+/// Contains the Amazon Glacier response to your request.
 public struct ListMultipartUploadsOutput: Swift.Sendable {
     /// An opaque string that represents where to continue pagination of the results. You use the marker in a new List Multipart Uploads request to obtain more uploads in the list. If there are no more uploads, this value is null.
     public var marker: Swift.String?
@@ -2097,7 +2129,7 @@ public struct ListMultipartUploadsOutput: Swift.Sendable {
 
 /// Provides options for retrieving a list of parts of an archive that have been uploaded in a specific multipart upload.
 public struct ListPartsInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The maximum number of parts to be returned. The default limit is 50. The number of parts returned might be fewer than the specified limit, but the number of returned parts never exceeds the limit.
@@ -2132,7 +2164,7 @@ extension GlacierClientTypes {
     public struct PartListElement: Swift.Sendable {
         /// The byte range of a part, inclusive of the upper value of the range.
         public var rangeInBytes: Swift.String?
-        /// The SHA256 tree hash value that Amazon S3 Glacier calculated for the part. This field is never null.
+        /// The SHA256 tree hash value that Amazon Glacier calculated for the part. This field is never null.
         public var sha256TreeHash: Swift.String?
 
         public init(
@@ -2145,7 +2177,7 @@ extension GlacierClientTypes {
     }
 }
 
-/// Contains the Amazon S3 Glacier response to your request.
+/// Contains the Amazon Glacier response to your request.
 public struct ListPartsOutput: Swift.Sendable {
     /// The description of the archive that was specified in the Initiate Multipart Upload request.
     public var archiveDescription: Swift.String?
@@ -2182,7 +2214,7 @@ public struct ListPartsOutput: Swift.Sendable {
 }
 
 public struct ListProvisionedCapacityInput: Swift.Sendable {
-    /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID.
+    /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
 
@@ -2229,7 +2261,7 @@ public struct ListProvisionedCapacityOutput: Swift.Sendable {
 
 /// The input value for ListTagsForVaultInput.
 public struct ListTagsForVaultInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The name of the vault.
@@ -2245,7 +2277,7 @@ public struct ListTagsForVaultInput: Swift.Sendable {
     }
 }
 
-/// Contains the Amazon S3 Glacier response to your request.
+/// Contains the Amazon Glacier response to your request.
 public struct ListTagsForVaultOutput: Swift.Sendable {
     /// The tags attached to the vault. Each tag is composed of a key and a value.
     public var tags: [Swift.String: Swift.String]?
@@ -2278,7 +2310,7 @@ public struct ListVaultsInput: Swift.Sendable {
     }
 }
 
-/// Contains the Amazon S3 Glacier response to your request.
+/// Contains the Amazon Glacier response to your request.
 public struct ListVaultsOutput: Swift.Sendable {
     /// The vault ARN at which to continue pagination of the results. You use the marker in another List Vaults request to obtain more vaults in the list.
     public var marker: Swift.String?
@@ -2295,7 +2327,7 @@ public struct ListVaultsOutput: Swift.Sendable {
 }
 
 public struct PurchaseProvisionedCapacityInput: Swift.Sendable {
-    /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID.
+    /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
 
@@ -2319,7 +2351,7 @@ public struct PurchaseProvisionedCapacityOutput: Swift.Sendable {
 
 /// The input value for RemoveTagsFromVaultInput.
 public struct RemoveTagsFromVaultInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// A list of tag keys. Each corresponding tag is removed from the vault.
@@ -2358,7 +2390,7 @@ public struct SetDataRetrievalPolicyInput: Swift.Sendable {
 
 /// SetVaultAccessPolicy input.
 public struct SetVaultAccessPolicyInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The vault access policy as a JSON string.
@@ -2380,7 +2412,7 @@ public struct SetVaultAccessPolicyInput: Swift.Sendable {
 
 /// Provides options to configure notifications that will be sent when specific events happen to a vault.
 public struct SetVaultNotificationsInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The name of the vault.
@@ -2400,13 +2432,13 @@ public struct SetVaultNotificationsInput: Swift.Sendable {
     }
 }
 
-/// Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
+/// Returned if, when uploading an archive, Amazon Glacier times out while receiving the upload.
 public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// 408 Request Timeout
         public internal(set) var code: Swift.String? = nil
-        /// Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
+        /// Returned if, when uploading an archive, Amazon Glacier times out while receiving the upload.
         public internal(set) var message: Swift.String? = nil
         /// Client
         public internal(set) var type: Swift.String? = nil
@@ -2434,7 +2466,7 @@ public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
 
 /// Provides options to add an archive to a vault.
 public struct UploadArchiveInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The optional description of the archive you are uploading.
@@ -2462,11 +2494,11 @@ public struct UploadArchiveInput: Swift.Sendable {
     }
 }
 
-/// Contains the Amazon S3 Glacier response to your request. For information about the underlying REST API, see [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html). For conceptual information, see [Working with Archives in Amazon S3 Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
+/// Contains the Amazon Glacier response to your request. For information about the underlying REST API, see [Upload Archive](https://docs.aws.amazon.com/amazonglacier/latest/dev/api-archive-post.html). For conceptual information, see [Working with Archives in Amazon Glacier](https://docs.aws.amazon.com/amazonglacier/latest/dev/working-with-archives.html).
 public struct UploadArchiveOutput: Swift.Sendable {
     /// The ID of the archive. This value is also included as part of the location.
     public var archiveId: Swift.String?
-    /// The checksum of the archive computed by Amazon S3 Glacier.
+    /// The checksum of the archive computed by Amazon Glacier.
     public var checksum: Swift.String?
     /// The relative URI path of the newly added archive resource.
     public var location: Swift.String?
@@ -2484,14 +2516,14 @@ public struct UploadArchiveOutput: Swift.Sendable {
 
 /// Provides options to upload a part of an archive in a multipart upload operation.
 public struct UploadMultipartPartInput: Swift.Sendable {
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// This member is required.
     public var accountId: Swift.String?
     /// The data to upload.
     public var body: Smithy.ByteStream?
     /// The SHA256 tree hash of the data being uploaded.
     public var checksum: Swift.String?
-    /// Identifies the range of bytes in the assembled archive that will be uploaded in this part. Amazon S3 Glacier uses this information to assemble the archive in the proper sequence. The format of this header follows RFC 2616. An example header is Content-Range:bytes 0-4194303/*.
+    /// Identifies the range of bytes in the assembled archive that will be uploaded in this part. Amazon Glacier uses this information to assemble the archive in the proper sequence. The format of this header follows RFC 2616. An example header is Content-Range:bytes 0-4194303/*.
     public var range: Swift.String?
     /// The upload ID of the multipart upload.
     /// This member is required.
@@ -2517,9 +2549,9 @@ public struct UploadMultipartPartInput: Swift.Sendable {
     }
 }
 
-/// Contains the Amazon S3 Glacier response to your request.
+/// Contains the Amazon Glacier response to your request.
 public struct UploadMultipartPartOutput: Swift.Sendable {
-    /// The SHA256 tree hash that Amazon S3 Glacier computed for the uploaded part.
+    /// The SHA256 tree hash that Amazon Glacier computed for the uploaded part.
     public var checksum: Swift.String?
 
     public init(
@@ -3612,6 +3644,7 @@ enum AbortMultipartUploadOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3629,6 +3662,7 @@ enum AbortVaultLockOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3647,6 +3681,7 @@ enum AddTagsToVaultOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3664,6 +3699,7 @@ enum CompleteMultipartUploadOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3681,6 +3717,7 @@ enum CompleteVaultLockOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3699,6 +3736,7 @@ enum CreateVaultOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -3715,6 +3753,7 @@ enum DeleteArchiveOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3732,6 +3771,7 @@ enum DeleteVaultOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3749,6 +3789,7 @@ enum DeleteVaultAccessPolicyOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3766,6 +3807,7 @@ enum DeleteVaultNotificationsOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3783,6 +3825,7 @@ enum DescribeJobOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3800,6 +3843,7 @@ enum DescribeVaultOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3817,6 +3861,7 @@ enum GetDataRetrievalPolicyOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -3833,6 +3878,7 @@ enum GetJobOutputOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3850,6 +3896,7 @@ enum GetVaultAccessPolicyOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3867,6 +3914,7 @@ enum GetVaultLockOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3884,6 +3932,7 @@ enum GetVaultNotificationsOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3902,6 +3951,7 @@ enum InitiateJobOutputError {
             case "InsufficientCapacityException": return try InsufficientCapacityException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "PolicyEnforcedException": return try PolicyEnforcedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -3920,6 +3970,7 @@ enum InitiateMultipartUploadOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3937,6 +3988,7 @@ enum InitiateVaultLockOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3954,6 +4006,7 @@ enum ListJobsOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3971,6 +4024,7 @@ enum ListMultipartUploadsOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3988,6 +4042,7 @@ enum ListPartsOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4005,6 +4060,7 @@ enum ListProvisionedCapacityOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4021,6 +4077,7 @@ enum ListTagsForVaultOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4038,6 +4095,7 @@ enum ListVaultsOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4056,6 +4114,7 @@ enum PurchaseProvisionedCapacityOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4072,6 +4131,7 @@ enum RemoveTagsFromVaultOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4089,6 +4149,7 @@ enum SetDataRetrievalPolicyOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4105,6 +4166,7 @@ enum SetVaultAccessPolicyOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4122,6 +4184,7 @@ enum SetVaultNotificationsOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4139,6 +4202,7 @@ enum UploadArchiveOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -4157,6 +4221,7 @@ enum UploadMultipartPartOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "NoLongerSupportedException": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -4185,6 +4250,21 @@ extension MissingParameterValueException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MissingParameterValueException {
         let reader = baseError.errorBodyReader
         var value = MissingParameterValueException()
+        value.properties.code = try reader["code"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.type = try reader["type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoLongerSupportedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NoLongerSupportedException {
+        let reader = baseError.errorBodyReader
+        var value = NoLongerSupportedException()
         value.properties.code = try reader["code"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.type = try reader["type"].readIfPresent()
@@ -4285,52 +4365,27 @@ extension RequestTimeoutException {
     }
 }
 
-extension GlacierClientTypes.InventoryRetrievalJobDescription {
+extension GlacierClientTypes.CSVInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.InventoryRetrievalJobDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.InventoryRetrievalJobDescription()
-        value.format = try reader["Format"].readIfPresent()
-        value.startDate = try reader["StartDate"].readIfPresent()
-        value.endDate = try reader["EndDate"].readIfPresent()
-        value.limit = try reader["Limit"].readIfPresent()
-        value.marker = try reader["Marker"].readIfPresent()
-        return value
-    }
-}
-
-extension GlacierClientTypes.SelectParameters {
-
-    static func write(value: GlacierClientTypes.SelectParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlacierClientTypes.CSVInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Expression"].write(value.expression)
-        try writer["ExpressionType"].write(value.expressionType)
-        try writer["InputSerialization"].write(value.inputSerialization, with: GlacierClientTypes.InputSerialization.write(value:to:))
-        try writer["OutputSerialization"].write(value.outputSerialization, with: GlacierClientTypes.OutputSerialization.write(value:to:))
+        try writer["Comments"].write(value.comments)
+        try writer["FieldDelimiter"].write(value.fieldDelimiter)
+        try writer["FileHeaderInfo"].write(value.fileHeaderInfo)
+        try writer["QuoteCharacter"].write(value.quoteCharacter)
+        try writer["QuoteEscapeCharacter"].write(value.quoteEscapeCharacter)
+        try writer["RecordDelimiter"].write(value.recordDelimiter)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.SelectParameters {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.CSVInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.SelectParameters()
-        value.inputSerialization = try reader["InputSerialization"].readIfPresent(with: GlacierClientTypes.InputSerialization.read(from:))
-        value.expressionType = try reader["ExpressionType"].readIfPresent()
-        value.expression = try reader["Expression"].readIfPresent()
-        value.outputSerialization = try reader["OutputSerialization"].readIfPresent(with: GlacierClientTypes.OutputSerialization.read(from:))
-        return value
-    }
-}
-
-extension GlacierClientTypes.OutputSerialization {
-
-    static func write(value: GlacierClientTypes.OutputSerialization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["csv"].write(value.csv, with: GlacierClientTypes.CSVOutput.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.OutputSerialization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.OutputSerialization()
-        value.csv = try reader["csv"].readIfPresent(with: GlacierClientTypes.CSVOutput.read(from:))
+        var value = GlacierClientTypes.CSVInput()
+        value.fileHeaderInfo = try reader["FileHeaderInfo"].readIfPresent()
+        value.comments = try reader["Comments"].readIfPresent()
+        value.quoteEscapeCharacter = try reader["QuoteEscapeCharacter"].readIfPresent()
+        value.recordDelimiter = try reader["RecordDelimiter"].readIfPresent()
+        value.fieldDelimiter = try reader["FieldDelimiter"].readIfPresent()
+        value.quoteCharacter = try reader["QuoteCharacter"].readIfPresent()
         return value
     }
 }
@@ -4358,86 +4413,98 @@ extension GlacierClientTypes.CSVOutput {
     }
 }
 
-extension GlacierClientTypes.InputSerialization {
+extension GlacierClientTypes.DataRetrievalPolicy {
 
-    static func write(value: GlacierClientTypes.InputSerialization?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlacierClientTypes.DataRetrievalPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["csv"].write(value.csv, with: GlacierClientTypes.CSVInput.write(value:to:))
+        try writer["Rules"].writeList(value.rules, memberWritingClosure: GlacierClientTypes.DataRetrievalRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.InputSerialization {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.DataRetrievalPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.InputSerialization()
-        value.csv = try reader["csv"].readIfPresent(with: GlacierClientTypes.CSVInput.read(from:))
+        var value = GlacierClientTypes.DataRetrievalPolicy()
+        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: GlacierClientTypes.DataRetrievalRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlacierClientTypes.CSVInput {
+extension GlacierClientTypes.DataRetrievalRule {
 
-    static func write(value: GlacierClientTypes.CSVInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlacierClientTypes.DataRetrievalRule?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Comments"].write(value.comments)
-        try writer["FieldDelimiter"].write(value.fieldDelimiter)
-        try writer["FileHeaderInfo"].write(value.fileHeaderInfo)
-        try writer["QuoteCharacter"].write(value.quoteCharacter)
-        try writer["QuoteEscapeCharacter"].write(value.quoteEscapeCharacter)
-        try writer["RecordDelimiter"].write(value.recordDelimiter)
+        try writer["BytesPerHour"].write(value.bytesPerHour)
+        try writer["Strategy"].write(value.strategy)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.CSVInput {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.DataRetrievalRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.CSVInput()
-        value.fileHeaderInfo = try reader["FileHeaderInfo"].readIfPresent()
-        value.comments = try reader["Comments"].readIfPresent()
-        value.quoteEscapeCharacter = try reader["QuoteEscapeCharacter"].readIfPresent()
-        value.recordDelimiter = try reader["RecordDelimiter"].readIfPresent()
-        value.fieldDelimiter = try reader["FieldDelimiter"].readIfPresent()
-        value.quoteCharacter = try reader["QuoteCharacter"].readIfPresent()
+        var value = GlacierClientTypes.DataRetrievalRule()
+        value.strategy = try reader["Strategy"].readIfPresent()
+        value.bytesPerHour = try reader["BytesPerHour"].readIfPresent()
         return value
     }
 }
 
-extension GlacierClientTypes.OutputLocation {
+extension GlacierClientTypes.DescribeVaultOutput {
 
-    static func write(value: GlacierClientTypes.OutputLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3"].write(value.s3, with: GlacierClientTypes.S3Location.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.OutputLocation {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.DescribeVaultOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.OutputLocation()
-        value.s3 = try reader["S3"].readIfPresent(with: GlacierClientTypes.S3Location.read(from:))
+        var value = GlacierClientTypes.DescribeVaultOutput()
+        value.vaultARN = try reader["VaultARN"].readIfPresent()
+        value.vaultName = try reader["VaultName"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.lastInventoryDate = try reader["LastInventoryDate"].readIfPresent()
+        value.numberOfArchives = try reader["NumberOfArchives"].readIfPresent() ?? 0
+        value.sizeInBytes = try reader["SizeInBytes"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension GlacierClientTypes.S3Location {
+extension GlacierClientTypes.Encryption {
 
-    static func write(value: GlacierClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlacierClientTypes.Encryption?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AccessControlList"].writeList(value.accessControlList, memberWritingClosure: GlacierClientTypes.Grant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BucketName"].write(value.bucketName)
-        try writer["CannedACL"].write(value.cannedACL)
-        try writer["Encryption"].write(value.encryption, with: GlacierClientTypes.Encryption.write(value:to:))
-        try writer["Prefix"].write(value.`prefix`)
-        try writer["StorageClass"].write(value.storageClass)
-        try writer["Tagging"].writeMap(value.tagging, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["UserMetadata"].writeMap(value.userMetadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["EncryptionType"].write(value.encryptionType)
+        try writer["KMSContext"].write(value.kmsContext)
+        try writer["KMSKeyId"].write(value.kmsKeyId)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.S3Location {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.Encryption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.S3Location()
-        value.bucketName = try reader["BucketName"].readIfPresent()
-        value.`prefix` = try reader["Prefix"].readIfPresent()
-        value.encryption = try reader["Encryption"].readIfPresent(with: GlacierClientTypes.Encryption.read(from:))
-        value.cannedACL = try reader["CannedACL"].readIfPresent()
-        value.accessControlList = try reader["AccessControlList"].readListIfPresent(memberReadingClosure: GlacierClientTypes.Grant.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tagging = try reader["Tagging"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.userMetadata = try reader["UserMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.storageClass = try reader["StorageClass"].readIfPresent()
+        var value = GlacierClientTypes.Encryption()
+        value.encryptionType = try reader["EncryptionType"].readIfPresent()
+        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
+        value.kmsContext = try reader["KMSContext"].readIfPresent()
+        return value
+    }
+}
+
+extension GlacierClientTypes.GlacierJobDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.GlacierJobDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlacierClientTypes.GlacierJobDescription()
+        value.jobId = try reader["JobId"].readIfPresent()
+        value.jobDescription = try reader["JobDescription"].readIfPresent()
+        value.action = try reader["Action"].readIfPresent()
+        value.archiveId = try reader["ArchiveId"].readIfPresent()
+        value.vaultARN = try reader["VaultARN"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readIfPresent()
+        value.completed = try reader["Completed"].readIfPresent() ?? false
+        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.archiveSizeInBytes = try reader["ArchiveSizeInBytes"].readIfPresent()
+        value.inventorySizeInBytes = try reader["InventorySizeInBytes"].readIfPresent()
+        value.snsTopic = try reader["SNSTopic"].readIfPresent()
+        value.completionDate = try reader["CompletionDate"].readIfPresent()
+        value.sha256TreeHash = try reader["SHA256TreeHash"].readIfPresent()
+        value.archiveSHA256TreeHash = try reader["ArchiveSHA256TreeHash"].readIfPresent()
+        value.retrievalByteRange = try reader["RetrievalByteRange"].readIfPresent()
+        value.tier = try reader["Tier"].readIfPresent()
+        value.inventoryRetrievalParameters = try reader["InventoryRetrievalParameters"].readIfPresent(with: GlacierClientTypes.InventoryRetrievalJobDescription.read(from:))
+        value.jobOutputPath = try reader["JobOutputPath"].readIfPresent()
+        value.selectParameters = try reader["SelectParameters"].readIfPresent(with: GlacierClientTypes.SelectParameters.read(from:))
+        value.outputLocation = try reader["OutputLocation"].readIfPresent(with: GlacierClientTypes.OutputLocation.read(from:))
         return value
     }
 }
@@ -4482,129 +4549,89 @@ extension GlacierClientTypes.Grantee {
     }
 }
 
-extension GlacierClientTypes.Encryption {
+extension GlacierClientTypes.InputSerialization {
 
-    static func write(value: GlacierClientTypes.Encryption?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlacierClientTypes.InputSerialization?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EncryptionType"].write(value.encryptionType)
-        try writer["KMSContext"].write(value.kmsContext)
-        try writer["KMSKeyId"].write(value.kmsKeyId)
+        try writer["csv"].write(value.csv, with: GlacierClientTypes.CSVInput.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.Encryption {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.InputSerialization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.Encryption()
-        value.encryptionType = try reader["EncryptionType"].readIfPresent()
-        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
-        value.kmsContext = try reader["KMSContext"].readIfPresent()
+        var value = GlacierClientTypes.InputSerialization()
+        value.csv = try reader["csv"].readIfPresent(with: GlacierClientTypes.CSVInput.read(from:))
         return value
     }
 }
 
-extension GlacierClientTypes.DataRetrievalPolicy {
+extension GlacierClientTypes.InventoryRetrievalJobDescription {
 
-    static func write(value: GlacierClientTypes.DataRetrievalPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Rules"].writeList(value.rules, memberWritingClosure: GlacierClientTypes.DataRetrievalRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.DataRetrievalPolicy {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.InventoryRetrievalJobDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.DataRetrievalPolicy()
-        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: GlacierClientTypes.DataRetrievalRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GlacierClientTypes.InventoryRetrievalJobDescription()
+        value.format = try reader["Format"].readIfPresent()
+        value.startDate = try reader["StartDate"].readIfPresent()
+        value.endDate = try reader["EndDate"].readIfPresent()
+        value.limit = try reader["Limit"].readIfPresent()
+        value.marker = try reader["Marker"].readIfPresent()
         return value
     }
 }
 
-extension GlacierClientTypes.DataRetrievalRule {
+extension GlacierClientTypes.InventoryRetrievalJobInput {
 
-    static func write(value: GlacierClientTypes.DataRetrievalRule?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlacierClientTypes.InventoryRetrievalJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["BytesPerHour"].write(value.bytesPerHour)
-        try writer["Strategy"].write(value.strategy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.DataRetrievalRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.DataRetrievalRule()
-        value.strategy = try reader["Strategy"].readIfPresent()
-        value.bytesPerHour = try reader["BytesPerHour"].readIfPresent()
-        return value
+        try writer["EndDate"].write(value.endDate)
+        try writer["Limit"].write(value.limit)
+        try writer["Marker"].write(value.marker)
+        try writer["StartDate"].write(value.startDate)
     }
 }
 
-extension GlacierClientTypes.VaultAccessPolicy {
+extension GlacierClientTypes.JobParameters {
 
-    static func write(value: GlacierClientTypes.VaultAccessPolicy?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlacierClientTypes.JobParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Policy"].write(value.policy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.VaultAccessPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.VaultAccessPolicy()
-        value.policy = try reader["Policy"].readIfPresent()
-        return value
-    }
-}
-
-extension GlacierClientTypes.VaultNotificationConfig {
-
-    static func write(value: GlacierClientTypes.VaultNotificationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Events"].writeList(value.events, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ArchiveId"].write(value.archiveId)
+        try writer["Description"].write(value.description)
+        try writer["Format"].write(value.format)
+        try writer["InventoryRetrievalParameters"].write(value.inventoryRetrievalParameters, with: GlacierClientTypes.InventoryRetrievalJobInput.write(value:to:))
+        try writer["OutputLocation"].write(value.outputLocation, with: GlacierClientTypes.OutputLocation.write(value:to:))
+        try writer["RetrievalByteRange"].write(value.retrievalByteRange)
         try writer["SNSTopic"].write(value.snsTopic)
+        try writer["SelectParameters"].write(value.selectParameters, with: GlacierClientTypes.SelectParameters.write(value:to:))
+        try writer["Tier"].write(value.tier)
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension GlacierClientTypes.OutputLocation {
+
+    static func write(value: GlacierClientTypes.OutputLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3"].write(value.s3, with: GlacierClientTypes.S3Location.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.VaultNotificationConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.OutputLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.VaultNotificationConfig()
-        value.snsTopic = try reader["SNSTopic"].readIfPresent()
-        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GlacierClientTypes.OutputLocation()
+        value.s3 = try reader["S3"].readIfPresent(with: GlacierClientTypes.S3Location.read(from:))
         return value
     }
 }
 
-extension GlacierClientTypes.GlacierJobDescription {
+extension GlacierClientTypes.OutputSerialization {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.GlacierJobDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.GlacierJobDescription()
-        value.jobId = try reader["JobId"].readIfPresent()
-        value.jobDescription = try reader["JobDescription"].readIfPresent()
-        value.action = try reader["Action"].readIfPresent()
-        value.archiveId = try reader["ArchiveId"].readIfPresent()
-        value.vaultARN = try reader["VaultARN"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readIfPresent()
-        value.completed = try reader["Completed"].readIfPresent() ?? false
-        value.statusCode = try reader["StatusCode"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.archiveSizeInBytes = try reader["ArchiveSizeInBytes"].readIfPresent()
-        value.inventorySizeInBytes = try reader["InventorySizeInBytes"].readIfPresent()
-        value.snsTopic = try reader["SNSTopic"].readIfPresent()
-        value.completionDate = try reader["CompletionDate"].readIfPresent()
-        value.sha256TreeHash = try reader["SHA256TreeHash"].readIfPresent()
-        value.archiveSHA256TreeHash = try reader["ArchiveSHA256TreeHash"].readIfPresent()
-        value.retrievalByteRange = try reader["RetrievalByteRange"].readIfPresent()
-        value.tier = try reader["Tier"].readIfPresent()
-        value.inventoryRetrievalParameters = try reader["InventoryRetrievalParameters"].readIfPresent(with: GlacierClientTypes.InventoryRetrievalJobDescription.read(from:))
-        value.jobOutputPath = try reader["JobOutputPath"].readIfPresent()
-        value.selectParameters = try reader["SelectParameters"].readIfPresent(with: GlacierClientTypes.SelectParameters.read(from:))
-        value.outputLocation = try reader["OutputLocation"].readIfPresent(with: GlacierClientTypes.OutputLocation.read(from:))
-        return value
+    static func write(value: GlacierClientTypes.OutputSerialization?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["csv"].write(value.csv, with: GlacierClientTypes.CSVOutput.write(value:to:))
     }
-}
 
-extension GlacierClientTypes.UploadListElement {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.UploadListElement {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.OutputSerialization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.UploadListElement()
-        value.multipartUploadId = try reader["MultipartUploadId"].readIfPresent()
-        value.vaultARN = try reader["VaultARN"].readIfPresent()
-        value.archiveDescription = try reader["ArchiveDescription"].readIfPresent()
-        value.partSizeInBytes = try reader["PartSizeInBytes"].readIfPresent() ?? 0
-        value.creationDate = try reader["CreationDate"].readIfPresent()
+        var value = GlacierClientTypes.OutputSerialization()
+        value.csv = try reader["csv"].readIfPresent(with: GlacierClientTypes.CSVOutput.read(from:))
         return value
     }
 }
@@ -4632,46 +4659,82 @@ extension GlacierClientTypes.ProvisionedCapacityDescription {
     }
 }
 
-extension GlacierClientTypes.DescribeVaultOutput {
+extension GlacierClientTypes.S3Location {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.DescribeVaultOutput {
+    static func write(value: GlacierClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessControlList"].writeList(value.accessControlList, memberWritingClosure: GlacierClientTypes.Grant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BucketName"].write(value.bucketName)
+        try writer["CannedACL"].write(value.cannedACL)
+        try writer["Encryption"].write(value.encryption, with: GlacierClientTypes.Encryption.write(value:to:))
+        try writer["Prefix"].write(value.`prefix`)
+        try writer["StorageClass"].write(value.storageClass)
+        try writer["Tagging"].writeMap(value.tagging, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["UserMetadata"].writeMap(value.userMetadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.S3Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlacierClientTypes.DescribeVaultOutput()
-        value.vaultARN = try reader["VaultARN"].readIfPresent()
-        value.vaultName = try reader["VaultName"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readIfPresent()
-        value.lastInventoryDate = try reader["LastInventoryDate"].readIfPresent()
-        value.numberOfArchives = try reader["NumberOfArchives"].readIfPresent() ?? 0
-        value.sizeInBytes = try reader["SizeInBytes"].readIfPresent() ?? 0
+        var value = GlacierClientTypes.S3Location()
+        value.bucketName = try reader["BucketName"].readIfPresent()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.encryption = try reader["Encryption"].readIfPresent(with: GlacierClientTypes.Encryption.read(from:))
+        value.cannedACL = try reader["CannedACL"].readIfPresent()
+        value.accessControlList = try reader["AccessControlList"].readListIfPresent(memberReadingClosure: GlacierClientTypes.Grant.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tagging = try reader["Tagging"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.userMetadata = try reader["UserMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.storageClass = try reader["StorageClass"].readIfPresent()
         return value
     }
 }
 
-extension GlacierClientTypes.JobParameters {
+extension GlacierClientTypes.SelectParameters {
 
-    static func write(value: GlacierClientTypes.JobParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlacierClientTypes.SelectParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ArchiveId"].write(value.archiveId)
-        try writer["Description"].write(value.description)
-        try writer["Format"].write(value.format)
-        try writer["InventoryRetrievalParameters"].write(value.inventoryRetrievalParameters, with: GlacierClientTypes.InventoryRetrievalJobInput.write(value:to:))
-        try writer["OutputLocation"].write(value.outputLocation, with: GlacierClientTypes.OutputLocation.write(value:to:))
-        try writer["RetrievalByteRange"].write(value.retrievalByteRange)
-        try writer["SNSTopic"].write(value.snsTopic)
-        try writer["SelectParameters"].write(value.selectParameters, with: GlacierClientTypes.SelectParameters.write(value:to:))
-        try writer["Tier"].write(value.tier)
-        try writer["Type"].write(value.type)
+        try writer["Expression"].write(value.expression)
+        try writer["ExpressionType"].write(value.expressionType)
+        try writer["InputSerialization"].write(value.inputSerialization, with: GlacierClientTypes.InputSerialization.write(value:to:))
+        try writer["OutputSerialization"].write(value.outputSerialization, with: GlacierClientTypes.OutputSerialization.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.SelectParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlacierClientTypes.SelectParameters()
+        value.inputSerialization = try reader["InputSerialization"].readIfPresent(with: GlacierClientTypes.InputSerialization.read(from:))
+        value.expressionType = try reader["ExpressionType"].readIfPresent()
+        value.expression = try reader["Expression"].readIfPresent()
+        value.outputSerialization = try reader["OutputSerialization"].readIfPresent(with: GlacierClientTypes.OutputSerialization.read(from:))
+        return value
     }
 }
 
-extension GlacierClientTypes.InventoryRetrievalJobInput {
+extension GlacierClientTypes.UploadListElement {
 
-    static func write(value: GlacierClientTypes.InventoryRetrievalJobInput?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.UploadListElement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlacierClientTypes.UploadListElement()
+        value.multipartUploadId = try reader["MultipartUploadId"].readIfPresent()
+        value.vaultARN = try reader["VaultARN"].readIfPresent()
+        value.archiveDescription = try reader["ArchiveDescription"].readIfPresent()
+        value.partSizeInBytes = try reader["PartSizeInBytes"].readIfPresent() ?? 0
+        value.creationDate = try reader["CreationDate"].readIfPresent()
+        return value
+    }
+}
+
+extension GlacierClientTypes.VaultAccessPolicy {
+
+    static func write(value: GlacierClientTypes.VaultAccessPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EndDate"].write(value.endDate)
-        try writer["Limit"].write(value.limit)
-        try writer["Marker"].write(value.marker)
-        try writer["StartDate"].write(value.startDate)
+        try writer["Policy"].write(value.policy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.VaultAccessPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlacierClientTypes.VaultAccessPolicy()
+        value.policy = try reader["Policy"].readIfPresent()
+        return value
     }
 }
 
@@ -4680,6 +4743,23 @@ extension GlacierClientTypes.VaultLockPolicy {
     static func write(value: GlacierClientTypes.VaultLockPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Policy"].write(value.policy)
+    }
+}
+
+extension GlacierClientTypes.VaultNotificationConfig {
+
+    static func write(value: GlacierClientTypes.VaultNotificationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Events"].writeList(value.events, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SNSTopic"].write(value.snsTopic)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlacierClientTypes.VaultNotificationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlacierClientTypes.VaultNotificationConfig()
+        value.snsTopic = try reader["SNSTopic"].readIfPresent()
+        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

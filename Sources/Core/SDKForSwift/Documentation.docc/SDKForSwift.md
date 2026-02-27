@@ -13,909 +13,909 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 ## Smithy Runtime Module Documentation
 
-[ClientRuntime](../../../../../latest/api/clientruntime/documentation/clientruntime)
+[ClientRuntime](/sdk-for-swift/latest/api/clientruntime/documentation/clientruntime)
 
-[Smithy](../../../../../latest/api/smithy/documentation/smithy)
+[Smithy](/sdk-for-swift/latest/api/smithy/documentation/smithy)
 
-[SmithyCBOR](../../../../../latest/api/smithycbor/documentation/smithycbor)
+[SmithyCBOR](/sdk-for-swift/latest/api/smithycbor/documentation/smithycbor)
 
-[SmithyChecksums](../../../../../latest/api/smithychecksums/documentation/smithychecksums)
+[SmithyChecksums](/sdk-for-swift/latest/api/smithychecksums/documentation/smithychecksums)
 
-[SmithyChecksumsAPI](../../../../../latest/api/smithychecksumsapi/documentation/smithychecksumsapi)
+[SmithyChecksumsAPI](/sdk-for-swift/latest/api/smithychecksumsapi/documentation/smithychecksumsapi)
 
-[SmithyEventStreams](../../../../../latest/api/smithyeventstreams/documentation/smithyeventstreams)
+[SmithyEventStreams](/sdk-for-swift/latest/api/smithyeventstreams/documentation/smithyeventstreams)
 
-[SmithyEventStreamsAPI](../../../../../latest/api/smithyeventstreamsapi/documentation/smithyeventstreamsapi)
+[SmithyEventStreamsAPI](/sdk-for-swift/latest/api/smithyeventstreamsapi/documentation/smithyeventstreamsapi)
 
-[SmithyEventStreamsAuthAPI](../../../../../latest/api/smithyeventstreamsauthapi/documentation/smithyeventstreamsauthapi)
+[SmithyEventStreamsAuthAPI](/sdk-for-swift/latest/api/smithyeventstreamsauthapi/documentation/smithyeventstreamsauthapi)
 
-[SmithyFormURL](../../../../../latest/api/smithyformurl/documentation/smithyformurl)
+[SmithyFormURL](/sdk-for-swift/latest/api/smithyformurl/documentation/smithyformurl)
 
-[SmithyHTTPAPI](../../../../../latest/api/smithyhttpapi/documentation/smithyhttpapi)
+[SmithyHTTPAPI](/sdk-for-swift/latest/api/smithyhttpapi/documentation/smithyhttpapi)
 
-[SmithyHTTPAuth](../../../../../latest/api/smithyhttpauth/documentation/smithyhttpauth)
+[SmithyHTTPAuth](/sdk-for-swift/latest/api/smithyhttpauth/documentation/smithyhttpauth)
 
-[SmithyHTTPAuthAPI](../../../../../latest/api/smithyhttpauthapi/documentation/smithyhttpauthapi)
+[SmithyHTTPAuthAPI](/sdk-for-swift/latest/api/smithyhttpauthapi/documentation/smithyhttpauthapi)
 
-[SmithyHTTPClient](../../../../../latest/api/smithyhttpclient/documentation/smithyhttpclient)
+[SmithyHTTPClient](/sdk-for-swift/latest/api/smithyhttpclient/documentation/smithyhttpclient)
 
-[SmithyHTTPClientAPI](../../../../../latest/api/smithyhttpclientapi/documentation/smithyhttpclientapi)
+[SmithyHTTPClientAPI](/sdk-for-swift/latest/api/smithyhttpclientapi/documentation/smithyhttpclientapi)
 
-[SmithyIdentity](../../../../../latest/api/smithyidentity/documentation/smithyidentity)
+[SmithyIdentity](/sdk-for-swift/latest/api/smithyidentity/documentation/smithyidentity)
 
-[SmithyIdentityAPI](../../../../../latest/api/smithyidentityapi/documentation/smithyidentityapi)
+[SmithyIdentityAPI](/sdk-for-swift/latest/api/smithyidentityapi/documentation/smithyidentityapi)
 
-[SmithyJSON](../../../../../latest/api/smithyjson/documentation/smithyjson)
+[SmithyJSON](/sdk-for-swift/latest/api/smithyjson/documentation/smithyjson)
 
-[SmithyReadWrite](../../../../../latest/api/smithyreadwrite/documentation/smithyreadwrite)
+[SmithyReadWrite](/sdk-for-swift/latest/api/smithyreadwrite/documentation/smithyreadwrite)
 
-[SmithyRetries](../../../../../latest/api/smithyretries/documentation/smithyretries)
+[SmithyRetries](/sdk-for-swift/latest/api/smithyretries/documentation/smithyretries)
 
-[SmithyRetriesAPI](../../../../../latest/api/smithyretriesapi/documentation/smithyretriesapi)
+[SmithyRetriesAPI](/sdk-for-swift/latest/api/smithyretriesapi/documentation/smithyretriesapi)
 
-[SmithySerialization](../../../../../latest/api/smithyserialization/documentation/smithyserialization)
+[SmithySerialization](/sdk-for-swift/latest/api/smithyserialization/documentation/smithyserialization)
 
-[SmithyStreams](../../../../../latest/api/smithystreams/documentation/smithystreams)
+[SmithyStreams](/sdk-for-swift/latest/api/smithystreams/documentation/smithystreams)
 
-[SmithySwiftNIO](../../../../../latest/api/smithyswiftnio/documentation/smithyswiftnio)
+[SmithySwiftNIO](/sdk-for-swift/latest/api/smithyswiftnio/documentation/smithyswiftnio)
 
-[SmithyTelemetryAPI](../../../../../latest/api/smithytelemetryapi/documentation/smithytelemetryapi)
+[SmithyTelemetryAPI](/sdk-for-swift/latest/api/smithytelemetryapi/documentation/smithytelemetryapi)
 
-[SmithyTestUtil](../../../../../latest/api/smithytestutil/documentation/smithytestutil)
+[SmithyTestUtil](/sdk-for-swift/latest/api/smithytestutil/documentation/smithytestutil)
 
-[SmithyTimestamps](../../../../../latest/api/smithytimestamps/documentation/smithytimestamps)
+[SmithyTimestamps](/sdk-for-swift/latest/api/smithytimestamps/documentation/smithytimestamps)
 
-[SmithyWaitersAPI](../../../../../latest/api/smithywaitersapi/documentation/smithywaitersapi)
+[SmithyWaitersAPI](/sdk-for-swift/latest/api/smithywaitersapi/documentation/smithywaitersapi)
 
-[SmithyXML](../../../../../latest/api/smithyxml/documentation/smithyxml)
+[SmithyXML](/sdk-for-swift/latest/api/smithyxml/documentation/smithyxml)
 
 
 ## AWS Runtime Module Documentation
 
-[AWSClientRuntime](../../../../../latest/api/awsclientruntime/documentation/awsclientruntime)
+[AWSClientRuntime](/sdk-for-swift/latest/api/awsclientruntime/documentation/awsclientruntime)
 
-[AWSSDKChecksums](../../../../../latest/api/awssdkchecksums/documentation/awssdkchecksums)
+[AWSSDKChecksums](/sdk-for-swift/latest/api/awssdkchecksums/documentation/awssdkchecksums)
 
-[AWSSDKCommon](../../../../../latest/api/awssdkcommon/documentation/awssdkcommon)
+[AWSSDKCommon](/sdk-for-swift/latest/api/awssdkcommon/documentation/awssdkcommon)
 
-[AWSSDKEventStreamsAuth](../../../../../latest/api/awssdkeventstreamsauth/documentation/awssdkeventstreamsauth)
+[AWSSDKEventStreamsAuth](/sdk-for-swift/latest/api/awssdkeventstreamsauth/documentation/awssdkeventstreamsauth)
 
-[AWSSDKHTTPAuth](../../../../../latest/api/awssdkhttpauth/documentation/awssdkhttpauth)
+[AWSSDKHTTPAuth](/sdk-for-swift/latest/api/awssdkhttpauth/documentation/awssdkhttpauth)
 
-[AWSSDKIdentity](../../../../../latest/api/awssdkidentity/documentation/awssdkidentity)
+[AWSSDKIdentity](/sdk-for-swift/latest/api/awssdkidentity/documentation/awssdkidentity)
 
-[AWSSDKIdentityAPI](../../../../../latest/api/awssdkidentityapi/documentation/awssdkidentityapi)
+[AWSSDKIdentityAPI](/sdk-for-swift/latest/api/awssdkidentityapi/documentation/awssdkidentityapi)
 
 
 ## Service Documentation
 
-[AWSACM](../../../../../latest/api/awsacm/documentation/awsacm)
+[AWSACM](/sdk-for-swift/latest/api/awsacm/documentation/awsacm)
 
-[AWSACMPCA](../../../../../latest/api/awsacmpca/documentation/awsacmpca)
+[AWSACMPCA](/sdk-for-swift/latest/api/awsacmpca/documentation/awsacmpca)
 
-[AWSAIOps](../../../../../latest/api/awsaiops/documentation/awsaiops)
+[AWSAIOps](/sdk-for-swift/latest/api/awsaiops/documentation/awsaiops)
 
-[AWSAPIGateway](../../../../../latest/api/awsapigateway/documentation/awsapigateway)
+[AWSAPIGateway](/sdk-for-swift/latest/api/awsapigateway/documentation/awsapigateway)
 
-[AWSARCRegionswitch](../../../../../latest/api/awsarcregionswitch/documentation/awsarcregionswitch)
+[AWSARCRegionswitch](/sdk-for-swift/latest/api/awsarcregionswitch/documentation/awsarcregionswitch)
 
-[AWSARCZonalShift](../../../../../latest/api/awsarczonalshift/documentation/awsarczonalshift)
+[AWSARCZonalShift](/sdk-for-swift/latest/api/awsarczonalshift/documentation/awsarczonalshift)
 
-[AWSAccessAnalyzer](../../../../../latest/api/awsaccessanalyzer/documentation/awsaccessanalyzer)
+[AWSAccessAnalyzer](/sdk-for-swift/latest/api/awsaccessanalyzer/documentation/awsaccessanalyzer)
 
-[AWSAccount](../../../../../latest/api/awsaccount/documentation/awsaccount)
+[AWSAccount](/sdk-for-swift/latest/api/awsaccount/documentation/awsaccount)
 
-[AWSAmp](../../../../../latest/api/awsamp/documentation/awsamp)
+[AWSAmp](/sdk-for-swift/latest/api/awsamp/documentation/awsamp)
 
-[AWSAmplify](../../../../../latest/api/awsamplify/documentation/awsamplify)
+[AWSAmplify](/sdk-for-swift/latest/api/awsamplify/documentation/awsamplify)
 
-[AWSAmplifyBackend](../../../../../latest/api/awsamplifybackend/documentation/awsamplifybackend)
+[AWSAmplifyBackend](/sdk-for-swift/latest/api/awsamplifybackend/documentation/awsamplifybackend)
 
-[AWSAmplifyUIBuilder](../../../../../latest/api/awsamplifyuibuilder/documentation/awsamplifyuibuilder)
+[AWSAmplifyUIBuilder](/sdk-for-swift/latest/api/awsamplifyuibuilder/documentation/awsamplifyuibuilder)
 
-[AWSApiGatewayManagementApi](../../../../../latest/api/awsapigatewaymanagementapi/documentation/awsapigatewaymanagementapi)
+[AWSApiGatewayManagementApi](/sdk-for-swift/latest/api/awsapigatewaymanagementapi/documentation/awsapigatewaymanagementapi)
 
-[AWSApiGatewayV2](../../../../../latest/api/awsapigatewayv2/documentation/awsapigatewayv2)
+[AWSApiGatewayV2](/sdk-for-swift/latest/api/awsapigatewayv2/documentation/awsapigatewayv2)
 
-[AWSAppConfig](../../../../../latest/api/awsappconfig/documentation/awsappconfig)
+[AWSAppConfig](/sdk-for-swift/latest/api/awsappconfig/documentation/awsappconfig)
 
-[AWSAppConfigData](../../../../../latest/api/awsappconfigdata/documentation/awsappconfigdata)
+[AWSAppConfigData](/sdk-for-swift/latest/api/awsappconfigdata/documentation/awsappconfigdata)
 
-[AWSAppFabric](../../../../../latest/api/awsappfabric/documentation/awsappfabric)
+[AWSAppFabric](/sdk-for-swift/latest/api/awsappfabric/documentation/awsappfabric)
 
-[AWSAppIntegrations](../../../../../latest/api/awsappintegrations/documentation/awsappintegrations)
+[AWSAppIntegrations](/sdk-for-swift/latest/api/awsappintegrations/documentation/awsappintegrations)
 
-[AWSAppMesh](../../../../../latest/api/awsappmesh/documentation/awsappmesh)
+[AWSAppMesh](/sdk-for-swift/latest/api/awsappmesh/documentation/awsappmesh)
 
-[AWSAppRunner](../../../../../latest/api/awsapprunner/documentation/awsapprunner)
+[AWSAppRunner](/sdk-for-swift/latest/api/awsapprunner/documentation/awsapprunner)
 
-[AWSAppStream](../../../../../latest/api/awsappstream/documentation/awsappstream)
+[AWSAppStream](/sdk-for-swift/latest/api/awsappstream/documentation/awsappstream)
 
-[AWSAppSync](../../../../../latest/api/awsappsync/documentation/awsappsync)
+[AWSAppSync](/sdk-for-swift/latest/api/awsappsync/documentation/awsappsync)
 
-[AWSAppflow](../../../../../latest/api/awsappflow/documentation/awsappflow)
+[AWSAppflow](/sdk-for-swift/latest/api/awsappflow/documentation/awsappflow)
 
-[AWSApplicationAutoScaling](../../../../../latest/api/awsapplicationautoscaling/documentation/awsapplicationautoscaling)
+[AWSApplicationAutoScaling](/sdk-for-swift/latest/api/awsapplicationautoscaling/documentation/awsapplicationautoscaling)
 
-[AWSApplicationCostProfiler](../../../../../latest/api/awsapplicationcostprofiler/documentation/awsapplicationcostprofiler)
+[AWSApplicationCostProfiler](/sdk-for-swift/latest/api/awsapplicationcostprofiler/documentation/awsapplicationcostprofiler)
 
-[AWSApplicationDiscoveryService](../../../../../latest/api/awsapplicationdiscoveryservice/documentation/awsapplicationdiscoveryservice)
+[AWSApplicationDiscoveryService](/sdk-for-swift/latest/api/awsapplicationdiscoveryservice/documentation/awsapplicationdiscoveryservice)
 
-[AWSApplicationInsights](../../../../../latest/api/awsapplicationinsights/documentation/awsapplicationinsights)
+[AWSApplicationInsights](/sdk-for-swift/latest/api/awsapplicationinsights/documentation/awsapplicationinsights)
 
-[AWSApplicationSignals](../../../../../latest/api/awsapplicationsignals/documentation/awsapplicationsignals)
+[AWSApplicationSignals](/sdk-for-swift/latest/api/awsapplicationsignals/documentation/awsapplicationsignals)
 
-[AWSArtifact](../../../../../latest/api/awsartifact/documentation/awsartifact)
+[AWSArtifact](/sdk-for-swift/latest/api/awsartifact/documentation/awsartifact)
 
-[AWSAthena](../../../../../latest/api/awsathena/documentation/awsathena)
+[AWSAthena](/sdk-for-swift/latest/api/awsathena/documentation/awsathena)
 
-[AWSAuditManager](../../../../../latest/api/awsauditmanager/documentation/awsauditmanager)
+[AWSAuditManager](/sdk-for-swift/latest/api/awsauditmanager/documentation/awsauditmanager)
 
-[AWSAutoScaling](../../../../../latest/api/awsautoscaling/documentation/awsautoscaling)
+[AWSAutoScaling](/sdk-for-swift/latest/api/awsautoscaling/documentation/awsautoscaling)
 
-[AWSAutoScalingPlans](../../../../../latest/api/awsautoscalingplans/documentation/awsautoscalingplans)
+[AWSAutoScalingPlans](/sdk-for-swift/latest/api/awsautoscalingplans/documentation/awsautoscalingplans)
 
-[AWSB2bi](../../../../../latest/api/awsb2bi/documentation/awsb2bi)
+[AWSB2bi](/sdk-for-swift/latest/api/awsb2bi/documentation/awsb2bi)
 
-[AWSBCMDashboards](../../../../../latest/api/awsbcmdashboards/documentation/awsbcmdashboards)
+[AWSBCMDashboards](/sdk-for-swift/latest/api/awsbcmdashboards/documentation/awsbcmdashboards)
 
-[AWSBCMDataExports](../../../../../latest/api/awsbcmdataexports/documentation/awsbcmdataexports)
+[AWSBCMDataExports](/sdk-for-swift/latest/api/awsbcmdataexports/documentation/awsbcmdataexports)
 
-[AWSBCMPricingCalculator](../../../../../latest/api/awsbcmpricingcalculator/documentation/awsbcmpricingcalculator)
+[AWSBCMPricingCalculator](/sdk-for-swift/latest/api/awsbcmpricingcalculator/documentation/awsbcmpricingcalculator)
 
-[AWSBCMRecommendedActions](../../../../../latest/api/awsbcmrecommendedactions/documentation/awsbcmrecommendedactions)
+[AWSBCMRecommendedActions](/sdk-for-swift/latest/api/awsbcmrecommendedactions/documentation/awsbcmrecommendedactions)
 
-[AWSBackup](../../../../../latest/api/awsbackup/documentation/awsbackup)
+[AWSBackup](/sdk-for-swift/latest/api/awsbackup/documentation/awsbackup)
 
-[AWSBackupGateway](../../../../../latest/api/awsbackupgateway/documentation/awsbackupgateway)
+[AWSBackupGateway](/sdk-for-swift/latest/api/awsbackupgateway/documentation/awsbackupgateway)
 
-[AWSBackupSearch](../../../../../latest/api/awsbackupsearch/documentation/awsbackupsearch)
+[AWSBackupSearch](/sdk-for-swift/latest/api/awsbackupsearch/documentation/awsbackupsearch)
 
-[AWSBatch](../../../../../latest/api/awsbatch/documentation/awsbatch)
+[AWSBatch](/sdk-for-swift/latest/api/awsbatch/documentation/awsbatch)
 
-[AWSBedrock](../../../../../latest/api/awsbedrock/documentation/awsbedrock)
+[AWSBedrock](/sdk-for-swift/latest/api/awsbedrock/documentation/awsbedrock)
 
-[AWSBedrockAgent](../../../../../latest/api/awsbedrockagent/documentation/awsbedrockagent)
+[AWSBedrockAgent](/sdk-for-swift/latest/api/awsbedrockagent/documentation/awsbedrockagent)
 
-[AWSBedrockAgentCore](../../../../../latest/api/awsbedrockagentcore/documentation/awsbedrockagentcore)
+[AWSBedrockAgentCore](/sdk-for-swift/latest/api/awsbedrockagentcore/documentation/awsbedrockagentcore)
 
-[AWSBedrockAgentCoreControl](../../../../../latest/api/awsbedrockagentcorecontrol/documentation/awsbedrockagentcorecontrol)
+[AWSBedrockAgentCoreControl](/sdk-for-swift/latest/api/awsbedrockagentcorecontrol/documentation/awsbedrockagentcorecontrol)
 
-[AWSBedrockAgentRuntime](../../../../../latest/api/awsbedrockagentruntime/documentation/awsbedrockagentruntime)
+[AWSBedrockAgentRuntime](/sdk-for-swift/latest/api/awsbedrockagentruntime/documentation/awsbedrockagentruntime)
 
-[AWSBedrockDataAutomation](../../../../../latest/api/awsbedrockdataautomation/documentation/awsbedrockdataautomation)
+[AWSBedrockDataAutomation](/sdk-for-swift/latest/api/awsbedrockdataautomation/documentation/awsbedrockdataautomation)
 
-[AWSBedrockDataAutomationRuntime](../../../../../latest/api/awsbedrockdataautomationruntime/documentation/awsbedrockdataautomationruntime)
+[AWSBedrockDataAutomationRuntime](/sdk-for-swift/latest/api/awsbedrockdataautomationruntime/documentation/awsbedrockdataautomationruntime)
 
-[AWSBedrockRuntime](../../../../../latest/api/awsbedrockruntime/documentation/awsbedrockruntime)
+[AWSBedrockRuntime](/sdk-for-swift/latest/api/awsbedrockruntime/documentation/awsbedrockruntime)
 
-[AWSBilling](../../../../../latest/api/awsbilling/documentation/awsbilling)
+[AWSBilling](/sdk-for-swift/latest/api/awsbilling/documentation/awsbilling)
 
-[AWSBillingconductor](../../../../../latest/api/awsbillingconductor/documentation/awsbillingconductor)
+[AWSBillingconductor](/sdk-for-swift/latest/api/awsbillingconductor/documentation/awsbillingconductor)
 
-[AWSBraket](../../../../../latest/api/awsbraket/documentation/awsbraket)
+[AWSBraket](/sdk-for-swift/latest/api/awsbraket/documentation/awsbraket)
 
-[AWSBudgets](../../../../../latest/api/awsbudgets/documentation/awsbudgets)
+[AWSBudgets](/sdk-for-swift/latest/api/awsbudgets/documentation/awsbudgets)
 
-[AWSChatbot](../../../../../latest/api/awschatbot/documentation/awschatbot)
+[AWSChatbot](/sdk-for-swift/latest/api/awschatbot/documentation/awschatbot)
 
-[AWSChime](../../../../../latest/api/awschime/documentation/awschime)
+[AWSChime](/sdk-for-swift/latest/api/awschime/documentation/awschime)
 
-[AWSChimeSDKIdentity](../../../../../latest/api/awschimesdkidentity/documentation/awschimesdkidentity)
+[AWSChimeSDKIdentity](/sdk-for-swift/latest/api/awschimesdkidentity/documentation/awschimesdkidentity)
 
-[AWSChimeSDKMediaPipelines](../../../../../latest/api/awschimesdkmediapipelines/documentation/awschimesdkmediapipelines)
+[AWSChimeSDKMediaPipelines](/sdk-for-swift/latest/api/awschimesdkmediapipelines/documentation/awschimesdkmediapipelines)
 
-[AWSChimeSDKMeetings](../../../../../latest/api/awschimesdkmeetings/documentation/awschimesdkmeetings)
+[AWSChimeSDKMeetings](/sdk-for-swift/latest/api/awschimesdkmeetings/documentation/awschimesdkmeetings)
 
-[AWSChimeSDKMessaging](../../../../../latest/api/awschimesdkmessaging/documentation/awschimesdkmessaging)
+[AWSChimeSDKMessaging](/sdk-for-swift/latest/api/awschimesdkmessaging/documentation/awschimesdkmessaging)
 
-[AWSChimeSDKVoice](../../../../../latest/api/awschimesdkvoice/documentation/awschimesdkvoice)
+[AWSChimeSDKVoice](/sdk-for-swift/latest/api/awschimesdkvoice/documentation/awschimesdkvoice)
 
-[AWSCleanRooms](../../../../../latest/api/awscleanrooms/documentation/awscleanrooms)
+[AWSCleanRooms](/sdk-for-swift/latest/api/awscleanrooms/documentation/awscleanrooms)
 
-[AWSCleanRoomsML](../../../../../latest/api/awscleanroomsml/documentation/awscleanroomsml)
+[AWSCleanRoomsML](/sdk-for-swift/latest/api/awscleanroomsml/documentation/awscleanroomsml)
 
-[AWSCloud9](../../../../../latest/api/awscloud9/documentation/awscloud9)
+[AWSCloud9](/sdk-for-swift/latest/api/awscloud9/documentation/awscloud9)
 
-[AWSCloudControl](../../../../../latest/api/awscloudcontrol/documentation/awscloudcontrol)
+[AWSCloudControl](/sdk-for-swift/latest/api/awscloudcontrol/documentation/awscloudcontrol)
 
-[AWSCloudDirectory](../../../../../latest/api/awsclouddirectory/documentation/awsclouddirectory)
+[AWSCloudDirectory](/sdk-for-swift/latest/api/awsclouddirectory/documentation/awsclouddirectory)
 
-[AWSCloudFormation](../../../../../latest/api/awscloudformation/documentation/awscloudformation)
+[AWSCloudFormation](/sdk-for-swift/latest/api/awscloudformation/documentation/awscloudformation)
 
-[AWSCloudFront](../../../../../latest/api/awscloudfront/documentation/awscloudfront)
+[AWSCloudFront](/sdk-for-swift/latest/api/awscloudfront/documentation/awscloudfront)
 
-[AWSCloudFrontKeyValueStore](../../../../../latest/api/awscloudfrontkeyvaluestore/documentation/awscloudfrontkeyvaluestore)
+[AWSCloudFrontKeyValueStore](/sdk-for-swift/latest/api/awscloudfrontkeyvaluestore/documentation/awscloudfrontkeyvaluestore)
 
-[AWSCloudHSM](../../../../../latest/api/awscloudhsm/documentation/awscloudhsm)
+[AWSCloudHSM](/sdk-for-swift/latest/api/awscloudhsm/documentation/awscloudhsm)
 
-[AWSCloudHSMV2](../../../../../latest/api/awscloudhsmv2/documentation/awscloudhsmv2)
+[AWSCloudHSMV2](/sdk-for-swift/latest/api/awscloudhsmv2/documentation/awscloudhsmv2)
 
-[AWSCloudSearch](../../../../../latest/api/awscloudsearch/documentation/awscloudsearch)
+[AWSCloudSearch](/sdk-for-swift/latest/api/awscloudsearch/documentation/awscloudsearch)
 
-[AWSCloudSearchDomain](../../../../../latest/api/awscloudsearchdomain/documentation/awscloudsearchdomain)
+[AWSCloudSearchDomain](/sdk-for-swift/latest/api/awscloudsearchdomain/documentation/awscloudsearchdomain)
 
-[AWSCloudTrail](../../../../../latest/api/awscloudtrail/documentation/awscloudtrail)
+[AWSCloudTrail](/sdk-for-swift/latest/api/awscloudtrail/documentation/awscloudtrail)
 
-[AWSCloudTrailData](../../../../../latest/api/awscloudtraildata/documentation/awscloudtraildata)
+[AWSCloudTrailData](/sdk-for-swift/latest/api/awscloudtraildata/documentation/awscloudtraildata)
 
-[AWSCloudWatch](../../../../../latest/api/awscloudwatch/documentation/awscloudwatch)
+[AWSCloudWatch](/sdk-for-swift/latest/api/awscloudwatch/documentation/awscloudwatch)
 
-[AWSCloudWatchEvents](../../../../../latest/api/awscloudwatchevents/documentation/awscloudwatchevents)
+[AWSCloudWatchEvents](/sdk-for-swift/latest/api/awscloudwatchevents/documentation/awscloudwatchevents)
 
-[AWSCloudWatchLogs](../../../../../latest/api/awscloudwatchlogs/documentation/awscloudwatchlogs)
+[AWSCloudWatchLogs](/sdk-for-swift/latest/api/awscloudwatchlogs/documentation/awscloudwatchlogs)
 
-[AWSCodeBuild](../../../../../latest/api/awscodebuild/documentation/awscodebuild)
+[AWSCodeBuild](/sdk-for-swift/latest/api/awscodebuild/documentation/awscodebuild)
 
-[AWSCodeCatalyst](../../../../../latest/api/awscodecatalyst/documentation/awscodecatalyst)
+[AWSCodeCatalyst](/sdk-for-swift/latest/api/awscodecatalyst/documentation/awscodecatalyst)
 
-[AWSCodeCommit](../../../../../latest/api/awscodecommit/documentation/awscodecommit)
+[AWSCodeCommit](/sdk-for-swift/latest/api/awscodecommit/documentation/awscodecommit)
 
-[AWSCodeConnections](../../../../../latest/api/awscodeconnections/documentation/awscodeconnections)
+[AWSCodeConnections](/sdk-for-swift/latest/api/awscodeconnections/documentation/awscodeconnections)
 
-[AWSCodeDeploy](../../../../../latest/api/awscodedeploy/documentation/awscodedeploy)
+[AWSCodeDeploy](/sdk-for-swift/latest/api/awscodedeploy/documentation/awscodedeploy)
 
-[AWSCodeGuruProfiler](../../../../../latest/api/awscodeguruprofiler/documentation/awscodeguruprofiler)
+[AWSCodeGuruProfiler](/sdk-for-swift/latest/api/awscodeguruprofiler/documentation/awscodeguruprofiler)
 
-[AWSCodeGuruReviewer](../../../../../latest/api/awscodegurureviewer/documentation/awscodegurureviewer)
+[AWSCodeGuruReviewer](/sdk-for-swift/latest/api/awscodegurureviewer/documentation/awscodegurureviewer)
 
-[AWSCodeGuruSecurity](../../../../../latest/api/awscodegurusecurity/documentation/awscodegurusecurity)
+[AWSCodeGuruSecurity](/sdk-for-swift/latest/api/awscodegurusecurity/documentation/awscodegurusecurity)
 
-[AWSCodePipeline](../../../../../latest/api/awscodepipeline/documentation/awscodepipeline)
+[AWSCodePipeline](/sdk-for-swift/latest/api/awscodepipeline/documentation/awscodepipeline)
 
-[AWSCodeStarconnections](../../../../../latest/api/awscodestarconnections/documentation/awscodestarconnections)
+[AWSCodeStarconnections](/sdk-for-swift/latest/api/awscodestarconnections/documentation/awscodestarconnections)
 
-[AWSCodeartifact](../../../../../latest/api/awscodeartifact/documentation/awscodeartifact)
+[AWSCodeartifact](/sdk-for-swift/latest/api/awscodeartifact/documentation/awscodeartifact)
 
-[AWSCodestarnotifications](../../../../../latest/api/awscodestarnotifications/documentation/awscodestarnotifications)
+[AWSCodestarnotifications](/sdk-for-swift/latest/api/awscodestarnotifications/documentation/awscodestarnotifications)
 
-[AWSCognitoIdentity](../../../../../latest/api/awscognitoidentity/documentation/awscognitoidentity)
+[AWSCognitoIdentity](/sdk-for-swift/latest/api/awscognitoidentity/documentation/awscognitoidentity)
 
-[AWSCognitoIdentityProvider](../../../../../latest/api/awscognitoidentityprovider/documentation/awscognitoidentityprovider)
+[AWSCognitoIdentityProvider](/sdk-for-swift/latest/api/awscognitoidentityprovider/documentation/awscognitoidentityprovider)
 
-[AWSCognitoSync](../../../../../latest/api/awscognitosync/documentation/awscognitosync)
+[AWSCognitoSync](/sdk-for-swift/latest/api/awscognitosync/documentation/awscognitosync)
 
-[AWSComprehend](../../../../../latest/api/awscomprehend/documentation/awscomprehend)
+[AWSComprehend](/sdk-for-swift/latest/api/awscomprehend/documentation/awscomprehend)
 
-[AWSComprehendMedical](../../../../../latest/api/awscomprehendmedical/documentation/awscomprehendmedical)
+[AWSComprehendMedical](/sdk-for-swift/latest/api/awscomprehendmedical/documentation/awscomprehendmedical)
 
-[AWSComputeOptimizer](../../../../../latest/api/awscomputeoptimizer/documentation/awscomputeoptimizer)
+[AWSComputeOptimizer](/sdk-for-swift/latest/api/awscomputeoptimizer/documentation/awscomputeoptimizer)
 
-[AWSComputeOptimizerAutomation](../../../../../latest/api/awscomputeoptimizerautomation/documentation/awscomputeoptimizerautomation)
+[AWSComputeOptimizerAutomation](/sdk-for-swift/latest/api/awscomputeoptimizerautomation/documentation/awscomputeoptimizerautomation)
 
-[AWSConfigService](../../../../../latest/api/awsconfigservice/documentation/awsconfigservice)
+[AWSConfigService](/sdk-for-swift/latest/api/awsconfigservice/documentation/awsconfigservice)
 
-[AWSConnect](../../../../../latest/api/awsconnect/documentation/awsconnect)
+[AWSConnect](/sdk-for-swift/latest/api/awsconnect/documentation/awsconnect)
 
-[AWSConnectCampaigns](../../../../../latest/api/awsconnectcampaigns/documentation/awsconnectcampaigns)
+[AWSConnectCampaigns](/sdk-for-swift/latest/api/awsconnectcampaigns/documentation/awsconnectcampaigns)
 
-[AWSConnectCampaignsV2](../../../../../latest/api/awsconnectcampaignsv2/documentation/awsconnectcampaignsv2)
+[AWSConnectCampaignsV2](/sdk-for-swift/latest/api/awsconnectcampaignsv2/documentation/awsconnectcampaignsv2)
 
-[AWSConnectCases](../../../../../latest/api/awsconnectcases/documentation/awsconnectcases)
+[AWSConnectCases](/sdk-for-swift/latest/api/awsconnectcases/documentation/awsconnectcases)
 
-[AWSConnectContactLens](../../../../../latest/api/awsconnectcontactlens/documentation/awsconnectcontactlens)
+[AWSConnectContactLens](/sdk-for-swift/latest/api/awsconnectcontactlens/documentation/awsconnectcontactlens)
 
-[AWSConnectParticipant](../../../../../latest/api/awsconnectparticipant/documentation/awsconnectparticipant)
+[AWSConnectParticipant](/sdk-for-swift/latest/api/awsconnectparticipant/documentation/awsconnectparticipant)
 
-[AWSControlCatalog](../../../../../latest/api/awscontrolcatalog/documentation/awscontrolcatalog)
+[AWSControlCatalog](/sdk-for-swift/latest/api/awscontrolcatalog/documentation/awscontrolcatalog)
 
-[AWSControlTower](../../../../../latest/api/awscontroltower/documentation/awscontroltower)
+[AWSControlTower](/sdk-for-swift/latest/api/awscontroltower/documentation/awscontroltower)
 
-[AWSCostExplorer](../../../../../latest/api/awscostexplorer/documentation/awscostexplorer)
+[AWSCostExplorer](/sdk-for-swift/latest/api/awscostexplorer/documentation/awscostexplorer)
 
-[AWSCostOptimizationHub](../../../../../latest/api/awscostoptimizationhub/documentation/awscostoptimizationhub)
+[AWSCostOptimizationHub](/sdk-for-swift/latest/api/awscostoptimizationhub/documentation/awscostoptimizationhub)
 
-[AWSCostandUsageReportService](../../../../../latest/api/awscostandusagereportservice/documentation/awscostandusagereportservice)
+[AWSCostandUsageReportService](/sdk-for-swift/latest/api/awscostandusagereportservice/documentation/awscostandusagereportservice)
 
-[AWSCustomerProfiles](../../../../../latest/api/awscustomerprofiles/documentation/awscustomerprofiles)
+[AWSCustomerProfiles](/sdk-for-swift/latest/api/awscustomerprofiles/documentation/awscustomerprofiles)
 
-[AWSDAX](../../../../../latest/api/awsdax/documentation/awsdax)
+[AWSDAX](/sdk-for-swift/latest/api/awsdax/documentation/awsdax)
 
-[AWSDLM](../../../../../latest/api/awsdlm/documentation/awsdlm)
+[AWSDLM](/sdk-for-swift/latest/api/awsdlm/documentation/awsdlm)
 
-[AWSDSQL](../../../../../latest/api/awsdsql/documentation/awsdsql)
+[AWSDSQL](/sdk-for-swift/latest/api/awsdsql/documentation/awsdsql)
 
-[AWSDataBrew](../../../../../latest/api/awsdatabrew/documentation/awsdatabrew)
+[AWSDataBrew](/sdk-for-swift/latest/api/awsdatabrew/documentation/awsdatabrew)
 
-[AWSDataExchange](../../../../../latest/api/awsdataexchange/documentation/awsdataexchange)
+[AWSDataExchange](/sdk-for-swift/latest/api/awsdataexchange/documentation/awsdataexchange)
 
-[AWSDataPipeline](../../../../../latest/api/awsdatapipeline/documentation/awsdatapipeline)
+[AWSDataPipeline](/sdk-for-swift/latest/api/awsdatapipeline/documentation/awsdatapipeline)
 
-[AWSDataSync](../../../../../latest/api/awsdatasync/documentation/awsdatasync)
+[AWSDataSync](/sdk-for-swift/latest/api/awsdatasync/documentation/awsdatasync)
 
-[AWSDataZone](../../../../../latest/api/awsdatazone/documentation/awsdatazone)
+[AWSDataZone](/sdk-for-swift/latest/api/awsdatazone/documentation/awsdatazone)
 
-[AWSDatabaseMigrationService](../../../../../latest/api/awsdatabasemigrationservice/documentation/awsdatabasemigrationservice)
+[AWSDatabaseMigrationService](/sdk-for-swift/latest/api/awsdatabasemigrationservice/documentation/awsdatabasemigrationservice)
 
-[AWSDeadline](../../../../../latest/api/awsdeadline/documentation/awsdeadline)
+[AWSDeadline](/sdk-for-swift/latest/api/awsdeadline/documentation/awsdeadline)
 
-[AWSDetective](../../../../../latest/api/awsdetective/documentation/awsdetective)
+[AWSDetective](/sdk-for-swift/latest/api/awsdetective/documentation/awsdetective)
 
-[AWSDevOpsGuru](../../../../../latest/api/awsdevopsguru/documentation/awsdevopsguru)
+[AWSDevOpsGuru](/sdk-for-swift/latest/api/awsdevopsguru/documentation/awsdevopsguru)
 
-[AWSDeviceFarm](../../../../../latest/api/awsdevicefarm/documentation/awsdevicefarm)
+[AWSDeviceFarm](/sdk-for-swift/latest/api/awsdevicefarm/documentation/awsdevicefarm)
 
-[AWSDirectConnect](../../../../../latest/api/awsdirectconnect/documentation/awsdirectconnect)
+[AWSDirectConnect](/sdk-for-swift/latest/api/awsdirectconnect/documentation/awsdirectconnect)
 
-[AWSDirectoryService](../../../../../latest/api/awsdirectoryservice/documentation/awsdirectoryservice)
+[AWSDirectoryService](/sdk-for-swift/latest/api/awsdirectoryservice/documentation/awsdirectoryservice)
 
-[AWSDirectoryServiceData](../../../../../latest/api/awsdirectoryservicedata/documentation/awsdirectoryservicedata)
+[AWSDirectoryServiceData](/sdk-for-swift/latest/api/awsdirectoryservicedata/documentation/awsdirectoryservicedata)
 
-[AWSDocDB](../../../../../latest/api/awsdocdb/documentation/awsdocdb)
+[AWSDocDB](/sdk-for-swift/latest/api/awsdocdb/documentation/awsdocdb)
 
-[AWSDocDBElastic](../../../../../latest/api/awsdocdbelastic/documentation/awsdocdbelastic)
+[AWSDocDBElastic](/sdk-for-swift/latest/api/awsdocdbelastic/documentation/awsdocdbelastic)
 
-[AWSDrs](../../../../../latest/api/awsdrs/documentation/awsdrs)
+[AWSDrs](/sdk-for-swift/latest/api/awsdrs/documentation/awsdrs)
 
-[AWSDynamoDB](../../../../../latest/api/awsdynamodb/documentation/awsdynamodb)
+[AWSDynamoDB](/sdk-for-swift/latest/api/awsdynamodb/documentation/awsdynamodb)
 
-[AWSDynamoDBStreams](../../../../../latest/api/awsdynamodbstreams/documentation/awsdynamodbstreams)
+[AWSDynamoDBStreams](/sdk-for-swift/latest/api/awsdynamodbstreams/documentation/awsdynamodbstreams)
 
-[AWSEBS](../../../../../latest/api/awsebs/documentation/awsebs)
+[AWSEBS](/sdk-for-swift/latest/api/awsebs/documentation/awsebs)
 
-[AWSEC2](../../../../../latest/api/awsec2/documentation/awsec2)
+[AWSEC2](/sdk-for-swift/latest/api/awsec2/documentation/awsec2)
 
-[AWSEC2InstanceConnect](../../../../../latest/api/awsec2instanceconnect/documentation/awsec2instanceconnect)
+[AWSEC2InstanceConnect](/sdk-for-swift/latest/api/awsec2instanceconnect/documentation/awsec2instanceconnect)
 
-[AWSECR](../../../../../latest/api/awsecr/documentation/awsecr)
+[AWSECR](/sdk-for-swift/latest/api/awsecr/documentation/awsecr)
 
-[AWSECRPUBLIC](../../../../../latest/api/awsecrpublic/documentation/awsecrpublic)
+[AWSECRPUBLIC](/sdk-for-swift/latest/api/awsecrpublic/documentation/awsecrpublic)
 
-[AWSECS](../../../../../latest/api/awsecs/documentation/awsecs)
+[AWSECS](/sdk-for-swift/latest/api/awsecs/documentation/awsecs)
 
-[AWSEFS](../../../../../latest/api/awsefs/documentation/awsefs)
+[AWSEFS](/sdk-for-swift/latest/api/awsefs/documentation/awsefs)
 
-[AWSEKS](../../../../../latest/api/awseks/documentation/awseks)
+[AWSEKS](/sdk-for-swift/latest/api/awseks/documentation/awseks)
 
-[AWSEKSAuth](../../../../../latest/api/awseksauth/documentation/awseksauth)
+[AWSEKSAuth](/sdk-for-swift/latest/api/awseksauth/documentation/awseksauth)
 
-[AWSEMR](../../../../../latest/api/awsemr/documentation/awsemr)
+[AWSEMR](/sdk-for-swift/latest/api/awsemr/documentation/awsemr)
 
-[AWSEMRServerless](../../../../../latest/api/awsemrserverless/documentation/awsemrserverless)
+[AWSEMRServerless](/sdk-for-swift/latest/api/awsemrserverless/documentation/awsemrserverless)
 
-[AWSEMRcontainers](../../../../../latest/api/awsemrcontainers/documentation/awsemrcontainers)
+[AWSEMRcontainers](/sdk-for-swift/latest/api/awsemrcontainers/documentation/awsemrcontainers)
 
-[AWSElastiCache](../../../../../latest/api/awselasticache/documentation/awselasticache)
+[AWSElastiCache](/sdk-for-swift/latest/api/awselasticache/documentation/awselasticache)
 
-[AWSElasticBeanstalk](../../../../../latest/api/awselasticbeanstalk/documentation/awselasticbeanstalk)
+[AWSElasticBeanstalk](/sdk-for-swift/latest/api/awselasticbeanstalk/documentation/awselasticbeanstalk)
 
-[AWSElasticLoadBalancing](../../../../../latest/api/awselasticloadbalancing/documentation/awselasticloadbalancing)
+[AWSElasticLoadBalancing](/sdk-for-swift/latest/api/awselasticloadbalancing/documentation/awselasticloadbalancing)
 
-[AWSElasticLoadBalancingv2](../../../../../latest/api/awselasticloadbalancingv2/documentation/awselasticloadbalancingv2)
+[AWSElasticLoadBalancingv2](/sdk-for-swift/latest/api/awselasticloadbalancingv2/documentation/awselasticloadbalancingv2)
 
-[AWSElasticTranscoder](../../../../../latest/api/awselastictranscoder/documentation/awselastictranscoder)
+[AWSElasticsearchService](/sdk-for-swift/latest/api/awselasticsearchservice/documentation/awselasticsearchservice)
 
-[AWSElasticsearchService](../../../../../latest/api/awselasticsearchservice/documentation/awselasticsearchservice)
+[AWSElementalInference](/sdk-for-swift/latest/api/awselementalinference/documentation/awselementalinference)
 
-[AWSEntityResolution](../../../../../latest/api/awsentityresolution/documentation/awsentityresolution)
+[AWSEntityResolution](/sdk-for-swift/latest/api/awsentityresolution/documentation/awsentityresolution)
 
-[AWSEventBridge](../../../../../latest/api/awseventbridge/documentation/awseventbridge)
+[AWSEventBridge](/sdk-for-swift/latest/api/awseventbridge/documentation/awseventbridge)
 
-[AWSEvidently](../../../../../latest/api/awsevidently/documentation/awsevidently)
+[AWSEvs](/sdk-for-swift/latest/api/awsevs/documentation/awsevs)
 
-[AWSEvs](../../../../../latest/api/awsevs/documentation/awsevs)
+[AWSFMS](/sdk-for-swift/latest/api/awsfms/documentation/awsfms)
 
-[AWSFMS](../../../../../latest/api/awsfms/documentation/awsfms)
+[AWSFSx](/sdk-for-swift/latest/api/awsfsx/documentation/awsfsx)
 
-[AWSFSx](../../../../../latest/api/awsfsx/documentation/awsfsx)
+[AWSFinspace](/sdk-for-swift/latest/api/awsfinspace/documentation/awsfinspace)
 
-[AWSFinspace](../../../../../latest/api/awsfinspace/documentation/awsfinspace)
+[AWSFinspacedata](/sdk-for-swift/latest/api/awsfinspacedata/documentation/awsfinspacedata)
 
-[AWSFinspacedata](../../../../../latest/api/awsfinspacedata/documentation/awsfinspacedata)
+[AWSFirehose](/sdk-for-swift/latest/api/awsfirehose/documentation/awsfirehose)
 
-[AWSFirehose](../../../../../latest/api/awsfirehose/documentation/awsfirehose)
+[AWSFis](/sdk-for-swift/latest/api/awsfis/documentation/awsfis)
 
-[AWSFis](../../../../../latest/api/awsfis/documentation/awsfis)
+[AWSForecast](/sdk-for-swift/latest/api/awsforecast/documentation/awsforecast)
 
-[AWSForecast](../../../../../latest/api/awsforecast/documentation/awsforecast)
+[AWSForecastquery](/sdk-for-swift/latest/api/awsforecastquery/documentation/awsforecastquery)
 
-[AWSForecastquery](../../../../../latest/api/awsforecastquery/documentation/awsforecastquery)
+[AWSFraudDetector](/sdk-for-swift/latest/api/awsfrauddetector/documentation/awsfrauddetector)
 
-[AWSFraudDetector](../../../../../latest/api/awsfrauddetector/documentation/awsfrauddetector)
+[AWSFreeTier](/sdk-for-swift/latest/api/awsfreetier/documentation/awsfreetier)
 
-[AWSFreeTier](../../../../../latest/api/awsfreetier/documentation/awsfreetier)
+[AWSGameLift](/sdk-for-swift/latest/api/awsgamelift/documentation/awsgamelift)
 
-[AWSGameLift](../../../../../latest/api/awsgamelift/documentation/awsgamelift)
+[AWSGameLiftStreams](/sdk-for-swift/latest/api/awsgameliftstreams/documentation/awsgameliftstreams)
 
-[AWSGameLiftStreams](../../../../../latest/api/awsgameliftstreams/documentation/awsgameliftstreams)
+[AWSGeoMaps](/sdk-for-swift/latest/api/awsgeomaps/documentation/awsgeomaps)
 
-[AWSGeoMaps](../../../../../latest/api/awsgeomaps/documentation/awsgeomaps)
+[AWSGeoPlaces](/sdk-for-swift/latest/api/awsgeoplaces/documentation/awsgeoplaces)
 
-[AWSGeoPlaces](../../../../../latest/api/awsgeoplaces/documentation/awsgeoplaces)
+[AWSGeoRoutes](/sdk-for-swift/latest/api/awsgeoroutes/documentation/awsgeoroutes)
 
-[AWSGeoRoutes](../../../../../latest/api/awsgeoroutes/documentation/awsgeoroutes)
+[AWSGlacier](/sdk-for-swift/latest/api/awsglacier/documentation/awsglacier)
 
-[AWSGlacier](../../../../../latest/api/awsglacier/documentation/awsglacier)
+[AWSGlobalAccelerator](/sdk-for-swift/latest/api/awsglobalaccelerator/documentation/awsglobalaccelerator)
 
-[AWSGlobalAccelerator](../../../../../latest/api/awsglobalaccelerator/documentation/awsglobalaccelerator)
+[AWSGlue](/sdk-for-swift/latest/api/awsglue/documentation/awsglue)
 
-[AWSGlue](../../../../../latest/api/awsglue/documentation/awsglue)
+[AWSGrafana](/sdk-for-swift/latest/api/awsgrafana/documentation/awsgrafana)
 
-[AWSGrafana](../../../../../latest/api/awsgrafana/documentation/awsgrafana)
+[AWSGreengrass](/sdk-for-swift/latest/api/awsgreengrass/documentation/awsgreengrass)
 
-[AWSGreengrass](../../../../../latest/api/awsgreengrass/documentation/awsgreengrass)
+[AWSGreengrassV2](/sdk-for-swift/latest/api/awsgreengrassv2/documentation/awsgreengrassv2)
 
-[AWSGreengrassV2](../../../../../latest/api/awsgreengrassv2/documentation/awsgreengrassv2)
+[AWSGroundStation](/sdk-for-swift/latest/api/awsgroundstation/documentation/awsgroundstation)
 
-[AWSGroundStation](../../../../../latest/api/awsgroundstation/documentation/awsgroundstation)
+[AWSGuardDuty](/sdk-for-swift/latest/api/awsguardduty/documentation/awsguardduty)
 
-[AWSGuardDuty](../../../../../latest/api/awsguardduty/documentation/awsguardduty)
+[AWSHealth](/sdk-for-swift/latest/api/awshealth/documentation/awshealth)
 
-[AWSHealth](../../../../../latest/api/awshealth/documentation/awshealth)
+[AWSHealthLake](/sdk-for-swift/latest/api/awshealthlake/documentation/awshealthlake)
 
-[AWSHealthLake](../../../../../latest/api/awshealthlake/documentation/awshealthlake)
+[AWSIAM](/sdk-for-swift/latest/api/awsiam/documentation/awsiam)
 
-[AWSIAM](../../../../../latest/api/awsiam/documentation/awsiam)
+[AWSIVSRealTime](/sdk-for-swift/latest/api/awsivsrealtime/documentation/awsivsrealtime)
 
-[AWSIVSRealTime](../../../../../latest/api/awsivsrealtime/documentation/awsivsrealtime)
+[AWSIdentitystore](/sdk-for-swift/latest/api/awsidentitystore/documentation/awsidentitystore)
 
-[AWSIdentitystore](../../../../../latest/api/awsidentitystore/documentation/awsidentitystore)
+[AWSImagebuilder](/sdk-for-swift/latest/api/awsimagebuilder/documentation/awsimagebuilder)
 
-[AWSImagebuilder](../../../../../latest/api/awsimagebuilder/documentation/awsimagebuilder)
+[AWSInspector](/sdk-for-swift/latest/api/awsinspector/documentation/awsinspector)
 
-[AWSInspector](../../../../../latest/api/awsinspector/documentation/awsinspector)
+[AWSInspector2](/sdk-for-swift/latest/api/awsinspector2/documentation/awsinspector2)
 
-[AWSInspector2](../../../../../latest/api/awsinspector2/documentation/awsinspector2)
+[AWSInspectorScan](/sdk-for-swift/latest/api/awsinspectorscan/documentation/awsinspectorscan)
 
-[AWSInspectorScan](../../../../../latest/api/awsinspectorscan/documentation/awsinspectorscan)
+[AWSInternetMonitor](/sdk-for-swift/latest/api/awsinternetmonitor/documentation/awsinternetmonitor)
 
-[AWSInternetMonitor](../../../../../latest/api/awsinternetmonitor/documentation/awsinternetmonitor)
+[AWSInvoicing](/sdk-for-swift/latest/api/awsinvoicing/documentation/awsinvoicing)
 
-[AWSInvoicing](../../../../../latest/api/awsinvoicing/documentation/awsinvoicing)
+[AWSIoT](/sdk-for-swift/latest/api/awsiot/documentation/awsiot)
 
-[AWSIoT](../../../../../latest/api/awsiot/documentation/awsiot)
+[AWSIoTDataPlane](/sdk-for-swift/latest/api/awsiotdataplane/documentation/awsiotdataplane)
 
-[AWSIoTAnalytics](../../../../../latest/api/awsiotanalytics/documentation/awsiotanalytics)
+[AWSIoTEvents](/sdk-for-swift/latest/api/awsiotevents/documentation/awsiotevents)
 
-[AWSIoTDataPlane](../../../../../latest/api/awsiotdataplane/documentation/awsiotdataplane)
+[AWSIoTEventsData](/sdk-for-swift/latest/api/awsioteventsdata/documentation/awsioteventsdata)
 
-[AWSIoTEvents](../../../../../latest/api/awsiotevents/documentation/awsiotevents)
+[AWSIoTFleetWise](/sdk-for-swift/latest/api/awsiotfleetwise/documentation/awsiotfleetwise)
 
-[AWSIoTEventsData](../../../../../latest/api/awsioteventsdata/documentation/awsioteventsdata)
+[AWSIoTJobsDataPlane](/sdk-for-swift/latest/api/awsiotjobsdataplane/documentation/awsiotjobsdataplane)
 
-[AWSIoTFleetWise](../../../../../latest/api/awsiotfleetwise/documentation/awsiotfleetwise)
+[AWSIoTManagedIntegrations](/sdk-for-swift/latest/api/awsiotmanagedintegrations/documentation/awsiotmanagedintegrations)
 
-[AWSIoTJobsDataPlane](../../../../../latest/api/awsiotjobsdataplane/documentation/awsiotjobsdataplane)
+[AWSIoTSecureTunneling](/sdk-for-swift/latest/api/awsiotsecuretunneling/documentation/awsiotsecuretunneling)
 
-[AWSIoTManagedIntegrations](../../../../../latest/api/awsiotmanagedintegrations/documentation/awsiotmanagedintegrations)
+[AWSIoTSiteWise](/sdk-for-swift/latest/api/awsiotsitewise/documentation/awsiotsitewise)
 
-[AWSIoTSecureTunneling](../../../../../latest/api/awsiotsecuretunneling/documentation/awsiotsecuretunneling)
+[AWSIoTThingsGraph](/sdk-for-swift/latest/api/awsiotthingsgraph/documentation/awsiotthingsgraph)
 
-[AWSIoTSiteWise](../../../../../latest/api/awsiotsitewise/documentation/awsiotsitewise)
+[AWSIoTTwinMaker](/sdk-for-swift/latest/api/awsiottwinmaker/documentation/awsiottwinmaker)
 
-[AWSIoTThingsGraph](../../../../../latest/api/awsiotthingsgraph/documentation/awsiotthingsgraph)
+[AWSIoTWireless](/sdk-for-swift/latest/api/awsiotwireless/documentation/awsiotwireless)
 
-[AWSIoTTwinMaker](../../../../../latest/api/awsiottwinmaker/documentation/awsiottwinmaker)
+[AWSIotDeviceAdvisor](/sdk-for-swift/latest/api/awsiotdeviceadvisor/documentation/awsiotdeviceadvisor)
 
-[AWSIoTWireless](../../../../../latest/api/awsiotwireless/documentation/awsiotwireless)
+[AWSIvs](/sdk-for-swift/latest/api/awsivs/documentation/awsivs)
 
-[AWSIotDeviceAdvisor](../../../../../latest/api/awsiotdeviceadvisor/documentation/awsiotdeviceadvisor)
+[AWSIvschat](/sdk-for-swift/latest/api/awsivschat/documentation/awsivschat)
 
-[AWSIvs](../../../../../latest/api/awsivs/documentation/awsivs)
+[AWSKMS](/sdk-for-swift/latest/api/awskms/documentation/awskms)
 
-[AWSIvschat](../../../../../latest/api/awsivschat/documentation/awsivschat)
+[AWSKafka](/sdk-for-swift/latest/api/awskafka/documentation/awskafka)
 
-[AWSKMS](../../../../../latest/api/awskms/documentation/awskms)
+[AWSKafkaConnect](/sdk-for-swift/latest/api/awskafkaconnect/documentation/awskafkaconnect)
 
-[AWSKafka](../../../../../latest/api/awskafka/documentation/awskafka)
+[AWSKendra](/sdk-for-swift/latest/api/awskendra/documentation/awskendra)
 
-[AWSKafkaConnect](../../../../../latest/api/awskafkaconnect/documentation/awskafkaconnect)
+[AWSKendraRanking](/sdk-for-swift/latest/api/awskendraranking/documentation/awskendraranking)
 
-[AWSKendra](../../../../../latest/api/awskendra/documentation/awskendra)
+[AWSKeyspaces](/sdk-for-swift/latest/api/awskeyspaces/documentation/awskeyspaces)
 
-[AWSKendraRanking](../../../../../latest/api/awskendraranking/documentation/awskendraranking)
+[AWSKeyspacesStreams](/sdk-for-swift/latest/api/awskeyspacesstreams/documentation/awskeyspacesstreams)
 
-[AWSKeyspaces](../../../../../latest/api/awskeyspaces/documentation/awskeyspaces)
+[AWSKinesis](/sdk-for-swift/latest/api/awskinesis/documentation/awskinesis)
 
-[AWSKeyspacesStreams](../../../../../latest/api/awskeyspacesstreams/documentation/awskeyspacesstreams)
+[AWSKinesisAnalytics](/sdk-for-swift/latest/api/awskinesisanalytics/documentation/awskinesisanalytics)
 
-[AWSKinesis](../../../../../latest/api/awskinesis/documentation/awskinesis)
+[AWSKinesisAnalyticsV2](/sdk-for-swift/latest/api/awskinesisanalyticsv2/documentation/awskinesisanalyticsv2)
 
-[AWSKinesisAnalytics](../../../../../latest/api/awskinesisanalytics/documentation/awskinesisanalytics)
+[AWSKinesisVideo](/sdk-for-swift/latest/api/awskinesisvideo/documentation/awskinesisvideo)
 
-[AWSKinesisAnalyticsV2](../../../../../latest/api/awskinesisanalyticsv2/documentation/awskinesisanalyticsv2)
+[AWSKinesisVideoArchivedMedia](/sdk-for-swift/latest/api/awskinesisvideoarchivedmedia/documentation/awskinesisvideoarchivedmedia)
 
-[AWSKinesisVideo](../../../../../latest/api/awskinesisvideo/documentation/awskinesisvideo)
+[AWSKinesisVideoMedia](/sdk-for-swift/latest/api/awskinesisvideomedia/documentation/awskinesisvideomedia)
 
-[AWSKinesisVideoArchivedMedia](../../../../../latest/api/awskinesisvideoarchivedmedia/documentation/awskinesisvideoarchivedmedia)
+[AWSKinesisVideoSignaling](/sdk-for-swift/latest/api/awskinesisvideosignaling/documentation/awskinesisvideosignaling)
 
-[AWSKinesisVideoMedia](../../../../../latest/api/awskinesisvideomedia/documentation/awskinesisvideomedia)
+[AWSKinesisVideoWebRTCStorage](/sdk-for-swift/latest/api/awskinesisvideowebrtcstorage/documentation/awskinesisvideowebrtcstorage)
 
-[AWSKinesisVideoSignaling](../../../../../latest/api/awskinesisvideosignaling/documentation/awskinesisvideosignaling)
+[AWSLakeFormation](/sdk-for-swift/latest/api/awslakeformation/documentation/awslakeformation)
 
-[AWSKinesisVideoWebRTCStorage](../../../../../latest/api/awskinesisvideowebrtcstorage/documentation/awskinesisvideowebrtcstorage)
+[AWSLambda](/sdk-for-swift/latest/api/awslambda/documentation/awslambda)
 
-[AWSLakeFormation](../../../../../latest/api/awslakeformation/documentation/awslakeformation)
+[AWSLaunchWizard](/sdk-for-swift/latest/api/awslaunchwizard/documentation/awslaunchwizard)
 
-[AWSLambda](../../../../../latest/api/awslambda/documentation/awslambda)
+[AWSLexModelBuildingService](/sdk-for-swift/latest/api/awslexmodelbuildingservice/documentation/awslexmodelbuildingservice)
 
-[AWSLaunchWizard](../../../../../latest/api/awslaunchwizard/documentation/awslaunchwizard)
+[AWSLexModelsV2](/sdk-for-swift/latest/api/awslexmodelsv2/documentation/awslexmodelsv2)
 
-[AWSLexModelBuildingService](../../../../../latest/api/awslexmodelbuildingservice/documentation/awslexmodelbuildingservice)
+[AWSLexRuntimeService](/sdk-for-swift/latest/api/awslexruntimeservice/documentation/awslexruntimeservice)
 
-[AWSLexModelsV2](../../../../../latest/api/awslexmodelsv2/documentation/awslexmodelsv2)
+[AWSLexRuntimeV2](/sdk-for-swift/latest/api/awslexruntimev2/documentation/awslexruntimev2)
 
-[AWSLexRuntimeService](../../../../../latest/api/awslexruntimeservice/documentation/awslexruntimeservice)
+[AWSLicenseManager](/sdk-for-swift/latest/api/awslicensemanager/documentation/awslicensemanager)
 
-[AWSLexRuntimeV2](../../../../../latest/api/awslexruntimev2/documentation/awslexruntimev2)
+[AWSLicenseManagerLinuxSubscriptions](/sdk-for-swift/latest/api/awslicensemanagerlinuxsubscriptions/documentation/awslicensemanagerlinuxsubscriptions)
 
-[AWSLicenseManager](../../../../../latest/api/awslicensemanager/documentation/awslicensemanager)
+[AWSLicenseManagerUserSubscriptions](/sdk-for-swift/latest/api/awslicensemanagerusersubscriptions/documentation/awslicensemanagerusersubscriptions)
 
-[AWSLicenseManagerLinuxSubscriptions](../../../../../latest/api/awslicensemanagerlinuxsubscriptions/documentation/awslicensemanagerlinuxsubscriptions)
+[AWSLightsail](/sdk-for-swift/latest/api/awslightsail/documentation/awslightsail)
 
-[AWSLicenseManagerUserSubscriptions](../../../../../latest/api/awslicensemanagerusersubscriptions/documentation/awslicensemanagerusersubscriptions)
+[AWSLocation](/sdk-for-swift/latest/api/awslocation/documentation/awslocation)
 
-[AWSLightsail](../../../../../latest/api/awslightsail/documentation/awslightsail)
+[AWSLookoutEquipment](/sdk-for-swift/latest/api/awslookoutequipment/documentation/awslookoutequipment)
 
-[AWSLocation](../../../../../latest/api/awslocation/documentation/awslocation)
+[AWSM2](/sdk-for-swift/latest/api/awsm2/documentation/awsm2)
 
-[AWSLookoutEquipment](../../../../../latest/api/awslookoutequipment/documentation/awslookoutequipment)
+[AWSMPA](/sdk-for-swift/latest/api/awsmpa/documentation/awsmpa)
 
-[AWSM2](../../../../../latest/api/awsm2/documentation/awsm2)
+[AWSMTurk](/sdk-for-swift/latest/api/awsmturk/documentation/awsmturk)
 
-[AWSMPA](../../../../../latest/api/awsmpa/documentation/awsmpa)
+[AWSMWAA](/sdk-for-swift/latest/api/awsmwaa/documentation/awsmwaa)
 
-[AWSMTurk](../../../../../latest/api/awsmturk/documentation/awsmturk)
+[AWSMWAAServerless](/sdk-for-swift/latest/api/awsmwaaserverless/documentation/awsmwaaserverless)
 
-[AWSMWAA](../../../../../latest/api/awsmwaa/documentation/awsmwaa)
+[AWSMachineLearning](/sdk-for-swift/latest/api/awsmachinelearning/documentation/awsmachinelearning)
 
-[AWSMWAAServerless](../../../../../latest/api/awsmwaaserverless/documentation/awsmwaaserverless)
+[AWSMacie2](/sdk-for-swift/latest/api/awsmacie2/documentation/awsmacie2)
 
-[AWSMachineLearning](../../../../../latest/api/awsmachinelearning/documentation/awsmachinelearning)
+[AWSMailManager](/sdk-for-swift/latest/api/awsmailmanager/documentation/awsmailmanager)
 
-[AWSMacie2](../../../../../latest/api/awsmacie2/documentation/awsmacie2)
+[AWSManagedBlockchain](/sdk-for-swift/latest/api/awsmanagedblockchain/documentation/awsmanagedblockchain)
 
-[AWSMailManager](../../../../../latest/api/awsmailmanager/documentation/awsmailmanager)
+[AWSManagedBlockchainQuery](/sdk-for-swift/latest/api/awsmanagedblockchainquery/documentation/awsmanagedblockchainquery)
 
-[AWSManagedBlockchain](../../../../../latest/api/awsmanagedblockchain/documentation/awsmanagedblockchain)
+[AWSMarketplaceAgreement](/sdk-for-swift/latest/api/awsmarketplaceagreement/documentation/awsmarketplaceagreement)
 
-[AWSManagedBlockchainQuery](../../../../../latest/api/awsmanagedblockchainquery/documentation/awsmanagedblockchainquery)
+[AWSMarketplaceCatalog](/sdk-for-swift/latest/api/awsmarketplacecatalog/documentation/awsmarketplacecatalog)
 
-[AWSMarketplaceAgreement](../../../../../latest/api/awsmarketplaceagreement/documentation/awsmarketplaceagreement)
+[AWSMarketplaceCommerceAnalytics](/sdk-for-swift/latest/api/awsmarketplacecommerceanalytics/documentation/awsmarketplacecommerceanalytics)
 
-[AWSMarketplaceCatalog](../../../../../latest/api/awsmarketplacecatalog/documentation/awsmarketplacecatalog)
+[AWSMarketplaceDeployment](/sdk-for-swift/latest/api/awsmarketplacedeployment/documentation/awsmarketplacedeployment)
 
-[AWSMarketplaceCommerceAnalytics](../../../../../latest/api/awsmarketplacecommerceanalytics/documentation/awsmarketplacecommerceanalytics)
+[AWSMarketplaceEntitlementService](/sdk-for-swift/latest/api/awsmarketplaceentitlementservice/documentation/awsmarketplaceentitlementservice)
 
-[AWSMarketplaceDeployment](../../../../../latest/api/awsmarketplacedeployment/documentation/awsmarketplacedeployment)
+[AWSMarketplaceMetering](/sdk-for-swift/latest/api/awsmarketplacemetering/documentation/awsmarketplacemetering)
 
-[AWSMarketplaceEntitlementService](../../../../../latest/api/awsmarketplaceentitlementservice/documentation/awsmarketplaceentitlementservice)
+[AWSMarketplaceReporting](/sdk-for-swift/latest/api/awsmarketplacereporting/documentation/awsmarketplacereporting)
 
-[AWSMarketplaceMetering](../../../../../latest/api/awsmarketplacemetering/documentation/awsmarketplacemetering)
+[AWSMediaConnect](/sdk-for-swift/latest/api/awsmediaconnect/documentation/awsmediaconnect)
 
-[AWSMarketplaceReporting](../../../../../latest/api/awsmarketplacereporting/documentation/awsmarketplacereporting)
+[AWSMediaConvert](/sdk-for-swift/latest/api/awsmediaconvert/documentation/awsmediaconvert)
 
-[AWSMediaConnect](../../../../../latest/api/awsmediaconnect/documentation/awsmediaconnect)
+[AWSMediaLive](/sdk-for-swift/latest/api/awsmedialive/documentation/awsmedialive)
 
-[AWSMediaConvert](../../../../../latest/api/awsmediaconvert/documentation/awsmediaconvert)
+[AWSMediaPackage](/sdk-for-swift/latest/api/awsmediapackage/documentation/awsmediapackage)
 
-[AWSMediaLive](../../../../../latest/api/awsmedialive/documentation/awsmedialive)
+[AWSMediaPackageV2](/sdk-for-swift/latest/api/awsmediapackagev2/documentation/awsmediapackagev2)
 
-[AWSMediaPackage](../../../../../latest/api/awsmediapackage/documentation/awsmediapackage)
+[AWSMediaPackageVod](/sdk-for-swift/latest/api/awsmediapackagevod/documentation/awsmediapackagevod)
 
-[AWSMediaPackageV2](../../../../../latest/api/awsmediapackagev2/documentation/awsmediapackagev2)
+[AWSMediaStore](/sdk-for-swift/latest/api/awsmediastore/documentation/awsmediastore)
 
-[AWSMediaPackageVod](../../../../../latest/api/awsmediapackagevod/documentation/awsmediapackagevod)
+[AWSMediaStoreData](/sdk-for-swift/latest/api/awsmediastoredata/documentation/awsmediastoredata)
 
-[AWSMediaStore](../../../../../latest/api/awsmediastore/documentation/awsmediastore)
+[AWSMediaTailor](/sdk-for-swift/latest/api/awsmediatailor/documentation/awsmediatailor)
 
-[AWSMediaStoreData](../../../../../latest/api/awsmediastoredata/documentation/awsmediastoredata)
+[AWSMedicalImaging](/sdk-for-swift/latest/api/awsmedicalimaging/documentation/awsmedicalimaging)
 
-[AWSMediaTailor](../../../../../latest/api/awsmediatailor/documentation/awsmediatailor)
+[AWSMemoryDB](/sdk-for-swift/latest/api/awsmemorydb/documentation/awsmemorydb)
 
-[AWSMedicalImaging](../../../../../latest/api/awsmedicalimaging/documentation/awsmedicalimaging)
+[AWSMgn](/sdk-for-swift/latest/api/awsmgn/documentation/awsmgn)
 
-[AWSMemoryDB](../../../../../latest/api/awsmemorydb/documentation/awsmemorydb)
+[AWSMigrationHub](/sdk-for-swift/latest/api/awsmigrationhub/documentation/awsmigrationhub)
 
-[AWSMgn](../../../../../latest/api/awsmgn/documentation/awsmgn)
+[AWSMigrationHubConfig](/sdk-for-swift/latest/api/awsmigrationhubconfig/documentation/awsmigrationhubconfig)
 
-[AWSMigrationHub](../../../../../latest/api/awsmigrationhub/documentation/awsmigrationhub)
+[AWSMigrationHubOrchestrator](/sdk-for-swift/latest/api/awsmigrationhuborchestrator/documentation/awsmigrationhuborchestrator)
 
-[AWSMigrationHubConfig](../../../../../latest/api/awsmigrationhubconfig/documentation/awsmigrationhubconfig)
+[AWSMigrationHubRefactorSpaces](/sdk-for-swift/latest/api/awsmigrationhubrefactorspaces/documentation/awsmigrationhubrefactorspaces)
 
-[AWSMigrationHubOrchestrator](../../../../../latest/api/awsmigrationhuborchestrator/documentation/awsmigrationhuborchestrator)
+[AWSMigrationHubStrategy](/sdk-for-swift/latest/api/awsmigrationhubstrategy/documentation/awsmigrationhubstrategy)
 
-[AWSMigrationHubRefactorSpaces](../../../../../latest/api/awsmigrationhubrefactorspaces/documentation/awsmigrationhubrefactorspaces)
+[AWSMq](/sdk-for-swift/latest/api/awsmq/documentation/awsmq)
 
-[AWSMigrationHubStrategy](../../../../../latest/api/awsmigrationhubstrategy/documentation/awsmigrationhubstrategy)
+[AWSNeptune](/sdk-for-swift/latest/api/awsneptune/documentation/awsneptune)
 
-[AWSMq](../../../../../latest/api/awsmq/documentation/awsmq)
+[AWSNeptuneGraph](/sdk-for-swift/latest/api/awsneptunegraph/documentation/awsneptunegraph)
 
-[AWSNeptune](../../../../../latest/api/awsneptune/documentation/awsneptune)
+[AWSNeptunedata](/sdk-for-swift/latest/api/awsneptunedata/documentation/awsneptunedata)
 
-[AWSNeptuneGraph](../../../../../latest/api/awsneptunegraph/documentation/awsneptunegraph)
+[AWSNetworkFirewall](/sdk-for-swift/latest/api/awsnetworkfirewall/documentation/awsnetworkfirewall)
 
-[AWSNeptunedata](../../../../../latest/api/awsneptunedata/documentation/awsneptunedata)
+[AWSNetworkFlowMonitor](/sdk-for-swift/latest/api/awsnetworkflowmonitor/documentation/awsnetworkflowmonitor)
 
-[AWSNetworkFirewall](../../../../../latest/api/awsnetworkfirewall/documentation/awsnetworkfirewall)
+[AWSNetworkManager](/sdk-for-swift/latest/api/awsnetworkmanager/documentation/awsnetworkmanager)
 
-[AWSNetworkFlowMonitor](../../../../../latest/api/awsnetworkflowmonitor/documentation/awsnetworkflowmonitor)
+[AWSNetworkMonitor](/sdk-for-swift/latest/api/awsnetworkmonitor/documentation/awsnetworkmonitor)
 
-[AWSNetworkManager](../../../../../latest/api/awsnetworkmanager/documentation/awsnetworkmanager)
+[AWSNotifications](/sdk-for-swift/latest/api/awsnotifications/documentation/awsnotifications)
 
-[AWSNetworkMonitor](../../../../../latest/api/awsnetworkmonitor/documentation/awsnetworkmonitor)
+[AWSNotificationsContacts](/sdk-for-swift/latest/api/awsnotificationscontacts/documentation/awsnotificationscontacts)
 
-[AWSNotifications](../../../../../latest/api/awsnotifications/documentation/awsnotifications)
+[AWSNovaAct](/sdk-for-swift/latest/api/awsnovaact/documentation/awsnovaact)
 
-[AWSNotificationsContacts](../../../../../latest/api/awsnotificationscontacts/documentation/awsnotificationscontacts)
+[AWSOAM](/sdk-for-swift/latest/api/awsoam/documentation/awsoam)
 
-[AWSNovaAct](../../../../../latest/api/awsnovaact/documentation/awsnovaact)
+[AWSOSIS](/sdk-for-swift/latest/api/awsosis/documentation/awsosis)
 
-[AWSOAM](../../../../../latest/api/awsoam/documentation/awsoam)
+[AWSObservabilityAdmin](/sdk-for-swift/latest/api/awsobservabilityadmin/documentation/awsobservabilityadmin)
 
-[AWSOSIS](../../../../../latest/api/awsosis/documentation/awsosis)
+[AWSOdb](/sdk-for-swift/latest/api/awsodb/documentation/awsodb)
 
-[AWSObservabilityAdmin](../../../../../latest/api/awsobservabilityadmin/documentation/awsobservabilityadmin)
+[AWSOmics](/sdk-for-swift/latest/api/awsomics/documentation/awsomics)
 
-[AWSOdb](../../../../../latest/api/awsodb/documentation/awsodb)
+[AWSOpenSearch](/sdk-for-swift/latest/api/awsopensearch/documentation/awsopensearch)
 
-[AWSOmics](../../../../../latest/api/awsomics/documentation/awsomics)
+[AWSOpenSearchServerless](/sdk-for-swift/latest/api/awsopensearchserverless/documentation/awsopensearchserverless)
 
-[AWSOpenSearch](../../../../../latest/api/awsopensearch/documentation/awsopensearch)
+[AWSOrganizations](/sdk-for-swift/latest/api/awsorganizations/documentation/awsorganizations)
 
-[AWSOpenSearchServerless](../../../../../latest/api/awsopensearchserverless/documentation/awsopensearchserverless)
+[AWSOutposts](/sdk-for-swift/latest/api/awsoutposts/documentation/awsoutposts)
 
-[AWSOrganizations](../../../../../latest/api/awsorganizations/documentation/awsorganizations)
+[AWSPCS](/sdk-for-swift/latest/api/awspcs/documentation/awspcs)
 
-[AWSOutposts](../../../../../latest/api/awsoutposts/documentation/awsoutposts)
+[AWSPI](/sdk-for-swift/latest/api/awspi/documentation/awspi)
 
-[AWSPCS](../../../../../latest/api/awspcs/documentation/awspcs)
+[AWSPanorama](/sdk-for-swift/latest/api/awspanorama/documentation/awspanorama)
 
-[AWSPI](../../../../../latest/api/awspi/documentation/awspi)
+[AWSPartnerCentralAccount](/sdk-for-swift/latest/api/awspartnercentralaccount/documentation/awspartnercentralaccount)
 
-[AWSPanorama](../../../../../latest/api/awspanorama/documentation/awspanorama)
+[AWSPartnerCentralBenefits](/sdk-for-swift/latest/api/awspartnercentralbenefits/documentation/awspartnercentralbenefits)
 
-[AWSPartnerCentralAccount](../../../../../latest/api/awspartnercentralaccount/documentation/awspartnercentralaccount)
+[AWSPartnerCentralChannel](/sdk-for-swift/latest/api/awspartnercentralchannel/documentation/awspartnercentralchannel)
 
-[AWSPartnerCentralBenefits](../../../../../latest/api/awspartnercentralbenefits/documentation/awspartnercentralbenefits)
+[AWSPartnerCentralSelling](/sdk-for-swift/latest/api/awspartnercentralselling/documentation/awspartnercentralselling)
 
-[AWSPartnerCentralChannel](../../../../../latest/api/awspartnercentralchannel/documentation/awspartnercentralchannel)
+[AWSPaymentCryptography](/sdk-for-swift/latest/api/awspaymentcryptography/documentation/awspaymentcryptography)
 
-[AWSPartnerCentralSelling](../../../../../latest/api/awspartnercentralselling/documentation/awspartnercentralselling)
+[AWSPaymentCryptographyData](/sdk-for-swift/latest/api/awspaymentcryptographydata/documentation/awspaymentcryptographydata)
 
-[AWSPaymentCryptography](../../../../../latest/api/awspaymentcryptography/documentation/awspaymentcryptography)
+[AWSPcaConnectorAd](/sdk-for-swift/latest/api/awspcaconnectorad/documentation/awspcaconnectorad)
 
-[AWSPaymentCryptographyData](../../../../../latest/api/awspaymentcryptographydata/documentation/awspaymentcryptographydata)
+[AWSPcaConnectorScep](/sdk-for-swift/latest/api/awspcaconnectorscep/documentation/awspcaconnectorscep)
 
-[AWSPcaConnectorAd](../../../../../latest/api/awspcaconnectorad/documentation/awspcaconnectorad)
+[AWSPersonalize](/sdk-for-swift/latest/api/awspersonalize/documentation/awspersonalize)
 
-[AWSPcaConnectorScep](../../../../../latest/api/awspcaconnectorscep/documentation/awspcaconnectorscep)
+[AWSPersonalizeEvents](/sdk-for-swift/latest/api/awspersonalizeevents/documentation/awspersonalizeevents)
 
-[AWSPersonalize](../../../../../latest/api/awspersonalize/documentation/awspersonalize)
+[AWSPersonalizeRuntime](/sdk-for-swift/latest/api/awspersonalizeruntime/documentation/awspersonalizeruntime)
 
-[AWSPersonalizeEvents](../../../../../latest/api/awspersonalizeevents/documentation/awspersonalizeevents)
+[AWSPinpoint](/sdk-for-swift/latest/api/awspinpoint/documentation/awspinpoint)
 
-[AWSPersonalizeRuntime](../../../../../latest/api/awspersonalizeruntime/documentation/awspersonalizeruntime)
+[AWSPinpointEmail](/sdk-for-swift/latest/api/awspinpointemail/documentation/awspinpointemail)
 
-[AWSPinpoint](../../../../../latest/api/awspinpoint/documentation/awspinpoint)
+[AWSPinpointSMSVoice](/sdk-for-swift/latest/api/awspinpointsmsvoice/documentation/awspinpointsmsvoice)
 
-[AWSPinpointEmail](../../../../../latest/api/awspinpointemail/documentation/awspinpointemail)
+[AWSPinpointSMSVoiceV2](/sdk-for-swift/latest/api/awspinpointsmsvoicev2/documentation/awspinpointsmsvoicev2)
 
-[AWSPinpointSMSVoice](../../../../../latest/api/awspinpointsmsvoice/documentation/awspinpointsmsvoice)
+[AWSPipes](/sdk-for-swift/latest/api/awspipes/documentation/awspipes)
 
-[AWSPinpointSMSVoiceV2](../../../../../latest/api/awspinpointsmsvoicev2/documentation/awspinpointsmsvoicev2)
+[AWSPolly](/sdk-for-swift/latest/api/awspolly/documentation/awspolly)
 
-[AWSPipes](../../../../../latest/api/awspipes/documentation/awspipes)
+[AWSPricing](/sdk-for-swift/latest/api/awspricing/documentation/awspricing)
 
-[AWSPolly](../../../../../latest/api/awspolly/documentation/awspolly)
+[AWSProton](/sdk-for-swift/latest/api/awsproton/documentation/awsproton)
 
-[AWSPricing](../../../../../latest/api/awspricing/documentation/awspricing)
+[AWSQApps](/sdk-for-swift/latest/api/awsqapps/documentation/awsqapps)
 
-[AWSProton](../../../../../latest/api/awsproton/documentation/awsproton)
+[AWSQBusiness](/sdk-for-swift/latest/api/awsqbusiness/documentation/awsqbusiness)
 
-[AWSQApps](../../../../../latest/api/awsqapps/documentation/awsqapps)
+[AWSQConnect](/sdk-for-swift/latest/api/awsqconnect/documentation/awsqconnect)
 
-[AWSQBusiness](../../../../../latest/api/awsqbusiness/documentation/awsqbusiness)
+[AWSQuickSight](/sdk-for-swift/latest/api/awsquicksight/documentation/awsquicksight)
 
-[AWSQConnect](../../../../../latest/api/awsqconnect/documentation/awsqconnect)
+[AWSRAM](/sdk-for-swift/latest/api/awsram/documentation/awsram)
 
-[AWSQuickSight](../../../../../latest/api/awsquicksight/documentation/awsquicksight)
+[AWSRDS](/sdk-for-swift/latest/api/awsrds/documentation/awsrds)
 
-[AWSRAM](../../../../../latest/api/awsram/documentation/awsram)
+[AWSRDSData](/sdk-for-swift/latest/api/awsrdsdata/documentation/awsrdsdata)
 
-[AWSRDS](../../../../../latest/api/awsrds/documentation/awsrds)
+[AWSRTBFabric](/sdk-for-swift/latest/api/awsrtbfabric/documentation/awsrtbfabric)
 
-[AWSRDSData](../../../../../latest/api/awsrdsdata/documentation/awsrdsdata)
+[AWSRUM](/sdk-for-swift/latest/api/awsrum/documentation/awsrum)
 
-[AWSRTBFabric](../../../../../latest/api/awsrtbfabric/documentation/awsrtbfabric)
+[AWSRbin](/sdk-for-swift/latest/api/awsrbin/documentation/awsrbin)
 
-[AWSRUM](../../../../../latest/api/awsrum/documentation/awsrum)
+[AWSRedshift](/sdk-for-swift/latest/api/awsredshift/documentation/awsredshift)
 
-[AWSRbin](../../../../../latest/api/awsrbin/documentation/awsrbin)
+[AWSRedshiftData](/sdk-for-swift/latest/api/awsredshiftdata/documentation/awsredshiftdata)
 
-[AWSRedshift](../../../../../latest/api/awsredshift/documentation/awsredshift)
+[AWSRedshiftServerless](/sdk-for-swift/latest/api/awsredshiftserverless/documentation/awsredshiftserverless)
 
-[AWSRedshiftData](../../../../../latest/api/awsredshiftdata/documentation/awsredshiftdata)
+[AWSRekognition](/sdk-for-swift/latest/api/awsrekognition/documentation/awsrekognition)
 
-[AWSRedshiftServerless](../../../../../latest/api/awsredshiftserverless/documentation/awsredshiftserverless)
+[AWSRepostspace](/sdk-for-swift/latest/api/awsrepostspace/documentation/awsrepostspace)
 
-[AWSRekognition](../../../../../latest/api/awsrekognition/documentation/awsrekognition)
+[AWSResiliencehub](/sdk-for-swift/latest/api/awsresiliencehub/documentation/awsresiliencehub)
 
-[AWSRepostspace](../../../../../latest/api/awsrepostspace/documentation/awsrepostspace)
+[AWSResourceExplorer2](/sdk-for-swift/latest/api/awsresourceexplorer2/documentation/awsresourceexplorer2)
 
-[AWSResiliencehub](../../../../../latest/api/awsresiliencehub/documentation/awsresiliencehub)
+[AWSResourceGroups](/sdk-for-swift/latest/api/awsresourcegroups/documentation/awsresourcegroups)
 
-[AWSResourceExplorer2](../../../../../latest/api/awsresourceexplorer2/documentation/awsresourceexplorer2)
+[AWSResourceGroupsTaggingAPI](/sdk-for-swift/latest/api/awsresourcegroupstaggingapi/documentation/awsresourcegroupstaggingapi)
 
-[AWSResourceGroups](../../../../../latest/api/awsresourcegroups/documentation/awsresourcegroups)
+[AWSRolesAnywhere](/sdk-for-swift/latest/api/awsrolesanywhere/documentation/awsrolesanywhere)
 
-[AWSResourceGroupsTaggingAPI](../../../../../latest/api/awsresourcegroupstaggingapi/documentation/awsresourcegroupstaggingapi)
+[AWSRoute53](/sdk-for-swift/latest/api/awsroute53/documentation/awsroute53)
 
-[AWSRolesAnywhere](../../../../../latest/api/awsrolesanywhere/documentation/awsrolesanywhere)
+[AWSRoute53Domains](/sdk-for-swift/latest/api/awsroute53domains/documentation/awsroute53domains)
 
-[AWSRoute53](../../../../../latest/api/awsroute53/documentation/awsroute53)
+[AWSRoute53GlobalResolver](/sdk-for-swift/latest/api/awsroute53globalresolver/documentation/awsroute53globalresolver)
 
-[AWSRoute53Domains](../../../../../latest/api/awsroute53domains/documentation/awsroute53domains)
+[AWSRoute53Profiles](/sdk-for-swift/latest/api/awsroute53profiles/documentation/awsroute53profiles)
 
-[AWSRoute53GlobalResolver](../../../../../latest/api/awsroute53globalresolver/documentation/awsroute53globalresolver)
+[AWSRoute53RecoveryCluster](/sdk-for-swift/latest/api/awsroute53recoverycluster/documentation/awsroute53recoverycluster)
 
-[AWSRoute53Profiles](../../../../../latest/api/awsroute53profiles/documentation/awsroute53profiles)
+[AWSRoute53RecoveryControlConfig](/sdk-for-swift/latest/api/awsroute53recoverycontrolconfig/documentation/awsroute53recoverycontrolconfig)
 
-[AWSRoute53RecoveryCluster](../../../../../latest/api/awsroute53recoverycluster/documentation/awsroute53recoverycluster)
+[AWSRoute53RecoveryReadiness](/sdk-for-swift/latest/api/awsroute53recoveryreadiness/documentation/awsroute53recoveryreadiness)
 
-[AWSRoute53RecoveryControlConfig](../../../../../latest/api/awsroute53recoverycontrolconfig/documentation/awsroute53recoverycontrolconfig)
+[AWSRoute53Resolver](/sdk-for-swift/latest/api/awsroute53resolver/documentation/awsroute53resolver)
 
-[AWSRoute53RecoveryReadiness](../../../../../latest/api/awsroute53recoveryreadiness/documentation/awsroute53recoveryreadiness)
+[AWSS3](/sdk-for-swift/latest/api/awss3/documentation/awss3)
 
-[AWSRoute53Resolver](../../../../../latest/api/awsroute53resolver/documentation/awsroute53resolver)
+[AWSS3Control](/sdk-for-swift/latest/api/awss3control/documentation/awss3control)
 
-[AWSS3](../../../../../latest/api/awss3/documentation/awss3)
+[AWSS3Outposts](/sdk-for-swift/latest/api/awss3outposts/documentation/awss3outposts)
 
-[AWSS3Control](../../../../../latest/api/awss3control/documentation/awss3control)
+[AWSS3Tables](/sdk-for-swift/latest/api/awss3tables/documentation/awss3tables)
 
-[AWSS3Outposts](../../../../../latest/api/awss3outposts/documentation/awss3outposts)
+[AWSS3Vectors](/sdk-for-swift/latest/api/awss3vectors/documentation/awss3vectors)
 
-[AWSS3Tables](../../../../../latest/api/awss3tables/documentation/awss3tables)
+[AWSSES](/sdk-for-swift/latest/api/awsses/documentation/awsses)
 
-[AWSS3Vectors](../../../../../latest/api/awss3vectors/documentation/awss3vectors)
+[AWSSESv2](/sdk-for-swift/latest/api/awssesv2/documentation/awssesv2)
 
-[AWSSES](../../../../../latest/api/awsses/documentation/awsses)
+[AWSSFN](/sdk-for-swift/latest/api/awssfn/documentation/awssfn)
 
-[AWSSESv2](../../../../../latest/api/awssesv2/documentation/awssesv2)
+[AWSSNS](/sdk-for-swift/latest/api/awssns/documentation/awssns)
 
-[AWSSFN](../../../../../latest/api/awssfn/documentation/awssfn)
+[AWSSQS](/sdk-for-swift/latest/api/awssqs/documentation/awssqs)
 
-[AWSSNS](../../../../../latest/api/awssns/documentation/awssns)
+[AWSSSM](/sdk-for-swift/latest/api/awsssm/documentation/awsssm)
 
-[AWSSQS](../../../../../latest/api/awssqs/documentation/awssqs)
+[AWSSSMContacts](/sdk-for-swift/latest/api/awsssmcontacts/documentation/awsssmcontacts)
 
-[AWSSSM](../../../../../latest/api/awsssm/documentation/awsssm)
+[AWSSSMGuiConnect](/sdk-for-swift/latest/api/awsssmguiconnect/documentation/awsssmguiconnect)
 
-[AWSSSMContacts](../../../../../latest/api/awsssmcontacts/documentation/awsssmcontacts)
+[AWSSSMIncidents](/sdk-for-swift/latest/api/awsssmincidents/documentation/awsssmincidents)
 
-[AWSSSMGuiConnect](../../../../../latest/api/awsssmguiconnect/documentation/awsssmguiconnect)
+[AWSSSMQuickSetup](/sdk-for-swift/latest/api/awsssmquicksetup/documentation/awsssmquicksetup)
 
-[AWSSSMIncidents](../../../../../latest/api/awsssmincidents/documentation/awsssmincidents)
+[AWSSSO](/sdk-for-swift/latest/api/awssso/documentation/awssso)
 
-[AWSSSMQuickSetup](../../../../../latest/api/awsssmquicksetup/documentation/awsssmquicksetup)
+[AWSSSOAdmin](/sdk-for-swift/latest/api/awsssoadmin/documentation/awsssoadmin)
 
-[AWSSSO](../../../../../latest/api/awssso/documentation/awssso)
+[AWSSSOOIDC](/sdk-for-swift/latest/api/awsssooidc/documentation/awsssooidc)
 
-[AWSSSOAdmin](../../../../../latest/api/awsssoadmin/documentation/awsssoadmin)
+[AWSSTS](/sdk-for-swift/latest/api/awssts/documentation/awssts)
 
-[AWSSSOOIDC](../../../../../latest/api/awsssooidc/documentation/awsssooidc)
+[AWSSWF](/sdk-for-swift/latest/api/awsswf/documentation/awsswf)
 
-[AWSSTS](../../../../../latest/api/awssts/documentation/awssts)
+[AWSSageMaker](/sdk-for-swift/latest/api/awssagemaker/documentation/awssagemaker)
 
-[AWSSWF](../../../../../latest/api/awsswf/documentation/awsswf)
+[AWSSageMakerA2IRuntime](/sdk-for-swift/latest/api/awssagemakera2iruntime/documentation/awssagemakera2iruntime)
 
-[AWSSageMaker](../../../../../latest/api/awssagemaker/documentation/awssagemaker)
+[AWSSageMakerFeatureStoreRuntime](/sdk-for-swift/latest/api/awssagemakerfeaturestoreruntime/documentation/awssagemakerfeaturestoreruntime)
 
-[AWSSageMakerA2IRuntime](../../../../../latest/api/awssagemakera2iruntime/documentation/awssagemakera2iruntime)
+[AWSSageMakerGeospatial](/sdk-for-swift/latest/api/awssagemakergeospatial/documentation/awssagemakergeospatial)
 
-[AWSSageMakerFeatureStoreRuntime](../../../../../latest/api/awssagemakerfeaturestoreruntime/documentation/awssagemakerfeaturestoreruntime)
+[AWSSageMakerMetrics](/sdk-for-swift/latest/api/awssagemakermetrics/documentation/awssagemakermetrics)
 
-[AWSSageMakerGeospatial](../../../../../latest/api/awssagemakergeospatial/documentation/awssagemakergeospatial)
+[AWSSageMakerRuntime](/sdk-for-swift/latest/api/awssagemakerruntime/documentation/awssagemakerruntime)
 
-[AWSSageMakerMetrics](../../../../../latest/api/awssagemakermetrics/documentation/awssagemakermetrics)
+[AWSSageMakerRuntimeHTTP2](/sdk-for-swift/latest/api/awssagemakerruntimehttp2/documentation/awssagemakerruntimehttp2)
 
-[AWSSageMakerRuntime](../../../../../latest/api/awssagemakerruntime/documentation/awssagemakerruntime)
+[AWSSagemakerEdge](/sdk-for-swift/latest/api/awssagemakeredge/documentation/awssagemakeredge)
 
-[AWSSageMakerRuntimeHTTP2](../../../../../latest/api/awssagemakerruntimehttp2/documentation/awssagemakerruntimehttp2)
+[AWSSavingsplans](/sdk-for-swift/latest/api/awssavingsplans/documentation/awssavingsplans)
 
-[AWSSagemakerEdge](../../../../../latest/api/awssagemakeredge/documentation/awssagemakeredge)
+[AWSScheduler](/sdk-for-swift/latest/api/awsscheduler/documentation/awsscheduler)
 
-[AWSSavingsplans](../../../../../latest/api/awssavingsplans/documentation/awssavingsplans)
+[AWSSchemas](/sdk-for-swift/latest/api/awsschemas/documentation/awsschemas)
 
-[AWSScheduler](../../../../../latest/api/awsscheduler/documentation/awsscheduler)
+[AWSSecretsManager](/sdk-for-swift/latest/api/awssecretsmanager/documentation/awssecretsmanager)
 
-[AWSSchemas](../../../../../latest/api/awsschemas/documentation/awsschemas)
+[AWSSecurityHub](/sdk-for-swift/latest/api/awssecurityhub/documentation/awssecurityhub)
 
-[AWSSecretsManager](../../../../../latest/api/awssecretsmanager/documentation/awssecretsmanager)
+[AWSSecurityIR](/sdk-for-swift/latest/api/awssecurityir/documentation/awssecurityir)
 
-[AWSSecurityHub](../../../../../latest/api/awssecurityhub/documentation/awssecurityhub)
+[AWSSecurityLake](/sdk-for-swift/latest/api/awssecuritylake/documentation/awssecuritylake)
 
-[AWSSecurityIR](../../../../../latest/api/awssecurityir/documentation/awssecurityir)
+[AWSServerlessApplicationRepository](/sdk-for-swift/latest/api/awsserverlessapplicationrepository/documentation/awsserverlessapplicationrepository)
 
-[AWSSecurityLake](../../../../../latest/api/awssecuritylake/documentation/awssecuritylake)
+[AWSServiceCatalog](/sdk-for-swift/latest/api/awsservicecatalog/documentation/awsservicecatalog)
 
-[AWSServerlessApplicationRepository](../../../../../latest/api/awsserverlessapplicationrepository/documentation/awsserverlessapplicationrepository)
+[AWSServiceCatalogAppRegistry](/sdk-for-swift/latest/api/awsservicecatalogappregistry/documentation/awsservicecatalogappregistry)
 
-[AWSServiceCatalog](../../../../../latest/api/awsservicecatalog/documentation/awsservicecatalog)
+[AWSServiceDiscovery](/sdk-for-swift/latest/api/awsservicediscovery/documentation/awsservicediscovery)
 
-[AWSServiceCatalogAppRegistry](../../../../../latest/api/awsservicecatalogappregistry/documentation/awsservicecatalogappregistry)
+[AWSServiceQuotas](/sdk-for-swift/latest/api/awsservicequotas/documentation/awsservicequotas)
 
-[AWSServiceDiscovery](../../../../../latest/api/awsservicediscovery/documentation/awsservicediscovery)
+[AWSShield](/sdk-for-swift/latest/api/awsshield/documentation/awsshield)
 
-[AWSServiceQuotas](../../../../../latest/api/awsservicequotas/documentation/awsservicequotas)
+[AWSSigner](/sdk-for-swift/latest/api/awssigner/documentation/awssigner)
 
-[AWSShield](../../../../../latest/api/awsshield/documentation/awsshield)
+[AWSSignerData](/sdk-for-swift/latest/api/awssignerdata/documentation/awssignerdata)
 
-[AWSSigner](../../../../../latest/api/awssigner/documentation/awssigner)
+[AWSSignin](/sdk-for-swift/latest/api/awssignin/documentation/awssignin)
 
-[AWSSignin](../../../../../latest/api/awssignin/documentation/awssignin)
+[AWSSimSpaceWeaver](/sdk-for-swift/latest/api/awssimspaceweaver/documentation/awssimspaceweaver)
 
-[AWSSimSpaceWeaver](../../../../../latest/api/awssimspaceweaver/documentation/awssimspaceweaver)
+[AWSSnowDeviceManagement](/sdk-for-swift/latest/api/awssnowdevicemanagement/documentation/awssnowdevicemanagement)
 
-[AWSSnowDeviceManagement](../../../../../latest/api/awssnowdevicemanagement/documentation/awssnowdevicemanagement)
+[AWSSnowball](/sdk-for-swift/latest/api/awssnowball/documentation/awssnowball)
 
-[AWSSnowball](../../../../../latest/api/awssnowball/documentation/awssnowball)
+[AWSSocialMessaging](/sdk-for-swift/latest/api/awssocialmessaging/documentation/awssocialmessaging)
 
-[AWSSocialMessaging](../../../../../latest/api/awssocialmessaging/documentation/awssocialmessaging)
+[AWSSsmSap](/sdk-for-swift/latest/api/awsssmsap/documentation/awsssmsap)
 
-[AWSSsmSap](../../../../../latest/api/awsssmsap/documentation/awsssmsap)
+[AWSStorageGateway](/sdk-for-swift/latest/api/awsstoragegateway/documentation/awsstoragegateway)
 
-[AWSStorageGateway](../../../../../latest/api/awsstoragegateway/documentation/awsstoragegateway)
+[AWSSupplyChain](/sdk-for-swift/latest/api/awssupplychain/documentation/awssupplychain)
 
-[AWSSupplyChain](../../../../../latest/api/awssupplychain/documentation/awssupplychain)
+[AWSSupport](/sdk-for-swift/latest/api/awssupport/documentation/awssupport)
 
-[AWSSupport](../../../../../latest/api/awssupport/documentation/awssupport)
+[AWSSupportApp](/sdk-for-swift/latest/api/awssupportapp/documentation/awssupportapp)
 
-[AWSSupportApp](../../../../../latest/api/awssupportapp/documentation/awssupportapp)
+[AWSSynthetics](/sdk-for-swift/latest/api/awssynthetics/documentation/awssynthetics)
 
-[AWSSynthetics](../../../../../latest/api/awssynthetics/documentation/awssynthetics)
+[AWSTaxSettings](/sdk-for-swift/latest/api/awstaxsettings/documentation/awstaxsettings)
 
-[AWSTaxSettings](../../../../../latest/api/awstaxsettings/documentation/awstaxsettings)
+[AWSTextract](/sdk-for-swift/latest/api/awstextract/documentation/awstextract)
 
-[AWSTextract](../../../../../latest/api/awstextract/documentation/awstextract)
+[AWSTimestreamInfluxDB](/sdk-for-swift/latest/api/awstimestreaminfluxdb/documentation/awstimestreaminfluxdb)
 
-[AWSTimestreamInfluxDB](../../../../../latest/api/awstimestreaminfluxdb/documentation/awstimestreaminfluxdb)
+[AWSTimestreamQuery](/sdk-for-swift/latest/api/awstimestreamquery/documentation/awstimestreamquery)
 
-[AWSTimestreamQuery](../../../../../latest/api/awstimestreamquery/documentation/awstimestreamquery)
+[AWSTimestreamWrite](/sdk-for-swift/latest/api/awstimestreamwrite/documentation/awstimestreamwrite)
 
-[AWSTimestreamWrite](../../../../../latest/api/awstimestreamwrite/documentation/awstimestreamwrite)
+[AWSTnb](/sdk-for-swift/latest/api/awstnb/documentation/awstnb)
 
-[AWSTnb](../../../../../latest/api/awstnb/documentation/awstnb)
+[AWSTranscribe](/sdk-for-swift/latest/api/awstranscribe/documentation/awstranscribe)
 
-[AWSTranscribe](../../../../../latest/api/awstranscribe/documentation/awstranscribe)
+[AWSTranscribeStreaming](/sdk-for-swift/latest/api/awstranscribestreaming/documentation/awstranscribestreaming)
 
-[AWSTranscribeStreaming](../../../../../latest/api/awstranscribestreaming/documentation/awstranscribestreaming)
+[AWSTransfer](/sdk-for-swift/latest/api/awstransfer/documentation/awstransfer)
 
-[AWSTransfer](../../../../../latest/api/awstransfer/documentation/awstransfer)
+[AWSTranslate](/sdk-for-swift/latest/api/awstranslate/documentation/awstranslate)
 
-[AWSTranslate](../../../../../latest/api/awstranslate/documentation/awstranslate)
+[AWSTrustedAdvisor](/sdk-for-swift/latest/api/awstrustedadvisor/documentation/awstrustedadvisor)
 
-[AWSTrustedAdvisor](../../../../../latest/api/awstrustedadvisor/documentation/awstrustedadvisor)
+[AWSVPCLattice](/sdk-for-swift/latest/api/awsvpclattice/documentation/awsvpclattice)
 
-[AWSVPCLattice](../../../../../latest/api/awsvpclattice/documentation/awsvpclattice)
+[AWSVerifiedPermissions](/sdk-for-swift/latest/api/awsverifiedpermissions/documentation/awsverifiedpermissions)
 
-[AWSVerifiedPermissions](../../../../../latest/api/awsverifiedpermissions/documentation/awsverifiedpermissions)
+[AWSVoiceID](/sdk-for-swift/latest/api/awsvoiceid/documentation/awsvoiceid)
 
-[AWSVoiceID](../../../../../latest/api/awsvoiceid/documentation/awsvoiceid)
+[AWSWAF](/sdk-for-swift/latest/api/awswaf/documentation/awswaf)
 
-[AWSWAF](../../../../../latest/api/awswaf/documentation/awswaf)
+[AWSWAFRegional](/sdk-for-swift/latest/api/awswafregional/documentation/awswafregional)
 
-[AWSWAFRegional](../../../../../latest/api/awswafregional/documentation/awswafregional)
+[AWSWAFV2](/sdk-for-swift/latest/api/awswafv2/documentation/awswafv2)
 
-[AWSWAFV2](../../../../../latest/api/awswafv2/documentation/awswafv2)
+[AWSWellArchitected](/sdk-for-swift/latest/api/awswellarchitected/documentation/awswellarchitected)
 
-[AWSWellArchitected](../../../../../latest/api/awswellarchitected/documentation/awswellarchitected)
+[AWSWickr](/sdk-for-swift/latest/api/awswickr/documentation/awswickr)
 
-[AWSWisdom](../../../../../latest/api/awswisdom/documentation/awswisdom)
+[AWSWisdom](/sdk-for-swift/latest/api/awswisdom/documentation/awswisdom)
 
-[AWSWorkDocs](../../../../../latest/api/awsworkdocs/documentation/awsworkdocs)
+[AWSWorkDocs](/sdk-for-swift/latest/api/awsworkdocs/documentation/awsworkdocs)
 
-[AWSWorkMail](../../../../../latest/api/awsworkmail/documentation/awsworkmail)
+[AWSWorkMail](/sdk-for-swift/latest/api/awsworkmail/documentation/awsworkmail)
 
-[AWSWorkMailMessageFlow](../../../../../latest/api/awsworkmailmessageflow/documentation/awsworkmailmessageflow)
+[AWSWorkMailMessageFlow](/sdk-for-swift/latest/api/awsworkmailmessageflow/documentation/awsworkmailmessageflow)
 
-[AWSWorkSpaces](../../../../../latest/api/awsworkspaces/documentation/awsworkspaces)
+[AWSWorkSpaces](/sdk-for-swift/latest/api/awsworkspaces/documentation/awsworkspaces)
 
-[AWSWorkSpacesThinClient](../../../../../latest/api/awsworkspacesthinclient/documentation/awsworkspacesthinclient)
+[AWSWorkSpacesThinClient](/sdk-for-swift/latest/api/awsworkspacesthinclient/documentation/awsworkspacesthinclient)
 
-[AWSWorkSpacesWeb](../../../../../latest/api/awsworkspacesweb/documentation/awsworkspacesweb)
+[AWSWorkSpacesWeb](/sdk-for-swift/latest/api/awsworkspacesweb/documentation/awsworkspacesweb)
 
-[AWSWorkspacesInstances](../../../../../latest/api/awsworkspacesinstances/documentation/awsworkspacesinstances)
+[AWSWorkspacesInstances](/sdk-for-swift/latest/api/awsworkspacesinstances/documentation/awsworkspacesinstances)
 
-[AWSXRay](../../../../../latest/api/awsxray/documentation/awsxray)
+[AWSXRay](/sdk-for-swift/latest/api/awsxray/documentation/awsxray)
 

@@ -46,7 +46,7 @@ class S3ExpressIntegration : SwiftIntegration {
                     AWSSDKIdentityAPITypes.S3ExpressIdentity,
                 ) {
                     writer.openBlock(
-                        "guard let config = clientConfig as? S3Client.Config else {",
+                        "guard let config = clientConfig as? S3Client.S3ClientConfig else {",
                         "}",
                     ) {
                         writer.write("throw \$N.clientConfigNotProvided", AWSSDKIdentityTypes.S3ExpressClientError)

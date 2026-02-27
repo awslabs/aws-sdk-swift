@@ -4458,273 +4458,6 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension SageMakerGeospatialClientTypes.OutputConfigInput {
-
-    static func write(value: SageMakerGeospatialClientTypes.OutputConfigInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Data"].write(value.s3Data, with: SageMakerGeospatialClientTypes.ExportS3DataInput.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.OutputConfigInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.OutputConfigInput()
-        value.s3Data = try reader["S3Data"].readIfPresent(with: SageMakerGeospatialClientTypes.ExportS3DataInput.read(from:))
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.ExportS3DataInput {
-
-    static func write(value: SageMakerGeospatialClientTypes.ExportS3DataInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["S3Uri"].write(value.s3Uri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ExportS3DataInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.ExportS3DataInput()
-        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig {
-
-    static func write(value: SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Data"].write(value.s3Data, with: SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig()
-        value.s3Data = try reader["S3Data"].readIfPresent(with: SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data.read(from:))
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data {
-
-    static func write(value: SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["S3Uri"].write(value.s3Uri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data()
-        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.InputConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.InputConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.InputConfigOutput()
-        value.previousEarthObservationJobArn = try reader["PreviousEarthObservationJobArn"].readIfPresent()
-        value.rasterDataCollectionQuery = try reader["RasterDataCollectionQuery"].readIfPresent(with: SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput.read(from:))
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput()
-        value.rasterDataCollectionArn = try reader["RasterDataCollectionArn"].readIfPresent() ?? ""
-        value.rasterDataCollectionName = try reader["RasterDataCollectionName"].readIfPresent() ?? ""
-        value.timeRangeFilter = try reader["TimeRangeFilter"].readIfPresent(with: SageMakerGeospatialClientTypes.TimeRangeFilterOutput.read(from:))
-        value.areaOfInterest = try reader["AreaOfInterest"].readIfPresent(with: SageMakerGeospatialClientTypes.AreaOfInterest.read(from:))
-        value.propertyFilters = try reader["PropertyFilters"].readIfPresent(with: SageMakerGeospatialClientTypes.PropertyFilters.read(from:))
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.PropertyFilters {
-
-    static func write(value: SageMakerGeospatialClientTypes.PropertyFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LogicalOperator"].write(value.logicalOperator)
-        try writer["Properties"].writeList(value.properties, memberWritingClosure: SageMakerGeospatialClientTypes.PropertyFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.PropertyFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.PropertyFilters()
-        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.PropertyFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.logicalOperator = try reader["LogicalOperator"].readIfPresent()
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.PropertyFilter {
-
-    static func write(value: SageMakerGeospatialClientTypes.PropertyFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Property"].write(value.property, with: SageMakerGeospatialClientTypes.Property.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.PropertyFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.PropertyFilter()
-        value.property = try reader["Property"].readIfPresent(with: SageMakerGeospatialClientTypes.Property.read(from:))
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.Property {
-
-    static func write(value: SageMakerGeospatialClientTypes.Property?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .eocloudcover(eocloudcover):
-                try writer["EoCloudCover"].write(eocloudcover, with: SageMakerGeospatialClientTypes.EoCloudCoverInput.write(value:to:))
-            case let .landsatcloudcoverland(landsatcloudcoverland):
-                try writer["LandsatCloudCoverLand"].write(landsatcloudcoverland, with: SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput.write(value:to:))
-            case let .platform(platform):
-                try writer["Platform"].write(platform, with: SageMakerGeospatialClientTypes.PlatformInput.write(value:to:))
-            case let .viewoffnadir(viewoffnadir):
-                try writer["ViewOffNadir"].write(viewoffnadir, with: SageMakerGeospatialClientTypes.ViewOffNadirInput.write(value:to:))
-            case let .viewsunazimuth(viewsunazimuth):
-                try writer["ViewSunAzimuth"].write(viewsunazimuth, with: SageMakerGeospatialClientTypes.ViewSunAzimuthInput.write(value:to:))
-            case let .viewsunelevation(viewsunelevation):
-                try writer["ViewSunElevation"].write(viewsunelevation, with: SageMakerGeospatialClientTypes.ViewSunElevationInput.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.Property {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "EoCloudCover":
-                return .eocloudcover(try reader["EoCloudCover"].read(with: SageMakerGeospatialClientTypes.EoCloudCoverInput.read(from:)))
-            case "ViewOffNadir":
-                return .viewoffnadir(try reader["ViewOffNadir"].read(with: SageMakerGeospatialClientTypes.ViewOffNadirInput.read(from:)))
-            case "ViewSunAzimuth":
-                return .viewsunazimuth(try reader["ViewSunAzimuth"].read(with: SageMakerGeospatialClientTypes.ViewSunAzimuthInput.read(from:)))
-            case "ViewSunElevation":
-                return .viewsunelevation(try reader["ViewSunElevation"].read(with: SageMakerGeospatialClientTypes.ViewSunElevationInput.read(from:)))
-            case "Platform":
-                return .platform(try reader["Platform"].read(with: SageMakerGeospatialClientTypes.PlatformInput.read(from:)))
-            case "LandsatCloudCoverLand":
-                return .landsatcloudcoverland(try reader["LandsatCloudCoverLand"].read(with: SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput {
-
-    static func write(value: SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LowerBound"].write(value.lowerBound)
-        try writer["UpperBound"].write(value.upperBound)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput()
-        value.lowerBound = try reader["LowerBound"].readIfPresent() ?? 0.0
-        value.upperBound = try reader["UpperBound"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.PlatformInput {
-
-    static func write(value: SageMakerGeospatialClientTypes.PlatformInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComparisonOperator"].write(value.comparisonOperator)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.PlatformInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.PlatformInput()
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.ViewSunElevationInput {
-
-    static func write(value: SageMakerGeospatialClientTypes.ViewSunElevationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LowerBound"].write(value.lowerBound)
-        try writer["UpperBound"].write(value.upperBound)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ViewSunElevationInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.ViewSunElevationInput()
-        value.lowerBound = try reader["LowerBound"].readIfPresent() ?? 0.0
-        value.upperBound = try reader["UpperBound"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.ViewSunAzimuthInput {
-
-    static func write(value: SageMakerGeospatialClientTypes.ViewSunAzimuthInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LowerBound"].write(value.lowerBound)
-        try writer["UpperBound"].write(value.upperBound)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ViewSunAzimuthInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.ViewSunAzimuthInput()
-        value.lowerBound = try reader["LowerBound"].readIfPresent() ?? 0.0
-        value.upperBound = try reader["UpperBound"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.ViewOffNadirInput {
-
-    static func write(value: SageMakerGeospatialClientTypes.ViewOffNadirInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LowerBound"].write(value.lowerBound)
-        try writer["UpperBound"].write(value.upperBound)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ViewOffNadirInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.ViewOffNadirInput()
-        value.lowerBound = try reader["LowerBound"].readIfPresent() ?? 0.0
-        value.upperBound = try reader["UpperBound"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.EoCloudCoverInput {
-
-    static func write(value: SageMakerGeospatialClientTypes.EoCloudCoverInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LowerBound"].write(value.lowerBound)
-        try writer["UpperBound"].write(value.upperBound)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.EoCloudCoverInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.EoCloudCoverInput()
-        value.lowerBound = try reader["LowerBound"].readIfPresent() ?? 0.0
-        value.upperBound = try reader["UpperBound"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
 extension SageMakerGeospatialClientTypes.AreaOfInterest {
 
     static func write(value: SageMakerGeospatialClientTypes.AreaOfInterest?, to writer: SmithyJSON.Writer) throws {
@@ -4777,43 +4510,233 @@ extension SageMakerGeospatialClientTypes.AreaOfInterestGeometry {
     }
 }
 
-extension SageMakerGeospatialClientTypes.MultiPolygonGeometryInput {
+extension SageMakerGeospatialClientTypes.AssetValue {
 
-    static func write(value: SageMakerGeospatialClientTypes.MultiPolygonGeometryInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Coordinates"].writeList(value.coordinates, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.MultiPolygonGeometryInput {
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.AssetValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.MultiPolygonGeometryInput()
-        value.coordinates = try reader["Coordinates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = SageMakerGeospatialClientTypes.AssetValue()
+        value.href = try reader["Href"].readIfPresent()
         return value
     }
 }
 
-extension SageMakerGeospatialClientTypes.PolygonGeometryInput {
+extension SageMakerGeospatialClientTypes.BandMathConfigInput {
 
-    static func write(value: SageMakerGeospatialClientTypes.PolygonGeometryInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SageMakerGeospatialClientTypes.BandMathConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Coordinates"].writeList(value.coordinates, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["CustomIndices"].write(value.customIndices, with: SageMakerGeospatialClientTypes.CustomIndicesInput.write(value:to:))
+        try writer["PredefinedIndices"].writeList(value.predefinedIndices, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.PolygonGeometryInput {
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.BandMathConfigInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.PolygonGeometryInput()
+        var value = SageMakerGeospatialClientTypes.BandMathConfigInput()
+        value.predefinedIndices = try reader["PredefinedIndices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customIndices = try reader["CustomIndices"].readIfPresent(with: SageMakerGeospatialClientTypes.CustomIndicesInput.read(from:))
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.CloudMaskingConfigInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.CloudMaskingConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.CloudMaskingConfigInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return SageMakerGeospatialClientTypes.CloudMaskingConfigInput()
+    }
+}
+
+extension SageMakerGeospatialClientTypes.CloudRemovalConfigInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.CloudRemovalConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AlgorithmName"].write(value.algorithmName)
+        try writer["InterpolationValue"].write(value.interpolationValue)
+        try writer["TargetBands"].writeList(value.targetBands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.CloudRemovalConfigInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.CloudRemovalConfigInput()
+        value.algorithmName = try reader["AlgorithmName"].readIfPresent()
+        value.interpolationValue = try reader["InterpolationValue"].readIfPresent()
+        value.targetBands = try reader["TargetBands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.CustomIndicesInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.CustomIndicesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Operations"].writeList(value.operations, memberWritingClosure: SageMakerGeospatialClientTypes.Operation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.CustomIndicesInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.CustomIndicesInput()
+        value.operations = try reader["Operations"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.Operation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.EarthObservationJobErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.EarthObservationJobErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.EarthObservationJobErrorDetails()
+        value.type = try reader["Type"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.EoCloudCoverInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.EoCloudCoverInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LowerBound"].write(value.lowerBound)
+        try writer["UpperBound"].write(value.upperBound)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.EoCloudCoverInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.EoCloudCoverInput()
+        value.lowerBound = try reader["LowerBound"].readIfPresent() ?? 0.0
+        value.upperBound = try reader["UpperBound"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.ExportErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ExportErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.ExportErrorDetails()
+        value.exportResults = try reader["ExportResults"].readIfPresent(with: SageMakerGeospatialClientTypes.ExportErrorDetailsOutput.read(from:))
+        value.exportSourceImages = try reader["ExportSourceImages"].readIfPresent(with: SageMakerGeospatialClientTypes.ExportErrorDetailsOutput.read(from:))
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.ExportErrorDetailsOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ExportErrorDetailsOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.ExportErrorDetailsOutput()
+        value.type = try reader["Type"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.ExportS3DataInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.ExportS3DataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["S3Uri"].write(value.s3Uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ExportS3DataInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.ExportS3DataInput()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig {
+
+    static func write(value: SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Data"].write(value.s3Data, with: SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig()
+        value.s3Data = try reader["S3Data"].readIfPresent(with: SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data.read(from:))
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.Filter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.Filter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.Filter()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? ""
+        value.minimum = try reader["Minimum"].readIfPresent()
+        value.maximum = try reader["Maximum"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.Geometry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.Geometry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.Geometry()
+        value.type = try reader["Type"].readIfPresent() ?? ""
         value.coordinates = try reader["Coordinates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension SageMakerGeospatialClientTypes.TimeRangeFilterOutput {
+extension SageMakerGeospatialClientTypes.GeoMosaicConfigInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.TimeRangeFilterOutput {
+    static func write(value: SageMakerGeospatialClientTypes.GeoMosaicConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AlgorithmName"].write(value.algorithmName)
+        try writer["TargetBands"].writeList(value.targetBands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.GeoMosaicConfigInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.TimeRangeFilterOutput()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = SageMakerGeospatialClientTypes.GeoMosaicConfigInput()
+        value.algorithmName = try reader["AlgorithmName"].readIfPresent()
+        value.targetBands = try reader["TargetBands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.InputConfigInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.InputConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PreviousEarthObservationJobArn"].write(value.previousEarthObservationJobArn)
+        try writer["RasterDataCollectionQuery"].write(value.rasterDataCollectionQuery, with: SageMakerGeospatialClientTypes.RasterDataCollectionQueryInput.write(value:to:))
+    }
+}
+
+extension SageMakerGeospatialClientTypes.InputConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.InputConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.InputConfigOutput()
+        value.previousEarthObservationJobArn = try reader["PreviousEarthObservationJobArn"].readIfPresent()
+        value.rasterDataCollectionQuery = try reader["RasterDataCollectionQuery"].readIfPresent(with: SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput.read(from:))
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.ItemSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ItemSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.ItemSource()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.geometry = try reader["Geometry"].readIfPresent(with: SageMakerGeospatialClientTypes.Geometry.read(from:))
+        value.assets = try reader["Assets"].readMapIfPresent(valueReadingClosure: SageMakerGeospatialClientTypes.AssetValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.dateTime = try reader["DateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.properties = try reader["Properties"].readIfPresent(with: SageMakerGeospatialClientTypes.Properties.read(from:))
         return value
     }
 }
@@ -4887,208 +4810,87 @@ extension SageMakerGeospatialClientTypes.LandCoverSegmentationConfigInput {
     }
 }
 
-extension SageMakerGeospatialClientTypes.CloudMaskingConfigInput {
+extension SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput {
 
-    static func write(value: SageMakerGeospatialClientTypes.CloudMaskingConfigInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.CloudMaskingConfigInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return SageMakerGeospatialClientTypes.CloudMaskingConfigInput()
-    }
-}
-
-extension SageMakerGeospatialClientTypes.StackConfigInput {
-
-    static func write(value: SageMakerGeospatialClientTypes.StackConfigInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["OutputResolution"].write(value.outputResolution, with: SageMakerGeospatialClientTypes.OutputResolutionStackInput.write(value:to:))
-        try writer["TargetBands"].writeList(value.targetBands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LowerBound"].write(value.lowerBound)
+        try writer["UpperBound"].write(value.upperBound)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.StackConfigInput {
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.StackConfigInput()
-        value.outputResolution = try reader["OutputResolution"].readIfPresent(with: SageMakerGeospatialClientTypes.OutputResolutionStackInput.read(from:))
-        value.targetBands = try reader["TargetBands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput()
+        value.lowerBound = try reader["LowerBound"].readIfPresent() ?? 0.0
+        value.upperBound = try reader["UpperBound"].readIfPresent() ?? 0.0
         return value
     }
 }
 
-extension SageMakerGeospatialClientTypes.OutputResolutionStackInput {
+extension SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig {
 
-    static func write(value: SageMakerGeospatialClientTypes.OutputResolutionStackInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Predefined"].write(value.predefined)
-        try writer["UserDefined"].write(value.userDefined, with: SageMakerGeospatialClientTypes.UserDefined.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.OutputResolutionStackInput {
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.OutputResolutionStackInput()
-        value.predefined = try reader["Predefined"].readIfPresent()
-        value.userDefined = try reader["UserDefined"].readIfPresent(with: SageMakerGeospatialClientTypes.UserDefined.read(from:))
+        var value = SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent() ?? 0
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.operationType = try reader["OperationType"].readIfPresent() ?? ""
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension SageMakerGeospatialClientTypes.UserDefined {
+extension SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig {
 
-    static func write(value: SageMakerGeospatialClientTypes.UserDefined?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Unit"].write(value.unit)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.UserDefined {
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.UserDefined()
-        value.value = try reader["Value"].readIfPresent() ?? 0.0
-        value.unit = try reader["Unit"].readIfPresent() ?? .sdkUnknown("")
+        var value = SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent() ?? 0
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension SageMakerGeospatialClientTypes.GeoMosaicConfigInput {
+extension SageMakerGeospatialClientTypes.MapMatchingConfig {
 
-    static func write(value: SageMakerGeospatialClientTypes.GeoMosaicConfigInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SageMakerGeospatialClientTypes.MapMatchingConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AlgorithmName"].write(value.algorithmName)
-        try writer["TargetBands"].writeList(value.targetBands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IdAttributeName"].write(value.idAttributeName)
+        try writer["TimestampAttributeName"].write(value.timestampAttributeName)
+        try writer["XAttributeName"].write(value.xAttributeName)
+        try writer["YAttributeName"].write(value.yAttributeName)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.GeoMosaicConfigInput {
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.MapMatchingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.GeoMosaicConfigInput()
-        value.algorithmName = try reader["AlgorithmName"].readIfPresent()
-        value.targetBands = try reader["TargetBands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = SageMakerGeospatialClientTypes.MapMatchingConfig()
+        value.idAttributeName = try reader["IdAttributeName"].readIfPresent() ?? ""
+        value.yAttributeName = try reader["YAttributeName"].readIfPresent() ?? ""
+        value.xAttributeName = try reader["XAttributeName"].readIfPresent() ?? ""
+        value.timestampAttributeName = try reader["TimestampAttributeName"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput {
+extension SageMakerGeospatialClientTypes.MultiPolygonGeometryInput {
 
-    static func write(value: SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SageMakerGeospatialClientTypes.MultiPolygonGeometryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Statistics"].writeList(value.statistics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerGeospatialClientTypes.ZonalStatistics>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TargetBands"].writeList(value.targetBands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ZoneS3Path"].write(value.zoneS3Path)
-        try writer["ZoneS3PathKmsKeyId"].write(value.zoneS3PathKmsKeyId)
+        try writer["Coordinates"].writeList(value.coordinates, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput {
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.MultiPolygonGeometryInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput()
-        value.zoneS3Path = try reader["ZoneS3Path"].readIfPresent() ?? ""
-        value.statistics = try reader["Statistics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerGeospatialClientTypes.ZonalStatistics>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.targetBands = try reader["TargetBands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.zoneS3PathKmsKeyId = try reader["ZoneS3PathKmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.CloudRemovalConfigInput {
-
-    static func write(value: SageMakerGeospatialClientTypes.CloudRemovalConfigInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlgorithmName"].write(value.algorithmName)
-        try writer["InterpolationValue"].write(value.interpolationValue)
-        try writer["TargetBands"].writeList(value.targetBands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.CloudRemovalConfigInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.CloudRemovalConfigInput()
-        value.algorithmName = try reader["AlgorithmName"].readIfPresent()
-        value.interpolationValue = try reader["InterpolationValue"].readIfPresent()
-        value.targetBands = try reader["TargetBands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.TemporalStatisticsConfigInput {
-
-    static func write(value: SageMakerGeospatialClientTypes.TemporalStatisticsConfigInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GroupBy"].write(value.groupBy)
-        try writer["Statistics"].writeList(value.statistics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerGeospatialClientTypes.TemporalStatistics>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TargetBands"].writeList(value.targetBands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.TemporalStatisticsConfigInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.TemporalStatisticsConfigInput()
-        value.groupBy = try reader["GroupBy"].readIfPresent()
-        value.statistics = try reader["Statistics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerGeospatialClientTypes.TemporalStatistics>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.targetBands = try reader["TargetBands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.ResamplingConfigInput {
-
-    static func write(value: SageMakerGeospatialClientTypes.ResamplingConfigInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlgorithmName"].write(value.algorithmName)
-        try writer["OutputResolution"].write(value.outputResolution, with: SageMakerGeospatialClientTypes.OutputResolutionResamplingInput.write(value:to:))
-        try writer["TargetBands"].writeList(value.targetBands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ResamplingConfigInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.ResamplingConfigInput()
-        value.outputResolution = try reader["OutputResolution"].readIfPresent(with: SageMakerGeospatialClientTypes.OutputResolutionResamplingInput.read(from:))
-        value.algorithmName = try reader["AlgorithmName"].readIfPresent()
-        value.targetBands = try reader["TargetBands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.OutputResolutionResamplingInput {
-
-    static func write(value: SageMakerGeospatialClientTypes.OutputResolutionResamplingInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["UserDefined"].write(value.userDefined, with: SageMakerGeospatialClientTypes.UserDefined.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.OutputResolutionResamplingInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.OutputResolutionResamplingInput()
-        value.userDefined = try reader["UserDefined"].readIfPresent(with: SageMakerGeospatialClientTypes.UserDefined.read(from:))
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.BandMathConfigInput {
-
-    static func write(value: SageMakerGeospatialClientTypes.BandMathConfigInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomIndices"].write(value.customIndices, with: SageMakerGeospatialClientTypes.CustomIndicesInput.write(value:to:))
-        try writer["PredefinedIndices"].writeList(value.predefinedIndices, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.BandMathConfigInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.BandMathConfigInput()
-        value.predefinedIndices = try reader["PredefinedIndices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.customIndices = try reader["CustomIndices"].readIfPresent(with: SageMakerGeospatialClientTypes.CustomIndicesInput.read(from:))
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.CustomIndicesInput {
-
-    static func write(value: SageMakerGeospatialClientTypes.CustomIndicesInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Operations"].writeList(value.operations, memberWritingClosure: SageMakerGeospatialClientTypes.Operation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.CustomIndicesInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.CustomIndicesInput()
-        value.operations = try reader["Operations"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.Operation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = SageMakerGeospatialClientTypes.MultiPolygonGeometryInput()
+        value.coordinates = try reader["Coordinates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5123,90 +4925,334 @@ extension SageMakerGeospatialClientTypes.OutputBand {
     }
 }
 
-extension SageMakerGeospatialClientTypes.EarthObservationJobErrorDetails {
+extension SageMakerGeospatialClientTypes.OutputConfigInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.EarthObservationJobErrorDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.EarthObservationJobErrorDetails()
-        value.type = try reader["Type"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.ExportErrorDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ExportErrorDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.ExportErrorDetails()
-        value.exportResults = try reader["ExportResults"].readIfPresent(with: SageMakerGeospatialClientTypes.ExportErrorDetailsOutput.read(from:))
-        value.exportSourceImages = try reader["ExportSourceImages"].readIfPresent(with: SageMakerGeospatialClientTypes.ExportErrorDetailsOutput.read(from:))
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.ExportErrorDetailsOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ExportErrorDetailsOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.ExportErrorDetailsOutput()
-        value.type = try reader["Type"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.Filter {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? ""
-        value.minimum = try reader["Minimum"].readIfPresent()
-        value.maximum = try reader["Maximum"].readIfPresent()
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig {
-
-    static func write(value: SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SageMakerGeospatialClientTypes.OutputConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DataSourceConfig"].write(value.dataSourceConfig, with: SageMakerGeospatialClientTypes.VectorEnrichmentJobDataSourceConfigInput.write(value:to:))
-        try writer["DocumentType"].write(value.documentType)
+        try writer["S3Data"].write(value.s3Data, with: SageMakerGeospatialClientTypes.ExportS3DataInput.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.OutputConfigInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig()
-        value.documentType = try reader["DocumentType"].readIfPresent() ?? .sdkUnknown("")
-        value.dataSourceConfig = try reader["DataSourceConfig"].readIfPresent(with: SageMakerGeospatialClientTypes.VectorEnrichmentJobDataSourceConfigInput.read(from:))
+        var value = SageMakerGeospatialClientTypes.OutputConfigInput()
+        value.s3Data = try reader["S3Data"].readIfPresent(with: SageMakerGeospatialClientTypes.ExportS3DataInput.read(from:))
         return value
     }
 }
 
-extension SageMakerGeospatialClientTypes.VectorEnrichmentJobDataSourceConfigInput {
+extension SageMakerGeospatialClientTypes.OutputResolutionResamplingInput {
 
-    static func write(value: SageMakerGeospatialClientTypes.VectorEnrichmentJobDataSourceConfigInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SageMakerGeospatialClientTypes.OutputResolutionResamplingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["UserDefined"].write(value.userDefined, with: SageMakerGeospatialClientTypes.UserDefined.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.OutputResolutionResamplingInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.OutputResolutionResamplingInput()
+        value.userDefined = try reader["UserDefined"].readIfPresent(with: SageMakerGeospatialClientTypes.UserDefined.read(from:))
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.OutputResolutionStackInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.OutputResolutionStackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Predefined"].write(value.predefined)
+        try writer["UserDefined"].write(value.userDefined, with: SageMakerGeospatialClientTypes.UserDefined.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.OutputResolutionStackInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.OutputResolutionStackInput()
+        value.predefined = try reader["Predefined"].readIfPresent()
+        value.userDefined = try reader["UserDefined"].readIfPresent(with: SageMakerGeospatialClientTypes.UserDefined.read(from:))
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.PlatformInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.PlatformInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComparisonOperator"].write(value.comparisonOperator)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.PlatformInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.PlatformInput()
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.PolygonGeometryInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.PolygonGeometryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Coordinates"].writeList(value.coordinates, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.PolygonGeometryInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.PolygonGeometryInput()
+        value.coordinates = try reader["Coordinates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.Properties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.Properties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.Properties()
+        value.eoCloudCover = try reader["EoCloudCover"].readIfPresent()
+        value.viewOffNadir = try reader["ViewOffNadir"].readIfPresent()
+        value.viewSunAzimuth = try reader["ViewSunAzimuth"].readIfPresent()
+        value.viewSunElevation = try reader["ViewSunElevation"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent()
+        value.landsatCloudCoverLand = try reader["LandsatCloudCoverLand"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.Property {
+
+    static func write(value: SageMakerGeospatialClientTypes.Property?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .s3data(s3data):
-                try writer["S3Data"].write(s3data, with: SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data.write(value:to:))
+            case let .eocloudcover(eocloudcover):
+                try writer["EoCloudCover"].write(eocloudcover, with: SageMakerGeospatialClientTypes.EoCloudCoverInput.write(value:to:))
+            case let .landsatcloudcoverland(landsatcloudcoverland):
+                try writer["LandsatCloudCoverLand"].write(landsatcloudcoverland, with: SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput.write(value:to:))
+            case let .platform(platform):
+                try writer["Platform"].write(platform, with: SageMakerGeospatialClientTypes.PlatformInput.write(value:to:))
+            case let .viewoffnadir(viewoffnadir):
+                try writer["ViewOffNadir"].write(viewoffnadir, with: SageMakerGeospatialClientTypes.ViewOffNadirInput.write(value:to:))
+            case let .viewsunazimuth(viewsunazimuth):
+                try writer["ViewSunAzimuth"].write(viewsunazimuth, with: SageMakerGeospatialClientTypes.ViewSunAzimuthInput.write(value:to:))
+            case let .viewsunelevation(viewsunelevation):
+                try writer["ViewSunElevation"].write(viewsunelevation, with: SageMakerGeospatialClientTypes.ViewSunElevationInput.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.VectorEnrichmentJobDataSourceConfigInput {
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.Property {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
-            case "S3Data":
-                return .s3data(try reader["S3Data"].read(with: SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data.read(from:)))
+            case "EoCloudCover":
+                return .eocloudcover(try reader["EoCloudCover"].read(with: SageMakerGeospatialClientTypes.EoCloudCoverInput.read(from:)))
+            case "ViewOffNadir":
+                return .viewoffnadir(try reader["ViewOffNadir"].read(with: SageMakerGeospatialClientTypes.ViewOffNadirInput.read(from:)))
+            case "ViewSunAzimuth":
+                return .viewsunazimuth(try reader["ViewSunAzimuth"].read(with: SageMakerGeospatialClientTypes.ViewSunAzimuthInput.read(from:)))
+            case "ViewSunElevation":
+                return .viewsunelevation(try reader["ViewSunElevation"].read(with: SageMakerGeospatialClientTypes.ViewSunElevationInput.read(from:)))
+            case "Platform":
+                return .platform(try reader["Platform"].read(with: SageMakerGeospatialClientTypes.PlatformInput.read(from:)))
+            case "LandsatCloudCoverLand":
+                return .landsatcloudcoverland(try reader["LandsatCloudCoverLand"].read(with: SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension SageMakerGeospatialClientTypes.PropertyFilter {
+
+    static func write(value: SageMakerGeospatialClientTypes.PropertyFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Property"].write(value.property, with: SageMakerGeospatialClientTypes.Property.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.PropertyFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.PropertyFilter()
+        value.property = try reader["Property"].readIfPresent(with: SageMakerGeospatialClientTypes.Property.read(from:))
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.PropertyFilters {
+
+    static func write(value: SageMakerGeospatialClientTypes.PropertyFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LogicalOperator"].write(value.logicalOperator)
+        try writer["Properties"].writeList(value.properties, memberWritingClosure: SageMakerGeospatialClientTypes.PropertyFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.PropertyFilters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.PropertyFilters()
+        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.PropertyFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logicalOperator = try reader["LogicalOperator"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.RasterDataCollectionMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.RasterDataCollectionMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.RasterDataCollectionMetadata()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.descriptionPageUrl = try reader["DescriptionPageUrl"].readIfPresent()
+        value.supportedFilters = try reader["SupportedFilters"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.RasterDataCollectionQueryInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.RasterDataCollectionQueryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AreaOfInterest"].write(value.areaOfInterest, with: SageMakerGeospatialClientTypes.AreaOfInterest.write(value:to:))
+        try writer["PropertyFilters"].write(value.propertyFilters, with: SageMakerGeospatialClientTypes.PropertyFilters.write(value:to:))
+        try writer["RasterDataCollectionArn"].write(value.rasterDataCollectionArn)
+        try writer["TimeRangeFilter"].write(value.timeRangeFilter, with: SageMakerGeospatialClientTypes.TimeRangeFilterInput.write(value:to:))
+    }
+}
+
+extension SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput()
+        value.rasterDataCollectionArn = try reader["RasterDataCollectionArn"].readIfPresent() ?? ""
+        value.rasterDataCollectionName = try reader["RasterDataCollectionName"].readIfPresent() ?? ""
+        value.timeRangeFilter = try reader["TimeRangeFilter"].readIfPresent(with: SageMakerGeospatialClientTypes.TimeRangeFilterOutput.read(from:))
+        value.areaOfInterest = try reader["AreaOfInterest"].readIfPresent(with: SageMakerGeospatialClientTypes.AreaOfInterest.read(from:))
+        value.propertyFilters = try reader["PropertyFilters"].readIfPresent(with: SageMakerGeospatialClientTypes.PropertyFilters.read(from:))
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.RasterDataCollectionQueryWithBandFilterInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.RasterDataCollectionQueryWithBandFilterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AreaOfInterest"].write(value.areaOfInterest, with: SageMakerGeospatialClientTypes.AreaOfInterest.write(value:to:))
+        try writer["BandFilter"].writeList(value.bandFilter, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PropertyFilters"].write(value.propertyFilters, with: SageMakerGeospatialClientTypes.PropertyFilters.write(value:to:))
+        try writer["TimeRangeFilter"].write(value.timeRangeFilter, with: SageMakerGeospatialClientTypes.TimeRangeFilterInput.write(value:to:))
+    }
+}
+
+extension SageMakerGeospatialClientTypes.ResamplingConfigInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.ResamplingConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AlgorithmName"].write(value.algorithmName)
+        try writer["OutputResolution"].write(value.outputResolution, with: SageMakerGeospatialClientTypes.OutputResolutionResamplingInput.write(value:to:))
+        try writer["TargetBands"].writeList(value.targetBands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ResamplingConfigInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.ResamplingConfigInput()
+        value.outputResolution = try reader["OutputResolution"].readIfPresent(with: SageMakerGeospatialClientTypes.OutputResolutionResamplingInput.read(from:))
+        value.algorithmName = try reader["AlgorithmName"].readIfPresent()
+        value.targetBands = try reader["TargetBands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.ReverseGeocodingConfig {
+
+    static func write(value: SageMakerGeospatialClientTypes.ReverseGeocodingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["XAttributeName"].write(value.xAttributeName)
+        try writer["YAttributeName"].write(value.yAttributeName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ReverseGeocodingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.ReverseGeocodingConfig()
+        value.yAttributeName = try reader["YAttributeName"].readIfPresent() ?? ""
+        value.xAttributeName = try reader["XAttributeName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.StackConfigInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.StackConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OutputResolution"].write(value.outputResolution, with: SageMakerGeospatialClientTypes.OutputResolutionStackInput.write(value:to:))
+        try writer["TargetBands"].writeList(value.targetBands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.StackConfigInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.StackConfigInput()
+        value.outputResolution = try reader["OutputResolution"].readIfPresent(with: SageMakerGeospatialClientTypes.OutputResolutionStackInput.read(from:))
+        value.targetBands = try reader["TargetBands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.TemporalStatisticsConfigInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.TemporalStatisticsConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GroupBy"].write(value.groupBy)
+        try writer["Statistics"].writeList(value.statistics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerGeospatialClientTypes.TemporalStatistics>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetBands"].writeList(value.targetBands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.TemporalStatisticsConfigInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.TemporalStatisticsConfigInput()
+        value.groupBy = try reader["GroupBy"].readIfPresent()
+        value.statistics = try reader["Statistics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerGeospatialClientTypes.TemporalStatistics>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.targetBands = try reader["TargetBands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.TimeRangeFilterInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.TimeRangeFilterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension SageMakerGeospatialClientTypes.TimeRangeFilterOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.TimeRangeFilterOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.TimeRangeFilterOutput()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.UserDefined {
+
+    static func write(value: SageMakerGeospatialClientTypes.UserDefined?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Unit"].write(value.unit)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.UserDefined {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.UserDefined()
+        value.value = try reader["Value"].readIfPresent() ?? 0.0
+        value.unit = try reader["Unit"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -5238,41 +5284,27 @@ extension SageMakerGeospatialClientTypes.VectorEnrichmentJobConfig {
     }
 }
 
-extension SageMakerGeospatialClientTypes.MapMatchingConfig {
+extension SageMakerGeospatialClientTypes.VectorEnrichmentJobDataSourceConfigInput {
 
-    static func write(value: SageMakerGeospatialClientTypes.MapMatchingConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SageMakerGeospatialClientTypes.VectorEnrichmentJobDataSourceConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["IdAttributeName"].write(value.idAttributeName)
-        try writer["TimestampAttributeName"].write(value.timestampAttributeName)
-        try writer["XAttributeName"].write(value.xAttributeName)
-        try writer["YAttributeName"].write(value.yAttributeName)
+        switch value {
+            case let .s3data(s3data):
+                try writer["S3Data"].write(s3data, with: SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.MapMatchingConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.VectorEnrichmentJobDataSourceConfigInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.MapMatchingConfig()
-        value.idAttributeName = try reader["IdAttributeName"].readIfPresent() ?? ""
-        value.yAttributeName = try reader["YAttributeName"].readIfPresent() ?? ""
-        value.xAttributeName = try reader["XAttributeName"].readIfPresent() ?? ""
-        value.timestampAttributeName = try reader["TimestampAttributeName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.ReverseGeocodingConfig {
-
-    static func write(value: SageMakerGeospatialClientTypes.ReverseGeocodingConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["XAttributeName"].write(value.xAttributeName)
-        try writer["YAttributeName"].write(value.yAttributeName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ReverseGeocodingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.ReverseGeocodingConfig()
-        value.yAttributeName = try reader["YAttributeName"].readIfPresent() ?? ""
-        value.xAttributeName = try reader["XAttributeName"].readIfPresent() ?? ""
-        return value
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "S3Data":
+                return .s3data(try reader["S3Data"].read(with: SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -5298,141 +5330,109 @@ extension SageMakerGeospatialClientTypes.VectorEnrichmentJobExportErrorDetails {
     }
 }
 
-extension SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig {
+extension SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent() ?? 0
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.operationType = try reader["OperationType"].readIfPresent() ?? ""
-        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.RasterDataCollectionMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.RasterDataCollectionMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.RasterDataCollectionMetadata()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.description = try reader["Description"].readIfPresent() ?? ""
-        value.descriptionPageUrl = try reader["DescriptionPageUrl"].readIfPresent()
-        value.supportedFilters = try reader["SupportedFilters"].readListIfPresent(memberReadingClosure: SageMakerGeospatialClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent() ?? 0
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.ItemSource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ItemSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.ItemSource()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.geometry = try reader["Geometry"].readIfPresent(with: SageMakerGeospatialClientTypes.Geometry.read(from:))
-        value.assets = try reader["Assets"].readMapIfPresent(valueReadingClosure: SageMakerGeospatialClientTypes.AssetValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.dateTime = try reader["DateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.properties = try reader["Properties"].readIfPresent(with: SageMakerGeospatialClientTypes.Properties.read(from:))
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.Properties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.Properties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.Properties()
-        value.eoCloudCover = try reader["EoCloudCover"].readIfPresent()
-        value.viewOffNadir = try reader["ViewOffNadir"].readIfPresent()
-        value.viewSunAzimuth = try reader["ViewSunAzimuth"].readIfPresent()
-        value.viewSunElevation = try reader["ViewSunElevation"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
-        value.landsatCloudCoverLand = try reader["LandsatCloudCoverLand"].readIfPresent()
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.AssetValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.AssetValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.AssetValue()
-        value.href = try reader["Href"].readIfPresent()
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.Geometry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.Geometry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerGeospatialClientTypes.Geometry()
-        value.type = try reader["Type"].readIfPresent() ?? ""
-        value.coordinates = try reader["Coordinates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension SageMakerGeospatialClientTypes.RasterDataCollectionQueryWithBandFilterInput {
-
-    static func write(value: SageMakerGeospatialClientTypes.RasterDataCollectionQueryWithBandFilterInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AreaOfInterest"].write(value.areaOfInterest, with: SageMakerGeospatialClientTypes.AreaOfInterest.write(value:to:))
-        try writer["BandFilter"].writeList(value.bandFilter, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PropertyFilters"].write(value.propertyFilters, with: SageMakerGeospatialClientTypes.PropertyFilters.write(value:to:))
-        try writer["TimeRangeFilter"].write(value.timeRangeFilter, with: SageMakerGeospatialClientTypes.TimeRangeFilterInput.write(value:to:))
+        try writer["DataSourceConfig"].write(value.dataSourceConfig, with: SageMakerGeospatialClientTypes.VectorEnrichmentJobDataSourceConfigInput.write(value:to:))
+        try writer["DocumentType"].write(value.documentType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig()
+        value.documentType = try reader["DocumentType"].readIfPresent() ?? .sdkUnknown("")
+        value.dataSourceConfig = try reader["DataSourceConfig"].readIfPresent(with: SageMakerGeospatialClientTypes.VectorEnrichmentJobDataSourceConfigInput.read(from:))
+        return value
     }
 }
 
-extension SageMakerGeospatialClientTypes.TimeRangeFilterInput {
+extension SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data {
 
-    static func write(value: SageMakerGeospatialClientTypes.TimeRangeFilterInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["S3Uri"].write(value.s3Uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        return value
     }
 }
 
-extension SageMakerGeospatialClientTypes.InputConfigInput {
+extension SageMakerGeospatialClientTypes.ViewOffNadirInput {
 
-    static func write(value: SageMakerGeospatialClientTypes.InputConfigInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SageMakerGeospatialClientTypes.ViewOffNadirInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["PreviousEarthObservationJobArn"].write(value.previousEarthObservationJobArn)
-        try writer["RasterDataCollectionQuery"].write(value.rasterDataCollectionQuery, with: SageMakerGeospatialClientTypes.RasterDataCollectionQueryInput.write(value:to:))
+        try writer["LowerBound"].write(value.lowerBound)
+        try writer["UpperBound"].write(value.upperBound)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ViewOffNadirInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.ViewOffNadirInput()
+        value.lowerBound = try reader["LowerBound"].readIfPresent() ?? 0.0
+        value.upperBound = try reader["UpperBound"].readIfPresent() ?? 0.0
+        return value
     }
 }
 
-extension SageMakerGeospatialClientTypes.RasterDataCollectionQueryInput {
+extension SageMakerGeospatialClientTypes.ViewSunAzimuthInput {
 
-    static func write(value: SageMakerGeospatialClientTypes.RasterDataCollectionQueryInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SageMakerGeospatialClientTypes.ViewSunAzimuthInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AreaOfInterest"].write(value.areaOfInterest, with: SageMakerGeospatialClientTypes.AreaOfInterest.write(value:to:))
-        try writer["PropertyFilters"].write(value.propertyFilters, with: SageMakerGeospatialClientTypes.PropertyFilters.write(value:to:))
-        try writer["RasterDataCollectionArn"].write(value.rasterDataCollectionArn)
-        try writer["TimeRangeFilter"].write(value.timeRangeFilter, with: SageMakerGeospatialClientTypes.TimeRangeFilterInput.write(value:to:))
+        try writer["LowerBound"].write(value.lowerBound)
+        try writer["UpperBound"].write(value.upperBound)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ViewSunAzimuthInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.ViewSunAzimuthInput()
+        value.lowerBound = try reader["LowerBound"].readIfPresent() ?? 0.0
+        value.upperBound = try reader["UpperBound"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.ViewSunElevationInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.ViewSunElevationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LowerBound"].write(value.lowerBound)
+        try writer["UpperBound"].write(value.upperBound)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ViewSunElevationInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.ViewSunElevationInput()
+        value.lowerBound = try reader["LowerBound"].readIfPresent() ?? 0.0
+        value.upperBound = try reader["UpperBound"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput {
+
+    static func write(value: SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Statistics"].writeList(value.statistics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerGeospatialClientTypes.ZonalStatistics>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetBands"].writeList(value.targetBands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ZoneS3Path"].write(value.zoneS3Path)
+        try writer["ZoneS3PathKmsKeyId"].write(value.zoneS3PathKmsKeyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput()
+        value.zoneS3Path = try reader["ZoneS3Path"].readIfPresent() ?? ""
+        value.statistics = try reader["Statistics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerGeospatialClientTypes.ZonalStatistics>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.targetBands = try reader["TargetBands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.zoneS3PathKmsKeyId = try reader["ZoneS3PathKmsKeyId"].readIfPresent()
+        return value
     }
 }
 

@@ -2343,6 +2343,25 @@ extension LimitExceededException {
     }
 }
 
+extension CognitoSyncClientTypes.CognitoStreams {
+
+    static func write(value: CognitoSyncClientTypes.CognitoStreams?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["StreamName"].write(value.streamName)
+        try writer["StreamingStatus"].write(value.streamingStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CognitoSyncClientTypes.CognitoStreams {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CognitoSyncClientTypes.CognitoStreams()
+        value.streamName = try reader["StreamName"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.streamingStatus = try reader["StreamingStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension CognitoSyncClientTypes.Dataset {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CognitoSyncClientTypes.Dataset {
@@ -2399,25 +2418,6 @@ extension CognitoSyncClientTypes.PushSync {
         var value = CognitoSyncClientTypes.PushSync()
         value.applicationArns = try reader["ApplicationArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["RoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension CognitoSyncClientTypes.CognitoStreams {
-
-    static func write(value: CognitoSyncClientTypes.CognitoStreams?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["StreamName"].write(value.streamName)
-        try writer["StreamingStatus"].write(value.streamingStatus)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CognitoSyncClientTypes.CognitoStreams {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CognitoSyncClientTypes.CognitoStreams()
-        value.streamName = try reader["StreamName"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.streamingStatus = try reader["StreamingStatus"].readIfPresent()
         return value
     }
 }

@@ -2783,14 +2783,17 @@ extension DirectoryServiceDataClientTypes.AttributeValue {
     }
 }
 
-extension DirectoryServiceDataClientTypes.Member {
+extension DirectoryServiceDataClientTypes.Group {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryServiceDataClientTypes.Member {
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryServiceDataClientTypes.Group {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryServiceDataClientTypes.Member()
-        value.sid = try reader["SID"].readIfPresent() ?? ""
+        var value = DirectoryServiceDataClientTypes.Group()
+        value.sid = try reader["SID"].readIfPresent()
         value.samAccountName = try reader["SAMAccountName"].readIfPresent() ?? ""
-        value.memberType = try reader["MemberType"].readIfPresent() ?? .sdkUnknown("")
+        value.distinguishedName = try reader["DistinguishedName"].readIfPresent()
+        value.groupType = try reader["GroupType"].readIfPresent()
+        value.groupScope = try reader["GroupScope"].readIfPresent()
+        value.otherAttributes = try reader["OtherAttributes"].readMapIfPresent(valueReadingClosure: DirectoryServiceDataClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -2808,31 +2811,14 @@ extension DirectoryServiceDataClientTypes.GroupSummary {
     }
 }
 
-extension DirectoryServiceDataClientTypes.UserSummary {
+extension DirectoryServiceDataClientTypes.Member {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryServiceDataClientTypes.UserSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryServiceDataClientTypes.Member {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryServiceDataClientTypes.UserSummary()
+        var value = DirectoryServiceDataClientTypes.Member()
         value.sid = try reader["SID"].readIfPresent() ?? ""
         value.samAccountName = try reader["SAMAccountName"].readIfPresent() ?? ""
-        value.givenName = try reader["GivenName"].readIfPresent()
-        value.surname = try reader["Surname"].readIfPresent()
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension DirectoryServiceDataClientTypes.Group {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryServiceDataClientTypes.Group {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DirectoryServiceDataClientTypes.Group()
-        value.sid = try reader["SID"].readIfPresent()
-        value.samAccountName = try reader["SAMAccountName"].readIfPresent() ?? ""
-        value.distinguishedName = try reader["DistinguishedName"].readIfPresent()
-        value.groupType = try reader["GroupType"].readIfPresent()
-        value.groupScope = try reader["GroupScope"].readIfPresent()
-        value.otherAttributes = try reader["OtherAttributes"].readMapIfPresent(valueReadingClosure: DirectoryServiceDataClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.memberType = try reader["MemberType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2851,6 +2837,20 @@ extension DirectoryServiceDataClientTypes.User {
         value.surname = try reader["Surname"].readIfPresent()
         value.enabled = try reader["Enabled"].readIfPresent()
         value.otherAttributes = try reader["OtherAttributes"].readMapIfPresent(valueReadingClosure: DirectoryServiceDataClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension DirectoryServiceDataClientTypes.UserSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryServiceDataClientTypes.UserSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryServiceDataClientTypes.UserSummary()
+        value.sid = try reader["SID"].readIfPresent() ?? ""
+        value.samAccountName = try reader["SAMAccountName"].readIfPresent() ?? ""
+        value.givenName = try reader["GivenName"].readIfPresent()
+        value.surname = try reader["Surname"].readIfPresent()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
         return value
     }
 }

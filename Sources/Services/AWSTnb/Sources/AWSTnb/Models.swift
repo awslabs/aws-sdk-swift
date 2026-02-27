@@ -4750,35 +4750,23 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension TnbClientTypes.GetSolVnfInfo {
+extension TnbClientTypes.ErrorInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolVnfInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.GetSolVnfInfo()
-        value.vnfState = try reader["vnfState"].readIfPresent()
-        value.vnfcResourceInfo = try reader["vnfcResourceInfo"].readListIfPresent(memberReadingClosure: TnbClientTypes.GetSolVnfcResourceInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = TnbClientTypes.ErrorInfo()
+        value.cause = try reader["cause"].readIfPresent()
+        value.details = try reader["details"].readIfPresent()
         return value
     }
 }
 
-extension TnbClientTypes.GetSolVnfcResourceInfo {
+extension TnbClientTypes.FunctionArtifactMeta {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolVnfcResourceInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.FunctionArtifactMeta {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.GetSolVnfcResourceInfo()
-        value.metadata = try reader["metadata"].readIfPresent(with: TnbClientTypes.GetSolVnfcResourceInfoMetadata.read(from:))
-        return value
-    }
-}
-
-extension TnbClientTypes.GetSolVnfcResourceInfoMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolVnfcResourceInfoMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.GetSolVnfcResourceInfoMetadata()
-        value.nodeGroup = try reader["nodeGroup"].readIfPresent()
-        value.cluster = try reader["cluster"].readIfPresent()
-        value.helmChart = try reader["helmChart"].readIfPresent()
+        var value = TnbClientTypes.FunctionArtifactMeta()
+        value.overrides = try reader["overrides"].readListIfPresent(memberReadingClosure: TnbClientTypes.ToscaOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4806,33 +4794,12 @@ extension TnbClientTypes.GetSolFunctionPackageMetadata {
     }
 }
 
-extension TnbClientTypes.FunctionArtifactMeta {
+extension TnbClientTypes.GetSolInstantiatedVnfInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.FunctionArtifactMeta {
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolInstantiatedVnfInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.FunctionArtifactMeta()
-        value.overrides = try reader["overrides"].readListIfPresent(memberReadingClosure: TnbClientTypes.ToscaOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TnbClientTypes.ToscaOverride {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ToscaOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.ToscaOverride()
-        value.name = try reader["name"].readIfPresent()
-        value.defaultValue = try reader["defaultValue"].readIfPresent()
-        return value
-    }
-}
-
-extension TnbClientTypes.LcmOperationInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.LcmOperationInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.LcmOperationInfo()
-        value.nsLcmOpOccId = try reader["nsLcmOpOccId"].readIfPresent() ?? ""
+        var value = TnbClientTypes.GetSolInstantiatedVnfInfo()
+        value.vnfState = try reader["vnfState"].readIfPresent()
         return value
     }
 }
@@ -4848,17 +4815,6 @@ extension TnbClientTypes.GetSolNetworkInstanceMetadata {
     }
 }
 
-extension TnbClientTypes.ProblemDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ProblemDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.ProblemDetails()
-        value.detail = try reader["detail"].readIfPresent() ?? ""
-        value.title = try reader["title"].readIfPresent()
-        return value
-    }
-}
-
 extension TnbClientTypes.GetSolNetworkOperationMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolNetworkOperationMetadata {
@@ -4869,39 +4825,6 @@ extension TnbClientTypes.GetSolNetworkOperationMetadata {
         value.instantiateMetadata = try reader["instantiateMetadata"].readIfPresent(with: TnbClientTypes.InstantiateMetadata.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension TnbClientTypes.InstantiateMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.InstantiateMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.InstantiateMetadata()
-        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent() ?? ""
-        value.additionalParamsForNs = try reader["additionalParamsForNs"].readIfPresent()
-        return value
-    }
-}
-
-extension TnbClientTypes.ModifyVnfInfoMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ModifyVnfInfoMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.ModifyVnfInfoMetadata()
-        value.vnfInstanceId = try reader["vnfInstanceId"].readIfPresent() ?? ""
-        value.vnfConfigurableProperties = try reader["vnfConfigurableProperties"].readIfPresent() ?? [:]
-        return value
-    }
-}
-
-extension TnbClientTypes.UpdateNsMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.UpdateNsMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.UpdateNsMetadata()
-        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent() ?? ""
-        value.additionalParamsForNs = try reader["additionalParamsForNs"].readIfPresent()
         return value
     }
 }
@@ -4921,17 +4844,6 @@ extension TnbClientTypes.GetSolNetworkOperationTaskDetails {
     }
 }
 
-extension TnbClientTypes.ErrorInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ErrorInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.ErrorInfo()
-        value.cause = try reader["cause"].readIfPresent()
-        value.details = try reader["details"].readIfPresent()
-        return value
-    }
-}
-
 extension TnbClientTypes.GetSolNetworkPackageMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolNetworkPackageMetadata {
@@ -4944,12 +4856,56 @@ extension TnbClientTypes.GetSolNetworkPackageMetadata {
     }
 }
 
-extension TnbClientTypes.NetworkArtifactMeta {
+extension TnbClientTypes.GetSolVnfcResourceInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.NetworkArtifactMeta {
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolVnfcResourceInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.NetworkArtifactMeta()
-        value.overrides = try reader["overrides"].readListIfPresent(memberReadingClosure: TnbClientTypes.ToscaOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = TnbClientTypes.GetSolVnfcResourceInfo()
+        value.metadata = try reader["metadata"].readIfPresent(with: TnbClientTypes.GetSolVnfcResourceInfoMetadata.read(from:))
+        return value
+    }
+}
+
+extension TnbClientTypes.GetSolVnfcResourceInfoMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolVnfcResourceInfoMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.GetSolVnfcResourceInfoMetadata()
+        value.nodeGroup = try reader["nodeGroup"].readIfPresent()
+        value.cluster = try reader["cluster"].readIfPresent()
+        value.helmChart = try reader["helmChart"].readIfPresent()
+        return value
+    }
+}
+
+extension TnbClientTypes.GetSolVnfInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolVnfInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.GetSolVnfInfo()
+        value.vnfState = try reader["vnfState"].readIfPresent()
+        value.vnfcResourceInfo = try reader["vnfcResourceInfo"].readListIfPresent(memberReadingClosure: TnbClientTypes.GetSolVnfcResourceInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TnbClientTypes.InstantiateMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.InstantiateMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.InstantiateMetadata()
+        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent() ?? ""
+        value.additionalParamsForNs = try reader["additionalParamsForNs"].readIfPresent()
+        return value
+    }
+}
+
+extension TnbClientTypes.LcmOperationInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.LcmOperationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.LcmOperationInfo()
+        value.nsLcmOpOccId = try reader["nsLcmOpOccId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4978,16 +4934,6 @@ extension TnbClientTypes.ListSolFunctionInstanceMetadata {
         var value = TnbClientTypes.ListSolFunctionInstanceMetadata()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension TnbClientTypes.GetSolInstantiatedVnfInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolInstantiatedVnfInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.GetSolInstantiatedVnfInfo()
-        value.vnfState = try reader["vnfState"].readIfPresent()
         return value
     }
 }
@@ -5112,6 +5058,38 @@ extension TnbClientTypes.ListSolNetworkPackageMetadata {
     }
 }
 
+extension TnbClientTypes.ModifyVnfInfoMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ModifyVnfInfoMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.ModifyVnfInfoMetadata()
+        value.vnfInstanceId = try reader["vnfInstanceId"].readIfPresent() ?? ""
+        value.vnfConfigurableProperties = try reader["vnfConfigurableProperties"].readIfPresent() ?? [:]
+        return value
+    }
+}
+
+extension TnbClientTypes.NetworkArtifactMeta {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.NetworkArtifactMeta {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.NetworkArtifactMeta()
+        value.overrides = try reader["overrides"].readListIfPresent(memberReadingClosure: TnbClientTypes.ToscaOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TnbClientTypes.ProblemDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ProblemDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.ProblemDetails()
+        value.detail = try reader["detail"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent()
+        return value
+    }
+}
+
 extension TnbClientTypes.PutSolFunctionPackageContentMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.PutSolFunctionPackageContentMetadata {
@@ -5132,22 +5110,24 @@ extension TnbClientTypes.PutSolNetworkPackageContentMetadata {
     }
 }
 
-extension TnbClientTypes.ValidateSolFunctionPackageContentMetadata {
+extension TnbClientTypes.ToscaOverride {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ValidateSolFunctionPackageContentMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ToscaOverride {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.ValidateSolFunctionPackageContentMetadata()
-        value.vnfd = try reader["vnfd"].readIfPresent(with: TnbClientTypes.FunctionArtifactMeta.read(from:))
+        var value = TnbClientTypes.ToscaOverride()
+        value.name = try reader["name"].readIfPresent()
+        value.defaultValue = try reader["defaultValue"].readIfPresent()
         return value
     }
 }
 
-extension TnbClientTypes.ValidateSolNetworkPackageContentMetadata {
+extension TnbClientTypes.UpdateNsMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ValidateSolNetworkPackageContentMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.UpdateNsMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TnbClientTypes.ValidateSolNetworkPackageContentMetadata()
-        value.nsd = try reader["nsd"].readIfPresent(with: TnbClientTypes.NetworkArtifactMeta.read(from:))
+        var value = TnbClientTypes.UpdateNsMetadata()
+        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent() ?? ""
+        value.additionalParamsForNs = try reader["additionalParamsForNs"].readIfPresent()
         return value
     }
 }
@@ -5167,6 +5147,26 @@ extension TnbClientTypes.UpdateSolNetworkServiceData {
         guard let value else { return }
         try writer["additionalParamsForNs"].write(value.additionalParamsForNs)
         try writer["nsdInfoId"].write(value.nsdInfoId)
+    }
+}
+
+extension TnbClientTypes.ValidateSolFunctionPackageContentMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ValidateSolFunctionPackageContentMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.ValidateSolFunctionPackageContentMetadata()
+        value.vnfd = try reader["vnfd"].readIfPresent(with: TnbClientTypes.FunctionArtifactMeta.read(from:))
+        return value
+    }
+}
+
+extension TnbClientTypes.ValidateSolNetworkPackageContentMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ValidateSolNetworkPackageContentMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.ValidateSolNetworkPackageContentMetadata()
+        value.nsd = try reader["nsd"].readIfPresent(with: TnbClientTypes.NetworkArtifactMeta.read(from:))
+        return value
     }
 }
 

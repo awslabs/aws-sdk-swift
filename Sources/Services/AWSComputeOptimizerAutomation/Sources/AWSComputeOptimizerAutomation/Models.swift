@@ -4240,171 +4240,6 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension ComputeOptimizerAutomationClientTypes.OrganizationConfiguration {
-
-    static func write(value: ComputeOptimizerAutomationClientTypes.OrganizationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ruleApplyOrder"].write(value.ruleApplyOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.OrganizationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerAutomationClientTypes.OrganizationConfiguration()
-        value.ruleApplyOrder = try reader["ruleApplyOrder"].readIfPresent()
-        value.accountIds = try reader["accountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerAutomationClientTypes.Criteria {
-
-    static func write(value: ComputeOptimizerAutomationClientTypes.Criteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ebsVolumeSizeInGib"].writeList(value.ebsVolumeSizeInGib, memberWritingClosure: ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ebsVolumeType"].writeList(value.ebsVolumeType, memberWritingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["estimatedMonthlySavings"].writeList(value.estimatedMonthlySavings, memberWritingClosure: ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lookBackPeriodInDays"].writeList(value.lookBackPeriodInDays, memberWritingClosure: ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["region"].writeList(value.region, memberWritingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resourceArn"].writeList(value.resourceArn, memberWritingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resourceTag"].writeList(value.resourceTag, memberWritingClosure: ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["restartNeeded"].writeList(value.restartNeeded, memberWritingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.Criteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerAutomationClientTypes.Criteria()
-        value.region = try reader["region"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceArn = try reader["resourceArn"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ebsVolumeType = try reader["ebsVolumeType"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ebsVolumeSizeInGib = try reader["ebsVolumeSizeInGib"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceTag = try reader["resourceTag"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lookBackPeriodInDays = try reader["lookBackPeriodInDays"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.restartNeeded = try reader["restartNeeded"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerAutomationClientTypes.StringCriteriaCondition {
-
-    static func write(value: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["comparison"].write(value.comparison)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.StringCriteriaCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerAutomationClientTypes.StringCriteriaCondition()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition {
-
-    static func write(value: ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["comparison"].write(value.comparison)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition {
-
-    static func write(value: ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["comparison"].write(value.comparison)
-        try writer["key"].write(value.key)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition {
-
-    static func write(value: ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["comparison"].write(value.comparison)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition()
-        value.comparison = try reader["comparison"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerAutomationClientTypes.Schedule {
-
-    static func write(value: ComputeOptimizerAutomationClientTypes.Schedule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["executionWindowInMinutes"].write(value.executionWindowInMinutes)
-        try writer["scheduleExpression"].write(value.scheduleExpression)
-        try writer["scheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.Schedule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerAutomationClientTypes.Schedule()
-        value.scheduleExpression = try reader["scheduleExpression"].readIfPresent()
-        value.scheduleExpressionTimezone = try reader["scheduleExpressionTimezone"].readIfPresent()
-        value.executionWindowInMinutes = try reader["executionWindowInMinutes"].readIfPresent()
-        return value
-    }
-}
-
-extension ComputeOptimizerAutomationClientTypes.Tag {
-
-    static func write(value: ComputeOptimizerAutomationClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerAutomationClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ComputeOptimizerAutomationClientTypes.EstimatedMonthlySavings {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.EstimatedMonthlySavings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerAutomationClientTypes.EstimatedMonthlySavings()
-        value.currency = try reader["currency"].readIfPresent() ?? ""
-        value.beforeDiscountSavings = try reader["beforeDiscountSavings"].readIfPresent() ?? 0.0
-        value.afterDiscountSavings = try reader["afterDiscountSavings"].readIfPresent() ?? 0.0
-        value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
 extension ComputeOptimizerAutomationClientTypes.AccountInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.AccountInfo {
@@ -4443,6 +4278,15 @@ extension ComputeOptimizerAutomationClientTypes.AutomationEvent {
     }
 }
 
+extension ComputeOptimizerAutomationClientTypes.AutomationEventFilter {
+
+    static func write(value: ComputeOptimizerAutomationClientTypes.AutomationEventFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ComputeOptimizerAutomationClientTypes.AutomationEventStep {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.AutomationEventStep {
@@ -4473,36 +4317,159 @@ extension ComputeOptimizerAutomationClientTypes.AutomationEventSummary {
     }
 }
 
-extension ComputeOptimizerAutomationClientTypes.SummaryTotals {
+extension ComputeOptimizerAutomationClientTypes.AutomationRule {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.SummaryTotals {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.AutomationRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerAutomationClientTypes.SummaryTotals()
-        value.automationEventCount = try reader["automationEventCount"].readIfPresent()
-        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerAutomationClientTypes.EstimatedMonthlySavings.read(from:))
+        var value = ComputeOptimizerAutomationClientTypes.AutomationRule()
+        value.ruleArn = try reader["ruleArn"].readIfPresent()
+        value.ruleId = try reader["ruleId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.ruleType = try reader["ruleType"].readIfPresent()
+        value.ruleRevision = try reader["ruleRevision"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.organizationConfiguration = try reader["organizationConfiguration"].readIfPresent(with: ComputeOptimizerAutomationClientTypes.OrganizationConfiguration.read(from:))
+        value.priority = try reader["priority"].readIfPresent()
+        value.recommendedActionTypes = try reader["recommendedActionTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerAutomationClientTypes.RecommendedActionType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.schedule = try reader["schedule"].readIfPresent(with: ComputeOptimizerAutomationClientTypes.Schedule.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.createdTimestamp = try reader["createdTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTimestamp = try reader["lastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension ComputeOptimizerAutomationClientTypes.TimePeriod {
+extension ComputeOptimizerAutomationClientTypes.Criteria {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.TimePeriod {
+    static func write(value: ComputeOptimizerAutomationClientTypes.Criteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ebsVolumeSizeInGib"].writeList(value.ebsVolumeSizeInGib, memberWritingClosure: ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ebsVolumeType"].writeList(value.ebsVolumeType, memberWritingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["estimatedMonthlySavings"].writeList(value.estimatedMonthlySavings, memberWritingClosure: ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["lookBackPeriodInDays"].writeList(value.lookBackPeriodInDays, memberWritingClosure: ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["region"].writeList(value.region, memberWritingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resourceArn"].writeList(value.resourceArn, memberWritingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resourceTag"].writeList(value.resourceTag, memberWritingClosure: ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["restartNeeded"].writeList(value.restartNeeded, memberWritingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.Criteria {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerAutomationClientTypes.TimePeriod()
-        value.startTimeInclusive = try reader["startTimeInclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTimeExclusive = try reader["endTimeExclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = ComputeOptimizerAutomationClientTypes.Criteria()
+        value.region = try reader["region"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceArn = try reader["resourceArn"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ebsVolumeType = try reader["ebsVolumeType"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ebsVolumeSizeInGib = try reader["ebsVolumeSizeInGib"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceTag = try reader["resourceTag"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lookBackPeriodInDays = try reader["lookBackPeriodInDays"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.restartNeeded = try reader["restartNeeded"].readListIfPresent(memberReadingClosure: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension ComputeOptimizerAutomationClientTypes.SummaryDimension {
+extension ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.SummaryDimension {
+    static func write(value: ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comparison"].write(value.comparison)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerAutomationClientTypes.SummaryDimension()
-        value.key = try reader["key"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["value"].readIfPresent() ?? ""
+        var value = ComputeOptimizerAutomationClientTypes.DoubleCriteriaCondition()
+        value.comparison = try reader["comparison"].readIfPresent()
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes.EbsVolume {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.EbsVolume {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerAutomationClientTypes.EbsVolume()
+        value.configuration = try reader["configuration"].readIfPresent(with: ComputeOptimizerAutomationClientTypes.EbsVolumeConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes.EbsVolumeConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.EbsVolumeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerAutomationClientTypes.EbsVolumeConfiguration()
+        value.type = try reader["type"].readIfPresent()
+        value.sizeInGib = try reader["sizeInGib"].readIfPresent()
+        value.iops = try reader["iops"].readIfPresent()
+        value.throughput = try reader["throughput"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes.EstimatedMonthlySavings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.EstimatedMonthlySavings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerAutomationClientTypes.EstimatedMonthlySavings()
+        value.currency = try reader["currency"].readIfPresent() ?? ""
+        value.beforeDiscountSavings = try reader["beforeDiscountSavings"].readIfPresent() ?? 0.0
+        value.afterDiscountSavings = try reader["afterDiscountSavings"].readIfPresent() ?? 0.0
+        value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes.Filter {
+
+    static func write(value: ComputeOptimizerAutomationClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition {
+
+    static func write(value: ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comparison"].write(value.comparison)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerAutomationClientTypes.IntegerCriteriaCondition()
+        value.comparison = try reader["comparison"].readIfPresent()
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes.OrganizationConfiguration {
+
+    static func write(value: ComputeOptimizerAutomationClientTypes.OrganizationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ruleApplyOrder"].write(value.ruleApplyOrder)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.OrganizationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerAutomationClientTypes.OrganizationConfiguration()
+        value.ruleApplyOrder = try reader["ruleApplyOrder"].readIfPresent()
+        value.accountIds = try reader["accountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes.OrganizationScope {
+
+    static func write(value: ComputeOptimizerAutomationClientTypes.OrganizationScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4530,43 +4497,6 @@ extension ComputeOptimizerAutomationClientTypes.PreviewResult {
     }
 }
 
-extension ComputeOptimizerAutomationClientTypes.ResourceDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.ResourceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "ebsVolume":
-                return .ebsvolume(try reader["ebsVolume"].read(with: ComputeOptimizerAutomationClientTypes.EbsVolume.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension ComputeOptimizerAutomationClientTypes.EbsVolume {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.EbsVolume {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerAutomationClientTypes.EbsVolume()
-        value.configuration = try reader["configuration"].readIfPresent(with: ComputeOptimizerAutomationClientTypes.EbsVolumeConfiguration.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerAutomationClientTypes.EbsVolumeConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.EbsVolumeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerAutomationClientTypes.EbsVolumeConfiguration()
-        value.type = try reader["type"].readIfPresent()
-        value.sizeInGib = try reader["sizeInGib"].readIfPresent()
-        value.iops = try reader["iops"].readIfPresent()
-        value.throughput = try reader["throughput"].readIfPresent()
-        return value
-    }
-}
-
 extension ComputeOptimizerAutomationClientTypes.PreviewResultSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.PreviewResultSummary {
@@ -4574,40 +4504,6 @@ extension ComputeOptimizerAutomationClientTypes.PreviewResultSummary {
         var value = ComputeOptimizerAutomationClientTypes.PreviewResultSummary()
         value.key = try reader["key"].readIfPresent() ?? ""
         value.total = try reader["total"].readIfPresent(with: ComputeOptimizerAutomationClientTypes.RulePreviewTotal.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerAutomationClientTypes.RulePreviewTotal {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.RulePreviewTotal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerAutomationClientTypes.RulePreviewTotal()
-        value.recommendedActionCount = try reader["recommendedActionCount"].readIfPresent() ?? 0
-        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerAutomationClientTypes.EstimatedMonthlySavings.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerAutomationClientTypes.AutomationRule {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.AutomationRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerAutomationClientTypes.AutomationRule()
-        value.ruleArn = try reader["ruleArn"].readIfPresent()
-        value.ruleId = try reader["ruleId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.ruleType = try reader["ruleType"].readIfPresent()
-        value.ruleRevision = try reader["ruleRevision"].readIfPresent()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.organizationConfiguration = try reader["organizationConfiguration"].readIfPresent(with: ComputeOptimizerAutomationClientTypes.OrganizationConfiguration.read(from:))
-        value.priority = try reader["priority"].readIfPresent()
-        value.recommendedActionTypes = try reader["recommendedActionTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerAutomationClientTypes.RecommendedActionType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.schedule = try reader["schedule"].readIfPresent(with: ComputeOptimizerAutomationClientTypes.Schedule.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        value.createdTimestamp = try reader["createdTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTimestamp = try reader["lastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -4636,6 +4532,15 @@ extension ComputeOptimizerAutomationClientTypes.RecommendedAction {
     }
 }
 
+extension ComputeOptimizerAutomationClientTypes.RecommendedActionFilter {
+
+    static func write(value: ComputeOptimizerAutomationClientTypes.RecommendedActionFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ComputeOptimizerAutomationClientTypes.RecommendedActionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.RecommendedActionSummary {
@@ -4658,38 +4563,133 @@ extension ComputeOptimizerAutomationClientTypes.RecommendedActionTotal {
     }
 }
 
-extension ComputeOptimizerAutomationClientTypes.AutomationEventFilter {
+extension ComputeOptimizerAutomationClientTypes.ResourceDetails {
 
-    static func write(value: ComputeOptimizerAutomationClientTypes.AutomationEventFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.ResourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "ebsVolume":
+                return .ebsvolume(try reader["ebsVolume"].read(with: ComputeOptimizerAutomationClientTypes.EbsVolume.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
-extension ComputeOptimizerAutomationClientTypes.OrganizationScope {
+extension ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition {
 
-    static func write(value: ComputeOptimizerAutomationClientTypes.OrganizationScope?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["comparison"].write(value.comparison)
+        try writer["key"].write(value.key)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerAutomationClientTypes.ResourceTagsCriteriaCondition()
+        value.comparison = try reader["comparison"].readIfPresent()
+        value.key = try reader["key"].readIfPresent()
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension ComputeOptimizerAutomationClientTypes.Filter {
+extension ComputeOptimizerAutomationClientTypes.RulePreviewTotal {
 
-    static func write(value: ComputeOptimizerAutomationClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.RulePreviewTotal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerAutomationClientTypes.RulePreviewTotal()
+        value.recommendedActionCount = try reader["recommendedActionCount"].readIfPresent() ?? 0
+        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerAutomationClientTypes.EstimatedMonthlySavings.read(from:))
+        return value
     }
 }
 
-extension ComputeOptimizerAutomationClientTypes.RecommendedActionFilter {
+extension ComputeOptimizerAutomationClientTypes.Schedule {
 
-    static func write(value: ComputeOptimizerAutomationClientTypes.RecommendedActionFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerAutomationClientTypes.Schedule?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["name"].write(value.name)
+        try writer["executionWindowInMinutes"].write(value.executionWindowInMinutes)
+        try writer["scheduleExpression"].write(value.scheduleExpression)
+        try writer["scheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.Schedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerAutomationClientTypes.Schedule()
+        value.scheduleExpression = try reader["scheduleExpression"].readIfPresent()
+        value.scheduleExpressionTimezone = try reader["scheduleExpressionTimezone"].readIfPresent()
+        value.executionWindowInMinutes = try reader["executionWindowInMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes.StringCriteriaCondition {
+
+    static func write(value: ComputeOptimizerAutomationClientTypes.StringCriteriaCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comparison"].write(value.comparison)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.StringCriteriaCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerAutomationClientTypes.StringCriteriaCondition()
+        value.comparison = try reader["comparison"].readIfPresent()
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes.SummaryDimension {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.SummaryDimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerAutomationClientTypes.SummaryDimension()
+        value.key = try reader["key"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes.SummaryTotals {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.SummaryTotals {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerAutomationClientTypes.SummaryTotals()
+        value.automationEventCount = try reader["automationEventCount"].readIfPresent()
+        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerAutomationClientTypes.EstimatedMonthlySavings.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes.Tag {
+
+    static func write(value: ComputeOptimizerAutomationClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerAutomationClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ComputeOptimizerAutomationClientTypes.TimePeriod {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerAutomationClientTypes.TimePeriod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerAutomationClientTypes.TimePeriod()
+        value.startTimeInclusive = try reader["startTimeInclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTimeExclusive = try reader["endTimeExclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
     }
 }
 

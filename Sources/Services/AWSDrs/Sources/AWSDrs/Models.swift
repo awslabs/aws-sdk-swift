@@ -8419,197 +8419,27 @@ extension AccessDeniedException {
     }
 }
 
-extension DrsClientTypes.Job {
+extension DrsClientTypes.Account {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Job {
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Account {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.Job()
-        value.jobID = try reader["jobID"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.initiatedBy = try reader["initiatedBy"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
-        value.endDateTime = try reader["endDateTime"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.participatingServers = try reader["participatingServers"].readListIfPresent(memberReadingClosure: DrsClientTypes.ParticipatingServer.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.participatingResources = try reader["participatingResources"].readListIfPresent(memberReadingClosure: DrsClientTypes.ParticipatingResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = DrsClientTypes.Account()
+        value.accountID = try reader["accountID"].readIfPresent()
         return value
     }
 }
 
-extension DrsClientTypes.ParticipatingResource {
+extension DrsClientTypes.ConversionProperties {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ParticipatingResource {
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ConversionProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.ParticipatingResource()
-        value.participatingResourceID = try reader["participatingResourceID"].readIfPresent(with: DrsClientTypes.ParticipatingResourceID.read(from:))
-        value.launchStatus = try reader["launchStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.ParticipatingResourceID {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ParticipatingResourceID {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "sourceNetworkID":
-                return .sourcenetworkid(try reader["sourceNetworkID"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DrsClientTypes.ParticipatingServer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ParticipatingServer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.ParticipatingServer()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
-        value.recoveryInstanceID = try reader["recoveryInstanceID"].readIfPresent()
-        value.launchStatus = try reader["launchStatus"].readIfPresent()
-        value.launchActionsStatus = try reader["launchActionsStatus"].readIfPresent(with: DrsClientTypes.LaunchActionsStatus.read(from:))
-        return value
-    }
-}
-
-extension DrsClientTypes.LaunchActionsStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchActionsStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LaunchActionsStatus()
-        value.ssmAgentDiscoveryDatetime = try reader["ssmAgentDiscoveryDatetime"].readIfPresent()
-        value.runs = try reader["runs"].readListIfPresent(memberReadingClosure: DrsClientTypes.LaunchActionRun.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DrsClientTypes.LaunchActionRun {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchActionRun {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LaunchActionRun()
-        value.action = try reader["action"].readIfPresent(with: DrsClientTypes.LaunchAction.read(from:))
-        value.runId = try reader["runId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.LaunchAction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LaunchAction()
-        value.actionId = try reader["actionId"].readIfPresent()
-        value.actionCode = try reader["actionCode"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.active = try reader["active"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        value.actionVersion = try reader["actionVersion"].readIfPresent()
-        value.`optional` = try reader["optional"].readIfPresent()
-        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DrsClientTypes.LaunchActionParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.description = try reader["description"].readIfPresent()
-        value.category = try reader["category"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.LaunchActionParameter {
-
-    static func write(value: DrsClientTypes.LaunchActionParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchActionParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LaunchActionParameter()
-        value.value = try reader["value"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.SourceServer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceServer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.SourceServer()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.recoveryInstanceId = try reader["recoveryInstanceId"].readIfPresent()
-        value.lastLaunchResult = try reader["lastLaunchResult"].readIfPresent()
-        value.dataReplicationInfo = try reader["dataReplicationInfo"].readIfPresent(with: DrsClientTypes.DataReplicationInfo.read(from:))
-        value.lifeCycle = try reader["lifeCycle"].readIfPresent(with: DrsClientTypes.LifeCycle.read(from:))
-        value.sourceProperties = try reader["sourceProperties"].readIfPresent(with: DrsClientTypes.SourceProperties.read(from:))
-        value.stagingArea = try reader["stagingArea"].readIfPresent(with: DrsClientTypes.StagingArea.read(from:))
-        value.sourceCloudProperties = try reader["sourceCloudProperties"].readIfPresent(with: DrsClientTypes.SourceCloudProperties.read(from:))
-        value.replicationDirection = try reader["replicationDirection"].readIfPresent()
-        value.reversedDirectionSourceServerArn = try reader["reversedDirectionSourceServerArn"].readIfPresent()
-        value.sourceNetworkID = try reader["sourceNetworkID"].readIfPresent()
-        value.agentVersion = try reader["agentVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.SourceCloudProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceCloudProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.SourceCloudProperties()
-        value.originAccountID = try reader["originAccountID"].readIfPresent()
-        value.originRegion = try reader["originRegion"].readIfPresent()
-        value.originAvailabilityZone = try reader["originAvailabilityZone"].readIfPresent()
-        value.sourceOutpostArn = try reader["sourceOutpostArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.StagingArea {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.StagingArea {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.StagingArea()
-        value.status = try reader["status"].readIfPresent()
-        value.stagingAccountID = try reader["stagingAccountID"].readIfPresent()
-        value.stagingSourceServerArn = try reader["stagingSourceServerArn"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.SourceProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.SourceProperties()
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readIfPresent()
-        value.recommendedInstanceType = try reader["recommendedInstanceType"].readIfPresent()
-        value.identificationHints = try reader["identificationHints"].readIfPresent(with: DrsClientTypes.IdentificationHints.read(from:))
-        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: DrsClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.disks = try reader["disks"].readListIfPresent(memberReadingClosure: DrsClientTypes.Disk.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cpus = try reader["cpus"].readListIfPresent(memberReadingClosure: DrsClientTypes.CPU.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ramBytes = try reader["ramBytes"].readIfPresent() ?? 0
-        value.os = try reader["os"].readIfPresent(with: DrsClientTypes.OS.read(from:))
-        value.supportsNitroInstances = try reader["supportsNitroInstances"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.OS {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.OS {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.OS()
-        value.fullString = try reader["fullString"].readIfPresent()
+        var value = DrsClientTypes.ConversionProperties()
+        value.volumeToConversionMap = try reader["volumeToConversionMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.rootVolumeName = try reader["rootVolumeName"].readIfPresent()
+        value.forceUefi = try reader["forceUefi"].readIfPresent()
+        value.dataTimestamp = try reader["dataTimestamp"].readIfPresent()
+        value.volumeToVolumeSize = try reader["volumeToVolumeSize"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.volumeToProductCodes = try reader["volumeToProductCodes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: DrsClientTypes.ProductCode.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -8625,75 +8455,13 @@ extension DrsClientTypes.CPU {
     }
 }
 
-extension DrsClientTypes.Disk {
+extension DrsClientTypes.DataReplicationError {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Disk {
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DataReplicationError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.Disk()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        value.bytes = try reader["bytes"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension DrsClientTypes.NetworkInterface {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.NetworkInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.NetworkInterface()
-        value.macAddress = try reader["macAddress"].readIfPresent()
-        value.ips = try reader["ips"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isPrimary = try reader["isPrimary"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.IdentificationHints {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.IdentificationHints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.IdentificationHints()
-        value.fqdn = try reader["fqdn"].readIfPresent()
-        value.hostname = try reader["hostname"].readIfPresent()
-        value.vmWareUuid = try reader["vmWareUuid"].readIfPresent()
-        value.awsInstanceID = try reader["awsInstanceID"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.LifeCycle {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LifeCycle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LifeCycle()
-        value.addedToServiceDateTime = try reader["addedToServiceDateTime"].readIfPresent()
-        value.firstByteDateTime = try reader["firstByteDateTime"].readIfPresent()
-        value.elapsedReplicationDuration = try reader["elapsedReplicationDuration"].readIfPresent()
-        value.lastSeenByServiceDateTime = try reader["lastSeenByServiceDateTime"].readIfPresent()
-        value.lastLaunch = try reader["lastLaunch"].readIfPresent(with: DrsClientTypes.LifeCycleLastLaunch.read(from:))
-        return value
-    }
-}
-
-extension DrsClientTypes.LifeCycleLastLaunch {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LifeCycleLastLaunch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LifeCycleLastLaunch()
-        value.initiated = try reader["initiated"].readIfPresent(with: DrsClientTypes.LifeCycleLastLaunchInitiated.read(from:))
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.LifeCycleLastLaunchInitiated {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LifeCycleLastLaunchInitiated {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LifeCycleLastLaunchInitiated()
-        value.apiCallDateTime = try reader["apiCallDateTime"].readIfPresent()
-        value.jobID = try reader["jobID"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
+        var value = DrsClientTypes.DataReplicationError()
+        value.error = try reader["error"].readIfPresent()
+        value.rawError = try reader["rawError"].readIfPresent()
         return value
     }
 }
@@ -8715,13 +8483,17 @@ extension DrsClientTypes.DataReplicationInfo {
     }
 }
 
-extension DrsClientTypes.DataReplicationError {
+extension DrsClientTypes.DataReplicationInfoReplicatedDisk {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DataReplicationError {
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DataReplicationInfoReplicatedDisk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.DataReplicationError()
-        value.error = try reader["error"].readIfPresent()
-        value.rawError = try reader["rawError"].readIfPresent()
+        var value = DrsClientTypes.DataReplicationInfoReplicatedDisk()
+        value.deviceName = try reader["deviceName"].readIfPresent()
+        value.totalStorageBytes = try reader["totalStorageBytes"].readIfPresent() ?? 0
+        value.replicatedStorageBytes = try reader["replicatedStorageBytes"].readIfPresent() ?? 0
+        value.rescannedStorageBytes = try reader["rescannedStorageBytes"].readIfPresent() ?? 0
+        value.backloggedStorageBytes = try reader["backloggedStorageBytes"].readIfPresent() ?? 0
+        value.volumeStatus = try reader["volumeStatus"].readIfPresent()
         return value
     }
 }
@@ -8745,440 +8517,6 @@ extension DrsClientTypes.DataReplicationInitiationStep {
         var value = DrsClientTypes.DataReplicationInitiationStep()
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.DataReplicationInfoReplicatedDisk {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.DataReplicationInfoReplicatedDisk {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.DataReplicationInfoReplicatedDisk()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        value.totalStorageBytes = try reader["totalStorageBytes"].readIfPresent() ?? 0
-        value.replicatedStorageBytes = try reader["replicatedStorageBytes"].readIfPresent() ?? 0
-        value.rescannedStorageBytes = try reader["rescannedStorageBytes"].readIfPresent() ?? 0
-        value.backloggedStorageBytes = try reader["backloggedStorageBytes"].readIfPresent() ?? 0
-        value.volumeStatus = try reader["volumeStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.LaunchConfigurationTemplate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchConfigurationTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LaunchConfigurationTemplate()
-        value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.launchDisposition = try reader["launchDisposition"].readIfPresent()
-        value.targetInstanceTypeRightSizingMethod = try reader["targetInstanceTypeRightSizingMethod"].readIfPresent()
-        value.copyPrivateIp = try reader["copyPrivateIp"].readIfPresent()
-        value.copyTags = try reader["copyTags"].readIfPresent()
-        value.licensing = try reader["licensing"].readIfPresent(with: DrsClientTypes.Licensing.read(from:))
-        value.exportBucketArn = try reader["exportBucketArn"].readIfPresent()
-        value.postLaunchEnabled = try reader["postLaunchEnabled"].readIfPresent()
-        value.launchIntoSourceInstance = try reader["launchIntoSourceInstance"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.Licensing {
-
-    static func write(value: DrsClientTypes.Licensing?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["osByol"].write(value.osByol)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Licensing {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.Licensing()
-        value.osByol = try reader["osByol"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.PITPolicyRule {
-
-    static func write(value: DrsClientTypes.PITPolicyRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-        try writer["interval"].write(value.interval)
-        try writer["retentionDuration"].write(value.retentionDuration)
-        try writer["ruleID"].write(value.ruleID)
-        try writer["units"].write(value.units)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.PITPolicyRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.PITPolicyRule()
-        value.ruleID = try reader["ruleID"].readIfPresent() ?? 0
-        value.units = try reader["units"].readIfPresent() ?? .sdkUnknown("")
-        value.interval = try reader["interval"].readIfPresent() ?? 0
-        value.retentionDuration = try reader["retentionDuration"].readIfPresent() ?? 0
-        value.enabled = try reader["enabled"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.JobLog {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.JobLog {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.JobLog()
-        value.logDateTime = try reader["logDateTime"].readIfPresent()
-        value.event = try reader["event"].readIfPresent()
-        value.eventData = try reader["eventData"].readIfPresent(with: DrsClientTypes.JobLogEventData.read(from:))
-        return value
-    }
-}
-
-extension DrsClientTypes.JobLogEventData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.JobLogEventData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.JobLogEventData()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
-        value.conversionServerID = try reader["conversionServerID"].readIfPresent()
-        value.targetInstanceID = try reader["targetInstanceID"].readIfPresent()
-        value.rawError = try reader["rawError"].readIfPresent()
-        value.conversionProperties = try reader["conversionProperties"].readIfPresent(with: DrsClientTypes.ConversionProperties.read(from:))
-        value.eventResourceData = try reader["eventResourceData"].readIfPresent(with: DrsClientTypes.EventResourceData.read(from:))
-        return value
-    }
-}
-
-extension DrsClientTypes.EventResourceData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.EventResourceData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "sourceNetworkData":
-                return .sourcenetworkdata(try reader["sourceNetworkData"].read(with: DrsClientTypes.SourceNetworkData.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DrsClientTypes.SourceNetworkData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceNetworkData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.SourceNetworkData()
-        value.sourceNetworkID = try reader["sourceNetworkID"].readIfPresent()
-        value.sourceVpc = try reader["sourceVpc"].readIfPresent()
-        value.targetVpc = try reader["targetVpc"].readIfPresent()
-        value.stackName = try reader["stackName"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.ConversionProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ConversionProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.ConversionProperties()
-        value.volumeToConversionMap = try reader["volumeToConversionMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.rootVolumeName = try reader["rootVolumeName"].readIfPresent()
-        value.forceUefi = try reader["forceUefi"].readIfPresent()
-        value.dataTimestamp = try reader["dataTimestamp"].readIfPresent()
-        value.volumeToVolumeSize = try reader["volumeToVolumeSize"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.volumeToProductCodes = try reader["volumeToProductCodes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: DrsClientTypes.ProductCode.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension DrsClientTypes.ProductCode {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ProductCode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.ProductCode()
-        value.productCodeId = try reader["productCodeId"].readIfPresent()
-        value.productCodeMode = try reader["productCodeMode"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstance()
-        value.ec2InstanceID = try reader["ec2InstanceID"].readIfPresent()
-        value.ec2InstanceState = try reader["ec2InstanceState"].readIfPresent()
-        value.jobID = try reader["jobID"].readIfPresent()
-        value.recoveryInstanceID = try reader["recoveryInstanceID"].readIfPresent()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.failback = try reader["failback"].readIfPresent(with: DrsClientTypes.RecoveryInstanceFailback.read(from:))
-        value.dataReplicationInfo = try reader["dataReplicationInfo"].readIfPresent(with: DrsClientTypes.RecoveryInstanceDataReplicationInfo.read(from:))
-        value.recoveryInstanceProperties = try reader["recoveryInstanceProperties"].readIfPresent(with: DrsClientTypes.RecoveryInstanceProperties.read(from:))
-        value.pointInTimeSnapshotDateTime = try reader["pointInTimeSnapshotDateTime"].readIfPresent()
-        value.isDrill = try reader["isDrill"].readIfPresent()
-        value.originEnvironment = try reader["originEnvironment"].readIfPresent()
-        value.originAvailabilityZone = try reader["originAvailabilityZone"].readIfPresent()
-        value.agentVersion = try reader["agentVersion"].readIfPresent()
-        value.sourceOutpostArn = try reader["sourceOutpostArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstanceProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstanceProperties()
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readIfPresent()
-        value.identificationHints = try reader["identificationHints"].readIfPresent(with: DrsClientTypes.IdentificationHints.read(from:))
-        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: DrsClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.disks = try reader["disks"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryInstanceDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cpus = try reader["cpus"].readListIfPresent(memberReadingClosure: DrsClientTypes.CPU.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ramBytes = try reader["ramBytes"].readIfPresent() ?? 0
-        value.os = try reader["os"].readIfPresent(with: DrsClientTypes.OS.read(from:))
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstanceDisk {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDisk {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstanceDisk()
-        value.internalDeviceName = try reader["internalDeviceName"].readIfPresent()
-        value.bytes = try reader["bytes"].readIfPresent() ?? 0
-        value.ebsVolumeID = try reader["ebsVolumeID"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstanceDataReplicationInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstanceDataReplicationInfo()
-        value.lagDuration = try reader["lagDuration"].readIfPresent()
-        value.etaDateTime = try reader["etaDateTime"].readIfPresent()
-        value.replicatedDisks = try reader["replicatedDisks"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dataReplicationState = try reader["dataReplicationState"].readIfPresent()
-        value.dataReplicationInitiation = try reader["dataReplicationInitiation"].readIfPresent(with: DrsClientTypes.RecoveryInstanceDataReplicationInitiation.read(from:))
-        value.dataReplicationError = try reader["dataReplicationError"].readIfPresent(with: DrsClientTypes.RecoveryInstanceDataReplicationError.read(from:))
-        value.stagingAvailabilityZone = try reader["stagingAvailabilityZone"].readIfPresent()
-        value.stagingOutpostArn = try reader["stagingOutpostArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstanceDataReplicationError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstanceDataReplicationError()
-        value.error = try reader["error"].readIfPresent()
-        value.rawError = try reader["rawError"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstanceDataReplicationInitiation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInitiation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstanceDataReplicationInitiation()
-        value.startDateTime = try reader["startDateTime"].readIfPresent()
-        value.steps = try reader["steps"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        value.totalStorageBytes = try reader["totalStorageBytes"].readIfPresent() ?? 0
-        value.replicatedStorageBytes = try reader["replicatedStorageBytes"].readIfPresent() ?? 0
-        value.rescannedStorageBytes = try reader["rescannedStorageBytes"].readIfPresent() ?? 0
-        value.backloggedStorageBytes = try reader["backloggedStorageBytes"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryInstanceFailback {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceFailback {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryInstanceFailback()
-        value.failbackClientID = try reader["failbackClientID"].readIfPresent()
-        value.failbackJobID = try reader["failbackJobID"].readIfPresent()
-        value.failbackInitiationTime = try reader["failbackInitiationTime"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        value.agentLastSeenByServiceDateTime = try reader["agentLastSeenByServiceDateTime"].readIfPresent()
-        value.failbackClientLastSeenByServiceDateTime = try reader["failbackClientLastSeenByServiceDateTime"].readIfPresent()
-        value.failbackToOriginalServer = try reader["failbackToOriginalServer"].readIfPresent()
-        value.firstByteDateTime = try reader["firstByteDateTime"].readIfPresent()
-        value.elapsedReplicationDuration = try reader["elapsedReplicationDuration"].readIfPresent()
-        value.failbackLaunchType = try reader["failbackLaunchType"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoverySnapshot {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoverySnapshot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoverySnapshot()
-        value.snapshotID = try reader["snapshotID"].readIfPresent() ?? ""
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent() ?? ""
-        value.expectedTimestamp = try reader["expectedTimestamp"].readIfPresent() ?? ""
-        value.timestamp = try reader["timestamp"].readIfPresent()
-        value.ebsSnapshots = try reader["ebsSnapshots"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DrsClientTypes.ReplicationConfigurationTemplate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ReplicationConfigurationTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.ReplicationConfigurationTemplate()
-        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent()
-        value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
-        value.associateDefaultSecurityGroup = try reader["associateDefaultSecurityGroup"].readIfPresent()
-        value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
-        value.useDedicatedReplicationServer = try reader["useDedicatedReplicationServer"].readIfPresent()
-        value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
-        value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
-        value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
-        value.bandwidthThrottling = try reader["bandwidthThrottling"].readIfPresent() ?? 0
-        value.dataPlaneRouting = try reader["dataPlaneRouting"].readIfPresent()
-        value.createPublicIP = try reader["createPublicIP"].readIfPresent()
-        value.stagingAreaTags = try reader["stagingAreaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.pitPolicy = try reader["pitPolicy"].readListIfPresent(memberReadingClosure: DrsClientTypes.PITPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.autoReplicateNewDisks = try reader["autoReplicateNewDisks"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.SourceNetwork {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceNetwork {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.SourceNetwork()
-        value.sourceNetworkID = try reader["sourceNetworkID"].readIfPresent()
-        value.sourceVpcID = try reader["sourceVpcID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.replicationStatus = try reader["replicationStatus"].readIfPresent()
-        value.replicationStatusDetails = try reader["replicationStatusDetails"].readIfPresent()
-        value.cfnStackName = try reader["cfnStackName"].readIfPresent()
-        value.sourceRegion = try reader["sourceRegion"].readIfPresent()
-        value.sourceAccountID = try reader["sourceAccountID"].readIfPresent()
-        value.lastRecovery = try reader["lastRecovery"].readIfPresent(with: DrsClientTypes.RecoveryLifeCycle.read(from:))
-        value.launchedVpcID = try reader["launchedVpcID"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.RecoveryLifeCycle {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryLifeCycle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.RecoveryLifeCycle()
-        value.apiCallDateTime = try reader["apiCallDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.jobID = try reader["jobID"].readIfPresent()
-        value.lastRecoveryResult = try reader["lastRecoveryResult"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.LaunchIntoInstanceProperties {
-
-    static func write(value: DrsClientTypes.LaunchIntoInstanceProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["launchIntoEC2InstanceID"].write(value.launchIntoEC2InstanceID)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchIntoInstanceProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.LaunchIntoInstanceProperties()
-        value.launchIntoEC2InstanceID = try reader["launchIntoEC2InstanceID"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.ReplicationConfigurationReplicatedDisk {
-
-    static func write(value: DrsClientTypes.ReplicationConfigurationReplicatedDisk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deviceName"].write(value.deviceName)
-        try writer["iops"].write(value.iops)
-        try writer["isBootDisk"].write(value.isBootDisk)
-        try writer["optimizedStagingDiskType"].write(value.optimizedStagingDiskType)
-        try writer["stagingDiskType"].write(value.stagingDiskType)
-        try writer["throughput"].write(value.throughput)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ReplicationConfigurationReplicatedDisk {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.ReplicationConfigurationReplicatedDisk()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        value.isBootDisk = try reader["isBootDisk"].readIfPresent()
-        value.stagingDiskType = try reader["stagingDiskType"].readIfPresent()
-        value.iops = try reader["iops"].readIfPresent() ?? 0
-        value.throughput = try reader["throughput"].readIfPresent() ?? 0
-        value.optimizedStagingDiskType = try reader["optimizedStagingDiskType"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.StagingSourceServer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.StagingSourceServer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.StagingSourceServer()
-        value.hostname = try reader["hostname"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension DrsClientTypes.Account {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Account {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.Account()
-        value.accountID = try reader["accountID"].readIfPresent()
-        return value
-    }
-}
-
-extension DrsClientTypes.ValidationExceptionField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DrsClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -9231,11 +8569,662 @@ extension DrsClientTypes.DescribeSourceServersRequestFilters {
     }
 }
 
+extension DrsClientTypes.Disk {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Disk {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.Disk()
+        value.deviceName = try reader["deviceName"].readIfPresent()
+        value.bytes = try reader["bytes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DrsClientTypes.EventResourceData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.EventResourceData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "sourceNetworkData":
+                return .sourcenetworkdata(try reader["sourceNetworkData"].read(with: DrsClientTypes.SourceNetworkData.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DrsClientTypes.IdentificationHints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.IdentificationHints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.IdentificationHints()
+        value.fqdn = try reader["fqdn"].readIfPresent()
+        value.hostname = try reader["hostname"].readIfPresent()
+        value.vmWareUuid = try reader["vmWareUuid"].readIfPresent()
+        value.awsInstanceID = try reader["awsInstanceID"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.Job {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Job {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.Job()
+        value.jobID = try reader["jobID"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.initiatedBy = try reader["initiatedBy"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
+        value.endDateTime = try reader["endDateTime"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.participatingServers = try reader["participatingServers"].readListIfPresent(memberReadingClosure: DrsClientTypes.ParticipatingServer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.participatingResources = try reader["participatingResources"].readListIfPresent(memberReadingClosure: DrsClientTypes.ParticipatingResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DrsClientTypes.JobLog {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.JobLog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.JobLog()
+        value.logDateTime = try reader["logDateTime"].readIfPresent()
+        value.event = try reader["event"].readIfPresent()
+        value.eventData = try reader["eventData"].readIfPresent(with: DrsClientTypes.JobLogEventData.read(from:))
+        return value
+    }
+}
+
+extension DrsClientTypes.JobLogEventData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.JobLogEventData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.JobLogEventData()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
+        value.conversionServerID = try reader["conversionServerID"].readIfPresent()
+        value.targetInstanceID = try reader["targetInstanceID"].readIfPresent()
+        value.rawError = try reader["rawError"].readIfPresent()
+        value.conversionProperties = try reader["conversionProperties"].readIfPresent(with: DrsClientTypes.ConversionProperties.read(from:))
+        value.eventResourceData = try reader["eventResourceData"].readIfPresent(with: DrsClientTypes.EventResourceData.read(from:))
+        return value
+    }
+}
+
+extension DrsClientTypes.LaunchAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LaunchAction()
+        value.actionId = try reader["actionId"].readIfPresent()
+        value.actionCode = try reader["actionCode"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.active = try reader["active"].readIfPresent()
+        value.order = try reader["order"].readIfPresent()
+        value.actionVersion = try reader["actionVersion"].readIfPresent()
+        value.`optional` = try reader["optional"].readIfPresent()
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DrsClientTypes.LaunchActionParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.description = try reader["description"].readIfPresent()
+        value.category = try reader["category"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.LaunchActionParameter {
+
+    static func write(value: DrsClientTypes.LaunchActionParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchActionParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LaunchActionParameter()
+        value.value = try reader["value"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.LaunchActionRun {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchActionRun {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LaunchActionRun()
+        value.action = try reader["action"].readIfPresent(with: DrsClientTypes.LaunchAction.read(from:))
+        value.runId = try reader["runId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
 extension DrsClientTypes.LaunchActionsRequestFilters {
 
     static func write(value: DrsClientTypes.LaunchActionsRequestFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actionIds"].writeList(value.actionIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DrsClientTypes.LaunchActionsStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchActionsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LaunchActionsStatus()
+        value.ssmAgentDiscoveryDatetime = try reader["ssmAgentDiscoveryDatetime"].readIfPresent()
+        value.runs = try reader["runs"].readListIfPresent(memberReadingClosure: DrsClientTypes.LaunchActionRun.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DrsClientTypes.LaunchConfigurationTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchConfigurationTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LaunchConfigurationTemplate()
+        value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.launchDisposition = try reader["launchDisposition"].readIfPresent()
+        value.targetInstanceTypeRightSizingMethod = try reader["targetInstanceTypeRightSizingMethod"].readIfPresent()
+        value.copyPrivateIp = try reader["copyPrivateIp"].readIfPresent()
+        value.copyTags = try reader["copyTags"].readIfPresent()
+        value.licensing = try reader["licensing"].readIfPresent(with: DrsClientTypes.Licensing.read(from:))
+        value.exportBucketArn = try reader["exportBucketArn"].readIfPresent()
+        value.postLaunchEnabled = try reader["postLaunchEnabled"].readIfPresent()
+        value.launchIntoSourceInstance = try reader["launchIntoSourceInstance"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.LaunchIntoInstanceProperties {
+
+    static func write(value: DrsClientTypes.LaunchIntoInstanceProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["launchIntoEC2InstanceID"].write(value.launchIntoEC2InstanceID)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LaunchIntoInstanceProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LaunchIntoInstanceProperties()
+        value.launchIntoEC2InstanceID = try reader["launchIntoEC2InstanceID"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.Licensing {
+
+    static func write(value: DrsClientTypes.Licensing?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["osByol"].write(value.osByol)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.Licensing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.Licensing()
+        value.osByol = try reader["osByol"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.LifeCycle {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LifeCycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LifeCycle()
+        value.addedToServiceDateTime = try reader["addedToServiceDateTime"].readIfPresent()
+        value.firstByteDateTime = try reader["firstByteDateTime"].readIfPresent()
+        value.elapsedReplicationDuration = try reader["elapsedReplicationDuration"].readIfPresent()
+        value.lastSeenByServiceDateTime = try reader["lastSeenByServiceDateTime"].readIfPresent()
+        value.lastLaunch = try reader["lastLaunch"].readIfPresent(with: DrsClientTypes.LifeCycleLastLaunch.read(from:))
+        return value
+    }
+}
+
+extension DrsClientTypes.LifeCycleLastLaunch {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LifeCycleLastLaunch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LifeCycleLastLaunch()
+        value.initiated = try reader["initiated"].readIfPresent(with: DrsClientTypes.LifeCycleLastLaunchInitiated.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.LifeCycleLastLaunchInitiated {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.LifeCycleLastLaunchInitiated {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.LifeCycleLastLaunchInitiated()
+        value.apiCallDateTime = try reader["apiCallDateTime"].readIfPresent()
+        value.jobID = try reader["jobID"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.NetworkInterface {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.NetworkInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.NetworkInterface()
+        value.macAddress = try reader["macAddress"].readIfPresent()
+        value.ips = try reader["ips"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isPrimary = try reader["isPrimary"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.OS {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.OS {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.OS()
+        value.fullString = try reader["fullString"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.ParticipatingResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ParticipatingResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.ParticipatingResource()
+        value.participatingResourceID = try reader["participatingResourceID"].readIfPresent(with: DrsClientTypes.ParticipatingResourceID.read(from:))
+        value.launchStatus = try reader["launchStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.ParticipatingResourceID {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ParticipatingResourceID {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "sourceNetworkID":
+                return .sourcenetworkid(try reader["sourceNetworkID"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DrsClientTypes.ParticipatingServer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ParticipatingServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.ParticipatingServer()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
+        value.recoveryInstanceID = try reader["recoveryInstanceID"].readIfPresent()
+        value.launchStatus = try reader["launchStatus"].readIfPresent()
+        value.launchActionsStatus = try reader["launchActionsStatus"].readIfPresent(with: DrsClientTypes.LaunchActionsStatus.read(from:))
+        return value
+    }
+}
+
+extension DrsClientTypes.PITPolicyRule {
+
+    static func write(value: DrsClientTypes.PITPolicyRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["interval"].write(value.interval)
+        try writer["retentionDuration"].write(value.retentionDuration)
+        try writer["ruleID"].write(value.ruleID)
+        try writer["units"].write(value.units)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.PITPolicyRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.PITPolicyRule()
+        value.ruleID = try reader["ruleID"].readIfPresent() ?? 0
+        value.units = try reader["units"].readIfPresent() ?? .sdkUnknown("")
+        value.interval = try reader["interval"].readIfPresent() ?? 0
+        value.retentionDuration = try reader["retentionDuration"].readIfPresent() ?? 0
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.ProductCode {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ProductCode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.ProductCode()
+        value.productCodeId = try reader["productCodeId"].readIfPresent()
+        value.productCodeMode = try reader["productCodeMode"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstance()
+        value.ec2InstanceID = try reader["ec2InstanceID"].readIfPresent()
+        value.ec2InstanceState = try reader["ec2InstanceState"].readIfPresent()
+        value.jobID = try reader["jobID"].readIfPresent()
+        value.recoveryInstanceID = try reader["recoveryInstanceID"].readIfPresent()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.failback = try reader["failback"].readIfPresent(with: DrsClientTypes.RecoveryInstanceFailback.read(from:))
+        value.dataReplicationInfo = try reader["dataReplicationInfo"].readIfPresent(with: DrsClientTypes.RecoveryInstanceDataReplicationInfo.read(from:))
+        value.recoveryInstanceProperties = try reader["recoveryInstanceProperties"].readIfPresent(with: DrsClientTypes.RecoveryInstanceProperties.read(from:))
+        value.pointInTimeSnapshotDateTime = try reader["pointInTimeSnapshotDateTime"].readIfPresent()
+        value.isDrill = try reader["isDrill"].readIfPresent()
+        value.originEnvironment = try reader["originEnvironment"].readIfPresent()
+        value.originAvailabilityZone = try reader["originAvailabilityZone"].readIfPresent()
+        value.agentVersion = try reader["agentVersion"].readIfPresent()
+        value.sourceOutpostArn = try reader["sourceOutpostArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstanceDataReplicationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstanceDataReplicationError()
+        value.error = try reader["error"].readIfPresent()
+        value.rawError = try reader["rawError"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstanceDataReplicationInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstanceDataReplicationInfo()
+        value.lagDuration = try reader["lagDuration"].readIfPresent()
+        value.etaDateTime = try reader["etaDateTime"].readIfPresent()
+        value.replicatedDisks = try reader["replicatedDisks"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataReplicationState = try reader["dataReplicationState"].readIfPresent()
+        value.dataReplicationInitiation = try reader["dataReplicationInitiation"].readIfPresent(with: DrsClientTypes.RecoveryInstanceDataReplicationInitiation.read(from:))
+        value.dataReplicationError = try reader["dataReplicationError"].readIfPresent(with: DrsClientTypes.RecoveryInstanceDataReplicationError.read(from:))
+        value.stagingAvailabilityZone = try reader["stagingAvailabilityZone"].readIfPresent()
+        value.stagingOutpostArn = try reader["stagingOutpostArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk()
+        value.deviceName = try reader["deviceName"].readIfPresent()
+        value.totalStorageBytes = try reader["totalStorageBytes"].readIfPresent() ?? 0
+        value.replicatedStorageBytes = try reader["replicatedStorageBytes"].readIfPresent() ?? 0
+        value.rescannedStorageBytes = try reader["rescannedStorageBytes"].readIfPresent() ?? 0
+        value.backloggedStorageBytes = try reader["backloggedStorageBytes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstanceDataReplicationInitiation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInitiation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstanceDataReplicationInitiation()
+        value.startDateTime = try reader["startDateTime"].readIfPresent()
+        value.steps = try reader["steps"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep()
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstanceDisk {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceDisk {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstanceDisk()
+        value.internalDeviceName = try reader["internalDeviceName"].readIfPresent()
+        value.bytes = try reader["bytes"].readIfPresent() ?? 0
+        value.ebsVolumeID = try reader["ebsVolumeID"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstanceFailback {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceFailback {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstanceFailback()
+        value.failbackClientID = try reader["failbackClientID"].readIfPresent()
+        value.failbackJobID = try reader["failbackJobID"].readIfPresent()
+        value.failbackInitiationTime = try reader["failbackInitiationTime"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.agentLastSeenByServiceDateTime = try reader["agentLastSeenByServiceDateTime"].readIfPresent()
+        value.failbackClientLastSeenByServiceDateTime = try reader["failbackClientLastSeenByServiceDateTime"].readIfPresent()
+        value.failbackToOriginalServer = try reader["failbackToOriginalServer"].readIfPresent()
+        value.firstByteDateTime = try reader["firstByteDateTime"].readIfPresent()
+        value.elapsedReplicationDuration = try reader["elapsedReplicationDuration"].readIfPresent()
+        value.failbackLaunchType = try reader["failbackLaunchType"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryInstanceProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryInstanceProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryInstanceProperties()
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readIfPresent()
+        value.identificationHints = try reader["identificationHints"].readIfPresent(with: DrsClientTypes.IdentificationHints.read(from:))
+        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: DrsClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.disks = try reader["disks"].readListIfPresent(memberReadingClosure: DrsClientTypes.RecoveryInstanceDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cpus = try reader["cpus"].readListIfPresent(memberReadingClosure: DrsClientTypes.CPU.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ramBytes = try reader["ramBytes"].readIfPresent() ?? 0
+        value.os = try reader["os"].readIfPresent(with: DrsClientTypes.OS.read(from:))
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoveryLifeCycle {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoveryLifeCycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoveryLifeCycle()
+        value.apiCallDateTime = try reader["apiCallDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.jobID = try reader["jobID"].readIfPresent()
+        value.lastRecoveryResult = try reader["lastRecoveryResult"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.RecoverySnapshot {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.RecoverySnapshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.RecoverySnapshot()
+        value.snapshotID = try reader["snapshotID"].readIfPresent() ?? ""
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent() ?? ""
+        value.expectedTimestamp = try reader["expectedTimestamp"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readIfPresent()
+        value.ebsSnapshots = try reader["ebsSnapshots"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DrsClientTypes.ReplicationConfigurationReplicatedDisk {
+
+    static func write(value: DrsClientTypes.ReplicationConfigurationReplicatedDisk?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deviceName"].write(value.deviceName)
+        try writer["iops"].write(value.iops)
+        try writer["isBootDisk"].write(value.isBootDisk)
+        try writer["optimizedStagingDiskType"].write(value.optimizedStagingDiskType)
+        try writer["stagingDiskType"].write(value.stagingDiskType)
+        try writer["throughput"].write(value.throughput)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ReplicationConfigurationReplicatedDisk {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.ReplicationConfigurationReplicatedDisk()
+        value.deviceName = try reader["deviceName"].readIfPresent()
+        value.isBootDisk = try reader["isBootDisk"].readIfPresent()
+        value.stagingDiskType = try reader["stagingDiskType"].readIfPresent()
+        value.iops = try reader["iops"].readIfPresent() ?? 0
+        value.throughput = try reader["throughput"].readIfPresent() ?? 0
+        value.optimizedStagingDiskType = try reader["optimizedStagingDiskType"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.ReplicationConfigurationTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ReplicationConfigurationTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.ReplicationConfigurationTemplate()
+        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent()
+        value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
+        value.associateDefaultSecurityGroup = try reader["associateDefaultSecurityGroup"].readIfPresent()
+        value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
+        value.useDedicatedReplicationServer = try reader["useDedicatedReplicationServer"].readIfPresent()
+        value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
+        value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
+        value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
+        value.bandwidthThrottling = try reader["bandwidthThrottling"].readIfPresent() ?? 0
+        value.dataPlaneRouting = try reader["dataPlaneRouting"].readIfPresent()
+        value.createPublicIP = try reader["createPublicIP"].readIfPresent()
+        value.stagingAreaTags = try reader["stagingAreaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.pitPolicy = try reader["pitPolicy"].readListIfPresent(memberReadingClosure: DrsClientTypes.PITPolicyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.autoReplicateNewDisks = try reader["autoReplicateNewDisks"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.SourceCloudProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceCloudProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.SourceCloudProperties()
+        value.originAccountID = try reader["originAccountID"].readIfPresent()
+        value.originRegion = try reader["originRegion"].readIfPresent()
+        value.originAvailabilityZone = try reader["originAvailabilityZone"].readIfPresent()
+        value.sourceOutpostArn = try reader["sourceOutpostArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.SourceNetwork {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceNetwork {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.SourceNetwork()
+        value.sourceNetworkID = try reader["sourceNetworkID"].readIfPresent()
+        value.sourceVpcID = try reader["sourceVpcID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.replicationStatus = try reader["replicationStatus"].readIfPresent()
+        value.replicationStatusDetails = try reader["replicationStatusDetails"].readIfPresent()
+        value.cfnStackName = try reader["cfnStackName"].readIfPresent()
+        value.sourceRegion = try reader["sourceRegion"].readIfPresent()
+        value.sourceAccountID = try reader["sourceAccountID"].readIfPresent()
+        value.lastRecovery = try reader["lastRecovery"].readIfPresent(with: DrsClientTypes.RecoveryLifeCycle.read(from:))
+        value.launchedVpcID = try reader["launchedVpcID"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.SourceNetworkData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceNetworkData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.SourceNetworkData()
+        value.sourceNetworkID = try reader["sourceNetworkID"].readIfPresent()
+        value.sourceVpc = try reader["sourceVpc"].readIfPresent()
+        value.targetVpc = try reader["targetVpc"].readIfPresent()
+        value.stackName = try reader["stackName"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.SourceProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.SourceProperties()
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readIfPresent()
+        value.recommendedInstanceType = try reader["recommendedInstanceType"].readIfPresent()
+        value.identificationHints = try reader["identificationHints"].readIfPresent(with: DrsClientTypes.IdentificationHints.read(from:))
+        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: DrsClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.disks = try reader["disks"].readListIfPresent(memberReadingClosure: DrsClientTypes.Disk.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cpus = try reader["cpus"].readListIfPresent(memberReadingClosure: DrsClientTypes.CPU.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ramBytes = try reader["ramBytes"].readIfPresent() ?? 0
+        value.os = try reader["os"].readIfPresent(with: DrsClientTypes.OS.read(from:))
+        value.supportsNitroInstances = try reader["supportsNitroInstances"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.SourceServer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.SourceServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.SourceServer()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.recoveryInstanceId = try reader["recoveryInstanceId"].readIfPresent()
+        value.lastLaunchResult = try reader["lastLaunchResult"].readIfPresent()
+        value.dataReplicationInfo = try reader["dataReplicationInfo"].readIfPresent(with: DrsClientTypes.DataReplicationInfo.read(from:))
+        value.lifeCycle = try reader["lifeCycle"].readIfPresent(with: DrsClientTypes.LifeCycle.read(from:))
+        value.sourceProperties = try reader["sourceProperties"].readIfPresent(with: DrsClientTypes.SourceProperties.read(from:))
+        value.stagingArea = try reader["stagingArea"].readIfPresent(with: DrsClientTypes.StagingArea.read(from:))
+        value.sourceCloudProperties = try reader["sourceCloudProperties"].readIfPresent(with: DrsClientTypes.SourceCloudProperties.read(from:))
+        value.replicationDirection = try reader["replicationDirection"].readIfPresent()
+        value.reversedDirectionSourceServerArn = try reader["reversedDirectionSourceServerArn"].readIfPresent()
+        value.sourceNetworkID = try reader["sourceNetworkID"].readIfPresent()
+        value.agentVersion = try reader["agentVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.StagingArea {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.StagingArea {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.StagingArea()
+        value.status = try reader["status"].readIfPresent()
+        value.stagingAccountID = try reader["stagingAccountID"].readIfPresent()
+        value.stagingSourceServerArn = try reader["stagingSourceServerArn"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension DrsClientTypes.StagingSourceServer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.StagingSourceServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.StagingSourceServer()
+        value.hostname = try reader["hostname"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 
@@ -9254,6 +9243,17 @@ extension DrsClientTypes.StartSourceNetworkRecoveryRequestNetworkEntry {
         guard let value else { return }
         try writer["cfnStackName"].write(value.cfnStackName)
         try writer["sourceNetworkID"].write(value.sourceNetworkID)
+    }
+}
+
+extension DrsClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DrsClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DrsClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
     }
 }
 

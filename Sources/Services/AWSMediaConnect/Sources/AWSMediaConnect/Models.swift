@@ -639,7 +639,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Information about the encryption of the flow.
+    /// Encryption information.
     public struct Encryption: Swift.Sendable {
         /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
         public var algorithm: MediaConnectClientTypes.Algorithm?
@@ -910,12 +910,12 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// The configuration settings for transit encryption using AWS Secrets Manager, including the secret ARN and role ARN.
+    /// The configuration settings for transit encryption using Secrets Manager, including the secret ARN and role ARN.
     public struct SecretsManagerEncryptionKeyConfiguration: Swift.Sendable {
-        /// The ARN of the IAM role assumed by MediaConnect to access the AWS Secrets Manager secret.
+        /// The ARN of the IAM role assumed by MediaConnect to access the Secrets Manager secret.
         /// This member is required.
         public var roleArn: Swift.String?
-        /// The ARN of the AWS Secrets Manager secret used for transit encryption.
+        /// The ARN of the Secrets Manager secret used for transit encryption.
         /// This member is required.
         public var secretArn: Swift.String?
 
@@ -933,7 +933,7 @@ extension MediaConnectClientTypes {
 
     /// Configuration settings for flow transit encryption keys.
     public enum FlowTransitEncryptionKeyConfiguration: Swift.Sendable {
-        /// The configuration settings for transit encryption using AWS Secrets Manager, including the secret ARN and role ARN.
+        /// The configuration settings for transit encryption using Secrets Manager, including the secret ARN and role ARN.
         case secretsmanager(MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration)
         /// Configuration settings for automatic encryption key management, where MediaConnect handles key creation and rotation.
         case automatic(MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration)
@@ -1010,7 +1010,7 @@ extension MediaConnectClientTypes {
         public var minLatency: Swift.Int?
         /// The name of the output. This value must be unique within the current flow.
         public var name: Swift.String?
-        /// A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+        /// A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
         public var ndiProgramName: Swift.String?
         /// A quality setting for the NDI Speed HQ encoder.
         public var ndiSpeedHqQuality: Swift.Int?
@@ -2199,7 +2199,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Specifies the configuration settings for individual NDI discovery servers. A maximum of 3 servers is allowed.
+    /// Specifies the configuration settings for individual NDI® discovery servers. A maximum of 3 servers is allowed.
     public struct NdiDiscoveryServerConfig: Swift.Sendable {
         /// The unique network address of the NDI discovery server.
         /// This member is required.
@@ -2218,6 +2218,89 @@ extension MediaConnectClientTypes {
             self.discoveryServerAddress = discoveryServerAddress
             self.discoveryServerPort = discoveryServerPort
             self.vpcInterfaceAdapter = vpcInterfaceAdapter
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The frame resolution used by the video stream.
+    public struct FrameResolution: Swift.Sendable {
+        /// The number of pixels in the height of the video frame.
+        /// This member is required.
+        public var frameHeight: Swift.Int?
+        /// The number of pixels in the width of the video frame.
+        /// This member is required.
+        public var frameWidth: Swift.Int?
+
+        public init(
+            frameHeight: Swift.Int? = nil,
+            frameWidth: Swift.Int? = nil
+        ) {
+            self.frameHeight = frameHeight
+            self.frameWidth = frameWidth
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Detailed information about a single media stream that is part of an NDI® source. This includes details about the stream type, codec, resolution, frame rate, audio channels, and sample rate.
+    public struct NdiMediaStreamInfo: Swift.Sendable {
+        /// The number of audio channels in the stream. Used when the streamType is Audio.
+        public var channels: Swift.Int?
+        /// The codec used for the media stream. For NDI sources, use speed-hq.
+        /// This member is required.
+        public var codec: Swift.String?
+        /// The number of video frames displayed per second. Used when the streamType is Video.
+        public var frameRate: Swift.String?
+        /// The width and height dimensions of the video frame in pixels. Used when the streamType is Video.
+        public var frameResolution: MediaConnectClientTypes.FrameResolution?
+        /// The number of audio samples captured per second, measured in kilohertz (kHz). Used when the streamType is Audio.
+        public var sampleRate: Swift.Int?
+        /// The method used to display video frames. Used when the streamType is Video.
+        public var scanMode: MediaConnectClientTypes.ScanMode?
+        /// A unique identifier for the media stream.
+        /// This member is required.
+        public var streamId: Swift.Int?
+        /// The type of media stream (for example, Video or Audio).
+        /// This member is required.
+        public var streamType: Swift.String?
+
+        public init(
+            channels: Swift.Int? = nil,
+            codec: Swift.String? = nil,
+            frameRate: Swift.String? = nil,
+            frameResolution: MediaConnectClientTypes.FrameResolution? = nil,
+            sampleRate: Swift.Int? = nil,
+            scanMode: MediaConnectClientTypes.ScanMode? = nil,
+            streamId: Swift.Int? = nil,
+            streamType: Swift.String? = nil
+        ) {
+            self.channels = channels
+            self.codec = codec
+            self.frameRate = frameRate
+            self.frameResolution = frameResolution
+            self.sampleRate = sampleRate
+            self.scanMode = scanMode
+            self.streamId = streamId
+            self.streamType = streamType
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Information about a single NDI® sender, including its name.
+    public struct NdiSourceInfo: Swift.Sendable {
+        /// The name of the upstream NDI sender.
+        /// This member is required.
+        public var sourceName: Swift.String?
+
+        public init(
+            sourceName: Swift.String? = nil
+        ) {
+            self.sourceName = sourceName
         }
     }
 }
@@ -2373,6 +2456,21 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// The settings for the NDI® source. This includes the exact name of the upstream NDI sender that you want to connect to your source.
+    public struct NdiSourceSettings: Swift.Sendable {
+        /// The exact name of an existing NDI sender that's registered with your discovery server. If included, the format of this name must be MACHINENAME (ProgramName).
+        public var sourceName: Swift.String?
+
+        public init(
+            sourceName: Swift.String? = nil
+        ) {
+            self.sourceName = sourceName
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// Attributes related to the transport stream that are used in a source or output.
     public struct Transport: Swift.Sendable {
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16
@@ -2385,8 +2483,10 @@ extension MediaConnectClientTypes {
         public var maxSyncBuffer: Swift.Int?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public var minLatency: Swift.Int?
-        /// A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+        /// A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
         public var ndiProgramName: Swift.String?
+        /// The settings for the NDI source. This includes the exact name of the upstream NDI sender that you want to connect to your source.
+        public var ndiSourceSettings: MediaConnectClientTypes.NdiSourceSettings?
         /// A quality setting for the NDI Speed HQ encoder.
         public var ndiSpeedHqQuality: Swift.Int?
         /// The protocol that is used by the source or output. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
@@ -2414,6 +2514,7 @@ extension MediaConnectClientTypes {
             maxSyncBuffer: Swift.Int? = nil,
             minLatency: Swift.Int? = nil,
             ndiProgramName: Swift.String? = nil,
+            ndiSourceSettings: MediaConnectClientTypes.NdiSourceSettings? = nil,
             ndiSpeedHqQuality: Swift.Int? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
             remoteId: Swift.String? = nil,
@@ -2430,6 +2531,7 @@ extension MediaConnectClientTypes {
             self.maxSyncBuffer = maxSyncBuffer
             self.minLatency = minLatency
             self.ndiProgramName = ndiProgramName
+            self.ndiSourceSettings = ndiSourceSettings
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
             self.`protocol` = `protocol`
             self.remoteId = remoteId
@@ -2483,7 +2585,7 @@ extension MediaConnectClientTypes {
         ///
         /// * For outputs that use listener protocols (such as SRT Listener), this value shows the address of the connected receiver.
         ///
-        /// * Peer IP addresses aren't available for entitlements, managed MediaLive outputs, NDI outputs, and CDI/ST2110 outputs.
+        /// * Peer IP addresses aren't available for entitlements, managed MediaLive outputs, NDI® sources and outputs, and CDI/ST2110 outputs.
         ///
         /// * The peer IP address might not be visible for flows that haven't been started yet, or flows that were started before May 2025. In these cases, restart your flow to see the peer IP address.
         public var peerIpAddress: Swift.String?
@@ -2701,6 +2803,8 @@ extension MediaConnectClientTypes {
         public var minLatency: Swift.Int?
         /// The name of the source.
         public var name: Swift.String?
+        /// The settings for the NDI® source. This includes the exact name of the upstream NDI sender that you want to connect to your source.
+        public var ndiSourceSettings: MediaConnectClientTypes.NdiSourceSettings?
         /// The protocol that is used by the source. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public var `protocol`: MediaConnectClientTypes.ModelProtocol?
         /// Indicates whether to enable or disable router integration when setting a flow source.
@@ -2736,6 +2840,7 @@ extension MediaConnectClientTypes {
             mediaStreamSourceConfigurations: [MediaConnectClientTypes.MediaStreamSourceConfigurationRequest]? = nil,
             minLatency: Swift.Int? = nil,
             name: Swift.String? = nil,
+            ndiSourceSettings: MediaConnectClientTypes.NdiSourceSettings? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
             routerIntegrationState: MediaConnectClientTypes.State? = nil,
             routerIntegrationTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption? = nil,
@@ -2759,6 +2864,7 @@ extension MediaConnectClientTypes {
             self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
             self.minLatency = minLatency
             self.name = name
+            self.ndiSourceSettings = ndiSourceSettings
             self.`protocol` = `protocol`
             self.routerIntegrationState = routerIntegrationState
             self.routerIntegrationTransitDecryption = routerIntegrationTransitDecryption
@@ -2887,27 +2993,6 @@ extension MediaConnectClientTypes {
             self.transport = transport
             self.vpcInterfaceName = vpcInterfaceName
             self.whitelistCidr = whitelistCidr
-        }
-    }
-}
-
-extension MediaConnectClientTypes {
-
-    /// The frame resolution used by the video stream.
-    public struct FrameResolution: Swift.Sendable {
-        /// The number of pixels in the height of the video frame.
-        /// This member is required.
-        public var frameHeight: Swift.Int?
-        /// The number of pixels in the width of the video frame.
-        /// This member is required.
-        public var frameWidth: Swift.Int?
-
-        public init(
-            frameHeight: Swift.Int? = nil,
-            frameWidth: Swift.Int? = nil
-        ) {
-            self.frameHeight = frameHeight
-            self.frameWidth = frameWidth
         }
     }
 }
@@ -4485,7 +4570,7 @@ extension MediaConnectClientTypes {
 
     /// Defines the configuration settings for transit encryption keys.
     public enum RouterInputTransitEncryptionKeyConfiguration: Swift.Sendable {
-        /// The configuration settings for transit encryption using AWS Secrets Manager, including the secret ARN and role ARN.
+        /// The configuration settings for transit encryption using Secrets Manager, including the secret ARN and role ARN.
         case secretsmanager(MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration)
         /// Configuration settings for automatic encryption key management, where MediaConnect handles key creation and rotation.
         case automatic(MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration)
@@ -4587,7 +4672,7 @@ extension MediaConnectClientTypes {
         /// The name of the router input.
         /// This member is required.
         public var name: Swift.String?
-        /// The AWS Region where the router input is located.
+        /// The Amazon Web Services Region where the router input is located.
         /// This member is required.
         public var regionName: Swift.String?
         /// The number of router outputs associated with the router input.
@@ -4887,7 +4972,7 @@ extension MediaConnectClientTypes {
         /// The type of the router network interface.
         /// This member is required.
         public var networkInterfaceType: MediaConnectClientTypes.RouterNetworkInterfaceType?
-        /// The AWS Region where the router network interface is located.
+        /// The Amazon Web Services Region where the router network interface is located.
         /// This member is required.
         public var regionName: Swift.String?
         /// The current state of the router network interface.
@@ -5013,7 +5098,7 @@ extension MediaConnectClientTypes {
 
     /// Configuration settings for the MediaLive transit encryption key.
     public enum MediaLiveTransitEncryptionKeyConfiguration: Swift.Sendable {
-        /// The configuration settings for transit encryption using AWS Secrets Manager, including the secret ARN and role ARN.
+        /// The configuration settings for transit encryption using Secrets Manager, including the secret ARN and role ARN.
         case secretsmanager(MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration)
         /// Configuration settings for automatic encryption key management, where MediaConnect handles key creation and rotation.
         case automatic(MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration)
@@ -5052,7 +5137,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// The encryption configuration that defines how content is encrypted during transit between MediaConnect Router and MediaLive. This configuration determines whether encryption keys are automatically managed by the service or manually managed through AWS Secrets Manager.
+    /// The encryption configuration that defines how content is encrypted during transit between MediaConnect Router and MediaLive. This configuration determines whether encryption keys are automatically managed by the service or manually managed through Secrets Manager.
     public struct MediaLiveTransitEncryption: Swift.Sendable {
         /// The configuration details for the MediaLive encryption key.
         /// This member is required.
@@ -5594,7 +5679,7 @@ extension MediaConnectClientTypes {
         /// The type of the router output.
         /// This member is required.
         public var outputType: MediaConnectClientTypes.RouterOutputType?
-        /// The AWS Region where the router output is located.
+        /// The Amazon Web Services Region where the router output is located.
         /// This member is required.
         public var regionName: Swift.String?
         /// The Amazon Resource Name (ARN) of the router input associated with the output.
@@ -6508,14 +6593,64 @@ public struct CreateFlow420Exception: ClientRuntime.ModeledError, AWSClientRunti
 
 extension MediaConnectClientTypes {
 
+    public enum EncodingProfile: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contributionH264Default
+        case distributionH264Default
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncodingProfile] {
+            return [
+                .contributionH264Default,
+                .distributionH264Default
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contributionH264Default: return "CONTRIBUTION_H264_DEFAULT"
+            case .distributionH264Default: return "DISTRIBUTION_H264_DEFAULT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The encoding configuration to apply to the NDI® source when transcoding it to a transport stream for downstream distribution. You can choose between several predefined encoding profiles based on common use cases.
+    public struct EncodingConfig: Swift.Sendable {
+        /// The encoding profile to use when transcoding the NDI source content to a transport stream. You can change this value while the flow is running.
+        public var encodingProfile: MediaConnectClientTypes.EncodingProfile?
+        /// The maximum video bitrate to use when transcoding the NDI source to a transport stream. This parameter enables you to override the default video bitrate within the encoding profile's supported range. The supported range is 10,000,000 - 50,000,000 bits per second (bps). If you don't specify a value, MediaConnect uses the default value of 20,000,000 bps.
+        public var videoMaxBitrate: Swift.Int?
+
+        public init(
+            encodingProfile: MediaConnectClientTypes.EncodingProfile? = nil,
+            videoMaxBitrate: Swift.Int? = nil
+        ) {
+            self.encodingProfile = encodingProfile
+            self.videoMaxBitrate = videoMaxBitrate
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     public enum FlowSize: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case large
+        case large4x
         case medium
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FlowSize] {
             return [
                 .large,
+                .large4x,
                 .medium
             ]
         }
@@ -6528,6 +6663,7 @@ extension MediaConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .large: return "LARGE"
+            case .large4x: return "LARGE_4X"
             case .medium: return "MEDIUM"
             case let .sdkUnknown(s): return s
             }
@@ -6566,13 +6702,13 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+    /// Specifies the configuration settings for NDI sources and outputs.
     public struct NdiConfig: Swift.Sendable {
         /// A prefix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect generates a unique 12-character ID as the prefix.
         public var machineName: Swift.String?
         /// A list of up to three NDI discovery server configurations. While not required by the API, this configuration is necessary for NDI functionality to work properly.
         public var ndiDiscoveryServers: [MediaConnectClientTypes.NdiDiscoveryServerConfig]?
-        /// A setting that controls whether NDI outputs can be used in the flow. Must be ENABLED to add NDI outputs. Default is DISABLED.
+        /// A setting that controls whether NDI® sources or outputs can be used in the flow. The default value is DISABLED. This value must be set as ENABLED for your flow to support NDI sources or outputs.
         public var ndiState: MediaConnectClientTypes.NdiState?
 
         public init(
@@ -6646,9 +6782,11 @@ extension MediaConnectClientTypes {
 public struct CreateFlowInput: Swift.Sendable {
     /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current Amazon Web Services Region.
     public var availabilityZone: Swift.String?
+    /// The encoding configuration to apply to the NDI® source when transcoding it to a transport stream for downstream distribution. You can choose between several predefined encoding profiles based on common use cases.
+    public var encodingConfig: MediaConnectClientTypes.EncodingConfig?
     /// The entitlements that you want to grant on a flow.
     public var entitlements: [MediaConnectClientTypes.GrantEntitlementRequest]?
-    /// Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI outputs on the flow.
+    /// Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI sources or outputs on the flow.
     public var flowSize: MediaConnectClientTypes.FlowSize?
     /// The key-value pairs that can be used to tag and organize the flow.
     public var flowTags: [Swift.String: Swift.String]?
@@ -6659,7 +6797,7 @@ public struct CreateFlowInput: Swift.Sendable {
     /// The name of the flow.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+    /// Specifies the configuration settings for a flow's NDI source or output. Required when the flow includes an NDI source or output.
     public var ndiConfig: MediaConnectClientTypes.NdiConfig?
     /// The outputs that you want to add to this flow.
     public var outputs: [MediaConnectClientTypes.AddOutputRequest]?
@@ -6676,6 +6814,7 @@ public struct CreateFlowInput: Swift.Sendable {
 
     public init(
         availabilityZone: Swift.String? = nil,
+        encodingConfig: MediaConnectClientTypes.EncodingConfig? = nil,
         entitlements: [MediaConnectClientTypes.GrantEntitlementRequest]? = nil,
         flowSize: MediaConnectClientTypes.FlowSize? = nil,
         flowTags: [Swift.String: Swift.String]? = nil,
@@ -6691,6 +6830,7 @@ public struct CreateFlowInput: Swift.Sendable {
         vpcInterfaces: [MediaConnectClientTypes.VpcInterfaceRequest]? = nil
     ) {
         self.availabilityZone = availabilityZone
+        self.encodingConfig = encodingConfig
         self.entitlements = entitlements
         self.flowSize = flowSize
         self.flowTags = flowTags
@@ -6718,13 +6858,15 @@ extension MediaConnectClientTypes {
         public var description: Swift.String?
         /// The IP address from which video will be sent to output destinations.
         public var egressIp: Swift.String?
+        /// The encoding configuration to apply to the NDI® source when transcoding it to a transport stream for downstream distribution.
+        public var encodingConfig: MediaConnectClientTypes.EncodingConfig?
         /// The entitlements in this flow.
         /// This member is required.
         public var entitlements: [MediaConnectClientTypes.Entitlement]?
         /// The Amazon Resource Name (ARN) of the flow.
         /// This member is required.
         public var flowArn: Swift.String?
-        /// Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI outputs on the flow.
+        /// Determines the processing capacity and feature set of the flow.
         public var flowSize: MediaConnectClientTypes.FlowSize?
         /// The maintenance settings for the flow.
         public var maintenance: MediaConnectClientTypes.Maintenance?
@@ -6733,7 +6875,7 @@ extension MediaConnectClientTypes {
         /// The name of the flow.
         /// This member is required.
         public var name: Swift.String?
-        /// Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+        /// Specifies the configuration settings for a flow's NDI source or output. Required when the flow includes an NDI source or output.
         public var ndiConfig: MediaConnectClientTypes.NdiConfig?
         /// The outputs in this flow.
         /// This member is required.
@@ -6757,6 +6899,7 @@ extension MediaConnectClientTypes {
             availabilityZone: Swift.String? = nil,
             description: Swift.String? = nil,
             egressIp: Swift.String? = nil,
+            encodingConfig: MediaConnectClientTypes.EncodingConfig? = nil,
             entitlements: [MediaConnectClientTypes.Entitlement]? = nil,
             flowArn: Swift.String? = nil,
             flowSize: MediaConnectClientTypes.FlowSize? = nil,
@@ -6775,6 +6918,7 @@ extension MediaConnectClientTypes {
             self.availabilityZone = availabilityZone
             self.description = description
             self.egressIp = egressIp
+            self.encodingConfig = encodingConfig
             self.entitlements = entitlements
             self.flowArn = flowArn
             self.flowSize = flowSize
@@ -6940,7 +7084,7 @@ public struct CreateRouterInputInput: Swift.Sendable {
     /// The name of the router input.
     /// This member is required.
     public var name: Swift.String?
-    /// The AWS Region for the router input. Defaults to the current region if not specified.
+    /// The Amazon Web Services Region for the router input. Defaults to the current region if not specified.
     public var regionName: Swift.String?
     /// Specifies whether the router input can be assigned to outputs in different Regions. REGIONAL (default) - connects only to outputs in same Region. GLOBAL - connects to outputs in any Region.
     /// This member is required.
@@ -7025,7 +7169,7 @@ public struct CreateRouterNetworkInterfaceInput: Swift.Sendable {
     /// The name of the router network interface.
     /// This member is required.
     public var name: Swift.String?
-    /// The AWS Region for the router network interface. Defaults to the current region if not specified.
+    /// The Amazon Web Services Region for the router network interface. Defaults to the current region if not specified.
     public var regionName: Swift.String?
     /// Key-value pairs that can be used to tag and organize this router network interface.
     public var tags: [Swift.String: Swift.String]?
@@ -7097,7 +7241,7 @@ public struct CreateRouterOutputInput: Swift.Sendable {
     /// The name of the router output.
     /// This member is required.
     public var name: Swift.String?
-    /// The AWS Region for the router output. Defaults to the current region if not specified.
+    /// The Amazon Web Services Region for the router output. Defaults to the current region if not specified.
     public var regionName: Swift.String?
     /// Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
     /// This member is required.
@@ -7385,6 +7529,52 @@ public struct DescribeFlowSourceMetadataInput: Swift.Sendable {
 
 extension MediaConnectClientTypes {
 
+    /// Metadata about the audio and video media that is part of the NDI® source content. This includes details about the individual media streams.
+    public struct NdiMediaInfo: Swift.Sendable {
+        /// A list of the individual media streams that make up the NDI source. This includes details about each stream's codec, resolution, frame rate, audio channels, and other parameters.
+        /// This member is required.
+        public var streams: [MediaConnectClientTypes.NdiMediaStreamInfo]?
+
+        public init(
+            streams: [MediaConnectClientTypes.NdiMediaStreamInfo]? = nil
+        ) {
+            self.streams = streams
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Comprehensive information about the NDI® source that's associated with a flow. This includes the currently active NDI source, a list of all discovered NDI senders, metadata about the media streams, and any relevant status messages.
+    public struct NdiSourceMetadataInfo: Swift.Sendable {
+        /// The connected NDI sender that's currently sending source content to the flow's NDI source.
+        public var activeSource: MediaConnectClientTypes.NdiSourceInfo?
+        /// A list of the available upstream NDI senders aggregated from all of your configured discovery servers.
+        /// This member is required.
+        public var discoveredSources: [MediaConnectClientTypes.NdiSourceInfo]?
+        /// Detailed information about the media streams (video, audio, and so on) that are part of the active NDI source.
+        /// This member is required.
+        public var mediaInfo: MediaConnectClientTypes.NdiMediaInfo?
+        /// Any status messages or error codes related to the NDI source and its metadata.
+        /// This member is required.
+        public var messages: [MediaConnectClientTypes.MessageDetail]?
+
+        public init(
+            activeSource: MediaConnectClientTypes.NdiSourceInfo? = nil,
+            discoveredSources: [MediaConnectClientTypes.NdiSourceInfo]? = nil,
+            mediaInfo: MediaConnectClientTypes.NdiMediaInfo? = nil,
+            messages: [MediaConnectClientTypes.MessageDetail]? = nil
+        ) {
+            self.activeSource = activeSource
+            self.discoveredSources = discoveredSources
+            self.mediaInfo = mediaInfo
+            self.messages = messages
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// The metadata of the transport stream in the current flow's source.
     public struct TransportMediaInfo: Swift.Sendable {
         /// The list of transport stream programs in the current flow's source.
@@ -7404,6 +7594,8 @@ public struct DescribeFlowSourceMetadataOutput: Swift.Sendable {
     public var flowArn: Swift.String?
     /// Provides a status code and message regarding issues found with the flow source metadata.
     public var messages: [MediaConnectClientTypes.MessageDetail]?
+    /// The NDI® specific information about the flow's source. This includes the current active NDI sender, a list of all discovered NDI senders, the associated media streams for the active NDI sender, and any relevant status messages.
+    public var ndiInfo: MediaConnectClientTypes.NdiSourceMetadataInfo?
     /// The timestamp of the most recent change in metadata for this flow’s source.
     public var timestamp: Foundation.Date?
     /// Information about the flow's transport media.
@@ -7412,11 +7604,13 @@ public struct DescribeFlowSourceMetadataOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         messages: [MediaConnectClientTypes.MessageDetail]? = nil,
+        ndiInfo: MediaConnectClientTypes.NdiSourceMetadataInfo? = nil,
         timestamp: Foundation.Date? = nil,
         transportMediaInfo: MediaConnectClientTypes.TransportMediaInfo? = nil
     ) {
         self.flowArn = flowArn
         self.messages = messages
+        self.ndiInfo = ndiInfo
         self.timestamp = timestamp
         self.transportMediaInfo = transportMediaInfo
     }
@@ -7948,6 +8142,8 @@ extension MediaConnectClientTypes {
 }
 
 public struct UpdateFlowInput: Swift.Sendable {
+    /// The encoding configuration to apply to the NDI® source when transcoding it to a transport stream for downstream distribution. You can choose between several predefined encoding profiles based on common use cases.
+    public var encodingConfig: MediaConnectClientTypes.EncodingConfig?
     /// The Amazon Resource Name (ARN) of the flow that you want to update.
     /// This member is required.
     public var flowArn: Swift.String?
@@ -7955,7 +8151,7 @@ public struct UpdateFlowInput: Swift.Sendable {
     public var flowSize: MediaConnectClientTypes.FlowSize?
     /// The maintenance setting of the flow.
     public var maintenance: MediaConnectClientTypes.UpdateMaintenance?
-    /// Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+    /// Specifies the configuration settings for a flow's NDI source or output. Required when the flow includes an NDI source or output.
     public var ndiConfig: MediaConnectClientTypes.NdiConfig?
     /// The settings for source failover.
     public var sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig?
@@ -7963,6 +8159,7 @@ public struct UpdateFlowInput: Swift.Sendable {
     public var sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig?
 
     public init(
+        encodingConfig: MediaConnectClientTypes.EncodingConfig? = nil,
         flowArn: Swift.String? = nil,
         flowSize: MediaConnectClientTypes.FlowSize? = nil,
         maintenance: MediaConnectClientTypes.UpdateMaintenance? = nil,
@@ -7970,6 +8167,7 @@ public struct UpdateFlowInput: Swift.Sendable {
         sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig? = nil,
         sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig? = nil
     ) {
+        self.encodingConfig = encodingConfig
         self.flowArn = flowArn
         self.flowSize = flowSize
         self.maintenance = maintenance
@@ -8155,7 +8353,7 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
     public var mediaStreamOutputConfigurations: [MediaConnectClientTypes.MediaStreamOutputConfigurationRequest]?
     /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
     public var minLatency: Swift.Int?
-    /// A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+    /// A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
     public var ndiProgramName: Swift.String?
     /// A quality setting for the NDI Speed HQ encoder.
     public var ndiSpeedHqQuality: Swift.Int?
@@ -8292,6 +8490,8 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
     public var mediaStreamSourceConfigurations: [MediaConnectClientTypes.MediaStreamSourceConfigurationRequest]?
     /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
     public var minLatency: Swift.Int?
+    /// The settings for the NDI source. This includes the exact name of the upstream NDI sender that you want to connect to your source.
+    public var ndiSourceSettings: MediaConnectClientTypes.NdiSourceSettings?
     /// The protocol that the source uses to deliver the content to MediaConnect. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
     public var `protocol`: MediaConnectClientTypes.ModelProtocol?
     /// Indicates whether to enable or disable router integration for this flow source.
@@ -8328,6 +8528,7 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
         maxSyncBuffer: Swift.Int? = nil,
         mediaStreamSourceConfigurations: [MediaConnectClientTypes.MediaStreamSourceConfigurationRequest]? = nil,
         minLatency: Swift.Int? = nil,
+        ndiSourceSettings: MediaConnectClientTypes.NdiSourceSettings? = nil,
         `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
         routerIntegrationState: MediaConnectClientTypes.State? = nil,
         routerIntegrationTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption? = nil,
@@ -8351,6 +8552,7 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
         self.maxSyncBuffer = maxSyncBuffer
         self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
         self.minLatency = minLatency
+        self.ndiSourceSettings = ndiSourceSettings
         self.`protocol` = `protocol`
         self.routerIntegrationState = routerIntegrationState
         self.routerIntegrationTransitDecryption = routerIntegrationTransitDecryption
@@ -8366,7 +8568,7 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
 }
 
 public struct UpdateFlowSourceOutput: Swift.Sendable {
-    /// The ARN of the flow that you was updated.
+    /// The ARN of the flow that you updated.
     public var flowArn: Swift.String?
     /// The details of the sources that are assigned to the flow.
     public var source: MediaConnectClientTypes.Source?
@@ -8712,7 +8914,7 @@ extension MediaConnectClientTypes {
         public var name: Swift.String?
         /// The ARN of the network interface associated with the router input.
         public var networkInterfaceArn: Swift.String?
-        /// The AWS Region where the router input is located.
+        /// The Amazon Web Services Region where the router input is located.
         /// This member is required.
         public var regionName: Swift.String?
         /// The number of router outputs that are associated with this router input.
@@ -8791,7 +8993,7 @@ extension MediaConnectClientTypes {
         /// The type of the router network interface.
         /// This member is required.
         public var networkInterfaceType: MediaConnectClientTypes.RouterNetworkInterfaceType?
-        /// The AWS Region where the router network interface is located.
+        /// The Amazon Web Services Region where the router network interface is located.
         /// This member is required.
         public var regionName: Swift.String?
         /// The current state of the router network interface.
@@ -8861,7 +9063,7 @@ extension MediaConnectClientTypes {
         /// The type of the router output.
         /// This member is required.
         public var outputType: MediaConnectClientTypes.RouterOutputType?
-        /// The AWS Region where the router output is located.
+        /// The AAmazon Web Services Region where the router output is located.
         /// This member is required.
         public var regionName: Swift.String?
         /// The ARN of the router input associated with the output.
@@ -10844,6 +11046,7 @@ extension CreateFlowInput {
     static func write(value: CreateFlowInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["availabilityZone"].write(value.availabilityZone)
+        try writer["encodingConfig"].write(value.encodingConfig, with: MediaConnectClientTypes.EncodingConfig.write(value:to:))
         try writer["entitlements"].writeList(value.entitlements, memberWritingClosure: MediaConnectClientTypes.GrantEntitlementRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["flowSize"].write(value.flowSize)
         try writer["flowTags"].writeMap(value.flowTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -11021,6 +11224,7 @@ extension UpdateFlowInput {
 
     static func write(value: UpdateFlowInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["encodingConfig"].write(value.encodingConfig, with: MediaConnectClientTypes.EncodingConfig.write(value:to:))
         try writer["flowSize"].write(value.flowSize)
         try writer["maintenance"].write(value.maintenance, with: MediaConnectClientTypes.UpdateMaintenance.write(value:to:))
         try writer["ndiConfig"].write(value.ndiConfig, with: MediaConnectClientTypes.NdiConfig.write(value:to:))
@@ -11093,6 +11297,7 @@ extension UpdateFlowSourceInput {
         try writer["maxSyncBuffer"].write(value.maxSyncBuffer)
         try writer["mediaStreamSourceConfigurations"].writeList(value.mediaStreamSourceConfigurations, memberWritingClosure: MediaConnectClientTypes.MediaStreamSourceConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["minLatency"].write(value.minLatency)
+        try writer["ndiSourceSettings"].write(value.ndiSourceSettings, with: MediaConnectClientTypes.NdiSourceSettings.write(value:to:))
         try writer["protocol"].write(value.`protocol`)
         try writer["routerIntegrationState"].write(value.routerIntegrationState)
         try writer["routerIntegrationTransitDecryption"].write(value.routerIntegrationTransitDecryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
@@ -11465,6 +11670,7 @@ extension DescribeFlowSourceMetadataOutput {
         var value = DescribeFlowSourceMetadataOutput()
         value.flowArn = try reader["flowArn"].readIfPresent()
         value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MessageDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ndiInfo = try reader["ndiInfo"].readIfPresent(with: MediaConnectClientTypes.NdiSourceMetadataInfo.read(from:))
         value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.transportMediaInfo = try reader["transportMediaInfo"].readIfPresent(with: MediaConnectClientTypes.TransportMediaInfo.read(from:))
         return value
@@ -13941,13 +14147,249 @@ extension GrantFlowEntitlements420Exception {
     }
 }
 
-extension MediaConnectClientTypes.BridgeOutput {
+extension MediaConnectClientTypes.AddBridgeFlowSourceRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BridgeOutput {
+    static func write(value: MediaConnectClientTypes.AddBridgeFlowSourceRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["flowArn"].write(value.flowArn)
+        try writer["flowVpcInterfaceAttachment"].write(value.flowVpcInterfaceAttachment, with: MediaConnectClientTypes.VpcInterfaceAttachment.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+}
+
+extension MediaConnectClientTypes.AddBridgeNetworkOutputRequest {
+
+    static func write(value: MediaConnectClientTypes.AddBridgeNetworkOutputRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ipAddress"].write(value.ipAddress)
+        try writer["name"].write(value.name)
+        try writer["networkName"].write(value.networkName)
+        try writer["port"].write(value.port)
+        try writer["protocol"].write(value.`protocol`)
+        try writer["ttl"].write(value.ttl)
+    }
+}
+
+extension MediaConnectClientTypes.AddBridgeNetworkSourceRequest {
+
+    static func write(value: MediaConnectClientTypes.AddBridgeNetworkSourceRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["multicastIp"].write(value.multicastIp)
+        try writer["multicastSourceSettings"].write(value.multicastSourceSettings, with: MediaConnectClientTypes.MulticastSourceSettings.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["networkName"].write(value.networkName)
+        try writer["port"].write(value.port)
+        try writer["protocol"].write(value.`protocol`)
+    }
+}
+
+extension MediaConnectClientTypes.AddBridgeOutputRequest {
+
+    static func write(value: MediaConnectClientTypes.AddBridgeOutputRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkOutput"].write(value.networkOutput, with: MediaConnectClientTypes.AddBridgeNetworkOutputRequest.write(value:to:))
+    }
+}
+
+extension MediaConnectClientTypes.AddBridgeSourceRequest {
+
+    static func write(value: MediaConnectClientTypes.AddBridgeSourceRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["flowSource"].write(value.flowSource, with: MediaConnectClientTypes.AddBridgeFlowSourceRequest.write(value:to:))
+        try writer["networkSource"].write(value.networkSource, with: MediaConnectClientTypes.AddBridgeNetworkSourceRequest.write(value:to:))
+    }
+}
+
+extension MediaConnectClientTypes.AddEgressGatewayBridgeRequest {
+
+    static func write(value: MediaConnectClientTypes.AddEgressGatewayBridgeRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxBitrate"].write(value.maxBitrate)
+    }
+}
+
+extension MediaConnectClientTypes.AddIngressGatewayBridgeRequest {
+
+    static func write(value: MediaConnectClientTypes.AddIngressGatewayBridgeRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxBitrate"].write(value.maxBitrate)
+        try writer["maxOutputs"].write(value.maxOutputs)
+    }
+}
+
+extension MediaConnectClientTypes.AddMaintenance {
+
+    static func write(value: MediaConnectClientTypes.AddMaintenance?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maintenanceDay"].write(value.maintenanceDay)
+        try writer["maintenanceStartHour"].write(value.maintenanceStartHour)
+    }
+}
+
+extension MediaConnectClientTypes.AddMediaStreamRequest {
+
+    static func write(value: MediaConnectClientTypes.AddMediaStreamRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributes"].write(value.attributes, with: MediaConnectClientTypes.MediaStreamAttributesRequest.write(value:to:))
+        try writer["clockRate"].write(value.clockRate)
+        try writer["description"].write(value.description)
+        try writer["mediaStreamId"].write(value.mediaStreamId)
+        try writer["mediaStreamName"].write(value.mediaStreamName)
+        try writer["mediaStreamTags"].writeMap(value.mediaStreamTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["mediaStreamType"].write(value.mediaStreamType)
+        try writer["videoFormat"].write(value.videoFormat)
+    }
+}
+
+extension MediaConnectClientTypes.AddOutputRequest {
+
+    static func write(value: MediaConnectClientTypes.AddOutputRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidrAllowList"].writeList(value.cidrAllowList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["description"].write(value.description)
+        try writer["destination"].write(value.destination)
+        try writer["encryption"].write(value.encryption, with: MediaConnectClientTypes.Encryption.write(value:to:))
+        try writer["maxLatency"].write(value.maxLatency)
+        try writer["mediaStreamOutputConfigurations"].writeList(value.mediaStreamOutputConfigurations, memberWritingClosure: MediaConnectClientTypes.MediaStreamOutputConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["minLatency"].write(value.minLatency)
+        try writer["name"].write(value.name)
+        try writer["ndiProgramName"].write(value.ndiProgramName)
+        try writer["ndiSpeedHqQuality"].write(value.ndiSpeedHqQuality)
+        try writer["outputStatus"].write(value.outputStatus)
+        try writer["outputTags"].writeMap(value.outputTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["port"].write(value.port)
+        try writer["protocol"].write(value.`protocol`)
+        try writer["remoteId"].write(value.remoteId)
+        try writer["routerIntegrationState"].write(value.routerIntegrationState)
+        try writer["routerIntegrationTransitEncryption"].write(value.routerIntegrationTransitEncryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
+        try writer["senderControlPort"].write(value.senderControlPort)
+        try writer["smoothingLatency"].write(value.smoothingLatency)
+        try writer["streamId"].write(value.streamId)
+        try writer["vpcInterfaceAttachment"].write(value.vpcInterfaceAttachment, with: MediaConnectClientTypes.VpcInterfaceAttachment.write(value:to:))
+    }
+}
+
+extension MediaConnectClientTypes.AudioMonitoringSetting {
+
+    static func write(value: MediaConnectClientTypes.AudioMonitoringSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["silentAudio"].write(value.silentAudio, with: MediaConnectClientTypes.SilentAudio.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.AudioMonitoringSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.BridgeOutput()
-        value.flowOutput = try reader["flowOutput"].readIfPresent(with: MediaConnectClientTypes.BridgeFlowOutput.read(from:))
-        value.networkOutput = try reader["networkOutput"].readIfPresent(with: MediaConnectClientTypes.BridgeNetworkOutput.read(from:))
+        var value = MediaConnectClientTypes.AudioMonitoringSetting()
+        value.silentAudio = try reader["silentAudio"].readIfPresent(with: MediaConnectClientTypes.SilentAudio.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration {
+
+    static func write(value: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration()
+    }
+}
+
+extension MediaConnectClientTypes.BatchGetRouterInputError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BatchGetRouterInputError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.BatchGetRouterInputError()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.BatchGetRouterNetworkInterfaceError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BatchGetRouterNetworkInterfaceError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.BatchGetRouterNetworkInterfaceError()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.BatchGetRouterOutputError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BatchGetRouterOutputError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.BatchGetRouterOutputError()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.BlackFrames {
+
+    static func write(value: MediaConnectClientTypes.BlackFrames?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+        try writer["thresholdSeconds"].write(value.thresholdSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BlackFrames {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.BlackFrames()
+        value.state = try reader["state"].readIfPresent()
+        value.thresholdSeconds = try reader["thresholdSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.Bridge {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Bridge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.Bridge()
+        value.bridgeArn = try reader["bridgeArn"].readIfPresent() ?? ""
+        value.bridgeMessages = try reader["bridgeMessages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MessageDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.bridgeState = try reader["bridgeState"].readIfPresent() ?? .sdkUnknown("")
+        value.egressGatewayBridge = try reader["egressGatewayBridge"].readIfPresent(with: MediaConnectClientTypes.EgressGatewayBridge.read(from:))
+        value.ingressGatewayBridge = try reader["ingressGatewayBridge"].readIfPresent(with: MediaConnectClientTypes.IngressGatewayBridge.read(from:))
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.BridgeOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.placementArn = try reader["placementArn"].readIfPresent() ?? ""
+        value.sourceFailoverConfig = try reader["sourceFailoverConfig"].readIfPresent(with: MediaConnectClientTypes.FailoverConfig.read(from:))
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.BridgeSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.BridgeFlowOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BridgeFlowOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.BridgeFlowOutput()
+        value.flowArn = try reader["flowArn"].readIfPresent() ?? ""
+        value.flowSourceArn = try reader["flowSourceArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.BridgeFlowSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BridgeFlowSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.BridgeFlowSource()
+        value.flowArn = try reader["flowArn"].readIfPresent() ?? ""
+        value.flowVpcInterfaceAttachment = try reader["flowVpcInterfaceAttachment"].readIfPresent(with: MediaConnectClientTypes.VpcInterfaceAttachment.read(from:))
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.outputArn = try reader["outputArn"].readIfPresent()
         return value
     }
 }
@@ -13967,29 +14409,6 @@ extension MediaConnectClientTypes.BridgeNetworkOutput {
     }
 }
 
-extension MediaConnectClientTypes.BridgeFlowOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BridgeFlowOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.BridgeFlowOutput()
-        value.flowArn = try reader["flowArn"].readIfPresent() ?? ""
-        value.flowSourceArn = try reader["flowSourceArn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.BridgeSource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BridgeSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.BridgeSource()
-        value.flowSource = try reader["flowSource"].readIfPresent(with: MediaConnectClientTypes.BridgeFlowSource.read(from:))
-        value.networkSource = try reader["networkSource"].readIfPresent(with: MediaConnectClientTypes.BridgeNetworkSource.read(from:))
-        return value
-    }
-}
-
 extension MediaConnectClientTypes.BridgeNetworkSource {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BridgeNetworkSource {
@@ -14005,118 +14424,282 @@ extension MediaConnectClientTypes.BridgeNetworkSource {
     }
 }
 
-extension MediaConnectClientTypes.MulticastSourceSettings {
+extension MediaConnectClientTypes.BridgeOutput {
 
-    static func write(value: MediaConnectClientTypes.MulticastSourceSettings?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BridgeOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.BridgeOutput()
+        value.flowOutput = try reader["flowOutput"].readIfPresent(with: MediaConnectClientTypes.BridgeFlowOutput.read(from:))
+        value.networkOutput = try reader["networkOutput"].readIfPresent(with: MediaConnectClientTypes.BridgeNetworkOutput.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.BridgeSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BridgeSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.BridgeSource()
+        value.flowSource = try reader["flowSource"].readIfPresent(with: MediaConnectClientTypes.BridgeFlowSource.read(from:))
+        value.networkSource = try reader["networkSource"].readIfPresent(with: MediaConnectClientTypes.BridgeNetworkSource.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.DefaultMaintenanceConfiguration {
+
+    static func write(value: MediaConnectClientTypes.DefaultMaintenanceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.DefaultMaintenanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.DefaultMaintenanceConfiguration()
+    }
+}
+
+extension MediaConnectClientTypes.DestinationConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.DestinationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.DestinationConfiguration()
+        value.destinationIp = try reader["destinationIp"].readIfPresent() ?? ""
+        value.destinationPort = try reader["destinationPort"].readIfPresent() ?? 0
+        value.interface = try reader["interface"].readIfPresent(with: MediaConnectClientTypes.Interface.read(from:))
+        value.outboundIp = try reader["outboundIp"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.DestinationConfigurationRequest {
+
+    static func write(value: MediaConnectClientTypes.DestinationConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["multicastSourceIp"].write(value.multicastSourceIp)
+        try writer["destinationIp"].write(value.destinationIp)
+        try writer["destinationPort"].write(value.destinationPort)
+        try writer["interface"].write(value.interface, with: MediaConnectClientTypes.InterfaceRequest.write(value:to:))
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MulticastSourceSettings {
+extension MediaConnectClientTypes.EgressGatewayBridge {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.EgressGatewayBridge {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.MulticastSourceSettings()
-        value.multicastSourceIp = try reader["multicastSourceIp"].readIfPresent()
+        var value = MediaConnectClientTypes.EgressGatewayBridge()
+        value.instanceId = try reader["instanceId"].readIfPresent()
+        value.maxBitrate = try reader["maxBitrate"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension MediaConnectClientTypes.BridgeFlowSource {
+extension MediaConnectClientTypes.EncodingConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BridgeFlowSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.BridgeFlowSource()
-        value.flowArn = try reader["flowArn"].readIfPresent() ?? ""
-        value.flowVpcInterfaceAttachment = try reader["flowVpcInterfaceAttachment"].readIfPresent(with: MediaConnectClientTypes.VpcInterfaceAttachment.read(from:))
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.outputArn = try reader["outputArn"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.VpcInterfaceAttachment {
-
-    static func write(value: MediaConnectClientTypes.VpcInterfaceAttachment?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaConnectClientTypes.EncodingConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["vpcInterfaceName"].write(value.vpcInterfaceName)
+        try writer["encodingProfile"].write(value.encodingProfile)
+        try writer["videoMaxBitrate"].write(value.videoMaxBitrate)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.VpcInterfaceAttachment {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.EncodingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.VpcInterfaceAttachment()
-        value.vpcInterfaceName = try reader["vpcInterfaceName"].readIfPresent()
+        var value = MediaConnectClientTypes.EncodingConfig()
+        value.encodingProfile = try reader["encodingProfile"].readIfPresent()
+        value.videoMaxBitrate = try reader["videoMaxBitrate"].readIfPresent()
         return value
     }
 }
 
-extension MediaConnectClientTypes.MediaStream {
+extension MediaConnectClientTypes.EncodingParameters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaStream {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.EncodingParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.MediaStream()
-        value.attributes = try reader["attributes"].readIfPresent(with: MediaConnectClientTypes.MediaStreamAttributes.read(from:))
-        value.clockRate = try reader["clockRate"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.fmt = try reader["fmt"].readIfPresent() ?? 0
-        value.mediaStreamId = try reader["mediaStreamId"].readIfPresent() ?? 0
-        value.mediaStreamName = try reader["mediaStreamName"].readIfPresent() ?? ""
-        value.mediaStreamType = try reader["mediaStreamType"].readIfPresent() ?? .sdkUnknown("")
-        value.videoFormat = try reader["videoFormat"].readIfPresent()
+        var value = MediaConnectClientTypes.EncodingParameters()
+        value.compressionFactor = try reader["compressionFactor"].readIfPresent() ?? 0.0
+        value.encoderProfile = try reader["encoderProfile"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension MediaConnectClientTypes.MediaStreamAttributes {
+extension MediaConnectClientTypes.EncodingParametersRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaStreamAttributes {
+    static func write(value: MediaConnectClientTypes.EncodingParametersRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["compressionFactor"].write(value.compressionFactor)
+        try writer["encoderProfile"].write(value.encoderProfile)
+    }
+}
+
+extension MediaConnectClientTypes.Encryption {
+
+    static func write(value: MediaConnectClientTypes.Encryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["algorithm"].write(value.algorithm)
+        try writer["constantInitializationVector"].write(value.constantInitializationVector)
+        try writer["deviceId"].write(value.deviceId)
+        try writer["keyType"].write(value.keyType)
+        try writer["region"].write(value.region)
+        try writer["resourceId"].write(value.resourceId)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["secretArn"].write(value.secretArn)
+        try writer["url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Encryption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.MediaStreamAttributes()
-        value.fmtp = try reader["fmtp"].readIfPresent(with: MediaConnectClientTypes.Fmtp.read(from:))
-        value.lang = try reader["lang"].readIfPresent()
+        var value = MediaConnectClientTypes.Encryption()
+        value.algorithm = try reader["algorithm"].readIfPresent()
+        value.constantInitializationVector = try reader["constantInitializationVector"].readIfPresent()
+        value.deviceId = try reader["deviceId"].readIfPresent()
+        value.keyType = try reader["keyType"].readIfPresent()
+        value.region = try reader["region"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.secretArn = try reader["secretArn"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
         return value
     }
 }
 
-extension MediaConnectClientTypes.Fmtp {
+extension MediaConnectClientTypes.Entitlement {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Fmtp {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Entitlement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.Fmtp()
-        value.channelOrder = try reader["channelOrder"].readIfPresent()
-        value.colorimetry = try reader["colorimetry"].readIfPresent()
-        value.exactFramerate = try reader["exactFramerate"].readIfPresent()
-        value.par = try reader["par"].readIfPresent()
-        value.range = try reader["range"].readIfPresent()
-        value.scanMode = try reader["scanMode"].readIfPresent()
-        value.tcs = try reader["tcs"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.Output {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Output {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.Output()
+        var value = MediaConnectClientTypes.Entitlement()
         value.dataTransferSubscriberFeePercent = try reader["dataTransferSubscriberFeePercent"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.destination = try reader["destination"].readIfPresent()
         value.encryption = try reader["encryption"].readIfPresent(with: MediaConnectClientTypes.Encryption.read(from:))
-        value.entitlementArn = try reader["entitlementArn"].readIfPresent()
-        value.listenerAddress = try reader["listenerAddress"].readIfPresent()
-        value.mediaLiveInputArn = try reader["mediaLiveInputArn"].readIfPresent()
-        value.mediaStreamOutputConfigurations = try reader["mediaStreamOutputConfigurations"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MediaStreamOutputConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.entitlementArn = try reader["entitlementArn"].readIfPresent() ?? ""
+        value.entitlementStatus = try reader["entitlementStatus"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.outputArn = try reader["outputArn"].readIfPresent() ?? ""
-        value.port = try reader["port"].readIfPresent()
-        value.transport = try reader["transport"].readIfPresent(with: MediaConnectClientTypes.Transport.read(from:))
-        value.vpcInterfaceAttachment = try reader["vpcInterfaceAttachment"].readIfPresent(with: MediaConnectClientTypes.VpcInterfaceAttachment.read(from:))
-        value.bridgeArn = try reader["bridgeArn"].readIfPresent()
-        value.bridgePorts = try reader["bridgePorts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.outputStatus = try reader["outputStatus"].readIfPresent()
-        value.peerIpAddress = try reader["peerIpAddress"].readIfPresent()
-        value.routerIntegrationState = try reader["routerIntegrationState"].readIfPresent()
-        value.routerIntegrationTransitEncryption = try reader["routerIntegrationTransitEncryption"].readIfPresent(with: MediaConnectClientTypes.FlowTransitEncryption.read(from:))
-        value.connectedRouterInputArn = try reader["connectedRouterInputArn"].readIfPresent()
+        value.subscribers = try reader["subscribers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.FailoverConfig {
+
+    static func write(value: MediaConnectClientTypes.FailoverConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["failoverMode"].write(value.failoverMode)
+        try writer["recoveryWindow"].write(value.recoveryWindow)
+        try writer["sourcePriority"].write(value.sourcePriority, with: MediaConnectClientTypes.SourcePriority.write(value:to:))
+        try writer["state"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FailoverConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.FailoverConfig()
+        value.failoverMode = try reader["failoverMode"].readIfPresent()
+        value.recoveryWindow = try reader["recoveryWindow"].readIfPresent()
+        value.sourcePriority = try reader["sourcePriority"].readIfPresent(with: MediaConnectClientTypes.SourcePriority.read(from:))
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.FailoverRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.FailoverRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkInterfaceArn"].write(value.networkInterfaceArn)
+        try writer["primarySourceIndex"].write(value.primarySourceIndex)
+        try writer["protocolConfigurations"].writeList(value.protocolConfigurations, memberWritingClosure: MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sourcePriorityMode"].write(value.sourcePriorityMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FailoverRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.FailoverRouterInputConfiguration()
+        value.networkInterfaceArn = try reader["networkInterfaceArn"].readIfPresent() ?? ""
+        value.protocolConfigurations = try reader["protocolConfigurations"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sourcePriorityMode = try reader["sourcePriorityMode"].readIfPresent() ?? .sdkUnknown("")
+        value.primarySourceIndex = try reader["primarySourceIndex"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails()
+        value.sourceIndex = try reader["sourceIndex"].readIfPresent() ?? 0
+        value.sourceIpAddress = try reader["sourceIpAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration {
+
+    static func write(value: MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .rist(rist):
+                try writer["rist"].write(rist, with: MediaConnectClientTypes.RistRouterInputConfiguration.write(value:to:))
+            case let .rtp(rtp):
+                try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpRouterInputConfiguration.write(value:to:))
+            case let .srtcaller(srtcaller):
+                try writer["srtCaller"].write(srtcaller, with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.write(value:to:))
+            case let .srtlistener(srtlistener):
+                try writer["srtListener"].write(srtlistener, with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "rtp":
+                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterInputConfiguration.read(from:)))
+            case "rist":
+                return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterInputConfiguration.read(from:)))
+            case "srtListener":
+                return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.read(from:)))
+            case "srtCaller":
+                return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.FailoverRouterInputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FailoverRouterInputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.FailoverRouterInputStreamDetails()
+        value.sourceIndexZeroStreamDetails = try reader["sourceIndexZeroStreamDetails"].readIfPresent(with: MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails.read(from:))
+        value.sourceIndexOneStreamDetails = try reader["sourceIndexOneStreamDetails"].readIfPresent(with: MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.Flow {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Flow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.Flow()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.egressIp = try reader["egressIp"].readIfPresent()
+        value.entitlements = try reader["entitlements"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.Entitlement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.flowArn = try reader["flowArn"].readIfPresent() ?? ""
+        value.mediaStreams = try reader["mediaStreams"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MediaStream.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.source = try reader["source"].readIfPresent(with: MediaConnectClientTypes.Source.read(from:))
+        value.sourceFailoverConfig = try reader["sourceFailoverConfig"].readIfPresent(with: MediaConnectClientTypes.FailoverConfig.read(from:))
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.Source.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.vpcInterfaces = try reader["vpcInterfaces"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.VpcInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maintenance = try reader["maintenance"].readIfPresent(with: MediaConnectClientTypes.Maintenance.read(from:))
+        value.sourceMonitoringConfig = try reader["sourceMonitoringConfig"].readIfPresent(with: MediaConnectClientTypes.MonitoringConfig.read(from:))
+        value.flowSize = try reader["flowSize"].readIfPresent()
+        value.ndiConfig = try reader["ndiConfig"].readIfPresent(with: MediaConnectClientTypes.NdiConfig.read(from:))
+        value.encodingConfig = try reader["encodingConfig"].readIfPresent(with: MediaConnectClientTypes.EncodingConfig.read(from:))
         return value
     }
 }
@@ -14166,1446 +14749,43 @@ extension MediaConnectClientTypes.FlowTransitEncryptionKeyConfiguration {
     }
 }
 
-extension MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration {
+extension MediaConnectClientTypes.Fmtp {
 
-    static func write(value: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Fmtp {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration()
+        var value = MediaConnectClientTypes.Fmtp()
+        value.channelOrder = try reader["channelOrder"].readIfPresent()
+        value.colorimetry = try reader["colorimetry"].readIfPresent()
+        value.exactFramerate = try reader["exactFramerate"].readIfPresent()
+        value.par = try reader["par"].readIfPresent()
+        value.range = try reader["range"].readIfPresent()
+        value.scanMode = try reader["scanMode"].readIfPresent()
+        value.tcs = try reader["tcs"].readIfPresent()
+        return value
     }
 }
 
-extension MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration {
+extension MediaConnectClientTypes.FmtpRequest {
 
-    static func write(value: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaConnectClientTypes.FmtpRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["roleArn"].write(value.roleArn)
-        try writer["secretArn"].write(value.secretArn)
+        try writer["channelOrder"].write(value.channelOrder)
+        try writer["colorimetry"].write(value.colorimetry)
+        try writer["exactFramerate"].write(value.exactFramerate)
+        try writer["par"].write(value.par)
+        try writer["range"].write(value.range)
+        try writer["scanMode"].write(value.scanMode)
+        try writer["tcs"].write(value.tcs)
     }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration()
-        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.Transport {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Transport {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.Transport()
-        value.cidrAllowList = try reader["cidrAllowList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.maxBitrate = try reader["maxBitrate"].readIfPresent()
-        value.maxLatency = try reader["maxLatency"].readIfPresent()
-        value.maxSyncBuffer = try reader["maxSyncBuffer"].readIfPresent()
-        value.minLatency = try reader["minLatency"].readIfPresent()
-        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
-        value.remoteId = try reader["remoteId"].readIfPresent()
-        value.senderControlPort = try reader["senderControlPort"].readIfPresent()
-        value.senderIpAddress = try reader["senderIpAddress"].readIfPresent()
-        value.smoothingLatency = try reader["smoothingLatency"].readIfPresent()
-        value.sourceListenerAddress = try reader["sourceListenerAddress"].readIfPresent()
-        value.sourceListenerPort = try reader["sourceListenerPort"].readIfPresent()
-        value.streamId = try reader["streamId"].readIfPresent()
-        value.ndiSpeedHqQuality = try reader["ndiSpeedHqQuality"].readIfPresent()
-        value.ndiProgramName = try reader["ndiProgramName"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.MediaStreamOutputConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaStreamOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.MediaStreamOutputConfiguration()
-        value.destinationConfigurations = try reader["destinationConfigurations"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.DestinationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.encodingName = try reader["encodingName"].readIfPresent() ?? .sdkUnknown("")
-        value.encodingParameters = try reader["encodingParameters"].readIfPresent(with: MediaConnectClientTypes.EncodingParameters.read(from:))
-        value.mediaStreamName = try reader["mediaStreamName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.EncodingParameters {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.EncodingParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.EncodingParameters()
-        value.compressionFactor = try reader["compressionFactor"].readIfPresent() ?? 0.0
-        value.encoderProfile = try reader["encoderProfile"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.DestinationConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.DestinationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.DestinationConfiguration()
-        value.destinationIp = try reader["destinationIp"].readIfPresent() ?? ""
-        value.destinationPort = try reader["destinationPort"].readIfPresent() ?? 0
-        value.interface = try reader["interface"].readIfPresent(with: MediaConnectClientTypes.Interface.read(from:))
-        value.outboundIp = try reader["outboundIp"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.Interface {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Interface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.Interface()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.Encryption {
-
-    static func write(value: MediaConnectClientTypes.Encryption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["algorithm"].write(value.algorithm)
-        try writer["constantInitializationVector"].write(value.constantInitializationVector)
-        try writer["deviceId"].write(value.deviceId)
-        try writer["keyType"].write(value.keyType)
-        try writer["region"].write(value.region)
-        try writer["resourceId"].write(value.resourceId)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["secretArn"].write(value.secretArn)
-        try writer["url"].write(value.url)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Encryption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.Encryption()
-        value.algorithm = try reader["algorithm"].readIfPresent()
-        value.constantInitializationVector = try reader["constantInitializationVector"].readIfPresent()
-        value.deviceId = try reader["deviceId"].readIfPresent()
-        value.keyType = try reader["keyType"].readIfPresent()
-        value.region = try reader["region"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        value.secretArn = try reader["secretArn"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.Source {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Source {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.Source()
-        value.dataTransferSubscriberFeePercent = try reader["dataTransferSubscriberFeePercent"].readIfPresent()
-        value.decryption = try reader["decryption"].readIfPresent(with: MediaConnectClientTypes.Encryption.read(from:))
-        value.description = try reader["description"].readIfPresent()
-        value.entitlementArn = try reader["entitlementArn"].readIfPresent()
-        value.ingestIp = try reader["ingestIp"].readIfPresent()
-        value.ingestPort = try reader["ingestPort"].readIfPresent()
-        value.mediaStreamSourceConfigurations = try reader["mediaStreamSourceConfigurations"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MediaStreamSourceConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.senderControlPort = try reader["senderControlPort"].readIfPresent()
-        value.senderIpAddress = try reader["senderIpAddress"].readIfPresent()
-        value.sourceArn = try reader["sourceArn"].readIfPresent() ?? ""
-        value.transport = try reader["transport"].readIfPresent(with: MediaConnectClientTypes.Transport.read(from:))
-        value.vpcInterfaceName = try reader["vpcInterfaceName"].readIfPresent()
-        value.whitelistCidr = try reader["whitelistCidr"].readIfPresent()
-        value.gatewayBridgeSource = try reader["gatewayBridgeSource"].readIfPresent(with: MediaConnectClientTypes.GatewayBridgeSource.read(from:))
-        value.peerIpAddress = try reader["peerIpAddress"].readIfPresent()
-        value.routerIntegrationState = try reader["routerIntegrationState"].readIfPresent()
-        value.routerIntegrationTransitDecryption = try reader["routerIntegrationTransitDecryption"].readIfPresent(with: MediaConnectClientTypes.FlowTransitEncryption.read(from:))
-        value.connectedRouterOutputArn = try reader["connectedRouterOutputArn"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.GatewayBridgeSource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.GatewayBridgeSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.GatewayBridgeSource()
-        value.bridgeArn = try reader["bridgeArn"].readIfPresent() ?? ""
-        value.vpcInterfaceAttachment = try reader["vpcInterfaceAttachment"].readIfPresent(with: MediaConnectClientTypes.VpcInterfaceAttachment.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.MediaStreamSourceConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaStreamSourceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.MediaStreamSourceConfiguration()
-        value.encodingName = try reader["encodingName"].readIfPresent() ?? .sdkUnknown("")
-        value.inputConfigurations = try reader["inputConfigurations"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.InputConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.mediaStreamName = try reader["mediaStreamName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.InputConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.InputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.InputConfiguration()
-        value.inputIp = try reader["inputIp"].readIfPresent() ?? ""
-        value.inputPort = try reader["inputPort"].readIfPresent() ?? 0
-        value.interface = try reader["interface"].readIfPresent(with: MediaConnectClientTypes.Interface.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.VpcInterface {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.VpcInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.VpcInterface()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.networkInterfaceIds = try reader["networkInterfaceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.networkInterfaceType = try reader["networkInterfaceType"].readIfPresent() ?? .sdkUnknown("")
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.subnetId = try reader["subnetId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.RouterInput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.RouterInput()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.inputType = try reader["inputType"].readIfPresent() ?? .sdkUnknown("")
-        value.configuration = try reader["configuration"].readIfPresent(with: MediaConnectClientTypes.RouterInputConfiguration.read(from:))
-        value.routedOutputs = try reader["routedOutputs"].readIfPresent() ?? 0
-        value.maximumRoutedOutputs = try reader["maximumRoutedOutputs"].readIfPresent()
-        value.regionName = try reader["regionName"].readIfPresent() ?? ""
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent() ?? ""
-        value.maximumBitrate = try reader["maximumBitrate"].readIfPresent() ?? 0
-        value.tier = try reader["tier"].readIfPresent() ?? .sdkUnknown("")
-        value.routingScope = try reader["routingScope"].readIfPresent() ?? .sdkUnknown("")
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterInputMessage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.transitEncryption = try reader["transitEncryption"].readIfPresent(with: MediaConnectClientTypes.RouterInputTransitEncryption.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.streamDetails = try reader["streamDetails"].readIfPresent(with: MediaConnectClientTypes.RouterInputStreamDetails.read(from:))
-        value.ipAddress = try reader["ipAddress"].readIfPresent()
-        value.maintenanceType = try reader["maintenanceType"].readIfPresent() ?? .sdkUnknown("")
-        value.maintenanceConfiguration = try reader["maintenanceConfiguration"].readIfPresent(with: MediaConnectClientTypes.MaintenanceConfiguration.read(from:))
-        value.maintenanceScheduleType = try reader["maintenanceScheduleType"].readIfPresent()
-        value.maintenanceSchedule = try reader["maintenanceSchedule"].readIfPresent(with: MediaConnectClientTypes.MaintenanceSchedule.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.MaintenanceSchedule {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MaintenanceSchedule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "window":
-                return .window(try reader["window"].read(with: MediaConnectClientTypes.WindowMaintenanceSchedule.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MediaConnectClientTypes.WindowMaintenanceSchedule {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.WindowMaintenanceSchedule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.WindowMaintenanceSchedule()
-        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.end = try reader["end"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.scheduledTime = try reader["scheduledTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.MaintenanceConfiguration {
-
-    static func write(value: MediaConnectClientTypes.MaintenanceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .`default`(`default`):
-                try writer["default"].write(`default`, with: MediaConnectClientTypes.DefaultMaintenanceConfiguration.write(value:to:))
-            case let .preferreddaytime(preferreddaytime):
-                try writer["preferredDayTime"].write(preferreddaytime, with: MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MaintenanceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "preferredDayTime":
-                return .preferreddaytime(try reader["preferredDayTime"].read(with: MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration.read(from:)))
-            case "default":
-                return .`default`(try reader["default"].read(with: MediaConnectClientTypes.DefaultMaintenanceConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MediaConnectClientTypes.DefaultMaintenanceConfiguration {
-
-    static func write(value: MediaConnectClientTypes.DefaultMaintenanceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.DefaultMaintenanceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return MediaConnectClientTypes.DefaultMaintenanceConfiguration()
-    }
-}
-
-extension MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration {
-
-    static func write(value: MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["day"].write(value.day)
-        try writer["time"].write(value.time)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration()
-        value.day = try reader["day"].readIfPresent() ?? .sdkUnknown("")
-        value.time = try reader["time"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.RouterInputStreamDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputStreamDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "standard":
-                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardRouterInputStreamDetails.read(from:)))
-            case "failover":
-                return .failover(try reader["failover"].read(with: MediaConnectClientTypes.FailoverRouterInputStreamDetails.read(from:)))
-            case "merge":
-                return .merge(try reader["merge"].read(with: MediaConnectClientTypes.MergeRouterInputStreamDetails.read(from:)))
-            case "mediaConnectFlow":
-                return .mediaconnectflow(try reader["mediaConnectFlow"].read(with: MediaConnectClientTypes.MediaConnectFlowRouterInputStreamDetails.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MediaConnectClientTypes.MediaConnectFlowRouterInputStreamDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaConnectFlowRouterInputStreamDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return MediaConnectClientTypes.MediaConnectFlowRouterInputStreamDetails()
-    }
-}
-
-extension MediaConnectClientTypes.MergeRouterInputStreamDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MergeRouterInputStreamDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.MergeRouterInputStreamDetails()
-        value.sourceIndexZeroStreamDetails = try reader["sourceIndexZeroStreamDetails"].readIfPresent(with: MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails.read(from:))
-        value.sourceIndexOneStreamDetails = try reader["sourceIndexOneStreamDetails"].readIfPresent(with: MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails()
-        value.sourceIndex = try reader["sourceIndex"].readIfPresent() ?? 0
-        value.sourceIpAddress = try reader["sourceIpAddress"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.FailoverRouterInputStreamDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FailoverRouterInputStreamDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.FailoverRouterInputStreamDetails()
-        value.sourceIndexZeroStreamDetails = try reader["sourceIndexZeroStreamDetails"].readIfPresent(with: MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails.read(from:))
-        value.sourceIndexOneStreamDetails = try reader["sourceIndexOneStreamDetails"].readIfPresent(with: MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails()
-        value.sourceIndex = try reader["sourceIndex"].readIfPresent() ?? 0
-        value.sourceIpAddress = try reader["sourceIpAddress"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.StandardRouterInputStreamDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardRouterInputStreamDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.StandardRouterInputStreamDetails()
-        value.sourceIpAddress = try reader["sourceIpAddress"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.RouterInputTransitEncryption {
-
-    static func write(value: MediaConnectClientTypes.RouterInputTransitEncryption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["encryptionKeyConfiguration"].write(value.encryptionKeyConfiguration, with: MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration.write(value:to:))
-        try writer["encryptionKeyType"].write(value.encryptionKeyType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputTransitEncryption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.RouterInputTransitEncryption()
-        value.encryptionKeyType = try reader["encryptionKeyType"].readIfPresent()
-        value.encryptionKeyConfiguration = try reader["encryptionKeyConfiguration"].readIfPresent(with: MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration {
-
-    static func write(value: MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .automatic(automatic):
-                try writer["automatic"].write(automatic, with: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration.write(value:to:))
-            case let .secretsmanager(secretsmanager):
-                try writer["secretsManager"].write(secretsmanager, with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "secretsManager":
-                return .secretsmanager(try reader["secretsManager"].read(with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.read(from:)))
-            case "automatic":
-                return .automatic(try reader["automatic"].read(with: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MediaConnectClientTypes.RouterInputMessage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.RouterInputMessage()
-        value.code = try reader["code"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.RouterInputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.RouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .failover(failover):
-                try writer["failover"].write(failover, with: MediaConnectClientTypes.FailoverRouterInputConfiguration.write(value:to:))
-            case let .mediaconnectflow(mediaconnectflow):
-                try writer["mediaConnectFlow"].write(mediaconnectflow, with: MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration.write(value:to:))
-            case let .merge(merge):
-                try writer["merge"].write(merge, with: MediaConnectClientTypes.MergeRouterInputConfiguration.write(value:to:))
-            case let .standard(standard):
-                try writer["standard"].write(standard, with: MediaConnectClientTypes.StandardRouterInputConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "standard":
-                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardRouterInputConfiguration.read(from:)))
-            case "failover":
-                return .failover(try reader["failover"].read(with: MediaConnectClientTypes.FailoverRouterInputConfiguration.read(from:)))
-            case "merge":
-                return .merge(try reader["merge"].read(with: MediaConnectClientTypes.MergeRouterInputConfiguration.read(from:)))
-            case "mediaConnectFlow":
-                return .mediaconnectflow(try reader["mediaConnectFlow"].read(with: MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["flowArn"].write(value.flowArn)
-        try writer["flowOutputArn"].write(value.flowOutputArn)
-        try writer["sourceTransitDecryption"].write(value.sourceTransitDecryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration()
-        value.flowArn = try reader["flowArn"].readIfPresent()
-        value.flowOutputArn = try reader["flowOutputArn"].readIfPresent()
-        value.sourceTransitDecryption = try reader["sourceTransitDecryption"].readIfPresent(with: MediaConnectClientTypes.FlowTransitEncryption.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.MergeRouterInputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.MergeRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["mergeRecoveryWindowMilliseconds"].write(value.mergeRecoveryWindowMilliseconds)
-        try writer["networkInterfaceArn"].write(value.networkInterfaceArn)
-        try writer["protocolConfigurations"].writeList(value.protocolConfigurations, memberWritingClosure: MediaConnectClientTypes.MergeRouterInputProtocolConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MergeRouterInputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.MergeRouterInputConfiguration()
-        value.networkInterfaceArn = try reader["networkInterfaceArn"].readIfPresent() ?? ""
-        value.protocolConfigurations = try reader["protocolConfigurations"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MergeRouterInputProtocolConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.mergeRecoveryWindowMilliseconds = try reader["mergeRecoveryWindowMilliseconds"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.MergeRouterInputProtocolConfiguration {
-
-    static func write(value: MediaConnectClientTypes.MergeRouterInputProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .rist(rist):
-                try writer["rist"].write(rist, with: MediaConnectClientTypes.RistRouterInputConfiguration.write(value:to:))
-            case let .rtp(rtp):
-                try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpRouterInputConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MergeRouterInputProtocolConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "rtp":
-                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterInputConfiguration.read(from:)))
-            case "rist":
-                return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterInputConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MediaConnectClientTypes.RistRouterInputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.RistRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["port"].write(value.port)
-        try writer["recoveryLatencyMilliseconds"].write(value.recoveryLatencyMilliseconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RistRouterInputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.RistRouterInputConfiguration()
-        value.port = try reader["port"].readIfPresent() ?? 0
-        value.recoveryLatencyMilliseconds = try reader["recoveryLatencyMilliseconds"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.RtpRouterInputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.RtpRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["forwardErrorCorrection"].write(value.forwardErrorCorrection)
-        try writer["port"].write(value.port)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtpRouterInputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.RtpRouterInputConfiguration()
-        value.port = try reader["port"].readIfPresent() ?? 0
-        value.forwardErrorCorrection = try reader["forwardErrorCorrection"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.FailoverRouterInputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.FailoverRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkInterfaceArn"].write(value.networkInterfaceArn)
-        try writer["primarySourceIndex"].write(value.primarySourceIndex)
-        try writer["protocolConfigurations"].writeList(value.protocolConfigurations, memberWritingClosure: MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["sourcePriorityMode"].write(value.sourcePriorityMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FailoverRouterInputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.FailoverRouterInputConfiguration()
-        value.networkInterfaceArn = try reader["networkInterfaceArn"].readIfPresent() ?? ""
-        value.protocolConfigurations = try reader["protocolConfigurations"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.sourcePriorityMode = try reader["sourcePriorityMode"].readIfPresent() ?? .sdkUnknown("")
-        value.primarySourceIndex = try reader["primarySourceIndex"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration {
-
-    static func write(value: MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .rist(rist):
-                try writer["rist"].write(rist, with: MediaConnectClientTypes.RistRouterInputConfiguration.write(value:to:))
-            case let .rtp(rtp):
-                try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpRouterInputConfiguration.write(value:to:))
-            case let .srtcaller(srtcaller):
-                try writer["srtCaller"].write(srtcaller, with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.write(value:to:))
-            case let .srtlistener(srtlistener):
-                try writer["srtListener"].write(srtlistener, with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "rtp":
-                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterInputConfiguration.read(from:)))
-            case "rist":
-                return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterInputConfiguration.read(from:)))
-            case "srtListener":
-                return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.read(from:)))
-            case "srtCaller":
-                return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MediaConnectClientTypes.SrtCallerRouterInputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.SrtCallerRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["decryptionConfiguration"].write(value.decryptionConfiguration, with: MediaConnectClientTypes.SrtDecryptionConfiguration.write(value:to:))
-        try writer["minimumLatencyMilliseconds"].write(value.minimumLatencyMilliseconds)
-        try writer["sourceAddress"].write(value.sourceAddress)
-        try writer["sourcePort"].write(value.sourcePort)
-        try writer["streamId"].write(value.streamId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtCallerRouterInputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.SrtCallerRouterInputConfiguration()
-        value.sourceAddress = try reader["sourceAddress"].readIfPresent() ?? ""
-        value.sourcePort = try reader["sourcePort"].readIfPresent() ?? 0
-        value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
-        value.streamId = try reader["streamId"].readIfPresent()
-        value.decryptionConfiguration = try reader["decryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.SrtDecryptionConfiguration.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.SrtDecryptionConfiguration {
-
-    static func write(value: MediaConnectClientTypes.SrtDecryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["encryptionKey"].write(value.encryptionKey, with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtDecryptionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.SrtDecryptionConfiguration()
-        value.encryptionKey = try reader["encryptionKey"].readIfPresent(with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.SrtListenerRouterInputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.SrtListenerRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["decryptionConfiguration"].write(value.decryptionConfiguration, with: MediaConnectClientTypes.SrtDecryptionConfiguration.write(value:to:))
-        try writer["minimumLatencyMilliseconds"].write(value.minimumLatencyMilliseconds)
-        try writer["port"].write(value.port)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtListenerRouterInputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.SrtListenerRouterInputConfiguration()
-        value.port = try reader["port"].readIfPresent() ?? 0
-        value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
-        value.decryptionConfiguration = try reader["decryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.SrtDecryptionConfiguration.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.StandardRouterInputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.StandardRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkInterfaceArn"].write(value.networkInterfaceArn)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["protocolConfiguration"].write(value.protocolConfiguration, with: MediaConnectClientTypes.RouterInputProtocolConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardRouterInputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.StandardRouterInputConfiguration()
-        value.networkInterfaceArn = try reader["networkInterfaceArn"].readIfPresent() ?? ""
-        value.protocolConfiguration = try reader["protocolConfiguration"].readIfPresent(with: MediaConnectClientTypes.RouterInputProtocolConfiguration.read(from:))
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.RouterInputProtocolConfiguration {
-
-    static func write(value: MediaConnectClientTypes.RouterInputProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .rist(rist):
-                try writer["rist"].write(rist, with: MediaConnectClientTypes.RistRouterInputConfiguration.write(value:to:))
-            case let .rtp(rtp):
-                try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpRouterInputConfiguration.write(value:to:))
-            case let .srtcaller(srtcaller):
-                try writer["srtCaller"].write(srtcaller, with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.write(value:to:))
-            case let .srtlistener(srtlistener):
-                try writer["srtListener"].write(srtlistener, with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputProtocolConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "rtp":
-                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterInputConfiguration.read(from:)))
-            case "rist":
-                return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterInputConfiguration.read(from:)))
-            case "srtListener":
-                return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.read(from:)))
-            case "srtCaller":
-                return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MediaConnectClientTypes.BatchGetRouterInputError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BatchGetRouterInputError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.BatchGetRouterInputError()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.code = try reader["code"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.RouterNetworkInterface {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterNetworkInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.RouterNetworkInterface()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.networkInterfaceType = try reader["networkInterfaceType"].readIfPresent() ?? .sdkUnknown("")
-        value.configuration = try reader["configuration"].readIfPresent(with: MediaConnectClientTypes.RouterNetworkInterfaceConfiguration.read(from:))
-        value.associatedOutputCount = try reader["associatedOutputCount"].readIfPresent() ?? 0
-        value.associatedInputCount = try reader["associatedInputCount"].readIfPresent() ?? 0
-        value.regionName = try reader["regionName"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.RouterNetworkInterfaceConfiguration {
-
-    static func write(value: MediaConnectClientTypes.RouterNetworkInterfaceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .`public`(`public`):
-                try writer["public"].write(`public`, with: MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration.write(value:to:))
-            case let .vpc(vpc):
-                try writer["vpc"].write(vpc, with: MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterNetworkInterfaceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "public":
-                return .`public`(try reader["public"].read(with: MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration.read(from:)))
-            case "vpc":
-                return .vpc(try reader["vpc"].read(with: MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration {
-
-    static func write(value: MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetId"].write(value.subnetId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration()
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.subnetId = try reader["subnetId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration {
-
-    static func write(value: MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowRules"].writeList(value.allowRules, memberWritingClosure: MediaConnectClientTypes.PublicRouterNetworkInterfaceRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration()
-        value.allowRules = try reader["allowRules"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.PublicRouterNetworkInterfaceRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.PublicRouterNetworkInterfaceRule {
-
-    static func write(value: MediaConnectClientTypes.PublicRouterNetworkInterfaceRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cidr"].write(value.cidr)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.PublicRouterNetworkInterfaceRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.PublicRouterNetworkInterfaceRule()
-        value.cidr = try reader["cidr"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.BatchGetRouterNetworkInterfaceError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BatchGetRouterNetworkInterfaceError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.BatchGetRouterNetworkInterfaceError()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.code = try reader["code"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.RouterOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.RouterOutput()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.outputType = try reader["outputType"].readIfPresent() ?? .sdkUnknown("")
-        value.configuration = try reader["configuration"].readIfPresent(with: MediaConnectClientTypes.RouterOutputConfiguration.read(from:))
-        value.routedState = try reader["routedState"].readIfPresent() ?? .sdkUnknown("")
-        value.regionName = try reader["regionName"].readIfPresent() ?? ""
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent() ?? ""
-        value.maximumBitrate = try reader["maximumBitrate"].readIfPresent() ?? 0
-        value.routingScope = try reader["routingScope"].readIfPresent() ?? .sdkUnknown("")
-        value.tier = try reader["tier"].readIfPresent() ?? .sdkUnknown("")
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterOutputMessage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.streamDetails = try reader["streamDetails"].readIfPresent(with: MediaConnectClientTypes.RouterOutputStreamDetails.read(from:))
-        value.ipAddress = try reader["ipAddress"].readIfPresent()
-        value.routedInputArn = try reader["routedInputArn"].readIfPresent()
-        value.maintenanceType = try reader["maintenanceType"].readIfPresent() ?? .sdkUnknown("")
-        value.maintenanceConfiguration = try reader["maintenanceConfiguration"].readIfPresent(with: MediaConnectClientTypes.MaintenanceConfiguration.read(from:))
-        value.maintenanceScheduleType = try reader["maintenanceScheduleType"].readIfPresent()
-        value.maintenanceSchedule = try reader["maintenanceSchedule"].readIfPresent(with: MediaConnectClientTypes.MaintenanceSchedule.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.RouterOutputStreamDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputStreamDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "standard":
-                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardRouterOutputStreamDetails.read(from:)))
-            case "mediaConnectFlow":
-                return .mediaconnectflow(try reader["mediaConnectFlow"].read(with: MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails.read(from:)))
-            case "mediaLiveInput":
-                return .medialiveinput(try reader["mediaLiveInput"].read(with: MediaConnectClientTypes.MediaLiveInputRouterOutputStreamDetails.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MediaConnectClientTypes.MediaLiveInputRouterOutputStreamDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaLiveInputRouterOutputStreamDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return MediaConnectClientTypes.MediaLiveInputRouterOutputStreamDetails()
-    }
-}
-
-extension MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails()
-    }
-}
-
-extension MediaConnectClientTypes.StandardRouterOutputStreamDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardRouterOutputStreamDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.StandardRouterOutputStreamDetails()
-        value.destinationIpAddress = try reader["destinationIpAddress"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.RouterOutputMessage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputMessage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.RouterOutputMessage()
-        value.code = try reader["code"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.RouterOutputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.RouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .mediaconnectflow(mediaconnectflow):
-                try writer["mediaConnectFlow"].write(mediaconnectflow, with: MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration.write(value:to:))
-            case let .medialiveinput(medialiveinput):
-                try writer["mediaLiveInput"].write(medialiveinput, with: MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration.write(value:to:))
-            case let .standard(standard):
-                try writer["standard"].write(standard, with: MediaConnectClientTypes.StandardRouterOutputConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "standard":
-                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardRouterOutputConfiguration.read(from:)))
-            case "mediaConnectFlow":
-                return .mediaconnectflow(try reader["mediaConnectFlow"].read(with: MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration.read(from:)))
-            case "mediaLiveInput":
-                return .medialiveinput(try reader["mediaLiveInput"].read(with: MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationTransitEncryption"].write(value.destinationTransitEncryption, with: MediaConnectClientTypes.MediaLiveTransitEncryption.write(value:to:))
-        try writer["mediaLiveInputArn"].write(value.mediaLiveInputArn)
-        try writer["mediaLivePipelineId"].write(value.mediaLivePipelineId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration()
-        value.mediaLiveInputArn = try reader["mediaLiveInputArn"].readIfPresent()
-        value.mediaLivePipelineId = try reader["mediaLivePipelineId"].readIfPresent()
-        value.destinationTransitEncryption = try reader["destinationTransitEncryption"].readIfPresent(with: MediaConnectClientTypes.MediaLiveTransitEncryption.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.MediaLiveTransitEncryption {
-
-    static func write(value: MediaConnectClientTypes.MediaLiveTransitEncryption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["encryptionKeyConfiguration"].write(value.encryptionKeyConfiguration, with: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration.write(value:to:))
-        try writer["encryptionKeyType"].write(value.encryptionKeyType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaLiveTransitEncryption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.MediaLiveTransitEncryption()
-        value.encryptionKeyType = try reader["encryptionKeyType"].readIfPresent()
-        value.encryptionKeyConfiguration = try reader["encryptionKeyConfiguration"].readIfPresent(with: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration {
-
-    static func write(value: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .automatic(automatic):
-                try writer["automatic"].write(automatic, with: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration.write(value:to:))
-            case let .secretsmanager(secretsmanager):
-                try writer["secretsManager"].write(secretsmanager, with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "secretsManager":
-                return .secretsmanager(try reader["secretsManager"].read(with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.read(from:)))
-            case "automatic":
-                return .automatic(try reader["automatic"].read(with: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationTransitEncryption"].write(value.destinationTransitEncryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
-        try writer["flowArn"].write(value.flowArn)
-        try writer["flowSourceArn"].write(value.flowSourceArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration()
-        value.flowArn = try reader["flowArn"].readIfPresent()
-        value.flowSourceArn = try reader["flowSourceArn"].readIfPresent()
-        value.destinationTransitEncryption = try reader["destinationTransitEncryption"].readIfPresent(with: MediaConnectClientTypes.FlowTransitEncryption.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.StandardRouterOutputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.StandardRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkInterfaceArn"].write(value.networkInterfaceArn)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["protocolConfiguration"].write(value.protocolConfiguration, with: MediaConnectClientTypes.RouterOutputProtocolConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardRouterOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.StandardRouterOutputConfiguration()
-        value.networkInterfaceArn = try reader["networkInterfaceArn"].readIfPresent() ?? ""
-        value.protocolConfiguration = try reader["protocolConfiguration"].readIfPresent(with: MediaConnectClientTypes.RouterOutputProtocolConfiguration.read(from:))
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.RouterOutputProtocolConfiguration {
-
-    static func write(value: MediaConnectClientTypes.RouterOutputProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .rist(rist):
-                try writer["rist"].write(rist, with: MediaConnectClientTypes.RistRouterOutputConfiguration.write(value:to:))
-            case let .rtp(rtp):
-                try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpRouterOutputConfiguration.write(value:to:))
-            case let .srtcaller(srtcaller):
-                try writer["srtCaller"].write(srtcaller, with: MediaConnectClientTypes.SrtCallerRouterOutputConfiguration.write(value:to:))
-            case let .srtlistener(srtlistener):
-                try writer["srtListener"].write(srtlistener, with: MediaConnectClientTypes.SrtListenerRouterOutputConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputProtocolConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "rtp":
-                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterOutputConfiguration.read(from:)))
-            case "rist":
-                return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterOutputConfiguration.read(from:)))
-            case "srtListener":
-                return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerRouterOutputConfiguration.read(from:)))
-            case "srtCaller":
-                return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerRouterOutputConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MediaConnectClientTypes.SrtCallerRouterOutputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.SrtCallerRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationAddress"].write(value.destinationAddress)
-        try writer["destinationPort"].write(value.destinationPort)
-        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: MediaConnectClientTypes.SrtEncryptionConfiguration.write(value:to:))
-        try writer["minimumLatencyMilliseconds"].write(value.minimumLatencyMilliseconds)
-        try writer["streamId"].write(value.streamId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtCallerRouterOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.SrtCallerRouterOutputConfiguration()
-        value.destinationAddress = try reader["destinationAddress"].readIfPresent() ?? ""
-        value.destinationPort = try reader["destinationPort"].readIfPresent() ?? 0
-        value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
-        value.streamId = try reader["streamId"].readIfPresent()
-        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.SrtEncryptionConfiguration.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.SrtEncryptionConfiguration {
-
-    static func write(value: MediaConnectClientTypes.SrtEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["encryptionKey"].write(value.encryptionKey, with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtEncryptionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.SrtEncryptionConfiguration()
-        value.encryptionKey = try reader["encryptionKey"].readIfPresent(with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.SrtListenerRouterOutputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.SrtListenerRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: MediaConnectClientTypes.SrtEncryptionConfiguration.write(value:to:))
-        try writer["minimumLatencyMilliseconds"].write(value.minimumLatencyMilliseconds)
-        try writer["port"].write(value.port)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtListenerRouterOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.SrtListenerRouterOutputConfiguration()
-        value.port = try reader["port"].readIfPresent() ?? 0
-        value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
-        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.SrtEncryptionConfiguration.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.RistRouterOutputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.RistRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationAddress"].write(value.destinationAddress)
-        try writer["destinationPort"].write(value.destinationPort)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RistRouterOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.RistRouterOutputConfiguration()
-        value.destinationAddress = try reader["destinationAddress"].readIfPresent() ?? ""
-        value.destinationPort = try reader["destinationPort"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.RtpRouterOutputConfiguration {
-
-    static func write(value: MediaConnectClientTypes.RtpRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationAddress"].write(value.destinationAddress)
-        try writer["destinationPort"].write(value.destinationPort)
-        try writer["forwardErrorCorrection"].write(value.forwardErrorCorrection)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtpRouterOutputConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.RtpRouterOutputConfiguration()
-        value.destinationAddress = try reader["destinationAddress"].readIfPresent() ?? ""
-        value.destinationPort = try reader["destinationPort"].readIfPresent() ?? 0
-        value.forwardErrorCorrection = try reader["forwardErrorCorrection"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.BatchGetRouterOutputError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BatchGetRouterOutputError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.BatchGetRouterOutputError()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.code = try reader["code"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.Bridge {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Bridge {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.Bridge()
-        value.bridgeArn = try reader["bridgeArn"].readIfPresent() ?? ""
-        value.bridgeMessages = try reader["bridgeMessages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MessageDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.bridgeState = try reader["bridgeState"].readIfPresent() ?? .sdkUnknown("")
-        value.egressGatewayBridge = try reader["egressGatewayBridge"].readIfPresent(with: MediaConnectClientTypes.EgressGatewayBridge.read(from:))
-        value.ingressGatewayBridge = try reader["ingressGatewayBridge"].readIfPresent(with: MediaConnectClientTypes.IngressGatewayBridge.read(from:))
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.BridgeOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.placementArn = try reader["placementArn"].readIfPresent() ?? ""
-        value.sourceFailoverConfig = try reader["sourceFailoverConfig"].readIfPresent(with: MediaConnectClientTypes.FailoverConfig.read(from:))
-        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.BridgeSource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.FailoverConfig {
-
-    static func write(value: MediaConnectClientTypes.FailoverConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["failoverMode"].write(value.failoverMode)
-        try writer["recoveryWindow"].write(value.recoveryWindow)
-        try writer["sourcePriority"].write(value.sourcePriority, with: MediaConnectClientTypes.SourcePriority.write(value:to:))
-        try writer["state"].write(value.state)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FailoverConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.FailoverConfig()
-        value.failoverMode = try reader["failoverMode"].readIfPresent()
-        value.recoveryWindow = try reader["recoveryWindow"].readIfPresent()
-        value.sourcePriority = try reader["sourcePriority"].readIfPresent(with: MediaConnectClientTypes.SourcePriority.read(from:))
-        value.state = try reader["state"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.SourcePriority {
-
-    static func write(value: MediaConnectClientTypes.SourcePriority?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["primarySource"].write(value.primarySource)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SourcePriority {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.SourcePriority()
-        value.primarySource = try reader["primarySource"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.IngressGatewayBridge {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.IngressGatewayBridge {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.IngressGatewayBridge()
-        value.instanceId = try reader["instanceId"].readIfPresent()
-        value.maxBitrate = try reader["maxBitrate"].readIfPresent() ?? 0
-        value.maxOutputs = try reader["maxOutputs"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.EgressGatewayBridge {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.EgressGatewayBridge {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.EgressGatewayBridge()
-        value.instanceId = try reader["instanceId"].readIfPresent()
-        value.maxBitrate = try reader["maxBitrate"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.MessageDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MessageDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.MessageDetail()
-        value.code = try reader["code"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        value.resourceName = try reader["resourceName"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.Flow {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Flow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.Flow()
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.egressIp = try reader["egressIp"].readIfPresent()
-        value.entitlements = try reader["entitlements"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.Entitlement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.flowArn = try reader["flowArn"].readIfPresent() ?? ""
-        value.mediaStreams = try reader["mediaStreams"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MediaStream.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.source = try reader["source"].readIfPresent(with: MediaConnectClientTypes.Source.read(from:))
-        value.sourceFailoverConfig = try reader["sourceFailoverConfig"].readIfPresent(with: MediaConnectClientTypes.FailoverConfig.read(from:))
-        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.Source.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.vpcInterfaces = try reader["vpcInterfaces"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.VpcInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.maintenance = try reader["maintenance"].readIfPresent(with: MediaConnectClientTypes.Maintenance.read(from:))
-        value.sourceMonitoringConfig = try reader["sourceMonitoringConfig"].readIfPresent(with: MediaConnectClientTypes.MonitoringConfig.read(from:))
-        value.flowSize = try reader["flowSize"].readIfPresent()
-        value.ndiConfig = try reader["ndiConfig"].readIfPresent(with: MediaConnectClientTypes.NdiConfig.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.NdiConfig {
-
-    static func write(value: MediaConnectClientTypes.NdiConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["machineName"].write(value.machineName)
-        try writer["ndiDiscoveryServers"].writeList(value.ndiDiscoveryServers, memberWritingClosure: MediaConnectClientTypes.NdiDiscoveryServerConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ndiState"].write(value.ndiState)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.NdiConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.NdiConfig()
-        value.ndiState = try reader["ndiState"].readIfPresent()
-        value.machineName = try reader["machineName"].readIfPresent()
-        value.ndiDiscoveryServers = try reader["ndiDiscoveryServers"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.NdiDiscoveryServerConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.NdiDiscoveryServerConfig {
-
-    static func write(value: MediaConnectClientTypes.NdiDiscoveryServerConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["discoveryServerAddress"].write(value.discoveryServerAddress)
-        try writer["discoveryServerPort"].write(value.discoveryServerPort)
-        try writer["vpcInterfaceAdapter"].write(value.vpcInterfaceAdapter)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.NdiDiscoveryServerConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.NdiDiscoveryServerConfig()
-        value.discoveryServerAddress = try reader["discoveryServerAddress"].readIfPresent() ?? ""
-        value.discoveryServerPort = try reader["discoveryServerPort"].readIfPresent()
-        value.vpcInterfaceAdapter = try reader["vpcInterfaceAdapter"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.MonitoringConfig {
-
-    static func write(value: MediaConnectClientTypes.MonitoringConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audioMonitoringSettings"].writeList(value.audioMonitoringSettings, memberWritingClosure: MediaConnectClientTypes.AudioMonitoringSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["contentQualityAnalysisState"].write(value.contentQualityAnalysisState)
-        try writer["thumbnailState"].write(value.thumbnailState)
-        try writer["videoMonitoringSettings"].writeList(value.videoMonitoringSettings, memberWritingClosure: MediaConnectClientTypes.VideoMonitoringSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MonitoringConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.MonitoringConfig()
-        value.thumbnailState = try reader["thumbnailState"].readIfPresent()
-        value.audioMonitoringSettings = try reader["audioMonitoringSettings"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.AudioMonitoringSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.contentQualityAnalysisState = try reader["contentQualityAnalysisState"].readIfPresent()
-        value.videoMonitoringSettings = try reader["videoMonitoringSettings"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.VideoMonitoringSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
 }
 
-extension MediaConnectClientTypes.VideoMonitoringSetting {
-
-    static func write(value: MediaConnectClientTypes.VideoMonitoringSetting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["blackFrames"].write(value.blackFrames, with: MediaConnectClientTypes.BlackFrames.write(value:to:))
-        try writer["frozenFrames"].write(value.frozenFrames, with: MediaConnectClientTypes.FrozenFrames.write(value:to:))
-    }
+extension MediaConnectClientTypes.FrameResolution {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.VideoMonitoringSetting {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FrameResolution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.VideoMonitoringSetting()
-        value.blackFrames = try reader["blackFrames"].readIfPresent(with: MediaConnectClientTypes.BlackFrames.read(from:))
-        value.frozenFrames = try reader["frozenFrames"].readIfPresent(with: MediaConnectClientTypes.FrozenFrames.read(from:))
+        var value = MediaConnectClientTypes.FrameResolution()
+        value.frameHeight = try reader["frameHeight"].readIfPresent() ?? 0
+        value.frameWidth = try reader["frameWidth"].readIfPresent() ?? 0
         return value
     }
 }
@@ -15627,84 +14807,6 @@ extension MediaConnectClientTypes.FrozenFrames {
     }
 }
 
-extension MediaConnectClientTypes.BlackFrames {
-
-    static func write(value: MediaConnectClientTypes.BlackFrames?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["state"].write(value.state)
-        try writer["thresholdSeconds"].write(value.thresholdSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BlackFrames {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.BlackFrames()
-        value.state = try reader["state"].readIfPresent()
-        value.thresholdSeconds = try reader["thresholdSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.AudioMonitoringSetting {
-
-    static func write(value: MediaConnectClientTypes.AudioMonitoringSetting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["silentAudio"].write(value.silentAudio, with: MediaConnectClientTypes.SilentAudio.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.AudioMonitoringSetting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.AudioMonitoringSetting()
-        value.silentAudio = try reader["silentAudio"].readIfPresent(with: MediaConnectClientTypes.SilentAudio.read(from:))
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.SilentAudio {
-
-    static func write(value: MediaConnectClientTypes.SilentAudio?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["state"].write(value.state)
-        try writer["thresholdSeconds"].write(value.thresholdSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SilentAudio {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.SilentAudio()
-        value.state = try reader["state"].readIfPresent()
-        value.thresholdSeconds = try reader["thresholdSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.Maintenance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Maintenance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.Maintenance()
-        value.maintenanceDay = try reader["maintenanceDay"].readIfPresent()
-        value.maintenanceDeadline = try reader["maintenanceDeadline"].readIfPresent()
-        value.maintenanceScheduledDate = try reader["maintenanceScheduledDate"].readIfPresent()
-        value.maintenanceStartHour = try reader["maintenanceStartHour"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.Entitlement {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Entitlement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.Entitlement()
-        value.dataTransferSubscriberFeePercent = try reader["dataTransferSubscriberFeePercent"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.encryption = try reader["encryption"].readIfPresent(with: MediaConnectClientTypes.Encryption.read(from:))
-        value.entitlementArn = try reader["entitlementArn"].readIfPresent() ?? ""
-        value.entitlementStatus = try reader["entitlementStatus"].readIfPresent()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.subscribers = try reader["subscribers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
 extension MediaConnectClientTypes.Gateway {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Gateway {
@@ -15720,95 +14822,13 @@ extension MediaConnectClientTypes.Gateway {
     }
 }
 
-extension MediaConnectClientTypes.GatewayNetwork {
+extension MediaConnectClientTypes.GatewayBridgeSource {
 
-    static func write(value: MediaConnectClientTypes.GatewayNetwork?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cidrBlock"].write(value.cidrBlock)
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.GatewayNetwork {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.GatewayBridgeSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.GatewayNetwork()
-        value.cidrBlock = try reader["cidrBlock"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.Messages {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Messages {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.Messages()
-        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.TransportMediaInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.TransportMediaInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.TransportMediaInfo()
-        value.programs = try reader["programs"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.TransportStreamProgram.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.TransportStreamProgram {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.TransportStreamProgram {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.TransportStreamProgram()
-        value.pcrPid = try reader["pcrPid"].readIfPresent() ?? 0
-        value.programName = try reader["programName"].readIfPresent()
-        value.programNumber = try reader["programNumber"].readIfPresent() ?? 0
-        value.programPid = try reader["programPid"].readIfPresent() ?? 0
-        value.streams = try reader["streams"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.TransportStream.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.TransportStream {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.TransportStream {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.TransportStream()
-        value.channels = try reader["channels"].readIfPresent()
-        value.codec = try reader["codec"].readIfPresent()
-        value.frameRate = try reader["frameRate"].readIfPresent()
-        value.frameResolution = try reader["frameResolution"].readIfPresent(with: MediaConnectClientTypes.FrameResolution.read(from:))
-        value.pid = try reader["pid"].readIfPresent() ?? 0
-        value.sampleRate = try reader["sampleRate"].readIfPresent()
-        value.sampleSize = try reader["sampleSize"].readIfPresent()
-        value.streamType = try reader["streamType"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.FrameResolution {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FrameResolution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.FrameResolution()
-        value.frameHeight = try reader["frameHeight"].readIfPresent() ?? 0
-        value.frameWidth = try reader["frameWidth"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.ThumbnailDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ThumbnailDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.ThumbnailDetails()
-        value.flowArn = try reader["flowArn"].readIfPresent() ?? ""
-        value.thumbnail = try reader["thumbnail"].readIfPresent()
-        value.thumbnailMessages = try reader["thumbnailMessages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MessageDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.timecode = try reader["timecode"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        var value = MediaConnectClientTypes.GatewayBridgeSource()
+        value.bridgeArn = try reader["bridgeArn"].readIfPresent() ?? ""
+        value.vpcInterfaceAttachment = try reader["vpcInterfaceAttachment"].readIfPresent(with: MediaConnectClientTypes.VpcInterfaceAttachment.read(from:))
         return value
     }
 }
@@ -15830,92 +14850,85 @@ extension MediaConnectClientTypes.GatewayInstance {
     }
 }
 
-extension MediaConnectClientTypes.Offering {
+extension MediaConnectClientTypes.GatewayNetwork {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Offering {
+    static func write(value: MediaConnectClientTypes.GatewayNetwork?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidrBlock"].write(value.cidrBlock)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.GatewayNetwork {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.Offering()
-        value.currencyCode = try reader["currencyCode"].readIfPresent() ?? ""
-        value.duration = try reader["duration"].readIfPresent() ?? 0
-        value.durationUnits = try reader["durationUnits"].readIfPresent() ?? .sdkUnknown("")
-        value.offeringArn = try reader["offeringArn"].readIfPresent() ?? ""
-        value.offeringDescription = try reader["offeringDescription"].readIfPresent() ?? ""
-        value.pricePerUnit = try reader["pricePerUnit"].readIfPresent() ?? ""
-        value.priceUnits = try reader["priceUnits"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceSpecification = try reader["resourceSpecification"].readIfPresent(with: MediaConnectClientTypes.ResourceSpecification.read(from:))
+        var value = MediaConnectClientTypes.GatewayNetwork()
+        value.cidrBlock = try reader["cidrBlock"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension MediaConnectClientTypes.ResourceSpecification {
+extension MediaConnectClientTypes.GrantEntitlementRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ResourceSpecification {
+    static func write(value: MediaConnectClientTypes.GrantEntitlementRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataTransferSubscriberFeePercent"].write(value.dataTransferSubscriberFeePercent)
+        try writer["description"].write(value.description)
+        try writer["encryption"].write(value.encryption, with: MediaConnectClientTypes.Encryption.write(value:to:))
+        try writer["entitlementStatus"].write(value.entitlementStatus)
+        try writer["entitlementTags"].writeMap(value.entitlementTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["subscribers"].writeList(value.subscribers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MediaConnectClientTypes.IngressGatewayBridge {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.IngressGatewayBridge {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.ResourceSpecification()
-        value.reservedBitrate = try reader["reservedBitrate"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        var value = MediaConnectClientTypes.IngressGatewayBridge()
+        value.instanceId = try reader["instanceId"].readIfPresent()
+        value.maxBitrate = try reader["maxBitrate"].readIfPresent() ?? 0
+        value.maxOutputs = try reader["maxOutputs"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension MediaConnectClientTypes.Reservation {
+extension MediaConnectClientTypes.InputConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Reservation {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.InputConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.Reservation()
-        value.currencyCode = try reader["currencyCode"].readIfPresent() ?? ""
-        value.duration = try reader["duration"].readIfPresent() ?? 0
-        value.durationUnits = try reader["durationUnits"].readIfPresent() ?? .sdkUnknown("")
-        value.end = try reader["end"].readIfPresent() ?? ""
-        value.offeringArn = try reader["offeringArn"].readIfPresent() ?? ""
-        value.offeringDescription = try reader["offeringDescription"].readIfPresent() ?? ""
-        value.pricePerUnit = try reader["pricePerUnit"].readIfPresent() ?? ""
-        value.priceUnits = try reader["priceUnits"].readIfPresent() ?? .sdkUnknown("")
-        value.reservationArn = try reader["reservationArn"].readIfPresent() ?? ""
-        value.reservationName = try reader["reservationName"].readIfPresent() ?? ""
-        value.reservationState = try reader["reservationState"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceSpecification = try reader["resourceSpecification"].readIfPresent(with: MediaConnectClientTypes.ResourceSpecification.read(from:))
-        value.start = try reader["start"].readIfPresent() ?? ""
+        var value = MediaConnectClientTypes.InputConfiguration()
+        value.inputIp = try reader["inputIp"].readIfPresent() ?? ""
+        value.inputPort = try reader["inputPort"].readIfPresent() ?? 0
+        value.interface = try reader["interface"].readIfPresent(with: MediaConnectClientTypes.Interface.read(from:))
         return value
     }
 }
 
-extension MediaConnectClientTypes.RouterInputSourceMetadataDetails {
+extension MediaConnectClientTypes.InputConfigurationRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputSourceMetadataDetails {
+    static func write(value: MediaConnectClientTypes.InputConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inputPort"].write(value.inputPort)
+        try writer["interface"].write(value.interface, with: MediaConnectClientTypes.InterfaceRequest.write(value:to:))
+    }
+}
+
+extension MediaConnectClientTypes.Interface {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Interface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.RouterInputSourceMetadataDetails()
-        value.sourceMetadataMessages = try reader["sourceMetadataMessages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterInputMessage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.routerInputMetadata = try reader["routerInputMetadata"].readIfPresent(with: MediaConnectClientTypes.RouterInputMetadata.read(from:))
+        var value = MediaConnectClientTypes.Interface()
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension MediaConnectClientTypes.RouterInputMetadata {
+extension MediaConnectClientTypes.InterfaceRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "transportStreamMediaInfo":
-                return .transportstreammediainfo(try reader["transportStreamMediaInfo"].read(with: MediaConnectClientTypes.TransportMediaInfo.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MediaConnectClientTypes.RouterInputThumbnailDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputThumbnailDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.RouterInputThumbnailDetails()
-        value.thumbnailMessages = try reader["thumbnailMessages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterInputMessage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.thumbnail = try reader["thumbnail"].readIfPresent()
-        value.timecode = try reader["timecode"].readIfPresent()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
+    static func write(value: MediaConnectClientTypes.InterfaceRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
     }
 }
 
@@ -15961,6 +14974,18 @@ extension MediaConnectClientTypes.ListedFlow {
     }
 }
 
+extension MediaConnectClientTypes.ListedGateway {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ListedGateway {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.ListedGateway()
+        value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
+        value.gatewayState = try reader["gatewayState"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension MediaConnectClientTypes.ListedGatewayInstance {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ListedGatewayInstance {
@@ -15970,18 +14995,6 @@ extension MediaConnectClientTypes.ListedGatewayInstance {
         value.gatewayInstanceArn = try reader["gatewayInstanceArn"].readIfPresent() ?? ""
         value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
         value.instanceState = try reader["instanceState"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConnectClientTypes.ListedGateway {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ListedGateway {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConnectClientTypes.ListedGateway()
-        value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
-        value.gatewayState = try reader["gatewayState"].readIfPresent() ?? .sdkUnknown("")
-        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -16056,71 +15069,212 @@ extension MediaConnectClientTypes.ListedRouterOutput {
     }
 }
 
-extension MediaConnectClientTypes.AddBridgeOutputRequest {
+extension MediaConnectClientTypes.Maintenance {
 
-    static func write(value: MediaConnectClientTypes.AddBridgeOutputRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkOutput"].write(value.networkOutput, with: MediaConnectClientTypes.AddBridgeNetworkOutputRequest.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Maintenance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.Maintenance()
+        value.maintenanceDay = try reader["maintenanceDay"].readIfPresent()
+        value.maintenanceDeadline = try reader["maintenanceDeadline"].readIfPresent()
+        value.maintenanceScheduledDate = try reader["maintenanceScheduledDate"].readIfPresent()
+        value.maintenanceStartHour = try reader["maintenanceStartHour"].readIfPresent()
+        return value
     }
 }
 
-extension MediaConnectClientTypes.AddBridgeNetworkOutputRequest {
+extension MediaConnectClientTypes.MaintenanceConfiguration {
 
-    static func write(value: MediaConnectClientTypes.AddBridgeNetworkOutputRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaConnectClientTypes.MaintenanceConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ipAddress"].write(value.ipAddress)
-        try writer["name"].write(value.name)
-        try writer["networkName"].write(value.networkName)
-        try writer["port"].write(value.port)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["ttl"].write(value.ttl)
+        switch value {
+            case let .`default`(`default`):
+                try writer["default"].write(`default`, with: MediaConnectClientTypes.DefaultMaintenanceConfiguration.write(value:to:))
+            case let .preferreddaytime(preferreddaytime):
+                try writer["preferredDayTime"].write(preferreddaytime, with: MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MaintenanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "preferredDayTime":
+                return .preferreddaytime(try reader["preferredDayTime"].read(with: MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration.read(from:)))
+            case "default":
+                return .`default`(try reader["default"].read(with: MediaConnectClientTypes.DefaultMaintenanceConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
-extension MediaConnectClientTypes.AddBridgeSourceRequest {
+extension MediaConnectClientTypes.MaintenanceSchedule {
 
-    static func write(value: MediaConnectClientTypes.AddBridgeSourceRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["flowSource"].write(value.flowSource, with: MediaConnectClientTypes.AddBridgeFlowSourceRequest.write(value:to:))
-        try writer["networkSource"].write(value.networkSource, with: MediaConnectClientTypes.AddBridgeNetworkSourceRequest.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MaintenanceSchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "window":
+                return .window(try reader["window"].read(with: MediaConnectClientTypes.WindowMaintenanceSchedule.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
-extension MediaConnectClientTypes.AddBridgeNetworkSourceRequest {
+extension MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration {
 
-    static func write(value: MediaConnectClientTypes.AddBridgeNetworkSourceRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["multicastIp"].write(value.multicastIp)
-        try writer["multicastSourceSettings"].write(value.multicastSourceSettings, with: MediaConnectClientTypes.MulticastSourceSettings.write(value:to:))
-        try writer["name"].write(value.name)
-        try writer["networkName"].write(value.networkName)
-        try writer["port"].write(value.port)
-        try writer["protocol"].write(value.`protocol`)
-    }
-}
-
-extension MediaConnectClientTypes.AddBridgeFlowSourceRequest {
-
-    static func write(value: MediaConnectClientTypes.AddBridgeFlowSourceRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["flowArn"].write(value.flowArn)
-        try writer["flowVpcInterfaceAttachment"].write(value.flowVpcInterfaceAttachment, with: MediaConnectClientTypes.VpcInterfaceAttachment.write(value:to:))
-        try writer["name"].write(value.name)
+        try writer["flowOutputArn"].write(value.flowOutputArn)
+        try writer["sourceTransitDecryption"].write(value.sourceTransitDecryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration()
+        value.flowArn = try reader["flowArn"].readIfPresent()
+        value.flowOutputArn = try reader["flowOutputArn"].readIfPresent()
+        value.sourceTransitDecryption = try reader["sourceTransitDecryption"].readIfPresent(with: MediaConnectClientTypes.FlowTransitEncryption.read(from:))
+        return value
     }
 }
 
-extension MediaConnectClientTypes.AddMediaStreamRequest {
+extension MediaConnectClientTypes.MediaConnectFlowRouterInputStreamDetails {
 
-    static func write(value: MediaConnectClientTypes.AddMediaStreamRequest?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaConnectFlowRouterInputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.MediaConnectFlowRouterInputStreamDetails()
+    }
+}
+
+extension MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["attributes"].write(value.attributes, with: MediaConnectClientTypes.MediaStreamAttributesRequest.write(value:to:))
-        try writer["clockRate"].write(value.clockRate)
-        try writer["description"].write(value.description)
-        try writer["mediaStreamId"].write(value.mediaStreamId)
-        try writer["mediaStreamName"].write(value.mediaStreamName)
-        try writer["mediaStreamTags"].writeMap(value.mediaStreamTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["mediaStreamType"].write(value.mediaStreamType)
-        try writer["videoFormat"].write(value.videoFormat)
+        try writer["destinationTransitEncryption"].write(value.destinationTransitEncryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
+        try writer["flowArn"].write(value.flowArn)
+        try writer["flowSourceArn"].write(value.flowSourceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration()
+        value.flowArn = try reader["flowArn"].readIfPresent()
+        value.flowSourceArn = try reader["flowSourceArn"].readIfPresent()
+        value.destinationTransitEncryption = try reader["destinationTransitEncryption"].readIfPresent(with: MediaConnectClientTypes.FlowTransitEncryption.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails()
+    }
+}
+
+extension MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationTransitEncryption"].write(value.destinationTransitEncryption, with: MediaConnectClientTypes.MediaLiveTransitEncryption.write(value:to:))
+        try writer["mediaLiveInputArn"].write(value.mediaLiveInputArn)
+        try writer["mediaLivePipelineId"].write(value.mediaLivePipelineId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration()
+        value.mediaLiveInputArn = try reader["mediaLiveInputArn"].readIfPresent()
+        value.mediaLivePipelineId = try reader["mediaLivePipelineId"].readIfPresent()
+        value.destinationTransitEncryption = try reader["destinationTransitEncryption"].readIfPresent(with: MediaConnectClientTypes.MediaLiveTransitEncryption.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MediaLiveInputRouterOutputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaLiveInputRouterOutputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.MediaLiveInputRouterOutputStreamDetails()
+    }
+}
+
+extension MediaConnectClientTypes.MediaLiveTransitEncryption {
+
+    static func write(value: MediaConnectClientTypes.MediaLiveTransitEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionKeyConfiguration"].write(value.encryptionKeyConfiguration, with: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration.write(value:to:))
+        try writer["encryptionKeyType"].write(value.encryptionKeyType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaLiveTransitEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MediaLiveTransitEncryption()
+        value.encryptionKeyType = try reader["encryptionKeyType"].readIfPresent()
+        value.encryptionKeyConfiguration = try reader["encryptionKeyConfiguration"].readIfPresent(with: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration {
+
+    static func write(value: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .automatic(automatic):
+                try writer["automatic"].write(automatic, with: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration.write(value:to:))
+            case let .secretsmanager(secretsmanager):
+                try writer["secretsManager"].write(secretsmanager, with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "secretsManager":
+                return .secretsmanager(try reader["secretsManager"].read(with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.read(from:)))
+            case "automatic":
+                return .automatic(try reader["automatic"].read(with: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.MediaStream {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaStream {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MediaStream()
+        value.attributes = try reader["attributes"].readIfPresent(with: MediaConnectClientTypes.MediaStreamAttributes.read(from:))
+        value.clockRate = try reader["clockRate"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.fmt = try reader["fmt"].readIfPresent() ?? 0
+        value.mediaStreamId = try reader["mediaStreamId"].readIfPresent() ?? 0
+        value.mediaStreamName = try reader["mediaStreamName"].readIfPresent() ?? ""
+        value.mediaStreamType = try reader["mediaStreamType"].readIfPresent() ?? .sdkUnknown("")
+        value.videoFormat = try reader["videoFormat"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MediaStreamAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaStreamAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MediaStreamAttributes()
+        value.fmtp = try reader["fmtp"].readIfPresent(with: MediaConnectClientTypes.Fmtp.read(from:))
+        value.lang = try reader["lang"].readIfPresent()
+        return value
     }
 }
 
@@ -16133,45 +15287,16 @@ extension MediaConnectClientTypes.MediaStreamAttributesRequest {
     }
 }
 
-extension MediaConnectClientTypes.FmtpRequest {
+extension MediaConnectClientTypes.MediaStreamOutputConfiguration {
 
-    static func write(value: MediaConnectClientTypes.FmtpRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channelOrder"].write(value.channelOrder)
-        try writer["colorimetry"].write(value.colorimetry)
-        try writer["exactFramerate"].write(value.exactFramerate)
-        try writer["par"].write(value.par)
-        try writer["range"].write(value.range)
-        try writer["scanMode"].write(value.scanMode)
-        try writer["tcs"].write(value.tcs)
-    }
-}
-
-extension MediaConnectClientTypes.AddOutputRequest {
-
-    static func write(value: MediaConnectClientTypes.AddOutputRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cidrAllowList"].writeList(value.cidrAllowList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["description"].write(value.description)
-        try writer["destination"].write(value.destination)
-        try writer["encryption"].write(value.encryption, with: MediaConnectClientTypes.Encryption.write(value:to:))
-        try writer["maxLatency"].write(value.maxLatency)
-        try writer["mediaStreamOutputConfigurations"].writeList(value.mediaStreamOutputConfigurations, memberWritingClosure: MediaConnectClientTypes.MediaStreamOutputConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["minLatency"].write(value.minLatency)
-        try writer["name"].write(value.name)
-        try writer["ndiProgramName"].write(value.ndiProgramName)
-        try writer["ndiSpeedHqQuality"].write(value.ndiSpeedHqQuality)
-        try writer["outputStatus"].write(value.outputStatus)
-        try writer["outputTags"].writeMap(value.outputTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["port"].write(value.port)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["remoteId"].write(value.remoteId)
-        try writer["routerIntegrationState"].write(value.routerIntegrationState)
-        try writer["routerIntegrationTransitEncryption"].write(value.routerIntegrationTransitEncryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
-        try writer["senderControlPort"].write(value.senderControlPort)
-        try writer["smoothingLatency"].write(value.smoothingLatency)
-        try writer["streamId"].write(value.streamId)
-        try writer["vpcInterfaceAttachment"].write(value.vpcInterfaceAttachment, with: MediaConnectClientTypes.VpcInterfaceAttachment.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaStreamOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MediaStreamOutputConfiguration()
+        value.destinationConfigurations = try reader["destinationConfigurations"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.DestinationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.encodingName = try reader["encodingName"].readIfPresent() ?? .sdkUnknown("")
+        value.encodingParameters = try reader["encodingParameters"].readIfPresent(with: MediaConnectClientTypes.EncodingParameters.read(from:))
+        value.mediaStreamName = try reader["mediaStreamName"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -16186,68 +15311,15 @@ extension MediaConnectClientTypes.MediaStreamOutputConfigurationRequest {
     }
 }
 
-extension MediaConnectClientTypes.EncodingParametersRequest {
+extension MediaConnectClientTypes.MediaStreamSourceConfiguration {
 
-    static func write(value: MediaConnectClientTypes.EncodingParametersRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["compressionFactor"].write(value.compressionFactor)
-        try writer["encoderProfile"].write(value.encoderProfile)
-    }
-}
-
-extension MediaConnectClientTypes.DestinationConfigurationRequest {
-
-    static func write(value: MediaConnectClientTypes.DestinationConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationIp"].write(value.destinationIp)
-        try writer["destinationPort"].write(value.destinationPort)
-        try writer["interface"].write(value.interface, with: MediaConnectClientTypes.InterfaceRequest.write(value:to:))
-    }
-}
-
-extension MediaConnectClientTypes.InterfaceRequest {
-
-    static func write(value: MediaConnectClientTypes.InterfaceRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-}
-
-extension MediaConnectClientTypes.SetSourceRequest {
-
-    static func write(value: MediaConnectClientTypes.SetSourceRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["decryption"].write(value.decryption, with: MediaConnectClientTypes.Encryption.write(value:to:))
-        try writer["description"].write(value.description)
-        try writer["entitlementArn"].write(value.entitlementArn)
-        try writer["gatewayBridgeSource"].write(value.gatewayBridgeSource, with: MediaConnectClientTypes.SetGatewayBridgeSourceRequest.write(value:to:))
-        try writer["ingestPort"].write(value.ingestPort)
-        try writer["maxBitrate"].write(value.maxBitrate)
-        try writer["maxLatency"].write(value.maxLatency)
-        try writer["maxSyncBuffer"].write(value.maxSyncBuffer)
-        try writer["mediaStreamSourceConfigurations"].writeList(value.mediaStreamSourceConfigurations, memberWritingClosure: MediaConnectClientTypes.MediaStreamSourceConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["minLatency"].write(value.minLatency)
-        try writer["name"].write(value.name)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["routerIntegrationState"].write(value.routerIntegrationState)
-        try writer["routerIntegrationTransitDecryption"].write(value.routerIntegrationTransitDecryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
-        try writer["senderControlPort"].write(value.senderControlPort)
-        try writer["senderIpAddress"].write(value.senderIpAddress)
-        try writer["sourceListenerAddress"].write(value.sourceListenerAddress)
-        try writer["sourceListenerPort"].write(value.sourceListenerPort)
-        try writer["sourceTags"].writeMap(value.sourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["streamId"].write(value.streamId)
-        try writer["vpcInterfaceName"].write(value.vpcInterfaceName)
-        try writer["whitelistCidr"].write(value.whitelistCidr)
-    }
-}
-
-extension MediaConnectClientTypes.SetGatewayBridgeSourceRequest {
-
-    static func write(value: MediaConnectClientTypes.SetGatewayBridgeSourceRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bridgeArn"].write(value.bridgeArn)
-        try writer["vpcInterfaceAttachment"].write(value.vpcInterfaceAttachment, with: MediaConnectClientTypes.VpcInterfaceAttachment.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaStreamSourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MediaStreamSourceConfiguration()
+        value.encodingName = try reader["encodingName"].readIfPresent() ?? .sdkUnknown("")
+        value.inputConfigurations = try reader["inputConfigurations"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.InputConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mediaStreamName = try reader["mediaStreamName"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -16261,65 +15333,462 @@ extension MediaConnectClientTypes.MediaStreamSourceConfigurationRequest {
     }
 }
 
-extension MediaConnectClientTypes.InputConfigurationRequest {
+extension MediaConnectClientTypes.MergeRouterInputConfiguration {
 
-    static func write(value: MediaConnectClientTypes.InputConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaConnectClientTypes.MergeRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["inputPort"].write(value.inputPort)
-        try writer["interface"].write(value.interface, with: MediaConnectClientTypes.InterfaceRequest.write(value:to:))
+        try writer["mergeRecoveryWindowMilliseconds"].write(value.mergeRecoveryWindowMilliseconds)
+        try writer["networkInterfaceArn"].write(value.networkInterfaceArn)
+        try writer["protocolConfigurations"].writeList(value.protocolConfigurations, memberWritingClosure: MediaConnectClientTypes.MergeRouterInputProtocolConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MergeRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MergeRouterInputConfiguration()
+        value.networkInterfaceArn = try reader["networkInterfaceArn"].readIfPresent() ?? ""
+        value.protocolConfigurations = try reader["protocolConfigurations"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MergeRouterInputProtocolConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.mergeRecoveryWindowMilliseconds = try reader["mergeRecoveryWindowMilliseconds"].readIfPresent() ?? 0
+        return value
     }
 }
 
-extension MediaConnectClientTypes.VpcInterfaceRequest {
+extension MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails {
 
-    static func write(value: MediaConnectClientTypes.VpcInterfaceRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["networkInterfaceType"].write(value.networkInterfaceType)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetId"].write(value.subnetId)
-        try writer["vpcInterfaceTags"].writeMap(value.vpcInterfaceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails()
+        value.sourceIndex = try reader["sourceIndex"].readIfPresent() ?? 0
+        value.sourceIpAddress = try reader["sourceIpAddress"].readIfPresent()
+        return value
     }
 }
 
-extension MediaConnectClientTypes.AddEgressGatewayBridgeRequest {
+extension MediaConnectClientTypes.MergeRouterInputProtocolConfiguration {
 
-    static func write(value: MediaConnectClientTypes.AddEgressGatewayBridgeRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaConnectClientTypes.MergeRouterInputProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["maxBitrate"].write(value.maxBitrate)
+        switch value {
+            case let .rist(rist):
+                try writer["rist"].write(rist, with: MediaConnectClientTypes.RistRouterInputConfiguration.write(value:to:))
+            case let .rtp(rtp):
+                try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpRouterInputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MergeRouterInputProtocolConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "rtp":
+                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterInputConfiguration.read(from:)))
+            case "rist":
+                return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterInputConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
-extension MediaConnectClientTypes.AddIngressGatewayBridgeRequest {
+extension MediaConnectClientTypes.MergeRouterInputStreamDetails {
 
-    static func write(value: MediaConnectClientTypes.AddIngressGatewayBridgeRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxBitrate"].write(value.maxBitrate)
-        try writer["maxOutputs"].write(value.maxOutputs)
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MergeRouterInputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MergeRouterInputStreamDetails()
+        value.sourceIndexZeroStreamDetails = try reader["sourceIndexZeroStreamDetails"].readIfPresent(with: MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails.read(from:))
+        value.sourceIndexOneStreamDetails = try reader["sourceIndexOneStreamDetails"].readIfPresent(with: MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails.read(from:))
+        return value
     }
 }
 
-extension MediaConnectClientTypes.GrantEntitlementRequest {
+extension MediaConnectClientTypes.MessageDetail {
 
-    static func write(value: MediaConnectClientTypes.GrantEntitlementRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataTransferSubscriberFeePercent"].write(value.dataTransferSubscriberFeePercent)
-        try writer["description"].write(value.description)
-        try writer["encryption"].write(value.encryption, with: MediaConnectClientTypes.Encryption.write(value:to:))
-        try writer["entitlementStatus"].write(value.entitlementStatus)
-        try writer["entitlementTags"].writeMap(value.entitlementTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["subscribers"].writeList(value.subscribers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MessageDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MessageDetail()
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        value.resourceName = try reader["resourceName"].readIfPresent()
+        return value
     }
 }
 
-extension MediaConnectClientTypes.AddMaintenance {
+extension MediaConnectClientTypes.Messages {
 
-    static func write(value: MediaConnectClientTypes.AddMaintenance?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Messages {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.Messages()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MonitoringConfig {
+
+    static func write(value: MediaConnectClientTypes.MonitoringConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["maintenanceDay"].write(value.maintenanceDay)
-        try writer["maintenanceStartHour"].write(value.maintenanceStartHour)
+        try writer["audioMonitoringSettings"].writeList(value.audioMonitoringSettings, memberWritingClosure: MediaConnectClientTypes.AudioMonitoringSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["contentQualityAnalysisState"].write(value.contentQualityAnalysisState)
+        try writer["thumbnailState"].write(value.thumbnailState)
+        try writer["videoMonitoringSettings"].writeList(value.videoMonitoringSettings, memberWritingClosure: MediaConnectClientTypes.VideoMonitoringSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MonitoringConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MonitoringConfig()
+        value.thumbnailState = try reader["thumbnailState"].readIfPresent()
+        value.audioMonitoringSettings = try reader["audioMonitoringSettings"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.AudioMonitoringSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.contentQualityAnalysisState = try reader["contentQualityAnalysisState"].readIfPresent()
+        value.videoMonitoringSettings = try reader["videoMonitoringSettings"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.VideoMonitoringSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MulticastSourceSettings {
+
+    static func write(value: MediaConnectClientTypes.MulticastSourceSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["multicastSourceIp"].write(value.multicastSourceIp)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MulticastSourceSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MulticastSourceSettings()
+        value.multicastSourceIp = try reader["multicastSourceIp"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.NdiConfig {
+
+    static func write(value: MediaConnectClientTypes.NdiConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["machineName"].write(value.machineName)
+        try writer["ndiDiscoveryServers"].writeList(value.ndiDiscoveryServers, memberWritingClosure: MediaConnectClientTypes.NdiDiscoveryServerConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ndiState"].write(value.ndiState)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.NdiConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.NdiConfig()
+        value.ndiState = try reader["ndiState"].readIfPresent()
+        value.machineName = try reader["machineName"].readIfPresent()
+        value.ndiDiscoveryServers = try reader["ndiDiscoveryServers"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.NdiDiscoveryServerConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.NdiDiscoveryServerConfig {
+
+    static func write(value: MediaConnectClientTypes.NdiDiscoveryServerConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["discoveryServerAddress"].write(value.discoveryServerAddress)
+        try writer["discoveryServerPort"].write(value.discoveryServerPort)
+        try writer["vpcInterfaceAdapter"].write(value.vpcInterfaceAdapter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.NdiDiscoveryServerConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.NdiDiscoveryServerConfig()
+        value.discoveryServerAddress = try reader["discoveryServerAddress"].readIfPresent() ?? ""
+        value.discoveryServerPort = try reader["discoveryServerPort"].readIfPresent()
+        value.vpcInterfaceAdapter = try reader["vpcInterfaceAdapter"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.NdiMediaInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.NdiMediaInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.NdiMediaInfo()
+        value.streams = try reader["streams"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.NdiMediaStreamInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.NdiMediaStreamInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.NdiMediaStreamInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.NdiMediaStreamInfo()
+        value.streamType = try reader["streamType"].readIfPresent() ?? ""
+        value.codec = try reader["codec"].readIfPresent() ?? ""
+        value.streamId = try reader["streamId"].readIfPresent() ?? 0
+        value.scanMode = try reader["scanMode"].readIfPresent()
+        value.frameResolution = try reader["frameResolution"].readIfPresent(with: MediaConnectClientTypes.FrameResolution.read(from:))
+        value.frameRate = try reader["frameRate"].readIfPresent()
+        value.channels = try reader["channels"].readIfPresent()
+        value.sampleRate = try reader["sampleRate"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.NdiSourceInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.NdiSourceInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.NdiSourceInfo()
+        value.sourceName = try reader["sourceName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.NdiSourceMetadataInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.NdiSourceMetadataInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.NdiSourceMetadataInfo()
+        value.activeSource = try reader["activeSource"].readIfPresent(with: MediaConnectClientTypes.NdiSourceInfo.read(from:))
+        value.discoveredSources = try reader["discoveredSources"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.NdiSourceInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.mediaInfo = try reader["mediaInfo"].readIfPresent(with: MediaConnectClientTypes.NdiMediaInfo.read(from:))
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MessageDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.NdiSourceSettings {
+
+    static func write(value: MediaConnectClientTypes.NdiSourceSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceName"].write(value.sourceName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.NdiSourceSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.NdiSourceSettings()
+        value.sourceName = try reader["sourceName"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.Offering {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Offering {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.Offering()
+        value.currencyCode = try reader["currencyCode"].readIfPresent() ?? ""
+        value.duration = try reader["duration"].readIfPresent() ?? 0
+        value.durationUnits = try reader["durationUnits"].readIfPresent() ?? .sdkUnknown("")
+        value.offeringArn = try reader["offeringArn"].readIfPresent() ?? ""
+        value.offeringDescription = try reader["offeringDescription"].readIfPresent() ?? ""
+        value.pricePerUnit = try reader["pricePerUnit"].readIfPresent() ?? ""
+        value.priceUnits = try reader["priceUnits"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceSpecification = try reader["resourceSpecification"].readIfPresent(with: MediaConnectClientTypes.ResourceSpecification.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.Output {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Output {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.Output()
+        value.dataTransferSubscriberFeePercent = try reader["dataTransferSubscriberFeePercent"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.destination = try reader["destination"].readIfPresent()
+        value.encryption = try reader["encryption"].readIfPresent(with: MediaConnectClientTypes.Encryption.read(from:))
+        value.entitlementArn = try reader["entitlementArn"].readIfPresent()
+        value.listenerAddress = try reader["listenerAddress"].readIfPresent()
+        value.mediaLiveInputArn = try reader["mediaLiveInputArn"].readIfPresent()
+        value.mediaStreamOutputConfigurations = try reader["mediaStreamOutputConfigurations"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MediaStreamOutputConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.outputArn = try reader["outputArn"].readIfPresent() ?? ""
+        value.port = try reader["port"].readIfPresent()
+        value.transport = try reader["transport"].readIfPresent(with: MediaConnectClientTypes.Transport.read(from:))
+        value.vpcInterfaceAttachment = try reader["vpcInterfaceAttachment"].readIfPresent(with: MediaConnectClientTypes.VpcInterfaceAttachment.read(from:))
+        value.bridgeArn = try reader["bridgeArn"].readIfPresent()
+        value.bridgePorts = try reader["bridgePorts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputStatus = try reader["outputStatus"].readIfPresent()
+        value.peerIpAddress = try reader["peerIpAddress"].readIfPresent()
+        value.routerIntegrationState = try reader["routerIntegrationState"].readIfPresent()
+        value.routerIntegrationTransitEncryption = try reader["routerIntegrationTransitEncryption"].readIfPresent(with: MediaConnectClientTypes.FlowTransitEncryption.read(from:))
+        value.connectedRouterInputArn = try reader["connectedRouterInputArn"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration {
+
+    static func write(value: MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["day"].write(value.day)
+        try writer["time"].write(value.time)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration()
+        value.day = try reader["day"].readIfPresent() ?? .sdkUnknown("")
+        value.time = try reader["time"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration {
+
+    static func write(value: MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowRules"].writeList(value.allowRules, memberWritingClosure: MediaConnectClientTypes.PublicRouterNetworkInterfaceRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration()
+        value.allowRules = try reader["allowRules"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.PublicRouterNetworkInterfaceRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.PublicRouterNetworkInterfaceRule {
+
+    static func write(value: MediaConnectClientTypes.PublicRouterNetworkInterfaceRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidr"].write(value.cidr)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.PublicRouterNetworkInterfaceRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.PublicRouterNetworkInterfaceRule()
+        value.cidr = try reader["cidr"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.Reservation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Reservation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.Reservation()
+        value.currencyCode = try reader["currencyCode"].readIfPresent() ?? ""
+        value.duration = try reader["duration"].readIfPresent() ?? 0
+        value.durationUnits = try reader["durationUnits"].readIfPresent() ?? .sdkUnknown("")
+        value.end = try reader["end"].readIfPresent() ?? ""
+        value.offeringArn = try reader["offeringArn"].readIfPresent() ?? ""
+        value.offeringDescription = try reader["offeringDescription"].readIfPresent() ?? ""
+        value.pricePerUnit = try reader["pricePerUnit"].readIfPresent() ?? ""
+        value.priceUnits = try reader["priceUnits"].readIfPresent() ?? .sdkUnknown("")
+        value.reservationArn = try reader["reservationArn"].readIfPresent() ?? ""
+        value.reservationName = try reader["reservationName"].readIfPresent() ?? ""
+        value.reservationState = try reader["reservationState"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceSpecification = try reader["resourceSpecification"].readIfPresent(with: MediaConnectClientTypes.ResourceSpecification.read(from:))
+        value.start = try reader["start"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.ResourceSpecification {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ResourceSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.ResourceSpecification()
+        value.reservedBitrate = try reader["reservedBitrate"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RistRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RistRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["port"].write(value.port)
+        try writer["recoveryLatencyMilliseconds"].write(value.recoveryLatencyMilliseconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RistRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RistRouterInputConfiguration()
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.recoveryLatencyMilliseconds = try reader["recoveryLatencyMilliseconds"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RistRouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RistRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationAddress"].write(value.destinationAddress)
+        try writer["destinationPort"].write(value.destinationPort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RistRouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RistRouterOutputConfiguration()
+        value.destinationAddress = try reader["destinationAddress"].readIfPresent() ?? ""
+        value.destinationPort = try reader["destinationPort"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterInput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterInput()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.inputType = try reader["inputType"].readIfPresent() ?? .sdkUnknown("")
+        value.configuration = try reader["configuration"].readIfPresent(with: MediaConnectClientTypes.RouterInputConfiguration.read(from:))
+        value.routedOutputs = try reader["routedOutputs"].readIfPresent() ?? 0
+        value.maximumRoutedOutputs = try reader["maximumRoutedOutputs"].readIfPresent()
+        value.regionName = try reader["regionName"].readIfPresent() ?? ""
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent() ?? ""
+        value.maximumBitrate = try reader["maximumBitrate"].readIfPresent() ?? 0
+        value.tier = try reader["tier"].readIfPresent() ?? .sdkUnknown("")
+        value.routingScope = try reader["routingScope"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterInputMessage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.transitEncryption = try reader["transitEncryption"].readIfPresent(with: MediaConnectClientTypes.RouterInputTransitEncryption.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.streamDetails = try reader["streamDetails"].readIfPresent(with: MediaConnectClientTypes.RouterInputStreamDetails.read(from:))
+        value.ipAddress = try reader["ipAddress"].readIfPresent()
+        value.maintenanceType = try reader["maintenanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.maintenanceConfiguration = try reader["maintenanceConfiguration"].readIfPresent(with: MediaConnectClientTypes.MaintenanceConfiguration.read(from:))
+        value.maintenanceScheduleType = try reader["maintenanceScheduleType"].readIfPresent()
+        value.maintenanceSchedule = try reader["maintenanceSchedule"].readIfPresent(with: MediaConnectClientTypes.MaintenanceSchedule.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .failover(failover):
+                try writer["failover"].write(failover, with: MediaConnectClientTypes.FailoverRouterInputConfiguration.write(value:to:))
+            case let .mediaconnectflow(mediaconnectflow):
+                try writer["mediaConnectFlow"].write(mediaconnectflow, with: MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration.write(value:to:))
+            case let .merge(merge):
+                try writer["merge"].write(merge, with: MediaConnectClientTypes.MergeRouterInputConfiguration.write(value:to:))
+            case let .standard(standard):
+                try writer["standard"].write(standard, with: MediaConnectClientTypes.StandardRouterInputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "standard":
+                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardRouterInputConfiguration.read(from:)))
+            case "failover":
+                return .failover(try reader["failover"].read(with: MediaConnectClientTypes.FailoverRouterInputConfiguration.read(from:)))
+            case "merge":
+                return .merge(try reader["merge"].read(with: MediaConnectClientTypes.MergeRouterInputConfiguration.read(from:)))
+            case "mediaConnectFlow":
+                return .mediaconnectflow(try reader["mediaConnectFlow"].read(with: MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -16344,6 +15813,206 @@ extension MediaConnectClientTypes.RouterInputFilter {
     }
 }
 
+extension MediaConnectClientTypes.RouterInputMessage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterInputMessage()
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "transportStreamMediaInfo":
+                return .transportstreammediainfo(try reader["transportStreamMediaInfo"].read(with: MediaConnectClientTypes.TransportMediaInfo.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputProtocolConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RouterInputProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .rist(rist):
+                try writer["rist"].write(rist, with: MediaConnectClientTypes.RistRouterInputConfiguration.write(value:to:))
+            case let .rtp(rtp):
+                try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpRouterInputConfiguration.write(value:to:))
+            case let .srtcaller(srtcaller):
+                try writer["srtCaller"].write(srtcaller, with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.write(value:to:))
+            case let .srtlistener(srtlistener):
+                try writer["srtListener"].write(srtlistener, with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputProtocolConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "rtp":
+                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterInputConfiguration.read(from:)))
+            case "rist":
+                return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterInputConfiguration.read(from:)))
+            case "srtListener":
+                return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.read(from:)))
+            case "srtCaller":
+                return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputSourceMetadataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputSourceMetadataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterInputSourceMetadataDetails()
+        value.sourceMetadataMessages = try reader["sourceMetadataMessages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterInputMessage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.routerInputMetadata = try reader["routerInputMetadata"].readIfPresent(with: MediaConnectClientTypes.RouterInputMetadata.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "standard":
+                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardRouterInputStreamDetails.read(from:)))
+            case "failover":
+                return .failover(try reader["failover"].read(with: MediaConnectClientTypes.FailoverRouterInputStreamDetails.read(from:)))
+            case "merge":
+                return .merge(try reader["merge"].read(with: MediaConnectClientTypes.MergeRouterInputStreamDetails.read(from:)))
+            case "mediaConnectFlow":
+                return .mediaconnectflow(try reader["mediaConnectFlow"].read(with: MediaConnectClientTypes.MediaConnectFlowRouterInputStreamDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputThumbnailDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputThumbnailDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterInputThumbnailDetails()
+        value.thumbnailMessages = try reader["thumbnailMessages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterInputMessage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.thumbnail = try reader["thumbnail"].readIfPresent()
+        value.timecode = try reader["timecode"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputTransitEncryption {
+
+    static func write(value: MediaConnectClientTypes.RouterInputTransitEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionKeyConfiguration"].write(value.encryptionKeyConfiguration, with: MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration.write(value:to:))
+        try writer["encryptionKeyType"].write(value.encryptionKeyType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputTransitEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterInputTransitEncryption()
+        value.encryptionKeyType = try reader["encryptionKeyType"].readIfPresent()
+        value.encryptionKeyConfiguration = try reader["encryptionKeyConfiguration"].readIfPresent(with: MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .automatic(automatic):
+                try writer["automatic"].write(automatic, with: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration.write(value:to:))
+            case let .secretsmanager(secretsmanager):
+                try writer["secretsManager"].write(secretsmanager, with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "secretsManager":
+                return .secretsmanager(try reader["secretsManager"].read(with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.read(from:)))
+            case "automatic":
+                return .automatic(try reader["automatic"].read(with: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.RouterNetworkInterface {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterNetworkInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterNetworkInterface()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.networkInterfaceType = try reader["networkInterfaceType"].readIfPresent() ?? .sdkUnknown("")
+        value.configuration = try reader["configuration"].readIfPresent(with: MediaConnectClientTypes.RouterNetworkInterfaceConfiguration.read(from:))
+        value.associatedOutputCount = try reader["associatedOutputCount"].readIfPresent() ?? 0
+        value.associatedInputCount = try reader["associatedInputCount"].readIfPresent() ?? 0
+        value.regionName = try reader["regionName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterNetworkInterfaceConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RouterNetworkInterfaceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .`public`(`public`):
+                try writer["public"].write(`public`, with: MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration.write(value:to:))
+            case let .vpc(vpc):
+                try writer["vpc"].write(vpc, with: MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterNetworkInterfaceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "public":
+                return .`public`(try reader["public"].read(with: MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration.read(from:)))
+            case "vpc":
+                return .vpc(try reader["vpc"].read(with: MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension MediaConnectClientTypes.RouterNetworkInterfaceFilter {
 
     static func write(value: MediaConnectClientTypes.RouterNetworkInterfaceFilter?, to writer: SmithyJSON.Writer) throws {
@@ -16357,6 +16026,70 @@ extension MediaConnectClientTypes.RouterNetworkInterfaceFilter {
                 try writer["regionNames"].writeList(regionnames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension MediaConnectClientTypes.RouterOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterOutput()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.outputType = try reader["outputType"].readIfPresent() ?? .sdkUnknown("")
+        value.configuration = try reader["configuration"].readIfPresent(with: MediaConnectClientTypes.RouterOutputConfiguration.read(from:))
+        value.routedState = try reader["routedState"].readIfPresent() ?? .sdkUnknown("")
+        value.regionName = try reader["regionName"].readIfPresent() ?? ""
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent() ?? ""
+        value.maximumBitrate = try reader["maximumBitrate"].readIfPresent() ?? 0
+        value.routingScope = try reader["routingScope"].readIfPresent() ?? .sdkUnknown("")
+        value.tier = try reader["tier"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterOutputMessage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.streamDetails = try reader["streamDetails"].readIfPresent(with: MediaConnectClientTypes.RouterOutputStreamDetails.read(from:))
+        value.ipAddress = try reader["ipAddress"].readIfPresent()
+        value.routedInputArn = try reader["routedInputArn"].readIfPresent()
+        value.maintenanceType = try reader["maintenanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.maintenanceConfiguration = try reader["maintenanceConfiguration"].readIfPresent(with: MediaConnectClientTypes.MaintenanceConfiguration.read(from:))
+        value.maintenanceScheduleType = try reader["maintenanceScheduleType"].readIfPresent()
+        value.maintenanceSchedule = try reader["maintenanceSchedule"].readIfPresent(with: MediaConnectClientTypes.MaintenanceSchedule.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .mediaconnectflow(mediaconnectflow):
+                try writer["mediaConnectFlow"].write(mediaconnectflow, with: MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration.write(value:to:))
+            case let .medialiveinput(medialiveinput):
+                try writer["mediaLiveInput"].write(medialiveinput, with: MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration.write(value:to:))
+            case let .standard(standard):
+                try writer["standard"].write(standard, with: MediaConnectClientTypes.StandardRouterOutputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "standard":
+                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardRouterOutputConfiguration.read(from:)))
+            case "mediaConnectFlow":
+                return .mediaconnectflow(try reader["mediaConnectFlow"].read(with: MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration.read(from:)))
+            case "mediaLiveInput":
+                return .medialiveinput(try reader["mediaLiveInput"].read(with: MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
         }
     }
 }
@@ -16384,31 +16117,481 @@ extension MediaConnectClientTypes.RouterOutputFilter {
     }
 }
 
-extension MediaConnectClientTypes.UpdateEgressGatewayBridgeRequest {
+extension MediaConnectClientTypes.RouterOutputMessage {
 
-    static func write(value: MediaConnectClientTypes.UpdateEgressGatewayBridgeRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxBitrate"].write(value.maxBitrate)
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterOutputMessage()
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension MediaConnectClientTypes.UpdateIngressGatewayBridgeRequest {
+extension MediaConnectClientTypes.RouterOutputProtocolConfiguration {
 
-    static func write(value: MediaConnectClientTypes.UpdateIngressGatewayBridgeRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaConnectClientTypes.RouterOutputProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["maxBitrate"].write(value.maxBitrate)
-        try writer["maxOutputs"].write(value.maxOutputs)
+        switch value {
+            case let .rist(rist):
+                try writer["rist"].write(rist, with: MediaConnectClientTypes.RistRouterOutputConfiguration.write(value:to:))
+            case let .rtp(rtp):
+                try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpRouterOutputConfiguration.write(value:to:))
+            case let .srtcaller(srtcaller):
+                try writer["srtCaller"].write(srtcaller, with: MediaConnectClientTypes.SrtCallerRouterOutputConfiguration.write(value:to:))
+            case let .srtlistener(srtlistener):
+                try writer["srtListener"].write(srtlistener, with: MediaConnectClientTypes.SrtListenerRouterOutputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputProtocolConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "rtp":
+                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterOutputConfiguration.read(from:)))
+            case "rist":
+                return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterOutputConfiguration.read(from:)))
+            case "srtListener":
+                return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerRouterOutputConfiguration.read(from:)))
+            case "srtCaller":
+                return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerRouterOutputConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
-extension MediaConnectClientTypes.UpdateFailoverConfig {
+extension MediaConnectClientTypes.RouterOutputStreamDetails {
 
-    static func write(value: MediaConnectClientTypes.UpdateFailoverConfig?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "standard":
+                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardRouterOutputStreamDetails.read(from:)))
+            case "mediaConnectFlow":
+                return .mediaconnectflow(try reader["mediaConnectFlow"].read(with: MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails.read(from:)))
+            case "mediaLiveInput":
+                return .medialiveinput(try reader["mediaLiveInput"].read(with: MediaConnectClientTypes.MediaLiveInputRouterOutputStreamDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.RtpRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RtpRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["failoverMode"].write(value.failoverMode)
-        try writer["recoveryWindow"].write(value.recoveryWindow)
-        try writer["sourcePriority"].write(value.sourcePriority, with: MediaConnectClientTypes.SourcePriority.write(value:to:))
+        try writer["forwardErrorCorrection"].write(value.forwardErrorCorrection)
+        try writer["port"].write(value.port)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtpRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RtpRouterInputConfiguration()
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.forwardErrorCorrection = try reader["forwardErrorCorrection"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RtpRouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RtpRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationAddress"].write(value.destinationAddress)
+        try writer["destinationPort"].write(value.destinationPort)
+        try writer["forwardErrorCorrection"].write(value.forwardErrorCorrection)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtpRouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RtpRouterOutputConfiguration()
+        value.destinationAddress = try reader["destinationAddress"].readIfPresent() ?? ""
+        value.destinationPort = try reader["destinationPort"].readIfPresent() ?? 0
+        value.forwardErrorCorrection = try reader["forwardErrorCorrection"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["roleArn"].write(value.roleArn)
+        try writer["secretArn"].write(value.secretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SetGatewayBridgeSourceRequest {
+
+    static func write(value: MediaConnectClientTypes.SetGatewayBridgeSourceRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bridgeArn"].write(value.bridgeArn)
+        try writer["vpcInterfaceAttachment"].write(value.vpcInterfaceAttachment, with: MediaConnectClientTypes.VpcInterfaceAttachment.write(value:to:))
+    }
+}
+
+extension MediaConnectClientTypes.SetSourceRequest {
+
+    static func write(value: MediaConnectClientTypes.SetSourceRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["decryption"].write(value.decryption, with: MediaConnectClientTypes.Encryption.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["entitlementArn"].write(value.entitlementArn)
+        try writer["gatewayBridgeSource"].write(value.gatewayBridgeSource, with: MediaConnectClientTypes.SetGatewayBridgeSourceRequest.write(value:to:))
+        try writer["ingestPort"].write(value.ingestPort)
+        try writer["maxBitrate"].write(value.maxBitrate)
+        try writer["maxLatency"].write(value.maxLatency)
+        try writer["maxSyncBuffer"].write(value.maxSyncBuffer)
+        try writer["mediaStreamSourceConfigurations"].writeList(value.mediaStreamSourceConfigurations, memberWritingClosure: MediaConnectClientTypes.MediaStreamSourceConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["minLatency"].write(value.minLatency)
+        try writer["name"].write(value.name)
+        try writer["ndiSourceSettings"].write(value.ndiSourceSettings, with: MediaConnectClientTypes.NdiSourceSettings.write(value:to:))
+        try writer["protocol"].write(value.`protocol`)
+        try writer["routerIntegrationState"].write(value.routerIntegrationState)
+        try writer["routerIntegrationTransitDecryption"].write(value.routerIntegrationTransitDecryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
+        try writer["senderControlPort"].write(value.senderControlPort)
+        try writer["senderIpAddress"].write(value.senderIpAddress)
+        try writer["sourceListenerAddress"].write(value.sourceListenerAddress)
+        try writer["sourceListenerPort"].write(value.sourceListenerPort)
+        try writer["sourceTags"].writeMap(value.sourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["streamId"].write(value.streamId)
+        try writer["vpcInterfaceName"].write(value.vpcInterfaceName)
+        try writer["whitelistCidr"].write(value.whitelistCidr)
+    }
+}
+
+extension MediaConnectClientTypes.SilentAudio {
+
+    static func write(value: MediaConnectClientTypes.SilentAudio?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
         try writer["state"].write(value.state)
+        try writer["thresholdSeconds"].write(value.thresholdSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SilentAudio {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SilentAudio()
+        value.state = try reader["state"].readIfPresent()
+        value.thresholdSeconds = try reader["thresholdSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.Source {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Source {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.Source()
+        value.dataTransferSubscriberFeePercent = try reader["dataTransferSubscriberFeePercent"].readIfPresent()
+        value.decryption = try reader["decryption"].readIfPresent(with: MediaConnectClientTypes.Encryption.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.entitlementArn = try reader["entitlementArn"].readIfPresent()
+        value.ingestIp = try reader["ingestIp"].readIfPresent()
+        value.ingestPort = try reader["ingestPort"].readIfPresent()
+        value.mediaStreamSourceConfigurations = try reader["mediaStreamSourceConfigurations"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MediaStreamSourceConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.senderControlPort = try reader["senderControlPort"].readIfPresent()
+        value.senderIpAddress = try reader["senderIpAddress"].readIfPresent()
+        value.sourceArn = try reader["sourceArn"].readIfPresent() ?? ""
+        value.transport = try reader["transport"].readIfPresent(with: MediaConnectClientTypes.Transport.read(from:))
+        value.vpcInterfaceName = try reader["vpcInterfaceName"].readIfPresent()
+        value.whitelistCidr = try reader["whitelistCidr"].readIfPresent()
+        value.gatewayBridgeSource = try reader["gatewayBridgeSource"].readIfPresent(with: MediaConnectClientTypes.GatewayBridgeSource.read(from:))
+        value.peerIpAddress = try reader["peerIpAddress"].readIfPresent()
+        value.routerIntegrationState = try reader["routerIntegrationState"].readIfPresent()
+        value.routerIntegrationTransitDecryption = try reader["routerIntegrationTransitDecryption"].readIfPresent(with: MediaConnectClientTypes.FlowTransitEncryption.read(from:))
+        value.connectedRouterOutputArn = try reader["connectedRouterOutputArn"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SourcePriority {
+
+    static func write(value: MediaConnectClientTypes.SourcePriority?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["primarySource"].write(value.primarySource)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SourcePriority {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SourcePriority()
+        value.primarySource = try reader["primarySource"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SrtCallerRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SrtCallerRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["decryptionConfiguration"].write(value.decryptionConfiguration, with: MediaConnectClientTypes.SrtDecryptionConfiguration.write(value:to:))
+        try writer["minimumLatencyMilliseconds"].write(value.minimumLatencyMilliseconds)
+        try writer["sourceAddress"].write(value.sourceAddress)
+        try writer["sourcePort"].write(value.sourcePort)
+        try writer["streamId"].write(value.streamId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtCallerRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SrtCallerRouterInputConfiguration()
+        value.sourceAddress = try reader["sourceAddress"].readIfPresent() ?? ""
+        value.sourcePort = try reader["sourcePort"].readIfPresent() ?? 0
+        value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
+        value.streamId = try reader["streamId"].readIfPresent()
+        value.decryptionConfiguration = try reader["decryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.SrtDecryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SrtCallerRouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SrtCallerRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationAddress"].write(value.destinationAddress)
+        try writer["destinationPort"].write(value.destinationPort)
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: MediaConnectClientTypes.SrtEncryptionConfiguration.write(value:to:))
+        try writer["minimumLatencyMilliseconds"].write(value.minimumLatencyMilliseconds)
+        try writer["streamId"].write(value.streamId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtCallerRouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SrtCallerRouterOutputConfiguration()
+        value.destinationAddress = try reader["destinationAddress"].readIfPresent() ?? ""
+        value.destinationPort = try reader["destinationPort"].readIfPresent() ?? 0
+        value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
+        value.streamId = try reader["streamId"].readIfPresent()
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.SrtEncryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SrtDecryptionConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SrtDecryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionKey"].write(value.encryptionKey, with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtDecryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SrtDecryptionConfiguration()
+        value.encryptionKey = try reader["encryptionKey"].readIfPresent(with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SrtEncryptionConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SrtEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionKey"].write(value.encryptionKey, with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SrtEncryptionConfiguration()
+        value.encryptionKey = try reader["encryptionKey"].readIfPresent(with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SrtListenerRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SrtListenerRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["decryptionConfiguration"].write(value.decryptionConfiguration, with: MediaConnectClientTypes.SrtDecryptionConfiguration.write(value:to:))
+        try writer["minimumLatencyMilliseconds"].write(value.minimumLatencyMilliseconds)
+        try writer["port"].write(value.port)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtListenerRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SrtListenerRouterInputConfiguration()
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
+        value.decryptionConfiguration = try reader["decryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.SrtDecryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SrtListenerRouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SrtListenerRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: MediaConnectClientTypes.SrtEncryptionConfiguration.write(value:to:))
+        try writer["minimumLatencyMilliseconds"].write(value.minimumLatencyMilliseconds)
+        try writer["port"].write(value.port)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtListenerRouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SrtListenerRouterOutputConfiguration()
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.SrtEncryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.StandardRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.StandardRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkInterfaceArn"].write(value.networkInterfaceArn)
+        try writer["protocol"].write(value.`protocol`)
+        try writer["protocolConfiguration"].write(value.protocolConfiguration, with: MediaConnectClientTypes.RouterInputProtocolConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.StandardRouterInputConfiguration()
+        value.networkInterfaceArn = try reader["networkInterfaceArn"].readIfPresent() ?? ""
+        value.protocolConfiguration = try reader["protocolConfiguration"].readIfPresent(with: MediaConnectClientTypes.RouterInputProtocolConfiguration.read(from:))
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.StandardRouterInputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardRouterInputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.StandardRouterInputStreamDetails()
+        value.sourceIpAddress = try reader["sourceIpAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.StandardRouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.StandardRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkInterfaceArn"].write(value.networkInterfaceArn)
+        try writer["protocol"].write(value.`protocol`)
+        try writer["protocolConfiguration"].write(value.protocolConfiguration, with: MediaConnectClientTypes.RouterOutputProtocolConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardRouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.StandardRouterOutputConfiguration()
+        value.networkInterfaceArn = try reader["networkInterfaceArn"].readIfPresent() ?? ""
+        value.protocolConfiguration = try reader["protocolConfiguration"].readIfPresent(with: MediaConnectClientTypes.RouterOutputProtocolConfiguration.read(from:))
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.StandardRouterOutputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardRouterOutputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.StandardRouterOutputStreamDetails()
+        value.destinationIpAddress = try reader["destinationIpAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.ThumbnailDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ThumbnailDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.ThumbnailDetails()
+        value.flowArn = try reader["flowArn"].readIfPresent() ?? ""
+        value.thumbnail = try reader["thumbnail"].readIfPresent()
+        value.thumbnailMessages = try reader["thumbnailMessages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MessageDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.timecode = try reader["timecode"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.Transport {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.Transport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.Transport()
+        value.cidrAllowList = try reader["cidrAllowList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maxBitrate = try reader["maxBitrate"].readIfPresent()
+        value.maxLatency = try reader["maxLatency"].readIfPresent()
+        value.maxSyncBuffer = try reader["maxSyncBuffer"].readIfPresent()
+        value.minLatency = try reader["minLatency"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.remoteId = try reader["remoteId"].readIfPresent()
+        value.senderControlPort = try reader["senderControlPort"].readIfPresent()
+        value.senderIpAddress = try reader["senderIpAddress"].readIfPresent()
+        value.smoothingLatency = try reader["smoothingLatency"].readIfPresent()
+        value.sourceListenerAddress = try reader["sourceListenerAddress"].readIfPresent()
+        value.sourceListenerPort = try reader["sourceListenerPort"].readIfPresent()
+        value.streamId = try reader["streamId"].readIfPresent()
+        value.ndiSpeedHqQuality = try reader["ndiSpeedHqQuality"].readIfPresent()
+        value.ndiProgramName = try reader["ndiProgramName"].readIfPresent()
+        value.ndiSourceSettings = try reader["ndiSourceSettings"].readIfPresent(with: MediaConnectClientTypes.NdiSourceSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.TransportMediaInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.TransportMediaInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.TransportMediaInfo()
+        value.programs = try reader["programs"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.TransportStreamProgram.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.TransportStream {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.TransportStream {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.TransportStream()
+        value.channels = try reader["channels"].readIfPresent()
+        value.codec = try reader["codec"].readIfPresent()
+        value.frameRate = try reader["frameRate"].readIfPresent()
+        value.frameResolution = try reader["frameResolution"].readIfPresent(with: MediaConnectClientTypes.FrameResolution.read(from:))
+        value.pid = try reader["pid"].readIfPresent() ?? 0
+        value.sampleRate = try reader["sampleRate"].readIfPresent()
+        value.sampleSize = try reader["sampleSize"].readIfPresent()
+        value.streamType = try reader["streamType"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.TransportStreamProgram {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.TransportStreamProgram {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.TransportStreamProgram()
+        value.pcrPid = try reader["pcrPid"].readIfPresent() ?? 0
+        value.programName = try reader["programName"].readIfPresent()
+        value.programNumber = try reader["programNumber"].readIfPresent() ?? 0
+        value.programPid = try reader["programPid"].readIfPresent() ?? 0
+        value.streams = try reader["streams"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.TransportStream.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.UpdateBridgeFlowSourceRequest {
+
+    static func write(value: MediaConnectClientTypes.UpdateBridgeFlowSourceRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["flowArn"].write(value.flowArn)
+        try writer["flowVpcInterfaceAttachment"].write(value.flowVpcInterfaceAttachment, with: MediaConnectClientTypes.VpcInterfaceAttachment.write(value:to:))
     }
 }
 
@@ -16424,15 +16607,6 @@ extension MediaConnectClientTypes.UpdateBridgeNetworkOutputRequest {
     }
 }
 
-extension MediaConnectClientTypes.UpdateBridgeFlowSourceRequest {
-
-    static func write(value: MediaConnectClientTypes.UpdateBridgeFlowSourceRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["flowArn"].write(value.flowArn)
-        try writer["flowVpcInterfaceAttachment"].write(value.flowVpcInterfaceAttachment, with: MediaConnectClientTypes.VpcInterfaceAttachment.write(value:to:))
-    }
-}
-
 extension MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest {
 
     static func write(value: MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest?, to writer: SmithyJSON.Writer) throws {
@@ -16445,13 +16619,11 @@ extension MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest {
     }
 }
 
-extension MediaConnectClientTypes.UpdateMaintenance {
+extension MediaConnectClientTypes.UpdateEgressGatewayBridgeRequest {
 
-    static func write(value: MediaConnectClientTypes.UpdateMaintenance?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaConnectClientTypes.UpdateEgressGatewayBridgeRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["maintenanceDay"].write(value.maintenanceDay)
-        try writer["maintenanceScheduledDate"].write(value.maintenanceScheduledDate)
-        try writer["maintenanceStartHour"].write(value.maintenanceStartHour)
+        try writer["maxBitrate"].write(value.maxBitrate)
     }
 }
 
@@ -16471,12 +16643,131 @@ extension MediaConnectClientTypes.UpdateEncryption {
     }
 }
 
+extension MediaConnectClientTypes.UpdateFailoverConfig {
+
+    static func write(value: MediaConnectClientTypes.UpdateFailoverConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["failoverMode"].write(value.failoverMode)
+        try writer["recoveryWindow"].write(value.recoveryWindow)
+        try writer["sourcePriority"].write(value.sourcePriority, with: MediaConnectClientTypes.SourcePriority.write(value:to:))
+        try writer["state"].write(value.state)
+    }
+}
+
 extension MediaConnectClientTypes.UpdateGatewayBridgeSourceRequest {
 
     static func write(value: MediaConnectClientTypes.UpdateGatewayBridgeSourceRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["bridgeArn"].write(value.bridgeArn)
         try writer["vpcInterfaceAttachment"].write(value.vpcInterfaceAttachment, with: MediaConnectClientTypes.VpcInterfaceAttachment.write(value:to:))
+    }
+}
+
+extension MediaConnectClientTypes.UpdateIngressGatewayBridgeRequest {
+
+    static func write(value: MediaConnectClientTypes.UpdateIngressGatewayBridgeRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxBitrate"].write(value.maxBitrate)
+        try writer["maxOutputs"].write(value.maxOutputs)
+    }
+}
+
+extension MediaConnectClientTypes.UpdateMaintenance {
+
+    static func write(value: MediaConnectClientTypes.UpdateMaintenance?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maintenanceDay"].write(value.maintenanceDay)
+        try writer["maintenanceScheduledDate"].write(value.maintenanceScheduledDate)
+        try writer["maintenanceStartHour"].write(value.maintenanceStartHour)
+    }
+}
+
+extension MediaConnectClientTypes.VideoMonitoringSetting {
+
+    static func write(value: MediaConnectClientTypes.VideoMonitoringSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["blackFrames"].write(value.blackFrames, with: MediaConnectClientTypes.BlackFrames.write(value:to:))
+        try writer["frozenFrames"].write(value.frozenFrames, with: MediaConnectClientTypes.FrozenFrames.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.VideoMonitoringSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.VideoMonitoringSetting()
+        value.blackFrames = try reader["blackFrames"].readIfPresent(with: MediaConnectClientTypes.BlackFrames.read(from:))
+        value.frozenFrames = try reader["frozenFrames"].readIfPresent(with: MediaConnectClientTypes.FrozenFrames.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.VpcInterface {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.VpcInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.VpcInterface()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.networkInterfaceIds = try reader["networkInterfaceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.networkInterfaceType = try reader["networkInterfaceType"].readIfPresent() ?? .sdkUnknown("")
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnetId = try reader["subnetId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.VpcInterfaceAttachment {
+
+    static func write(value: MediaConnectClientTypes.VpcInterfaceAttachment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["vpcInterfaceName"].write(value.vpcInterfaceName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.VpcInterfaceAttachment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.VpcInterfaceAttachment()
+        value.vpcInterfaceName = try reader["vpcInterfaceName"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.VpcInterfaceRequest {
+
+    static func write(value: MediaConnectClientTypes.VpcInterfaceRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["networkInterfaceType"].write(value.networkInterfaceType)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetId"].write(value.subnetId)
+        try writer["vpcInterfaceTags"].writeMap(value.vpcInterfaceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration {
+
+    static func write(value: MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetId"].write(value.subnetId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnetId = try reader["subnetId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.WindowMaintenanceSchedule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.WindowMaintenanceSchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.WindowMaintenanceSchedule()
+        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.end = try reader["end"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.scheduledTime = try reader["scheduledTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
     }
 }
 

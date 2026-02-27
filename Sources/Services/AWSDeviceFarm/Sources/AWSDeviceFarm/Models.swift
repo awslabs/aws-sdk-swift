@@ -10250,192 +10250,91 @@ extension TooManyTagsException {
     }
 }
 
-extension DeviceFarmClientTypes.DevicePool {
+extension DeviceFarmClientTypes.AccountSettings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DevicePool {
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.AccountSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.DevicePool()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: DeviceFarmClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.maxDevices = try reader["maxDevices"].readIfPresent()
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.Rule {
-
-    static func write(value: DeviceFarmClientTypes.Rule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attribute"].write(value.attribute)
-        try writer["operator"].write(value.`operator`)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Rule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.Rule()
-        value.attribute = try reader["attribute"].readIfPresent()
-        value.`operator` = try reader["operator"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.InstanceProfile {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.InstanceProfile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.InstanceProfile()
-        value.arn = try reader["arn"].readIfPresent()
-        value.packageCleanup = try reader["packageCleanup"].readIfPresent()
-        value.excludeAppPackagesFromCleanup = try reader["excludeAppPackagesFromCleanup"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.rebootAfterUse = try reader["rebootAfterUse"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.NetworkProfile {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.NetworkProfile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.NetworkProfile()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.uplinkBandwidthBits = try reader["uplinkBandwidthBits"].readIfPresent()
-        value.downlinkBandwidthBits = try reader["downlinkBandwidthBits"].readIfPresent()
-        value.uplinkDelayMs = try reader["uplinkDelayMs"].readIfPresent()
-        value.downlinkDelayMs = try reader["downlinkDelayMs"].readIfPresent()
-        value.uplinkJitterMs = try reader["uplinkJitterMs"].readIfPresent()
-        value.downlinkJitterMs = try reader["downlinkJitterMs"].readIfPresent()
-        value.uplinkLossPercent = try reader["uplinkLossPercent"].readIfPresent() ?? 0
-        value.downlinkLossPercent = try reader["downlinkLossPercent"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.Project {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Project {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.Project()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
+        var value = DeviceFarmClientTypes.AccountSettings()
+        value.awsAccountNumber = try reader["awsAccountNumber"].readIfPresent()
+        value.unmeteredDevices = try reader["unmeteredDevices"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.unmeteredRemoteAccessDevices = try reader["unmeteredRemoteAccessDevices"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.maxJobTimeoutMinutes = try reader["maxJobTimeoutMinutes"].readIfPresent()
+        value.trialMinutes = try reader["trialMinutes"].readIfPresent(with: DeviceFarmClientTypes.TrialMinutes.read(from:))
+        value.maxSlots = try reader["maxSlots"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.defaultJobTimeoutMinutes = try reader["defaultJobTimeoutMinutes"].readIfPresent()
-        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: DeviceFarmClientTypes.VpcConfig.read(from:))
-        value.environmentVariables = try reader["environmentVariables"].readListIfPresent(memberReadingClosure: DeviceFarmClientTypes.EnvironmentVariable.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
+        value.skipAppResign = try reader["skipAppResign"].readIfPresent()
         return value
     }
 }
 
-extension DeviceFarmClientTypes.EnvironmentVariable {
+extension DeviceFarmClientTypes.Artifact {
 
-    static func write(value: DeviceFarmClientTypes.EnvironmentVariable?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.EnvironmentVariable {
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Artifact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.EnvironmentVariable()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.VpcConfig {
-
-    static func write(value: DeviceFarmClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vpcId"].write(value.vpcId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.VpcConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.VpcConfig()
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.RemoteAccessSession {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.RemoteAccessSession {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.RemoteAccessSession()
+        var value = DeviceFarmClientTypes.Artifact()
         value.arn = try reader["arn"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
-        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        value.result = try reader["result"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        value.started = try reader["started"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.stopped = try reader["stopped"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.device = try reader["device"].readIfPresent(with: DeviceFarmClientTypes.Device.read(from:))
-        value.instanceArn = try reader["instanceArn"].readIfPresent()
-        value.billingMethod = try reader["billingMethod"].readIfPresent()
-        value.deviceMinutes = try reader["deviceMinutes"].readIfPresent(with: DeviceFarmClientTypes.DeviceMinutes.read(from:))
-        value.endpoint = try reader["endpoint"].readIfPresent()
-        value.deviceUdid = try reader["deviceUdid"].readIfPresent()
-        value.skipAppResign = try reader["skipAppResign"].readIfPresent()
-        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: DeviceFarmClientTypes.VpcConfig.read(from:))
-        value.deviceProxy = try reader["deviceProxy"].readIfPresent(with: DeviceFarmClientTypes.DeviceProxy.read(from:))
-        value.appUpload = try reader["appUpload"].readIfPresent()
-        value.endpoints = try reader["endpoints"].readIfPresent(with: DeviceFarmClientTypes.RemoteAccessEndpoints.read(from:))
+        value.type = try reader["type"].readIfPresent()
+        value.`extension` = try reader["extension"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
         return value
     }
 }
 
-extension DeviceFarmClientTypes.RemoteAccessEndpoints {
+extension DeviceFarmClientTypes.Counters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.RemoteAccessEndpoints {
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Counters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.RemoteAccessEndpoints()
-        value.remoteDriverEndpoint = try reader["remoteDriverEndpoint"].readIfPresent()
-        value.interactiveEndpoint = try reader["interactiveEndpoint"].readIfPresent()
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.DeviceProxy {
-
-    static func write(value: DeviceFarmClientTypes.DeviceProxy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["host"].write(value.host)
-        try writer["port"].write(value.port)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DeviceProxy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.DeviceProxy()
-        value.host = try reader["host"].readIfPresent() ?? ""
-        value.port = try reader["port"].readIfPresent() ?? 3128
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.DeviceMinutes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DeviceMinutes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.DeviceMinutes()
+        var value = DeviceFarmClientTypes.Counters()
         value.total = try reader["total"].readIfPresent()
-        value.metered = try reader["metered"].readIfPresent()
-        value.unmetered = try reader["unmetered"].readIfPresent()
+        value.passed = try reader["passed"].readIfPresent()
+        value.failed = try reader["failed"].readIfPresent()
+        value.warned = try reader["warned"].readIfPresent()
+        value.errored = try reader["errored"].readIfPresent()
+        value.stopped = try reader["stopped"].readIfPresent()
+        value.skipped = try reader["skipped"].readIfPresent()
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.CPU {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.CPU {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.CPU()
+        value.frequency = try reader["frequency"].readIfPresent()
+        value.architecture = try reader["architecture"].readIfPresent()
+        value.clock = try reader["clock"].readIfPresent()
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration {
+
+    static func write(value: DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["auxiliaryApps"].writeList(value.auxiliaryApps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["billingMethod"].write(value.billingMethod)
+        try writer["deviceProxy"].write(value.deviceProxy, with: DeviceFarmClientTypes.DeviceProxy.write(value:to:))
+        try writer["vpceConfigurationArns"].writeList(value.vpceConfigurationArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DeviceFarmClientTypes.CustomerArtifactPaths {
+
+    static func write(value: DeviceFarmClientTypes.CustomerArtifactPaths?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["androidPaths"].writeList(value.androidPaths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["deviceHostPaths"].writeList(value.deviceHostPaths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["iosPaths"].writeList(value.iosPaths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.CustomerArtifactPaths {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.CustomerArtifactPaths()
+        value.iosPaths = try reader["iosPaths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.androidPaths = try reader["androidPaths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deviceHostPaths = try reader["deviceHostPaths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10469,6 +10368,25 @@ extension DeviceFarmClientTypes.Device {
     }
 }
 
+extension DeviceFarmClientTypes.DeviceFilter {
+
+    static func write(value: DeviceFarmClientTypes.DeviceFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attribute"].write(value.attribute)
+        try writer["operator"].write(value.`operator`)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DeviceFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.DeviceFilter()
+        value.attribute = try reader["attribute"].readIfPresent() ?? .sdkUnknown("")
+        value.`operator` = try reader["operator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension DeviceFarmClientTypes.DeviceInstance {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DeviceInstance {
@@ -10484,119 +10402,29 @@ extension DeviceFarmClientTypes.DeviceInstance {
     }
 }
 
-extension DeviceFarmClientTypes.Resolution {
+extension DeviceFarmClientTypes.DeviceMinutes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Resolution {
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DeviceMinutes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.Resolution()
-        value.width = try reader["width"].readIfPresent()
-        value.height = try reader["height"].readIfPresent()
+        var value = DeviceFarmClientTypes.DeviceMinutes()
+        value.total = try reader["total"].readIfPresent()
+        value.metered = try reader["metered"].readIfPresent()
+        value.unmetered = try reader["unmetered"].readIfPresent()
         return value
     }
 }
 
-extension DeviceFarmClientTypes.CPU {
+extension DeviceFarmClientTypes.DevicePool {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.CPU {
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DevicePool {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.CPU()
-        value.frequency = try reader["frequency"].readIfPresent()
-        value.architecture = try reader["architecture"].readIfPresent()
-        value.clock = try reader["clock"].readIfPresent()
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.TestGridProject {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.TestGridProject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.TestGridProject()
+        var value = DeviceFarmClientTypes.DevicePool()
         value.arn = try reader["arn"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: DeviceFarmClientTypes.TestGridVpcConfig.read(from:))
-        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.TestGridVpcConfig {
-
-    static func write(value: DeviceFarmClientTypes.TestGridVpcConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vpcId"].write(value.vpcId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.TestGridVpcConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.TestGridVpcConfig()
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.Upload {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Upload {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.Upload()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.type = try reader["type"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
-        value.metadata = try reader["metadata"].readIfPresent()
-        value.contentType = try reader["contentType"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        value.category = try reader["category"].readIfPresent()
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.VPCEConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.VPCEConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.VPCEConfiguration()
-        value.arn = try reader["arn"].readIfPresent()
-        value.vpceConfigurationName = try reader["vpceConfigurationName"].readIfPresent()
-        value.vpceServiceName = try reader["vpceServiceName"].readIfPresent()
-        value.serviceDnsName = try reader["serviceDnsName"].readIfPresent()
-        value.vpceConfigurationDescription = try reader["vpceConfigurationDescription"].readIfPresent()
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.AccountSettings {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.AccountSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.AccountSettings()
-        value.awsAccountNumber = try reader["awsAccountNumber"].readIfPresent()
-        value.unmeteredDevices = try reader["unmeteredDevices"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.unmeteredRemoteAccessDevices = try reader["unmeteredRemoteAccessDevices"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.maxJobTimeoutMinutes = try reader["maxJobTimeoutMinutes"].readIfPresent()
-        value.trialMinutes = try reader["trialMinutes"].readIfPresent(with: DeviceFarmClientTypes.TrialMinutes.read(from:))
-        value.maxSlots = try reader["maxSlots"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.defaultJobTimeoutMinutes = try reader["defaultJobTimeoutMinutes"].readIfPresent()
-        value.skipAppResign = try reader["skipAppResign"].readIfPresent()
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.TrialMinutes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.TrialMinutes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.TrialMinutes()
-        value.total = try reader["total"].readIfPresent()
-        value.remaining = try reader["remaining"].readIfPresent()
+        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: DeviceFarmClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maxDevices = try reader["maxDevices"].readIfPresent()
         return value
     }
 }
@@ -10613,6 +10441,73 @@ extension DeviceFarmClientTypes.DevicePoolCompatibilityResult {
     }
 }
 
+extension DeviceFarmClientTypes.DeviceProxy {
+
+    static func write(value: DeviceFarmClientTypes.DeviceProxy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["host"].write(value.host)
+        try writer["port"].write(value.port)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DeviceProxy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.DeviceProxy()
+        value.host = try reader["host"].readIfPresent() ?? ""
+        value.port = try reader["port"].readIfPresent() ?? 3128
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.DeviceSelectionConfiguration {
+
+    static func write(value: DeviceFarmClientTypes.DeviceSelectionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: DeviceFarmClientTypes.DeviceFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxDevices"].write(value.maxDevices)
+    }
+}
+
+extension DeviceFarmClientTypes.DeviceSelectionResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DeviceSelectionResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.DeviceSelectionResult()
+        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: DeviceFarmClientTypes.DeviceFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchedDevicesCount = try reader["matchedDevicesCount"].readIfPresent()
+        value.maxDevices = try reader["maxDevices"].readIfPresent()
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.EnvironmentVariable {
+
+    static func write(value: DeviceFarmClientTypes.EnvironmentVariable?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.EnvironmentVariable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.EnvironmentVariable()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.ExecutionConfiguration {
+
+    static func write(value: DeviceFarmClientTypes.ExecutionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountsCleanup"].write(value.accountsCleanup)
+        try writer["appPackagesCleanup"].write(value.appPackagesCleanup)
+        try writer["jobTimeoutMinutes"].write(value.jobTimeoutMinutes)
+        try writer["skipAppResign"].write(value.skipAppResign)
+        try writer["videoCapture"].write(value.videoCapture)
+    }
+}
+
 extension DeviceFarmClientTypes.IncompatibilityMessage {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.IncompatibilityMessage {
@@ -10620,6 +10515,21 @@ extension DeviceFarmClientTypes.IncompatibilityMessage {
         var value = DeviceFarmClientTypes.IncompatibilityMessage()
         value.message = try reader["message"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.InstanceProfile {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.InstanceProfile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.InstanceProfile()
+        value.arn = try reader["arn"].readIfPresent()
+        value.packageCleanup = try reader["packageCleanup"].readIfPresent()
+        value.excludeAppPackagesFromCleanup = try reader["excludeAppPackagesFromCleanup"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rebootAfterUse = try reader["rebootAfterUse"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
         return value
     }
 }
@@ -10648,31 +10558,51 @@ extension DeviceFarmClientTypes.Job {
     }
 }
 
-extension DeviceFarmClientTypes.Counters {
+extension DeviceFarmClientTypes.Location {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Counters {
+    static func write(value: DeviceFarmClientTypes.Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["latitude"].write(value.latitude)
+        try writer["longitude"].write(value.longitude)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.Counters()
-        value.total = try reader["total"].readIfPresent()
-        value.passed = try reader["passed"].readIfPresent()
-        value.failed = try reader["failed"].readIfPresent()
-        value.warned = try reader["warned"].readIfPresent()
-        value.errored = try reader["errored"].readIfPresent()
-        value.stopped = try reader["stopped"].readIfPresent()
-        value.skipped = try reader["skipped"].readIfPresent()
+        var value = DeviceFarmClientTypes.Location()
+        value.latitude = try reader["latitude"].readIfPresent() ?? 0.0
+        value.longitude = try reader["longitude"].readIfPresent() ?? 0.0
         return value
     }
 }
 
-extension DeviceFarmClientTypes.OfferingStatus {
+extension DeviceFarmClientTypes.MonetaryAmount {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.OfferingStatus {
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.MonetaryAmount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.OfferingStatus()
+        var value = DeviceFarmClientTypes.MonetaryAmount()
+        value.amount = try reader["amount"].readIfPresent()
+        value.currencyCode = try reader["currencyCode"].readIfPresent()
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.NetworkProfile {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.NetworkProfile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.NetworkProfile()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
-        value.offering = try reader["offering"].readIfPresent(with: DeviceFarmClientTypes.Offering.read(from:))
-        value.quantity = try reader["quantity"].readIfPresent()
-        value.effectiveOn = try reader["effectiveOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.uplinkBandwidthBits = try reader["uplinkBandwidthBits"].readIfPresent()
+        value.downlinkBandwidthBits = try reader["downlinkBandwidthBits"].readIfPresent()
+        value.uplinkDelayMs = try reader["uplinkDelayMs"].readIfPresent()
+        value.downlinkDelayMs = try reader["downlinkDelayMs"].readIfPresent()
+        value.uplinkJitterMs = try reader["uplinkJitterMs"].readIfPresent()
+        value.downlinkJitterMs = try reader["downlinkJitterMs"].readIfPresent()
+        value.uplinkLossPercent = try reader["uplinkLossPercent"].readIfPresent() ?? 0
+        value.downlinkLossPercent = try reader["downlinkLossPercent"].readIfPresent() ?? 0
         return value
     }
 }
@@ -10691,6 +10621,108 @@ extension DeviceFarmClientTypes.Offering {
     }
 }
 
+extension DeviceFarmClientTypes.OfferingPromotion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.OfferingPromotion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.OfferingPromotion()
+        value.id = try reader["id"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.OfferingStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.OfferingStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.OfferingStatus()
+        value.type = try reader["type"].readIfPresent()
+        value.offering = try reader["offering"].readIfPresent(with: DeviceFarmClientTypes.Offering.read(from:))
+        value.quantity = try reader["quantity"].readIfPresent()
+        value.effectiveOn = try reader["effectiveOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.OfferingTransaction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.OfferingTransaction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.OfferingTransaction()
+        value.offeringStatus = try reader["offeringStatus"].readIfPresent(with: DeviceFarmClientTypes.OfferingStatus.read(from:))
+        value.transactionId = try reader["transactionId"].readIfPresent()
+        value.offeringPromotionId = try reader["offeringPromotionId"].readIfPresent()
+        value.createdOn = try reader["createdOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.cost = try reader["cost"].readIfPresent(with: DeviceFarmClientTypes.MonetaryAmount.read(from:))
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.Problem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Problem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.Problem()
+        value.run = try reader["run"].readIfPresent(with: DeviceFarmClientTypes.ProblemDetail.read(from:))
+        value.job = try reader["job"].readIfPresent(with: DeviceFarmClientTypes.ProblemDetail.read(from:))
+        value.suite = try reader["suite"].readIfPresent(with: DeviceFarmClientTypes.ProblemDetail.read(from:))
+        value.test = try reader["test"].readIfPresent(with: DeviceFarmClientTypes.ProblemDetail.read(from:))
+        value.device = try reader["device"].readIfPresent(with: DeviceFarmClientTypes.Device.read(from:))
+        value.result = try reader["result"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.ProblemDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.ProblemDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.ProblemDetail()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.Project {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Project {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.Project()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.defaultJobTimeoutMinutes = try reader["defaultJobTimeoutMinutes"].readIfPresent()
+        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: DeviceFarmClientTypes.VpcConfig.read(from:))
+        value.environmentVariables = try reader["environmentVariables"].readListIfPresent(memberReadingClosure: DeviceFarmClientTypes.EnvironmentVariable.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.Radios {
+
+    static func write(value: DeviceFarmClientTypes.Radios?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bluetooth"].write(value.bluetooth)
+        try writer["gps"].write(value.gps)
+        try writer["nfc"].write(value.nfc)
+        try writer["wifi"].write(value.wifi)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Radios {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.Radios()
+        value.wifi = try reader["wifi"].readIfPresent()
+        value.bluetooth = try reader["bluetooth"].readIfPresent()
+        value.nfc = try reader["nfc"].readIfPresent()
+        value.gps = try reader["gps"].readIfPresent()
+        return value
+    }
+}
+
 extension DeviceFarmClientTypes.RecurringCharge {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.RecurringCharge {
@@ -10702,13 +10734,71 @@ extension DeviceFarmClientTypes.RecurringCharge {
     }
 }
 
-extension DeviceFarmClientTypes.MonetaryAmount {
+extension DeviceFarmClientTypes.RemoteAccessEndpoints {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.MonetaryAmount {
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.RemoteAccessEndpoints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.MonetaryAmount()
-        value.amount = try reader["amount"].readIfPresent()
-        value.currencyCode = try reader["currencyCode"].readIfPresent()
+        var value = DeviceFarmClientTypes.RemoteAccessEndpoints()
+        value.remoteDriverEndpoint = try reader["remoteDriverEndpoint"].readIfPresent()
+        value.interactiveEndpoint = try reader["interactiveEndpoint"].readIfPresent()
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.RemoteAccessSession {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.RemoteAccessSession {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.RemoteAccessSession()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.result = try reader["result"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.started = try reader["started"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.stopped = try reader["stopped"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.device = try reader["device"].readIfPresent(with: DeviceFarmClientTypes.Device.read(from:))
+        value.instanceArn = try reader["instanceArn"].readIfPresent()
+        value.billingMethod = try reader["billingMethod"].readIfPresent()
+        value.deviceMinutes = try reader["deviceMinutes"].readIfPresent(with: DeviceFarmClientTypes.DeviceMinutes.read(from:))
+        value.endpoint = try reader["endpoint"].readIfPresent()
+        value.deviceUdid = try reader["deviceUdid"].readIfPresent()
+        value.skipAppResign = try reader["skipAppResign"].readIfPresent()
+        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: DeviceFarmClientTypes.VpcConfig.read(from:))
+        value.deviceProxy = try reader["deviceProxy"].readIfPresent(with: DeviceFarmClientTypes.DeviceProxy.read(from:))
+        value.appUpload = try reader["appUpload"].readIfPresent()
+        value.endpoints = try reader["endpoints"].readIfPresent(with: DeviceFarmClientTypes.RemoteAccessEndpoints.read(from:))
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.Resolution {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Resolution {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.Resolution()
+        value.width = try reader["width"].readIfPresent()
+        value.height = try reader["height"].readIfPresent()
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.Rule {
+
+    static func write(value: DeviceFarmClientTypes.Rule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attribute"].write(value.attribute)
+        try writer["operator"].write(value.`operator`)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Rule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.Rule()
+        value.attribute = try reader["attribute"].readIfPresent()
+        value.`operator` = try reader["operator"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
         return value
     }
 }
@@ -10757,91 +10847,46 @@ extension DeviceFarmClientTypes.Run {
     }
 }
 
-extension DeviceFarmClientTypes.DeviceSelectionResult {
+extension DeviceFarmClientTypes.Sample {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DeviceSelectionResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Sample {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.DeviceSelectionResult()
-        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: DeviceFarmClientTypes.DeviceFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.matchedDevicesCount = try reader["matchedDevicesCount"].readIfPresent()
-        value.maxDevices = try reader["maxDevices"].readIfPresent()
+        var value = DeviceFarmClientTypes.Sample()
+        value.arn = try reader["arn"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
         return value
     }
 }
 
-extension DeviceFarmClientTypes.DeviceFilter {
+extension DeviceFarmClientTypes.ScheduleRunConfiguration {
 
-    static func write(value: DeviceFarmClientTypes.DeviceFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DeviceFarmClientTypes.ScheduleRunConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["attribute"].write(value.attribute)
-        try writer["operator"].write(value.`operator`)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DeviceFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.DeviceFilter()
-        value.attribute = try reader["attribute"].readIfPresent() ?? .sdkUnknown("")
-        value.`operator` = try reader["operator"].readIfPresent() ?? .sdkUnknown("")
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
+        try writer["auxiliaryApps"].writeList(value.auxiliaryApps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["billingMethod"].write(value.billingMethod)
+        try writer["customerArtifactPaths"].write(value.customerArtifactPaths, with: DeviceFarmClientTypes.CustomerArtifactPaths.write(value:to:))
+        try writer["deviceProxy"].write(value.deviceProxy, with: DeviceFarmClientTypes.DeviceProxy.write(value:to:))
+        try writer["environmentVariables"].writeList(value.environmentVariables, memberWritingClosure: DeviceFarmClientTypes.EnvironmentVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["extraDataPackageArn"].write(value.extraDataPackageArn)
+        try writer["locale"].write(value.locale)
+        try writer["location"].write(value.location, with: DeviceFarmClientTypes.Location.write(value:to:))
+        try writer["networkProfileArn"].write(value.networkProfileArn)
+        try writer["radios"].write(value.radios, with: DeviceFarmClientTypes.Radios.write(value:to:))
+        try writer["vpceConfigurationArns"].writeList(value.vpceConfigurationArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension DeviceFarmClientTypes.CustomerArtifactPaths {
+extension DeviceFarmClientTypes.ScheduleRunTest {
 
-    static func write(value: DeviceFarmClientTypes.CustomerArtifactPaths?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DeviceFarmClientTypes.ScheduleRunTest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["androidPaths"].writeList(value.androidPaths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["deviceHostPaths"].writeList(value.deviceHostPaths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["iosPaths"].writeList(value.iosPaths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.CustomerArtifactPaths {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.CustomerArtifactPaths()
-        value.iosPaths = try reader["iosPaths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.androidPaths = try reader["androidPaths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.deviceHostPaths = try reader["deviceHostPaths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.Location {
-
-    static func write(value: DeviceFarmClientTypes.Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["latitude"].write(value.latitude)
-        try writer["longitude"].write(value.longitude)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Location {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.Location()
-        value.latitude = try reader["latitude"].readIfPresent() ?? 0.0
-        value.longitude = try reader["longitude"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.Radios {
-
-    static func write(value: DeviceFarmClientTypes.Radios?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bluetooth"].write(value.bluetooth)
-        try writer["gps"].write(value.gps)
-        try writer["nfc"].write(value.nfc)
-        try writer["wifi"].write(value.wifi)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Radios {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.Radios()
-        value.wifi = try reader["wifi"].readIfPresent()
-        value.bluetooth = try reader["bluetooth"].readIfPresent()
-        value.nfc = try reader["nfc"].readIfPresent()
-        value.gps = try reader["gps"].readIfPresent()
-        return value
+        try writer["filter"].write(value.filter)
+        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["testPackageArn"].write(value.testPackageArn)
+        try writer["testSpecArn"].write(value.testSpecArn)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -10861,6 +10906,23 @@ extension DeviceFarmClientTypes.Suite {
         value.counters = try reader["counters"].readIfPresent(with: DeviceFarmClientTypes.Counters.read(from:))
         value.message = try reader["message"].readIfPresent()
         value.deviceMinutes = try reader["deviceMinutes"].readIfPresent(with: DeviceFarmClientTypes.DeviceMinutes.read(from:))
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.Tag {
+
+    static func write(value: DeviceFarmClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10885,6 +10947,20 @@ extension DeviceFarmClientTypes.Test {
     }
 }
 
+extension DeviceFarmClientTypes.TestGridProject {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.TestGridProject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.TestGridProject()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: DeviceFarmClientTypes.TestGridVpcConfig.read(from:))
+        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension DeviceFarmClientTypes.TestGridSession {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.TestGridSession {
@@ -10896,74 +10972,6 @@ extension DeviceFarmClientTypes.TestGridSession {
         value.ended = try reader["ended"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.billingMinutes = try reader["billingMinutes"].readIfPresent()
         value.seleniumProperties = try reader["seleniumProperties"].readIfPresent()
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.Artifact {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Artifact {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.Artifact()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.`extension` = try reader["extension"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.OfferingPromotion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.OfferingPromotion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.OfferingPromotion()
-        value.id = try reader["id"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.OfferingTransaction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.OfferingTransaction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.OfferingTransaction()
-        value.offeringStatus = try reader["offeringStatus"].readIfPresent(with: DeviceFarmClientTypes.OfferingStatus.read(from:))
-        value.transactionId = try reader["transactionId"].readIfPresent()
-        value.offeringPromotionId = try reader["offeringPromotionId"].readIfPresent()
-        value.createdOn = try reader["createdOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.cost = try reader["cost"].readIfPresent(with: DeviceFarmClientTypes.MonetaryAmount.read(from:))
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.Sample {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Sample {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.Sample()
-        value.arn = try reader["arn"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.Tag {
-
-    static func write(value: DeviceFarmClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10994,6 +11002,36 @@ extension DeviceFarmClientTypes.TestGridSessionArtifact {
     }
 }
 
+extension DeviceFarmClientTypes.TestGridVpcConfig {
+
+    static func write(value: DeviceFarmClientTypes.TestGridVpcConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vpcId"].write(value.vpcId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.TestGridVpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.TestGridVpcConfig()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.TrialMinutes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.TrialMinutes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.TrialMinutes()
+        value.total = try reader["total"].readIfPresent()
+        value.remaining = try reader["remaining"].readIfPresent()
+        return value
+    }
+}
+
 extension DeviceFarmClientTypes.UniqueProblem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.UniqueProblem {
@@ -11005,93 +11043,55 @@ extension DeviceFarmClientTypes.UniqueProblem {
     }
 }
 
-extension DeviceFarmClientTypes.Problem {
+extension DeviceFarmClientTypes.Upload {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Problem {
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.Upload {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.Problem()
-        value.run = try reader["run"].readIfPresent(with: DeviceFarmClientTypes.ProblemDetail.read(from:))
-        value.job = try reader["job"].readIfPresent(with: DeviceFarmClientTypes.ProblemDetail.read(from:))
-        value.suite = try reader["suite"].readIfPresent(with: DeviceFarmClientTypes.ProblemDetail.read(from:))
-        value.test = try reader["test"].readIfPresent(with: DeviceFarmClientTypes.ProblemDetail.read(from:))
-        value.device = try reader["device"].readIfPresent(with: DeviceFarmClientTypes.Device.read(from:))
-        value.result = try reader["result"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension DeviceFarmClientTypes.ProblemDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.ProblemDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeviceFarmClientTypes.ProblemDetail()
+        var value = DeviceFarmClientTypes.Upload()
         value.arn = try reader["arn"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
+        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.type = try reader["type"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
+        value.metadata = try reader["metadata"].readIfPresent()
+        value.contentType = try reader["contentType"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.category = try reader["category"].readIfPresent()
         return value
     }
 }
 
-extension DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration {
+extension DeviceFarmClientTypes.VpcConfig {
 
-    static func write(value: DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DeviceFarmClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["auxiliaryApps"].writeList(value.auxiliaryApps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["billingMethod"].write(value.billingMethod)
-        try writer["deviceProxy"].write(value.deviceProxy, with: DeviceFarmClientTypes.DeviceProxy.write(value:to:))
-        try writer["vpceConfigurationArns"].writeList(value.vpceConfigurationArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vpcId"].write(value.vpcId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.VpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.VpcConfig()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension DeviceFarmClientTypes.ScheduleRunTest {
+extension DeviceFarmClientTypes.VPCEConfiguration {
 
-    static func write(value: DeviceFarmClientTypes.ScheduleRunTest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filter"].write(value.filter)
-        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["testPackageArn"].write(value.testPackageArn)
-        try writer["testSpecArn"].write(value.testSpecArn)
-        try writer["type"].write(value.type)
-    }
-}
-
-extension DeviceFarmClientTypes.ScheduleRunConfiguration {
-
-    static func write(value: DeviceFarmClientTypes.ScheduleRunConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["auxiliaryApps"].writeList(value.auxiliaryApps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["billingMethod"].write(value.billingMethod)
-        try writer["customerArtifactPaths"].write(value.customerArtifactPaths, with: DeviceFarmClientTypes.CustomerArtifactPaths.write(value:to:))
-        try writer["deviceProxy"].write(value.deviceProxy, with: DeviceFarmClientTypes.DeviceProxy.write(value:to:))
-        try writer["environmentVariables"].writeList(value.environmentVariables, memberWritingClosure: DeviceFarmClientTypes.EnvironmentVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["executionRoleArn"].write(value.executionRoleArn)
-        try writer["extraDataPackageArn"].write(value.extraDataPackageArn)
-        try writer["locale"].write(value.locale)
-        try writer["location"].write(value.location, with: DeviceFarmClientTypes.Location.write(value:to:))
-        try writer["networkProfileArn"].write(value.networkProfileArn)
-        try writer["radios"].write(value.radios, with: DeviceFarmClientTypes.Radios.write(value:to:))
-        try writer["vpceConfigurationArns"].writeList(value.vpceConfigurationArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension DeviceFarmClientTypes.DeviceSelectionConfiguration {
-
-    static func write(value: DeviceFarmClientTypes.DeviceSelectionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filters"].writeList(value.filters, memberWritingClosure: DeviceFarmClientTypes.DeviceFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["maxDevices"].write(value.maxDevices)
-    }
-}
-
-extension DeviceFarmClientTypes.ExecutionConfiguration {
-
-    static func write(value: DeviceFarmClientTypes.ExecutionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountsCleanup"].write(value.accountsCleanup)
-        try writer["appPackagesCleanup"].write(value.appPackagesCleanup)
-        try writer["jobTimeoutMinutes"].write(value.jobTimeoutMinutes)
-        try writer["skipAppResign"].write(value.skipAppResign)
-        try writer["videoCapture"].write(value.videoCapture)
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.VPCEConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.VPCEConfiguration()
+        value.arn = try reader["arn"].readIfPresent()
+        value.vpceConfigurationName = try reader["vpceConfigurationName"].readIfPresent()
+        value.vpceServiceName = try reader["vpceServiceName"].readIfPresent()
+        value.serviceDnsName = try reader["serviceDnsName"].readIfPresent()
+        value.vpceConfigurationDescription = try reader["vpceConfigurationDescription"].readIfPresent()
+        return value
     }
 }
 

@@ -457,20 +457,6 @@ extension ValidationException {
     }
 }
 
-extension SigninClientTypes.CreateOAuth2TokenResponseBody {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SigninClientTypes.CreateOAuth2TokenResponseBody {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SigninClientTypes.CreateOAuth2TokenResponseBody()
-        value.accessToken = try reader["accessToken"].readIfPresent(with: SigninClientTypes.AccessToken.read(from:))
-        value.tokenType = try reader["tokenType"].readIfPresent() ?? ""
-        value.expiresIn = try reader["expiresIn"].readIfPresent() ?? 0
-        value.refreshToken = try reader["refreshToken"].readIfPresent() ?? ""
-        value.idToken = try reader["idToken"].readIfPresent()
-        return value
-    }
-}
-
 extension SigninClientTypes.AccessToken {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SigninClientTypes.AccessToken {
@@ -493,6 +479,20 @@ extension SigninClientTypes.CreateOAuth2TokenRequestBody {
         try writer["grantType"].write(value.grantType)
         try writer["redirectUri"].write(value.redirectUri)
         try writer["refreshToken"].write(value.refreshToken)
+    }
+}
+
+extension SigninClientTypes.CreateOAuth2TokenResponseBody {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SigninClientTypes.CreateOAuth2TokenResponseBody {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SigninClientTypes.CreateOAuth2TokenResponseBody()
+        value.accessToken = try reader["accessToken"].readIfPresent(with: SigninClientTypes.AccessToken.read(from:))
+        value.tokenType = try reader["tokenType"].readIfPresent() ?? ""
+        value.expiresIn = try reader["expiresIn"].readIfPresent() ?? 0
+        value.refreshToken = try reader["refreshToken"].readIfPresent() ?? ""
+        value.idToken = try reader["idToken"].readIfPresent()
+        return value
     }
 }
 

@@ -3225,12 +3225,65 @@ extension ValidationException {
     }
 }
 
-extension CodeGuruProfilerClientTypes.NotificationConfiguration {
+extension CodeGuruProfilerClientTypes.AgentConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.NotificationConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AgentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.NotificationConfiguration()
-        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.Channel.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = CodeGuruProfilerClientTypes.AgentConfiguration()
+        value.shouldProfile = try reader["shouldProfile"].readIfPresent() ?? false
+        value.periodInSeconds = try reader["periodInSeconds"].readIfPresent() ?? 0
+        value.agentParameters = try reader["agentParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.AgentOrchestrationConfig {
+
+    static func write(value: CodeGuruProfilerClientTypes.AgentOrchestrationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["profilingEnabled"].write(value.profilingEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AgentOrchestrationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.AgentOrchestrationConfig()
+        value.profilingEnabled = try reader["profilingEnabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.AggregatedProfileTime {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AggregatedProfileTime {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.AggregatedProfileTime()
+        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.period = try reader["period"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.Anomaly {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Anomaly {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.Anomaly()
+        value.metric = try reader["metric"].readIfPresent(with: CodeGuruProfilerClientTypes.Metric.read(from:))
+        value.reason = try reader["reason"].readIfPresent() ?? ""
+        value.instances = try reader["instances"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.AnomalyInstance.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.AnomalyInstance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AnomalyInstance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.AnomalyInstance()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.userFeedback = try reader["userFeedback"].readIfPresent(with: CodeGuruProfilerClientTypes.UserFeedback.read(from:))
         return value
     }
 }
@@ -3254,23 +3307,16 @@ extension CodeGuruProfilerClientTypes.Channel {
     }
 }
 
-extension CodeGuruProfilerClientTypes.TimestampStructure {
+extension CodeGuruProfilerClientTypes.FindingsReportSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.TimestampStructure {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.FindingsReportSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.TimestampStructure()
-        value.value = try reader["value"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension CodeGuruProfilerClientTypes.FrameMetricDatum {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.FrameMetricDatum {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.FrameMetricDatum()
-        value.frameMetric = try reader["frameMetric"].readIfPresent(with: CodeGuruProfilerClientTypes.FrameMetric.read(from:))
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = CodeGuruProfilerClientTypes.FindingsReportSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.profilingGroupName = try reader["profilingGroupName"].readIfPresent()
+        value.profileStartTime = try reader["profileStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.profileEndTime = try reader["profileEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.totalNumberOfFindings = try reader["totalNumberOfFindings"].readIfPresent()
         return value
     }
 }
@@ -3294,14 +3340,73 @@ extension CodeGuruProfilerClientTypes.FrameMetric {
     }
 }
 
-extension CodeGuruProfilerClientTypes.AgentConfiguration {
+extension CodeGuruProfilerClientTypes.FrameMetricDatum {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AgentConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.FrameMetricDatum {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.AgentConfiguration()
-        value.shouldProfile = try reader["shouldProfile"].readIfPresent() ?? false
-        value.periodInSeconds = try reader["periodInSeconds"].readIfPresent() ?? 0
-        value.agentParameters = try reader["agentParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = CodeGuruProfilerClientTypes.FrameMetricDatum()
+        value.frameMetric = try reader["frameMetric"].readIfPresent(with: CodeGuruProfilerClientTypes.FrameMetric.read(from:))
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.Match {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Match {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.Match()
+        value.targetFramesIndex = try reader["targetFramesIndex"].readIfPresent()
+        value.frameAddress = try reader["frameAddress"].readIfPresent()
+        value.thresholdBreachValue = try reader["thresholdBreachValue"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.Metric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Metric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.Metric()
+        value.frameName = try reader["frameName"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.threadStates = try reader["threadStates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.NotificationConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.NotificationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.NotificationConfiguration()
+        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.Channel.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.Pattern {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Pattern {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.Pattern()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.resolutionSteps = try reader["resolutionSteps"].readIfPresent()
+        value.targetFrames = try reader["targetFrames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.thresholdPercent = try reader["thresholdPercent"].readIfPresent() ?? 0
+        value.countersToAggregate = try reader["countersToAggregate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeGuruProfilerClientTypes.ProfileTime {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.ProfileTime {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruProfilerClientTypes.ProfileTime()
+        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -3335,46 +3440,6 @@ extension CodeGuruProfilerClientTypes.ProfilingStatus {
     }
 }
 
-extension CodeGuruProfilerClientTypes.AggregatedProfileTime {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AggregatedProfileTime {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.AggregatedProfileTime()
-        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.period = try reader["period"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeGuruProfilerClientTypes.AgentOrchestrationConfig {
-
-    static func write(value: CodeGuruProfilerClientTypes.AgentOrchestrationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["profilingEnabled"].write(value.profilingEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AgentOrchestrationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.AgentOrchestrationConfig()
-        value.profilingEnabled = try reader["profilingEnabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension CodeGuruProfilerClientTypes.FindingsReportSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.FindingsReportSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.FindingsReportSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.profilingGroupName = try reader["profilingGroupName"].readIfPresent()
-        value.profileStartTime = try reader["profileStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.profileEndTime = try reader["profileEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.totalNumberOfFindings = try reader["totalNumberOfFindings"].readIfPresent()
-        return value
-    }
-}
-
 extension CodeGuruProfilerClientTypes.Recommendation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Recommendation {
@@ -3390,55 +3455,12 @@ extension CodeGuruProfilerClientTypes.Recommendation {
     }
 }
 
-extension CodeGuruProfilerClientTypes.Match {
+extension CodeGuruProfilerClientTypes.TimestampStructure {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Match {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.TimestampStructure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.Match()
-        value.targetFramesIndex = try reader["targetFramesIndex"].readIfPresent()
-        value.frameAddress = try reader["frameAddress"].readIfPresent()
-        value.thresholdBreachValue = try reader["thresholdBreachValue"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeGuruProfilerClientTypes.Pattern {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Pattern {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.Pattern()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.resolutionSteps = try reader["resolutionSteps"].readIfPresent()
-        value.targetFrames = try reader["targetFrames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.thresholdPercent = try reader["thresholdPercent"].readIfPresent() ?? 0
-        value.countersToAggregate = try reader["countersToAggregate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CodeGuruProfilerClientTypes.Anomaly {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Anomaly {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.Anomaly()
-        value.metric = try reader["metric"].readIfPresent(with: CodeGuruProfilerClientTypes.Metric.read(from:))
-        value.reason = try reader["reason"].readIfPresent() ?? ""
-        value.instances = try reader["instances"].readListIfPresent(memberReadingClosure: CodeGuruProfilerClientTypes.AnomalyInstance.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension CodeGuruProfilerClientTypes.AnomalyInstance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.AnomalyInstance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.AnomalyInstance()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.userFeedback = try reader["userFeedback"].readIfPresent(with: CodeGuruProfilerClientTypes.UserFeedback.read(from:))
+        var value = CodeGuruProfilerClientTypes.TimestampStructure()
+        value.value = try reader["value"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -3449,28 +3471,6 @@ extension CodeGuruProfilerClientTypes.UserFeedback {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeGuruProfilerClientTypes.UserFeedback()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension CodeGuruProfilerClientTypes.Metric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.Metric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.Metric()
-        value.frameName = try reader["frameName"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.threadStates = try reader["threadStates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension CodeGuruProfilerClientTypes.ProfileTime {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruProfilerClientTypes.ProfileTime {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruProfilerClientTypes.ProfileTime()
-        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }

@@ -1037,50 +1037,11 @@ extension NotFoundException {
     }
 }
 
-extension PinpointSMSVoiceClientTypes.EventDestination {
+extension PinpointSMSVoiceClientTypes.CallInstructionsMessageType {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceClientTypes.EventDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointSMSVoiceClientTypes.EventDestination()
-        value.cloudWatchLogsDestination = try reader["CloudWatchLogsDestination"].readIfPresent(with: PinpointSMSVoiceClientTypes.CloudWatchLogsDestination.read(from:))
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.kinesisFirehoseDestination = try reader["KinesisFirehoseDestination"].readIfPresent(with: PinpointSMSVoiceClientTypes.KinesisFirehoseDestination.read(from:))
-        value.matchingEventTypes = try reader["MatchingEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["Name"].readIfPresent()
-        value.snsDestination = try reader["SnsDestination"].readIfPresent(with: PinpointSMSVoiceClientTypes.SnsDestination.read(from:))
-        return value
-    }
-}
-
-extension PinpointSMSVoiceClientTypes.SnsDestination {
-
-    static func write(value: PinpointSMSVoiceClientTypes.SnsDestination?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PinpointSMSVoiceClientTypes.CallInstructionsMessageType?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["TopicArn"].write(value.topicArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceClientTypes.SnsDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointSMSVoiceClientTypes.SnsDestination()
-        value.topicArn = try reader["TopicArn"].readIfPresent()
-        return value
-    }
-}
-
-extension PinpointSMSVoiceClientTypes.KinesisFirehoseDestination {
-
-    static func write(value: PinpointSMSVoiceClientTypes.KinesisFirehoseDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeliveryStreamArn"].write(value.deliveryStreamArn)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceClientTypes.KinesisFirehoseDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PinpointSMSVoiceClientTypes.KinesisFirehoseDestination()
-        value.deliveryStreamArn = try reader["DeliveryStreamArn"].readIfPresent()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        return value
+        try writer["Text"].write(value.text)
     }
 }
 
@@ -1101,6 +1062,21 @@ extension PinpointSMSVoiceClientTypes.CloudWatchLogsDestination {
     }
 }
 
+extension PinpointSMSVoiceClientTypes.EventDestination {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceClientTypes.EventDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointSMSVoiceClientTypes.EventDestination()
+        value.cloudWatchLogsDestination = try reader["CloudWatchLogsDestination"].readIfPresent(with: PinpointSMSVoiceClientTypes.CloudWatchLogsDestination.read(from:))
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.kinesisFirehoseDestination = try reader["KinesisFirehoseDestination"].readIfPresent(with: PinpointSMSVoiceClientTypes.KinesisFirehoseDestination.read(from:))
+        value.matchingEventTypes = try reader["MatchingEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PinpointSMSVoiceClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent()
+        value.snsDestination = try reader["SnsDestination"].readIfPresent(with: PinpointSMSVoiceClientTypes.SnsDestination.read(from:))
+        return value
+    }
+}
+
 extension PinpointSMSVoiceClientTypes.EventDestinationDefinition {
 
     static func write(value: PinpointSMSVoiceClientTypes.EventDestinationDefinition?, to writer: SmithyJSON.Writer) throws {
@@ -1113,23 +1089,20 @@ extension PinpointSMSVoiceClientTypes.EventDestinationDefinition {
     }
 }
 
-extension PinpointSMSVoiceClientTypes.VoiceMessageContent {
+extension PinpointSMSVoiceClientTypes.KinesisFirehoseDestination {
 
-    static func write(value: PinpointSMSVoiceClientTypes.VoiceMessageContent?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PinpointSMSVoiceClientTypes.KinesisFirehoseDestination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CallInstructionsMessage"].write(value.callInstructionsMessage, with: PinpointSMSVoiceClientTypes.CallInstructionsMessageType.write(value:to:))
-        try writer["PlainTextMessage"].write(value.plainTextMessage, with: PinpointSMSVoiceClientTypes.PlainTextMessageType.write(value:to:))
-        try writer["SSMLMessage"].write(value.ssmlMessage, with: PinpointSMSVoiceClientTypes.SSMLMessageType.write(value:to:))
+        try writer["DeliveryStreamArn"].write(value.deliveryStreamArn)
+        try writer["IamRoleArn"].write(value.iamRoleArn)
     }
-}
 
-extension PinpointSMSVoiceClientTypes.SSMLMessageType {
-
-    static func write(value: PinpointSMSVoiceClientTypes.SSMLMessageType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LanguageCode"].write(value.languageCode)
-        try writer["Text"].write(value.text)
-        try writer["VoiceId"].write(value.voiceId)
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceClientTypes.KinesisFirehoseDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointSMSVoiceClientTypes.KinesisFirehoseDestination()
+        value.deliveryStreamArn = try reader["DeliveryStreamArn"].readIfPresent()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
+        return value
     }
 }
 
@@ -1143,11 +1116,38 @@ extension PinpointSMSVoiceClientTypes.PlainTextMessageType {
     }
 }
 
-extension PinpointSMSVoiceClientTypes.CallInstructionsMessageType {
+extension PinpointSMSVoiceClientTypes.SnsDestination {
 
-    static func write(value: PinpointSMSVoiceClientTypes.CallInstructionsMessageType?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PinpointSMSVoiceClientTypes.SnsDestination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["TopicArn"].write(value.topicArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceClientTypes.SnsDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointSMSVoiceClientTypes.SnsDestination()
+        value.topicArn = try reader["TopicArn"].readIfPresent()
+        return value
+    }
+}
+
+extension PinpointSMSVoiceClientTypes.SSMLMessageType {
+
+    static func write(value: PinpointSMSVoiceClientTypes.SSMLMessageType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LanguageCode"].write(value.languageCode)
         try writer["Text"].write(value.text)
+        try writer["VoiceId"].write(value.voiceId)
+    }
+}
+
+extension PinpointSMSVoiceClientTypes.VoiceMessageContent {
+
+    static func write(value: PinpointSMSVoiceClientTypes.VoiceMessageContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CallInstructionsMessage"].write(value.callInstructionsMessage, with: PinpointSMSVoiceClientTypes.CallInstructionsMessageType.write(value:to:))
+        try writer["PlainTextMessage"].write(value.plainTextMessage, with: PinpointSMSVoiceClientTypes.PlainTextMessageType.write(value:to:))
+        try writer["SSMLMessage"].write(value.ssmlMessage, with: PinpointSMSVoiceClientTypes.SSMLMessageType.write(value:to:))
     }
 }
 

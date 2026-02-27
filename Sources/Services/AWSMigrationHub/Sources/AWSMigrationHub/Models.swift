@@ -2456,56 +2456,6 @@ extension PolicyErrorException {
     }
 }
 
-extension MigrationHubClientTypes.MigrationTask {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.MigrationTask {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubClientTypes.MigrationTask()
-        value.progressUpdateStream = try reader["ProgressUpdateStream"].readIfPresent()
-        value.migrationTaskName = try reader["MigrationTaskName"].readIfPresent()
-        value.task = try reader["Task"].readIfPresent(with: MigrationHubClientTypes.Task.read(from:))
-        value.updateDateTime = try reader["UpdateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.resourceAttributeList = try reader["ResourceAttributeList"].readListIfPresent(memberReadingClosure: MigrationHubClientTypes.ResourceAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MigrationHubClientTypes.ResourceAttribute {
-
-    static func write(value: MigrationHubClientTypes.ResourceAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.ResourceAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubClientTypes.ResourceAttribute()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MigrationHubClientTypes.Task {
-
-    static func write(value: MigrationHubClientTypes.Task?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProgressPercent"].write(value.progressPercent)
-        try writer["Status"].write(value.status)
-        try writer["StatusDetail"].write(value.statusDetail)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.Task {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubClientTypes.Task()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.statusDetail = try reader["StatusDetail"].readIfPresent()
-        value.progressPercent = try reader["ProgressPercent"].readIfPresent()
-        return value
-    }
-}
-
 extension MigrationHubClientTypes.ApplicationState {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.ApplicationState {
@@ -2552,6 +2502,20 @@ extension MigrationHubClientTypes.DiscoveredResource {
     }
 }
 
+extension MigrationHubClientTypes.MigrationTask {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.MigrationTask {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubClientTypes.MigrationTask()
+        value.progressUpdateStream = try reader["ProgressUpdateStream"].readIfPresent()
+        value.migrationTaskName = try reader["MigrationTaskName"].readIfPresent()
+        value.task = try reader["Task"].readIfPresent(with: MigrationHubClientTypes.Task.read(from:))
+        value.updateDateTime = try reader["UpdateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.resourceAttributeList = try reader["ResourceAttributeList"].readListIfPresent(memberReadingClosure: MigrationHubClientTypes.ResourceAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension MigrationHubClientTypes.MigrationTaskSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.MigrationTaskSummary {
@@ -2589,6 +2553,23 @@ extension MigrationHubClientTypes.ProgressUpdateStreamSummary {
     }
 }
 
+extension MigrationHubClientTypes.ResourceAttribute {
+
+    static func write(value: MigrationHubClientTypes.ResourceAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.ResourceAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubClientTypes.ResourceAttribute()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension MigrationHubClientTypes.SourceResource {
 
     static func write(value: MigrationHubClientTypes.SourceResource?, to writer: SmithyJSON.Writer) throws {
@@ -2604,6 +2585,25 @@ extension MigrationHubClientTypes.SourceResource {
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         value.statusDetail = try reader["StatusDetail"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubClientTypes.Task {
+
+    static func write(value: MigrationHubClientTypes.Task?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProgressPercent"].write(value.progressPercent)
+        try writer["Status"].write(value.status)
+        try writer["StatusDetail"].write(value.statusDetail)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.Task {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubClientTypes.Task()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusDetail = try reader["StatusDetail"].readIfPresent()
+        value.progressPercent = try reader["ProgressPercent"].readIfPresent()
         return value
     }
 }

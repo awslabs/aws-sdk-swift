@@ -12659,6 +12659,17 @@ extension CoreNetworkPolicyException {
     }
 }
 
+extension NetworkManagerClientTypes.AccountStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.AccountStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.AccountStatus()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.slrDeploymentStatus = try reader["SLRDeploymentStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension NetworkManagerClientTypes.Attachment {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Attachment {
@@ -12699,99 +12710,58 @@ extension NetworkManagerClientTypes.AttachmentError {
     }
 }
 
-extension NetworkManagerClientTypes.ProposedNetworkFunctionGroupChange {
+extension NetworkManagerClientTypes.AttachmentRoutingPolicyAssociationSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ProposedNetworkFunctionGroupChange {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.AttachmentRoutingPolicyAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.ProposedNetworkFunctionGroupChange()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.attachmentPolicyRuleNumber = try reader["AttachmentPolicyRuleNumber"].readIfPresent()
-        value.networkFunctionGroupName = try reader["NetworkFunctionGroupName"].readIfPresent()
+        var value = NetworkManagerClientTypes.AttachmentRoutingPolicyAssociationSummary()
+        value.attachmentId = try reader["AttachmentId"].readIfPresent()
+        value.pendingRoutingPolicies = try reader["PendingRoutingPolicies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.associatedRoutingPolicies = try reader["AssociatedRoutingPolicies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.routingPolicyLabel = try reader["RoutingPolicyLabel"].readIfPresent()
         return value
     }
 }
 
-extension NetworkManagerClientTypes.Tag {
+extension NetworkManagerClientTypes.AWSLocation {
 
-    static func write(value: NetworkManagerClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: NetworkManagerClientTypes.AWSLocation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
+        try writer["SubnetArn"].write(value.subnetArn)
+        try writer["Zone"].write(value.zone)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Tag {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.AWSLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
+        var value = NetworkManagerClientTypes.AWSLocation()
+        value.zone = try reader["Zone"].readIfPresent()
+        value.subnetArn = try reader["SubnetArn"].readIfPresent()
         return value
     }
 }
 
-extension NetworkManagerClientTypes.ProposedSegmentChange {
+extension NetworkManagerClientTypes.Bandwidth {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ProposedSegmentChange {
+    static func write(value: NetworkManagerClientTypes.Bandwidth?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DownloadSpeed"].write(value.downloadSpeed)
+        try writer["UploadSpeed"].write(value.uploadSpeed)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Bandwidth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.ProposedSegmentChange()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.attachmentPolicyRuleNumber = try reader["AttachmentPolicyRuleNumber"].readIfPresent()
-        value.segmentName = try reader["SegmentName"].readIfPresent()
+        var value = NetworkManagerClientTypes.Bandwidth()
+        value.uploadSpeed = try reader["UploadSpeed"].readIfPresent()
+        value.downloadSpeed = try reader["DownloadSpeed"].readIfPresent()
         return value
     }
 }
 
-extension NetworkManagerClientTypes.ConnectPeerAssociation {
+extension NetworkManagerClientTypes.BgpOptions {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectPeerAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.ConnectPeerAssociation()
-        value.connectPeerId = try reader["ConnectPeerId"].readIfPresent()
-        value.globalNetworkId = try reader["GlobalNetworkId"].readIfPresent()
-        value.deviceId = try reader["DeviceId"].readIfPresent()
-        value.linkId = try reader["LinkId"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.CustomerGatewayAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CustomerGatewayAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.CustomerGatewayAssociation()
-        value.customerGatewayArn = try reader["CustomerGatewayArn"].readIfPresent()
-        value.globalNetworkId = try reader["GlobalNetworkId"].readIfPresent()
-        value.deviceId = try reader["DeviceId"].readIfPresent()
-        value.linkId = try reader["LinkId"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.LinkAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.LinkAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.LinkAssociation()
-        value.globalNetworkId = try reader["GlobalNetworkId"].readIfPresent()
-        value.deviceId = try reader["DeviceId"].readIfPresent()
-        value.linkId = try reader["LinkId"].readIfPresent()
-        value.linkAssociationState = try reader["LinkAssociationState"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation()
-        value.transitGatewayConnectPeerArn = try reader["TransitGatewayConnectPeerArn"].readIfPresent()
-        value.globalNetworkId = try reader["GlobalNetworkId"].readIfPresent()
-        value.deviceId = try reader["DeviceId"].readIfPresent()
-        value.linkId = try reader["LinkId"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        return value
+    static func write(value: NetworkManagerClientTypes.BgpOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PeerAsn"].write(value.peerAsn)
     }
 }
 
@@ -12842,6 +12812,18 @@ extension NetworkManagerClientTypes.Connection {
     }
 }
 
+extension NetworkManagerClientTypes.ConnectionHealth {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectionHealth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.ConnectionHealth()
+        value.type = try reader["Type"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension NetworkManagerClientTypes.ConnectPeer {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectPeer {
@@ -12861,15 +12843,29 @@ extension NetworkManagerClientTypes.ConnectPeer {
     }
 }
 
-extension NetworkManagerClientTypes.ConnectPeerError {
+extension NetworkManagerClientTypes.ConnectPeerAssociation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectPeerError {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectPeerAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.ConnectPeerError()
-        value.code = try reader["Code"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.requestId = try reader["RequestId"].readIfPresent()
+        var value = NetworkManagerClientTypes.ConnectPeerAssociation()
+        value.connectPeerId = try reader["ConnectPeerId"].readIfPresent()
+        value.globalNetworkId = try reader["GlobalNetworkId"].readIfPresent()
+        value.deviceId = try reader["DeviceId"].readIfPresent()
+        value.linkId = try reader["LinkId"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.ConnectPeerBgpConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectPeerBgpConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.ConnectPeerBgpConfiguration()
+        value.coreNetworkAsn = try reader["CoreNetworkAsn"].readIfPresent()
+        value.peerAsn = try reader["PeerAsn"].readIfPresent()
+        value.coreNetworkAddress = try reader["CoreNetworkAddress"].readIfPresent()
+        value.peerAddress = try reader["PeerAddress"].readIfPresent()
         return value
     }
 }
@@ -12888,15 +12884,32 @@ extension NetworkManagerClientTypes.ConnectPeerConfiguration {
     }
 }
 
-extension NetworkManagerClientTypes.ConnectPeerBgpConfiguration {
+extension NetworkManagerClientTypes.ConnectPeerError {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectPeerBgpConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectPeerError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.ConnectPeerBgpConfiguration()
-        value.coreNetworkAsn = try reader["CoreNetworkAsn"].readIfPresent()
-        value.peerAsn = try reader["PeerAsn"].readIfPresent()
-        value.coreNetworkAddress = try reader["CoreNetworkAddress"].readIfPresent()
-        value.peerAddress = try reader["PeerAddress"].readIfPresent()
+        var value = NetworkManagerClientTypes.ConnectPeerError()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.ConnectPeerSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectPeerSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.ConnectPeerSummary()
+        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
+        value.connectAttachmentId = try reader["ConnectAttachmentId"].readIfPresent()
+        value.connectPeerId = try reader["ConnectPeerId"].readIfPresent()
+        value.edgeLocation = try reader["EdgeLocation"].readIfPresent()
+        value.connectPeerState = try reader["ConnectPeerState"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetArn = try reader["SubnetArn"].readIfPresent()
         return value
     }
 }
@@ -12916,6 +12929,79 @@ extension NetworkManagerClientTypes.CoreNetwork {
         value.networkFunctionGroups = try reader["NetworkFunctionGroups"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.edges = try reader["Edges"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.CoreNetworkEdge.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.CoreNetworkChange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkChange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.CoreNetworkChange()
+        value.type = try reader["Type"].readIfPresent()
+        value.action = try reader["Action"].readIfPresent()
+        value.identifier = try reader["Identifier"].readIfPresent()
+        value.previousValues = try reader["PreviousValues"].readIfPresent(with: NetworkManagerClientTypes.CoreNetworkChangeValues.read(from:))
+        value.newValues = try reader["NewValues"].readIfPresent(with: NetworkManagerClientTypes.CoreNetworkChangeValues.read(from:))
+        value.identifierPath = try reader["IdentifierPath"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.CoreNetworkChangeEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkChangeEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.CoreNetworkChangeEvent()
+        value.type = try reader["Type"].readIfPresent()
+        value.action = try reader["Action"].readIfPresent()
+        value.identifierPath = try reader["IdentifierPath"].readIfPresent()
+        value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.values = try reader["Values"].readIfPresent(with: NetworkManagerClientTypes.CoreNetworkChangeEventValues.read(from:))
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.CoreNetworkChangeEventValues {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkChangeEventValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.CoreNetworkChangeEventValues()
+        value.edgeLocation = try reader["EdgeLocation"].readIfPresent()
+        value.peerEdgeLocation = try reader["PeerEdgeLocation"].readIfPresent()
+        value.routingPolicyDirection = try reader["RoutingPolicyDirection"].readIfPresent()
+        value.segmentName = try reader["SegmentName"].readIfPresent()
+        value.networkFunctionGroupName = try reader["NetworkFunctionGroupName"].readIfPresent()
+        value.attachmentId = try reader["AttachmentId"].readIfPresent()
+        value.cidr = try reader["Cidr"].readIfPresent()
+        value.routingPolicyAssociationDetails = try reader["RoutingPolicyAssociationDetails"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.RoutingPolicyAssociationDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.CoreNetworkChangeValues {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkChangeValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.CoreNetworkChangeValues()
+        value.segmentName = try reader["SegmentName"].readIfPresent()
+        value.networkFunctionGroupName = try reader["NetworkFunctionGroupName"].readIfPresent()
+        value.edgeLocations = try reader["EdgeLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.asn = try reader["Asn"].readIfPresent()
+        value.cidr = try reader["Cidr"].readIfPresent()
+        value.destinationIdentifier = try reader["DestinationIdentifier"].readIfPresent()
+        value.insideCidrBlocks = try reader["InsideCidrBlocks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sharedSegments = try reader["SharedSegments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceInsertionActions = try reader["ServiceInsertionActions"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.ServiceInsertionAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpnEcmpSupport = try reader["VpnEcmpSupport"].readIfPresent() ?? false
+        value.dnsSupport = try reader["DnsSupport"].readIfPresent() ?? false
+        value.securityGroupReferencingSupport = try reader["SecurityGroupReferencingSupport"].readIfPresent() ?? false
+        value.routingPolicyDirection = try reader["RoutingPolicyDirection"].readIfPresent()
+        value.routingPolicy = try reader["RoutingPolicy"].readIfPresent()
+        value.peerEdgeLocations = try reader["PeerEdgeLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attachmentId = try reader["AttachmentId"].readIfPresent()
+        value.routingPolicyAssociationDetails = try reader["RoutingPolicyAssociationDetails"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.RoutingPolicyAssociationDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -12944,13 +13030,71 @@ extension NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroup {
     }
 }
 
-extension NetworkManagerClientTypes.ServiceInsertionSegments {
+extension NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ServiceInsertionSegments {
+    static func write(value: NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CoreNetworkId"].write(value.coreNetworkId)
+        try writer["EdgeLocation"].write(value.edgeLocation)
+        try writer["NetworkFunctionGroupName"].write(value.networkFunctionGroupName)
+    }
+}
+
+extension NetworkManagerClientTypes.CoreNetworkPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.ServiceInsertionSegments()
-        value.sendVia = try reader["SendVia"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sendTo = try reader["SendTo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = NetworkManagerClientTypes.CoreNetworkPolicy()
+        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
+        value.policyVersionId = try reader["PolicyVersionId"].readIfPresent()
+        value.alias = try reader["Alias"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.changeSetState = try reader["ChangeSetState"].readIfPresent()
+        value.policyErrors = try reader["PolicyErrors"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.CoreNetworkPolicyError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.policyDocument = try reader["PolicyDocument"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.CoreNetworkPolicyError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkPolicyError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.CoreNetworkPolicyError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        value.path = try reader["Path"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.CoreNetworkPolicyVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkPolicyVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.CoreNetworkPolicyVersion()
+        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
+        value.policyVersionId = try reader["PolicyVersionId"].readIfPresent()
+        value.alias = try reader["Alias"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.changeSetState = try reader["ChangeSetState"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.CoreNetworkRoutingInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkRoutingInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.CoreNetworkRoutingInformation()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.nextHop = try reader["NextHop"].readIfPresent(with: NetworkManagerClientTypes.RoutingInformationNextHop.read(from:))
+        value.localPreference = try reader["LocalPreference"].readIfPresent()
+        value.med = try reader["Med"].readIfPresent()
+        value.asPath = try reader["AsPath"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.communities = try reader["Communities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -12963,6 +13107,55 @@ extension NetworkManagerClientTypes.CoreNetworkSegment {
         value.name = try reader["Name"].readIfPresent()
         value.edgeLocations = try reader["EdgeLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.sharedSegments = try reader["SharedSegments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier {
+
+    static func write(value: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CoreNetworkId"].write(value.coreNetworkId)
+        try writer["EdgeLocation"].write(value.edgeLocation)
+        try writer["SegmentName"].write(value.segmentName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier()
+        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
+        value.segmentName = try reader["SegmentName"].readIfPresent()
+        value.edgeLocation = try reader["EdgeLocation"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.CoreNetworkSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.CoreNetworkSummary()
+        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
+        value.coreNetworkArn = try reader["CoreNetworkArn"].readIfPresent()
+        value.globalNetworkId = try reader["GlobalNetworkId"].readIfPresent()
+        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.CustomerGatewayAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CustomerGatewayAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.CustomerGatewayAssociation()
+        value.customerGatewayArn = try reader["CustomerGatewayArn"].readIfPresent()
+        value.globalNetworkId = try reader["GlobalNetworkId"].readIfPresent()
+        value.deviceId = try reader["DeviceId"].readIfPresent()
+        value.linkId = try reader["LinkId"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
         return value
     }
 }
@@ -12990,42 +13183,6 @@ extension NetworkManagerClientTypes.Device {
     }
 }
 
-extension NetworkManagerClientTypes.Location {
-
-    static func write(value: NetworkManagerClientTypes.Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address)
-        try writer["Latitude"].write(value.latitude)
-        try writer["Longitude"].write(value.longitude)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Location {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.Location()
-        value.address = try reader["Address"].readIfPresent()
-        value.latitude = try reader["Latitude"].readIfPresent()
-        value.longitude = try reader["Longitude"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.AWSLocation {
-
-    static func write(value: NetworkManagerClientTypes.AWSLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SubnetArn"].write(value.subnetArn)
-        try writer["Zone"].write(value.zone)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.AWSLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.AWSLocation()
-        value.zone = try reader["Zone"].readIfPresent()
-        value.subnetArn = try reader["SubnetArn"].readIfPresent()
-        return value
-    }
-}
-
 extension NetworkManagerClientTypes.DirectConnectGatewayAttachment {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.DirectConnectGatewayAttachment {
@@ -13033,6 +13190,17 @@ extension NetworkManagerClientTypes.DirectConnectGatewayAttachment {
         var value = NetworkManagerClientTypes.DirectConnectGatewayAttachment()
         value.attachment = try reader["Attachment"].readIfPresent(with: NetworkManagerClientTypes.Attachment.read(from:))
         value.directConnectGatewayArn = try reader["DirectConnectGatewayArn"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.EdgeOverride {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.EdgeOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.EdgeOverride()
+        value.edgeSets = try reader["EdgeSets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.useEdge = try reader["UseEdge"].readIfPresent()
         return value
     }
 }
@@ -13072,319 +13240,34 @@ extension NetworkManagerClientTypes.Link {
     }
 }
 
-extension NetworkManagerClientTypes.Bandwidth {
+extension NetworkManagerClientTypes.LinkAssociation {
 
-    static func write(value: NetworkManagerClientTypes.Bandwidth?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DownloadSpeed"].write(value.downloadSpeed)
-        try writer["UploadSpeed"].write(value.uploadSpeed)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Bandwidth {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.LinkAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.Bandwidth()
-        value.uploadSpeed = try reader["UploadSpeed"].readIfPresent()
-        value.downloadSpeed = try reader["DownloadSpeed"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.Site {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Site {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.Site()
-        value.siteId = try reader["SiteId"].readIfPresent()
-        value.siteArn = try reader["SiteArn"].readIfPresent()
+        var value = NetworkManagerClientTypes.LinkAssociation()
         value.globalNetworkId = try reader["GlobalNetworkId"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.location = try reader["Location"].readIfPresent(with: NetworkManagerClientTypes.Location.read(from:))
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.state = try reader["State"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deviceId = try reader["DeviceId"].readIfPresent()
+        value.linkId = try reader["LinkId"].readIfPresent()
+        value.linkAssociationState = try reader["LinkAssociationState"].readIfPresent()
         return value
     }
 }
 
-extension NetworkManagerClientTypes.SiteToSiteVpnAttachment {
+extension NetworkManagerClientTypes.Location {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.SiteToSiteVpnAttachment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.SiteToSiteVpnAttachment()
-        value.attachment = try reader["Attachment"].readIfPresent(with: NetworkManagerClientTypes.Attachment.read(from:))
-        value.vpnConnectionArn = try reader["VpnConnectionArn"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.TransitGatewayPeering {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.TransitGatewayPeering {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.TransitGatewayPeering()
-        value.peering = try reader["Peering"].readIfPresent(with: NetworkManagerClientTypes.Peering.read(from:))
-        value.transitGatewayArn = try reader["TransitGatewayArn"].readIfPresent()
-        value.transitGatewayPeeringAttachmentId = try reader["TransitGatewayPeeringAttachmentId"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.Peering {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Peering {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.Peering()
-        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
-        value.coreNetworkArn = try reader["CoreNetworkArn"].readIfPresent()
-        value.peeringId = try reader["PeeringId"].readIfPresent()
-        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
-        value.peeringType = try reader["PeeringType"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.edgeLocation = try reader["EdgeLocation"].readIfPresent()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModificationErrors = try reader["LastModificationErrors"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.PeeringError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.PeeringError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.PeeringError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.PeeringError()
-        value.code = try reader["Code"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.requestId = try reader["RequestId"].readIfPresent()
-        value.missingPermissionsContext = try reader["MissingPermissionsContext"].readIfPresent(with: NetworkManagerClientTypes.PermissionsErrorContext.read(from:))
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.PermissionsErrorContext {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.PermissionsErrorContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.PermissionsErrorContext()
-        value.missingPermission = try reader["MissingPermission"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.TransitGatewayRouteTableAttachment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.TransitGatewayRouteTableAttachment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.TransitGatewayRouteTableAttachment()
-        value.attachment = try reader["Attachment"].readIfPresent(with: NetworkManagerClientTypes.Attachment.read(from:))
-        value.peeringId = try reader["PeeringId"].readIfPresent()
-        value.transitGatewayRouteTableArn = try reader["TransitGatewayRouteTableArn"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.VpcAttachment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.VpcAttachment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.VpcAttachment()
-        value.attachment = try reader["Attachment"].readIfPresent(with: NetworkManagerClientTypes.Attachment.read(from:))
-        value.subnetArns = try reader["SubnetArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.options = try reader["Options"].readIfPresent(with: NetworkManagerClientTypes.VpcOptions.read(from:))
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.VpcOptions {
-
-    static func write(value: NetworkManagerClientTypes.VpcOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: NetworkManagerClientTypes.Location?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ApplianceModeSupport"].write(value.applianceModeSupport)
-        try writer["DnsSupport"].write(value.dnsSupport)
-        try writer["Ipv6Support"].write(value.ipv6Support)
-        try writer["SecurityGroupReferencingSupport"].write(value.securityGroupReferencingSupport)
+        try writer["Address"].write(value.address)
+        try writer["Latitude"].write(value.latitude)
+        try writer["Longitude"].write(value.longitude)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.VpcOptions {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Location {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.VpcOptions()
-        value.ipv6Support = try reader["Ipv6Support"].readIfPresent() ?? false
-        value.applianceModeSupport = try reader["ApplianceModeSupport"].readIfPresent() ?? false
-        value.dnsSupport = try reader["DnsSupport"].readIfPresent() ?? false
-        value.securityGroupReferencingSupport = try reader["SecurityGroupReferencingSupport"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.CoreNetworkPolicy {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.CoreNetworkPolicy()
-        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
-        value.policyVersionId = try reader["PolicyVersionId"].readIfPresent()
-        value.alias = try reader["Alias"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.changeSetState = try reader["ChangeSetState"].readIfPresent()
-        value.policyErrors = try reader["PolicyErrors"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.CoreNetworkPolicyError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.policyDocument = try reader["PolicyDocument"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.CoreNetworkPolicyError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkPolicyError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.CoreNetworkPolicyError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
-        value.message = try reader["Message"].readIfPresent() ?? ""
-        value.path = try reader["Path"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.TransitGatewayRegistration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.TransitGatewayRegistration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.TransitGatewayRegistration()
-        value.globalNetworkId = try reader["GlobalNetworkId"].readIfPresent()
-        value.transitGatewayArn = try reader["TransitGatewayArn"].readIfPresent()
-        value.state = try reader["State"].readIfPresent(with: NetworkManagerClientTypes.TransitGatewayRegistrationStateReason.read(from:))
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.TransitGatewayRegistrationStateReason {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.TransitGatewayRegistrationStateReason {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.TransitGatewayRegistrationStateReason()
-        value.code = try reader["Code"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.CoreNetworkChangeEvent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkChangeEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.CoreNetworkChangeEvent()
-        value.type = try reader["Type"].readIfPresent()
-        value.action = try reader["Action"].readIfPresent()
-        value.identifierPath = try reader["IdentifierPath"].readIfPresent()
-        value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.values = try reader["Values"].readIfPresent(with: NetworkManagerClientTypes.CoreNetworkChangeEventValues.read(from:))
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.CoreNetworkChangeEventValues {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkChangeEventValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.CoreNetworkChangeEventValues()
-        value.edgeLocation = try reader["EdgeLocation"].readIfPresent()
-        value.peerEdgeLocation = try reader["PeerEdgeLocation"].readIfPresent()
-        value.routingPolicyDirection = try reader["RoutingPolicyDirection"].readIfPresent()
-        value.segmentName = try reader["SegmentName"].readIfPresent()
-        value.networkFunctionGroupName = try reader["NetworkFunctionGroupName"].readIfPresent()
-        value.attachmentId = try reader["AttachmentId"].readIfPresent()
-        value.cidr = try reader["Cidr"].readIfPresent()
-        value.routingPolicyAssociationDetails = try reader["RoutingPolicyAssociationDetails"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.RoutingPolicyAssociationDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.RoutingPolicyAssociationDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.RoutingPolicyAssociationDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.RoutingPolicyAssociationDetail()
-        value.routingPolicyNames = try reader["RoutingPolicyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sharedSegments = try reader["SharedSegments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.CoreNetworkChange {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkChange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.CoreNetworkChange()
-        value.type = try reader["Type"].readIfPresent()
-        value.action = try reader["Action"].readIfPresent()
-        value.identifier = try reader["Identifier"].readIfPresent()
-        value.previousValues = try reader["PreviousValues"].readIfPresent(with: NetworkManagerClientTypes.CoreNetworkChangeValues.read(from:))
-        value.newValues = try reader["NewValues"].readIfPresent(with: NetworkManagerClientTypes.CoreNetworkChangeValues.read(from:))
-        value.identifierPath = try reader["IdentifierPath"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.CoreNetworkChangeValues {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkChangeValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.CoreNetworkChangeValues()
-        value.segmentName = try reader["SegmentName"].readIfPresent()
-        value.networkFunctionGroupName = try reader["NetworkFunctionGroupName"].readIfPresent()
-        value.edgeLocations = try reader["EdgeLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.asn = try reader["Asn"].readIfPresent()
-        value.cidr = try reader["Cidr"].readIfPresent()
-        value.destinationIdentifier = try reader["DestinationIdentifier"].readIfPresent()
-        value.insideCidrBlocks = try reader["InsideCidrBlocks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sharedSegments = try reader["SharedSegments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.serviceInsertionActions = try reader["ServiceInsertionActions"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.ServiceInsertionAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vpnEcmpSupport = try reader["VpnEcmpSupport"].readIfPresent() ?? false
-        value.dnsSupport = try reader["DnsSupport"].readIfPresent() ?? false
-        value.securityGroupReferencingSupport = try reader["SecurityGroupReferencingSupport"].readIfPresent() ?? false
-        value.routingPolicyDirection = try reader["RoutingPolicyDirection"].readIfPresent()
-        value.routingPolicy = try reader["RoutingPolicy"].readIfPresent()
-        value.peerEdgeLocations = try reader["PeerEdgeLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.attachmentId = try reader["AttachmentId"].readIfPresent()
-        value.routingPolicyAssociationDetails = try reader["RoutingPolicyAssociationDetails"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.RoutingPolicyAssociationDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.ServiceInsertionAction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ServiceInsertionAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.ServiceInsertionAction()
-        value.action = try reader["Action"].readIfPresent()
-        value.mode = try reader["Mode"].readIfPresent()
-        value.whenSentTo = try reader["WhenSentTo"].readIfPresent(with: NetworkManagerClientTypes.WhenSentTo.read(from:))
-        value.via = try reader["Via"].readIfPresent(with: NetworkManagerClientTypes.Via.read(from:))
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.Via {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Via {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.Via()
-        value.networkFunctionGroups = try reader["NetworkFunctionGroups"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.NetworkFunctionGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.withEdgeOverrides = try reader["WithEdgeOverrides"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.EdgeOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.EdgeOverride {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.EdgeOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.EdgeOverride()
-        value.edgeSets = try reader["EdgeSets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.useEdge = try reader["UseEdge"].readIfPresent()
+        var value = NetworkManagerClientTypes.Location()
+        value.address = try reader["Address"].readIfPresent()
+        value.latitude = try reader["Latitude"].readIfPresent()
+        value.longitude = try reader["Longitude"].readIfPresent()
         return value
     }
 }
@@ -13395,38 +13278,6 @@ extension NetworkManagerClientTypes.NetworkFunctionGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.NetworkFunctionGroup()
         value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.WhenSentTo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.WhenSentTo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.WhenSentTo()
-        value.whenSentToSegmentsList = try reader["WhenSentToSegmentsList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.NetworkResourceCount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.NetworkResourceCount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.NetworkResourceCount()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.count = try reader["Count"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.Relationship {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Relationship {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.Relationship()
-        value.from = try reader["From"].readIfPresent()
-        value.to = try reader["To"].readIfPresent()
         return value
     }
 }
@@ -13451,21 +13302,28 @@ extension NetworkManagerClientTypes.NetworkResource {
     }
 }
 
-extension NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier {
+extension NetworkManagerClientTypes.NetworkResourceCount {
 
-    static func write(value: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CoreNetworkId"].write(value.coreNetworkId)
-        try writer["EdgeLocation"].write(value.edgeLocation)
-        try writer["SegmentName"].write(value.segmentName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.NetworkResourceCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier()
-        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
-        value.segmentName = try reader["SegmentName"].readIfPresent()
-        value.edgeLocation = try reader["EdgeLocation"].readIfPresent()
+        var value = NetworkManagerClientTypes.NetworkResourceCount()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.count = try reader["Count"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.NetworkResourceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.NetworkResourceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.NetworkResourceSummary()
+        value.registeredGatewayArn = try reader["RegisteredGatewayArn"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.definition = try reader["Definition"].readIfPresent()
+        value.nameTag = try reader["NameTag"].readIfPresent()
+        value.isMiddlebox = try reader["IsMiddlebox"].readIfPresent() ?? false
         return value
     }
 }
@@ -13518,14 +13376,118 @@ extension NetworkManagerClientTypes.NetworkTelemetry {
     }
 }
 
-extension NetworkManagerClientTypes.ConnectionHealth {
+extension NetworkManagerClientTypes.OrganizationStatus {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectionHealth {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.OrganizationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.ConnectionHealth()
-        value.type = try reader["Type"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = NetworkManagerClientTypes.OrganizationStatus()
+        value.organizationId = try reader["OrganizationId"].readIfPresent()
+        value.organizationAwsServiceAccessStatus = try reader["OrganizationAwsServiceAccessStatus"].readIfPresent()
+        value.slrDeploymentStatus = try reader["SLRDeploymentStatus"].readIfPresent()
+        value.accountStatusList = try reader["AccountStatusList"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.AccountStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.PathComponent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.PathComponent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.PathComponent()
+        value.sequence = try reader["Sequence"].readIfPresent()
+        value.resource = try reader["Resource"].readIfPresent(with: NetworkManagerClientTypes.NetworkResourceSummary.read(from:))
+        value.destinationCidrBlock = try reader["DestinationCidrBlock"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.Peering {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Peering {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.Peering()
+        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
+        value.coreNetworkArn = try reader["CoreNetworkArn"].readIfPresent()
+        value.peeringId = try reader["PeeringId"].readIfPresent()
+        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
+        value.peeringType = try reader["PeeringType"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.edgeLocation = try reader["EdgeLocation"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModificationErrors = try reader["LastModificationErrors"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.PeeringError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.PeeringError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.PeeringError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.PeeringError()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.missingPermissionsContext = try reader["MissingPermissionsContext"].readIfPresent(with: NetworkManagerClientTypes.PermissionsErrorContext.read(from:))
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.PermissionsErrorContext {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.PermissionsErrorContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.PermissionsErrorContext()
+        value.missingPermission = try reader["MissingPermission"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.PrefixListAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.PrefixListAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.PrefixListAssociation()
+        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
+        value.prefixListArn = try reader["PrefixListArn"].readIfPresent()
+        value.prefixListAlias = try reader["PrefixListAlias"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.ProposedNetworkFunctionGroupChange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ProposedNetworkFunctionGroupChange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.ProposedNetworkFunctionGroupChange()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attachmentPolicyRuleNumber = try reader["AttachmentPolicyRuleNumber"].readIfPresent()
+        value.networkFunctionGroupName = try reader["NetworkFunctionGroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.ProposedSegmentChange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ProposedSegmentChange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.ProposedSegmentChange()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attachmentPolicyRuleNumber = try reader["AttachmentPolicyRuleNumber"].readIfPresent()
+        value.segmentName = try reader["SegmentName"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.Relationship {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Relationship {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.Relationship()
+        value.from = try reader["From"].readIfPresent()
+        value.to = try reader["To"].readIfPresent()
         return value
     }
 }
@@ -13546,44 +13508,6 @@ extension NetworkManagerClientTypes.RouteAnalysis {
         value.useMiddleboxes = try reader["UseMiddleboxes"].readIfPresent() ?? false
         value.forwardPath = try reader["ForwardPath"].readIfPresent(with: NetworkManagerClientTypes.RouteAnalysisPath.read(from:))
         value.returnPath = try reader["ReturnPath"].readIfPresent(with: NetworkManagerClientTypes.RouteAnalysisPath.read(from:))
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.RouteAnalysisPath {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.RouteAnalysisPath {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.RouteAnalysisPath()
-        value.completionStatus = try reader["CompletionStatus"].readIfPresent(with: NetworkManagerClientTypes.RouteAnalysisCompletion.read(from:))
-        value.path = try reader["Path"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.PathComponent.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.PathComponent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.PathComponent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.PathComponent()
-        value.sequence = try reader["Sequence"].readIfPresent()
-        value.resource = try reader["Resource"].readIfPresent(with: NetworkManagerClientTypes.NetworkResourceSummary.read(from:))
-        value.destinationCidrBlock = try reader["DestinationCidrBlock"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.NetworkResourceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.NetworkResourceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.NetworkResourceSummary()
-        value.registeredGatewayArn = try reader["RegisteredGatewayArn"].readIfPresent()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.definition = try reader["Definition"].readIfPresent()
-        value.nameTag = try reader["NameTag"].readIfPresent()
-        value.isMiddlebox = try reader["IsMiddlebox"].readIfPresent() ?? false
         return value
     }
 }
@@ -13612,75 +13536,33 @@ extension NetworkManagerClientTypes.RouteAnalysisEndpointOptions {
     }
 }
 
-extension NetworkManagerClientTypes.AttachmentRoutingPolicyAssociationSummary {
+extension NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.AttachmentRoutingPolicyAssociationSummary {
+    static func write(value: NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IpAddress"].write(value.ipAddress)
+        try writer["TransitGatewayAttachmentArn"].write(value.transitGatewayAttachmentArn)
+    }
+}
+
+extension NetworkManagerClientTypes.RouteAnalysisPath {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.RouteAnalysisPath {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.AttachmentRoutingPolicyAssociationSummary()
-        value.attachmentId = try reader["AttachmentId"].readIfPresent()
-        value.pendingRoutingPolicies = try reader["PendingRoutingPolicies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.associatedRoutingPolicies = try reader["AssociatedRoutingPolicies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.routingPolicyLabel = try reader["RoutingPolicyLabel"].readIfPresent()
+        var value = NetworkManagerClientTypes.RouteAnalysisPath()
+        value.completionStatus = try reader["CompletionStatus"].readIfPresent(with: NetworkManagerClientTypes.RouteAnalysisCompletion.read(from:))
+        value.path = try reader["Path"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.PathComponent.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension NetworkManagerClientTypes.ConnectPeerSummary {
+extension NetworkManagerClientTypes.RouteTableIdentifier {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectPeerSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.ConnectPeerSummary()
-        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
-        value.connectAttachmentId = try reader["ConnectAttachmentId"].readIfPresent()
-        value.connectPeerId = try reader["ConnectPeerId"].readIfPresent()
-        value.edgeLocation = try reader["EdgeLocation"].readIfPresent()
-        value.connectPeerState = try reader["ConnectPeerState"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnetArn = try reader["SubnetArn"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.CoreNetworkPolicyVersion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkPolicyVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.CoreNetworkPolicyVersion()
-        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
-        value.policyVersionId = try reader["PolicyVersionId"].readIfPresent()
-        value.alias = try reader["Alias"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.changeSetState = try reader["ChangeSetState"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.PrefixListAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.PrefixListAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.PrefixListAssociation()
-        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
-        value.prefixListArn = try reader["PrefixListArn"].readIfPresent()
-        value.prefixListAlias = try reader["PrefixListAlias"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkManagerClientTypes.CoreNetworkRoutingInformation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkRoutingInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.CoreNetworkRoutingInformation()
-        value.`prefix` = try reader["Prefix"].readIfPresent()
-        value.nextHop = try reader["NextHop"].readIfPresent(with: NetworkManagerClientTypes.RoutingInformationNextHop.read(from:))
-        value.localPreference = try reader["LocalPreference"].readIfPresent()
-        value.med = try reader["Med"].readIfPresent()
-        value.asPath = try reader["AsPath"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.communities = try reader["Communities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+    static func write(value: NetworkManagerClientTypes.RouteTableIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CoreNetworkNetworkFunctionGroup"].write(value.coreNetworkNetworkFunctionGroup, with: NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier.write(value:to:))
+        try writer["CoreNetworkSegmentEdge"].write(value.coreNetworkSegmentEdge, with: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier.write(value:to:))
+        try writer["TransitGatewayRouteTableArn"].write(value.transitGatewayRouteTableArn)
     }
 }
 
@@ -13699,42 +13581,143 @@ extension NetworkManagerClientTypes.RoutingInformationNextHop {
     }
 }
 
-extension NetworkManagerClientTypes.CoreNetworkSummary {
+extension NetworkManagerClientTypes.RoutingPolicyAssociationDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.RoutingPolicyAssociationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.CoreNetworkSummary()
-        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
-        value.coreNetworkArn = try reader["CoreNetworkArn"].readIfPresent()
+        var value = NetworkManagerClientTypes.RoutingPolicyAssociationDetail()
+        value.routingPolicyNames = try reader["RoutingPolicyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sharedSegments = try reader["SharedSegments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.ServiceInsertionAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ServiceInsertionAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.ServiceInsertionAction()
+        value.action = try reader["Action"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent()
+        value.whenSentTo = try reader["WhenSentTo"].readIfPresent(with: NetworkManagerClientTypes.WhenSentTo.read(from:))
+        value.via = try reader["Via"].readIfPresent(with: NetworkManagerClientTypes.Via.read(from:))
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.ServiceInsertionSegments {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ServiceInsertionSegments {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.ServiceInsertionSegments()
+        value.sendVia = try reader["SendVia"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sendTo = try reader["SendTo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.Site {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Site {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.Site()
+        value.siteId = try reader["SiteId"].readIfPresent()
+        value.siteArn = try reader["SiteArn"].readIfPresent()
         value.globalNetworkId = try reader["GlobalNetworkId"].readIfPresent()
-        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
+        value.location = try reader["Location"].readIfPresent(with: NetworkManagerClientTypes.Location.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.state = try reader["State"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension NetworkManagerClientTypes.OrganizationStatus {
+extension NetworkManagerClientTypes.SiteToSiteVpnAttachment {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.OrganizationStatus {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.SiteToSiteVpnAttachment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.OrganizationStatus()
-        value.organizationId = try reader["OrganizationId"].readIfPresent()
-        value.organizationAwsServiceAccessStatus = try reader["OrganizationAwsServiceAccessStatus"].readIfPresent()
-        value.slrDeploymentStatus = try reader["SLRDeploymentStatus"].readIfPresent()
-        value.accountStatusList = try reader["AccountStatusList"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.AccountStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = NetworkManagerClientTypes.SiteToSiteVpnAttachment()
+        value.attachment = try reader["Attachment"].readIfPresent(with: NetworkManagerClientTypes.Attachment.read(from:))
+        value.vpnConnectionArn = try reader["VpnConnectionArn"].readIfPresent()
         return value
     }
 }
 
-extension NetworkManagerClientTypes.AccountStatus {
+extension NetworkManagerClientTypes.Tag {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.AccountStatus {
+    static func write(value: NetworkManagerClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.AccountStatus()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.slrDeploymentStatus = try reader["SLRDeploymentStatus"].readIfPresent()
+        var value = NetworkManagerClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation()
+        value.transitGatewayConnectPeerArn = try reader["TransitGatewayConnectPeerArn"].readIfPresent()
+        value.globalNetworkId = try reader["GlobalNetworkId"].readIfPresent()
+        value.deviceId = try reader["DeviceId"].readIfPresent()
+        value.linkId = try reader["LinkId"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.TransitGatewayPeering {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.TransitGatewayPeering {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.TransitGatewayPeering()
+        value.peering = try reader["Peering"].readIfPresent(with: NetworkManagerClientTypes.Peering.read(from:))
+        value.transitGatewayArn = try reader["TransitGatewayArn"].readIfPresent()
+        value.transitGatewayPeeringAttachmentId = try reader["TransitGatewayPeeringAttachmentId"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.TransitGatewayRegistration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.TransitGatewayRegistration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.TransitGatewayRegistration()
+        value.globalNetworkId = try reader["GlobalNetworkId"].readIfPresent()
+        value.transitGatewayArn = try reader["TransitGatewayArn"].readIfPresent()
+        value.state = try reader["State"].readIfPresent(with: NetworkManagerClientTypes.TransitGatewayRegistrationStateReason.read(from:))
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.TransitGatewayRegistrationStateReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.TransitGatewayRegistrationStateReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.TransitGatewayRegistrationStateReason()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.TransitGatewayRouteTableAttachment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.TransitGatewayRouteTableAttachment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.TransitGatewayRouteTableAttachment()
+        value.attachment = try reader["Attachment"].readIfPresent(with: NetworkManagerClientTypes.Attachment.read(from:))
+        value.peeringId = try reader["PeeringId"].readIfPresent()
+        value.transitGatewayRouteTableArn = try reader["TransitGatewayRouteTableArn"].readIfPresent()
         return value
     }
 }
@@ -13750,40 +13733,57 @@ extension NetworkManagerClientTypes.ValidationExceptionField {
     }
 }
 
-extension NetworkManagerClientTypes.BgpOptions {
+extension NetworkManagerClientTypes.Via {
 
-    static func write(value: NetworkManagerClientTypes.BgpOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PeerAsn"].write(value.peerAsn)
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Via {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.Via()
+        value.networkFunctionGroups = try reader["NetworkFunctionGroups"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.NetworkFunctionGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.withEdgeOverrides = try reader["WithEdgeOverrides"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.EdgeOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension NetworkManagerClientTypes.RouteTableIdentifier {
+extension NetworkManagerClientTypes.VpcAttachment {
 
-    static func write(value: NetworkManagerClientTypes.RouteTableIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CoreNetworkNetworkFunctionGroup"].write(value.coreNetworkNetworkFunctionGroup, with: NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier.write(value:to:))
-        try writer["CoreNetworkSegmentEdge"].write(value.coreNetworkSegmentEdge, with: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier.write(value:to:))
-        try writer["TransitGatewayRouteTableArn"].write(value.transitGatewayRouteTableArn)
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.VpcAttachment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.VpcAttachment()
+        value.attachment = try reader["Attachment"].readIfPresent(with: NetworkManagerClientTypes.Attachment.read(from:))
+        value.subnetArns = try reader["SubnetArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.options = try reader["Options"].readIfPresent(with: NetworkManagerClientTypes.VpcOptions.read(from:))
+        return value
     }
 }
 
-extension NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier {
+extension NetworkManagerClientTypes.VpcOptions {
 
-    static func write(value: NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: NetworkManagerClientTypes.VpcOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CoreNetworkId"].write(value.coreNetworkId)
-        try writer["EdgeLocation"].write(value.edgeLocation)
-        try writer["NetworkFunctionGroupName"].write(value.networkFunctionGroupName)
+        try writer["ApplianceModeSupport"].write(value.applianceModeSupport)
+        try writer["DnsSupport"].write(value.dnsSupport)
+        try writer["Ipv6Support"].write(value.ipv6Support)
+        try writer["SecurityGroupReferencingSupport"].write(value.securityGroupReferencingSupport)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.VpcOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.VpcOptions()
+        value.ipv6Support = try reader["Ipv6Support"].readIfPresent() ?? false
+        value.applianceModeSupport = try reader["ApplianceModeSupport"].readIfPresent() ?? false
+        value.dnsSupport = try reader["DnsSupport"].readIfPresent() ?? false
+        value.securityGroupReferencingSupport = try reader["SecurityGroupReferencingSupport"].readIfPresent() ?? false
+        return value
     }
 }
 
-extension NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification {
+extension NetworkManagerClientTypes.WhenSentTo {
 
-    static func write(value: NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IpAddress"].write(value.ipAddress)
-        try writer["TransitGatewayAttachmentArn"].write(value.transitGatewayAttachmentArn)
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.WhenSentTo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.WhenSentTo()
+        value.whenSentToSegmentsList = try reader["WhenSentToSegmentsList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

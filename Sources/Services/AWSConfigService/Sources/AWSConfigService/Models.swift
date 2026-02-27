@@ -731,10 +731,14 @@ extension ConfigClientTypes {
         case amplifyapp
         case amplifybranch
         case api
+        case apigatewaymethod
+        case apigatewayusageplan
+        case apigatewayv2integration
         case appconfigapplication
         case appconfigconfigurationprofile
         case appconfigdeploymentstrategy
         case appconfigenvironment
+        case appconfigextension
         case appconfigextensionassociation
         case appconfighostedconfigurationversion
         case appflowflow
@@ -749,6 +753,7 @@ extension ConfigClientTypes {
         case appmeshvirtualservice
         case apprunnerservice
         case apprunnervpcconnector
+        case appstreamappblockbuilder
         case appstreamapplication
         case appstreamdirectoryconfig
         case appstreamfleet
@@ -764,29 +769,46 @@ extension ConfigClientTypes {
         case auditmanagerassessment
         case autoscalinggroup
         case autoscalingwarmpool
+        case b2bicapability
+        case bcmdataexportsexport
+        case backupgatewayhypervisor
         case backupplan
         case backuprecoverypoint
         case backupreportplan
+        case backuprestoretestingplan
         case backupselection
         case backupvault
         case batchcomputeenvironment
         case batchjobqueue
         case batchschedulingpolicy
+        case bedrockagentcorebrowsercustom
+        case bedrockagentcoreruntime
+        case bedrockapplicationinferenceprofile
         case bedrockguardrail
         case bedrockknowledgebase
+        case bedrockprompt
         case bucket
         case budgetsbudgetsaction
         case cassandrakeyspace
         case certificate
+        case cleanroomsmltrainingdataset
         case cloud9environmentec2
+        case cloudformationguardhook
+        case cloudformationlambdahook
         case cloudformationproduct
         case cloudformationprovisionedproduct
+        case cloudformationstackset
+        case cloudfrontkeyvaluestore
+        case cloudfrontpublickey
+        case cloudfrontrealtimelogconfig
+        case cloudtraileventdatastore
         case cloudwatchmetricstream
         case cluster
         case clusterparametergroup
         case clustersecuritygroup
         case clustersnapshot
         case clustersubnetgroup
+        case codeartifactdomain
         case codeartifactrepository
         case codebuildreportgroup
         case codedeployapplication
@@ -798,11 +820,16 @@ extension ConfigClientTypes {
         case cognitouserpool
         case cognitouserpoolclient
         case cognitouserpoolgroup
+        case comprehendflywheel
+        case configaggregationauthorization
+        case configconformancepack
+        case configstoredquery
         case conformancepackcompliance
         case connectinstance
         case connectphonenumber
         case connectquickconnect
         case connectrule
+        case connectsecurityprofile
         case connectuser
         case customergateway
         case customerprofilesdomain
@@ -817,6 +844,7 @@ extension ConfigClientTypes {
         case dmsendpoint
         case dmseventsubscription
         case dmsreplicationsubnetgroup
+        case datasyncagent
         case datasynclocationefs
         case datasynclocationfsxlustre
         case datasynclocationfsxwindows
@@ -826,6 +854,9 @@ extension ConfigClientTypes {
         case datasynclocations3
         case datasynclocationsmb
         case datasynctask
+        case deadlinefleet
+        case deadlinemonitor
+        case deadlinequeuefleetassociation
         case detectivegraph
         case devicefarminstanceprofile
         case devicefarmproject
@@ -841,6 +872,7 @@ extension ConfigClientTypes {
         case ec2eipassociation
         case ec2ipam
         case ec2ipampool
+        case ec2ipampoolcidr
         case ec2ipamresourcediscovery
         case ec2ipamresourcediscoveryassociation
         case ec2ipamscope
@@ -849,8 +881,11 @@ extension ConfigClientTypes {
         case ec2networkinsightsanalysis
         case ec2networkinsightspath
         case ec2prefixlist
+        case ec2securitygroupvpcassociation
         case ec2snapshotblockpublicaccess
         case ec2spotfleet
+        case ec2subnetcidrblock
+        case ec2subnetnetworkaclassociation
         case ec2subnetroutetableassociation
         case ec2trafficmirrorfilter
         case ec2trafficmirrorsession
@@ -860,11 +895,15 @@ extension ConfigClientTypes {
         case ec2vpcblockpublicaccessexclusion
         case ec2vpcblockpublicaccessoptions
         case ec2vpcendpointconnectionnotification
+        case ec2vpcgatewayattachment
         case ec2vpnconnectionroute
+        case ec2verifiedaccessinstance
         case ecrpublicrepository
         case ecrpullthroughcacherule
         case ecrregistrypolicy
+        case ecrreplicationconfiguration
         case ecrrepository
+        case ecrrepositorycreationtemplate
         case ecscapacityprovider
         case ecscluster
         case ecsservice
@@ -877,9 +916,16 @@ extension ConfigClientTypes {
         case ekscluster
         case eksfargateprofile
         case eksidentityproviderconfig
+        case emrcontainersvirtualcluster
         case emrsecurityconfiguration
+        case emrserverlessapplication
+        case emrstudio
         case egressonlyinternetgateway
+        case elasticloadbalancingv2targetgroup
         case encryptionconfig
+        case entityresolutionidmappingworkflow
+        case entityresolutionmatchingworkflow
+        case entityresolutionschemamapping
         case environment
         case eventschemasdiscoverer
         case eventschemasregistry
@@ -905,10 +951,12 @@ extension ConfigClientTypes {
         case frauddetectoroutcome
         case frauddetectorvariable
         case function
+        case gameliftbuild
         case globalacceleratoraccelerator
         case globalacceleratorendpointgroup
         case globalacceleratorlistener
         case glueclassifier
+        case gluedatabase
         case gluejob
         case gluemltransform
         case grafanaworkspace
@@ -920,6 +968,7 @@ extension ConfigClientTypes {
         case guarddutydetector
         case guarddutyfilter
         case guarddutyipset
+        case guarddutymalwareprotectionplan
         case guarddutythreatintelset
         case healthlakefhirdatastore
         case host
@@ -936,6 +985,7 @@ extension ConfigClientTypes {
         case imagebuilderimagepipeline
         case imagebuilderimagerecipe
         case imagebuilderinfrastructureconfiguration
+        case imagebuilderlifecyclepolicy
         case inspectorv2activation
         case inspectorv2filter
         case instance
@@ -947,8 +997,10 @@ extension ConfigClientTypes {
         case iotanalyticspipeline
         case iotauthorizer
         case iotcacertificate
+        case iotcoredeviceadvisorsuitedefinition
         case iotcustommetric
         case iotdimension
+        case iotdomainconfiguration
         case ioteventsalarmmodel
         case ioteventsdetectormodel
         case ioteventsinput
@@ -960,11 +1012,13 @@ extension ConfigClientTypes {
         case iotrolealias
         case iotscheduledaudit
         case iotsecurityprofile
+        case iotsitewiseasset
         case iotsitewiseassetmodel
         case iotsitewisedashboard
         case iotsitewisegateway
         case iotsitewiseportal
         case iotsitewiseproject
+        case iotthinggroup
         case iottwinmakercomponenttype
         case iottwinmakerentity
         case iottwinmakerscene
@@ -975,6 +1029,7 @@ extension ConfigClientTypes {
         case iotwirelessserviceprofile
         case kmsalias
         case kafkaconnectconnector
+        case kafkaconnectcustomplugin
         case kendraindex
         case key
         case kinesisanalyticsv2application
@@ -995,6 +1050,7 @@ extension ConfigClientTypes {
         case listenerv2
         case loadbalancer
         case loadbalancerv2
+        case locationapikey
         case logsdestination
         case lookoutmetricsalert
         case lookoutvisionproject
@@ -1003,6 +1059,7 @@ extension ConfigClientTypes {
         case mskcluster
         case mskclusterpolicy
         case mskconfiguration
+        case mskserverlesscluster
         case mskvpcconnection
         case managedinstanceinventory
         case managedrulesetv2
@@ -1012,6 +1069,9 @@ extension ConfigClientTypes {
         case mediaconnectgateway
         case mediapackagepackagingconfiguration
         case mediapackagepackaginggroup
+        case mediapackagev2channel
+        case mediapackagev2originendpoint
+        case mediatailorlivesource
         case mediatailorplaybackconfiguration
         case memorydbsubnetgroup
         case natgateway
@@ -1028,10 +1088,15 @@ extension ConfigClientTypes {
         case networkmanagerlink
         case networkmanagerlinkassociation
         case networkmanagersite
+        case networkmanagertransitgatewaypeering
         case networkmanagertransitgatewayregistration
         case opensearchdomain
         case opensearchserverlesscollection
+        case opensearchserverlesssecurityconfig
         case opensearchserverlessvpcendpoint
+        case organizationsorganizationalunit
+        case pcaconnectoradconnector
+        case pcaconnectoraddirectoryregistration
         case panoramapackage
         case patchcompliance
         case personalizedataset
@@ -1057,12 +1122,14 @@ extension ConfigClientTypes {
         case quicksighttemplate
         case quicksighttheme
         case rdsglobalcluster
+        case rdsintegration
         case rdsoptiongroup
         case rumappmonitor
         case ratebasedrule
         case redshiftendpointaccess
         case redshiftendpointauthorization
         case redshifteventsubscription
+        case redshiftintegration
         case redshiftscheduledaction
         case regexpatternsetv2
         case regionalprotection
@@ -1080,8 +1147,12 @@ extension ConfigClientTypes {
         case robomakerrobotapplicationversion
         case robomakersimulationapplication
         case role
+        case rolesanywhereprofile
+        case rolesanywheretrustanchor
+        case route53dnssec
         case route53hostedzone
         case route53profilesprofile
+        case route53profilesprofileassociation
         case route53recoverycontrolcluster
         case route53recoverycontrolcontrolpanel
         case route53recoverycontrolroutingcontrol
@@ -1102,30 +1173,49 @@ extension ConfigClientTypes {
         case rule
         case rulegroup
         case rulegroupv2
+        case s3accessgrant
+        case s3accessgrantsinstance
+        case s3accessgrantslocation
         case s3accesspoint
         case s3expressbucketpolicy
         case s3expressdirectorybucket
         case s3multiregionaccesspoint
         case s3storagelens
         case s3storagelensgroup
+        case s3tablestablebucket
+        case s3tablestablebucketpolicy
         case sesconfigurationset
         case sescontactlist
+        case sesdedicatedippool
+        case sesmailmanagertrafficpolicy
         case sesreceiptfilter
         case sesreceiptruleset
         case sestemplate
+        case ssmcontactscontact
         case ssmdocument
+        case ssmincidentsresponseplan
+        case ssmresourcedatasync
         case sagemakerappimageconfig
         case sagemakercoderepository
+        case sagemakerdataqualityjobdefinition
         case sagemakerdomain
         case sagemakerfeaturegroup
         case sagemakerimage
         case sagemakerinferenceexperiment
+        case sagemakermlflowtrackingserver
         case sagemakermodel
+        case sagemakermodelbiasjobdefinition
+        case sagemakermodelexplainabilityjobdefinition
+        case sagemakermodelqualityjobdefinition
         case sagemakernotebookinstancelifecycleconfig
+        case sagemakerstudiolifecycleconfig
+        case sagemakeruserprofile
         case sagemakerworkteam
         case scalingpolicy
         case scheduledaction
         case secret
+        case secretsmanagerresourcepolicy
+        case secretsmanagerrotationschedule
         case securitygroup
         case securityhubstandard
         case servicediscoveryhttpnamespace
@@ -1147,6 +1237,7 @@ extension ConfigClientTypes {
         case transfercertificate
         case transferconnector
         case transferprofile
+        case transferserver
         case transferworkflow
         case transitgateway
         case transitgatewayattachment
@@ -1177,10 +1268,14 @@ extension ConfigClientTypes {
                 .amplifyapp,
                 .amplifybranch,
                 .api,
+                .apigatewaymethod,
+                .apigatewayusageplan,
+                .apigatewayv2integration,
                 .appconfigapplication,
                 .appconfigconfigurationprofile,
                 .appconfigdeploymentstrategy,
                 .appconfigenvironment,
+                .appconfigextension,
                 .appconfigextensionassociation,
                 .appconfighostedconfigurationversion,
                 .appflowflow,
@@ -1195,6 +1290,7 @@ extension ConfigClientTypes {
                 .appmeshvirtualservice,
                 .apprunnerservice,
                 .apprunnervpcconnector,
+                .appstreamappblockbuilder,
                 .appstreamapplication,
                 .appstreamdirectoryconfig,
                 .appstreamfleet,
@@ -1210,29 +1306,46 @@ extension ConfigClientTypes {
                 .auditmanagerassessment,
                 .autoscalinggroup,
                 .autoscalingwarmpool,
+                .b2bicapability,
+                .bcmdataexportsexport,
+                .backupgatewayhypervisor,
                 .backupplan,
                 .backuprecoverypoint,
                 .backupreportplan,
+                .backuprestoretestingplan,
                 .backupselection,
                 .backupvault,
                 .batchcomputeenvironment,
                 .batchjobqueue,
                 .batchschedulingpolicy,
+                .bedrockagentcorebrowsercustom,
+                .bedrockagentcoreruntime,
+                .bedrockapplicationinferenceprofile,
                 .bedrockguardrail,
                 .bedrockknowledgebase,
+                .bedrockprompt,
                 .bucket,
                 .budgetsbudgetsaction,
                 .cassandrakeyspace,
                 .certificate,
+                .cleanroomsmltrainingdataset,
                 .cloud9environmentec2,
+                .cloudformationguardhook,
+                .cloudformationlambdahook,
                 .cloudformationproduct,
                 .cloudformationprovisionedproduct,
+                .cloudformationstackset,
+                .cloudfrontkeyvaluestore,
+                .cloudfrontpublickey,
+                .cloudfrontrealtimelogconfig,
+                .cloudtraileventdatastore,
                 .cloudwatchmetricstream,
                 .cluster,
                 .clusterparametergroup,
                 .clustersecuritygroup,
                 .clustersnapshot,
                 .clustersubnetgroup,
+                .codeartifactdomain,
                 .codeartifactrepository,
                 .codebuildreportgroup,
                 .codedeployapplication,
@@ -1244,11 +1357,16 @@ extension ConfigClientTypes {
                 .cognitouserpool,
                 .cognitouserpoolclient,
                 .cognitouserpoolgroup,
+                .comprehendflywheel,
+                .configaggregationauthorization,
+                .configconformancepack,
+                .configstoredquery,
                 .conformancepackcompliance,
                 .connectinstance,
                 .connectphonenumber,
                 .connectquickconnect,
                 .connectrule,
+                .connectsecurityprofile,
                 .connectuser,
                 .customergateway,
                 .customerprofilesdomain,
@@ -1263,6 +1381,7 @@ extension ConfigClientTypes {
                 .dmsendpoint,
                 .dmseventsubscription,
                 .dmsreplicationsubnetgroup,
+                .datasyncagent,
                 .datasynclocationefs,
                 .datasynclocationfsxlustre,
                 .datasynclocationfsxwindows,
@@ -1272,6 +1391,9 @@ extension ConfigClientTypes {
                 .datasynclocations3,
                 .datasynclocationsmb,
                 .datasynctask,
+                .deadlinefleet,
+                .deadlinemonitor,
+                .deadlinequeuefleetassociation,
                 .detectivegraph,
                 .devicefarminstanceprofile,
                 .devicefarmproject,
@@ -1287,6 +1409,7 @@ extension ConfigClientTypes {
                 .ec2eipassociation,
                 .ec2ipam,
                 .ec2ipampool,
+                .ec2ipampoolcidr,
                 .ec2ipamresourcediscovery,
                 .ec2ipamresourcediscoveryassociation,
                 .ec2ipamscope,
@@ -1295,8 +1418,11 @@ extension ConfigClientTypes {
                 .ec2networkinsightsanalysis,
                 .ec2networkinsightspath,
                 .ec2prefixlist,
+                .ec2securitygroupvpcassociation,
                 .ec2snapshotblockpublicaccess,
                 .ec2spotfleet,
+                .ec2subnetcidrblock,
+                .ec2subnetnetworkaclassociation,
                 .ec2subnetroutetableassociation,
                 .ec2trafficmirrorfilter,
                 .ec2trafficmirrorsession,
@@ -1306,11 +1432,15 @@ extension ConfigClientTypes {
                 .ec2vpcblockpublicaccessexclusion,
                 .ec2vpcblockpublicaccessoptions,
                 .ec2vpcendpointconnectionnotification,
+                .ec2vpcgatewayattachment,
                 .ec2vpnconnectionroute,
+                .ec2verifiedaccessinstance,
                 .ecrpublicrepository,
                 .ecrpullthroughcacherule,
                 .ecrregistrypolicy,
+                .ecrreplicationconfiguration,
                 .ecrrepository,
+                .ecrrepositorycreationtemplate,
                 .ecscapacityprovider,
                 .ecscluster,
                 .ecsservice,
@@ -1323,9 +1453,16 @@ extension ConfigClientTypes {
                 .ekscluster,
                 .eksfargateprofile,
                 .eksidentityproviderconfig,
+                .emrcontainersvirtualcluster,
                 .emrsecurityconfiguration,
+                .emrserverlessapplication,
+                .emrstudio,
                 .egressonlyinternetgateway,
+                .elasticloadbalancingv2targetgroup,
                 .encryptionconfig,
+                .entityresolutionidmappingworkflow,
+                .entityresolutionmatchingworkflow,
+                .entityresolutionschemamapping,
                 .environment,
                 .eventschemasdiscoverer,
                 .eventschemasregistry,
@@ -1351,10 +1488,12 @@ extension ConfigClientTypes {
                 .frauddetectoroutcome,
                 .frauddetectorvariable,
                 .function,
+                .gameliftbuild,
                 .globalacceleratoraccelerator,
                 .globalacceleratorendpointgroup,
                 .globalacceleratorlistener,
                 .glueclassifier,
+                .gluedatabase,
                 .gluejob,
                 .gluemltransform,
                 .grafanaworkspace,
@@ -1366,6 +1505,7 @@ extension ConfigClientTypes {
                 .guarddutydetector,
                 .guarddutyfilter,
                 .guarddutyipset,
+                .guarddutymalwareprotectionplan,
                 .guarddutythreatintelset,
                 .healthlakefhirdatastore,
                 .host,
@@ -1382,6 +1522,7 @@ extension ConfigClientTypes {
                 .imagebuilderimagepipeline,
                 .imagebuilderimagerecipe,
                 .imagebuilderinfrastructureconfiguration,
+                .imagebuilderlifecyclepolicy,
                 .inspectorv2activation,
                 .inspectorv2filter,
                 .instance,
@@ -1393,8 +1534,10 @@ extension ConfigClientTypes {
                 .iotanalyticspipeline,
                 .iotauthorizer,
                 .iotcacertificate,
+                .iotcoredeviceadvisorsuitedefinition,
                 .iotcustommetric,
                 .iotdimension,
+                .iotdomainconfiguration,
                 .ioteventsalarmmodel,
                 .ioteventsdetectormodel,
                 .ioteventsinput,
@@ -1406,11 +1549,13 @@ extension ConfigClientTypes {
                 .iotrolealias,
                 .iotscheduledaudit,
                 .iotsecurityprofile,
+                .iotsitewiseasset,
                 .iotsitewiseassetmodel,
                 .iotsitewisedashboard,
                 .iotsitewisegateway,
                 .iotsitewiseportal,
                 .iotsitewiseproject,
+                .iotthinggroup,
                 .iottwinmakercomponenttype,
                 .iottwinmakerentity,
                 .iottwinmakerscene,
@@ -1421,6 +1566,7 @@ extension ConfigClientTypes {
                 .iotwirelessserviceprofile,
                 .kmsalias,
                 .kafkaconnectconnector,
+                .kafkaconnectcustomplugin,
                 .kendraindex,
                 .key,
                 .kinesisanalyticsv2application,
@@ -1441,6 +1587,7 @@ extension ConfigClientTypes {
                 .listenerv2,
                 .loadbalancer,
                 .loadbalancerv2,
+                .locationapikey,
                 .logsdestination,
                 .lookoutmetricsalert,
                 .lookoutvisionproject,
@@ -1449,6 +1596,7 @@ extension ConfigClientTypes {
                 .mskcluster,
                 .mskclusterpolicy,
                 .mskconfiguration,
+                .mskserverlesscluster,
                 .mskvpcconnection,
                 .managedinstanceinventory,
                 .managedrulesetv2,
@@ -1458,6 +1606,9 @@ extension ConfigClientTypes {
                 .mediaconnectgateway,
                 .mediapackagepackagingconfiguration,
                 .mediapackagepackaginggroup,
+                .mediapackagev2channel,
+                .mediapackagev2originendpoint,
+                .mediatailorlivesource,
                 .mediatailorplaybackconfiguration,
                 .memorydbsubnetgroup,
                 .natgateway,
@@ -1474,10 +1625,15 @@ extension ConfigClientTypes {
                 .networkmanagerlink,
                 .networkmanagerlinkassociation,
                 .networkmanagersite,
+                .networkmanagertransitgatewaypeering,
                 .networkmanagertransitgatewayregistration,
                 .opensearchdomain,
                 .opensearchserverlesscollection,
+                .opensearchserverlesssecurityconfig,
                 .opensearchserverlessvpcendpoint,
+                .organizationsorganizationalunit,
+                .pcaconnectoradconnector,
+                .pcaconnectoraddirectoryregistration,
                 .panoramapackage,
                 .patchcompliance,
                 .personalizedataset,
@@ -1503,12 +1659,14 @@ extension ConfigClientTypes {
                 .quicksighttemplate,
                 .quicksighttheme,
                 .rdsglobalcluster,
+                .rdsintegration,
                 .rdsoptiongroup,
                 .rumappmonitor,
                 .ratebasedrule,
                 .redshiftendpointaccess,
                 .redshiftendpointauthorization,
                 .redshifteventsubscription,
+                .redshiftintegration,
                 .redshiftscheduledaction,
                 .regexpatternsetv2,
                 .regionalprotection,
@@ -1526,8 +1684,12 @@ extension ConfigClientTypes {
                 .robomakerrobotapplicationversion,
                 .robomakersimulationapplication,
                 .role,
+                .rolesanywhereprofile,
+                .rolesanywheretrustanchor,
+                .route53dnssec,
                 .route53hostedzone,
                 .route53profilesprofile,
+                .route53profilesprofileassociation,
                 .route53recoverycontrolcluster,
                 .route53recoverycontrolcontrolpanel,
                 .route53recoverycontrolroutingcontrol,
@@ -1548,30 +1710,49 @@ extension ConfigClientTypes {
                 .rule,
                 .rulegroup,
                 .rulegroupv2,
+                .s3accessgrant,
+                .s3accessgrantsinstance,
+                .s3accessgrantslocation,
                 .s3accesspoint,
                 .s3expressbucketpolicy,
                 .s3expressdirectorybucket,
                 .s3multiregionaccesspoint,
                 .s3storagelens,
                 .s3storagelensgroup,
+                .s3tablestablebucket,
+                .s3tablestablebucketpolicy,
                 .sesconfigurationset,
                 .sescontactlist,
+                .sesdedicatedippool,
+                .sesmailmanagertrafficpolicy,
                 .sesreceiptfilter,
                 .sesreceiptruleset,
                 .sestemplate,
+                .ssmcontactscontact,
                 .ssmdocument,
+                .ssmincidentsresponseplan,
+                .ssmresourcedatasync,
                 .sagemakerappimageconfig,
                 .sagemakercoderepository,
+                .sagemakerdataqualityjobdefinition,
                 .sagemakerdomain,
                 .sagemakerfeaturegroup,
                 .sagemakerimage,
                 .sagemakerinferenceexperiment,
+                .sagemakermlflowtrackingserver,
                 .sagemakermodel,
+                .sagemakermodelbiasjobdefinition,
+                .sagemakermodelexplainabilityjobdefinition,
+                .sagemakermodelqualityjobdefinition,
                 .sagemakernotebookinstancelifecycleconfig,
+                .sagemakerstudiolifecycleconfig,
+                .sagemakeruserprofile,
                 .sagemakerworkteam,
                 .scalingpolicy,
                 .scheduledaction,
                 .secret,
+                .secretsmanagerresourcepolicy,
+                .secretsmanagerrotationschedule,
                 .securitygroup,
                 .securityhubstandard,
                 .servicediscoveryhttpnamespace,
@@ -1593,6 +1774,7 @@ extension ConfigClientTypes {
                 .transfercertificate,
                 .transferconnector,
                 .transferprofile,
+                .transferserver,
                 .transferworkflow,
                 .transitgateway,
                 .transitgatewayattachment,
@@ -1629,10 +1811,14 @@ extension ConfigClientTypes {
             case .amplifyapp: return "AWS::Amplify::App"
             case .amplifybranch: return "AWS::Amplify::Branch"
             case .api: return "AWS::ApiGatewayV2::Api"
+            case .apigatewaymethod: return "AWS::ApiGateway::Method"
+            case .apigatewayusageplan: return "AWS::ApiGateway::UsagePlan"
+            case .apigatewayv2integration: return "AWS::ApiGatewayV2::Integration"
             case .appconfigapplication: return "AWS::AppConfig::Application"
             case .appconfigconfigurationprofile: return "AWS::AppConfig::ConfigurationProfile"
             case .appconfigdeploymentstrategy: return "AWS::AppConfig::DeploymentStrategy"
             case .appconfigenvironment: return "AWS::AppConfig::Environment"
+            case .appconfigextension: return "AWS::AppConfig::Extension"
             case .appconfigextensionassociation: return "AWS::AppConfig::ExtensionAssociation"
             case .appconfighostedconfigurationversion: return "AWS::AppConfig::HostedConfigurationVersion"
             case .appflowflow: return "AWS::AppFlow::Flow"
@@ -1647,6 +1833,7 @@ extension ConfigClientTypes {
             case .appmeshvirtualservice: return "AWS::AppMesh::VirtualService"
             case .apprunnerservice: return "AWS::AppRunner::Service"
             case .apprunnervpcconnector: return "AWS::AppRunner::VpcConnector"
+            case .appstreamappblockbuilder: return "AWS::AppStream::AppBlockBuilder"
             case .appstreamapplication: return "AWS::AppStream::Application"
             case .appstreamdirectoryconfig: return "AWS::AppStream::DirectoryConfig"
             case .appstreamfleet: return "AWS::AppStream::Fleet"
@@ -1662,29 +1849,46 @@ extension ConfigClientTypes {
             case .auditmanagerassessment: return "AWS::AuditManager::Assessment"
             case .autoscalinggroup: return "AWS::AutoScaling::AutoScalingGroup"
             case .autoscalingwarmpool: return "AWS::AutoScaling::WarmPool"
+            case .b2bicapability: return "AWS::B2BI::Capability"
+            case .bcmdataexportsexport: return "AWS::BCMDataExports::Export"
+            case .backupgatewayhypervisor: return "AWS::BackupGateway::Hypervisor"
             case .backupplan: return "AWS::Backup::BackupPlan"
             case .backuprecoverypoint: return "AWS::Backup::RecoveryPoint"
             case .backupreportplan: return "AWS::Backup::ReportPlan"
+            case .backuprestoretestingplan: return "AWS::Backup::RestoreTestingPlan"
             case .backupselection: return "AWS::Backup::BackupSelection"
             case .backupvault: return "AWS::Backup::BackupVault"
             case .batchcomputeenvironment: return "AWS::Batch::ComputeEnvironment"
             case .batchjobqueue: return "AWS::Batch::JobQueue"
             case .batchschedulingpolicy: return "AWS::Batch::SchedulingPolicy"
+            case .bedrockagentcorebrowsercustom: return "AWS::BedrockAgentCore::BrowserCustom"
+            case .bedrockagentcoreruntime: return "AWS::BedrockAgentCore::Runtime"
+            case .bedrockapplicationinferenceprofile: return "AWS::Bedrock::ApplicationInferenceProfile"
             case .bedrockguardrail: return "AWS::Bedrock::Guardrail"
             case .bedrockknowledgebase: return "AWS::Bedrock::KnowledgeBase"
+            case .bedrockprompt: return "AWS::Bedrock::Prompt"
             case .bucket: return "AWS::S3::Bucket"
             case .budgetsbudgetsaction: return "AWS::Budgets::BudgetsAction"
             case .cassandrakeyspace: return "AWS::Cassandra::Keyspace"
             case .certificate: return "AWS::ACM::Certificate"
+            case .cleanroomsmltrainingdataset: return "AWS::CleanRoomsML::TrainingDataset"
             case .cloud9environmentec2: return "AWS::Cloud9::EnvironmentEC2"
+            case .cloudformationguardhook: return "AWS::CloudFormation::GuardHook"
+            case .cloudformationlambdahook: return "AWS::CloudFormation::LambdaHook"
             case .cloudformationproduct: return "AWS::ServiceCatalog::CloudFormationProduct"
             case .cloudformationprovisionedproduct: return "AWS::ServiceCatalog::CloudFormationProvisionedProduct"
+            case .cloudformationstackset: return "AWS::CloudFormation::StackSet"
+            case .cloudfrontkeyvaluestore: return "AWS::CloudFront::KeyValueStore"
+            case .cloudfrontpublickey: return "AWS::CloudFront::PublicKey"
+            case .cloudfrontrealtimelogconfig: return "AWS::CloudFront::RealtimeLogConfig"
+            case .cloudtraileventdatastore: return "AWS::CloudTrail::EventDataStore"
             case .cloudwatchmetricstream: return "AWS::CloudWatch::MetricStream"
             case .cluster: return "AWS::Redshift::Cluster"
             case .clusterparametergroup: return "AWS::Redshift::ClusterParameterGroup"
             case .clustersecuritygroup: return "AWS::Redshift::ClusterSecurityGroup"
             case .clustersnapshot: return "AWS::Redshift::ClusterSnapshot"
             case .clustersubnetgroup: return "AWS::Redshift::ClusterSubnetGroup"
+            case .codeartifactdomain: return "AWS::CodeArtifact::Domain"
             case .codeartifactrepository: return "AWS::CodeArtifact::Repository"
             case .codebuildreportgroup: return "AWS::CodeBuild::ReportGroup"
             case .codedeployapplication: return "AWS::CodeDeploy::Application"
@@ -1696,11 +1900,16 @@ extension ConfigClientTypes {
             case .cognitouserpool: return "AWS::Cognito::UserPool"
             case .cognitouserpoolclient: return "AWS::Cognito::UserPoolClient"
             case .cognitouserpoolgroup: return "AWS::Cognito::UserPoolGroup"
+            case .comprehendflywheel: return "AWS::Comprehend::Flywheel"
+            case .configaggregationauthorization: return "AWS::Config::AggregationAuthorization"
+            case .configconformancepack: return "AWS::Config::ConformancePack"
+            case .configstoredquery: return "AWS::Config::StoredQuery"
             case .conformancepackcompliance: return "AWS::Config::ConformancePackCompliance"
             case .connectinstance: return "AWS::Connect::Instance"
             case .connectphonenumber: return "AWS::Connect::PhoneNumber"
             case .connectquickconnect: return "AWS::Connect::QuickConnect"
             case .connectrule: return "AWS::Connect::Rule"
+            case .connectsecurityprofile: return "AWS::Connect::SecurityProfile"
             case .connectuser: return "AWS::Connect::User"
             case .customergateway: return "AWS::EC2::CustomerGateway"
             case .customerprofilesdomain: return "AWS::CustomerProfiles::Domain"
@@ -1715,6 +1924,7 @@ extension ConfigClientTypes {
             case .dmsendpoint: return "AWS::DMS::Endpoint"
             case .dmseventsubscription: return "AWS::DMS::EventSubscription"
             case .dmsreplicationsubnetgroup: return "AWS::DMS::ReplicationSubnetGroup"
+            case .datasyncagent: return "AWS::DataSync::Agent"
             case .datasynclocationefs: return "AWS::DataSync::LocationEFS"
             case .datasynclocationfsxlustre: return "AWS::DataSync::LocationFSxLustre"
             case .datasynclocationfsxwindows: return "AWS::DataSync::LocationFSxWindows"
@@ -1724,6 +1934,9 @@ extension ConfigClientTypes {
             case .datasynclocations3: return "AWS::DataSync::LocationS3"
             case .datasynclocationsmb: return "AWS::DataSync::LocationSMB"
             case .datasynctask: return "AWS::DataSync::Task"
+            case .deadlinefleet: return "AWS::Deadline::Fleet"
+            case .deadlinemonitor: return "AWS::Deadline::Monitor"
+            case .deadlinequeuefleetassociation: return "AWS::Deadline::QueueFleetAssociation"
             case .detectivegraph: return "AWS::Detective::Graph"
             case .devicefarminstanceprofile: return "AWS::DeviceFarm::InstanceProfile"
             case .devicefarmproject: return "AWS::DeviceFarm::Project"
@@ -1739,6 +1952,7 @@ extension ConfigClientTypes {
             case .ec2eipassociation: return "AWS::EC2::EIPAssociation"
             case .ec2ipam: return "AWS::EC2::IPAM"
             case .ec2ipampool: return "AWS::EC2::IPAMPool"
+            case .ec2ipampoolcidr: return "AWS::EC2::IPAMPoolCidr"
             case .ec2ipamresourcediscovery: return "AWS::EC2::IPAMResourceDiscovery"
             case .ec2ipamresourcediscoveryassociation: return "AWS::EC2::IPAMResourceDiscoveryAssociation"
             case .ec2ipamscope: return "AWS::EC2::IPAMScope"
@@ -1747,8 +1961,11 @@ extension ConfigClientTypes {
             case .ec2networkinsightsanalysis: return "AWS::EC2::NetworkInsightsAnalysis"
             case .ec2networkinsightspath: return "AWS::EC2::NetworkInsightsPath"
             case .ec2prefixlist: return "AWS::EC2::PrefixList"
+            case .ec2securitygroupvpcassociation: return "AWS::EC2::SecurityGroupVpcAssociation"
             case .ec2snapshotblockpublicaccess: return "AWS::EC2::SnapshotBlockPublicAccess"
             case .ec2spotfleet: return "AWS::EC2::SpotFleet"
+            case .ec2subnetcidrblock: return "AWS::EC2::SubnetCidrBlock"
+            case .ec2subnetnetworkaclassociation: return "AWS::EC2::SubnetNetworkAclAssociation"
             case .ec2subnetroutetableassociation: return "AWS::EC2::SubnetRouteTableAssociation"
             case .ec2trafficmirrorfilter: return "AWS::EC2::TrafficMirrorFilter"
             case .ec2trafficmirrorsession: return "AWS::EC2::TrafficMirrorSession"
@@ -1758,11 +1975,15 @@ extension ConfigClientTypes {
             case .ec2vpcblockpublicaccessexclusion: return "AWS::EC2::VPCBlockPublicAccessExclusion"
             case .ec2vpcblockpublicaccessoptions: return "AWS::EC2::VPCBlockPublicAccessOptions"
             case .ec2vpcendpointconnectionnotification: return "AWS::EC2::VPCEndpointConnectionNotification"
+            case .ec2vpcgatewayattachment: return "AWS::EC2::VPCGatewayAttachment"
             case .ec2vpnconnectionroute: return "AWS::EC2::VPNConnectionRoute"
+            case .ec2verifiedaccessinstance: return "AWS::EC2::VerifiedAccessInstance"
             case .ecrpublicrepository: return "AWS::ECR::PublicRepository"
             case .ecrpullthroughcacherule: return "AWS::ECR::PullThroughCacheRule"
             case .ecrregistrypolicy: return "AWS::ECR::RegistryPolicy"
+            case .ecrreplicationconfiguration: return "AWS::ECR::ReplicationConfiguration"
             case .ecrrepository: return "AWS::ECR::Repository"
+            case .ecrrepositorycreationtemplate: return "AWS::ECR::RepositoryCreationTemplate"
             case .ecscapacityprovider: return "AWS::ECS::CapacityProvider"
             case .ecscluster: return "AWS::ECS::Cluster"
             case .ecsservice: return "AWS::ECS::Service"
@@ -1775,9 +1996,16 @@ extension ConfigClientTypes {
             case .ekscluster: return "AWS::EKS::Cluster"
             case .eksfargateprofile: return "AWS::EKS::FargateProfile"
             case .eksidentityproviderconfig: return "AWS::EKS::IdentityProviderConfig"
+            case .emrcontainersvirtualcluster: return "AWS::EMRContainers::VirtualCluster"
             case .emrsecurityconfiguration: return "AWS::EMR::SecurityConfiguration"
+            case .emrserverlessapplication: return "AWS::EMRServerless::Application"
+            case .emrstudio: return "AWS::EMR::Studio"
             case .egressonlyinternetgateway: return "AWS::EC2::EgressOnlyInternetGateway"
+            case .elasticloadbalancingv2targetgroup: return "AWS::ElasticLoadBalancingV2::TargetGroup"
             case .encryptionconfig: return "AWS::XRay::EncryptionConfig"
+            case .entityresolutionidmappingworkflow: return "AWS::EntityResolution::IdMappingWorkflow"
+            case .entityresolutionmatchingworkflow: return "AWS::EntityResolution::MatchingWorkflow"
+            case .entityresolutionschemamapping: return "AWS::EntityResolution::SchemaMapping"
             case .environment: return "AWS::ElasticBeanstalk::Environment"
             case .eventschemasdiscoverer: return "AWS::EventSchemas::Discoverer"
             case .eventschemasregistry: return "AWS::EventSchemas::Registry"
@@ -1803,10 +2031,12 @@ extension ConfigClientTypes {
             case .frauddetectoroutcome: return "AWS::FraudDetector::Outcome"
             case .frauddetectorvariable: return "AWS::FraudDetector::Variable"
             case .function: return "AWS::Lambda::Function"
+            case .gameliftbuild: return "AWS::GameLift::Build"
             case .globalacceleratoraccelerator: return "AWS::GlobalAccelerator::Accelerator"
             case .globalacceleratorendpointgroup: return "AWS::GlobalAccelerator::EndpointGroup"
             case .globalacceleratorlistener: return "AWS::GlobalAccelerator::Listener"
             case .glueclassifier: return "AWS::Glue::Classifier"
+            case .gluedatabase: return "AWS::Glue::Database"
             case .gluejob: return "AWS::Glue::Job"
             case .gluemltransform: return "AWS::Glue::MLTransform"
             case .grafanaworkspace: return "AWS::Grafana::Workspace"
@@ -1818,6 +2048,7 @@ extension ConfigClientTypes {
             case .guarddutydetector: return "AWS::GuardDuty::Detector"
             case .guarddutyfilter: return "AWS::GuardDuty::Filter"
             case .guarddutyipset: return "AWS::GuardDuty::IPSet"
+            case .guarddutymalwareprotectionplan: return "AWS::GuardDuty::MalwareProtectionPlan"
             case .guarddutythreatintelset: return "AWS::GuardDuty::ThreatIntelSet"
             case .healthlakefhirdatastore: return "AWS::HealthLake::FHIRDatastore"
             case .host: return "AWS::EC2::Host"
@@ -1834,6 +2065,7 @@ extension ConfigClientTypes {
             case .imagebuilderimagepipeline: return "AWS::ImageBuilder::ImagePipeline"
             case .imagebuilderimagerecipe: return "AWS::ImageBuilder::ImageRecipe"
             case .imagebuilderinfrastructureconfiguration: return "AWS::ImageBuilder::InfrastructureConfiguration"
+            case .imagebuilderlifecyclepolicy: return "AWS::ImageBuilder::LifecyclePolicy"
             case .inspectorv2activation: return "AWS::InspectorV2::Activation"
             case .inspectorv2filter: return "AWS::InspectorV2::Filter"
             case .instance: return "AWS::EC2::Instance"
@@ -1845,8 +2077,10 @@ extension ConfigClientTypes {
             case .iotanalyticspipeline: return "AWS::IoTAnalytics::Pipeline"
             case .iotauthorizer: return "AWS::IoT::Authorizer"
             case .iotcacertificate: return "AWS::IoT::CACertificate"
+            case .iotcoredeviceadvisorsuitedefinition: return "AWS::IoTCoreDeviceAdvisor::SuiteDefinition"
             case .iotcustommetric: return "AWS::IoT::CustomMetric"
             case .iotdimension: return "AWS::IoT::Dimension"
+            case .iotdomainconfiguration: return "AWS::IoT::DomainConfiguration"
             case .ioteventsalarmmodel: return "AWS::IoTEvents::AlarmModel"
             case .ioteventsdetectormodel: return "AWS::IoTEvents::DetectorModel"
             case .ioteventsinput: return "AWS::IoTEvents::Input"
@@ -1858,11 +2092,13 @@ extension ConfigClientTypes {
             case .iotrolealias: return "AWS::IoT::RoleAlias"
             case .iotscheduledaudit: return "AWS::IoT::ScheduledAudit"
             case .iotsecurityprofile: return "AWS::IoT::SecurityProfile"
+            case .iotsitewiseasset: return "AWS::IoTSiteWise::Asset"
             case .iotsitewiseassetmodel: return "AWS::IoTSiteWise::AssetModel"
             case .iotsitewisedashboard: return "AWS::IoTSiteWise::Dashboard"
             case .iotsitewisegateway: return "AWS::IoTSiteWise::Gateway"
             case .iotsitewiseportal: return "AWS::IoTSiteWise::Portal"
             case .iotsitewiseproject: return "AWS::IoTSiteWise::Project"
+            case .iotthinggroup: return "AWS::IoT::ThingGroup"
             case .iottwinmakercomponenttype: return "AWS::IoTTwinMaker::ComponentType"
             case .iottwinmakerentity: return "AWS::IoTTwinMaker::Entity"
             case .iottwinmakerscene: return "AWS::IoTTwinMaker::Scene"
@@ -1873,6 +2109,7 @@ extension ConfigClientTypes {
             case .iotwirelessserviceprofile: return "AWS::IoTWireless::ServiceProfile"
             case .kmsalias: return "AWS::KMS::Alias"
             case .kafkaconnectconnector: return "AWS::KafkaConnect::Connector"
+            case .kafkaconnectcustomplugin: return "AWS::KafkaConnect::CustomPlugin"
             case .kendraindex: return "AWS::Kendra::Index"
             case .key: return "AWS::KMS::Key"
             case .kinesisanalyticsv2application: return "AWS::KinesisAnalyticsV2::Application"
@@ -1893,6 +2130,7 @@ extension ConfigClientTypes {
             case .listenerv2: return "AWS::ElasticLoadBalancingV2::Listener"
             case .loadbalancer: return "AWS::ElasticLoadBalancing::LoadBalancer"
             case .loadbalancerv2: return "AWS::ElasticLoadBalancingV2::LoadBalancer"
+            case .locationapikey: return "AWS::Location::APIKey"
             case .logsdestination: return "AWS::Logs::Destination"
             case .lookoutmetricsalert: return "AWS::LookoutMetrics::Alert"
             case .lookoutvisionproject: return "AWS::LookoutVision::Project"
@@ -1901,6 +2139,7 @@ extension ConfigClientTypes {
             case .mskcluster: return "AWS::MSK::Cluster"
             case .mskclusterpolicy: return "AWS::MSK::ClusterPolicy"
             case .mskconfiguration: return "AWS::MSK::Configuration"
+            case .mskserverlesscluster: return "AWS::MSK::ServerlessCluster"
             case .mskvpcconnection: return "AWS::MSK::VpcConnection"
             case .managedinstanceinventory: return "AWS::SSM::ManagedInstanceInventory"
             case .managedrulesetv2: return "AWS::WAFv2::ManagedRuleSet"
@@ -1910,6 +2149,9 @@ extension ConfigClientTypes {
             case .mediaconnectgateway: return "AWS::MediaConnect::Gateway"
             case .mediapackagepackagingconfiguration: return "AWS::MediaPackage::PackagingConfiguration"
             case .mediapackagepackaginggroup: return "AWS::MediaPackage::PackagingGroup"
+            case .mediapackagev2channel: return "AWS::MediaPackageV2::Channel"
+            case .mediapackagev2originendpoint: return "AWS::MediaPackageV2::OriginEndpoint"
+            case .mediatailorlivesource: return "AWS::MediaTailor::LiveSource"
             case .mediatailorplaybackconfiguration: return "AWS::MediaTailor::PlaybackConfiguration"
             case .memorydbsubnetgroup: return "AWS::MemoryDB::SubnetGroup"
             case .natgateway: return "AWS::EC2::NatGateway"
@@ -1926,10 +2168,15 @@ extension ConfigClientTypes {
             case .networkmanagerlink: return "AWS::NetworkManager::Link"
             case .networkmanagerlinkassociation: return "AWS::NetworkManager::LinkAssociation"
             case .networkmanagersite: return "AWS::NetworkManager::Site"
+            case .networkmanagertransitgatewaypeering: return "AWS::NetworkManager::TransitGatewayPeering"
             case .networkmanagertransitgatewayregistration: return "AWS::NetworkManager::TransitGatewayRegistration"
             case .opensearchdomain: return "AWS::OpenSearch::Domain"
             case .opensearchserverlesscollection: return "AWS::OpenSearchServerless::Collection"
+            case .opensearchserverlesssecurityconfig: return "AWS::OpenSearchServerless::SecurityConfig"
             case .opensearchserverlessvpcendpoint: return "AWS::OpenSearchServerless::VpcEndpoint"
+            case .organizationsorganizationalunit: return "AWS::Organizations::OrganizationalUnit"
+            case .pcaconnectoradconnector: return "AWS::PCAConnectorAD::Connector"
+            case .pcaconnectoraddirectoryregistration: return "AWS::PCAConnectorAD::DirectoryRegistration"
             case .panoramapackage: return "AWS::Panorama::Package"
             case .patchcompliance: return "AWS::SSM::PatchCompliance"
             case .personalizedataset: return "AWS::Personalize::Dataset"
@@ -1955,12 +2202,14 @@ extension ConfigClientTypes {
             case .quicksighttemplate: return "AWS::QuickSight::Template"
             case .quicksighttheme: return "AWS::QuickSight::Theme"
             case .rdsglobalcluster: return "AWS::RDS::GlobalCluster"
+            case .rdsintegration: return "AWS::RDS::Integration"
             case .rdsoptiongroup: return "AWS::RDS::OptionGroup"
             case .rumappmonitor: return "AWS::RUM::AppMonitor"
             case .ratebasedrule: return "AWS::WAF::RateBasedRule"
             case .redshiftendpointaccess: return "AWS::Redshift::EndpointAccess"
             case .redshiftendpointauthorization: return "AWS::Redshift::EndpointAuthorization"
             case .redshifteventsubscription: return "AWS::Redshift::EventSubscription"
+            case .redshiftintegration: return "AWS::Redshift::Integration"
             case .redshiftscheduledaction: return "AWS::Redshift::ScheduledAction"
             case .regexpatternsetv2: return "AWS::WAFv2::RegexPatternSet"
             case .regionalprotection: return "AWS::ShieldRegional::Protection"
@@ -1978,8 +2227,12 @@ extension ConfigClientTypes {
             case .robomakerrobotapplicationversion: return "AWS::RoboMaker::RobotApplicationVersion"
             case .robomakersimulationapplication: return "AWS::RoboMaker::SimulationApplication"
             case .role: return "AWS::IAM::Role"
+            case .rolesanywhereprofile: return "AWS::RolesAnywhere::Profile"
+            case .rolesanywheretrustanchor: return "AWS::RolesAnywhere::TrustAnchor"
+            case .route53dnssec: return "AWS::Route53::DNSSEC"
             case .route53hostedzone: return "AWS::Route53::HostedZone"
             case .route53profilesprofile: return "AWS::Route53Profiles::Profile"
+            case .route53profilesprofileassociation: return "AWS::Route53Profiles::ProfileAssociation"
             case .route53recoverycontrolcluster: return "AWS::Route53RecoveryControl::Cluster"
             case .route53recoverycontrolcontrolpanel: return "AWS::Route53RecoveryControl::ControlPanel"
             case .route53recoverycontrolroutingcontrol: return "AWS::Route53RecoveryControl::RoutingControl"
@@ -2000,30 +2253,49 @@ extension ConfigClientTypes {
             case .rule: return "AWS::WAF::Rule"
             case .rulegroup: return "AWS::WAF::RuleGroup"
             case .rulegroupv2: return "AWS::WAFv2::RuleGroup"
+            case .s3accessgrant: return "AWS::S3::AccessGrant"
+            case .s3accessgrantsinstance: return "AWS::S3::AccessGrantsInstance"
+            case .s3accessgrantslocation: return "AWS::S3::AccessGrantsLocation"
             case .s3accesspoint: return "AWS::S3::AccessPoint"
             case .s3expressbucketpolicy: return "AWS::S3Express::BucketPolicy"
             case .s3expressdirectorybucket: return "AWS::S3Express::DirectoryBucket"
             case .s3multiregionaccesspoint: return "AWS::S3::MultiRegionAccessPoint"
             case .s3storagelens: return "AWS::S3::StorageLens"
             case .s3storagelensgroup: return "AWS::S3::StorageLensGroup"
+            case .s3tablestablebucket: return "AWS::S3Tables::TableBucket"
+            case .s3tablestablebucketpolicy: return "AWS::S3Tables::TableBucketPolicy"
             case .sesconfigurationset: return "AWS::SES::ConfigurationSet"
             case .sescontactlist: return "AWS::SES::ContactList"
+            case .sesdedicatedippool: return "AWS::SES::DedicatedIpPool"
+            case .sesmailmanagertrafficpolicy: return "AWS::SES::MailManagerTrafficPolicy"
             case .sesreceiptfilter: return "AWS::SES::ReceiptFilter"
             case .sesreceiptruleset: return "AWS::SES::ReceiptRuleSet"
             case .sestemplate: return "AWS::SES::Template"
+            case .ssmcontactscontact: return "AWS::SSMContacts::Contact"
             case .ssmdocument: return "AWS::SSM::Document"
+            case .ssmincidentsresponseplan: return "AWS::SSMIncidents::ResponsePlan"
+            case .ssmresourcedatasync: return "AWS::SSM::ResourceDataSync"
             case .sagemakerappimageconfig: return "AWS::SageMaker::AppImageConfig"
             case .sagemakercoderepository: return "AWS::SageMaker::CodeRepository"
+            case .sagemakerdataqualityjobdefinition: return "AWS::SageMaker::DataQualityJobDefinition"
             case .sagemakerdomain: return "AWS::SageMaker::Domain"
             case .sagemakerfeaturegroup: return "AWS::SageMaker::FeatureGroup"
             case .sagemakerimage: return "AWS::SageMaker::Image"
             case .sagemakerinferenceexperiment: return "AWS::SageMaker::InferenceExperiment"
+            case .sagemakermlflowtrackingserver: return "AWS::SageMaker::MlflowTrackingServer"
             case .sagemakermodel: return "AWS::SageMaker::Model"
+            case .sagemakermodelbiasjobdefinition: return "AWS::SageMaker::ModelBiasJobDefinition"
+            case .sagemakermodelexplainabilityjobdefinition: return "AWS::SageMaker::ModelExplainabilityJobDefinition"
+            case .sagemakermodelqualityjobdefinition: return "AWS::SageMaker::ModelQualityJobDefinition"
             case .sagemakernotebookinstancelifecycleconfig: return "AWS::SageMaker::NotebookInstanceLifecycleConfig"
+            case .sagemakerstudiolifecycleconfig: return "AWS::SageMaker::StudioLifecycleConfig"
+            case .sagemakeruserprofile: return "AWS::SageMaker::UserProfile"
             case .sagemakerworkteam: return "AWS::SageMaker::Workteam"
             case .scalingpolicy: return "AWS::AutoScaling::ScalingPolicy"
             case .scheduledaction: return "AWS::AutoScaling::ScheduledAction"
             case .secret: return "AWS::SecretsManager::Secret"
+            case .secretsmanagerresourcepolicy: return "AWS::SecretsManager::ResourcePolicy"
+            case .secretsmanagerrotationschedule: return "AWS::SecretsManager::RotationSchedule"
             case .securitygroup: return "AWS::EC2::SecurityGroup"
             case .securityhubstandard: return "AWS::SecurityHub::Standard"
             case .servicediscoveryhttpnamespace: return "AWS::ServiceDiscovery::HttpNamespace"
@@ -2045,6 +2317,7 @@ extension ConfigClientTypes {
             case .transfercertificate: return "AWS::Transfer::Certificate"
             case .transferconnector: return "AWS::Transfer::Connector"
             case .transferprofile: return "AWS::Transfer::Profile"
+            case .transferserver: return "AWS::Transfer::Server"
             case .transferworkflow: return "AWS::Transfer::Workflow"
             case .transitgateway: return "AWS::EC2::TransitGateway"
             case .transitgatewayattachment: return "AWS::EC2::TransitGatewayAttachment"
@@ -2619,7 +2892,7 @@ extension ConfigClientTypes {
         public var recordingMode: ConfigClientTypes.RecordingMode?
         /// Specifies whether the [ConfigurationItems](https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationItem.html) in scope for the specified configuration recorder are recorded for free (INTERNAL) or if it impacts the costs to your bill (PAID).
         public var recordingScope: ConfigClientTypes.RecordingScope?
-        /// The Amazon Resource Name (ARN) of the IAM role assumed by Config and used by the specified configuration recorder. The server will reject a request without a defined roleARN for the configuration recorder While the API model does not require this field, the server will reject a request without a defined roleARN for the configuration recorder. Policies and compliance results [IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) and [other policies managed in Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html) can impact whether Config has permissions to record configuration changes for your resources. Additionally, rules directly evaluate the configuration of a resource and rules don't take into account these policies when running evaluations. Make sure that the policies in effect align with how you intend to use Config. Keep Minimum Permisions When Reusing an IAM role If you use an Amazon Web Services service that uses Config, such as Security Hub or Control Tower, and an IAM role has already been created, make sure that the IAM role that you use when setting up Config keeps the same minimum permissions as the pre-existing IAM role. You must do this to ensure that the other Amazon Web Services service continues to run as expected. For example, if Control Tower has an IAM role that allows Config to read S3 objects, make sure that the same permissions are granted to the IAM role you use when setting up Config. Otherwise, it may interfere with how Control Tower operates. The service-linked IAM role for Config must be used for service-linked configuration recorders For service-linked configuration recorders, you must use the service-linked IAM role for Config: [AWSServiceRoleForConfig](https://docs.aws.amazon.com/config/latest/developerguide/using-service-linked-roles.html).
+        /// The Amazon Resource Name (ARN) of the IAM role assumed by Config and used by the specified configuration recorder. The server will reject a request without a defined roleARN for the configuration recorder While the API model does not require this field, the server will reject a request without a defined roleARN for the configuration recorder. Policies and compliance results [IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) and [other policies managed in Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html) can impact whether Config has permissions to record configuration changes for your resources. Additionally, rules directly evaluate the configuration of a resource and rules don't take into account these policies when running evaluations. Make sure that the policies in effect align with how you intend to use Config. Keep Minimum Permisions When Reusing an IAM role If you use an Amazon Web Services service that uses Config, such as Security Hub CSPM or Control Tower, and an IAM role has already been created, make sure that the IAM role that you use when setting up Config keeps the same minimum permissions as the pre-existing IAM role. You must do this to ensure that the other Amazon Web Services service continues to run as expected. For example, if Control Tower has an IAM role that allows Config to read S3 objects, make sure that the same permissions are granted to the IAM role you use when setting up Config. Otherwise, it may interfere with how Control Tower operates. The service-linked IAM role for Config must be used for service-linked configuration recorders For service-linked configuration recorders, you must use the service-linked IAM role for Config: [AWSServiceRoleForConfig](https://docs.aws.amazon.com/config/latest/developerguide/using-service-linked-roles.html).
         public var roleARN: Swift.String?
         /// For service-linked configuration recorders, specifies the linked Amazon Web Services service for the configuration recorder.
         public var servicePrincipal: Swift.String?
@@ -9877,6 +10150,8 @@ public struct PutConformancePackInput: Swift.Sendable {
     public var deliveryS3Bucket: Swift.String?
     /// The prefix for the Amazon S3 bucket. This field is optional.
     public var deliveryS3KeyPrefix: Swift.String?
+    /// The tags for the conformance pack. Each tag consists of a key and an optional value, both of which you define.
+    public var tags: [ConfigClientTypes.Tag]?
     /// A string that contains the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes. You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
     public var templateBody: Swift.String?
     /// The location of the file containing the template body (s3://bucketname/prefix). The uri must point to a conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same Region as the conformance pack. You must have access to read Amazon S3 bucket. In addition, in order to ensure a successful deployment, the template object must not be in an [archived storage class](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html) if this parameter is passed.
@@ -9889,6 +10164,7 @@ public struct PutConformancePackInput: Swift.Sendable {
         conformancePackName: Swift.String? = nil,
         deliveryS3Bucket: Swift.String? = nil,
         deliveryS3KeyPrefix: Swift.String? = nil,
+        tags: [ConfigClientTypes.Tag]? = nil,
         templateBody: Swift.String? = nil,
         templateS3Uri: Swift.String? = nil,
         templateSSMDocumentDetails: ConfigClientTypes.TemplateSSMDocumentDetails? = nil
@@ -9897,6 +10173,7 @@ public struct PutConformancePackInput: Swift.Sendable {
         self.conformancePackName = conformancePackName
         self.deliveryS3Bucket = deliveryS3Bucket
         self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
+        self.tags = tags
         self.templateBody = templateBody
         self.templateS3Uri = templateS3Uri
         self.templateSSMDocumentDetails = templateSSMDocumentDetails
@@ -11999,6 +12276,7 @@ extension PutConformancePackInput {
         try writer["ConformancePackName"].write(value.conformancePackName)
         try writer["DeliveryS3Bucket"].write(value.deliveryS3Bucket)
         try writer["DeliveryS3KeyPrefix"].write(value.deliveryS3KeyPrefix)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: ConfigClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TemplateBody"].write(value.templateBody)
         try writer["TemplateS3Uri"].write(value.templateS3Uri)
         try writer["TemplateSSMDocumentDetails"].write(value.templateSSMDocumentDetails, with: ConfigClientTypes.TemplateSSMDocumentDetails.write(value:to:))
@@ -15588,118 +15866,232 @@ extension IdempotentParameterMismatch {
     }
 }
 
-extension ConfigClientTypes.ConfigurationRecorder {
+extension ConfigClientTypes.AccountAggregationSource {
 
-    static func write(value: ConfigClientTypes.ConfigurationRecorder?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConfigClientTypes.AccountAggregationSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["name"].write(value.name)
-        try writer["recordingGroup"].write(value.recordingGroup, with: ConfigClientTypes.RecordingGroup.write(value:to:))
-        try writer["recordingMode"].write(value.recordingMode, with: ConfigClientTypes.RecordingMode.write(value:to:))
-        try writer["recordingScope"].write(value.recordingScope)
-        try writer["roleARN"].write(value.roleARN)
-        try writer["servicePrincipal"].write(value.servicePrincipal)
+        try writer["AccountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AllAwsRegions"].write(value.allAwsRegions)
+        try writer["AwsRegions"].writeList(value.awsRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationRecorder {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AccountAggregationSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigurationRecorder()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.roleARN = try reader["roleARN"].readIfPresent()
-        value.recordingGroup = try reader["recordingGroup"].readIfPresent(with: ConfigClientTypes.RecordingGroup.read(from:))
-        value.recordingMode = try reader["recordingMode"].readIfPresent(with: ConfigClientTypes.RecordingMode.read(from:))
-        value.recordingScope = try reader["recordingScope"].readIfPresent()
-        value.servicePrincipal = try reader["servicePrincipal"].readIfPresent()
+        var value = ConfigClientTypes.AccountAggregationSource()
+        value.accountIds = try reader["AccountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.allAwsRegions = try reader["AllAwsRegions"].readIfPresent() ?? false
+        value.awsRegions = try reader["AwsRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension ConfigClientTypes.RecordingMode {
+extension ConfigClientTypes.AggregateComplianceByConfigRule {
 
-    static func write(value: ConfigClientTypes.RecordingMode?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["recordingFrequency"].write(value.recordingFrequency)
-        try writer["recordingModeOverrides"].writeList(value.recordingModeOverrides, memberWritingClosure: ConfigClientTypes.RecordingModeOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingMode {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateComplianceByConfigRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RecordingMode()
-        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent() ?? .sdkUnknown("")
-        value.recordingModeOverrides = try reader["recordingModeOverrides"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RecordingModeOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ConfigClientTypes.AggregateComplianceByConfigRule()
+        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
+        value.compliance = try reader["Compliance"].readIfPresent(with: ConfigClientTypes.Compliance.read(from:))
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.awsRegion = try reader["AwsRegion"].readIfPresent()
         return value
     }
 }
 
-extension ConfigClientTypes.RecordingModeOverride {
+extension ConfigClientTypes.AggregateComplianceByConformancePack {
 
-    static func write(value: ConfigClientTypes.RecordingModeOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["recordingFrequency"].write(value.recordingFrequency)
-        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingModeOverride {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateComplianceByConformancePack {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RecordingModeOverride()
-        value.description = try reader["description"].readIfPresent()
-        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent() ?? .sdkUnknown("")
+        var value = ConfigClientTypes.AggregateComplianceByConformancePack()
+        value.conformancePackName = try reader["ConformancePackName"].readIfPresent()
+        value.compliance = try reader["Compliance"].readIfPresent(with: ConfigClientTypes.AggregateConformancePackCompliance.read(from:))
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.awsRegion = try reader["AwsRegion"].readIfPresent()
         return value
     }
 }
 
-extension ConfigClientTypes.RecordingGroup {
+extension ConfigClientTypes.AggregateComplianceCount {
 
-    static func write(value: ConfigClientTypes.RecordingGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allSupported"].write(value.allSupported)
-        try writer["exclusionByResourceTypes"].write(value.exclusionByResourceTypes, with: ConfigClientTypes.ExclusionByResourceTypes.write(value:to:))
-        try writer["includeGlobalResourceTypes"].write(value.includeGlobalResourceTypes)
-        try writer["recordingStrategy"].write(value.recordingStrategy, with: ConfigClientTypes.RecordingStrategy.write(value:to:))
-        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingGroup {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateComplianceCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RecordingGroup()
-        value.allSupported = try reader["allSupported"].readIfPresent() ?? false
-        value.includeGlobalResourceTypes = try reader["includeGlobalResourceTypes"].readIfPresent() ?? false
-        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclusionByResourceTypes = try reader["exclusionByResourceTypes"].readIfPresent(with: ConfigClientTypes.ExclusionByResourceTypes.read(from:))
-        value.recordingStrategy = try reader["recordingStrategy"].readIfPresent(with: ConfigClientTypes.RecordingStrategy.read(from:))
+        var value = ConfigClientTypes.AggregateComplianceCount()
+        value.groupName = try reader["GroupName"].readIfPresent()
+        value.complianceSummary = try reader["ComplianceSummary"].readIfPresent(with: ConfigClientTypes.ComplianceSummary.read(from:))
         return value
     }
 }
 
-extension ConfigClientTypes.RecordingStrategy {
+extension ConfigClientTypes.AggregateConformancePackCompliance {
 
-    static func write(value: ConfigClientTypes.RecordingStrategy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["useOnly"].write(value.useOnly)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingStrategy {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackCompliance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RecordingStrategy()
-        value.useOnly = try reader["useOnly"].readIfPresent()
+        var value = ConfigClientTypes.AggregateConformancePackCompliance()
+        value.complianceType = try reader["ComplianceType"].readIfPresent()
+        value.compliantRuleCount = try reader["CompliantRuleCount"].readIfPresent() ?? 0
+        value.nonCompliantRuleCount = try reader["NonCompliantRuleCount"].readIfPresent() ?? 0
+        value.totalRuleCount = try reader["TotalRuleCount"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension ConfigClientTypes.ExclusionByResourceTypes {
+extension ConfigClientTypes.AggregateConformancePackComplianceCount {
 
-    static func write(value: ConfigClientTypes.ExclusionByResourceTypes?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackComplianceCount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregateConformancePackComplianceCount()
+        value.compliantConformancePackCount = try reader["CompliantConformancePackCount"].readIfPresent() ?? 0
+        value.nonCompliantConformancePackCount = try reader["NonCompliantConformancePackCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregateConformancePackComplianceFilters {
+
+    static func write(value: ConfigClientTypes.AggregateConformancePackComplianceFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AccountId"].write(value.accountId)
+        try writer["AwsRegion"].write(value.awsRegion)
+        try writer["ComplianceType"].write(value.complianceType)
+        try writer["ConformancePackName"].write(value.conformancePackName)
+    }
+}
+
+extension ConfigClientTypes.AggregateConformancePackComplianceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackComplianceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregateConformancePackComplianceSummary()
+        value.complianceSummary = try reader["ComplianceSummary"].readIfPresent(with: ConfigClientTypes.AggregateConformancePackComplianceCount.read(from:))
+        value.groupName = try reader["GroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregateConformancePackComplianceSummaryFilters {
+
+    static func write(value: ConfigClientTypes.AggregateConformancePackComplianceSummaryFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["AwsRegion"].write(value.awsRegion)
+    }
+}
+
+extension ConfigClientTypes.AggregatedSourceStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatedSourceStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregatedSourceStatus()
+        value.sourceId = try reader["SourceId"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.awsRegion = try reader["AwsRegion"].readIfPresent()
+        value.lastUpdateStatus = try reader["LastUpdateStatus"].readIfPresent()
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastErrorCode = try reader["LastErrorCode"].readIfPresent()
+        value.lastErrorMessage = try reader["LastErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregateEvaluationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateEvaluationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregateEvaluationResult()
+        value.evaluationResultIdentifier = try reader["EvaluationResultIdentifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultIdentifier.read(from:))
+        value.complianceType = try reader["ComplianceType"].readIfPresent()
+        value.resultRecordedTime = try reader["ResultRecordedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.configRuleInvokedTime = try reader["ConfigRuleInvokedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.annotation = try reader["Annotation"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.awsRegion = try reader["AwsRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregateResourceIdentifier {
+
+    static func write(value: ConfigClientTypes.AggregateResourceIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceId"].write(value.resourceId)
+        try writer["ResourceName"].write(value.resourceName)
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["SourceAccountId"].write(value.sourceAccountId)
+        try writer["SourceRegion"].write(value.sourceRegion)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ExclusionByResourceTypes {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateResourceIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ExclusionByResourceTypes()
-        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ConfigClientTypes.AggregateResourceIdentifier()
+        value.sourceAccountId = try reader["SourceAccountId"].readIfPresent() ?? ""
+        value.sourceRegion = try reader["SourceRegion"].readIfPresent() ?? ""
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceName = try reader["ResourceName"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregationAuthorization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregationAuthorization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregationAuthorization()
+        value.aggregationAuthorizationArn = try reader["AggregationAuthorizationArn"].readIfPresent()
+        value.authorizedAccountId = try reader["AuthorizedAccountId"].readIfPresent()
+        value.authorizedAwsRegion = try reader["AuthorizedAwsRegion"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregatorFilterResourceType {
+
+    static func write(value: ConfigClientTypes.AggregatorFilterResourceType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatorFilterResourceType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregatorFilterResourceType()
+        value.type = try reader["Type"].readIfPresent()
+        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregatorFilters {
+
+    static func write(value: ConfigClientTypes.AggregatorFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceType"].write(value.resourceType, with: ConfigClientTypes.AggregatorFilterResourceType.write(value:to:))
+        try writer["ServicePrincipal"].write(value.servicePrincipal, with: ConfigClientTypes.AggregatorFilterServicePrincipal.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatorFilters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregatorFilters()
+        value.resourceType = try reader["ResourceType"].readIfPresent(with: ConfigClientTypes.AggregatorFilterResourceType.read(from:))
+        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent(with: ConfigClientTypes.AggregatorFilterServicePrincipal.read(from:))
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregatorFilterServicePrincipal {
+
+    static func write(value: ConfigClientTypes.AggregatorFilterServicePrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatorFilterServicePrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregatorFilterServicePrincipal()
+        value.type = try reader["Type"].readIfPresent()
+        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -15729,87 +16121,6 @@ extension ConfigClientTypes.BaseConfigurationItem {
     }
 }
 
-extension ConfigClientTypes.AggregateResourceIdentifier {
-
-    static func write(value: ConfigClientTypes.AggregateResourceIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceName"].write(value.resourceName)
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["SourceAccountId"].write(value.sourceAccountId)
-        try writer["SourceRegion"].write(value.sourceRegion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateResourceIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateResourceIdentifier()
-        value.sourceAccountId = try reader["SourceAccountId"].readIfPresent() ?? ""
-        value.sourceRegion = try reader["SourceRegion"].readIfPresent() ?? ""
-        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
-        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceName = try reader["ResourceName"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.ResourceKey {
-
-    static func write(value: ConfigClientTypes.ResourceKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["resourceId"].write(value.resourceId)
-        try writer["resourceType"].write(value.resourceType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ResourceKey()
-        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ConfigClientTypes.FailedDeleteRemediationExceptionsBatch {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FailedDeleteRemediationExceptionsBatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.FailedDeleteRemediationExceptionsBatch()
-        value.failureMessage = try reader["FailureMessage"].readIfPresent()
-        value.failedItems = try reader["FailedItems"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RemediationExceptionResourceKey.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConfigClientTypes.RemediationExceptionResourceKey {
-
-    static func write(value: ConfigClientTypes.RemediationExceptionResourceKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RemediationExceptionResourceKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RemediationExceptionResourceKey()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.AggregateComplianceByConfigRule {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateComplianceByConfigRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateComplianceByConfigRule()
-        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
-        value.compliance = try reader["Compliance"].readIfPresent(with: ConfigClientTypes.Compliance.read(from:))
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.awsRegion = try reader["AwsRegion"].readIfPresent()
-        return value
-    }
-}
-
 extension ConfigClientTypes.Compliance {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Compliance {
@@ -15817,56 +16128,6 @@ extension ConfigClientTypes.Compliance {
         var value = ConfigClientTypes.Compliance()
         value.complianceType = try reader["ComplianceType"].readIfPresent()
         value.complianceContributorCount = try reader["ComplianceContributorCount"].readIfPresent(with: ConfigClientTypes.ComplianceContributorCount.read(from:))
-        return value
-    }
-}
-
-extension ConfigClientTypes.ComplianceContributorCount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceContributorCount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ComplianceContributorCount()
-        value.cappedCount = try reader["CappedCount"].readIfPresent() ?? 0
-        value.capExceeded = try reader["CapExceeded"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension ConfigClientTypes.AggregateComplianceByConformancePack {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateComplianceByConformancePack {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateComplianceByConformancePack()
-        value.conformancePackName = try reader["ConformancePackName"].readIfPresent()
-        value.compliance = try reader["Compliance"].readIfPresent(with: ConfigClientTypes.AggregateConformancePackCompliance.read(from:))
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.awsRegion = try reader["AwsRegion"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.AggregateConformancePackCompliance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackCompliance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateConformancePackCompliance()
-        value.complianceType = try reader["ComplianceType"].readIfPresent()
-        value.compliantRuleCount = try reader["CompliantRuleCount"].readIfPresent() ?? 0
-        value.nonCompliantRuleCount = try reader["NonCompliantRuleCount"].readIfPresent() ?? 0
-        value.totalRuleCount = try reader["TotalRuleCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ConfigClientTypes.AggregationAuthorization {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregationAuthorization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregationAuthorization()
-        value.aggregationAuthorizationArn = try reader["AggregationAuthorizationArn"].readIfPresent()
-        value.authorizedAccountId = try reader["AuthorizedAccountId"].readIfPresent()
-        value.authorizedAwsRegion = try reader["AuthorizedAwsRegion"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -15894,26 +16155,51 @@ extension ConfigClientTypes.ComplianceByResource {
     }
 }
 
-extension ConfigClientTypes.ConfigRuleEvaluationStatus {
+extension ConfigClientTypes.ComplianceContributorCount {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigRuleEvaluationStatus {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceContributorCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigRuleEvaluationStatus()
-        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
-        value.configRuleArn = try reader["ConfigRuleArn"].readIfPresent()
-        value.configRuleId = try reader["ConfigRuleId"].readIfPresent()
-        value.lastSuccessfulInvocationTime = try reader["LastSuccessfulInvocationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastFailedInvocationTime = try reader["LastFailedInvocationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastSuccessfulEvaluationTime = try reader["LastSuccessfulEvaluationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastFailedEvaluationTime = try reader["LastFailedEvaluationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.firstActivatedTime = try reader["FirstActivatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastDeactivatedTime = try reader["LastDeactivatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastErrorCode = try reader["LastErrorCode"].readIfPresent()
-        value.lastErrorMessage = try reader["LastErrorMessage"].readIfPresent()
-        value.firstEvaluationStarted = try reader["FirstEvaluationStarted"].readIfPresent() ?? false
-        value.lastDebugLogDeliveryStatus = try reader["LastDebugLogDeliveryStatus"].readIfPresent()
-        value.lastDebugLogDeliveryStatusReason = try reader["LastDebugLogDeliveryStatusReason"].readIfPresent()
-        value.lastDebugLogDeliveryTime = try reader["LastDebugLogDeliveryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = ConfigClientTypes.ComplianceContributorCount()
+        value.cappedCount = try reader["CappedCount"].readIfPresent() ?? 0
+        value.capExceeded = try reader["CapExceeded"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension ConfigClientTypes.ComplianceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ComplianceSummary()
+        value.compliantResourceCount = try reader["CompliantResourceCount"].readIfPresent(with: ConfigClientTypes.ComplianceContributorCount.read(from:))
+        value.nonCompliantResourceCount = try reader["NonCompliantResourceCount"].readIfPresent(with: ConfigClientTypes.ComplianceContributorCount.read(from:))
+        value.complianceSummaryTimestamp = try reader["ComplianceSummaryTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.ComplianceSummaryByResourceType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceSummaryByResourceType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ComplianceSummaryByResourceType()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.complianceSummary = try reader["ComplianceSummary"].readIfPresent(with: ConfigClientTypes.ComplianceSummary.read(from:))
+        return value
+    }
+}
+
+extension ConfigClientTypes.ConfigExportDeliveryInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigExportDeliveryInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ConfigExportDeliveryInfo()
+        value.lastStatus = try reader["lastStatus"].readIfPresent()
+        value.lastErrorCode = try reader["lastErrorCode"].readIfPresent()
+        value.lastErrorMessage = try reader["lastErrorMessage"].readIfPresent()
+        value.lastAttemptTime = try reader["lastAttemptTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastSuccessfulTime = try reader["lastSuccessfulTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.nextDeliveryTime = try reader["nextDeliveryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -15953,97 +16239,74 @@ extension ConfigClientTypes.ConfigRule {
     }
 }
 
-extension ConfigClientTypes.EvaluationModeConfiguration {
+extension ConfigClientTypes.ConfigRuleComplianceFilters {
 
-    static func write(value: ConfigClientTypes.EvaluationModeConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConfigClientTypes.ConfigRuleComplianceFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Mode"].write(value.mode)
+        try writer["AccountId"].write(value.accountId)
+        try writer["AwsRegion"].write(value.awsRegion)
+        try writer["ComplianceType"].write(value.complianceType)
+        try writer["ConfigRuleName"].write(value.configRuleName)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationModeConfiguration {
+extension ConfigClientTypes.ConfigRuleComplianceSummaryFilters {
+
+    static func write(value: ConfigClientTypes.ConfigRuleComplianceSummaryFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["AwsRegion"].write(value.awsRegion)
+    }
+}
+
+extension ConfigClientTypes.ConfigRuleEvaluationStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigRuleEvaluationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.EvaluationModeConfiguration()
-        value.mode = try reader["Mode"].readIfPresent()
+        var value = ConfigClientTypes.ConfigRuleEvaluationStatus()
+        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
+        value.configRuleArn = try reader["ConfigRuleArn"].readIfPresent()
+        value.configRuleId = try reader["ConfigRuleId"].readIfPresent()
+        value.lastSuccessfulInvocationTime = try reader["LastSuccessfulInvocationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastFailedInvocationTime = try reader["LastFailedInvocationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastSuccessfulEvaluationTime = try reader["LastSuccessfulEvaluationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastFailedEvaluationTime = try reader["LastFailedEvaluationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.firstActivatedTime = try reader["FirstActivatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastDeactivatedTime = try reader["LastDeactivatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastErrorCode = try reader["LastErrorCode"].readIfPresent()
+        value.lastErrorMessage = try reader["LastErrorMessage"].readIfPresent()
+        value.firstEvaluationStarted = try reader["FirstEvaluationStarted"].readIfPresent() ?? false
+        value.lastDebugLogDeliveryStatus = try reader["LastDebugLogDeliveryStatus"].readIfPresent()
+        value.lastDebugLogDeliveryStatusReason = try reader["LastDebugLogDeliveryStatusReason"].readIfPresent()
+        value.lastDebugLogDeliveryTime = try reader["LastDebugLogDeliveryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension ConfigClientTypes.Source {
+extension ConfigClientTypes.ConfigSnapshotDeliveryProperties {
 
-    static func write(value: ConfigClientTypes.Source?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConfigClientTypes.ConfigSnapshotDeliveryProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CustomPolicyDetails"].write(value.customPolicyDetails, with: ConfigClientTypes.CustomPolicyDetails.write(value:to:))
-        try writer["Owner"].write(value.owner)
-        try writer["SourceDetails"].writeList(value.sourceDetails, memberWritingClosure: ConfigClientTypes.SourceDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourceIdentifier"].write(value.sourceIdentifier)
+        try writer["deliveryFrequency"].write(value.deliveryFrequency)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Source {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigSnapshotDeliveryProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.Source()
-        value.owner = try reader["Owner"].readIfPresent() ?? .sdkUnknown("")
-        value.sourceIdentifier = try reader["SourceIdentifier"].readIfPresent()
-        value.sourceDetails = try reader["SourceDetails"].readListIfPresent(memberReadingClosure: ConfigClientTypes.SourceDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.customPolicyDetails = try reader["CustomPolicyDetails"].readIfPresent(with: ConfigClientTypes.CustomPolicyDetails.read(from:))
+        var value = ConfigClientTypes.ConfigSnapshotDeliveryProperties()
+        value.deliveryFrequency = try reader["deliveryFrequency"].readIfPresent()
         return value
     }
 }
 
-extension ConfigClientTypes.CustomPolicyDetails {
+extension ConfigClientTypes.ConfigStreamDeliveryInfo {
 
-    static func write(value: ConfigClientTypes.CustomPolicyDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EnableDebugLogDelivery"].write(value.enableDebugLogDelivery)
-        try writer["PolicyRuntime"].write(value.policyRuntime)
-        try writer["PolicyText"].write(value.policyText)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.CustomPolicyDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigStreamDeliveryInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.CustomPolicyDetails()
-        value.policyRuntime = try reader["PolicyRuntime"].readIfPresent() ?? ""
-        value.policyText = try reader["PolicyText"].readIfPresent() ?? ""
-        value.enableDebugLogDelivery = try reader["EnableDebugLogDelivery"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension ConfigClientTypes.SourceDetail {
-
-    static func write(value: ConfigClientTypes.SourceDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EventSource"].write(value.eventSource)
-        try writer["MaximumExecutionFrequency"].write(value.maximumExecutionFrequency)
-        try writer["MessageType"].write(value.messageType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.SourceDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.SourceDetail()
-        value.eventSource = try reader["EventSource"].readIfPresent()
-        value.messageType = try reader["MessageType"].readIfPresent()
-        value.maximumExecutionFrequency = try reader["MaximumExecutionFrequency"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.Scope {
-
-    static func write(value: ConfigClientTypes.Scope?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceResourceId"].write(value.complianceResourceId)
-        try writer["ComplianceResourceTypes"].writeList(value.complianceResourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TagKey"].write(value.tagKey)
-        try writer["TagValue"].write(value.tagValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Scope {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.Scope()
-        value.complianceResourceTypes = try reader["ComplianceResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tagKey = try reader["TagKey"].readIfPresent()
-        value.tagValue = try reader["TagValue"].readIfPresent()
-        value.complianceResourceId = try reader["ComplianceResourceId"].readIfPresent()
+        var value = ConfigClientTypes.ConfigStreamDeliveryInfo()
+        value.lastStatus = try reader["lastStatus"].readIfPresent()
+        value.lastErrorCode = try reader["lastErrorCode"].readIfPresent()
+        value.lastErrorMessage = try reader["lastErrorMessage"].readIfPresent()
+        value.lastStatusChangeTime = try reader["lastStatusChangeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -16065,108 +16328,68 @@ extension ConfigClientTypes.ConfigurationAggregator {
     }
 }
 
-extension ConfigClientTypes.AggregatorFilters {
+extension ConfigClientTypes.ConfigurationItem {
 
-    static func write(value: ConfigClientTypes.AggregatorFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceType"].write(value.resourceType, with: ConfigClientTypes.AggregatorFilterResourceType.write(value:to:))
-        try writer["ServicePrincipal"].write(value.servicePrincipal, with: ConfigClientTypes.AggregatorFilterServicePrincipal.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatorFilters {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregatorFilters()
-        value.resourceType = try reader["ResourceType"].readIfPresent(with: ConfigClientTypes.AggregatorFilterResourceType.read(from:))
-        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent(with: ConfigClientTypes.AggregatorFilterServicePrincipal.read(from:))
+        var value = ConfigClientTypes.ConfigurationItem()
+        value.version = try reader["version"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.configurationItemCaptureTime = try reader["configurationItemCaptureTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.configurationItemStatus = try reader["configurationItemStatus"].readIfPresent()
+        value.configurationStateId = try reader["configurationStateId"].readIfPresent()
+        value.configurationItemMD5Hash = try reader["configurationItemMD5Hash"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceName = try reader["resourceName"].readIfPresent()
+        value.awsRegion = try reader["awsRegion"].readIfPresent()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.resourceCreationTime = try reader["resourceCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.relatedEvents = try reader["relatedEvents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.relationships = try reader["relationships"].readListIfPresent(memberReadingClosure: ConfigClientTypes.Relationship.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.configuration = try reader["configuration"].readIfPresent()
+        value.supplementaryConfiguration = try reader["supplementaryConfiguration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent()
+        value.configurationItemDeliveryTime = try reader["configurationItemDeliveryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension ConfigClientTypes.AggregatorFilterServicePrincipal {
+extension ConfigClientTypes.ConfigurationRecorder {
 
-    static func write(value: ConfigClientTypes.AggregatorFilterServicePrincipal?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConfigClientTypes.ConfigurationRecorder?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["arn"].write(value.arn)
+        try writer["name"].write(value.name)
+        try writer["recordingGroup"].write(value.recordingGroup, with: ConfigClientTypes.RecordingGroup.write(value:to:))
+        try writer["recordingMode"].write(value.recordingMode, with: ConfigClientTypes.RecordingMode.write(value:to:))
+        try writer["recordingScope"].write(value.recordingScope)
+        try writer["roleARN"].write(value.roleARN)
+        try writer["servicePrincipal"].write(value.servicePrincipal)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatorFilterServicePrincipal {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationRecorder {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregatorFilterServicePrincipal()
-        value.type = try reader["Type"].readIfPresent()
-        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ConfigClientTypes.ConfigurationRecorder()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.roleARN = try reader["roleARN"].readIfPresent()
+        value.recordingGroup = try reader["recordingGroup"].readIfPresent(with: ConfigClientTypes.RecordingGroup.read(from:))
+        value.recordingMode = try reader["recordingMode"].readIfPresent(with: ConfigClientTypes.RecordingMode.read(from:))
+        value.recordingScope = try reader["recordingScope"].readIfPresent()
+        value.servicePrincipal = try reader["servicePrincipal"].readIfPresent()
         return value
     }
 }
 
-extension ConfigClientTypes.AggregatorFilterResourceType {
+extension ConfigClientTypes.ConfigurationRecorderFilter {
 
-    static func write(value: ConfigClientTypes.AggregatorFilterResourceType?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConfigClientTypes.ConfigurationRecorderFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatorFilterResourceType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregatorFilterResourceType()
-        value.type = try reader["Type"].readIfPresent()
-        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConfigClientTypes.OrganizationAggregationSource {
-
-    static func write(value: ConfigClientTypes.OrganizationAggregationSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllAwsRegions"].write(value.allAwsRegions)
-        try writer["AwsRegions"].writeList(value.awsRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RoleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationAggregationSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.OrganizationAggregationSource()
-        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
-        value.awsRegions = try reader["AwsRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allAwsRegions = try reader["AllAwsRegions"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension ConfigClientTypes.AccountAggregationSource {
-
-    static func write(value: ConfigClientTypes.AccountAggregationSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AllAwsRegions"].write(value.allAwsRegions)
-        try writer["AwsRegions"].writeList(value.awsRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AccountAggregationSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AccountAggregationSource()
-        value.accountIds = try reader["AccountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.allAwsRegions = try reader["AllAwsRegions"].readIfPresent() ?? false
-        value.awsRegions = try reader["AwsRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConfigClientTypes.AggregatedSourceStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatedSourceStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregatedSourceStatus()
-        value.sourceId = try reader["SourceId"].readIfPresent()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.awsRegion = try reader["AwsRegion"].readIfPresent()
-        value.lastUpdateStatus = try reader["LastUpdateStatus"].readIfPresent()
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastErrorCode = try reader["LastErrorCode"].readIfPresent()
-        value.lastErrorMessage = try reader["LastErrorMessage"].readIfPresent()
-        return value
+        try writer["filterName"].write(value.filterName)
+        try writer["filterValue"].writeList(value.filterValue, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -16189,14 +16412,55 @@ extension ConfigClientTypes.ConfigurationRecorderStatus {
     }
 }
 
-extension ConfigClientTypes.ConformancePackRuleCompliance {
+extension ConfigClientTypes.ConfigurationRecorderSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackRuleCompliance {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationRecorderSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConformancePackRuleCompliance()
-        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
-        value.complianceType = try reader["ComplianceType"].readIfPresent()
-        value.controls = try reader["Controls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ConfigClientTypes.ConfigurationRecorderSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.servicePrincipal = try reader["servicePrincipal"].readIfPresent()
+        value.recordingScope = try reader["recordingScope"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConfigClientTypes.ConformancePackComplianceFilters {
+
+    static func write(value: ConfigClientTypes.ConformancePackComplianceFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComplianceType"].write(value.complianceType)
+        try writer["ConfigRuleNames"].writeList(value.configRuleNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConfigClientTypes.ConformancePackComplianceScore {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackComplianceScore {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ConformancePackComplianceScore()
+        value.score = try reader["Score"].readIfPresent()
+        value.conformancePackName = try reader["ConformancePackName"].readIfPresent()
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.ConformancePackComplianceScoresFilters {
+
+    static func write(value: ConfigClientTypes.ConformancePackComplianceScoresFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConformancePackNames"].writeList(value.conformancePackNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConfigClientTypes.ConformancePackComplianceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackComplianceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ConformancePackComplianceSummary()
+        value.conformancePackName = try reader["ConformancePackName"].readIfPresent() ?? ""
+        value.conformancePackComplianceStatus = try reader["ConformancePackComplianceStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -16219,19 +16483,27 @@ extension ConfigClientTypes.ConformancePackDetail {
     }
 }
 
-extension ConfigClientTypes.TemplateSSMDocumentDetails {
+extension ConfigClientTypes.ConformancePackEvaluationFilters {
 
-    static func write(value: ConfigClientTypes.TemplateSSMDocumentDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConfigClientTypes.ConformancePackEvaluationFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DocumentName"].write(value.documentName)
-        try writer["DocumentVersion"].write(value.documentVersion)
+        try writer["ComplianceType"].write(value.complianceType)
+        try writer["ConfigRuleNames"].writeList(value.configRuleNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResourceIds"].writeList(value.resourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResourceType"].write(value.resourceType)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.TemplateSSMDocumentDetails {
+extension ConfigClientTypes.ConformancePackEvaluationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackEvaluationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.TemplateSSMDocumentDetails()
-        value.documentName = try reader["DocumentName"].readIfPresent() ?? ""
-        value.documentVersion = try reader["DocumentVersion"].readIfPresent()
+        var value = ConfigClientTypes.ConformancePackEvaluationResult()
+        value.complianceType = try reader["ComplianceType"].readIfPresent() ?? .sdkUnknown("")
+        value.evaluationResultIdentifier = try reader["EvaluationResultIdentifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultIdentifier.read(from:))
+        value.configRuleInvokedTime = try reader["ConfigRuleInvokedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.resultRecordedTime = try reader["ResultRecordedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.annotation = try reader["Annotation"].readIfPresent()
         return value
     }
 }
@@ -16253,6 +16525,18 @@ extension ConfigClientTypes.ConformancePackInputParameter {
     }
 }
 
+extension ConfigClientTypes.ConformancePackRuleCompliance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackRuleCompliance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ConformancePackRuleCompliance()
+        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
+        value.complianceType = try reader["ComplianceType"].readIfPresent()
+        value.controls = try reader["Controls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ConfigClientTypes.ConformancePackStatusDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackStatusDetail {
@@ -16266,6 +16550,25 @@ extension ConfigClientTypes.ConformancePackStatusDetail {
         value.conformancePackStatusReason = try reader["ConformancePackStatusReason"].readIfPresent()
         value.lastUpdateRequestedTime = try reader["LastUpdateRequestedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdateCompletedTime = try reader["LastUpdateCompletedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.CustomPolicyDetails {
+
+    static func write(value: ConfigClientTypes.CustomPolicyDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnableDebugLogDelivery"].write(value.enableDebugLogDelivery)
+        try writer["PolicyRuntime"].write(value.policyRuntime)
+        try writer["PolicyText"].write(value.policyText)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.CustomPolicyDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.CustomPolicyDetails()
+        value.policyRuntime = try reader["PolicyRuntime"].readIfPresent() ?? ""
+        value.policyText = try reader["PolicyText"].readIfPresent() ?? ""
+        value.enableDebugLogDelivery = try reader["EnableDebugLogDelivery"].readIfPresent() ?? false
         return value
     }
 }
@@ -16295,21 +16598,6 @@ extension ConfigClientTypes.DeliveryChannel {
     }
 }
 
-extension ConfigClientTypes.ConfigSnapshotDeliveryProperties {
-
-    static func write(value: ConfigClientTypes.ConfigSnapshotDeliveryProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deliveryFrequency"].write(value.deliveryFrequency)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigSnapshotDeliveryProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigSnapshotDeliveryProperties()
-        value.deliveryFrequency = try reader["deliveryFrequency"].readIfPresent()
-        return value
-    }
-}
-
 extension ConfigClientTypes.DeliveryChannelStatus {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.DeliveryChannelStatus {
@@ -16323,30 +16611,244 @@ extension ConfigClientTypes.DeliveryChannelStatus {
     }
 }
 
-extension ConfigClientTypes.ConfigStreamDeliveryInfo {
+extension ConfigClientTypes.DescribeConfigRulesFilters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigStreamDeliveryInfo {
+    static func write(value: ConfigClientTypes.DescribeConfigRulesFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EvaluationMode"].write(value.evaluationMode)
+    }
+}
+
+extension ConfigClientTypes.Evaluation {
+
+    static func write(value: ConfigClientTypes.Evaluation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Annotation"].write(value.annotation)
+        try writer["ComplianceResourceId"].write(value.complianceResourceId)
+        try writer["ComplianceResourceType"].write(value.complianceResourceType)
+        try writer["ComplianceType"].write(value.complianceType)
+        try writer["OrderingTimestamp"].writeTimestamp(value.orderingTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Evaluation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigStreamDeliveryInfo()
-        value.lastStatus = try reader["lastStatus"].readIfPresent()
-        value.lastErrorCode = try reader["lastErrorCode"].readIfPresent()
-        value.lastErrorMessage = try reader["lastErrorMessage"].readIfPresent()
-        value.lastStatusChangeTime = try reader["lastStatusChangeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = ConfigClientTypes.Evaluation()
+        value.complianceResourceType = try reader["ComplianceResourceType"].readIfPresent() ?? ""
+        value.complianceResourceId = try reader["ComplianceResourceId"].readIfPresent() ?? ""
+        value.complianceType = try reader["ComplianceType"].readIfPresent() ?? .sdkUnknown("")
+        value.annotation = try reader["Annotation"].readIfPresent()
+        value.orderingTimestamp = try reader["OrderingTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
 
-extension ConfigClientTypes.ConfigExportDeliveryInfo {
+extension ConfigClientTypes.EvaluationContext {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigExportDeliveryInfo {
+    static func write(value: ConfigClientTypes.EvaluationContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EvaluationContextIdentifier"].write(value.evaluationContextIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigExportDeliveryInfo()
-        value.lastStatus = try reader["lastStatus"].readIfPresent()
-        value.lastErrorCode = try reader["lastErrorCode"].readIfPresent()
-        value.lastErrorMessage = try reader["lastErrorMessage"].readIfPresent()
-        value.lastAttemptTime = try reader["lastAttemptTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastSuccessfulTime = try reader["lastSuccessfulTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.nextDeliveryTime = try reader["nextDeliveryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = ConfigClientTypes.EvaluationContext()
+        value.evaluationContextIdentifier = try reader["EvaluationContextIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.EvaluationModeConfiguration {
+
+    static func write(value: ConfigClientTypes.EvaluationModeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Mode"].write(value.mode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationModeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.EvaluationModeConfiguration()
+        value.mode = try reader["Mode"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.EvaluationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.EvaluationResult()
+        value.evaluationResultIdentifier = try reader["EvaluationResultIdentifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultIdentifier.read(from:))
+        value.complianceType = try reader["ComplianceType"].readIfPresent()
+        value.resultRecordedTime = try reader["ResultRecordedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.configRuleInvokedTime = try reader["ConfigRuleInvokedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.annotation = try reader["Annotation"].readIfPresent()
+        value.resultToken = try reader["ResultToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.EvaluationResultIdentifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationResultIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.EvaluationResultIdentifier()
+        value.evaluationResultQualifier = try reader["EvaluationResultQualifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultQualifier.read(from:))
+        value.orderingTimestamp = try reader["OrderingTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.resourceEvaluationId = try reader["ResourceEvaluationId"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.EvaluationResultQualifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationResultQualifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.EvaluationResultQualifier()
+        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.evaluationMode = try reader["EvaluationMode"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.EvaluationStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.EvaluationStatus()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.ExclusionByResourceTypes {
+
+    static func write(value: ConfigClientTypes.ExclusionByResourceTypes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ExclusionByResourceTypes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ExclusionByResourceTypes()
+        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConfigClientTypes.ExecutionControls {
+
+    static func write(value: ConfigClientTypes.ExecutionControls?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SsmControls"].write(value.ssmControls, with: ConfigClientTypes.SsmControls.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ExecutionControls {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ExecutionControls()
+        value.ssmControls = try reader["SsmControls"].readIfPresent(with: ConfigClientTypes.SsmControls.read(from:))
+        return value
+    }
+}
+
+extension ConfigClientTypes.ExternalEvaluation {
+
+    static func write(value: ConfigClientTypes.ExternalEvaluation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Annotation"].write(value.annotation)
+        try writer["ComplianceResourceId"].write(value.complianceResourceId)
+        try writer["ComplianceResourceType"].write(value.complianceResourceType)
+        try writer["ComplianceType"].write(value.complianceType)
+        try writer["OrderingTimestamp"].writeTimestamp(value.orderingTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension ConfigClientTypes.FailedDeleteRemediationExceptionsBatch {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FailedDeleteRemediationExceptionsBatch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.FailedDeleteRemediationExceptionsBatch()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.failedItems = try reader["FailedItems"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RemediationExceptionResourceKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConfigClientTypes.FailedRemediationBatch {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FailedRemediationBatch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.FailedRemediationBatch()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.failedItems = try reader["FailedItems"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RemediationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConfigClientTypes.FailedRemediationExceptionBatch {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FailedRemediationExceptionBatch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.FailedRemediationExceptionBatch()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.failedItems = try reader["FailedItems"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RemediationException.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConfigClientTypes.FieldInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FieldInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.FieldInfo()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.GroupedResourceCount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.GroupedResourceCount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.GroupedResourceCount()
+        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
+        value.resourceCount = try reader["ResourceCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ConfigClientTypes.MemberAccountStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.MemberAccountStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.MemberAccountStatus()
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.configRuleName = try reader["ConfigRuleName"].readIfPresent() ?? ""
+        value.memberAccountRuleStatus = try reader["MemberAccountRuleStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.OrganizationAggregationSource {
+
+    static func write(value: ConfigClientTypes.OrganizationAggregationSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllAwsRegions"].write(value.allAwsRegions)
+        try writer["AwsRegions"].writeList(value.awsRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationAggregationSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.OrganizationAggregationSource()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.awsRegions = try reader["AwsRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allAwsRegions = try reader["AllAwsRegions"].readIfPresent() ?? false
         return value
     }
 }
@@ -16364,6 +16866,83 @@ extension ConfigClientTypes.OrganizationConfigRule {
         value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.organizationCustomPolicyRuleMetadata = try reader["OrganizationCustomPolicyRuleMetadata"].readIfPresent(with: ConfigClientTypes.OrganizationCustomPolicyRuleMetadataNoPolicy.read(from:))
         return value
+    }
+}
+
+extension ConfigClientTypes.OrganizationConfigRuleStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConfigRuleStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.OrganizationConfigRuleStatus()
+        value.organizationConfigRuleName = try reader["OrganizationConfigRuleName"].readIfPresent() ?? ""
+        value.organizationRuleStatus = try reader["OrganizationRuleStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.OrganizationConformancePack {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePack {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.OrganizationConformancePack()
+        value.organizationConformancePackName = try reader["OrganizationConformancePackName"].readIfPresent() ?? ""
+        value.organizationConformancePackArn = try reader["OrganizationConformancePackArn"].readIfPresent() ?? ""
+        value.deliveryS3Bucket = try reader["DeliveryS3Bucket"].readIfPresent()
+        value.deliveryS3KeyPrefix = try reader["DeliveryS3KeyPrefix"].readIfPresent()
+        value.conformancePackInputParameters = try reader["ConformancePackInputParameters"].readListIfPresent(memberReadingClosure: ConfigClientTypes.ConformancePackInputParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludedAccounts = try reader["ExcludedAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ConfigClientTypes.OrganizationConformancePackDetailedStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePackDetailedStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.OrganizationConformancePackDetailedStatus()
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.conformancePackName = try reader["ConformancePackName"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.OrganizationConformancePackStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePackStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.OrganizationConformancePackStatus()
+        value.organizationConformancePackName = try reader["OrganizationConformancePackName"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.OrganizationCustomPolicyRuleMetadata {
+
+    static func write(value: ConfigClientTypes.OrganizationCustomPolicyRuleMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DebugLogDeliveryAccounts"].writeList(value.debugLogDeliveryAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["InputParameters"].write(value.inputParameters)
+        try writer["MaximumExecutionFrequency"].write(value.maximumExecutionFrequency)
+        try writer["OrganizationConfigRuleTriggerTypes"].writeList(value.organizationConfigRuleTriggerTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.OrganizationConfigRuleTriggerTypeNoSN>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PolicyRuntime"].write(value.policyRuntime)
+        try writer["PolicyText"].write(value.policyText)
+        try writer["ResourceIdScope"].write(value.resourceIdScope)
+        try writer["ResourceTypesScope"].writeList(value.resourceTypesScope, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TagKeyScope"].write(value.tagKeyScope)
+        try writer["TagValueScope"].write(value.tagValueScope)
     }
 }
 
@@ -16446,47 +17025,12 @@ extension ConfigClientTypes.OrganizationManagedRuleMetadata {
     }
 }
 
-extension ConfigClientTypes.OrganizationConfigRuleStatus {
+extension ConfigClientTypes.OrganizationResourceDetailedStatusFilters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConfigRuleStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.OrganizationConfigRuleStatus()
-        value.organizationConfigRuleName = try reader["OrganizationConfigRuleName"].readIfPresent() ?? ""
-        value.organizationRuleStatus = try reader["OrganizationRuleStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ConfigClientTypes.OrganizationConformancePack {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePack {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.OrganizationConformancePack()
-        value.organizationConformancePackName = try reader["OrganizationConformancePackName"].readIfPresent() ?? ""
-        value.organizationConformancePackArn = try reader["OrganizationConformancePackArn"].readIfPresent() ?? ""
-        value.deliveryS3Bucket = try reader["DeliveryS3Bucket"].readIfPresent()
-        value.deliveryS3KeyPrefix = try reader["DeliveryS3KeyPrefix"].readIfPresent()
-        value.conformancePackInputParameters = try reader["ConformancePackInputParameters"].readListIfPresent(memberReadingClosure: ConfigClientTypes.ConformancePackInputParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludedAccounts = try reader["ExcludedAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension ConfigClientTypes.OrganizationConformancePackStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePackStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.OrganizationConformancePackStatus()
-        value.organizationConformancePackName = try reader["OrganizationConformancePackName"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
+    static func write(value: ConfigClientTypes.OrganizationResourceDetailedStatusFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["Status"].write(value.status)
     }
 }
 
@@ -16497,6 +17041,103 @@ extension ConfigClientTypes.PendingAggregationRequest {
         var value = ConfigClientTypes.PendingAggregationRequest()
         value.requesterAccountId = try reader["RequesterAccountId"].readIfPresent()
         value.requesterAwsRegion = try reader["RequesterAwsRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.QueryInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.QueryInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.QueryInfo()
+        value.selectFields = try reader["SelectFields"].readListIfPresent(memberReadingClosure: ConfigClientTypes.FieldInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConfigClientTypes.RecordingGroup {
+
+    static func write(value: ConfigClientTypes.RecordingGroup?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allSupported"].write(value.allSupported)
+        try writer["exclusionByResourceTypes"].write(value.exclusionByResourceTypes, with: ConfigClientTypes.ExclusionByResourceTypes.write(value:to:))
+        try writer["includeGlobalResourceTypes"].write(value.includeGlobalResourceTypes)
+        try writer["recordingStrategy"].write(value.recordingStrategy, with: ConfigClientTypes.RecordingStrategy.write(value:to:))
+        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.RecordingGroup()
+        value.allSupported = try reader["allSupported"].readIfPresent() ?? false
+        value.includeGlobalResourceTypes = try reader["includeGlobalResourceTypes"].readIfPresent() ?? false
+        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionByResourceTypes = try reader["exclusionByResourceTypes"].readIfPresent(with: ConfigClientTypes.ExclusionByResourceTypes.read(from:))
+        value.recordingStrategy = try reader["recordingStrategy"].readIfPresent(with: ConfigClientTypes.RecordingStrategy.read(from:))
+        return value
+    }
+}
+
+extension ConfigClientTypes.RecordingMode {
+
+    static func write(value: ConfigClientTypes.RecordingMode?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recordingFrequency"].write(value.recordingFrequency)
+        try writer["recordingModeOverrides"].writeList(value.recordingModeOverrides, memberWritingClosure: ConfigClientTypes.RecordingModeOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingMode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.RecordingMode()
+        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent() ?? .sdkUnknown("")
+        value.recordingModeOverrides = try reader["recordingModeOverrides"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RecordingModeOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConfigClientTypes.RecordingModeOverride {
+
+    static func write(value: ConfigClientTypes.RecordingModeOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["recordingFrequency"].write(value.recordingFrequency)
+        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingModeOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.RecordingModeOverride()
+        value.description = try reader["description"].readIfPresent()
+        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConfigClientTypes.RecordingStrategy {
+
+    static func write(value: ConfigClientTypes.RecordingStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["useOnly"].write(value.useOnly)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.RecordingStrategy()
+        value.useOnly = try reader["useOnly"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.Relationship {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Relationship {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.Relationship()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceName = try reader["resourceName"].readIfPresent()
+        value.relationshipName = try reader["relationshipName"].readIfPresent()
         return value
     }
 }
@@ -16538,85 +17179,6 @@ extension ConfigClientTypes.RemediationConfiguration {
     }
 }
 
-extension ConfigClientTypes.ExecutionControls {
-
-    static func write(value: ConfigClientTypes.ExecutionControls?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SsmControls"].write(value.ssmControls, with: ConfigClientTypes.SsmControls.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ExecutionControls {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ExecutionControls()
-        value.ssmControls = try reader["SsmControls"].readIfPresent(with: ConfigClientTypes.SsmControls.read(from:))
-        return value
-    }
-}
-
-extension ConfigClientTypes.SsmControls {
-
-    static func write(value: ConfigClientTypes.SsmControls?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConcurrentExecutionRatePercentage"].write(value.concurrentExecutionRatePercentage)
-        try writer["ErrorPercentage"].write(value.errorPercentage)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.SsmControls {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.SsmControls()
-        value.concurrentExecutionRatePercentage = try reader["ConcurrentExecutionRatePercentage"].readIfPresent()
-        value.errorPercentage = try reader["ErrorPercentage"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.RemediationParameterValue {
-
-    static func write(value: ConfigClientTypes.RemediationParameterValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceValue"].write(value.resourceValue, with: ConfigClientTypes.ResourceValue.write(value:to:))
-        try writer["StaticValue"].write(value.staticValue, with: ConfigClientTypes.StaticValue.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RemediationParameterValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RemediationParameterValue()
-        value.resourceValue = try reader["ResourceValue"].readIfPresent(with: ConfigClientTypes.ResourceValue.read(from:))
-        value.staticValue = try reader["StaticValue"].readIfPresent(with: ConfigClientTypes.StaticValue.read(from:))
-        return value
-    }
-}
-
-extension ConfigClientTypes.StaticValue {
-
-    static func write(value: ConfigClientTypes.StaticValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.StaticValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.StaticValue()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension ConfigClientTypes.ResourceValue {
-
-    static func write(value: ConfigClientTypes.ResourceValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ResourceValue()
-        value.value = try reader["Value"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
 extension ConfigClientTypes.RemediationException {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RemediationException {
@@ -16627,6 +17189,23 @@ extension ConfigClientTypes.RemediationException {
         value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
         value.message = try reader["Message"].readIfPresent()
         value.expirationTime = try reader["ExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.RemediationExceptionResourceKey {
+
+    static func write(value: ConfigClientTypes.RemediationExceptionResourceKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceId"].write(value.resourceId)
+        try writer["ResourceType"].write(value.resourceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RemediationExceptionResourceKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.RemediationExceptionResourceKey()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
         return value
     }
 }
@@ -16659,203 +17238,19 @@ extension ConfigClientTypes.RemediationExecutionStep {
     }
 }
 
-extension ConfigClientTypes.RetentionConfiguration {
+extension ConfigClientTypes.RemediationParameterValue {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RetentionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RetentionConfiguration()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.retentionPeriodInDays = try reader["RetentionPeriodInDays"].readIfPresent() ?? 0
-        return value
+    static func write(value: ConfigClientTypes.RemediationParameterValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceValue"].write(value.resourceValue, with: ConfigClientTypes.ResourceValue.write(value:to:))
+        try writer["StaticValue"].write(value.staticValue, with: ConfigClientTypes.StaticValue.write(value:to:))
     }
-}
 
-extension ConfigClientTypes.AggregateEvaluationResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateEvaluationResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RemediationParameterValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateEvaluationResult()
-        value.evaluationResultIdentifier = try reader["EvaluationResultIdentifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultIdentifier.read(from:))
-        value.complianceType = try reader["ComplianceType"].readIfPresent()
-        value.resultRecordedTime = try reader["ResultRecordedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.configRuleInvokedTime = try reader["ConfigRuleInvokedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.annotation = try reader["Annotation"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.awsRegion = try reader["AwsRegion"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.EvaluationResultIdentifier {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationResultIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.EvaluationResultIdentifier()
-        value.evaluationResultQualifier = try reader["EvaluationResultQualifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultQualifier.read(from:))
-        value.orderingTimestamp = try reader["OrderingTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.resourceEvaluationId = try reader["ResourceEvaluationId"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.EvaluationResultQualifier {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationResultQualifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.EvaluationResultQualifier()
-        value.configRuleName = try reader["ConfigRuleName"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.evaluationMode = try reader["EvaluationMode"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.AggregateComplianceCount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateComplianceCount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateComplianceCount()
-        value.groupName = try reader["GroupName"].readIfPresent()
-        value.complianceSummary = try reader["ComplianceSummary"].readIfPresent(with: ConfigClientTypes.ComplianceSummary.read(from:))
-        return value
-    }
-}
-
-extension ConfigClientTypes.ComplianceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ComplianceSummary()
-        value.compliantResourceCount = try reader["CompliantResourceCount"].readIfPresent(with: ConfigClientTypes.ComplianceContributorCount.read(from:))
-        value.nonCompliantResourceCount = try reader["NonCompliantResourceCount"].readIfPresent(with: ConfigClientTypes.ComplianceContributorCount.read(from:))
-        value.complianceSummaryTimestamp = try reader["ComplianceSummaryTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ConfigClientTypes.AggregateConformancePackComplianceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackComplianceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateConformancePackComplianceSummary()
-        value.complianceSummary = try reader["ComplianceSummary"].readIfPresent(with: ConfigClientTypes.AggregateConformancePackComplianceCount.read(from:))
-        value.groupName = try reader["GroupName"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.AggregateConformancePackComplianceCount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregateConformancePackComplianceCount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.AggregateConformancePackComplianceCount()
-        value.compliantConformancePackCount = try reader["CompliantConformancePackCount"].readIfPresent() ?? 0
-        value.nonCompliantConformancePackCount = try reader["NonCompliantConformancePackCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ConfigClientTypes.GroupedResourceCount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.GroupedResourceCount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.GroupedResourceCount()
-        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
-        value.resourceCount = try reader["ResourceCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ConfigClientTypes.ConfigurationItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigurationItem()
-        value.version = try reader["version"].readIfPresent()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.configurationItemCaptureTime = try reader["configurationItemCaptureTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.configurationItemStatus = try reader["configurationItemStatus"].readIfPresent()
-        value.configurationStateId = try reader["configurationStateId"].readIfPresent()
-        value.configurationItemMD5Hash = try reader["configurationItemMD5Hash"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.resourceName = try reader["resourceName"].readIfPresent()
-        value.awsRegion = try reader["awsRegion"].readIfPresent()
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
-        value.resourceCreationTime = try reader["resourceCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.relatedEvents = try reader["relatedEvents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.relationships = try reader["relationships"].readListIfPresent(memberReadingClosure: ConfigClientTypes.Relationship.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.configuration = try reader["configuration"].readIfPresent()
-        value.supplementaryConfiguration = try reader["supplementaryConfiguration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent()
-        value.configurationItemDeliveryTime = try reader["configurationItemDeliveryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ConfigClientTypes.Relationship {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Relationship {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.Relationship()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.resourceName = try reader["resourceName"].readIfPresent()
-        value.relationshipName = try reader["relationshipName"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.EvaluationResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.EvaluationResult()
-        value.evaluationResultIdentifier = try reader["EvaluationResultIdentifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultIdentifier.read(from:))
-        value.complianceType = try reader["ComplianceType"].readIfPresent()
-        value.resultRecordedTime = try reader["ResultRecordedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.configRuleInvokedTime = try reader["ConfigRuleInvokedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.annotation = try reader["Annotation"].readIfPresent()
-        value.resultToken = try reader["ResultToken"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.ComplianceSummaryByResourceType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ComplianceSummaryByResourceType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ComplianceSummaryByResourceType()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.complianceSummary = try reader["ComplianceSummary"].readIfPresent(with: ConfigClientTypes.ComplianceSummary.read(from:))
-        return value
-    }
-}
-
-extension ConfigClientTypes.ConformancePackEvaluationResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackEvaluationResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConformancePackEvaluationResult()
-        value.complianceType = try reader["ComplianceType"].readIfPresent() ?? .sdkUnknown("")
-        value.evaluationResultIdentifier = try reader["EvaluationResultIdentifier"].readIfPresent(with: ConfigClientTypes.EvaluationResultIdentifier.read(from:))
-        value.configRuleInvokedTime = try reader["ConfigRuleInvokedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.resultRecordedTime = try reader["ResultRecordedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.annotation = try reader["Annotation"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.ConformancePackComplianceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackComplianceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConformancePackComplianceSummary()
-        value.conformancePackName = try reader["ConformancePackName"].readIfPresent() ?? ""
-        value.conformancePackComplianceStatus = try reader["ConformancePackComplianceStatus"].readIfPresent() ?? .sdkUnknown("")
+        var value = ConfigClientTypes.RemediationParameterValue()
+        value.resourceValue = try reader["ResourceValue"].readIfPresent(with: ConfigClientTypes.ResourceValue.read(from:))
+        value.staticValue = try reader["StaticValue"].readIfPresent(with: ConfigClientTypes.StaticValue.read(from:))
         return value
     }
 }
@@ -16871,59 +17266,13 @@ extension ConfigClientTypes.ResourceCount {
     }
 }
 
-extension ConfigClientTypes.MemberAccountStatus {
+extension ConfigClientTypes.ResourceCountFilters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.MemberAccountStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.MemberAccountStatus()
-        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
-        value.configRuleName = try reader["ConfigRuleName"].readIfPresent() ?? ""
-        value.memberAccountRuleStatus = try reader["MemberAccountRuleStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ConfigClientTypes.OrganizationConformancePackDetailedStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.OrganizationConformancePackDetailedStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.OrganizationConformancePackDetailedStatus()
-        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
-        value.conformancePackName = try reader["ConformancePackName"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ConfigClientTypes.EvaluationStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.EvaluationStatus()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.failureReason = try reader["FailureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.EvaluationContext {
-
-    static func write(value: ConfigClientTypes.EvaluationContext?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConfigClientTypes.ResourceCountFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EvaluationContextIdentifier"].write(value.evaluationContextIdentifier)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.EvaluationContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.EvaluationContext()
-        value.evaluationContextIdentifier = try reader["EvaluationContextIdentifier"].readIfPresent()
-        return value
+        try writer["AccountId"].write(value.accountId)
+        try writer["Region"].write(value.region)
+        try writer["ResourceType"].write(value.resourceType)
     }
 }
 
@@ -16948,6 +17297,197 @@ extension ConfigClientTypes.ResourceDetails {
     }
 }
 
+extension ConfigClientTypes.ResourceEvaluation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceEvaluation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ResourceEvaluation()
+        value.resourceEvaluationId = try reader["ResourceEvaluationId"].readIfPresent()
+        value.evaluationMode = try reader["EvaluationMode"].readIfPresent()
+        value.evaluationStartTimestamp = try reader["EvaluationStartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.ResourceEvaluationFilters {
+
+    static func write(value: ConfigClientTypes.ResourceEvaluationFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EvaluationContextIdentifier"].write(value.evaluationContextIdentifier)
+        try writer["EvaluationMode"].write(value.evaluationMode)
+        try writer["TimeWindow"].write(value.timeWindow, with: ConfigClientTypes.TimeWindow.write(value:to:))
+    }
+}
+
+extension ConfigClientTypes.ResourceFilters {
+
+    static func write(value: ConfigClientTypes.ResourceFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["Region"].write(value.region)
+        try writer["ResourceId"].write(value.resourceId)
+        try writer["ResourceName"].write(value.resourceName)
+    }
+}
+
+extension ConfigClientTypes.ResourceIdentifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ResourceIdentifier()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceName = try reader["resourceName"].readIfPresent()
+        value.resourceDeletionTime = try reader["resourceDeletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConfigClientTypes.ResourceKey {
+
+    static func write(value: ConfigClientTypes.ResourceKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceId"].write(value.resourceId)
+        try writer["resourceType"].write(value.resourceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ResourceKey()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConfigClientTypes.ResourceValue {
+
+    static func write(value: ConfigClientTypes.ResourceValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ResourceValue()
+        value.value = try reader["Value"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConfigClientTypes.RetentionConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RetentionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.RetentionConfiguration()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.retentionPeriodInDays = try reader["RetentionPeriodInDays"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ConfigClientTypes.Scope {
+
+    static func write(value: ConfigClientTypes.Scope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComplianceResourceId"].write(value.complianceResourceId)
+        try writer["ComplianceResourceTypes"].writeList(value.complianceResourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TagKey"].write(value.tagKey)
+        try writer["TagValue"].write(value.tagValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Scope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.Scope()
+        value.complianceResourceTypes = try reader["ComplianceResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tagKey = try reader["TagKey"].readIfPresent()
+        value.tagValue = try reader["TagValue"].readIfPresent()
+        value.complianceResourceId = try reader["ComplianceResourceId"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.Source {
+
+    static func write(value: ConfigClientTypes.Source?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomPolicyDetails"].write(value.customPolicyDetails, with: ConfigClientTypes.CustomPolicyDetails.write(value:to:))
+        try writer["Owner"].write(value.owner)
+        try writer["SourceDetails"].writeList(value.sourceDetails, memberWritingClosure: ConfigClientTypes.SourceDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceIdentifier"].write(value.sourceIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Source {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.Source()
+        value.owner = try reader["Owner"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceIdentifier = try reader["SourceIdentifier"].readIfPresent()
+        value.sourceDetails = try reader["SourceDetails"].readListIfPresent(memberReadingClosure: ConfigClientTypes.SourceDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customPolicyDetails = try reader["CustomPolicyDetails"].readIfPresent(with: ConfigClientTypes.CustomPolicyDetails.read(from:))
+        return value
+    }
+}
+
+extension ConfigClientTypes.SourceDetail {
+
+    static func write(value: ConfigClientTypes.SourceDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventSource"].write(value.eventSource)
+        try writer["MaximumExecutionFrequency"].write(value.maximumExecutionFrequency)
+        try writer["MessageType"].write(value.messageType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.SourceDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.SourceDetail()
+        value.eventSource = try reader["EventSource"].readIfPresent()
+        value.messageType = try reader["MessageType"].readIfPresent()
+        value.maximumExecutionFrequency = try reader["MaximumExecutionFrequency"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.SsmControls {
+
+    static func write(value: ConfigClientTypes.SsmControls?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConcurrentExecutionRatePercentage"].write(value.concurrentExecutionRatePercentage)
+        try writer["ErrorPercentage"].write(value.errorPercentage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.SsmControls {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.SsmControls()
+        value.concurrentExecutionRatePercentage = try reader["ConcurrentExecutionRatePercentage"].readIfPresent()
+        value.errorPercentage = try reader["ErrorPercentage"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.StaticValue {
+
+    static func write(value: ConfigClientTypes.StaticValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.StaticValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.StaticValue()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConfigClientTypes.StatusDetailFilters {
+
+    static func write(value: ConfigClientTypes.StatusDetailFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["MemberAccountRuleStatus"].write(value.memberAccountRuleStatus)
+    }
+}
+
 extension ConfigClientTypes.StoredQuery {
 
     static func write(value: ConfigClientTypes.StoredQuery?, to writer: SmithyJSON.Writer) throws {
@@ -16967,56 +17507,6 @@ extension ConfigClientTypes.StoredQuery {
         value.queryName = try reader["QueryName"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
         value.expression = try reader["Expression"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.ConfigurationRecorderSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationRecorderSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigurationRecorderSummary()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.servicePrincipal = try reader["servicePrincipal"].readIfPresent()
-        value.recordingScope = try reader["recordingScope"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension ConfigClientTypes.ConformancePackComplianceScore {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackComplianceScore {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConformancePackComplianceScore()
-        value.score = try reader["Score"].readIfPresent()
-        value.conformancePackName = try reader["ConformancePackName"].readIfPresent()
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ConfigClientTypes.ResourceIdentifier {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ResourceIdentifier()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.resourceName = try reader["resourceName"].readIfPresent()
-        value.resourceDeletionTime = try reader["resourceDeletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ConfigClientTypes.ResourceEvaluation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ResourceEvaluation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ResourceEvaluation()
-        value.resourceEvaluationId = try reader["ResourceEvaluationId"].readIfPresent()
-        value.evaluationMode = try reader["EvaluationMode"].readIfPresent()
-        value.evaluationStartTimestamp = try reader["EvaluationStartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -17051,202 +17541,20 @@ extension ConfigClientTypes.Tag {
     }
 }
 
-extension ConfigClientTypes.Evaluation {
+extension ConfigClientTypes.TemplateSSMDocumentDetails {
 
-    static func write(value: ConfigClientTypes.Evaluation?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConfigClientTypes.TemplateSSMDocumentDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Annotation"].write(value.annotation)
-        try writer["ComplianceResourceId"].write(value.complianceResourceId)
-        try writer["ComplianceResourceType"].write(value.complianceResourceType)
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["OrderingTimestamp"].writeTimestamp(value.orderingTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["DocumentName"].write(value.documentName)
+        try writer["DocumentVersion"].write(value.documentVersion)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.Evaluation {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.TemplateSSMDocumentDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.Evaluation()
-        value.complianceResourceType = try reader["ComplianceResourceType"].readIfPresent() ?? ""
-        value.complianceResourceId = try reader["ComplianceResourceId"].readIfPresent() ?? ""
-        value.complianceType = try reader["ComplianceType"].readIfPresent() ?? .sdkUnknown("")
-        value.annotation = try reader["Annotation"].readIfPresent()
-        value.orderingTimestamp = try reader["OrderingTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = ConfigClientTypes.TemplateSSMDocumentDetails()
+        value.documentName = try reader["DocumentName"].readIfPresent() ?? ""
+        value.documentVersion = try reader["DocumentVersion"].readIfPresent()
         return value
-    }
-}
-
-extension ConfigClientTypes.FailedRemediationBatch {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FailedRemediationBatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.FailedRemediationBatch()
-        value.failureMessage = try reader["FailureMessage"].readIfPresent()
-        value.failedItems = try reader["FailedItems"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RemediationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConfigClientTypes.FailedRemediationExceptionBatch {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FailedRemediationExceptionBatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.FailedRemediationExceptionBatch()
-        value.failureMessage = try reader["FailureMessage"].readIfPresent()
-        value.failedItems = try reader["FailedItems"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RemediationException.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConfigClientTypes.QueryInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.QueryInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.QueryInfo()
-        value.selectFields = try reader["SelectFields"].readListIfPresent(memberReadingClosure: ConfigClientTypes.FieldInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConfigClientTypes.FieldInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.FieldInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.FieldInfo()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.ConfigRuleComplianceFilters {
-
-    static func write(value: ConfigClientTypes.ConfigRuleComplianceFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AwsRegion"].write(value.awsRegion)
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["ConfigRuleName"].write(value.configRuleName)
-    }
-}
-
-extension ConfigClientTypes.AggregateConformancePackComplianceFilters {
-
-    static func write(value: ConfigClientTypes.AggregateConformancePackComplianceFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AwsRegion"].write(value.awsRegion)
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["ConformancePackName"].write(value.conformancePackName)
-    }
-}
-
-extension ConfigClientTypes.DescribeConfigRulesFilters {
-
-    static func write(value: ConfigClientTypes.DescribeConfigRulesFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EvaluationMode"].write(value.evaluationMode)
-    }
-}
-
-extension ConfigClientTypes.ConformancePackComplianceFilters {
-
-    static func write(value: ConfigClientTypes.ConformancePackComplianceFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["ConfigRuleNames"].writeList(value.configRuleNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ConfigClientTypes.ConfigRuleComplianceSummaryFilters {
-
-    static func write(value: ConfigClientTypes.ConfigRuleComplianceSummaryFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AwsRegion"].write(value.awsRegion)
-    }
-}
-
-extension ConfigClientTypes.AggregateConformancePackComplianceSummaryFilters {
-
-    static func write(value: ConfigClientTypes.AggregateConformancePackComplianceSummaryFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["AwsRegion"].write(value.awsRegion)
-    }
-}
-
-extension ConfigClientTypes.ResourceCountFilters {
-
-    static func write(value: ConfigClientTypes.ResourceCountFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Region"].write(value.region)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-}
-
-extension ConfigClientTypes.ConformancePackEvaluationFilters {
-
-    static func write(value: ConfigClientTypes.ConformancePackEvaluationFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["ConfigRuleNames"].writeList(value.configRuleNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceIds"].writeList(value.resourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-}
-
-extension ConfigClientTypes.StatusDetailFilters {
-
-    static func write(value: ConfigClientTypes.StatusDetailFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["MemberAccountRuleStatus"].write(value.memberAccountRuleStatus)
-    }
-}
-
-extension ConfigClientTypes.OrganizationResourceDetailedStatusFilters {
-
-    static func write(value: ConfigClientTypes.OrganizationResourceDetailedStatusFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Status"].write(value.status)
-    }
-}
-
-extension ConfigClientTypes.ResourceFilters {
-
-    static func write(value: ConfigClientTypes.ResourceFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Region"].write(value.region)
-        try writer["ResourceId"].write(value.resourceId)
-        try writer["ResourceName"].write(value.resourceName)
-    }
-}
-
-extension ConfigClientTypes.ConfigurationRecorderFilter {
-
-    static func write(value: ConfigClientTypes.ConfigurationRecorderFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filterName"].write(value.filterName)
-        try writer["filterValue"].writeList(value.filterValue, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ConfigClientTypes.ConformancePackComplianceScoresFilters {
-
-    static func write(value: ConfigClientTypes.ConformancePackComplianceScoresFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConformancePackNames"].writeList(value.conformancePackNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ConfigClientTypes.ResourceEvaluationFilters {
-
-    static func write(value: ConfigClientTypes.ResourceEvaluationFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EvaluationContextIdentifier"].write(value.evaluationContextIdentifier)
-        try writer["EvaluationMode"].write(value.evaluationMode)
-        try writer["TimeWindow"].write(value.timeWindow, with: ConfigClientTypes.TimeWindow.write(value:to:))
     }
 }
 
@@ -17256,36 +17564,6 @@ extension ConfigClientTypes.TimeWindow {
         guard let value else { return }
         try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension ConfigClientTypes.ExternalEvaluation {
-
-    static func write(value: ConfigClientTypes.ExternalEvaluation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Annotation"].write(value.annotation)
-        try writer["ComplianceResourceId"].write(value.complianceResourceId)
-        try writer["ComplianceResourceType"].write(value.complianceResourceType)
-        try writer["ComplianceType"].write(value.complianceType)
-        try writer["OrderingTimestamp"].writeTimestamp(value.orderingTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension ConfigClientTypes.OrganizationCustomPolicyRuleMetadata {
-
-    static func write(value: ConfigClientTypes.OrganizationCustomPolicyRuleMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DebugLogDeliveryAccounts"].writeList(value.debugLogDeliveryAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["InputParameters"].write(value.inputParameters)
-        try writer["MaximumExecutionFrequency"].write(value.maximumExecutionFrequency)
-        try writer["OrganizationConfigRuleTriggerTypes"].writeList(value.organizationConfigRuleTriggerTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.OrganizationConfigRuleTriggerTypeNoSN>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PolicyRuntime"].write(value.policyRuntime)
-        try writer["PolicyText"].write(value.policyText)
-        try writer["ResourceIdScope"].write(value.resourceIdScope)
-        try writer["ResourceTypesScope"].writeList(value.resourceTypesScope, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TagKeyScope"].write(value.tagKeyScope)
-        try writer["TagValueScope"].write(value.tagValueScope)
     }
 }
 

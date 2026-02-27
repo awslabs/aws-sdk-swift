@@ -4125,190 +4125,6 @@ extension ValidationException {
     }
 }
 
-extension FisClientTypes.ExperimentTemplate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTemplate()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.targets = try reader["targets"].readMapIfPresent(valueReadingClosure: FisClientTypes.ExperimentTemplateTarget.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.actions = try reader["actions"].readMapIfPresent(valueReadingClosure: FisClientTypes.ExperimentTemplateAction.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.stopConditions = try reader["stopConditions"].readListIfPresent(memberReadingClosure: FisClientTypes.ExperimentTemplateStopCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdateTime = try reader["lastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.logConfiguration = try reader["logConfiguration"].readIfPresent(with: FisClientTypes.ExperimentTemplateLogConfiguration.read(from:))
-        value.experimentOptions = try reader["experimentOptions"].readIfPresent(with: FisClientTypes.ExperimentTemplateExperimentOptions.read(from:))
-        value.targetAccountConfigurationsCount = try reader["targetAccountConfigurationsCount"].readIfPresent()
-        value.experimentReportConfiguration = try reader["experimentReportConfiguration"].readIfPresent(with: FisClientTypes.ExperimentTemplateReportConfiguration.read(from:))
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateReportConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateReportConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTemplateReportConfiguration()
-        value.outputs = try reader["outputs"].readIfPresent(with: FisClientTypes.ExperimentTemplateReportConfigurationOutputs.read(from:))
-        value.dataSources = try reader["dataSources"].readIfPresent(with: FisClientTypes.ExperimentTemplateReportConfigurationDataSources.read(from:))
-        value.preExperimentDuration = try reader["preExperimentDuration"].readIfPresent()
-        value.postExperimentDuration = try reader["postExperimentDuration"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateReportConfigurationDataSources {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateReportConfigurationDataSources {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTemplateReportConfigurationDataSources()
-        value.cloudWatchDashboards = try reader["cloudWatchDashboards"].readListIfPresent(memberReadingClosure: FisClientTypes.ExperimentTemplateReportConfigurationCloudWatchDashboard.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateReportConfigurationCloudWatchDashboard {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateReportConfigurationCloudWatchDashboard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTemplateReportConfigurationCloudWatchDashboard()
-        value.dashboardIdentifier = try reader["dashboardIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateReportConfigurationOutputs {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateReportConfigurationOutputs {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTemplateReportConfigurationOutputs()
-        value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: FisClientTypes.ReportConfigurationS3Output.read(from:))
-        return value
-    }
-}
-
-extension FisClientTypes.ReportConfigurationS3Output {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ReportConfigurationS3Output {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ReportConfigurationS3Output()
-        value.bucketName = try reader["bucketName"].readIfPresent()
-        value.`prefix` = try reader["prefix"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateExperimentOptions {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateExperimentOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTemplateExperimentOptions()
-        value.accountTargeting = try reader["accountTargeting"].readIfPresent()
-        value.emptyTargetResolutionMode = try reader["emptyTargetResolutionMode"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateLogConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateLogConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTemplateLogConfiguration()
-        value.cloudWatchLogsConfiguration = try reader["cloudWatchLogsConfiguration"].readIfPresent(with: FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfiguration.read(from:))
-        value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: FisClientTypes.ExperimentTemplateS3LogConfiguration.read(from:))
-        value.logSchemaVersion = try reader["logSchemaVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateS3LogConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateS3LogConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTemplateS3LogConfiguration()
-        value.bucketName = try reader["bucketName"].readIfPresent()
-        value.`prefix` = try reader["prefix"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfiguration()
-        value.logGroupArn = try reader["logGroupArn"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateStopCondition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateStopCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTemplateStopCondition()
-        value.source = try reader["source"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateAction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTemplateAction()
-        value.actionId = try reader["actionId"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.targets = try reader["targets"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.startAfter = try reader["startAfter"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateTarget {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTemplateTarget()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resourceArns = try reader["resourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceTags = try reader["resourceTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: FisClientTypes.ExperimentTemplateTargetFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.selectionMode = try reader["selectionMode"].readIfPresent()
-        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateTargetFilter {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateTargetFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTemplateTargetFilter()
-        value.path = try reader["path"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FisClientTypes.TargetAccountConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.TargetAccountConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.TargetAccountConfiguration()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        return value
-    }
-}
-
 extension FisClientTypes.Action {
 
     static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.Action {
@@ -4318,6 +4134,31 @@ extension FisClientTypes.Action {
         value.arn = try reader["arn"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: FisClientTypes.ActionParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.targets = try reader["targets"].readMapIfPresent(valueReadingClosure: FisClientTypes.ActionTarget.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension FisClientTypes.ActionParameter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ActionParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ActionParameter()
+        value.description = try reader["description"].readIfPresent()
+        value.`required` = try reader["required"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ActionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ActionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ActionSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
         value.targets = try reader["targets"].readMapIfPresent(valueReadingClosure: FisClientTypes.ActionTarget.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -4334,14 +4175,67 @@ extension FisClientTypes.ActionTarget {
     }
 }
 
-extension FisClientTypes.ActionParameter {
+extension FisClientTypes.CreateExperimentTemplateActionInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ActionParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ActionParameter()
-        value.description = try reader["description"].readIfPresent()
-        value.`required` = try reader["required"].readIfPresent()
-        return value
+    static func write(value: FisClientTypes.CreateExperimentTemplateActionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actionId"].write(value.actionId)
+        try writer["description"].write(value.description)
+        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["startAfter"].writeList(value.startAfter, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targets"].writeMap(value.targets, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension FisClientTypes.CreateExperimentTemplateExperimentOptionsInput {
+
+    static func write(value: FisClientTypes.CreateExperimentTemplateExperimentOptionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountTargeting"].write(value.accountTargeting)
+        try writer["emptyTargetResolutionMode"].write(value.emptyTargetResolutionMode)
+    }
+}
+
+extension FisClientTypes.CreateExperimentTemplateLogConfigurationInput {
+
+    static func write(value: FisClientTypes.CreateExperimentTemplateLogConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudWatchLogsConfiguration"].write(value.cloudWatchLogsConfiguration, with: FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfigurationInput.write(value:to:))
+        try writer["logSchemaVersion"].write(value.logSchemaVersion)
+        try writer["s3Configuration"].write(value.s3Configuration, with: FisClientTypes.ExperimentTemplateS3LogConfigurationInput.write(value:to:))
+    }
+}
+
+extension FisClientTypes.CreateExperimentTemplateReportConfigurationInput {
+
+    static func write(value: FisClientTypes.CreateExperimentTemplateReportConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataSources"].write(value.dataSources, with: FisClientTypes.ExperimentTemplateReportConfigurationDataSourcesInput.write(value:to:))
+        try writer["outputs"].write(value.outputs, with: FisClientTypes.ExperimentTemplateReportConfigurationOutputsInput.write(value:to:))
+        try writer["postExperimentDuration"].write(value.postExperimentDuration)
+        try writer["preExperimentDuration"].write(value.preExperimentDuration)
+    }
+}
+
+extension FisClientTypes.CreateExperimentTemplateStopConditionInput {
+
+    static func write(value: FisClientTypes.CreateExperimentTemplateStopConditionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["source"].write(value.source)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension FisClientTypes.CreateExperimentTemplateTargetInput {
+
+    static func write(value: FisClientTypes.CreateExperimentTemplateTargetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: FisClientTypes.ExperimentTemplateTargetInputFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["resourceArns"].writeList(value.resourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resourceTags"].writeMap(value.resourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["resourceType"].write(value.resourceType)
+        try writer["selectionMode"].write(value.selectionMode)
     }
 }
 
@@ -4367,160 +4261,6 @@ extension FisClientTypes.Experiment {
         value.targetAccountConfigurationsCount = try reader["targetAccountConfigurationsCount"].readIfPresent()
         value.experimentReportConfiguration = try reader["experimentReportConfiguration"].readIfPresent(with: FisClientTypes.ExperimentReportConfiguration.read(from:))
         value.experimentReport = try reader["experimentReport"].readIfPresent(with: FisClientTypes.ExperimentReport.read(from:))
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentReport {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReport {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentReport()
-        value.state = try reader["state"].readIfPresent(with: FisClientTypes.ExperimentReportState.read(from:))
-        value.s3Reports = try reader["s3Reports"].readListIfPresent(memberReadingClosure: FisClientTypes.ExperimentReportS3Report.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentReportS3Report {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReportS3Report {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentReportS3Report()
-        value.arn = try reader["arn"].readIfPresent()
-        value.reportType = try reader["reportType"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentReportState {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReportState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentReportState()
-        value.status = try reader["status"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        value.error = try reader["error"].readIfPresent(with: FisClientTypes.ExperimentReportError.read(from:))
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentReportError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReportError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentReportError()
-        value.code = try reader["code"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentReportConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReportConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentReportConfiguration()
-        value.outputs = try reader["outputs"].readIfPresent(with: FisClientTypes.ExperimentReportConfigurationOutputs.read(from:))
-        value.dataSources = try reader["dataSources"].readIfPresent(with: FisClientTypes.ExperimentReportConfigurationDataSources.read(from:))
-        value.preExperimentDuration = try reader["preExperimentDuration"].readIfPresent()
-        value.postExperimentDuration = try reader["postExperimentDuration"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentReportConfigurationDataSources {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReportConfigurationDataSources {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentReportConfigurationDataSources()
-        value.cloudWatchDashboards = try reader["cloudWatchDashboards"].readListIfPresent(memberReadingClosure: FisClientTypes.ExperimentReportConfigurationCloudWatchDashboard.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentReportConfigurationCloudWatchDashboard {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReportConfigurationCloudWatchDashboard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentReportConfigurationCloudWatchDashboard()
-        value.dashboardIdentifier = try reader["dashboardIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentReportConfigurationOutputs {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReportConfigurationOutputs {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentReportConfigurationOutputs()
-        value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: FisClientTypes.ExperimentReportConfigurationOutputsS3Configuration.read(from:))
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentReportConfigurationOutputsS3Configuration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReportConfigurationOutputsS3Configuration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentReportConfigurationOutputsS3Configuration()
-        value.bucketName = try reader["bucketName"].readIfPresent()
-        value.`prefix` = try reader["prefix"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentOptions {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentOptions()
-        value.accountTargeting = try reader["accountTargeting"].readIfPresent()
-        value.emptyTargetResolutionMode = try reader["emptyTargetResolutionMode"].readIfPresent()
-        value.actionsMode = try reader["actionsMode"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentLogConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentLogConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentLogConfiguration()
-        value.cloudWatchLogsConfiguration = try reader["cloudWatchLogsConfiguration"].readIfPresent(with: FisClientTypes.ExperimentCloudWatchLogsLogConfiguration.read(from:))
-        value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: FisClientTypes.ExperimentS3LogConfiguration.read(from:))
-        value.logSchemaVersion = try reader["logSchemaVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentS3LogConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentS3LogConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentS3LogConfiguration()
-        value.bucketName = try reader["bucketName"].readIfPresent()
-        value.`prefix` = try reader["prefix"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentCloudWatchLogsLogConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentCloudWatchLogsLogConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentCloudWatchLogsLogConfiguration()
-        value.logGroupArn = try reader["logGroupArn"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentStopCondition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentStopCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentStopCondition()
-        value.source = try reader["source"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
         return value
     }
 }
@@ -4553,40 +4293,12 @@ extension FisClientTypes.ExperimentActionState {
     }
 }
 
-extension FisClientTypes.ExperimentTarget {
+extension FisClientTypes.ExperimentCloudWatchLogsLogConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTarget {
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentCloudWatchLogsLogConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTarget()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.resourceArns = try reader["resourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceTags = try reader["resourceTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: FisClientTypes.ExperimentTargetFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.selectionMode = try reader["selectionMode"].readIfPresent()
-        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentTargetFilter {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTargetFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTargetFilter()
-        value.path = try reader["path"].readIfPresent()
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentState {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentState()
-        value.status = try reader["status"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        value.error = try reader["error"].readIfPresent(with: FisClientTypes.ExperimentError.read(from:))
+        var value = FisClientTypes.ExperimentCloudWatchLogsLogConfiguration()
+        value.logGroupArn = try reader["logGroupArn"].readIfPresent()
         return value
     }
 }
@@ -4603,6 +4315,193 @@ extension FisClientTypes.ExperimentError {
     }
 }
 
+extension FisClientTypes.ExperimentLogConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentLogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentLogConfiguration()
+        value.cloudWatchLogsConfiguration = try reader["cloudWatchLogsConfiguration"].readIfPresent(with: FisClientTypes.ExperimentCloudWatchLogsLogConfiguration.read(from:))
+        value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: FisClientTypes.ExperimentS3LogConfiguration.read(from:))
+        value.logSchemaVersion = try reader["logSchemaVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentOptions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentOptions()
+        value.accountTargeting = try reader["accountTargeting"].readIfPresent()
+        value.emptyTargetResolutionMode = try reader["emptyTargetResolutionMode"].readIfPresent()
+        value.actionsMode = try reader["actionsMode"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentReport {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentReport()
+        value.state = try reader["state"].readIfPresent(with: FisClientTypes.ExperimentReportState.read(from:))
+        value.s3Reports = try reader["s3Reports"].readListIfPresent(memberReadingClosure: FisClientTypes.ExperimentReportS3Report.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentReportConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReportConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentReportConfiguration()
+        value.outputs = try reader["outputs"].readIfPresent(with: FisClientTypes.ExperimentReportConfigurationOutputs.read(from:))
+        value.dataSources = try reader["dataSources"].readIfPresent(with: FisClientTypes.ExperimentReportConfigurationDataSources.read(from:))
+        value.preExperimentDuration = try reader["preExperimentDuration"].readIfPresent()
+        value.postExperimentDuration = try reader["postExperimentDuration"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentReportConfigurationCloudWatchDashboard {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReportConfigurationCloudWatchDashboard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentReportConfigurationCloudWatchDashboard()
+        value.dashboardIdentifier = try reader["dashboardIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentReportConfigurationDataSources {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReportConfigurationDataSources {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentReportConfigurationDataSources()
+        value.cloudWatchDashboards = try reader["cloudWatchDashboards"].readListIfPresent(memberReadingClosure: FisClientTypes.ExperimentReportConfigurationCloudWatchDashboard.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentReportConfigurationOutputs {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReportConfigurationOutputs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentReportConfigurationOutputs()
+        value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: FisClientTypes.ExperimentReportConfigurationOutputsS3Configuration.read(from:))
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentReportConfigurationOutputsS3Configuration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReportConfigurationOutputsS3Configuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentReportConfigurationOutputsS3Configuration()
+        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.`prefix` = try reader["prefix"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentReportError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReportError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentReportError()
+        value.code = try reader["code"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentReportS3Report {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReportS3Report {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentReportS3Report()
+        value.arn = try reader["arn"].readIfPresent()
+        value.reportType = try reader["reportType"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentReportState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentReportState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentReportState()
+        value.status = try reader["status"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        value.error = try reader["error"].readIfPresent(with: FisClientTypes.ExperimentReportError.read(from:))
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentS3LogConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentS3LogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentS3LogConfiguration()
+        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.`prefix` = try reader["prefix"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentState()
+        value.status = try reader["status"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        value.error = try reader["error"].readIfPresent(with: FisClientTypes.ExperimentError.read(from:))
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentStopCondition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentStopCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentStopCondition()
+        value.source = try reader["source"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.experimentTemplateId = try reader["experimentTemplateId"].readIfPresent()
+        value.state = try reader["state"].readIfPresent(with: FisClientTypes.ExperimentState.read(from:))
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.experimentOptions = try reader["experimentOptions"].readIfPresent(with: FisClientTypes.ExperimentOptions.read(from:))
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTarget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTarget()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.resourceArns = try reader["resourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceTags = try reader["resourceTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: FisClientTypes.ExperimentTargetFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.selectionMode = try reader["selectionMode"].readIfPresent()
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension FisClientTypes.ExperimentTargetAccountConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTargetAccountConfiguration {
@@ -4611,6 +4510,287 @@ extension FisClientTypes.ExperimentTargetAccountConfiguration {
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.accountId = try reader["accountId"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTargetAccountConfigurationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTargetAccountConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTargetAccountConfigurationSummary()
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTargetFilter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTargetFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTargetFilter()
+        value.path = try reader["path"].readIfPresent()
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTemplate()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.targets = try reader["targets"].readMapIfPresent(valueReadingClosure: FisClientTypes.ExperimentTemplateTarget.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.actions = try reader["actions"].readMapIfPresent(valueReadingClosure: FisClientTypes.ExperimentTemplateAction.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.stopConditions = try reader["stopConditions"].readListIfPresent(memberReadingClosure: FisClientTypes.ExperimentTemplateStopCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateTime = try reader["lastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.logConfiguration = try reader["logConfiguration"].readIfPresent(with: FisClientTypes.ExperimentTemplateLogConfiguration.read(from:))
+        value.experimentOptions = try reader["experimentOptions"].readIfPresent(with: FisClientTypes.ExperimentTemplateExperimentOptions.read(from:))
+        value.targetAccountConfigurationsCount = try reader["targetAccountConfigurationsCount"].readIfPresent()
+        value.experimentReportConfiguration = try reader["experimentReportConfiguration"].readIfPresent(with: FisClientTypes.ExperimentTemplateReportConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTemplateAction()
+        value.actionId = try reader["actionId"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.targets = try reader["targets"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.startAfter = try reader["startAfter"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfiguration()
+        value.logGroupArn = try reader["logGroupArn"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfigurationInput {
+
+    static func write(value: FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logGroupArn"].write(value.logGroupArn)
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateExperimentOptions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateExperimentOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTemplateExperimentOptions()
+        value.accountTargeting = try reader["accountTargeting"].readIfPresent()
+        value.emptyTargetResolutionMode = try reader["emptyTargetResolutionMode"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateLogConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateLogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTemplateLogConfiguration()
+        value.cloudWatchLogsConfiguration = try reader["cloudWatchLogsConfiguration"].readIfPresent(with: FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfiguration.read(from:))
+        value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: FisClientTypes.ExperimentTemplateS3LogConfiguration.read(from:))
+        value.logSchemaVersion = try reader["logSchemaVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateReportConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateReportConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTemplateReportConfiguration()
+        value.outputs = try reader["outputs"].readIfPresent(with: FisClientTypes.ExperimentTemplateReportConfigurationOutputs.read(from:))
+        value.dataSources = try reader["dataSources"].readIfPresent(with: FisClientTypes.ExperimentTemplateReportConfigurationDataSources.read(from:))
+        value.preExperimentDuration = try reader["preExperimentDuration"].readIfPresent()
+        value.postExperimentDuration = try reader["postExperimentDuration"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateReportConfigurationCloudWatchDashboard {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateReportConfigurationCloudWatchDashboard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTemplateReportConfigurationCloudWatchDashboard()
+        value.dashboardIdentifier = try reader["dashboardIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateReportConfigurationDataSources {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateReportConfigurationDataSources {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTemplateReportConfigurationDataSources()
+        value.cloudWatchDashboards = try reader["cloudWatchDashboards"].readListIfPresent(memberReadingClosure: FisClientTypes.ExperimentTemplateReportConfigurationCloudWatchDashboard.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateReportConfigurationDataSourcesInput {
+
+    static func write(value: FisClientTypes.ExperimentTemplateReportConfigurationDataSourcesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudWatchDashboards"].writeList(value.cloudWatchDashboards, memberWritingClosure: FisClientTypes.ReportConfigurationCloudWatchDashboardInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateReportConfigurationOutputs {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateReportConfigurationOutputs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTemplateReportConfigurationOutputs()
+        value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: FisClientTypes.ReportConfigurationS3Output.read(from:))
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateReportConfigurationOutputsInput {
+
+    static func write(value: FisClientTypes.ExperimentTemplateReportConfigurationOutputsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Configuration"].write(value.s3Configuration, with: FisClientTypes.ReportConfigurationS3OutputInput.write(value:to:))
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateS3LogConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateS3LogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTemplateS3LogConfiguration()
+        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.`prefix` = try reader["prefix"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateS3LogConfigurationInput {
+
+    static func write(value: FisClientTypes.ExperimentTemplateS3LogConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketName"].write(value.bucketName)
+        try writer["prefix"].write(value.`prefix`)
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateStopCondition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateStopCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTemplateStopCondition()
+        value.source = try reader["source"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTemplateSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateTime = try reader["lastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateTarget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTemplateTarget()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.resourceArns = try reader["resourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceTags = try reader["resourceTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: FisClientTypes.ExperimentTemplateTargetFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.selectionMode = try reader["selectionMode"].readIfPresent()
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateTargetFilter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateTargetFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ExperimentTemplateTargetFilter()
+        value.path = try reader["path"].readIfPresent()
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FisClientTypes.ExperimentTemplateTargetInputFilter {
+
+    static func write(value: FisClientTypes.ExperimentTemplateTargetInputFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["path"].write(value.path)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension FisClientTypes.ReportConfigurationCloudWatchDashboardInput {
+
+    static func write(value: FisClientTypes.ReportConfigurationCloudWatchDashboardInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dashboardIdentifier"].write(value.dashboardIdentifier)
+    }
+}
+
+extension FisClientTypes.ReportConfigurationS3Output {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ReportConfigurationS3Output {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ReportConfigurationS3Output()
+        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.`prefix` = try reader["prefix"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.ReportConfigurationS3OutputInput {
+
+    static func write(value: FisClientTypes.ReportConfigurationS3OutputInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketName"].write(value.bucketName)
+        try writer["prefix"].write(value.`prefix`)
+    }
+}
+
+extension FisClientTypes.ResolvedTarget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ResolvedTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.ResolvedTarget()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.targetName = try reader["targetName"].readIfPresent()
+        value.targetInformation = try reader["targetInformation"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -4638,6 +4818,38 @@ extension FisClientTypes.SafetyLeverState {
     }
 }
 
+extension FisClientTypes.StartExperimentExperimentOptionsInput {
+
+    static func write(value: FisClientTypes.StartExperimentExperimentOptionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actionsMode"].write(value.actionsMode)
+    }
+}
+
+extension FisClientTypes.TargetAccountConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.TargetAccountConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.TargetAccountConfiguration()
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension FisClientTypes.TargetAccountConfigurationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.TargetAccountConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FisClientTypes.TargetAccountConfigurationSummary()
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
 extension FisClientTypes.TargetResourceType {
 
     static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.TargetResourceType {
@@ -4661,87 +4873,6 @@ extension FisClientTypes.TargetResourceTypeParameter {
     }
 }
 
-extension FisClientTypes.ActionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ActionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ActionSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.targets = try reader["targets"].readMapIfPresent(valueReadingClosure: FisClientTypes.ActionTarget.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension FisClientTypes.ResolvedTarget {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ResolvedTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ResolvedTarget()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.targetName = try reader["targetName"].readIfPresent()
-        value.targetInformation = try reader["targetInformation"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.experimentTemplateId = try reader["experimentTemplateId"].readIfPresent()
-        value.state = try reader["state"].readIfPresent(with: FisClientTypes.ExperimentState.read(from:))
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.experimentOptions = try reader["experimentOptions"].readIfPresent(with: FisClientTypes.ExperimentOptions.read(from:))
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentTargetAccountConfigurationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTargetAccountConfigurationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTargetAccountConfigurationSummary()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        return value
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.ExperimentTemplateSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.ExperimentTemplateSummary()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdateTime = try reader["lastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension FisClientTypes.TargetAccountConfigurationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.TargetAccountConfigurationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FisClientTypes.TargetAccountConfigurationSummary()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        return value
-    }
-}
-
 extension FisClientTypes.TargetResourceTypeSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> FisClientTypes.TargetResourceTypeSummary {
@@ -4753,40 +4884,9 @@ extension FisClientTypes.TargetResourceTypeSummary {
     }
 }
 
-extension FisClientTypes.CreateExperimentTemplateStopConditionInput {
+extension FisClientTypes.UpdateExperimentTemplateActionInputItem {
 
-    static func write(value: FisClientTypes.CreateExperimentTemplateStopConditionInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["source"].write(value.source)
-        try writer["value"].write(value.value)
-    }
-}
-
-extension FisClientTypes.CreateExperimentTemplateTargetInput {
-
-    static func write(value: FisClientTypes.CreateExperimentTemplateTargetInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filters"].writeList(value.filters, memberWritingClosure: FisClientTypes.ExperimentTemplateTargetInputFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["resourceArns"].writeList(value.resourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resourceTags"].writeMap(value.resourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["resourceType"].write(value.resourceType)
-        try writer["selectionMode"].write(value.selectionMode)
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateTargetInputFilter {
-
-    static func write(value: FisClientTypes.ExperimentTemplateTargetInputFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["path"].write(value.path)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension FisClientTypes.CreateExperimentTemplateActionInput {
-
-    static func write(value: FisClientTypes.CreateExperimentTemplateActionInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FisClientTypes.UpdateExperimentTemplateActionInputItem?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actionId"].write(value.actionId)
         try writer["description"].write(value.description)
@@ -4796,9 +4896,17 @@ extension FisClientTypes.CreateExperimentTemplateActionInput {
     }
 }
 
-extension FisClientTypes.CreateExperimentTemplateLogConfigurationInput {
+extension FisClientTypes.UpdateExperimentTemplateExperimentOptionsInput {
 
-    static func write(value: FisClientTypes.CreateExperimentTemplateLogConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FisClientTypes.UpdateExperimentTemplateExperimentOptionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["emptyTargetResolutionMode"].write(value.emptyTargetResolutionMode)
+    }
+}
+
+extension FisClientTypes.UpdateExperimentTemplateLogConfigurationInput {
+
+    static func write(value: FisClientTypes.UpdateExperimentTemplateLogConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["cloudWatchLogsConfiguration"].write(value.cloudWatchLogsConfiguration, with: FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfigurationInput.write(value:to:))
         try writer["logSchemaVersion"].write(value.logSchemaVersion)
@@ -4806,81 +4914,14 @@ extension FisClientTypes.CreateExperimentTemplateLogConfigurationInput {
     }
 }
 
-extension FisClientTypes.ExperimentTemplateS3LogConfigurationInput {
+extension FisClientTypes.UpdateExperimentTemplateReportConfigurationInput {
 
-    static func write(value: FisClientTypes.ExperimentTemplateS3LogConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketName"].write(value.bucketName)
-        try writer["prefix"].write(value.`prefix`)
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfigurationInput {
-
-    static func write(value: FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logGroupArn"].write(value.logGroupArn)
-    }
-}
-
-extension FisClientTypes.CreateExperimentTemplateExperimentOptionsInput {
-
-    static func write(value: FisClientTypes.CreateExperimentTemplateExperimentOptionsInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountTargeting"].write(value.accountTargeting)
-        try writer["emptyTargetResolutionMode"].write(value.emptyTargetResolutionMode)
-    }
-}
-
-extension FisClientTypes.CreateExperimentTemplateReportConfigurationInput {
-
-    static func write(value: FisClientTypes.CreateExperimentTemplateReportConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: FisClientTypes.UpdateExperimentTemplateReportConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["dataSources"].write(value.dataSources, with: FisClientTypes.ExperimentTemplateReportConfigurationDataSourcesInput.write(value:to:))
         try writer["outputs"].write(value.outputs, with: FisClientTypes.ExperimentTemplateReportConfigurationOutputsInput.write(value:to:))
         try writer["postExperimentDuration"].write(value.postExperimentDuration)
         try writer["preExperimentDuration"].write(value.preExperimentDuration)
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateReportConfigurationDataSourcesInput {
-
-    static func write(value: FisClientTypes.ExperimentTemplateReportConfigurationDataSourcesInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cloudWatchDashboards"].writeList(value.cloudWatchDashboards, memberWritingClosure: FisClientTypes.ReportConfigurationCloudWatchDashboardInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension FisClientTypes.ReportConfigurationCloudWatchDashboardInput {
-
-    static func write(value: FisClientTypes.ReportConfigurationCloudWatchDashboardInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dashboardIdentifier"].write(value.dashboardIdentifier)
-    }
-}
-
-extension FisClientTypes.ExperimentTemplateReportConfigurationOutputsInput {
-
-    static func write(value: FisClientTypes.ExperimentTemplateReportConfigurationOutputsInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3Configuration"].write(value.s3Configuration, with: FisClientTypes.ReportConfigurationS3OutputInput.write(value:to:))
-    }
-}
-
-extension FisClientTypes.ReportConfigurationS3OutputInput {
-
-    static func write(value: FisClientTypes.ReportConfigurationS3OutputInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketName"].write(value.bucketName)
-        try writer["prefix"].write(value.`prefix`)
-    }
-}
-
-extension FisClientTypes.StartExperimentExperimentOptionsInput {
-
-    static func write(value: FisClientTypes.StartExperimentExperimentOptionsInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionsMode"].write(value.actionsMode)
     }
 }
 
@@ -4903,47 +4944,6 @@ extension FisClientTypes.UpdateExperimentTemplateTargetInput {
         try writer["resourceTags"].writeMap(value.resourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["resourceType"].write(value.resourceType)
         try writer["selectionMode"].write(value.selectionMode)
-    }
-}
-
-extension FisClientTypes.UpdateExperimentTemplateActionInputItem {
-
-    static func write(value: FisClientTypes.UpdateExperimentTemplateActionInputItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionId"].write(value.actionId)
-        try writer["description"].write(value.description)
-        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["startAfter"].writeList(value.startAfter, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["targets"].writeMap(value.targets, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-}
-
-extension FisClientTypes.UpdateExperimentTemplateLogConfigurationInput {
-
-    static func write(value: FisClientTypes.UpdateExperimentTemplateLogConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cloudWatchLogsConfiguration"].write(value.cloudWatchLogsConfiguration, with: FisClientTypes.ExperimentTemplateCloudWatchLogsLogConfigurationInput.write(value:to:))
-        try writer["logSchemaVersion"].write(value.logSchemaVersion)
-        try writer["s3Configuration"].write(value.s3Configuration, with: FisClientTypes.ExperimentTemplateS3LogConfigurationInput.write(value:to:))
-    }
-}
-
-extension FisClientTypes.UpdateExperimentTemplateExperimentOptionsInput {
-
-    static func write(value: FisClientTypes.UpdateExperimentTemplateExperimentOptionsInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["emptyTargetResolutionMode"].write(value.emptyTargetResolutionMode)
-    }
-}
-
-extension FisClientTypes.UpdateExperimentTemplateReportConfigurationInput {
-
-    static func write(value: FisClientTypes.UpdateExperimentTemplateReportConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataSources"].write(value.dataSources, with: FisClientTypes.ExperimentTemplateReportConfigurationDataSourcesInput.write(value:to:))
-        try writer["outputs"].write(value.outputs, with: FisClientTypes.ExperimentTemplateReportConfigurationOutputsInput.write(value:to:))
-        try writer["postExperimentDuration"].write(value.postExperimentDuration)
-        try writer["preExperimentDuration"].write(value.preExperimentDuration)
     }
 }
 

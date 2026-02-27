@@ -193,6 +193,126 @@ extension PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion2: Swift
 
 extension PaymentCryptographyDataClientTypes {
 
+    public enum SymmetricKeyAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aes128
+        case aes192
+        case aes256
+        case hmacSha224
+        case hmacSha256
+        case hmacSha384
+        case hmacSha512
+        case tdes2key
+        case tdes3key
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SymmetricKeyAlgorithm] {
+            return [
+                .aes128,
+                .aes192,
+                .aes256,
+                .hmacSha224,
+                .hmacSha256,
+                .hmacSha384,
+                .hmacSha512,
+                .tdes2key,
+                .tdes3key
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aes128: return "AES_128"
+            case .aes192: return "AES_192"
+            case .aes256: return "AES_256"
+            case .hmacSha224: return "HMAC_SHA224"
+            case .hmacSha256: return "HMAC_SHA256"
+            case .hmacSha384: return "HMAC_SHA384"
+            case .hmacSha512: return "HMAC_SHA512"
+            case .tdes2key: return "TDES_2KEY"
+            case .tdes3key: return "TDES_3KEY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameter information for generating a KEK validation request during node-to-node initialization.
+    public struct KekValidationRequest: Swift.Sendable {
+        /// The key derivation algorithm to use for generating a KEK validation request.
+        /// This member is required.
+        public var deriveKeyAlgorithm: PaymentCryptographyDataClientTypes.SymmetricKeyAlgorithm?
+
+        public init(
+            deriveKeyAlgorithm: PaymentCryptographyDataClientTypes.SymmetricKeyAlgorithm? = nil
+        ) {
+            self.deriveKeyAlgorithm = deriveKeyAlgorithm
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameter information for generating a KEK validation response during node-to-node initialization.
+    public struct KekValidationResponse: Swift.Sendable {
+        /// The random key for generating a KEK validation response.
+        /// This member is required.
+        public var randomKeySend: Swift.String?
+
+        public init(
+            randomKeySend: Swift.String? = nil
+        ) {
+            self.randomKeySend = randomKeySend
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.KekValidationResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "KekValidationResponse(randomKeySend: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameter information for generating a random key for KEK validation to perform node-to-node initialization.
+    public enum As2805KekValidationType: Swift.Sendable {
+        /// Parameter information for generating a KEK validation request during node-to-node initialization.
+        case kekvalidationrequest(PaymentCryptographyDataClientTypes.KekValidationRequest)
+        /// Parameter information for generating a KEK validation response during node-to-node initialization.
+        case kekvalidationresponse(PaymentCryptographyDataClientTypes.KekValidationResponse)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameter information to use a PEK derived using AS2805.
+    public struct As2805PekDerivationAttributes: Swift.Sendable {
+        /// The system trace audit number for the transaction.
+        /// This member is required.
+        public var systemTraceAuditNumber: Swift.String?
+        /// The transaction amount for the transaction.
+        /// This member is required.
+        public var transactionAmount: Swift.String?
+
+        public init(
+            systemTraceAuditNumber: Swift.String? = nil,
+            transactionAmount: Swift.String? = nil
+        ) {
+            self.systemTraceAuditNumber = systemTraceAuditNumber
+            self.transactionAmount = transactionAmount
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
     public enum PaddingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case oaepSha1
         case oaepSha256
@@ -1002,56 +1122,6 @@ extension PaymentCryptographyDataClientTypes {
 
 extension PaymentCryptographyDataClientTypes {
 
-    public enum SymmetricKeyAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case aes128
-        case aes192
-        case aes256
-        case hmacSha224
-        case hmacSha256
-        case hmacSha384
-        case hmacSha512
-        case tdes2key
-        case tdes3key
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SymmetricKeyAlgorithm] {
-            return [
-                .aes128,
-                .aes192,
-                .aes256,
-                .hmacSha224,
-                .hmacSha256,
-                .hmacSha384,
-                .hmacSha512,
-                .tdes2key,
-                .tdes3key
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .aes128: return "AES_128"
-            case .aes192: return "AES_192"
-            case .aes256: return "AES_256"
-            case .hmacSha224: return "HMAC_SHA224"
-            case .hmacSha256: return "HMAC_SHA256"
-            case .hmacSha384: return "HMAC_SHA384"
-            case .hmacSha512: return "HMAC_SHA512"
-            case .tdes2key: return "TDES_2KEY"
-            case .tdes3key: return "TDES_3KEY"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes {
-
     public enum KeyDerivationFunction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ansiX963
         case nistSp800
@@ -1598,6 +1668,89 @@ extension EncryptDataOutput: Swift.CustomDebugStringConvertible {
         "EncryptDataOutput(keyArn: \(Swift.String(describing: keyArn)), keyCheckValue: \(Swift.String(describing: keyCheckValue)), cipherText: \"CONTENT_REDACTED\")"}
 }
 
+extension PaymentCryptographyDataClientTypes {
+
+    public enum RandomKeySendVariantMask: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case variantMask82
+        case variantMask82c0
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RandomKeySendVariantMask] {
+            return [
+                .variantMask82,
+                .variantMask82c0
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .variantMask82: return "VARIANT_MASK_82"
+            case .variantMask82c0: return "VARIANT_MASK_82C0"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GenerateAs2805KekValidationInput: Swift.Sendable {
+    /// Parameter information for generating a random key for KEK validation to perform node-to-node initialization.
+    /// This member is required.
+    public var kekValidationType: PaymentCryptographyDataClientTypes.As2805KekValidationType?
+    /// The keyARN of sending KEK that Amazon Web Services Payment Cryptography uses for node-to-node initialization
+    /// This member is required.
+    public var keyIdentifier: Swift.String?
+    /// The key variant to use for generating a random key for KEK validation during node-to-node initialization.
+    /// This member is required.
+    public var randomKeySendVariantMask: PaymentCryptographyDataClientTypes.RandomKeySendVariantMask?
+
+    public init(
+        kekValidationType: PaymentCryptographyDataClientTypes.As2805KekValidationType? = nil,
+        keyIdentifier: Swift.String? = nil,
+        randomKeySendVariantMask: PaymentCryptographyDataClientTypes.RandomKeySendVariantMask? = nil
+    ) {
+        self.kekValidationType = kekValidationType
+        self.keyIdentifier = keyIdentifier
+        self.randomKeySendVariantMask = randomKeySendVariantMask
+    }
+}
+
+public struct GenerateAs2805KekValidationOutput: Swift.Sendable {
+    /// The keyARN of sending KEK that Amazon Web Services Payment Cryptography validates for node-to-node initialization
+    /// This member is required.
+    public var keyArn: Swift.String?
+    /// The key check value (KCV) of the sending KEK that Amazon Web Services Payment Cryptography validates for node-to-node initialization.
+    /// This member is required.
+    public var keyCheckValue: Swift.String?
+    /// The random key generated for receiving KEK validation. The initiating node sends this key to its partner node for validation.
+    /// This member is required.
+    public var randomKeyReceive: Swift.String?
+    /// The random key generated for sending KEK validation.
+    /// This member is required.
+    public var randomKeySend: Swift.String?
+
+    public init(
+        keyArn: Swift.String? = nil,
+        keyCheckValue: Swift.String? = nil,
+        randomKeyReceive: Swift.String? = nil,
+        randomKeySend: Swift.String? = nil
+    ) {
+        self.keyArn = keyArn
+        self.keyCheckValue = keyCheckValue
+        self.randomKeyReceive = randomKeyReceive
+        self.randomKeySend = randomKeySend
+    }
+}
+
+extension GenerateAs2805KekValidationOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GenerateAs2805KekValidationOutput(keyArn: \(Swift.String(describing: keyArn)), keyCheckValue: \(Swift.String(describing: keyCheckValue)), randomKeyReceive: \"CONTENT_REDACTED\", randomKeySend: \"CONTENT_REDACTED\")"}
+}
+
 public struct GenerateCardValidationDataInput: Swift.Sendable {
     /// The algorithm for generating CVV or CSC values for the card within Amazon Web Services Payment Cryptography.
     /// This member is required.
@@ -1659,6 +1812,7 @@ extension GenerateCardValidationDataOutput: Swift.CustomDebugStringConvertible {
 extension PaymentCryptographyDataClientTypes {
 
     public enum MacAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case as280541
         case cmac
         case hmac
         case hmacSha224
@@ -1671,6 +1825,7 @@ extension PaymentCryptographyDataClientTypes {
 
         public static var allCases: [MacAlgorithm] {
             return [
+                .as280541,
                 .cmac,
                 .hmac,
                 .hmacSha224,
@@ -1689,6 +1844,7 @@ extension PaymentCryptographyDataClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .as280541: return "AS2805_4_1"
             case .cmac: return "CMAC"
             case .hmac: return "HMAC"
             case .hmacSha224: return "HMAC_SHA224"
@@ -2302,7 +2458,7 @@ public struct GeneratePinDataInput: Swift.Sendable {
     /// The keyARN of the PEK that Amazon Web Services Payment Cryptography uses for pin data generation.
     /// This member is required.
     public var generationKeyIdentifier: Swift.String?
-    /// The PIN encoding format for pin data generation as specified in ISO 9564. Amazon Web Services Payment Cryptography supports ISO_Format_0, ISO_Format_3 and ISO_Format_4. The ISO_Format_0 PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12 digits in length. The ISO_Format_3 PIN block format is the same as ISO_Format_0 except that the fill digits are random values from 10 to 15. The ISO_Format_4 PIN block format is the only one supporting AES encryption. It is similar to ISO_Format_3 but doubles the pin block length by padding with fill digit A and random values from 10 to 15.
+    /// The PIN encoding format for pin data generation as specified in ISO 9564. Amazon Web Services Payment Cryptography supports ISO_Format_0, ISO_Format_3 and ISO_Format_4. The ISO_Format_0 PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12 digits in length. The ISO_Format_3 PIN block format is the same as ISO_Format_0 except that the fill digits are random values from 10 to 15. The ISO_Format_4 PIN block format is the only one supporting AES encryption.
     /// This member is required.
     public var pinBlockFormat: PaymentCryptographyDataClientTypes.PinBlockFormatForPinData?
     /// The length of PIN under generation.
@@ -2604,7 +2760,7 @@ public struct TranslateKeyMaterialInput: Swift.Sendable {
     /// Parameter information of the TR31WrappedKeyBlock containing the transaction key.
     /// This member is required.
     public var incomingKeyMaterial: PaymentCryptographyDataClientTypes.IncomingKeyMaterial?
-    /// The key check value (KCV) algorithm used for calculating the KCV.
+    /// The key check value (KCV) algorithm used for calculating the KCV of the derived key.
     public var keyCheckValueAlgorithm: PaymentCryptographyDataClientTypes.KeyCheckValueAlgorithm?
     /// Parameter information of the wrapping key used to wrap the transaction key in the outgoing TR31WrappedKeyBlock.
     /// This member is required.
@@ -2698,7 +2854,28 @@ public struct TranslateKeyMaterialOutput: Swift.Sendable {
 
 extension PaymentCryptographyDataClientTypes {
 
-    /// Parameters that are required for tranlation between ISO9564 PIN format 0,3,4 tranlation.
+    /// Parameters that are required for translation between AS2805 PIN format 0 translation.
+    public struct TranslationPinDataAs2805Format0: Swift.Sendable {
+        /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
+        /// This member is required.
+        public var primaryAccountNumber: Swift.String?
+
+        public init(
+            primaryAccountNumber: Swift.String? = nil
+        ) {
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.TranslationPinDataAs2805Format0: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TranslationPinDataAs2805Format0(primaryAccountNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameters that are required for translation between ISO9564 PIN format 0,3,4 translation.
     public struct TranslationPinDataIsoFormat034: Swift.Sendable {
         /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
         /// This member is required.
@@ -2719,7 +2896,7 @@ extension PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034: Swi
 
 extension PaymentCryptographyDataClientTypes {
 
-    /// Parameters that are required for ISO9564 PIN format 1 tranlation.
+    /// Parameters that are required for ISO9564 PIN format 1 translation.
     public struct TranslationPinDataIsoFormat1: Swift.Sendable {
 
         public init() { }
@@ -2730,14 +2907,16 @@ extension PaymentCryptographyDataClientTypes {
 
     /// Parameters that are required for translation between ISO9564 PIN block formats 0,1,3,4.
     public enum TranslationIsoFormats: Swift.Sendable {
-        /// Parameters that are required for ISO9564 PIN format 0 tranlation.
+        /// Parameters that are required for ISO9564 PIN format 0 translation.
         case isoformat0(PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034)
-        /// Parameters that are required for ISO9564 PIN format 1 tranlation.
+        /// Parameters that are required for ISO9564 PIN format 1 translation.
         case isoformat1(PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat1)
-        /// Parameters that are required for ISO9564 PIN format 3 tranlation.
+        /// Parameters that are required for ISO9564 PIN format 3 translation.
         case isoformat3(PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034)
-        /// Parameters that are required for ISO9564 PIN format 4 tranlation.
+        /// Parameters that are required for ISO9564 PIN format 4 translation.
         case isoformat4(PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034)
+        /// Parameters that are required for AS2805 PIN format 0 translation.
+        case as2805format0(PaymentCryptographyDataClientTypes.TranslationPinDataAs2805Format0)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2746,6 +2925,8 @@ public struct TranslatePinDataInput: Swift.Sendable {
     /// The encrypted PIN block data that Amazon Web Services Payment Cryptography translates.
     /// This member is required.
     public var encryptedPinBlock: Swift.String?
+    /// The attributes and values to use for incoming AS2805 encryption key for PIN block translation.
+    public var incomingAs2805Attributes: PaymentCryptographyDataClientTypes.As2805PekDerivationAttributes?
     /// The attributes and values to use for incoming DUKPT encryption key for PIN block translation.
     public var incomingDukptAttributes: PaymentCryptographyDataClientTypes.DukptDerivationAttributes?
     /// The keyARN of the encryption key under which incoming PIN block data is encrypted. This key type can be PEK or BDK. For dynamic keys, it is the keyARN of KEK of the TR-31 wrapped PEK. For ECDH, it is the keyARN of the asymmetric ECC key.
@@ -2769,6 +2950,7 @@ public struct TranslatePinDataInput: Swift.Sendable {
 
     public init(
         encryptedPinBlock: Swift.String? = nil,
+        incomingAs2805Attributes: PaymentCryptographyDataClientTypes.As2805PekDerivationAttributes? = nil,
         incomingDukptAttributes: PaymentCryptographyDataClientTypes.DukptDerivationAttributes? = nil,
         incomingKeyIdentifier: Swift.String? = nil,
         incomingTranslationAttributes: PaymentCryptographyDataClientTypes.TranslationIsoFormats? = nil,
@@ -2779,6 +2961,7 @@ public struct TranslatePinDataInput: Swift.Sendable {
         outgoingWrappedKey: PaymentCryptographyDataClientTypes.WrappedKey? = nil
     ) {
         self.encryptedPinBlock = encryptedPinBlock
+        self.incomingAs2805Attributes = incomingAs2805Attributes
         self.incomingDukptAttributes = incomingDukptAttributes
         self.incomingKeyIdentifier = incomingKeyIdentifier
         self.incomingTranslationAttributes = incomingTranslationAttributes
@@ -2792,7 +2975,7 @@ public struct TranslatePinDataInput: Swift.Sendable {
 
 extension TranslatePinDataInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TranslatePinDataInput(incomingDukptAttributes: \(Swift.String(describing: incomingDukptAttributes)), incomingKeyIdentifier: \(Swift.String(describing: incomingKeyIdentifier)), incomingTranslationAttributes: \(Swift.String(describing: incomingTranslationAttributes)), incomingWrappedKey: \(Swift.String(describing: incomingWrappedKey)), outgoingDukptAttributes: \(Swift.String(describing: outgoingDukptAttributes)), outgoingKeyIdentifier: \(Swift.String(describing: outgoingKeyIdentifier)), outgoingTranslationAttributes: \(Swift.String(describing: outgoingTranslationAttributes)), outgoingWrappedKey: \(Swift.String(describing: outgoingWrappedKey)), encryptedPinBlock: \"CONTENT_REDACTED\")"}
+        "TranslatePinDataInput(incomingAs2805Attributes: \(Swift.String(describing: incomingAs2805Attributes)), incomingDukptAttributes: \(Swift.String(describing: incomingDukptAttributes)), incomingKeyIdentifier: \(Swift.String(describing: incomingKeyIdentifier)), incomingTranslationAttributes: \(Swift.String(describing: incomingTranslationAttributes)), incomingWrappedKey: \(Swift.String(describing: incomingWrappedKey)), outgoingDukptAttributes: \(Swift.String(describing: outgoingDukptAttributes)), outgoingKeyIdentifier: \(Swift.String(describing: outgoingKeyIdentifier)), outgoingTranslationAttributes: \(Swift.String(describing: outgoingTranslationAttributes)), outgoingWrappedKey: \(Swift.String(describing: outgoingWrappedKey)), encryptedPinBlock: \"CONTENT_REDACTED\")"}
 }
 
 public struct TranslatePinDataOutput: Swift.Sendable {
@@ -3361,6 +3544,13 @@ extension EncryptDataInput {
     }
 }
 
+extension GenerateAs2805KekValidationInput {
+
+    static func urlPathProvider(_ value: GenerateAs2805KekValidationInput) -> Swift.String? {
+        return "/as2805kekvalidation/generate"
+    }
+}
+
 extension GenerateCardValidationDataInput {
 
     static func urlPathProvider(_ value: GenerateCardValidationDataInput) -> Swift.String? {
@@ -3461,6 +3651,16 @@ extension EncryptDataInput {
     }
 }
 
+extension GenerateAs2805KekValidationInput {
+
+    static func write(value: GenerateAs2805KekValidationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KekValidationType"].write(value.kekValidationType, with: PaymentCryptographyDataClientTypes.As2805KekValidationType.write(value:to:))
+        try writer["KeyIdentifier"].write(value.keyIdentifier)
+        try writer["RandomKeySendVariantMask"].write(value.randomKeySendVariantMask)
+    }
+}
+
 extension GenerateCardValidationDataInput {
 
     static func write(value: GenerateCardValidationDataInput?, to writer: SmithyJSON.Writer) throws {
@@ -3539,6 +3739,7 @@ extension TranslatePinDataInput {
     static func write(value: TranslatePinDataInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EncryptedPinBlock"].write(value.encryptedPinBlock)
+        try writer["IncomingAs2805Attributes"].write(value.incomingAs2805Attributes, with: PaymentCryptographyDataClientTypes.As2805PekDerivationAttributes.write(value:to:))
         try writer["IncomingDukptAttributes"].write(value.incomingDukptAttributes, with: PaymentCryptographyDataClientTypes.DukptDerivationAttributes.write(value:to:))
         try writer["IncomingKeyIdentifier"].write(value.incomingKeyIdentifier)
         try writer["IncomingTranslationAttributes"].write(value.incomingTranslationAttributes, with: PaymentCryptographyDataClientTypes.TranslationIsoFormats.write(value:to:))
@@ -3626,6 +3827,21 @@ extension EncryptDataOutput {
         value.cipherText = try reader["CipherText"].readIfPresent() ?? ""
         value.keyArn = try reader["KeyArn"].readIfPresent() ?? ""
         value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent()
+        return value
+    }
+}
+
+extension GenerateAs2805KekValidationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GenerateAs2805KekValidationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GenerateAs2805KekValidationOutput()
+        value.keyArn = try reader["KeyArn"].readIfPresent() ?? ""
+        value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent() ?? ""
+        value.randomKeyReceive = try reader["RandomKeyReceive"].readIfPresent() ?? ""
+        value.randomKeySend = try reader["RandomKeySend"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3809,6 +4025,24 @@ enum DecryptDataOutputError {
 }
 
 enum EncryptDataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GenerateAs2805KekValidationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4108,99 +4342,57 @@ extension VerificationFailedException {
     }
 }
 
-extension PaymentCryptographyDataClientTypes.VisaAmexDerivationOutputs {
+extension PaymentCryptographyDataClientTypes.AmexAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.VisaAmexDerivationOutputs {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.VisaAmexDerivationOutputs()
-        value.authorizationRequestKeyArn = try reader["AuthorizationRequestKeyArn"].readIfPresent() ?? ""
-        value.authorizationRequestKeyCheckValue = try reader["AuthorizationRequestKeyCheckValue"].readIfPresent() ?? ""
-        value.currentPinPekArn = try reader["CurrentPinPekArn"].readIfPresent()
-        value.currentPinPekKeyCheckValue = try reader["CurrentPinPekKeyCheckValue"].readIfPresent()
-        return value
+    static func write(value: PaymentCryptographyDataClientTypes.AmexAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
+        try writer["AuthorizationRequestKeyIdentifier"].write(value.authorizationRequestKeyIdentifier)
+        try writer["CurrentPinAttributes"].write(value.currentPinAttributes, with: PaymentCryptographyDataClientTypes.CurrentPinAttributes.write(value:to:))
+        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
     }
 }
 
-extension PaymentCryptographyDataClientTypes.PinData {
+extension PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion1 {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.PinData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "PinOffset":
-                return .pinoffset(try reader["PinOffset"].read())
-            case "VerificationValue":
-                return .verificationvalue(try reader["VerificationValue"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+    static func write(value: PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion1?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CardExpiryDate"].write(value.cardExpiryDate)
     }
 }
 
-extension PaymentCryptographyDataClientTypes.WrappedWorkingKey {
+extension PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion2 {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.WrappedWorkingKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.WrappedWorkingKey()
-        value.wrappedKeyMaterial = try reader["WrappedKeyMaterial"].readIfPresent() ?? ""
-        value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent() ?? ""
-        value.wrappedKeyMaterialFormat = try reader["WrappedKeyMaterialFormat"].readIfPresent() ?? .sdkUnknown("")
-        return value
+    static func write(value: PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion2?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CardExpiryDate"].write(value.cardExpiryDate)
+        try writer["ServiceCode"].write(value.serviceCode)
     }
 }
 
-extension PaymentCryptographyDataClientTypes.ValidationExceptionField {
+extension PaymentCryptographyDataClientTypes.As2805KekValidationType {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PaymentCryptographyDataClientTypes.ValidationExceptionField()
-        value.path = try reader["path"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.EncryptionDecryptionAttributes {
-
-    static func write(value: PaymentCryptographyDataClientTypes.EncryptionDecryptionAttributes?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PaymentCryptographyDataClientTypes.As2805KekValidationType?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .asymmetric(asymmetric):
-                try writer["Asymmetric"].write(asymmetric, with: PaymentCryptographyDataClientTypes.AsymmetricEncryptionAttributes.write(value:to:))
-            case let .dukpt(dukpt):
-                try writer["Dukpt"].write(dukpt, with: PaymentCryptographyDataClientTypes.DukptEncryptionAttributes.write(value:to:))
-            case let .emv(emv):
-                try writer["Emv"].write(emv, with: PaymentCryptographyDataClientTypes.EmvEncryptionAttributes.write(value:to:))
-            case let .symmetric(symmetric):
-                try writer["Symmetric"].write(symmetric, with: PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes.write(value:to:))
+            case let .kekvalidationrequest(kekvalidationrequest):
+                try writer["KekValidationRequest"].write(kekvalidationrequest, with: PaymentCryptographyDataClientTypes.KekValidationRequest.write(value:to:))
+            case let .kekvalidationresponse(kekvalidationresponse):
+                try writer["KekValidationResponse"].write(kekvalidationresponse, with: PaymentCryptographyDataClientTypes.KekValidationResponse.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 }
 
-extension PaymentCryptographyDataClientTypes.EmvEncryptionAttributes {
+extension PaymentCryptographyDataClientTypes.As2805PekDerivationAttributes {
 
-    static func write(value: PaymentCryptographyDataClientTypes.EmvEncryptionAttributes?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PaymentCryptographyDataClientTypes.As2805PekDerivationAttributes?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["InitializationVector"].write(value.initializationVector)
-        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
-        try writer["Mode"].write(value.mode)
-        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
-        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
-        try writer["SessionDerivationData"].write(value.sessionDerivationData)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.DukptEncryptionAttributes {
-
-    static func write(value: PaymentCryptographyDataClientTypes.DukptEncryptionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DukptKeyDerivationType"].write(value.dukptKeyDerivationType)
-        try writer["DukptKeyVariant"].write(value.dukptKeyVariant)
-        try writer["InitializationVector"].write(value.initializationVector)
-        try writer["KeySerialNumber"].write(value.keySerialNumber)
-        try writer["Mode"].write(value.mode)
+        try writer["SystemTraceAuditNumber"].write(value.systemTraceAuditNumber)
+        try writer["TransactionAmount"].write(value.transactionAmount)
     }
 }
 
@@ -4209,53 +4401,6 @@ extension PaymentCryptographyDataClientTypes.AsymmetricEncryptionAttributes {
     static func write(value: PaymentCryptographyDataClientTypes.AsymmetricEncryptionAttributes?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["PaddingType"].write(value.paddingType)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes {
-
-    static func write(value: PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InitializationVector"].write(value.initializationVector)
-        try writer["Mode"].write(value.mode)
-        try writer["PaddingType"].write(value.paddingType)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.WrappedKey {
-
-    static func write(value: PaymentCryptographyDataClientTypes.WrappedKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeyCheckValueAlgorithm"].write(value.keyCheckValueAlgorithm)
-        try writer["WrappedKeyMaterial"].write(value.wrappedKeyMaterial, with: PaymentCryptographyDataClientTypes.WrappedKeyMaterial.write(value:to:))
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.WrappedKeyMaterial {
-
-    static func write(value: PaymentCryptographyDataClientTypes.WrappedKeyMaterial?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .diffiehellmansymmetrickey(diffiehellmansymmetrickey):
-                try writer["DiffieHellmanSymmetricKey"].write(diffiehellmansymmetrickey, with: PaymentCryptographyDataClientTypes.EcdhDerivationAttributes.write(value:to:))
-            case let .tr31keyblock(tr31keyblock):
-                try writer["Tr31KeyBlock"].write(tr31keyblock)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.EcdhDerivationAttributes {
-
-    static func write(value: PaymentCryptographyDataClientTypes.EcdhDerivationAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
-        try writer["KeyAlgorithm"].write(value.keyAlgorithm)
-        try writer["KeyDerivationFunction"].write(value.keyDerivationFunction)
-        try writer["KeyDerivationHashAlgorithm"].write(value.keyDerivationHashAlgorithm)
-        try writer["PublicKeyCertificate"].write(value.publicKeyCertificate)
-        try writer["SharedInformation"].write(value.sharedInformation)
     }
 }
 
@@ -4284,28 +4429,6 @@ extension PaymentCryptographyDataClientTypes.CardGenerationAttributes {
     }
 }
 
-extension PaymentCryptographyDataClientTypes.DynamicCardVerificationValue {
-
-    static func write(value: PaymentCryptographyDataClientTypes.DynamicCardVerificationValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
-        try writer["CardExpiryDate"].write(value.cardExpiryDate)
-        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
-        try writer["ServiceCode"].write(value.serviceCode)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.DynamicCardVerificationCode {
-
-    static func write(value: PaymentCryptographyDataClientTypes.DynamicCardVerificationCode?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
-        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
-        try writer["TrackData"].write(value.trackData)
-        try writer["UnpredictableNumber"].write(value.unpredictableNumber)
-    }
-}
-
 extension PaymentCryptographyDataClientTypes.CardHolderVerificationValue {
 
     static func write(value: PaymentCryptographyDataClientTypes.CardHolderVerificationValue?, to writer: SmithyJSON.Writer) throws {
@@ -4313,496 +4436,6 @@ extension PaymentCryptographyDataClientTypes.CardHolderVerificationValue {
         try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
         try writer["PanSequenceNumber"].write(value.panSequenceNumber)
         try writer["UnpredictableNumber"].write(value.unpredictableNumber)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.CardVerificationValue2 {
-
-    static func write(value: PaymentCryptographyDataClientTypes.CardVerificationValue2?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CardExpiryDate"].write(value.cardExpiryDate)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.CardVerificationValue1 {
-
-    static func write(value: PaymentCryptographyDataClientTypes.CardVerificationValue1?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CardExpiryDate"].write(value.cardExpiryDate)
-        try writer["ServiceCode"].write(value.serviceCode)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion2 {
-
-    static func write(value: PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion2?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CardExpiryDate"].write(value.cardExpiryDate)
-        try writer["ServiceCode"].write(value.serviceCode)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion1 {
-
-    static func write(value: PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion1?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CardExpiryDate"].write(value.cardExpiryDate)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.MacAttributes {
-
-    static func write(value: PaymentCryptographyDataClientTypes.MacAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .algorithm(algorithm):
-                try writer["Algorithm"].write(algorithm)
-            case let .dukptcmac(dukptcmac):
-                try writer["DukptCmac"].write(dukptcmac, with: PaymentCryptographyDataClientTypes.MacAlgorithmDukpt.write(value:to:))
-            case let .dukptiso9797algorithm1(dukptiso9797algorithm1):
-                try writer["DukptIso9797Algorithm1"].write(dukptiso9797algorithm1, with: PaymentCryptographyDataClientTypes.MacAlgorithmDukpt.write(value:to:))
-            case let .dukptiso9797algorithm3(dukptiso9797algorithm3):
-                try writer["DukptIso9797Algorithm3"].write(dukptiso9797algorithm3, with: PaymentCryptographyDataClientTypes.MacAlgorithmDukpt.write(value:to:))
-            case let .emvmac(emvmac):
-                try writer["EmvMac"].write(emvmac, with: PaymentCryptographyDataClientTypes.MacAlgorithmEmv.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.MacAlgorithmDukpt {
-
-    static func write(value: PaymentCryptographyDataClientTypes.MacAlgorithmDukpt?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DukptDerivationType"].write(value.dukptDerivationType)
-        try writer["DukptKeyVariant"].write(value.dukptKeyVariant)
-        try writer["KeySerialNumber"].write(value.keySerialNumber)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.MacAlgorithmEmv {
-
-    static func write(value: PaymentCryptographyDataClientTypes.MacAlgorithmEmv?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
-        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
-        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
-        try writer["SessionKeyDerivationMode"].write(value.sessionKeyDerivationMode)
-        try writer["SessionKeyDerivationValue"].write(value.sessionKeyDerivationValue, with: PaymentCryptographyDataClientTypes.SessionKeyDerivationValue.write(value:to:))
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.SessionKeyDerivationValue {
-
-    static func write(value: PaymentCryptographyDataClientTypes.SessionKeyDerivationValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .applicationcryptogram(applicationcryptogram):
-                try writer["ApplicationCryptogram"].write(applicationcryptogram)
-            case let .applicationtransactioncounter(applicationtransactioncounter):
-                try writer["ApplicationTransactionCounter"].write(applicationtransactioncounter)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.DerivationMethodAttributes {
-
-    static func write(value: PaymentCryptographyDataClientTypes.DerivationMethodAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .amex(amex):
-                try writer["Amex"].write(amex, with: PaymentCryptographyDataClientTypes.AmexAttributes.write(value:to:))
-            case let .emv2000(emv2000):
-                try writer["Emv2000"].write(emv2000, with: PaymentCryptographyDataClientTypes.Emv2000Attributes.write(value:to:))
-            case let .emvcommon(emvcommon):
-                try writer["EmvCommon"].write(emvcommon, with: PaymentCryptographyDataClientTypes.EmvCommonAttributes.write(value:to:))
-            case let .mastercard(mastercard):
-                try writer["Mastercard"].write(mastercard, with: PaymentCryptographyDataClientTypes.MasterCardAttributes.write(value:to:))
-            case let .visa(visa):
-                try writer["Visa"].write(visa, with: PaymentCryptographyDataClientTypes.VisaAttributes.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.MasterCardAttributes {
-
-    static func write(value: PaymentCryptographyDataClientTypes.MasterCardAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationCryptogram"].write(value.applicationCryptogram)
-        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
-        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
-        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.Emv2000Attributes {
-
-    static func write(value: PaymentCryptographyDataClientTypes.Emv2000Attributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
-        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
-        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
-        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.VisaAttributes {
-
-    static func write(value: PaymentCryptographyDataClientTypes.VisaAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
-        try writer["AuthorizationRequestKeyIdentifier"].write(value.authorizationRequestKeyIdentifier)
-        try writer["CurrentPinAttributes"].write(value.currentPinAttributes, with: PaymentCryptographyDataClientTypes.CurrentPinAttributes.write(value:to:))
-        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
-        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
-        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.CurrentPinAttributes {
-
-    static func write(value: PaymentCryptographyDataClientTypes.CurrentPinAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CurrentEncryptedPinBlock"].write(value.currentEncryptedPinBlock)
-        try writer["CurrentPinPekIdentifier"].write(value.currentPinPekIdentifier)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.AmexAttributes {
-
-    static func write(value: PaymentCryptographyDataClientTypes.AmexAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
-        try writer["AuthorizationRequestKeyIdentifier"].write(value.authorizationRequestKeyIdentifier)
-        try writer["CurrentPinAttributes"].write(value.currentPinAttributes, with: PaymentCryptographyDataClientTypes.CurrentPinAttributes.write(value:to:))
-        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
-        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
-        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.EmvCommonAttributes {
-
-    static func write(value: PaymentCryptographyDataClientTypes.EmvCommonAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationCryptogram"].write(value.applicationCryptogram)
-        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
-        try writer["Mode"].write(value.mode)
-        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
-        try writer["PinBlockLengthPosition"].write(value.pinBlockLengthPosition)
-        try writer["PinBlockPaddingType"].write(value.pinBlockPaddingType)
-        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.PinGenerationAttributes {
-
-    static func write(value: PaymentCryptographyDataClientTypes.PinGenerationAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .ibm3624naturalpin(ibm3624naturalpin):
-                try writer["Ibm3624NaturalPin"].write(ibm3624naturalpin, with: PaymentCryptographyDataClientTypes.Ibm3624NaturalPin.write(value:to:))
-            case let .ibm3624pinfromoffset(ibm3624pinfromoffset):
-                try writer["Ibm3624PinFromOffset"].write(ibm3624pinfromoffset, with: PaymentCryptographyDataClientTypes.Ibm3624PinFromOffset.write(value:to:))
-            case let .ibm3624pinoffset(ibm3624pinoffset):
-                try writer["Ibm3624PinOffset"].write(ibm3624pinoffset, with: PaymentCryptographyDataClientTypes.Ibm3624PinOffset.write(value:to:))
-            case let .ibm3624randompin(ibm3624randompin):
-                try writer["Ibm3624RandomPin"].write(ibm3624randompin, with: PaymentCryptographyDataClientTypes.Ibm3624RandomPin.write(value:to:))
-            case let .visapin(visapin):
-                try writer["VisaPin"].write(visapin, with: PaymentCryptographyDataClientTypes.VisaPin.write(value:to:))
-            case let .visapinverificationvalue(visapinverificationvalue):
-                try writer["VisaPinVerificationValue"].write(visapinverificationvalue, with: PaymentCryptographyDataClientTypes.VisaPinVerificationValue.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.Ibm3624PinFromOffset {
-
-    static func write(value: PaymentCryptographyDataClientTypes.Ibm3624PinFromOffset?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DecimalizationTable"].write(value.decimalizationTable)
-        try writer["PinOffset"].write(value.pinOffset)
-        try writer["PinValidationData"].write(value.pinValidationData)
-        try writer["PinValidationDataPadCharacter"].write(value.pinValidationDataPadCharacter)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.Ibm3624RandomPin {
-
-    static func write(value: PaymentCryptographyDataClientTypes.Ibm3624RandomPin?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DecimalizationTable"].write(value.decimalizationTable)
-        try writer["PinValidationData"].write(value.pinValidationData)
-        try writer["PinValidationDataPadCharacter"].write(value.pinValidationDataPadCharacter)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.Ibm3624NaturalPin {
-
-    static func write(value: PaymentCryptographyDataClientTypes.Ibm3624NaturalPin?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DecimalizationTable"].write(value.decimalizationTable)
-        try writer["PinValidationData"].write(value.pinValidationData)
-        try writer["PinValidationDataPadCharacter"].write(value.pinValidationDataPadCharacter)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.Ibm3624PinOffset {
-
-    static func write(value: PaymentCryptographyDataClientTypes.Ibm3624PinOffset?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DecimalizationTable"].write(value.decimalizationTable)
-        try writer["EncryptedPinBlock"].write(value.encryptedPinBlock)
-        try writer["PinValidationData"].write(value.pinValidationData)
-        try writer["PinValidationDataPadCharacter"].write(value.pinValidationDataPadCharacter)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.VisaPinVerificationValue {
-
-    static func write(value: PaymentCryptographyDataClientTypes.VisaPinVerificationValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EncryptedPinBlock"].write(value.encryptedPinBlock)
-        try writer["PinVerificationKeyIndex"].write(value.pinVerificationKeyIndex)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.VisaPin {
-
-    static func write(value: PaymentCryptographyDataClientTypes.VisaPin?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PinVerificationKeyIndex"].write(value.pinVerificationKeyIndex)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.ReEncryptionAttributes {
-
-    static func write(value: PaymentCryptographyDataClientTypes.ReEncryptionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .dukpt(dukpt):
-                try writer["Dukpt"].write(dukpt, with: PaymentCryptographyDataClientTypes.DukptEncryptionAttributes.write(value:to:))
-            case let .symmetric(symmetric):
-                try writer["Symmetric"].write(symmetric, with: PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.IncomingKeyMaterial {
-
-    static func write(value: PaymentCryptographyDataClientTypes.IncomingKeyMaterial?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .diffiehellmantr31keyblock(diffiehellmantr31keyblock):
-                try writer["DiffieHellmanTr31KeyBlock"].write(diffiehellmantr31keyblock, with: PaymentCryptographyDataClientTypes.IncomingDiffieHellmanTr31KeyBlock.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.IncomingDiffieHellmanTr31KeyBlock {
-
-    static func write(value: PaymentCryptographyDataClientTypes.IncomingDiffieHellmanTr31KeyBlock?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
-        try writer["DerivationData"].write(value.derivationData, with: PaymentCryptographyDataClientTypes.DiffieHellmanDerivationData.write(value:to:))
-        try writer["DeriveKeyAlgorithm"].write(value.deriveKeyAlgorithm)
-        try writer["KeyDerivationFunction"].write(value.keyDerivationFunction)
-        try writer["KeyDerivationHashAlgorithm"].write(value.keyDerivationHashAlgorithm)
-        try writer["PrivateKeyIdentifier"].write(value.privateKeyIdentifier)
-        try writer["PublicKeyCertificate"].write(value.publicKeyCertificate)
-        try writer["WrappedKeyBlock"].write(value.wrappedKeyBlock)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.DiffieHellmanDerivationData {
-
-    static func write(value: PaymentCryptographyDataClientTypes.DiffieHellmanDerivationData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .sharedinformation(sharedinformation):
-                try writer["SharedInformation"].write(sharedinformation)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.OutgoingKeyMaterial {
-
-    static func write(value: PaymentCryptographyDataClientTypes.OutgoingKeyMaterial?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .tr31keyblock(tr31keyblock):
-                try writer["Tr31KeyBlock"].write(tr31keyblock, with: PaymentCryptographyDataClientTypes.OutgoingTr31KeyBlock.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.OutgoingTr31KeyBlock {
-
-    static func write(value: PaymentCryptographyDataClientTypes.OutgoingTr31KeyBlock?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["WrappingKeyIdentifier"].write(value.wrappingKeyIdentifier)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.TranslationIsoFormats {
-
-    static func write(value: PaymentCryptographyDataClientTypes.TranslationIsoFormats?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .isoformat0(isoformat0):
-                try writer["IsoFormat0"].write(isoformat0, with: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034.write(value:to:))
-            case let .isoformat1(isoformat1):
-                try writer["IsoFormat1"].write(isoformat1, with: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat1.write(value:to:))
-            case let .isoformat3(isoformat3):
-                try writer["IsoFormat3"].write(isoformat3, with: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034.write(value:to:))
-            case let .isoformat4(isoformat4):
-                try writer["IsoFormat4"].write(isoformat4, with: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034 {
-
-    static func write(value: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat1 {
-
-    static func write(value: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat1?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.DukptDerivationAttributes {
-
-    static func write(value: PaymentCryptographyDataClientTypes.DukptDerivationAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DukptKeyDerivationType"].write(value.dukptKeyDerivationType)
-        try writer["DukptKeyVariant"].write(value.dukptKeyVariant)
-        try writer["KeySerialNumber"].write(value.keySerialNumber)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.SessionKeyDerivation {
-
-    static func write(value: PaymentCryptographyDataClientTypes.SessionKeyDerivation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .amex(amex):
-                try writer["Amex"].write(amex, with: PaymentCryptographyDataClientTypes.SessionKeyAmex.write(value:to:))
-            case let .emv2000(emv2000):
-                try writer["Emv2000"].write(emv2000, with: PaymentCryptographyDataClientTypes.SessionKeyEmv2000.write(value:to:))
-            case let .emvcommon(emvcommon):
-                try writer["EmvCommon"].write(emvcommon, with: PaymentCryptographyDataClientTypes.SessionKeyEmvCommon.write(value:to:))
-            case let .mastercard(mastercard):
-                try writer["Mastercard"].write(mastercard, with: PaymentCryptographyDataClientTypes.SessionKeyMastercard.write(value:to:))
-            case let .visa(visa):
-                try writer["Visa"].write(visa, with: PaymentCryptographyDataClientTypes.SessionKeyVisa.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.SessionKeyVisa {
-
-    static func write(value: PaymentCryptographyDataClientTypes.SessionKeyVisa?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
-        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.SessionKeyAmex {
-
-    static func write(value: PaymentCryptographyDataClientTypes.SessionKeyAmex?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
-        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.SessionKeyEmv2000 {
-
-    static func write(value: PaymentCryptographyDataClientTypes.SessionKeyEmv2000?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
-        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
-        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.SessionKeyMastercard {
-
-    static func write(value: PaymentCryptographyDataClientTypes.SessionKeyMastercard?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
-        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
-        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
-        try writer["UnpredictableNumber"].write(value.unpredictableNumber)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.SessionKeyEmvCommon {
-
-    static func write(value: PaymentCryptographyDataClientTypes.SessionKeyEmvCommon?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
-        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
-        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.CryptogramAuthResponse {
-
-    static func write(value: PaymentCryptographyDataClientTypes.CryptogramAuthResponse?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .arpcmethod1(arpcmethod1):
-                try writer["ArpcMethod1"].write(arpcmethod1, with: PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod1.write(value:to:))
-            case let .arpcmethod2(arpcmethod2):
-                try writer["ArpcMethod2"].write(arpcmethod2, with: PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod2.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod2 {
-
-    static func write(value: PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod2?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CardStatusUpdate"].write(value.cardStatusUpdate)
-        try writer["ProprietaryAuthenticationData"].write(value.proprietaryAuthenticationData)
-    }
-}
-
-extension PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod1 {
-
-    static func write(value: PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod1?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthResponseCode"].write(value.authResponseCode)
     }
 }
 
@@ -4833,6 +4466,98 @@ extension PaymentCryptographyDataClientTypes.CardVerificationAttributes {
     }
 }
 
+extension PaymentCryptographyDataClientTypes.CardVerificationValue1 {
+
+    static func write(value: PaymentCryptographyDataClientTypes.CardVerificationValue1?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CardExpiryDate"].write(value.cardExpiryDate)
+        try writer["ServiceCode"].write(value.serviceCode)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.CardVerificationValue2 {
+
+    static func write(value: PaymentCryptographyDataClientTypes.CardVerificationValue2?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CardExpiryDate"].write(value.cardExpiryDate)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.CryptogramAuthResponse {
+
+    static func write(value: PaymentCryptographyDataClientTypes.CryptogramAuthResponse?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .arpcmethod1(arpcmethod1):
+                try writer["ArpcMethod1"].write(arpcmethod1, with: PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod1.write(value:to:))
+            case let .arpcmethod2(arpcmethod2):
+                try writer["ArpcMethod2"].write(arpcmethod2, with: PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod2.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod1 {
+
+    static func write(value: PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod1?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthResponseCode"].write(value.authResponseCode)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod2 {
+
+    static func write(value: PaymentCryptographyDataClientTypes.CryptogramVerificationArpcMethod2?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CardStatusUpdate"].write(value.cardStatusUpdate)
+        try writer["ProprietaryAuthenticationData"].write(value.proprietaryAuthenticationData)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.CurrentPinAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.CurrentPinAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CurrentEncryptedPinBlock"].write(value.currentEncryptedPinBlock)
+        try writer["CurrentPinPekIdentifier"].write(value.currentPinPekIdentifier)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.DerivationMethodAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.DerivationMethodAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .amex(amex):
+                try writer["Amex"].write(amex, with: PaymentCryptographyDataClientTypes.AmexAttributes.write(value:to:))
+            case let .emv2000(emv2000):
+                try writer["Emv2000"].write(emv2000, with: PaymentCryptographyDataClientTypes.Emv2000Attributes.write(value:to:))
+            case let .emvcommon(emvcommon):
+                try writer["EmvCommon"].write(emvcommon, with: PaymentCryptographyDataClientTypes.EmvCommonAttributes.write(value:to:))
+            case let .mastercard(mastercard):
+                try writer["Mastercard"].write(mastercard, with: PaymentCryptographyDataClientTypes.MasterCardAttributes.write(value:to:))
+            case let .visa(visa):
+                try writer["Visa"].write(visa, with: PaymentCryptographyDataClientTypes.VisaAttributes.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.DiffieHellmanDerivationData {
+
+    static func write(value: PaymentCryptographyDataClientTypes.DiffieHellmanDerivationData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .sharedinformation(sharedinformation):
+                try writer["SharedInformation"].write(sharedinformation)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
 extension PaymentCryptographyDataClientTypes.DiscoverDynamicCardVerificationCode {
 
     static func write(value: PaymentCryptographyDataClientTypes.DiscoverDynamicCardVerificationCode?, to writer: SmithyJSON.Writer) throws {
@@ -4840,6 +4565,340 @@ extension PaymentCryptographyDataClientTypes.DiscoverDynamicCardVerificationCode
         try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
         try writer["CardExpiryDate"].write(value.cardExpiryDate)
         try writer["UnpredictableNumber"].write(value.unpredictableNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.DukptAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.DukptAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DukptDerivationType"].write(value.dukptDerivationType)
+        try writer["KeySerialNumber"].write(value.keySerialNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.DukptDerivationAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.DukptDerivationAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DukptKeyDerivationType"].write(value.dukptKeyDerivationType)
+        try writer["DukptKeyVariant"].write(value.dukptKeyVariant)
+        try writer["KeySerialNumber"].write(value.keySerialNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.DukptEncryptionAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.DukptEncryptionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DukptKeyDerivationType"].write(value.dukptKeyDerivationType)
+        try writer["DukptKeyVariant"].write(value.dukptKeyVariant)
+        try writer["InitializationVector"].write(value.initializationVector)
+        try writer["KeySerialNumber"].write(value.keySerialNumber)
+        try writer["Mode"].write(value.mode)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.DynamicCardVerificationCode {
+
+    static func write(value: PaymentCryptographyDataClientTypes.DynamicCardVerificationCode?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["TrackData"].write(value.trackData)
+        try writer["UnpredictableNumber"].write(value.unpredictableNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.DynamicCardVerificationValue {
+
+    static func write(value: PaymentCryptographyDataClientTypes.DynamicCardVerificationValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
+        try writer["CardExpiryDate"].write(value.cardExpiryDate)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["ServiceCode"].write(value.serviceCode)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.EcdhDerivationAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.EcdhDerivationAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
+        try writer["KeyAlgorithm"].write(value.keyAlgorithm)
+        try writer["KeyDerivationFunction"].write(value.keyDerivationFunction)
+        try writer["KeyDerivationHashAlgorithm"].write(value.keyDerivationHashAlgorithm)
+        try writer["PublicKeyCertificate"].write(value.publicKeyCertificate)
+        try writer["SharedInformation"].write(value.sharedInformation)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.Emv2000Attributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.Emv2000Attributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
+        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.EmvCommonAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.EmvCommonAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationCryptogram"].write(value.applicationCryptogram)
+        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
+        try writer["Mode"].write(value.mode)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PinBlockLengthPosition"].write(value.pinBlockLengthPosition)
+        try writer["PinBlockPaddingType"].write(value.pinBlockPaddingType)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.EmvEncryptionAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.EmvEncryptionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InitializationVector"].write(value.initializationVector)
+        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
+        try writer["Mode"].write(value.mode)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+        try writer["SessionDerivationData"].write(value.sessionDerivationData)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.EncryptionDecryptionAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.EncryptionDecryptionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .asymmetric(asymmetric):
+                try writer["Asymmetric"].write(asymmetric, with: PaymentCryptographyDataClientTypes.AsymmetricEncryptionAttributes.write(value:to:))
+            case let .dukpt(dukpt):
+                try writer["Dukpt"].write(dukpt, with: PaymentCryptographyDataClientTypes.DukptEncryptionAttributes.write(value:to:))
+            case let .emv(emv):
+                try writer["Emv"].write(emv, with: PaymentCryptographyDataClientTypes.EmvEncryptionAttributes.write(value:to:))
+            case let .symmetric(symmetric):
+                try writer["Symmetric"].write(symmetric, with: PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.Ibm3624NaturalPin {
+
+    static func write(value: PaymentCryptographyDataClientTypes.Ibm3624NaturalPin?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DecimalizationTable"].write(value.decimalizationTable)
+        try writer["PinValidationData"].write(value.pinValidationData)
+        try writer["PinValidationDataPadCharacter"].write(value.pinValidationDataPadCharacter)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.Ibm3624PinFromOffset {
+
+    static func write(value: PaymentCryptographyDataClientTypes.Ibm3624PinFromOffset?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DecimalizationTable"].write(value.decimalizationTable)
+        try writer["PinOffset"].write(value.pinOffset)
+        try writer["PinValidationData"].write(value.pinValidationData)
+        try writer["PinValidationDataPadCharacter"].write(value.pinValidationDataPadCharacter)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.Ibm3624PinOffset {
+
+    static func write(value: PaymentCryptographyDataClientTypes.Ibm3624PinOffset?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DecimalizationTable"].write(value.decimalizationTable)
+        try writer["EncryptedPinBlock"].write(value.encryptedPinBlock)
+        try writer["PinValidationData"].write(value.pinValidationData)
+        try writer["PinValidationDataPadCharacter"].write(value.pinValidationDataPadCharacter)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.Ibm3624PinVerification {
+
+    static func write(value: PaymentCryptographyDataClientTypes.Ibm3624PinVerification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DecimalizationTable"].write(value.decimalizationTable)
+        try writer["PinOffset"].write(value.pinOffset)
+        try writer["PinValidationData"].write(value.pinValidationData)
+        try writer["PinValidationDataPadCharacter"].write(value.pinValidationDataPadCharacter)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.Ibm3624RandomPin {
+
+    static func write(value: PaymentCryptographyDataClientTypes.Ibm3624RandomPin?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DecimalizationTable"].write(value.decimalizationTable)
+        try writer["PinValidationData"].write(value.pinValidationData)
+        try writer["PinValidationDataPadCharacter"].write(value.pinValidationDataPadCharacter)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.IncomingDiffieHellmanTr31KeyBlock {
+
+    static func write(value: PaymentCryptographyDataClientTypes.IncomingDiffieHellmanTr31KeyBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
+        try writer["DerivationData"].write(value.derivationData, with: PaymentCryptographyDataClientTypes.DiffieHellmanDerivationData.write(value:to:))
+        try writer["DeriveKeyAlgorithm"].write(value.deriveKeyAlgorithm)
+        try writer["KeyDerivationFunction"].write(value.keyDerivationFunction)
+        try writer["KeyDerivationHashAlgorithm"].write(value.keyDerivationHashAlgorithm)
+        try writer["PrivateKeyIdentifier"].write(value.privateKeyIdentifier)
+        try writer["PublicKeyCertificate"].write(value.publicKeyCertificate)
+        try writer["WrappedKeyBlock"].write(value.wrappedKeyBlock)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.IncomingKeyMaterial {
+
+    static func write(value: PaymentCryptographyDataClientTypes.IncomingKeyMaterial?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .diffiehellmantr31keyblock(diffiehellmantr31keyblock):
+                try writer["DiffieHellmanTr31KeyBlock"].write(diffiehellmantr31keyblock, with: PaymentCryptographyDataClientTypes.IncomingDiffieHellmanTr31KeyBlock.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.KekValidationRequest {
+
+    static func write(value: PaymentCryptographyDataClientTypes.KekValidationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeriveKeyAlgorithm"].write(value.deriveKeyAlgorithm)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.KekValidationResponse {
+
+    static func write(value: PaymentCryptographyDataClientTypes.KekValidationResponse?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RandomKeySend"].write(value.randomKeySend)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.MacAlgorithmDukpt {
+
+    static func write(value: PaymentCryptographyDataClientTypes.MacAlgorithmDukpt?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DukptDerivationType"].write(value.dukptDerivationType)
+        try writer["DukptKeyVariant"].write(value.dukptKeyVariant)
+        try writer["KeySerialNumber"].write(value.keySerialNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.MacAlgorithmEmv {
+
+    static func write(value: PaymentCryptographyDataClientTypes.MacAlgorithmEmv?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+        try writer["SessionKeyDerivationMode"].write(value.sessionKeyDerivationMode)
+        try writer["SessionKeyDerivationValue"].write(value.sessionKeyDerivationValue, with: PaymentCryptographyDataClientTypes.SessionKeyDerivationValue.write(value:to:))
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.MacAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.MacAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .algorithm(algorithm):
+                try writer["Algorithm"].write(algorithm)
+            case let .dukptcmac(dukptcmac):
+                try writer["DukptCmac"].write(dukptcmac, with: PaymentCryptographyDataClientTypes.MacAlgorithmDukpt.write(value:to:))
+            case let .dukptiso9797algorithm1(dukptiso9797algorithm1):
+                try writer["DukptIso9797Algorithm1"].write(dukptiso9797algorithm1, with: PaymentCryptographyDataClientTypes.MacAlgorithmDukpt.write(value:to:))
+            case let .dukptiso9797algorithm3(dukptiso9797algorithm3):
+                try writer["DukptIso9797Algorithm3"].write(dukptiso9797algorithm3, with: PaymentCryptographyDataClientTypes.MacAlgorithmDukpt.write(value:to:))
+            case let .emvmac(emvmac):
+                try writer["EmvMac"].write(emvmac, with: PaymentCryptographyDataClientTypes.MacAlgorithmEmv.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.MasterCardAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.MasterCardAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationCryptogram"].write(value.applicationCryptogram)
+        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.OutgoingKeyMaterial {
+
+    static func write(value: PaymentCryptographyDataClientTypes.OutgoingKeyMaterial?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .tr31keyblock(tr31keyblock):
+                try writer["Tr31KeyBlock"].write(tr31keyblock, with: PaymentCryptographyDataClientTypes.OutgoingTr31KeyBlock.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.OutgoingTr31KeyBlock {
+
+    static func write(value: PaymentCryptographyDataClientTypes.OutgoingTr31KeyBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["WrappingKeyIdentifier"].write(value.wrappingKeyIdentifier)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.PinData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.PinData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "PinOffset":
+                return .pinoffset(try reader["PinOffset"].read())
+            case "VerificationValue":
+                return .verificationvalue(try reader["VerificationValue"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.PinGenerationAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.PinGenerationAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .ibm3624naturalpin(ibm3624naturalpin):
+                try writer["Ibm3624NaturalPin"].write(ibm3624naturalpin, with: PaymentCryptographyDataClientTypes.Ibm3624NaturalPin.write(value:to:))
+            case let .ibm3624pinfromoffset(ibm3624pinfromoffset):
+                try writer["Ibm3624PinFromOffset"].write(ibm3624pinfromoffset, with: PaymentCryptographyDataClientTypes.Ibm3624PinFromOffset.write(value:to:))
+            case let .ibm3624pinoffset(ibm3624pinoffset):
+                try writer["Ibm3624PinOffset"].write(ibm3624pinoffset, with: PaymentCryptographyDataClientTypes.Ibm3624PinOffset.write(value:to:))
+            case let .ibm3624randompin(ibm3624randompin):
+                try writer["Ibm3624RandomPin"].write(ibm3624randompin, with: PaymentCryptographyDataClientTypes.Ibm3624RandomPin.write(value:to:))
+            case let .visapin(visapin):
+                try writer["VisaPin"].write(visapin, with: PaymentCryptographyDataClientTypes.VisaPin.write(value:to:))
+            case let .visapinverificationvalue(visapinverificationvalue):
+                try writer["VisaPinVerificationValue"].write(visapinverificationvalue, with: PaymentCryptographyDataClientTypes.VisaPinVerificationValue.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
@@ -4858,14 +4917,203 @@ extension PaymentCryptographyDataClientTypes.PinVerificationAttributes {
     }
 }
 
-extension PaymentCryptographyDataClientTypes.Ibm3624PinVerification {
+extension PaymentCryptographyDataClientTypes.ReEncryptionAttributes {
 
-    static func write(value: PaymentCryptographyDataClientTypes.Ibm3624PinVerification?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PaymentCryptographyDataClientTypes.ReEncryptionAttributes?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DecimalizationTable"].write(value.decimalizationTable)
-        try writer["PinOffset"].write(value.pinOffset)
-        try writer["PinValidationData"].write(value.pinValidationData)
-        try writer["PinValidationDataPadCharacter"].write(value.pinValidationDataPadCharacter)
+        switch value {
+            case let .dukpt(dukpt):
+                try writer["Dukpt"].write(dukpt, with: PaymentCryptographyDataClientTypes.DukptEncryptionAttributes.write(value:to:))
+            case let .symmetric(symmetric):
+                try writer["Symmetric"].write(symmetric, with: PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.SessionKeyAmex {
+
+    static func write(value: PaymentCryptographyDataClientTypes.SessionKeyAmex?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.SessionKeyDerivation {
+
+    static func write(value: PaymentCryptographyDataClientTypes.SessionKeyDerivation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .amex(amex):
+                try writer["Amex"].write(amex, with: PaymentCryptographyDataClientTypes.SessionKeyAmex.write(value:to:))
+            case let .emv2000(emv2000):
+                try writer["Emv2000"].write(emv2000, with: PaymentCryptographyDataClientTypes.SessionKeyEmv2000.write(value:to:))
+            case let .emvcommon(emvcommon):
+                try writer["EmvCommon"].write(emvcommon, with: PaymentCryptographyDataClientTypes.SessionKeyEmvCommon.write(value:to:))
+            case let .mastercard(mastercard):
+                try writer["Mastercard"].write(mastercard, with: PaymentCryptographyDataClientTypes.SessionKeyMastercard.write(value:to:))
+            case let .visa(visa):
+                try writer["Visa"].write(visa, with: PaymentCryptographyDataClientTypes.SessionKeyVisa.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.SessionKeyDerivationValue {
+
+    static func write(value: PaymentCryptographyDataClientTypes.SessionKeyDerivationValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .applicationcryptogram(applicationcryptogram):
+                try writer["ApplicationCryptogram"].write(applicationcryptogram)
+            case let .applicationtransactioncounter(applicationtransactioncounter):
+                try writer["ApplicationTransactionCounter"].write(applicationtransactioncounter)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.SessionKeyEmv2000 {
+
+    static func write(value: PaymentCryptographyDataClientTypes.SessionKeyEmv2000?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.SessionKeyEmvCommon {
+
+    static func write(value: PaymentCryptographyDataClientTypes.SessionKeyEmvCommon?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.SessionKeyMastercard {
+
+    static func write(value: PaymentCryptographyDataClientTypes.SessionKeyMastercard?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+        try writer["UnpredictableNumber"].write(value.unpredictableNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.SessionKeyVisa {
+
+    static func write(value: PaymentCryptographyDataClientTypes.SessionKeyVisa?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InitializationVector"].write(value.initializationVector)
+        try writer["Mode"].write(value.mode)
+        try writer["PaddingType"].write(value.paddingType)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.TranslationIsoFormats {
+
+    static func write(value: PaymentCryptographyDataClientTypes.TranslationIsoFormats?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .as2805format0(as2805format0):
+                try writer["As2805Format0"].write(as2805format0, with: PaymentCryptographyDataClientTypes.TranslationPinDataAs2805Format0.write(value:to:))
+            case let .isoformat0(isoformat0):
+                try writer["IsoFormat0"].write(isoformat0, with: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034.write(value:to:))
+            case let .isoformat1(isoformat1):
+                try writer["IsoFormat1"].write(isoformat1, with: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat1.write(value:to:))
+            case let .isoformat3(isoformat3):
+                try writer["IsoFormat3"].write(isoformat3, with: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034.write(value:to:))
+            case let .isoformat4(isoformat4):
+                try writer["IsoFormat4"].write(isoformat4, with: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.TranslationPinDataAs2805Format0 {
+
+    static func write(value: PaymentCryptographyDataClientTypes.TranslationPinDataAs2805Format0?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034 {
+
+    static func write(value: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat1 {
+
+    static func write(value: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat1?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PaymentCryptographyDataClientTypes.ValidationExceptionField()
+        value.path = try reader["path"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.VisaAmexDerivationOutputs {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.VisaAmexDerivationOutputs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PaymentCryptographyDataClientTypes.VisaAmexDerivationOutputs()
+        value.authorizationRequestKeyArn = try reader["AuthorizationRequestKeyArn"].readIfPresent() ?? ""
+        value.authorizationRequestKeyCheckValue = try reader["AuthorizationRequestKeyCheckValue"].readIfPresent() ?? ""
+        value.currentPinPekArn = try reader["CurrentPinPekArn"].readIfPresent()
+        value.currentPinPekKeyCheckValue = try reader["CurrentPinPekKeyCheckValue"].readIfPresent()
+        return value
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.VisaAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.VisaAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
+        try writer["AuthorizationRequestKeyIdentifier"].write(value.authorizationRequestKeyIdentifier)
+        try writer["CurrentPinAttributes"].write(value.currentPinAttributes, with: PaymentCryptographyDataClientTypes.CurrentPinAttributes.write(value:to:))
+        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.VisaPin {
+
+    static func write(value: PaymentCryptographyDataClientTypes.VisaPin?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PinVerificationKeyIndex"].write(value.pinVerificationKeyIndex)
     }
 }
 
@@ -4878,12 +5126,48 @@ extension PaymentCryptographyDataClientTypes.VisaPinVerification {
     }
 }
 
-extension PaymentCryptographyDataClientTypes.DukptAttributes {
+extension PaymentCryptographyDataClientTypes.VisaPinVerificationValue {
 
-    static func write(value: PaymentCryptographyDataClientTypes.DukptAttributes?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PaymentCryptographyDataClientTypes.VisaPinVerificationValue?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DukptDerivationType"].write(value.dukptDerivationType)
-        try writer["KeySerialNumber"].write(value.keySerialNumber)
+        try writer["EncryptedPinBlock"].write(value.encryptedPinBlock)
+        try writer["PinVerificationKeyIndex"].write(value.pinVerificationKeyIndex)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.WrappedKey {
+
+    static func write(value: PaymentCryptographyDataClientTypes.WrappedKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyCheckValueAlgorithm"].write(value.keyCheckValueAlgorithm)
+        try writer["WrappedKeyMaterial"].write(value.wrappedKeyMaterial, with: PaymentCryptographyDataClientTypes.WrappedKeyMaterial.write(value:to:))
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.WrappedKeyMaterial {
+
+    static func write(value: PaymentCryptographyDataClientTypes.WrappedKeyMaterial?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .diffiehellmansymmetrickey(diffiehellmansymmetrickey):
+                try writer["DiffieHellmanSymmetricKey"].write(diffiehellmansymmetrickey, with: PaymentCryptographyDataClientTypes.EcdhDerivationAttributes.write(value:to:))
+            case let .tr31keyblock(tr31keyblock):
+                try writer["Tr31KeyBlock"].write(tr31keyblock)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.WrappedWorkingKey {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.WrappedWorkingKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PaymentCryptographyDataClientTypes.WrappedWorkingKey()
+        value.wrappedKeyMaterial = try reader["WrappedKeyMaterial"].readIfPresent() ?? ""
+        value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent() ?? ""
+        value.wrappedKeyMaterialFormat = try reader["WrappedKeyMaterialFormat"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 

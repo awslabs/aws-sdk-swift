@@ -5870,40 +5870,6 @@ extension PayloadTooLargeException {
     }
 }
 
-extension AppConfigClientTypes.Validator {
-
-    static func write(value: AppConfigClientTypes.Validator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Content"].write(value.content)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.Validator {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppConfigClientTypes.Validator()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.content = try reader["Content"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppConfigClientTypes.Monitor {
-
-    static func write(value: AppConfigClientTypes.Monitor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlarmArn"].write(value.alarmArn)
-        try writer["AlarmRoleArn"].write(value.alarmRoleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.Monitor {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppConfigClientTypes.Monitor()
-        value.alarmArn = try reader["AlarmArn"].readIfPresent() ?? ""
-        value.alarmRoleArn = try reader["AlarmRoleArn"].readIfPresent()
-        return value
-    }
-}
-
 extension AppConfigClientTypes.Action {
 
     static func write(value: AppConfigClientTypes.Action?, to writer: SmithyJSON.Writer) throws {
@@ -5925,21 +5891,72 @@ extension AppConfigClientTypes.Action {
     }
 }
 
-extension AppConfigClientTypes.Parameter {
+extension AppConfigClientTypes.ActionInvocation {
 
-    static func write(value: AppConfigClientTypes.Parameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Dynamic"].write(value.`dynamic`)
-        try writer["Required"].write(value.`required`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.Parameter {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.ActionInvocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppConfigClientTypes.Parameter()
+        var value = AppConfigClientTypes.ActionInvocation()
+        value.extensionIdentifier = try reader["ExtensionIdentifier"].readIfPresent()
+        value.actionName = try reader["ActionName"].readIfPresent()
+        value.uri = try reader["Uri"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.invocationId = try reader["InvocationId"].readIfPresent()
+        return value
+    }
+}
+
+extension AppConfigClientTypes.Application {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.Application {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppConfigClientTypes.Application()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
-        value.`required` = try reader["Required"].readIfPresent() ?? false
-        value.`dynamic` = try reader["Dynamic"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension AppConfigClientTypes.AppliedExtension {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.AppliedExtension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppConfigClientTypes.AppliedExtension()
+        value.extensionId = try reader["ExtensionId"].readIfPresent()
+        value.extensionAssociationId = try reader["ExtensionAssociationId"].readIfPresent()
+        value.versionNumber = try reader["VersionNumber"].readIfPresent() ?? 0
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension AppConfigClientTypes.BadRequestDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.BadRequestDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "InvalidConfiguration":
+                return .invalidconfiguration(try reader["InvalidConfiguration"].readList(memberReadingClosure: AppConfigClientTypes.InvalidConfigurationDetail.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AppConfigClientTypes.ConfigurationProfileSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.ConfigurationProfileSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppConfigClientTypes.ConfigurationProfileSummary()
+        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.locationUri = try reader["LocationUri"].readIfPresent()
+        value.validatorTypes = try reader["ValidatorTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AppConfigClientTypes.ValidatorType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -5975,58 +5992,19 @@ extension AppConfigClientTypes.DeploymentEvent {
     }
 }
 
-extension AppConfigClientTypes.ActionInvocation {
+extension AppConfigClientTypes.DeploymentStrategy {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.ActionInvocation {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.DeploymentStrategy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppConfigClientTypes.ActionInvocation()
-        value.extensionIdentifier = try reader["ExtensionIdentifier"].readIfPresent()
-        value.actionName = try reader["ActionName"].readIfPresent()
-        value.uri = try reader["Uri"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.invocationId = try reader["InvocationId"].readIfPresent()
-        return value
-    }
-}
-
-extension AppConfigClientTypes.AppliedExtension {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.AppliedExtension {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppConfigClientTypes.AppliedExtension()
-        value.extensionId = try reader["ExtensionId"].readIfPresent()
-        value.extensionAssociationId = try reader["ExtensionAssociationId"].readIfPresent()
-        value.versionNumber = try reader["VersionNumber"].readIfPresent() ?? 0
-        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension AppConfigClientTypes.Application {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.Application {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppConfigClientTypes.Application()
+        var value = AppConfigClientTypes.DeploymentStrategy()
         value.id = try reader["Id"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension AppConfigClientTypes.ConfigurationProfileSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.ConfigurationProfileSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppConfigClientTypes.ConfigurationProfileSummary()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.locationUri = try reader["LocationUri"].readIfPresent()
-        value.validatorTypes = try reader["ValidatorTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AppConfigClientTypes.ValidatorType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["Type"].readIfPresent()
+        value.deploymentDurationInMinutes = try reader["DeploymentDurationInMinutes"].readIfPresent() ?? 0
+        value.growthType = try reader["GrowthType"].readIfPresent()
+        value.growthFactor = try reader["GrowthFactor"].readIfPresent()
+        value.finalBakeTimeInMinutes = try reader["FinalBakeTimeInMinutes"].readIfPresent() ?? 0
+        value.replicateTo = try reader["ReplicateTo"].readIfPresent()
         return value
     }
 }
@@ -6048,23 +6026,6 @@ extension AppConfigClientTypes.DeploymentSummary {
         value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.completedAt = try reader["CompletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.versionLabel = try reader["VersionLabel"].readIfPresent()
-        return value
-    }
-}
-
-extension AppConfigClientTypes.DeploymentStrategy {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.DeploymentStrategy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppConfigClientTypes.DeploymentStrategy()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.deploymentDurationInMinutes = try reader["DeploymentDurationInMinutes"].readIfPresent() ?? 0
-        value.growthType = try reader["GrowthType"].readIfPresent()
-        value.growthFactor = try reader["GrowthFactor"].readIfPresent()
-        value.finalBakeTimeInMinutes = try reader["FinalBakeTimeInMinutes"].readIfPresent() ?? 0
-        value.replicateTo = try reader["ReplicateTo"].readIfPresent()
         return value
     }
 }
@@ -6126,20 +6087,6 @@ extension AppConfigClientTypes.HostedConfigurationVersionSummary {
     }
 }
 
-extension AppConfigClientTypes.BadRequestDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.BadRequestDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "InvalidConfiguration":
-                return .invalidconfiguration(try reader["InvalidConfiguration"].readList(memberReadingClosure: AppConfigClientTypes.InvalidConfigurationDetail.read(from:), memberNodeInfo: "member", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
 extension AppConfigClientTypes.InvalidConfigurationDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.InvalidConfigurationDetail {
@@ -6150,6 +6097,59 @@ extension AppConfigClientTypes.InvalidConfigurationDetail {
         value.reason = try reader["Reason"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension AppConfigClientTypes.Monitor {
+
+    static func write(value: AppConfigClientTypes.Monitor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AlarmArn"].write(value.alarmArn)
+        try writer["AlarmRoleArn"].write(value.alarmRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.Monitor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppConfigClientTypes.Monitor()
+        value.alarmArn = try reader["AlarmArn"].readIfPresent() ?? ""
+        value.alarmRoleArn = try reader["AlarmRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension AppConfigClientTypes.Parameter {
+
+    static func write(value: AppConfigClientTypes.Parameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Dynamic"].write(value.`dynamic`)
+        try writer["Required"].write(value.`required`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.Parameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppConfigClientTypes.Parameter()
+        value.description = try reader["Description"].readIfPresent()
+        value.`required` = try reader["Required"].readIfPresent() ?? false
+        value.`dynamic` = try reader["Dynamic"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension AppConfigClientTypes.Validator {
+
+    static func write(value: AppConfigClientTypes.Validator?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Content"].write(value.content)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppConfigClientTypes.Validator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppConfigClientTypes.Validator()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.content = try reader["Content"].readIfPresent() ?? ""
         return value
     }
 }

@@ -2949,106 +2949,14 @@ extension ResourceNotFoundException {
     }
 }
 
-extension AppIntegrationsClientTypes.ScheduleConfiguration {
+extension AppIntegrationsClientTypes.ApplicationAssociationSummary {
 
-    static func write(value: AppIntegrationsClientTypes.ScheduleConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FirstExecutionFrom"].write(value.firstExecutionFrom)
-        try writer["Object"].write(value.object)
-        try writer["ScheduleExpression"].write(value.scheduleExpression)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.ScheduleConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.ApplicationAssociationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppIntegrationsClientTypes.ScheduleConfiguration()
-        value.firstExecutionFrom = try reader["FirstExecutionFrom"].readIfPresent()
-        value.object = try reader["Object"].readIfPresent()
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppIntegrationsClientTypes.FileConfiguration {
-
-    static func write(value: AppIntegrationsClientTypes.FileConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Filters"].writeMap(value.filters, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Folders"].writeList(value.folders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.FileConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppIntegrationsClientTypes.FileConfiguration()
-        value.folders = try reader["Folders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.filters = try reader["Filters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension AppIntegrationsClientTypes.ApplicationSourceConfig {
-
-    static func write(value: AppIntegrationsClientTypes.ApplicationSourceConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExternalUrlConfig"].write(value.externalUrlConfig, with: AppIntegrationsClientTypes.ExternalUrlConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.ApplicationSourceConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppIntegrationsClientTypes.ApplicationSourceConfig()
-        value.externalUrlConfig = try reader["ExternalUrlConfig"].readIfPresent(with: AppIntegrationsClientTypes.ExternalUrlConfig.read(from:))
-        return value
-    }
-}
-
-extension AppIntegrationsClientTypes.ExternalUrlConfig {
-
-    static func write(value: AppIntegrationsClientTypes.ExternalUrlConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessUrl"].write(value.accessUrl)
-        try writer["ApprovedOrigins"].writeList(value.approvedOrigins, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.ExternalUrlConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppIntegrationsClientTypes.ExternalUrlConfig()
-        value.accessUrl = try reader["AccessUrl"].readIfPresent() ?? ""
-        value.approvedOrigins = try reader["ApprovedOrigins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension AppIntegrationsClientTypes.Subscription {
-
-    static func write(value: AppIntegrationsClientTypes.Subscription?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Event"].write(value.event)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.Subscription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppIntegrationsClientTypes.Subscription()
-        value.event = try reader["Event"].readIfPresent() ?? ""
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension AppIntegrationsClientTypes.Publication {
-
-    static func write(value: AppIntegrationsClientTypes.Publication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Event"].write(value.event)
-        try writer["Schema"].write(value.schema)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.Publication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppIntegrationsClientTypes.Publication()
-        value.event = try reader["Event"].readIfPresent() ?? ""
-        value.schema = try reader["Schema"].readIfPresent() ?? ""
-        value.description = try reader["Description"].readIfPresent()
+        var value = AppIntegrationsClientTypes.ApplicationAssociationSummary()
+        value.applicationAssociationArn = try reader["ApplicationAssociationArn"].readIfPresent()
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        value.clientId = try reader["ClientId"].readIfPresent()
         return value
     }
 }
@@ -3068,61 +2976,17 @@ extension AppIntegrationsClientTypes.ApplicationConfig {
     }
 }
 
-extension AppIntegrationsClientTypes.ContactHandling {
+extension AppIntegrationsClientTypes.ApplicationSourceConfig {
 
-    static func write(value: AppIntegrationsClientTypes.ContactHandling?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AppIntegrationsClientTypes.ApplicationSourceConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Scope"].write(value.scope)
+        try writer["ExternalUrlConfig"].write(value.externalUrlConfig, with: AppIntegrationsClientTypes.ExternalUrlConfig.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.ContactHandling {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.ApplicationSourceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppIntegrationsClientTypes.ContactHandling()
-        value.scope = try reader["Scope"].readIfPresent()
-        return value
-    }
-}
-
-extension AppIntegrationsClientTypes.IframeConfig {
-
-    static func write(value: AppIntegrationsClientTypes.IframeConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Allow"].writeList(value.allow, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Sandbox"].writeList(value.sandbox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.IframeConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppIntegrationsClientTypes.IframeConfig()
-        value.allow = try reader["Allow"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sandbox = try reader["Sandbox"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension AppIntegrationsClientTypes.EventFilter {
-
-    static func write(value: AppIntegrationsClientTypes.EventFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Source"].write(value.source)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.EventFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppIntegrationsClientTypes.EventFilter()
-        value.source = try reader["Source"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppIntegrationsClientTypes.ApplicationAssociationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.ApplicationAssociationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppIntegrationsClientTypes.ApplicationAssociationSummary()
-        value.applicationAssociationArn = try reader["ApplicationAssociationArn"].readIfPresent()
-        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
-        value.clientId = try reader["ClientId"].readIfPresent()
+        var value = AppIntegrationsClientTypes.ApplicationSourceConfig()
+        value.externalUrlConfig = try reader["ExternalUrlConfig"].readIfPresent(with: AppIntegrationsClientTypes.ExternalUrlConfig.read(from:))
         return value
     }
 }
@@ -3144,6 +3008,21 @@ extension AppIntegrationsClientTypes.ApplicationSummary {
     }
 }
 
+extension AppIntegrationsClientTypes.ContactHandling {
+
+    static func write(value: AppIntegrationsClientTypes.ContactHandling?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Scope"].write(value.scope)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.ContactHandling {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.ContactHandling()
+        value.scope = try reader["Scope"].readIfPresent()
+        return value
+    }
+}
+
 extension AppIntegrationsClientTypes.DataIntegrationAssociationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.DataIntegrationAssociationSummary {
@@ -3155,6 +3034,63 @@ extension AppIntegrationsClientTypes.DataIntegrationAssociationSummary {
         value.destinationURI = try reader["DestinationURI"].readIfPresent()
         value.lastExecutionStatus = try reader["LastExecutionStatus"].readIfPresent(with: AppIntegrationsClientTypes.LastExecutionStatus.read(from:))
         value.executionConfiguration = try reader["ExecutionConfiguration"].readIfPresent(with: AppIntegrationsClientTypes.ExecutionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension AppIntegrationsClientTypes.DataIntegrationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.DataIntegrationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.DataIntegrationSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.sourceURI = try reader["SourceURI"].readIfPresent()
+        return value
+    }
+}
+
+extension AppIntegrationsClientTypes.EventFilter {
+
+    static func write(value: AppIntegrationsClientTypes.EventFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Source"].write(value.source)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.EventFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.EventFilter()
+        value.source = try reader["Source"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppIntegrationsClientTypes.EventIntegration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.EventIntegration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.EventIntegration()
+        value.eventIntegrationArn = try reader["EventIntegrationArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.eventFilter = try reader["EventFilter"].readIfPresent(with: AppIntegrationsClientTypes.EventFilter.read(from:))
+        value.eventBridgeBus = try reader["EventBridgeBus"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension AppIntegrationsClientTypes.EventIntegrationAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.EventIntegrationAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.EventIntegrationAssociation()
+        value.eventIntegrationAssociationArn = try reader["EventIntegrationAssociationArn"].readIfPresent()
+        value.eventIntegrationAssociationId = try reader["EventIntegrationAssociationId"].readIfPresent()
+        value.eventIntegrationName = try reader["EventIntegrationName"].readIfPresent()
+        value.clientId = try reader["ClientId"].readIfPresent()
+        value.eventBridgeRuleName = try reader["EventBridgeRuleName"].readIfPresent()
+        value.clientAssociationMetadata = try reader["ClientAssociationMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -3178,6 +3114,68 @@ extension AppIntegrationsClientTypes.ExecutionConfiguration {
     }
 }
 
+extension AppIntegrationsClientTypes.ExternalUrlConfig {
+
+    static func write(value: AppIntegrationsClientTypes.ExternalUrlConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessUrl"].write(value.accessUrl)
+        try writer["ApprovedOrigins"].writeList(value.approvedOrigins, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.ExternalUrlConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.ExternalUrlConfig()
+        value.accessUrl = try reader["AccessUrl"].readIfPresent() ?? ""
+        value.approvedOrigins = try reader["ApprovedOrigins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AppIntegrationsClientTypes.FileConfiguration {
+
+    static func write(value: AppIntegrationsClientTypes.FileConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeMap(value.filters, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Folders"].writeList(value.folders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.FileConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.FileConfiguration()
+        value.folders = try reader["Folders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.filters = try reader["Filters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension AppIntegrationsClientTypes.IframeConfig {
+
+    static func write(value: AppIntegrationsClientTypes.IframeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Allow"].writeList(value.allow, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Sandbox"].writeList(value.sandbox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.IframeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.IframeConfig()
+        value.allow = try reader["Allow"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sandbox = try reader["Sandbox"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AppIntegrationsClientTypes.LastExecutionStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.LastExecutionStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.LastExecutionStatus()
+        value.executionStatus = try reader["ExecutionStatus"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
 extension AppIntegrationsClientTypes.OnDemandConfiguration {
 
     static func write(value: AppIntegrationsClientTypes.OnDemandConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -3195,55 +3193,57 @@ extension AppIntegrationsClientTypes.OnDemandConfiguration {
     }
 }
 
-extension AppIntegrationsClientTypes.LastExecutionStatus {
+extension AppIntegrationsClientTypes.Publication {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.LastExecutionStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppIntegrationsClientTypes.LastExecutionStatus()
-        value.executionStatus = try reader["ExecutionStatus"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        return value
+    static func write(value: AppIntegrationsClientTypes.Publication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Event"].write(value.event)
+        try writer["Schema"].write(value.schema)
     }
-}
 
-extension AppIntegrationsClientTypes.DataIntegrationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.DataIntegrationSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.Publication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppIntegrationsClientTypes.DataIntegrationSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.sourceURI = try reader["SourceURI"].readIfPresent()
-        return value
-    }
-}
-
-extension AppIntegrationsClientTypes.EventIntegrationAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.EventIntegrationAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppIntegrationsClientTypes.EventIntegrationAssociation()
-        value.eventIntegrationAssociationArn = try reader["EventIntegrationAssociationArn"].readIfPresent()
-        value.eventIntegrationAssociationId = try reader["EventIntegrationAssociationId"].readIfPresent()
-        value.eventIntegrationName = try reader["EventIntegrationName"].readIfPresent()
-        value.clientId = try reader["ClientId"].readIfPresent()
-        value.eventBridgeRuleName = try reader["EventBridgeRuleName"].readIfPresent()
-        value.clientAssociationMetadata = try reader["ClientAssociationMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension AppIntegrationsClientTypes.EventIntegration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.EventIntegration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppIntegrationsClientTypes.EventIntegration()
-        value.eventIntegrationArn = try reader["EventIntegrationArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
+        var value = AppIntegrationsClientTypes.Publication()
+        value.event = try reader["Event"].readIfPresent() ?? ""
+        value.schema = try reader["Schema"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
-        value.eventFilter = try reader["EventFilter"].readIfPresent(with: AppIntegrationsClientTypes.EventFilter.read(from:))
-        value.eventBridgeBus = try reader["EventBridgeBus"].readIfPresent()
-        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension AppIntegrationsClientTypes.ScheduleConfiguration {
+
+    static func write(value: AppIntegrationsClientTypes.ScheduleConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FirstExecutionFrom"].write(value.firstExecutionFrom)
+        try writer["Object"].write(value.object)
+        try writer["ScheduleExpression"].write(value.scheduleExpression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.ScheduleConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.ScheduleConfiguration()
+        value.firstExecutionFrom = try reader["FirstExecutionFrom"].readIfPresent()
+        value.object = try reader["Object"].readIfPresent()
+        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppIntegrationsClientTypes.Subscription {
+
+    static func write(value: AppIntegrationsClientTypes.Subscription?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Event"].write(value.event)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.Subscription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.Subscription()
+        value.event = try reader["Event"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }

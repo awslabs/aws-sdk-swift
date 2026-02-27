@@ -3004,94 +3004,6 @@ extension ACMClientTypes.CertificateOptions {
     }
 }
 
-extension ACMClientTypes.ExtendedKeyUsage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.ExtendedKeyUsage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMClientTypes.ExtendedKeyUsage()
-        value.name = try reader["Name"].readIfPresent()
-        value.oid = try reader["OID"].readIfPresent()
-        return value
-    }
-}
-
-extension ACMClientTypes.KeyUsage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.KeyUsage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMClientTypes.KeyUsage()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension ACMClientTypes.RenewalSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.RenewalSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMClientTypes.RenewalSummary()
-        value.renewalStatus = try reader["RenewalStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.domainValidationOptions = try reader["DomainValidationOptions"].readListIfPresent(memberReadingClosure: ACMClientTypes.DomainValidation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.renewalStatusReason = try reader["RenewalStatusReason"].readIfPresent()
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension ACMClientTypes.DomainValidation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.DomainValidation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMClientTypes.DomainValidation()
-        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
-        value.validationEmails = try reader["ValidationEmails"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.validationDomain = try reader["ValidationDomain"].readIfPresent()
-        value.validationStatus = try reader["ValidationStatus"].readIfPresent()
-        value.resourceRecord = try reader["ResourceRecord"].readIfPresent(with: ACMClientTypes.ResourceRecord.read(from:))
-        value.httpRedirect = try reader["HttpRedirect"].readIfPresent(with: ACMClientTypes.HttpRedirect.read(from:))
-        value.validationMethod = try reader["ValidationMethod"].readIfPresent()
-        return value
-    }
-}
-
-extension ACMClientTypes.HttpRedirect {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.HttpRedirect {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMClientTypes.HttpRedirect()
-        value.redirectFrom = try reader["RedirectFrom"].readIfPresent()
-        value.redirectTo = try reader["RedirectTo"].readIfPresent()
-        return value
-    }
-}
-
-extension ACMClientTypes.ResourceRecord {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.ResourceRecord {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMClientTypes.ResourceRecord()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ACMClientTypes.ExpiryEventsConfiguration {
-
-    static func write(value: ACMClientTypes.ExpiryEventsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DaysBeforeExpiry"].write(value.daysBeforeExpiry)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.ExpiryEventsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMClientTypes.ExpiryEventsConfiguration()
-        value.daysBeforeExpiry = try reader["DaysBeforeExpiry"].readIfPresent()
-        return value
-    }
-}
-
 extension ACMClientTypes.CertificateSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.CertificateSummary {
@@ -3121,19 +3033,53 @@ extension ACMClientTypes.CertificateSummary {
     }
 }
 
-extension ACMClientTypes.Tag {
+extension ACMClientTypes.DomainValidation {
 
-    static func write(value: ACMClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.DomainValidation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMClientTypes.DomainValidation()
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.validationEmails = try reader["ValidationEmails"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.validationDomain = try reader["ValidationDomain"].readIfPresent()
+        value.validationStatus = try reader["ValidationStatus"].readIfPresent()
+        value.resourceRecord = try reader["ResourceRecord"].readIfPresent(with: ACMClientTypes.ResourceRecord.read(from:))
+        value.httpRedirect = try reader["HttpRedirect"].readIfPresent(with: ACMClientTypes.HttpRedirect.read(from:))
+        value.validationMethod = try reader["ValidationMethod"].readIfPresent()
+        return value
+    }
+}
+
+extension ACMClientTypes.DomainValidationOption {
+
+    static func write(value: ACMClientTypes.DomainValidationOption?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
+        try writer["DomainName"].write(value.domainName)
+        try writer["ValidationDomain"].write(value.validationDomain)
+    }
+}
+
+extension ACMClientTypes.ExpiryEventsConfiguration {
+
+    static func write(value: ACMClientTypes.ExpiryEventsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DaysBeforeExpiry"].write(value.daysBeforeExpiry)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.Tag {
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.ExpiryEventsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ACMClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent()
+        var value = ACMClientTypes.ExpiryEventsConfiguration()
+        value.daysBeforeExpiry = try reader["DaysBeforeExpiry"].readIfPresent()
+        return value
+    }
+}
+
+extension ACMClientTypes.ExtendedKeyUsage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.ExtendedKeyUsage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMClientTypes.ExtendedKeyUsage()
+        value.name = try reader["Name"].readIfPresent()
+        value.oid = try reader["OID"].readIfPresent()
         return value
     }
 }
@@ -3150,12 +3096,66 @@ extension ACMClientTypes.Filters {
     }
 }
 
-extension ACMClientTypes.DomainValidationOption {
+extension ACMClientTypes.HttpRedirect {
 
-    static func write(value: ACMClientTypes.DomainValidationOption?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.HttpRedirect {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMClientTypes.HttpRedirect()
+        value.redirectFrom = try reader["RedirectFrom"].readIfPresent()
+        value.redirectTo = try reader["RedirectTo"].readIfPresent()
+        return value
+    }
+}
+
+extension ACMClientTypes.KeyUsage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.KeyUsage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMClientTypes.KeyUsage()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension ACMClientTypes.RenewalSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.RenewalSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMClientTypes.RenewalSummary()
+        value.renewalStatus = try reader["RenewalStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.domainValidationOptions = try reader["DomainValidationOptions"].readListIfPresent(memberReadingClosure: ACMClientTypes.DomainValidation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.renewalStatusReason = try reader["RenewalStatusReason"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ACMClientTypes.ResourceRecord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.ResourceRecord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMClientTypes.ResourceRecord()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ACMClientTypes.Tag {
+
+    static func write(value: ACMClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DomainName"].write(value.domainName)
-        try writer["ValidationDomain"].write(value.validationDomain)
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        return value
     }
 }
 

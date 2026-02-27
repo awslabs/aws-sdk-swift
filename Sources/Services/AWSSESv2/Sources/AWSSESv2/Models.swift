@@ -1709,6 +1709,126 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes {
 
+    public enum FeatureStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeatureStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// The confidence level threshold for suppression validation:
+    ///
+    /// * MEDIUM – Allows emails to be sent to addresses with medium or high delivery likelihood.
+    ///
+    /// * HIGH – Allows emails to be sent only to addresses with high delivery likelihood.
+    ///
+    /// * MANAGED – Managed confidence threshold where Amazon SES automatically determines the appropriate level.
+    public enum SuppressionConfidenceVerdictThreshold: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case managed
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SuppressionConfidenceVerdictThreshold] {
+            return [
+                .high,
+                .managed,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .managed: return "MANAGED"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Contains the confidence threshold settings for Auto Validation.
+    public struct SuppressionConfidenceThreshold: Swift.Sendable {
+        /// The confidence level threshold for suppression decisions.
+        /// This member is required.
+        public var confidenceVerdictThreshold: SESv2ClientTypes.SuppressionConfidenceVerdictThreshold?
+
+        public init(
+            confidenceVerdictThreshold: SESv2ClientTypes.SuppressionConfidenceVerdictThreshold? = nil
+        ) {
+            self.confidenceVerdictThreshold = confidenceVerdictThreshold
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Contains Auto Validation settings, allowing you to suppress sending to specific destination(s) if they do not meet required threshold. For details on Auto Validation, see [Auto Validation](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/email-validation.html).
+    public struct SuppressionConditionThreshold: Swift.Sendable {
+        /// Indicates whether Auto Validation is enabled for suppression. Set to ENABLED to enable the Auto Validation feature, or set to DISABLED to disable it.
+        /// This member is required.
+        public var conditionThresholdEnabled: SESv2ClientTypes.FeatureStatus?
+        /// The overall confidence threshold used to determine suppression decisions.
+        public var overallConfidenceThreshold: SESv2ClientTypes.SuppressionConfidenceThreshold?
+
+        public init(
+            conditionThresholdEnabled: SESv2ClientTypes.FeatureStatus? = nil,
+            overallConfidenceThreshold: SESv2ClientTypes.SuppressionConfidenceThreshold? = nil
+        ) {
+            self.conditionThresholdEnabled = conditionThresholdEnabled
+            self.overallConfidenceThreshold = overallConfidenceThreshold
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Contains validation options for email address suppression.
+    public struct SuppressionValidationOptions: Swift.Sendable {
+        /// Specifies the condition threshold settings for suppression validation.
+        /// This member is required.
+        public var conditionThreshold: SESv2ClientTypes.SuppressionConditionThreshold?
+
+        public init(
+            conditionThreshold: SESv2ClientTypes.SuppressionConditionThreshold? = nil
+        ) {
+            self.conditionThreshold = conditionThreshold
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
     /// An object that contains information about the suppression list preferences for your account.
     public struct SuppressionOptions: Swift.Sendable {
         /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:
@@ -1717,11 +1837,15 @@ extension SESv2ClientTypes {
         ///
         /// * BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
         public var suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
+        /// Contains validation options for email address suppression.
+        public var validationOptions: SESv2ClientTypes.SuppressionValidationOptions?
 
         public init(
-            suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil
+            suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil,
+            validationOptions: SESv2ClientTypes.SuppressionValidationOptions? = nil
         ) {
             self.suppressedReasons = suppressedReasons
+            self.validationOptions = validationOptions
         }
     }
 }
@@ -1804,35 +1928,6 @@ extension SESv2ClientTypes {
         ) {
             self.customRedirectDomain = customRedirectDomain
             self.httpsPolicy = httpsPolicy
-        }
-    }
-}
-
-extension SESv2ClientTypes {
-
-    public enum FeatureStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FeatureStatus] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -2239,6 +2334,8 @@ public struct CreateCustomVerificationEmailTemplateInput: Swift.Sendable {
     /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
     /// This member is required.
     public var successRedirectionURL: Swift.String?
+    /// An array of objects that define the tags (keys and values) to associate with the custom verification email template.
+    public var tags: [SESv2ClientTypes.Tag]?
     /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see [Custom verification email frequently asked questions](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom-faq) in the Amazon SES Developer Guide.
     /// This member is required.
     public var templateContent: Swift.String?
@@ -2253,6 +2350,7 @@ public struct CreateCustomVerificationEmailTemplateInput: Swift.Sendable {
         failureRedirectionURL: Swift.String? = nil,
         fromEmailAddress: Swift.String? = nil,
         successRedirectionURL: Swift.String? = nil,
+        tags: [SESv2ClientTypes.Tag]? = nil,
         templateContent: Swift.String? = nil,
         templateName: Swift.String? = nil,
         templateSubject: Swift.String? = nil
@@ -2260,6 +2358,7 @@ public struct CreateCustomVerificationEmailTemplateInput: Swift.Sendable {
         self.failureRedirectionURL = failureRedirectionURL
         self.fromEmailAddress = fromEmailAddress
         self.successRedirectionURL = successRedirectionURL
+        self.tags = tags
         self.templateContent = templateContent
         self.templateName = templateName
         self.templateSubject = templateSubject
@@ -2959,6 +3058,12 @@ extension SESv2ClientTypes {
         public var signingAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin?
         /// If the value is true, then the messages that you send from the identity are signed using DKIM. If the value is false, then the messages that you send from the identity aren't DKIM-signed.
         public var signingEnabled: Swift.Bool
+        /// The hosted zone where Amazon SES publishes the DKIM public key TXT records for this email identity. This value indicates the DNS zone that customers must reference when configuring their CNAME records for DKIM authentication. When configuring DKIM for your domain, create CNAME records in your DNS that point to the selectors in this hosted zone. For example:  selector1._domainkey.yourdomain.com CNAME selector1.
+        ///     selector2._domainkey.yourdomain.com CNAME selector2.
+        ///
+        ///
+        ///     selector3._domainkey.yourdomain.com CNAME selector3.
+        public var signingHostedZone: Swift.String?
         /// Describes whether or not Amazon SES has successfully located the DKIM records in the DNS records for the domain. The status can be one of the following:
         ///
         /// * PENDING – The verification process was initiated, but Amazon SES hasn't yet detected the DKIM records in the DNS configuration for the domain.
@@ -2980,6 +3085,7 @@ extension SESv2ClientTypes {
             nextSigningKeyLength: SESv2ClientTypes.DkimSigningKeyLength? = nil,
             signingAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin? = nil,
             signingEnabled: Swift.Bool = false,
+            signingHostedZone: Swift.String? = nil,
             status: SESv2ClientTypes.DkimStatus? = nil,
             tokens: [Swift.String]? = nil
         ) {
@@ -2988,6 +3094,7 @@ extension SESv2ClientTypes {
             self.nextSigningKeyLength = nextSigningKeyLength
             self.signingAttributesOrigin = signingAttributesOrigin
             self.signingEnabled = signingEnabled
+            self.signingHostedZone = signingHostedZone
             self.status = status
             self.tokens = tokens
         }
@@ -3077,6 +3184,8 @@ public struct CreateEmailIdentityPolicyOutput: Swift.Sendable {
 
 /// Represents a request to create an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
 public struct CreateEmailTemplateInput: Swift.Sendable {
+    /// An array of objects that define the tags (keys and values) to associate with the email template.
+    public var tags: [SESv2ClientTypes.Tag]?
     /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.
     /// This member is required.
     public var templateContent: SESv2ClientTypes.EmailTemplateContent?
@@ -3085,9 +3194,11 @@ public struct CreateEmailTemplateInput: Swift.Sendable {
     public var templateName: Swift.String?
 
     public init(
+        tags: [SESv2ClientTypes.Tag]? = nil,
         templateContent: SESv2ClientTypes.EmailTemplateContent? = nil,
         templateName: Swift.String? = nil
     ) {
+        self.tags = tags
         self.templateContent = templateContent
         self.templateName = templateName
     }
@@ -4523,6 +4634,95 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes {
 
+    /// The confidence level of SES that the email address meets the validation criteria:
+    ///
+    /// * LOW - Weak or no indication of the speciﬁc check (e.g., LOW for IsRoleAddress means the email is less likely to be a role-based address).
+    ///
+    /// * MEDIUM - Moderate indication of the speciﬁc check (e.g., MEDIUM for IsDisposable means the email might be a disposable address).
+    ///
+    /// * HIGH - Strong indication of the speciﬁc check (e.g., HIGH for IsRandomInput means the email is very likely randomly generated).
+    public enum EmailAddressInsightsConfidenceVerdict: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EmailAddressInsightsConfidenceVerdict] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Contains the overall validation verdict for an email address.
+    public struct EmailAddressInsightsVerdict: Swift.Sendable {
+        /// The confidence level of the validation verdict.
+        public var confidenceVerdict: SESv2ClientTypes.EmailAddressInsightsConfidenceVerdict?
+
+        public init(
+            confidenceVerdict: SESv2ClientTypes.EmailAddressInsightsConfidenceVerdict? = nil
+        ) {
+            self.confidenceVerdict = confidenceVerdict
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Contains individual validation checks performed on an email address.
+    public struct EmailAddressInsightsMailboxEvaluations: Swift.Sendable {
+        /// Checks that the domain exists, has valid DNS records, and is conﬁgured to receive email.
+        public var hasValidDnsRecords: SESv2ClientTypes.EmailAddressInsightsVerdict?
+        /// Checks that the email address follows proper RFC standards and contains valid characters in the correct format.
+        public var hasValidSyntax: SESv2ClientTypes.EmailAddressInsightsVerdict?
+        /// Checks disposable or temporary email addresses that could negatively impact your sender reputation.
+        public var isDisposable: SESv2ClientTypes.EmailAddressInsightsVerdict?
+        /// Checks if the input appears to be random text.
+        public var isRandomInput: SESv2ClientTypes.EmailAddressInsightsVerdict?
+        /// Identiﬁes role-based addresses (such as admin@, support@, or info@) that may have lower engagement rates.
+        public var isRoleAddress: SESv2ClientTypes.EmailAddressInsightsVerdict?
+        /// Checks that the mailbox exists and can receive messages without actually sending an email.
+        public var mailboxExists: SESv2ClientTypes.EmailAddressInsightsVerdict?
+
+        public init(
+            hasValidDnsRecords: SESv2ClientTypes.EmailAddressInsightsVerdict? = nil,
+            hasValidSyntax: SESv2ClientTypes.EmailAddressInsightsVerdict? = nil,
+            isDisposable: SESv2ClientTypes.EmailAddressInsightsVerdict? = nil,
+            isRandomInput: SESv2ClientTypes.EmailAddressInsightsVerdict? = nil,
+            isRoleAddress: SESv2ClientTypes.EmailAddressInsightsVerdict? = nil,
+            mailboxExists: SESv2ClientTypes.EmailAddressInsightsVerdict? = nil
+        ) {
+            self.hasValidDnsRecords = hasValidDnsRecords
+            self.hasValidSyntax = hasValidSyntax
+            self.isDisposable = isDisposable
+            self.isRandomInput = isRandomInput
+            self.isRoleAddress = isRoleAddress
+            self.mailboxExists = mailboxExists
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
     /// Contains a Bounce object if the event type is BOUNCE. Contains a Complaint object if the event type is COMPLAINT.
     public struct EventDetails: Swift.Sendable {
         /// Information about a Bounce event.
@@ -4868,6 +5068,22 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes {
 
+    /// Structure containing validation attributes used for suppressing sending to specific destination on account level.
+    public struct SuppressionValidationAttributes: Swift.Sendable {
+        /// Specifies the condition threshold settings for account-level suppression.
+        /// This member is required.
+        public var conditionThreshold: SESv2ClientTypes.SuppressionConditionThreshold?
+
+        public init(
+            conditionThreshold: SESv2ClientTypes.SuppressionConditionThreshold? = nil
+        ) {
+            self.conditionThreshold = conditionThreshold
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
     /// An object that contains information about the email address suppression preferences for your account in the current Amazon Web Services Region.
     public struct SuppressionAttributes: Swift.Sendable {
         /// A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following:
@@ -4876,11 +5092,15 @@ extension SESv2ClientTypes {
         ///
         /// * BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
         public var suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
+        /// Structure containing validation attributes used for suppressing sending to specific destination on account level.
+        public var validationAttributes: SESv2ClientTypes.SuppressionValidationAttributes?
 
         public init(
-            suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil
+            suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil,
+            validationAttributes: SESv2ClientTypes.SuppressionValidationAttributes? = nil
         ) {
             self.suppressedReasons = suppressedReasons
+            self.validationAttributes = validationAttributes
         }
     }
 }
@@ -5206,6 +5426,8 @@ public struct GetCustomVerificationEmailTemplateOutput: Swift.Sendable {
     public var fromEmailAddress: Swift.String?
     /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
     public var successRedirectionURL: Swift.String?
+    /// An array of objects that define the tags (keys and values) that are associated with the custom verification email template.
+    public var tags: [SESv2ClientTypes.Tag]?
     /// The content of the custom verification email.
     public var templateContent: Swift.String?
     /// The name of the custom verification email template.
@@ -5217,6 +5439,7 @@ public struct GetCustomVerificationEmailTemplateOutput: Swift.Sendable {
         failureRedirectionURL: Swift.String? = nil,
         fromEmailAddress: Swift.String? = nil,
         successRedirectionURL: Swift.String? = nil,
+        tags: [SESv2ClientTypes.Tag]? = nil,
         templateContent: Swift.String? = nil,
         templateName: Swift.String? = nil,
         templateSubject: Swift.String? = nil
@@ -5224,6 +5447,7 @@ public struct GetCustomVerificationEmailTemplateOutput: Swift.Sendable {
         self.failureRedirectionURL = failureRedirectionURL
         self.fromEmailAddress = fromEmailAddress
         self.successRedirectionURL = successRedirectionURL
+        self.tags = tags
         self.templateContent = templateContent
         self.templateName = templateName
         self.templateSubject = templateSubject
@@ -5532,6 +5756,50 @@ public struct GetDomainStatisticsReportOutput: Swift.Sendable {
     ) {
         self.dailyVolumes = dailyVolumes
         self.overallVolume = overallVolume
+    }
+}
+
+/// A request to return validation insights about an email address.
+public struct GetEmailAddressInsightsInput: Swift.Sendable {
+    /// The email address to analyze for validation insights.
+    /// This member is required.
+    public var emailAddress: Swift.String?
+
+    public init(
+        emailAddress: Swift.String? = nil
+    ) {
+        self.emailAddress = emailAddress
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Contains detailed validation information about an email address.
+    public struct MailboxValidation: Swift.Sendable {
+        /// Specific validation checks performed on the email address.
+        public var evaluations: SESv2ClientTypes.EmailAddressInsightsMailboxEvaluations?
+        /// Overall validity assessment with a conﬁdence verdict.
+        public var isValid: SESv2ClientTypes.EmailAddressInsightsVerdict?
+
+        public init(
+            evaluations: SESv2ClientTypes.EmailAddressInsightsMailboxEvaluations? = nil,
+            isValid: SESv2ClientTypes.EmailAddressInsightsVerdict? = nil
+        ) {
+            self.evaluations = evaluations
+            self.isValid = isValid
+        }
+    }
+}
+
+/// Validation insights about an email address.
+public struct GetEmailAddressInsightsOutput: Swift.Sendable {
+    /// Detailed validation results for the email address.
+    public var mailboxValidation: SESv2ClientTypes.MailboxValidation?
+
+    public init(
+        mailboxValidation: SESv2ClientTypes.MailboxValidation? = nil
+    ) {
+        self.mailboxValidation = mailboxValidation
     }
 }
 
@@ -5885,6 +6153,8 @@ public struct GetEmailTemplateInput: Swift.Sendable {
 
 /// The following element is returned by the service.
 public struct GetEmailTemplateOutput: Swift.Sendable {
+    /// An array of objects that define the tags (keys and values) that are associated with the email template.
+    public var tags: [SESv2ClientTypes.Tag]?
     /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.
     /// This member is required.
     public var templateContent: SESv2ClientTypes.EmailTemplateContent?
@@ -5893,9 +6163,11 @@ public struct GetEmailTemplateOutput: Swift.Sendable {
     public var templateName: Swift.String?
 
     public init(
+        tags: [SESv2ClientTypes.Tag]? = nil,
         templateContent: SESv2ClientTypes.EmailTemplateContent? = nil,
         templateName: Swift.String? = nil
     ) {
+        self.tags = tags
         self.templateContent = templateContent
         self.templateName = templateName
     }
@@ -7779,11 +8051,15 @@ public struct PutAccountSuppressionAttributesInput: Swift.Sendable {
     ///
     /// * BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
     public var suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
+    /// An object that contains additional suppression attributes for your account.
+    public var validationAttributes: SESv2ClientTypes.SuppressionValidationAttributes?
 
     public init(
-        suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil
+        suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil,
+        validationAttributes: SESv2ClientTypes.SuppressionValidationAttributes? = nil
     ) {
         self.suppressedReasons = suppressedReasons
+        self.validationAttributes = validationAttributes
     }
 }
 
@@ -7922,13 +8198,17 @@ public struct PutConfigurationSetSuppressionOptionsInput: Swift.Sendable {
     ///
     /// * BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
     public var suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
+    /// An object that contains information about the email address suppression preferences for the configuration set in the current Amazon Web Services Region.
+    public var validationOptions: SESv2ClientTypes.SuppressionValidationOptions?
 
     public init(
         configurationSetName: Swift.String? = nil,
-        suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil
+        suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil,
+        validationOptions: SESv2ClientTypes.SuppressionValidationOptions? = nil
     ) {
         self.configurationSetName = configurationSetName
         self.suppressedReasons = suppressedReasons
+        self.validationOptions = validationOptions
     }
 }
 
@@ -8171,13 +8451,21 @@ public struct PutEmailIdentityDkimSigningAttributesOutput: Swift.Sendable {
     public var dkimStatus: SESv2ClientTypes.DkimStatus?
     /// If you used [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html) to configure DKIM authentication for the domain, then this object contains a set of unique strings that you use to create a set of CNAME records that you add to the DNS configuration for your domain. When Amazon SES detects these records in the DNS configuration for your domain, the DKIM authentication process is complete. If you configured DKIM authentication for the domain by providing your own public-private key pair, then this object contains the selector that's associated with your public key. Regardless of the DKIM authentication method you use, Amazon SES searches for the appropriate records in the DNS configuration of the domain for up to 72 hours.
     public var dkimTokens: [Swift.String]?
+    /// The hosted zone where Amazon SES publishes the DKIM public key TXT records for this email identity. This value indicates the DNS zone that customers must reference when configuring their CNAME records for DKIM authentication. When configuring DKIM for your domain, create CNAME records in your DNS that point to the selectors in this hosted zone. For example:  selector1._domainkey.yourdomain.com CNAME selector1.
+    ///     selector2._domainkey.yourdomain.com CNAME selector2.
+    ///
+    ///
+    ///     selector3._domainkey.yourdomain.com CNAME selector3.
+    public var signingHostedZone: Swift.String?
 
     public init(
         dkimStatus: SESv2ClientTypes.DkimStatus? = nil,
-        dkimTokens: [Swift.String]? = nil
+        dkimTokens: [Swift.String]? = nil,
+        signingHostedZone: Swift.String? = nil
     ) {
         self.dkimStatus = dkimStatus
         self.dkimTokens = dkimTokens
+        self.signingHostedZone = signingHostedZone
     }
 }
 
@@ -9209,6 +9497,13 @@ extension GetDomainStatisticsReportInput {
     }
 }
 
+extension GetEmailAddressInsightsInput {
+
+    static func urlPathProvider(_ value: GetEmailAddressInsightsInput) -> Swift.String? {
+        return "/v2/email/email-address-insights"
+    }
+}
+
 extension GetEmailIdentityInput {
 
     static func urlPathProvider(_ value: GetEmailIdentityInput) -> Swift.String? {
@@ -10071,6 +10366,7 @@ extension CreateCustomVerificationEmailTemplateInput {
         try writer["FailureRedirectionURL"].write(value.failureRedirectionURL)
         try writer["FromEmailAddress"].write(value.fromEmailAddress)
         try writer["SuccessRedirectionURL"].write(value.successRedirectionURL)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SESv2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TemplateContent"].write(value.templateContent)
         try writer["TemplateName"].write(value.templateName)
         try writer["TemplateSubject"].write(value.templateSubject)
@@ -10121,6 +10417,7 @@ extension CreateEmailTemplateInput {
 
     static func write(value: CreateEmailTemplateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SESv2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TemplateContent"].write(value.templateContent, with: SESv2ClientTypes.EmailTemplateContent.write(value:to:))
         try writer["TemplateName"].write(value.templateName)
     }
@@ -10186,6 +10483,14 @@ extension DeleteTenantResourceAssociationInput {
         guard let value else { return }
         try writer["ResourceArn"].write(value.resourceArn)
         try writer["TenantName"].write(value.tenantName)
+    }
+}
+
+extension GetEmailAddressInsightsInput {
+
+    static func write(value: GetEmailAddressInsightsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EmailAddress"].write(value.emailAddress)
     }
 }
 
@@ -10312,6 +10617,7 @@ extension PutAccountSuppressionAttributesInput {
     static func write(value: PutAccountSuppressionAttributesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SuppressedReasons"].writeList(value.suppressedReasons, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESv2ClientTypes.SuppressionListReason>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ValidationAttributes"].write(value.validationAttributes, with: SESv2ClientTypes.SuppressionValidationAttributes.write(value:to:))
     }
 }
 
@@ -10362,6 +10668,7 @@ extension PutConfigurationSetSuppressionOptionsInput {
     static func write(value: PutConfigurationSetSuppressionOptionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SuppressedReasons"].writeList(value.suppressedReasons, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESv2ClientTypes.SuppressionListReason>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ValidationOptions"].write(value.validationOptions, with: SESv2ClientTypes.SuppressionValidationOptions.write(value:to:))
     }
 }
 
@@ -10970,6 +11277,7 @@ extension GetCustomVerificationEmailTemplateOutput {
         value.failureRedirectionURL = try reader["FailureRedirectionURL"].readIfPresent()
         value.fromEmailAddress = try reader["FromEmailAddress"].readIfPresent()
         value.successRedirectionURL = try reader["SuccessRedirectionURL"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.templateContent = try reader["TemplateContent"].readIfPresent()
         value.templateName = try reader["TemplateName"].readIfPresent()
         value.templateSubject = try reader["TemplateSubject"].readIfPresent()
@@ -11071,6 +11379,18 @@ extension GetDomainStatisticsReportOutput {
     }
 }
 
+extension GetEmailAddressInsightsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEmailAddressInsightsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetEmailAddressInsightsOutput()
+        value.mailboxValidation = try reader["MailboxValidation"].readIfPresent(with: SESv2ClientTypes.MailboxValidation.read(from:))
+        return value
+    }
+}
+
 extension GetEmailIdentityOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEmailIdentityOutput {
@@ -11111,6 +11431,7 @@ extension GetEmailTemplateOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetEmailTemplateOutput()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.templateContent = try reader["TemplateContent"].readIfPresent(with: SESv2ClientTypes.EmailTemplateContent.read(from:))
         value.templateName = try reader["TemplateName"].readIfPresent() ?? ""
         return value
@@ -11607,6 +11928,7 @@ extension PutEmailIdentityDkimSigningAttributesOutput {
         var value = PutEmailIdentityDkimSigningAttributesOutput()
         value.dkimStatus = try reader["DkimStatus"].readIfPresent()
         value.dkimTokens = try reader["DkimTokens"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.signingHostedZone = try reader["SigningHostedZone"].readIfPresent()
         return value
     }
 }
@@ -12480,6 +12802,21 @@ enum GetDomainStatisticsReportOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetEmailAddressInsightsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13700,85 +14037,6 @@ extension ConflictException {
     }
 }
 
-extension SESv2ClientTypes.MetricDataResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.MetricDataResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.MetricDataResult()
-        value.id = try reader["Id"].readIfPresent()
-        value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SESv2ClientTypes.MetricDataError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.MetricDataError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.MetricDataError()
-        value.id = try reader["Id"].readIfPresent()
-        value.code = try reader["Code"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension SESv2ClientTypes.DkimAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.DkimAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.DkimAttributes()
-        value.signingEnabled = try reader["SigningEnabled"].readIfPresent() ?? false
-        value.status = try reader["Status"].readIfPresent()
-        value.tokens = try reader["Tokens"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.signingAttributesOrigin = try reader["SigningAttributesOrigin"].readIfPresent()
-        value.nextSigningKeyLength = try reader["NextSigningKeyLength"].readIfPresent()
-        value.currentSigningKeyLength = try reader["CurrentSigningKeyLength"].readIfPresent()
-        value.lastKeyGenerationTimestamp = try reader["LastKeyGenerationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension SESv2ClientTypes.Tag {
-
-    static func write(value: SESv2ClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension SESv2ClientTypes.SendQuota {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SendQuota {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.SendQuota()
-        value.max24HourSend = try reader["Max24HourSend"].readIfPresent() ?? 0
-        value.maxSendRate = try reader["MaxSendRate"].readIfPresent() ?? 0
-        value.sentLast24Hours = try reader["SentLast24Hours"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SESv2ClientTypes.SuppressionAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressionAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.SuppressionAttributes()
-        value.suppressedReasons = try reader["SuppressedReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESv2ClientTypes.SuppressionListReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension SESv2ClientTypes.AccountDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.AccountDetails {
@@ -13790,208 +14048,6 @@ extension SESv2ClientTypes.AccountDetails {
         value.useCaseDescription = try reader["UseCaseDescription"].readIfPresent()
         value.additionalContactEmailAddresses = try reader["AdditionalContactEmailAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.reviewDetails = try reader["ReviewDetails"].readIfPresent(with: SESv2ClientTypes.ReviewDetails.read(from:))
-        return value
-    }
-}
-
-extension SESv2ClientTypes.ReviewDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ReviewDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.ReviewDetails()
-        value.status = try reader["Status"].readIfPresent()
-        value.caseId = try reader["CaseId"].readIfPresent()
-        return value
-    }
-}
-
-extension SESv2ClientTypes.VdmAttributes {
-
-    static func write(value: SESv2ClientTypes.VdmAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DashboardAttributes"].write(value.dashboardAttributes, with: SESv2ClientTypes.DashboardAttributes.write(value:to:))
-        try writer["GuardianAttributes"].write(value.guardianAttributes, with: SESv2ClientTypes.GuardianAttributes.write(value:to:))
-        try writer["VdmEnabled"].write(value.vdmEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.VdmAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.VdmAttributes()
-        value.vdmEnabled = try reader["VdmEnabled"].readIfPresent() ?? .sdkUnknown("")
-        value.dashboardAttributes = try reader["DashboardAttributes"].readIfPresent(with: SESv2ClientTypes.DashboardAttributes.read(from:))
-        value.guardianAttributes = try reader["GuardianAttributes"].readIfPresent(with: SESv2ClientTypes.GuardianAttributes.read(from:))
-        return value
-    }
-}
-
-extension SESv2ClientTypes.GuardianAttributes {
-
-    static func write(value: SESv2ClientTypes.GuardianAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OptimizedSharedDelivery"].write(value.optimizedSharedDelivery)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.GuardianAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.GuardianAttributes()
-        value.optimizedSharedDelivery = try reader["OptimizedSharedDelivery"].readIfPresent()
-        return value
-    }
-}
-
-extension SESv2ClientTypes.DashboardAttributes {
-
-    static func write(value: SESv2ClientTypes.DashboardAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EngagementMetrics"].write(value.engagementMetrics)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.DashboardAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.DashboardAttributes()
-        value.engagementMetrics = try reader["EngagementMetrics"].readIfPresent()
-        return value
-    }
-}
-
-extension SESv2ClientTypes.BlacklistEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.BlacklistEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.BlacklistEntry()
-        value.rblName = try reader["RblName"].readIfPresent()
-        value.listingTime = try reader["ListingTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension SESv2ClientTypes.TrackingOptions {
-
-    static func write(value: SESv2ClientTypes.TrackingOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomRedirectDomain"].write(value.customRedirectDomain)
-        try writer["HttpsPolicy"].write(value.httpsPolicy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.TrackingOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.TrackingOptions()
-        value.customRedirectDomain = try reader["CustomRedirectDomain"].readIfPresent() ?? ""
-        value.httpsPolicy = try reader["HttpsPolicy"].readIfPresent()
-        return value
-    }
-}
-
-extension SESv2ClientTypes.DeliveryOptions {
-
-    static func write(value: SESv2ClientTypes.DeliveryOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxDeliverySeconds"].write(value.maxDeliverySeconds)
-        try writer["SendingPoolName"].write(value.sendingPoolName)
-        try writer["TlsPolicy"].write(value.tlsPolicy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.DeliveryOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.DeliveryOptions()
-        value.tlsPolicy = try reader["TlsPolicy"].readIfPresent()
-        value.sendingPoolName = try reader["SendingPoolName"].readIfPresent()
-        value.maxDeliverySeconds = try reader["MaxDeliverySeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension SESv2ClientTypes.ReputationOptions {
-
-    static func write(value: SESv2ClientTypes.ReputationOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastFreshStart"].writeTimestamp(value.lastFreshStart, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["ReputationMetricsEnabled"].write(value.reputationMetricsEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ReputationOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.ReputationOptions()
-        value.reputationMetricsEnabled = try reader["ReputationMetricsEnabled"].readIfPresent() ?? false
-        value.lastFreshStart = try reader["LastFreshStart"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension SESv2ClientTypes.SendingOptions {
-
-    static func write(value: SESv2ClientTypes.SendingOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SendingEnabled"].write(value.sendingEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SendingOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.SendingOptions()
-        value.sendingEnabled = try reader["SendingEnabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension SESv2ClientTypes.SuppressionOptions {
-
-    static func write(value: SESv2ClientTypes.SuppressionOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SuppressedReasons"].writeList(value.suppressedReasons, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESv2ClientTypes.SuppressionListReason>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressionOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.SuppressionOptions()
-        value.suppressedReasons = try reader["SuppressedReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESv2ClientTypes.SuppressionListReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SESv2ClientTypes.VdmOptions {
-
-    static func write(value: SESv2ClientTypes.VdmOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DashboardOptions"].write(value.dashboardOptions, with: SESv2ClientTypes.DashboardOptions.write(value:to:))
-        try writer["GuardianOptions"].write(value.guardianOptions, with: SESv2ClientTypes.GuardianOptions.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.VdmOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.VdmOptions()
-        value.dashboardOptions = try reader["DashboardOptions"].readIfPresent(with: SESv2ClientTypes.DashboardOptions.read(from:))
-        value.guardianOptions = try reader["GuardianOptions"].readIfPresent(with: SESv2ClientTypes.GuardianOptions.read(from:))
-        return value
-    }
-}
-
-extension SESv2ClientTypes.GuardianOptions {
-
-    static func write(value: SESv2ClientTypes.GuardianOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OptimizedSharedDelivery"].write(value.optimizedSharedDelivery)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.GuardianOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.GuardianOptions()
-        value.optimizedSharedDelivery = try reader["OptimizedSharedDelivery"].readIfPresent()
-        return value
-    }
-}
-
-extension SESv2ClientTypes.DashboardOptions {
-
-    static func write(value: SESv2ClientTypes.DashboardOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EngagementMetrics"].write(value.engagementMetrics)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.DashboardOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.DashboardOptions()
-        value.engagementMetrics = try reader["EngagementMetrics"].readIfPresent()
         return value
     }
 }
@@ -14011,64 +14067,93 @@ extension SESv2ClientTypes.ArchivingOptions {
     }
 }
 
-extension SESv2ClientTypes.EventDestination {
+extension SESv2ClientTypes.Attachment {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.EventDestination {
+    static func write(value: SESv2ClientTypes.Attachment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContentDescription"].write(value.contentDescription)
+        try writer["ContentDisposition"].write(value.contentDisposition)
+        try writer["ContentId"].write(value.contentId)
+        try writer["ContentTransferEncoding"].write(value.contentTransferEncoding)
+        try writer["ContentType"].write(value.contentType)
+        try writer["FileName"].write(value.fileName)
+        try writer["RawContent"].write(value.rawContent)
+    }
+}
+
+extension SESv2ClientTypes.BatchGetMetricDataQuery {
+
+    static func write(value: SESv2ClientTypes.BatchGetMetricDataQuery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Dimensions"].writeMap(value.dimensions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["EndDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Id"].write(value.id)
+        try writer["Metric"].write(value.metric)
+        try writer["Namespace"].write(value.namespace)
+        try writer["StartDate"].writeTimestamp(value.startDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension SESv2ClientTypes.BlacklistEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.BlacklistEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.EventDestination()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        value.matchingEventTypes = try reader["MatchingEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESv2ClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.kinesisFirehoseDestination = try reader["KinesisFirehoseDestination"].readIfPresent(with: SESv2ClientTypes.KinesisFirehoseDestination.read(from:))
-        value.cloudWatchDestination = try reader["CloudWatchDestination"].readIfPresent(with: SESv2ClientTypes.CloudWatchDestination.read(from:))
-        value.snsDestination = try reader["SnsDestination"].readIfPresent(with: SESv2ClientTypes.SnsDestination.read(from:))
-        value.eventBridgeDestination = try reader["EventBridgeDestination"].readIfPresent(with: SESv2ClientTypes.EventBridgeDestination.read(from:))
-        value.pinpointDestination = try reader["PinpointDestination"].readIfPresent(with: SESv2ClientTypes.PinpointDestination.read(from:))
+        var value = SESv2ClientTypes.BlacklistEntry()
+        value.rblName = try reader["RblName"].readIfPresent()
+        value.listingTime = try reader["ListingTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }
 
-extension SESv2ClientTypes.PinpointDestination {
+extension SESv2ClientTypes.Body {
 
-    static func write(value: SESv2ClientTypes.PinpointDestination?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SESv2ClientTypes.Body?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ApplicationArn"].write(value.applicationArn)
+        try writer["Html"].write(value.html, with: SESv2ClientTypes.Content.write(value:to:))
+        try writer["Text"].write(value.text, with: SESv2ClientTypes.Content.write(value:to:))
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.PinpointDestination {
+extension SESv2ClientTypes.Bounce {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Bounce {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.PinpointDestination()
-        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        var value = SESv2ClientTypes.Bounce()
+        value.bounceType = try reader["BounceType"].readIfPresent()
+        value.bounceSubType = try reader["BounceSubType"].readIfPresent()
+        value.diagnosticCode = try reader["DiagnosticCode"].readIfPresent()
         return value
     }
 }
 
-extension SESv2ClientTypes.EventBridgeDestination {
+extension SESv2ClientTypes.BulkEmailContent {
 
-    static func write(value: SESv2ClientTypes.EventBridgeDestination?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SESv2ClientTypes.BulkEmailContent?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EventBusArn"].write(value.eventBusArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.EventBridgeDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.EventBridgeDestination()
-        value.eventBusArn = try reader["EventBusArn"].readIfPresent() ?? ""
-        return value
+        try writer["Template"].write(value.template, with: SESv2ClientTypes.Template.write(value:to:))
     }
 }
 
-extension SESv2ClientTypes.SnsDestination {
+extension SESv2ClientTypes.BulkEmailEntry {
 
-    static func write(value: SESv2ClientTypes.SnsDestination?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SESv2ClientTypes.BulkEmailEntry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["TopicArn"].write(value.topicArn)
+        try writer["Destination"].write(value.destination, with: SESv2ClientTypes.Destination.write(value:to:))
+        try writer["ReplacementEmailContent"].write(value.replacementEmailContent, with: SESv2ClientTypes.ReplacementEmailContent.write(value:to:))
+        try writer["ReplacementHeaders"].writeList(value.replacementHeaders, memberWritingClosure: SESv2ClientTypes.MessageHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ReplacementTags"].writeList(value.replacementTags, memberWritingClosure: SESv2ClientTypes.MessageTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SnsDestination {
+extension SESv2ClientTypes.BulkEmailEntryResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.BulkEmailEntryResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.SnsDestination()
-        value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
+        var value = SESv2ClientTypes.BulkEmailEntryResult()
+        value.status = try reader["Status"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent()
+        value.messageId = try reader["MessageId"].readIfPresent()
         return value
     }
 }
@@ -14107,57 +14192,120 @@ extension SESv2ClientTypes.CloudWatchDimensionConfiguration {
     }
 }
 
-extension SESv2ClientTypes.KinesisFirehoseDestination {
+extension SESv2ClientTypes.Complaint {
 
-    static func write(value: SESv2ClientTypes.KinesisFirehoseDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeliveryStreamArn"].write(value.deliveryStreamArn)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.KinesisFirehoseDestination {
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Complaint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.KinesisFirehoseDestination()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
-        value.deliveryStreamArn = try reader["DeliveryStreamArn"].readIfPresent() ?? ""
+        var value = SESv2ClientTypes.Complaint()
+        value.complaintSubType = try reader["ComplaintSubType"].readIfPresent()
+        value.complaintFeedbackType = try reader["ComplaintFeedbackType"].readIfPresent()
         return value
     }
 }
 
-extension SESv2ClientTypes.TopicPreference {
+extension SESv2ClientTypes.Contact {
 
-    static func write(value: SESv2ClientTypes.TopicPreference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SubscriptionStatus"].write(value.subscriptionStatus)
-        try writer["TopicName"].write(value.topicName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.TopicPreference {
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Contact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.TopicPreference()
-        value.topicName = try reader["TopicName"].readIfPresent() ?? ""
-        value.subscriptionStatus = try reader["SubscriptionStatus"].readIfPresent() ?? .sdkUnknown("")
+        var value = SESv2ClientTypes.Contact()
+        value.emailAddress = try reader["EmailAddress"].readIfPresent()
+        value.topicPreferences = try reader["TopicPreferences"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.TopicPreference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topicDefaultPreferences = try reader["TopicDefaultPreferences"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.TopicPreference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.unsubscribeAll = try reader["UnsubscribeAll"].readIfPresent() ?? false
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension SESv2ClientTypes.Topic {
+extension SESv2ClientTypes.ContactList {
 
-    static func write(value: SESv2ClientTypes.Topic?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ContactList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.ContactList()
+        value.contactListName = try reader["ContactListName"].readIfPresent()
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SESv2ClientTypes.ContactListDestination {
+
+    static func write(value: SESv2ClientTypes.ContactListDestination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DefaultSubscriptionStatus"].write(value.defaultSubscriptionStatus)
-        try writer["Description"].write(value.description)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["TopicName"].write(value.topicName)
+        try writer["ContactListImportAction"].write(value.contactListImportAction)
+        try writer["ContactListName"].write(value.contactListName)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Topic {
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ContactListDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.Topic()
-        value.topicName = try reader["TopicName"].readIfPresent() ?? ""
-        value.displayName = try reader["DisplayName"].readIfPresent() ?? ""
-        value.description = try reader["Description"].readIfPresent()
-        value.defaultSubscriptionStatus = try reader["DefaultSubscriptionStatus"].readIfPresent() ?? .sdkUnknown("")
+        var value = SESv2ClientTypes.ContactListDestination()
+        value.contactListName = try reader["ContactListName"].readIfPresent() ?? ""
+        value.contactListImportAction = try reader["ContactListImportAction"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension SESv2ClientTypes.Content {
+
+    static func write(value: SESv2ClientTypes.Content?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Charset"].write(value.charset)
+        try writer["Data"].write(value.data)
+    }
+}
+
+extension SESv2ClientTypes.CustomVerificationEmailTemplateMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.CustomVerificationEmailTemplateMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.CustomVerificationEmailTemplateMetadata()
+        value.templateName = try reader["TemplateName"].readIfPresent()
+        value.fromEmailAddress = try reader["FromEmailAddress"].readIfPresent()
+        value.templateSubject = try reader["TemplateSubject"].readIfPresent()
+        value.successRedirectionURL = try reader["SuccessRedirectionURL"].readIfPresent()
+        value.failureRedirectionURL = try reader["FailureRedirectionURL"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.DailyVolume {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.DailyVolume {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.DailyVolume()
+        value.startDate = try reader["StartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.volumeStatistics = try reader["VolumeStatistics"].readIfPresent(with: SESv2ClientTypes.VolumeStatistics.read(from:))
+        value.domainIspPlacements = try reader["DomainIspPlacements"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.DomainIspPlacement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SESv2ClientTypes.DashboardAttributes {
+
+    static func write(value: SESv2ClientTypes.DashboardAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EngagementMetrics"].write(value.engagementMetrics)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.DashboardAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.DashboardAttributes()
+        value.engagementMetrics = try reader["EngagementMetrics"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.DashboardOptions {
+
+    static func write(value: SESv2ClientTypes.DashboardOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EngagementMetrics"].write(value.engagementMetrics)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.DashboardOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.DashboardOptions()
+        value.engagementMetrics = try reader["EngagementMetrics"].readIfPresent()
         return value
     }
 }
@@ -14186,42 +14334,6 @@ extension SESv2ClientTypes.DedicatedIpPool {
     }
 }
 
-extension SESv2ClientTypes.DomainDeliverabilityTrackingOption {
-
-    static func write(value: SESv2ClientTypes.DomainDeliverabilityTrackingOption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Domain"].write(value.domain)
-        try writer["InboxPlacementTrackingOption"].write(value.inboxPlacementTrackingOption, with: SESv2ClientTypes.InboxPlacementTrackingOption.write(value:to:))
-        try writer["SubscriptionStartDate"].writeTimestamp(value.subscriptionStartDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.DomainDeliverabilityTrackingOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.DomainDeliverabilityTrackingOption()
-        value.domain = try reader["Domain"].readIfPresent()
-        value.subscriptionStartDate = try reader["SubscriptionStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.inboxPlacementTrackingOption = try reader["InboxPlacementTrackingOption"].readIfPresent(with: SESv2ClientTypes.InboxPlacementTrackingOption.read(from:))
-        return value
-    }
-}
-
-extension SESv2ClientTypes.InboxPlacementTrackingOption {
-
-    static func write(value: SESv2ClientTypes.InboxPlacementTrackingOption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Global"].write(value.global)
-        try writer["TrackedIsps"].writeList(value.trackedIsps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.InboxPlacementTrackingOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.InboxPlacementTrackingOption()
-        value.global = try reader["Global"].readIfPresent() ?? false
-        value.trackedIsps = try reader["TrackedIsps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension SESv2ClientTypes.DeliverabilityTestReport {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.DeliverabilityTestReport {
@@ -14237,28 +14349,68 @@ extension SESv2ClientTypes.DeliverabilityTestReport {
     }
 }
 
-extension SESv2ClientTypes.PlacementStatistics {
+extension SESv2ClientTypes.DeliveryOptions {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.PlacementStatistics {
+    static func write(value: SESv2ClientTypes.DeliveryOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxDeliverySeconds"].write(value.maxDeliverySeconds)
+        try writer["SendingPoolName"].write(value.sendingPoolName)
+        try writer["TlsPolicy"].write(value.tlsPolicy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.DeliveryOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.PlacementStatistics()
-        value.inboxPercentage = try reader["InboxPercentage"].readIfPresent()
-        value.spamPercentage = try reader["SpamPercentage"].readIfPresent()
-        value.missingPercentage = try reader["MissingPercentage"].readIfPresent()
-        value.spfPercentage = try reader["SpfPercentage"].readIfPresent()
-        value.dkimPercentage = try reader["DkimPercentage"].readIfPresent()
+        var value = SESv2ClientTypes.DeliveryOptions()
+        value.tlsPolicy = try reader["TlsPolicy"].readIfPresent()
+        value.sendingPoolName = try reader["SendingPoolName"].readIfPresent()
+        value.maxDeliverySeconds = try reader["MaxDeliverySeconds"].readIfPresent()
         return value
     }
 }
 
-extension SESv2ClientTypes.IspPlacement {
+extension SESv2ClientTypes.Destination {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.IspPlacement {
+    static func write(value: SESv2ClientTypes.Destination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BccAddresses"].writeList(value.bccAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CcAddresses"].writeList(value.ccAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ToAddresses"].writeList(value.toAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SESv2ClientTypes.Details {
+
+    static func write(value: SESv2ClientTypes.Details?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoutesDetails"].writeList(value.routesDetails, memberWritingClosure: SESv2ClientTypes.RouteDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SESv2ClientTypes.DkimAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.DkimAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.IspPlacement()
-        value.ispName = try reader["IspName"].readIfPresent()
-        value.placementStatistics = try reader["PlacementStatistics"].readIfPresent(with: SESv2ClientTypes.PlacementStatistics.read(from:))
+        var value = SESv2ClientTypes.DkimAttributes()
+        value.signingEnabled = try reader["SigningEnabled"].readIfPresent() ?? false
+        value.status = try reader["Status"].readIfPresent()
+        value.tokens = try reader["Tokens"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.signingHostedZone = try reader["SigningHostedZone"].readIfPresent()
+        value.signingAttributesOrigin = try reader["SigningAttributesOrigin"].readIfPresent()
+        value.nextSigningKeyLength = try reader["NextSigningKeyLength"].readIfPresent()
+        value.currentSigningKeyLength = try reader["CurrentSigningKeyLength"].readIfPresent()
+        value.lastKeyGenerationTimestamp = try reader["LastKeyGenerationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
+    }
+}
+
+extension SESv2ClientTypes.DkimSigningAttributes {
+
+    static func write(value: SESv2ClientTypes.DkimSigningAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DomainSigningAttributesOrigin"].write(value.domainSigningAttributesOrigin)
+        try writer["DomainSigningPrivateKey"].write(value.domainSigningPrivateKey)
+        try writer["DomainSigningSelector"].write(value.domainSigningSelector)
+        try writer["NextSigningKeyLength"].write(value.nextSigningKeyLength)
     }
 }
 
@@ -14285,14 +14437,21 @@ extension SESv2ClientTypes.DomainDeliverabilityCampaign {
     }
 }
 
-extension SESv2ClientTypes.OverallVolume {
+extension SESv2ClientTypes.DomainDeliverabilityTrackingOption {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.OverallVolume {
+    static func write(value: SESv2ClientTypes.DomainDeliverabilityTrackingOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Domain"].write(value.domain)
+        try writer["InboxPlacementTrackingOption"].write(value.inboxPlacementTrackingOption, with: SESv2ClientTypes.InboxPlacementTrackingOption.write(value:to:))
+        try writer["SubscriptionStartDate"].writeTimestamp(value.subscriptionStartDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.DomainDeliverabilityTrackingOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.OverallVolume()
-        value.volumeStatistics = try reader["VolumeStatistics"].readIfPresent(with: SESv2ClientTypes.VolumeStatistics.read(from:))
-        value.readRatePercent = try reader["ReadRatePercent"].readIfPresent()
-        value.domainIspPlacements = try reader["DomainIspPlacements"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.DomainIspPlacement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = SESv2ClientTypes.DomainDeliverabilityTrackingOption()
+        value.domain = try reader["Domain"].readIfPresent()
+        value.subscriptionStartDate = try reader["SubscriptionStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inboxPlacementTrackingOption = try reader["InboxPlacementTrackingOption"].readIfPresent(with: SESv2ClientTypes.InboxPlacementTrackingOption.read(from:))
         return value
     }
 }
@@ -14311,64 +14470,49 @@ extension SESv2ClientTypes.DomainIspPlacement {
     }
 }
 
-extension SESv2ClientTypes.VolumeStatistics {
+extension SESv2ClientTypes.EmailAddressInsightsMailboxEvaluations {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.VolumeStatistics {
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.EmailAddressInsightsMailboxEvaluations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.VolumeStatistics()
-        value.inboxRawCount = try reader["InboxRawCount"].readIfPresent()
-        value.spamRawCount = try reader["SpamRawCount"].readIfPresent()
-        value.projectedInbox = try reader["ProjectedInbox"].readIfPresent()
-        value.projectedSpam = try reader["ProjectedSpam"].readIfPresent()
+        var value = SESv2ClientTypes.EmailAddressInsightsMailboxEvaluations()
+        value.hasValidSyntax = try reader["HasValidSyntax"].readIfPresent(with: SESv2ClientTypes.EmailAddressInsightsVerdict.read(from:))
+        value.hasValidDnsRecords = try reader["HasValidDnsRecords"].readIfPresent(with: SESv2ClientTypes.EmailAddressInsightsVerdict.read(from:))
+        value.mailboxExists = try reader["MailboxExists"].readIfPresent(with: SESv2ClientTypes.EmailAddressInsightsVerdict.read(from:))
+        value.isRoleAddress = try reader["IsRoleAddress"].readIfPresent(with: SESv2ClientTypes.EmailAddressInsightsVerdict.read(from:))
+        value.isDisposable = try reader["IsDisposable"].readIfPresent(with: SESv2ClientTypes.EmailAddressInsightsVerdict.read(from:))
+        value.isRandomInput = try reader["IsRandomInput"].readIfPresent(with: SESv2ClientTypes.EmailAddressInsightsVerdict.read(from:))
         return value
     }
 }
 
-extension SESv2ClientTypes.DailyVolume {
+extension SESv2ClientTypes.EmailAddressInsightsVerdict {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.DailyVolume {
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.EmailAddressInsightsVerdict {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.DailyVolume()
-        value.startDate = try reader["StartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.volumeStatistics = try reader["VolumeStatistics"].readIfPresent(with: SESv2ClientTypes.VolumeStatistics.read(from:))
-        value.domainIspPlacements = try reader["DomainIspPlacements"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.DomainIspPlacement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = SESv2ClientTypes.EmailAddressInsightsVerdict()
+        value.confidenceVerdict = try reader["ConfidenceVerdict"].readIfPresent()
         return value
     }
 }
 
-extension SESv2ClientTypes.MailFromAttributes {
+extension SESv2ClientTypes.EmailContent {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.MailFromAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.MailFromAttributes()
-        value.mailFromDomain = try reader["MailFromDomain"].readIfPresent() ?? ""
-        value.mailFromDomainStatus = try reader["MailFromDomainStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.behaviorOnMxFailure = try reader["BehaviorOnMxFailure"].readIfPresent() ?? .sdkUnknown("")
-        return value
+    static func write(value: SESv2ClientTypes.EmailContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Raw"].write(value.raw, with: SESv2ClientTypes.RawMessage.write(value:to:))
+        try writer["Simple"].write(value.simple, with: SESv2ClientTypes.Message.write(value:to:))
+        try writer["Template"].write(value.template, with: SESv2ClientTypes.Template.write(value:to:))
     }
 }
 
-extension SESv2ClientTypes.VerificationInfo {
+extension SESv2ClientTypes.EmailInsights {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.VerificationInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.EmailInsights {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.VerificationInfo()
-        value.lastCheckedTimestamp = try reader["LastCheckedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastSuccessTimestamp = try reader["LastSuccessTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.errorType = try reader["ErrorType"].readIfPresent()
-        value.soaRecord = try reader["SOARecord"].readIfPresent(with: SESv2ClientTypes.SOARecord.read(from:))
-        return value
-    }
-}
-
-extension SESv2ClientTypes.SOARecord {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SOARecord {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.SOARecord()
-        value.primaryNameServer = try reader["PrimaryNameServer"].readIfPresent()
-        value.adminEmail = try reader["AdminEmail"].readIfPresent()
-        value.serialNumber = try reader["SerialNumber"].readIfPresent() ?? 0
+        var value = SESv2ClientTypes.EmailInsights()
+        value.destination = try reader["Destination"].readIfPresent()
+        value.isp = try reader["Isp"].readIfPresent()
+        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.InsightsEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -14392,19 +14536,70 @@ extension SESv2ClientTypes.EmailTemplateContent {
     }
 }
 
-extension SESv2ClientTypes.ExportDestination {
+extension SESv2ClientTypes.EmailTemplateMetadata {
 
-    static func write(value: SESv2ClientTypes.ExportDestination?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.EmailTemplateMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.EmailTemplateMetadata()
+        value.templateName = try reader["TemplateName"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SESv2ClientTypes.EventBridgeDestination {
+
+    static func write(value: SESv2ClientTypes.EventBridgeDestination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DataFormat"].write(value.dataFormat)
-        try writer["S3Url"].write(value.s3Url)
+        try writer["EventBusArn"].write(value.eventBusArn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ExportDestination {
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.EventBridgeDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.ExportDestination()
-        value.dataFormat = try reader["DataFormat"].readIfPresent() ?? .sdkUnknown("")
-        value.s3Url = try reader["S3Url"].readIfPresent()
+        var value = SESv2ClientTypes.EventBridgeDestination()
+        value.eventBusArn = try reader["EventBusArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SESv2ClientTypes.EventDestination {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.EventDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.EventDestination()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.matchingEventTypes = try reader["MatchingEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESv2ClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.kinesisFirehoseDestination = try reader["KinesisFirehoseDestination"].readIfPresent(with: SESv2ClientTypes.KinesisFirehoseDestination.read(from:))
+        value.cloudWatchDestination = try reader["CloudWatchDestination"].readIfPresent(with: SESv2ClientTypes.CloudWatchDestination.read(from:))
+        value.snsDestination = try reader["SnsDestination"].readIfPresent(with: SESv2ClientTypes.SnsDestination.read(from:))
+        value.eventBridgeDestination = try reader["EventBridgeDestination"].readIfPresent(with: SESv2ClientTypes.EventBridgeDestination.read(from:))
+        value.pinpointDestination = try reader["PinpointDestination"].readIfPresent(with: SESv2ClientTypes.PinpointDestination.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.EventDestinationDefinition {
+
+    static func write(value: SESv2ClientTypes.EventDestinationDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CloudWatchDestination"].write(value.cloudWatchDestination, with: SESv2ClientTypes.CloudWatchDestination.write(value:to:))
+        try writer["Enabled"].write(value.enabled)
+        try writer["EventBridgeDestination"].write(value.eventBridgeDestination, with: SESv2ClientTypes.EventBridgeDestination.write(value:to:))
+        try writer["KinesisFirehoseDestination"].write(value.kinesisFirehoseDestination, with: SESv2ClientTypes.KinesisFirehoseDestination.write(value:to:))
+        try writer["MatchingEventTypes"].writeList(value.matchingEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESv2ClientTypes.EventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PinpointDestination"].write(value.pinpointDestination, with: SESv2ClientTypes.PinpointDestination.write(value:to:))
+        try writer["SnsDestination"].write(value.snsDestination, with: SESv2ClientTypes.SnsDestination.write(value:to:))
+    }
+}
+
+extension SESv2ClientTypes.EventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.EventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.EventDetails()
+        value.bounce = try reader["Bounce"].readIfPresent(with: SESv2ClientTypes.Bounce.read(from:))
+        value.complaint = try reader["Complaint"].readIfPresent(with: SESv2ClientTypes.Complaint.read(from:))
         return value
     }
 }
@@ -14423,6 +14618,286 @@ extension SESv2ClientTypes.ExportDataSource {
         value.metricsDataSource = try reader["MetricsDataSource"].readIfPresent(with: SESv2ClientTypes.MetricsDataSource.read(from:))
         value.messageInsightsDataSource = try reader["MessageInsightsDataSource"].readIfPresent(with: SESv2ClientTypes.MessageInsightsDataSource.read(from:))
         return value
+    }
+}
+
+extension SESv2ClientTypes.ExportDestination {
+
+    static func write(value: SESv2ClientTypes.ExportDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataFormat"].write(value.dataFormat)
+        try writer["S3Url"].write(value.s3Url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ExportDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.ExportDestination()
+        value.dataFormat = try reader["DataFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.s3Url = try reader["S3Url"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.ExportJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ExportJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.ExportJobSummary()
+        value.jobId = try reader["JobId"].readIfPresent()
+        value.exportSourceType = try reader["ExportSourceType"].readIfPresent()
+        value.jobStatus = try reader["JobStatus"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completedTimestamp = try reader["CompletedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SESv2ClientTypes.ExportMetric {
+
+    static func write(value: SESv2ClientTypes.ExportMetric?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Aggregation"].write(value.aggregation)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ExportMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.ExportMetric()
+        value.name = try reader["Name"].readIfPresent()
+        value.aggregation = try reader["Aggregation"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.ExportStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ExportStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.ExportStatistics()
+        value.processedRecordsCount = try reader["ProcessedRecordsCount"].readIfPresent()
+        value.exportedRecordsCount = try reader["ExportedRecordsCount"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.FailureInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.FailureInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.FailureInfo()
+        value.failedRecordsS3Url = try reader["FailedRecordsS3Url"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.GuardianAttributes {
+
+    static func write(value: SESv2ClientTypes.GuardianAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OptimizedSharedDelivery"].write(value.optimizedSharedDelivery)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.GuardianAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.GuardianAttributes()
+        value.optimizedSharedDelivery = try reader["OptimizedSharedDelivery"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.GuardianOptions {
+
+    static func write(value: SESv2ClientTypes.GuardianOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OptimizedSharedDelivery"].write(value.optimizedSharedDelivery)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.GuardianOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.GuardianOptions()
+        value.optimizedSharedDelivery = try reader["OptimizedSharedDelivery"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.IdentityInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.IdentityInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.IdentityInfo()
+        value.identityType = try reader["IdentityType"].readIfPresent()
+        value.identityName = try reader["IdentityName"].readIfPresent()
+        value.sendingEnabled = try reader["SendingEnabled"].readIfPresent() ?? false
+        value.verificationStatus = try reader["VerificationStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.ImportDataSource {
+
+    static func write(value: SESv2ClientTypes.ImportDataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataFormat"].write(value.dataFormat)
+        try writer["S3Url"].write(value.s3Url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ImportDataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.ImportDataSource()
+        value.s3Url = try reader["S3Url"].readIfPresent() ?? ""
+        value.dataFormat = try reader["DataFormat"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension SESv2ClientTypes.ImportDestination {
+
+    static func write(value: SESv2ClientTypes.ImportDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactListDestination"].write(value.contactListDestination, with: SESv2ClientTypes.ContactListDestination.write(value:to:))
+        try writer["SuppressionListDestination"].write(value.suppressionListDestination, with: SESv2ClientTypes.SuppressionListDestination.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ImportDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.ImportDestination()
+        value.suppressionListDestination = try reader["SuppressionListDestination"].readIfPresent(with: SESv2ClientTypes.SuppressionListDestination.read(from:))
+        value.contactListDestination = try reader["ContactListDestination"].readIfPresent(with: SESv2ClientTypes.ContactListDestination.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.ImportJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ImportJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.ImportJobSummary()
+        value.jobId = try reader["JobId"].readIfPresent()
+        value.importDestination = try reader["ImportDestination"].readIfPresent(with: SESv2ClientTypes.ImportDestination.read(from:))
+        value.jobStatus = try reader["JobStatus"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.processedRecordsCount = try reader["ProcessedRecordsCount"].readIfPresent()
+        value.failedRecordsCount = try reader["FailedRecordsCount"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.InboxPlacementTrackingOption {
+
+    static func write(value: SESv2ClientTypes.InboxPlacementTrackingOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Global"].write(value.global)
+        try writer["TrackedIsps"].writeList(value.trackedIsps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.InboxPlacementTrackingOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.InboxPlacementTrackingOption()
+        value.global = try reader["Global"].readIfPresent() ?? false
+        value.trackedIsps = try reader["TrackedIsps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SESv2ClientTypes.InsightsEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.InsightsEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.InsightsEvent()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.type = try reader["Type"].readIfPresent()
+        value.details = try reader["Details"].readIfPresent(with: SESv2ClientTypes.EventDetails.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.IspPlacement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.IspPlacement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.IspPlacement()
+        value.ispName = try reader["IspName"].readIfPresent()
+        value.placementStatistics = try reader["PlacementStatistics"].readIfPresent(with: SESv2ClientTypes.PlacementStatistics.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.KinesisFirehoseDestination {
+
+    static func write(value: SESv2ClientTypes.KinesisFirehoseDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeliveryStreamArn"].write(value.deliveryStreamArn)
+        try writer["IamRoleArn"].write(value.iamRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.KinesisFirehoseDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.KinesisFirehoseDestination()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent() ?? ""
+        value.deliveryStreamArn = try reader["DeliveryStreamArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SESv2ClientTypes.ListContactsFilter {
+
+    static func write(value: SESv2ClientTypes.ListContactsFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FilteredStatus"].write(value.filteredStatus)
+        try writer["TopicFilter"].write(value.topicFilter, with: SESv2ClientTypes.TopicFilter.write(value:to:))
+    }
+}
+
+extension SESv2ClientTypes.ListManagementOptions {
+
+    static func write(value: SESv2ClientTypes.ListManagementOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactListName"].write(value.contactListName)
+        try writer["TopicName"].write(value.topicName)
+    }
+}
+
+extension SESv2ClientTypes.MailboxValidation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.MailboxValidation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.MailboxValidation()
+        value.isValid = try reader["IsValid"].readIfPresent(with: SESv2ClientTypes.EmailAddressInsightsVerdict.read(from:))
+        value.evaluations = try reader["Evaluations"].readIfPresent(with: SESv2ClientTypes.EmailAddressInsightsMailboxEvaluations.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.MailFromAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.MailFromAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.MailFromAttributes()
+        value.mailFromDomain = try reader["MailFromDomain"].readIfPresent() ?? ""
+        value.mailFromDomainStatus = try reader["MailFromDomainStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.behaviorOnMxFailure = try reader["BehaviorOnMxFailure"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension SESv2ClientTypes.Message {
+
+    static func write(value: SESv2ClientTypes.Message?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attachments"].writeList(value.attachments, memberWritingClosure: SESv2ClientTypes.Attachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Body"].write(value.body, with: SESv2ClientTypes.Body.write(value:to:))
+        try writer["Headers"].writeList(value.headers, memberWritingClosure: SESv2ClientTypes.MessageHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Subject"].write(value.subject, with: SESv2ClientTypes.Content.write(value:to:))
+    }
+}
+
+extension SESv2ClientTypes.MessageHeader {
+
+    static func write(value: SESv2ClientTypes.MessageHeader?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
     }
 }
 
@@ -14474,6 +14949,47 @@ extension SESv2ClientTypes.MessageInsightsFilters {
     }
 }
 
+extension SESv2ClientTypes.MessageTag {
+
+    static func write(value: SESv2ClientTypes.MessageTag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.MessageTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.MessageTag()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SESv2ClientTypes.MetricDataError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.MetricDataError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.MetricDataError()
+        value.id = try reader["Id"].readIfPresent()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.MetricDataResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.MetricDataResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.MetricDataResult()
+        value.id = try reader["Id"].readIfPresent()
+        value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension SESv2ClientTypes.MetricsDataSource {
 
     static func write(value: SESv2ClientTypes.MetricsDataSource?, to writer: SmithyJSON.Writer) throws {
@@ -14497,193 +15013,99 @@ extension SESv2ClientTypes.MetricsDataSource {
     }
 }
 
-extension SESv2ClientTypes.ExportMetric {
+extension SESv2ClientTypes.MultiRegionEndpoint {
 
-    static func write(value: SESv2ClientTypes.ExportMetric?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.MultiRegionEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.MultiRegionEndpoint()
+        value.endpointName = try reader["EndpointName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SESv2ClientTypes.OverallVolume {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.OverallVolume {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.OverallVolume()
+        value.volumeStatistics = try reader["VolumeStatistics"].readIfPresent(with: SESv2ClientTypes.VolumeStatistics.read(from:))
+        value.readRatePercent = try reader["ReadRatePercent"].readIfPresent()
+        value.domainIspPlacements = try reader["DomainIspPlacements"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.DomainIspPlacement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SESv2ClientTypes.PinpointDestination {
+
+    static func write(value: SESv2ClientTypes.PinpointDestination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Aggregation"].write(value.aggregation)
-        try writer["Name"].write(value.name)
+        try writer["ApplicationArn"].write(value.applicationArn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ExportMetric {
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.PinpointDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.ExportMetric()
-        value.name = try reader["Name"].readIfPresent()
-        value.aggregation = try reader["Aggregation"].readIfPresent()
+        var value = SESv2ClientTypes.PinpointDestination()
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
         return value
     }
 }
 
-extension SESv2ClientTypes.FailureInfo {
+extension SESv2ClientTypes.PlacementStatistics {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.FailureInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.PlacementStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.FailureInfo()
-        value.failedRecordsS3Url = try reader["FailedRecordsS3Url"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        var value = SESv2ClientTypes.PlacementStatistics()
+        value.inboxPercentage = try reader["InboxPercentage"].readIfPresent()
+        value.spamPercentage = try reader["SpamPercentage"].readIfPresent()
+        value.missingPercentage = try reader["MissingPercentage"].readIfPresent()
+        value.spfPercentage = try reader["SpfPercentage"].readIfPresent()
+        value.dkimPercentage = try reader["DkimPercentage"].readIfPresent()
         return value
     }
 }
 
-extension SESv2ClientTypes.ExportStatistics {
+extension SESv2ClientTypes.RawMessage {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ExportStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.ExportStatistics()
-        value.processedRecordsCount = try reader["ProcessedRecordsCount"].readIfPresent()
-        value.exportedRecordsCount = try reader["ExportedRecordsCount"].readIfPresent()
-        return value
-    }
-}
-
-extension SESv2ClientTypes.ImportDestination {
-
-    static func write(value: SESv2ClientTypes.ImportDestination?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SESv2ClientTypes.RawMessage?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ContactListDestination"].write(value.contactListDestination, with: SESv2ClientTypes.ContactListDestination.write(value:to:))
-        try writer["SuppressionListDestination"].write(value.suppressionListDestination, with: SESv2ClientTypes.SuppressionListDestination.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ImportDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.ImportDestination()
-        value.suppressionListDestination = try reader["SuppressionListDestination"].readIfPresent(with: SESv2ClientTypes.SuppressionListDestination.read(from:))
-        value.contactListDestination = try reader["ContactListDestination"].readIfPresent(with: SESv2ClientTypes.ContactListDestination.read(from:))
-        return value
+        try writer["Data"].write(value.data)
     }
 }
 
-extension SESv2ClientTypes.ContactListDestination {
+extension SESv2ClientTypes.Recommendation {
 
-    static func write(value: SESv2ClientTypes.ContactListDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContactListImportAction"].write(value.contactListImportAction)
-        try writer["ContactListName"].write(value.contactListName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ContactListDestination {
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Recommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.ContactListDestination()
-        value.contactListName = try reader["ContactListName"].readIfPresent() ?? ""
-        value.contactListImportAction = try reader["ContactListImportAction"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension SESv2ClientTypes.SuppressionListDestination {
-
-    static func write(value: SESv2ClientTypes.SuppressionListDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SuppressionListImportAction"].write(value.suppressionListImportAction)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressionListDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.SuppressionListDestination()
-        value.suppressionListImportAction = try reader["SuppressionListImportAction"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension SESv2ClientTypes.ImportDataSource {
-
-    static func write(value: SESv2ClientTypes.ImportDataSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataFormat"].write(value.dataFormat)
-        try writer["S3Url"].write(value.s3Url)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ImportDataSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.ImportDataSource()
-        value.s3Url = try reader["S3Url"].readIfPresent() ?? ""
-        value.dataFormat = try reader["DataFormat"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension SESv2ClientTypes.MessageTag {
-
-    static func write(value: SESv2ClientTypes.MessageTag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.MessageTag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.MessageTag()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension SESv2ClientTypes.EmailInsights {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.EmailInsights {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.EmailInsights()
-        value.destination = try reader["Destination"].readIfPresent()
-        value.isp = try reader["Isp"].readIfPresent()
-        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.InsightsEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SESv2ClientTypes.InsightsEvent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.InsightsEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.InsightsEvent()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = SESv2ClientTypes.Recommendation()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
-        value.details = try reader["Details"].readIfPresent(with: SESv2ClientTypes.EventDetails.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.impact = try reader["Impact"].readIfPresent()
         return value
     }
 }
 
-extension SESv2ClientTypes.EventDetails {
+extension SESv2ClientTypes.ReplacementEmailContent {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.EventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.EventDetails()
-        value.bounce = try reader["Bounce"].readIfPresent(with: SESv2ClientTypes.Bounce.read(from:))
-        value.complaint = try reader["Complaint"].readIfPresent(with: SESv2ClientTypes.Complaint.read(from:))
-        return value
+    static func write(value: SESv2ClientTypes.ReplacementEmailContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ReplacementTemplate"].write(value.replacementTemplate, with: SESv2ClientTypes.ReplacementTemplate.write(value:to:))
     }
 }
 
-extension SESv2ClientTypes.Complaint {
+extension SESv2ClientTypes.ReplacementTemplate {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Complaint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.Complaint()
-        value.complaintSubType = try reader["ComplaintSubType"].readIfPresent()
-        value.complaintFeedbackType = try reader["ComplaintFeedbackType"].readIfPresent()
-        return value
-    }
-}
-
-extension SESv2ClientTypes.Bounce {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Bounce {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.Bounce()
-        value.bounceType = try reader["BounceType"].readIfPresent()
-        value.bounceSubType = try reader["BounceSubType"].readIfPresent()
-        value.diagnosticCode = try reader["DiagnosticCode"].readIfPresent()
-        return value
-    }
-}
-
-extension SESv2ClientTypes.Route {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Route {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.Route()
-        value.region = try reader["Region"].readIfPresent() ?? ""
-        return value
+    static func write(value: SESv2ClientTypes.ReplacementTemplate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ReplacementTemplateData"].write(value.replacementTemplateData)
     }
 }
 
@@ -14699,6 +15121,119 @@ extension SESv2ClientTypes.ReputationEntity {
         value.awsSesManagedStatus = try reader["AwsSesManagedStatus"].readIfPresent(with: SESv2ClientTypes.StatusRecord.read(from:))
         value.sendingStatusAggregate = try reader["SendingStatusAggregate"].readIfPresent()
         value.reputationImpact = try reader["ReputationImpact"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.ReputationOptions {
+
+    static func write(value: SESv2ClientTypes.ReputationOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LastFreshStart"].writeTimestamp(value.lastFreshStart, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["ReputationMetricsEnabled"].write(value.reputationMetricsEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ReputationOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.ReputationOptions()
+        value.reputationMetricsEnabled = try reader["ReputationMetricsEnabled"].readIfPresent() ?? false
+        value.lastFreshStart = try reader["LastFreshStart"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SESv2ClientTypes.ResourceTenantMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ResourceTenantMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.ResourceTenantMetadata()
+        value.tenantName = try reader["TenantName"].readIfPresent()
+        value.tenantId = try reader["TenantId"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.associatedTimestamp = try reader["AssociatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SESv2ClientTypes.ReviewDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ReviewDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.ReviewDetails()
+        value.status = try reader["Status"].readIfPresent()
+        value.caseId = try reader["CaseId"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.Route {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Route {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.Route()
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SESv2ClientTypes.RouteDetails {
+
+    static func write(value: SESv2ClientTypes.RouteDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Region"].write(value.region)
+    }
+}
+
+extension SESv2ClientTypes.SendingOptions {
+
+    static func write(value: SESv2ClientTypes.SendingOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SendingEnabled"].write(value.sendingEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SendingOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.SendingOptions()
+        value.sendingEnabled = try reader["SendingEnabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension SESv2ClientTypes.SendQuota {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SendQuota {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.SendQuota()
+        value.max24HourSend = try reader["Max24HourSend"].readIfPresent() ?? 0
+        value.maxSendRate = try reader["MaxSendRate"].readIfPresent() ?? 0
+        value.sentLast24Hours = try reader["SentLast24Hours"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SESv2ClientTypes.SnsDestination {
+
+    static func write(value: SESv2ClientTypes.SnsDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TopicArn"].write(value.topicArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SnsDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.SnsDestination()
+        value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SESv2ClientTypes.SOARecord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SOARecord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.SOARecord()
+        value.primaryNameServer = try reader["PrimaryNameServer"].readIfPresent()
+        value.adminEmail = try reader["AdminEmail"].readIfPresent()
+        value.serialNumber = try reader["SerialNumber"].readIfPresent() ?? 0
         return value
     }
 }
@@ -14739,157 +15274,6 @@ extension SESv2ClientTypes.SuppressedDestinationAttributes {
     }
 }
 
-extension SESv2ClientTypes.Tenant {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Tenant {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.Tenant()
-        value.tenantName = try reader["TenantName"].readIfPresent()
-        value.tenantId = try reader["TenantId"].readIfPresent()
-        value.tenantArn = try reader["TenantArn"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sendingStatus = try reader["SendingStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension SESv2ClientTypes.ContactList {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ContactList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.ContactList()
-        value.contactListName = try reader["ContactListName"].readIfPresent()
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension SESv2ClientTypes.Contact {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Contact {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.Contact()
-        value.emailAddress = try reader["EmailAddress"].readIfPresent()
-        value.topicPreferences = try reader["TopicPreferences"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.TopicPreference.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.topicDefaultPreferences = try reader["TopicDefaultPreferences"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.TopicPreference.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.unsubscribeAll = try reader["UnsubscribeAll"].readIfPresent() ?? false
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension SESv2ClientTypes.CustomVerificationEmailTemplateMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.CustomVerificationEmailTemplateMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.CustomVerificationEmailTemplateMetadata()
-        value.templateName = try reader["TemplateName"].readIfPresent()
-        value.fromEmailAddress = try reader["FromEmailAddress"].readIfPresent()
-        value.templateSubject = try reader["TemplateSubject"].readIfPresent()
-        value.successRedirectionURL = try reader["SuccessRedirectionURL"].readIfPresent()
-        value.failureRedirectionURL = try reader["FailureRedirectionURL"].readIfPresent()
-        return value
-    }
-}
-
-extension SESv2ClientTypes.IdentityInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.IdentityInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.IdentityInfo()
-        value.identityType = try reader["IdentityType"].readIfPresent()
-        value.identityName = try reader["IdentityName"].readIfPresent()
-        value.sendingEnabled = try reader["SendingEnabled"].readIfPresent() ?? false
-        value.verificationStatus = try reader["VerificationStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension SESv2ClientTypes.EmailTemplateMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.EmailTemplateMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.EmailTemplateMetadata()
-        value.templateName = try reader["TemplateName"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension SESv2ClientTypes.ExportJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ExportJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.ExportJobSummary()
-        value.jobId = try reader["JobId"].readIfPresent()
-        value.exportSourceType = try reader["ExportSourceType"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completedTimestamp = try reader["CompletedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension SESv2ClientTypes.ImportJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ImportJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.ImportJobSummary()
-        value.jobId = try reader["JobId"].readIfPresent()
-        value.importDestination = try reader["ImportDestination"].readIfPresent(with: SESv2ClientTypes.ImportDestination.read(from:))
-        value.jobStatus = try reader["JobStatus"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.processedRecordsCount = try reader["ProcessedRecordsCount"].readIfPresent()
-        value.failedRecordsCount = try reader["FailedRecordsCount"].readIfPresent()
-        return value
-    }
-}
-
-extension SESv2ClientTypes.MultiRegionEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.MultiRegionEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.MultiRegionEndpoint()
-        value.endpointName = try reader["EndpointName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.endpointId = try reader["EndpointId"].readIfPresent()
-        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension SESv2ClientTypes.Recommendation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Recommendation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.Recommendation()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.impact = try reader["Impact"].readIfPresent()
-        return value
-    }
-}
-
-extension SESv2ClientTypes.ResourceTenantMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ResourceTenantMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.ResourceTenantMetadata()
-        value.tenantName = try reader["TenantName"].readIfPresent()
-        value.tenantId = try reader["TenantId"].readIfPresent()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.associatedTimestamp = try reader["AssociatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
 extension SESv2ClientTypes.SuppressedDestinationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressedDestinationSummary {
@@ -14902,13 +15286,152 @@ extension SESv2ClientTypes.SuppressedDestinationSummary {
     }
 }
 
-extension SESv2ClientTypes.TenantResource {
+extension SESv2ClientTypes.SuppressionAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.TenantResource {
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressionAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.TenantResource()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        var value = SESv2ClientTypes.SuppressionAttributes()
+        value.suppressedReasons = try reader["SuppressedReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESv2ClientTypes.SuppressionListReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.validationAttributes = try reader["ValidationAttributes"].readIfPresent(with: SESv2ClientTypes.SuppressionValidationAttributes.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.SuppressionConditionThreshold {
+
+    static func write(value: SESv2ClientTypes.SuppressionConditionThreshold?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionThresholdEnabled"].write(value.conditionThresholdEnabled)
+        try writer["OverallConfidenceThreshold"].write(value.overallConfidenceThreshold, with: SESv2ClientTypes.SuppressionConfidenceThreshold.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressionConditionThreshold {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.SuppressionConditionThreshold()
+        value.conditionThresholdEnabled = try reader["ConditionThresholdEnabled"].readIfPresent() ?? .sdkUnknown("")
+        value.overallConfidenceThreshold = try reader["OverallConfidenceThreshold"].readIfPresent(with: SESv2ClientTypes.SuppressionConfidenceThreshold.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.SuppressionConfidenceThreshold {
+
+    static func write(value: SESv2ClientTypes.SuppressionConfidenceThreshold?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConfidenceVerdictThreshold"].write(value.confidenceVerdictThreshold)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressionConfidenceThreshold {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.SuppressionConfidenceThreshold()
+        value.confidenceVerdictThreshold = try reader["ConfidenceVerdictThreshold"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension SESv2ClientTypes.SuppressionListDestination {
+
+    static func write(value: SESv2ClientTypes.SuppressionListDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SuppressionListImportAction"].write(value.suppressionListImportAction)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressionListDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.SuppressionListDestination()
+        value.suppressionListImportAction = try reader["SuppressionListImportAction"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension SESv2ClientTypes.SuppressionOptions {
+
+    static func write(value: SESv2ClientTypes.SuppressionOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SuppressedReasons"].writeList(value.suppressedReasons, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESv2ClientTypes.SuppressionListReason>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ValidationOptions"].write(value.validationOptions, with: SESv2ClientTypes.SuppressionValidationOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressionOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.SuppressionOptions()
+        value.suppressedReasons = try reader["SuppressedReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESv2ClientTypes.SuppressionListReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.validationOptions = try reader["ValidationOptions"].readIfPresent(with: SESv2ClientTypes.SuppressionValidationOptions.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.SuppressionValidationAttributes {
+
+    static func write(value: SESv2ClientTypes.SuppressionValidationAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionThreshold"].write(value.conditionThreshold, with: SESv2ClientTypes.SuppressionConditionThreshold.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressionValidationAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.SuppressionValidationAttributes()
+        value.conditionThreshold = try reader["ConditionThreshold"].readIfPresent(with: SESv2ClientTypes.SuppressionConditionThreshold.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.SuppressionValidationOptions {
+
+    static func write(value: SESv2ClientTypes.SuppressionValidationOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionThreshold"].write(value.conditionThreshold, with: SESv2ClientTypes.SuppressionConditionThreshold.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressionValidationOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.SuppressionValidationOptions()
+        value.conditionThreshold = try reader["ConditionThreshold"].readIfPresent(with: SESv2ClientTypes.SuppressionConditionThreshold.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.Tag {
+
+    static func write(value: SESv2ClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SESv2ClientTypes.Template {
+
+    static func write(value: SESv2ClientTypes.Template?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attachments"].writeList(value.attachments, memberWritingClosure: SESv2ClientTypes.Attachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Headers"].writeList(value.headers, memberWritingClosure: SESv2ClientTypes.MessageHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TemplateArn"].write(value.templateArn)
+        try writer["TemplateContent"].write(value.templateContent, with: SESv2ClientTypes.EmailTemplateContent.write(value:to:))
+        try writer["TemplateData"].write(value.templateData)
+        try writer["TemplateName"].write(value.templateName)
+    }
+}
+
+extension SESv2ClientTypes.Tenant {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Tenant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.Tenant()
+        value.tenantName = try reader["TenantName"].readIfPresent()
+        value.tenantId = try reader["TenantId"].readIfPresent()
+        value.tenantArn = try reader["TenantArn"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sendingStatus = try reader["SendingStatus"].readIfPresent()
         return value
     }
 }
@@ -14926,161 +15449,35 @@ extension SESv2ClientTypes.TenantInfo {
     }
 }
 
-extension SESv2ClientTypes.BulkEmailEntryResult {
+extension SESv2ClientTypes.TenantResource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.BulkEmailEntryResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.TenantResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.BulkEmailEntryResult()
-        value.status = try reader["Status"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent()
-        value.messageId = try reader["MessageId"].readIfPresent()
+        var value = SESv2ClientTypes.TenantResource()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
         return value
     }
 }
 
-extension SESv2ClientTypes.BatchGetMetricDataQuery {
+extension SESv2ClientTypes.Topic {
 
-    static func write(value: SESv2ClientTypes.BatchGetMetricDataQuery?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SESv2ClientTypes.Topic?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Dimensions"].writeMap(value.dimensions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["EndDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["Id"].write(value.id)
-        try writer["Metric"].write(value.metric)
-        try writer["Namespace"].write(value.namespace)
-        try writer["StartDate"].writeTimestamp(value.startDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["DefaultSubscriptionStatus"].write(value.defaultSubscriptionStatus)
+        try writer["Description"].write(value.description)
+        try writer["DisplayName"].write(value.displayName)
+        try writer["TopicName"].write(value.topicName)
     }
-}
 
-extension SESv2ClientTypes.EventDestinationDefinition {
-
-    static func write(value: SESv2ClientTypes.EventDestinationDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudWatchDestination"].write(value.cloudWatchDestination, with: SESv2ClientTypes.CloudWatchDestination.write(value:to:))
-        try writer["Enabled"].write(value.enabled)
-        try writer["EventBridgeDestination"].write(value.eventBridgeDestination, with: SESv2ClientTypes.EventBridgeDestination.write(value:to:))
-        try writer["KinesisFirehoseDestination"].write(value.kinesisFirehoseDestination, with: SESv2ClientTypes.KinesisFirehoseDestination.write(value:to:))
-        try writer["MatchingEventTypes"].writeList(value.matchingEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESv2ClientTypes.EventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PinpointDestination"].write(value.pinpointDestination, with: SESv2ClientTypes.PinpointDestination.write(value:to:))
-        try writer["SnsDestination"].write(value.snsDestination, with: SESv2ClientTypes.SnsDestination.write(value:to:))
-    }
-}
-
-extension SESv2ClientTypes.EmailContent {
-
-    static func write(value: SESv2ClientTypes.EmailContent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Raw"].write(value.raw, with: SESv2ClientTypes.RawMessage.write(value:to:))
-        try writer["Simple"].write(value.simple, with: SESv2ClientTypes.Message.write(value:to:))
-        try writer["Template"].write(value.template, with: SESv2ClientTypes.Template.write(value:to:))
-    }
-}
-
-extension SESv2ClientTypes.Template {
-
-    static func write(value: SESv2ClientTypes.Template?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attachments"].writeList(value.attachments, memberWritingClosure: SESv2ClientTypes.Attachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Headers"].writeList(value.headers, memberWritingClosure: SESv2ClientTypes.MessageHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TemplateArn"].write(value.templateArn)
-        try writer["TemplateContent"].write(value.templateContent, with: SESv2ClientTypes.EmailTemplateContent.write(value:to:))
-        try writer["TemplateData"].write(value.templateData)
-        try writer["TemplateName"].write(value.templateName)
-    }
-}
-
-extension SESv2ClientTypes.Attachment {
-
-    static func write(value: SESv2ClientTypes.Attachment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContentDescription"].write(value.contentDescription)
-        try writer["ContentDisposition"].write(value.contentDisposition)
-        try writer["ContentId"].write(value.contentId)
-        try writer["ContentTransferEncoding"].write(value.contentTransferEncoding)
-        try writer["ContentType"].write(value.contentType)
-        try writer["FileName"].write(value.fileName)
-        try writer["RawContent"].write(value.rawContent)
-    }
-}
-
-extension SESv2ClientTypes.MessageHeader {
-
-    static func write(value: SESv2ClientTypes.MessageHeader?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-}
-
-extension SESv2ClientTypes.RawMessage {
-
-    static func write(value: SESv2ClientTypes.RawMessage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Data"].write(value.data)
-    }
-}
-
-extension SESv2ClientTypes.Message {
-
-    static func write(value: SESv2ClientTypes.Message?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attachments"].writeList(value.attachments, memberWritingClosure: SESv2ClientTypes.Attachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Body"].write(value.body, with: SESv2ClientTypes.Body.write(value:to:))
-        try writer["Headers"].writeList(value.headers, memberWritingClosure: SESv2ClientTypes.MessageHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Subject"].write(value.subject, with: SESv2ClientTypes.Content.write(value:to:))
-    }
-}
-
-extension SESv2ClientTypes.Body {
-
-    static func write(value: SESv2ClientTypes.Body?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Html"].write(value.html, with: SESv2ClientTypes.Content.write(value:to:))
-        try writer["Text"].write(value.text, with: SESv2ClientTypes.Content.write(value:to:))
-    }
-}
-
-extension SESv2ClientTypes.Content {
-
-    static func write(value: SESv2ClientTypes.Content?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Charset"].write(value.charset)
-        try writer["Data"].write(value.data)
-    }
-}
-
-extension SESv2ClientTypes.DkimSigningAttributes {
-
-    static func write(value: SESv2ClientTypes.DkimSigningAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DomainSigningAttributesOrigin"].write(value.domainSigningAttributesOrigin)
-        try writer["DomainSigningPrivateKey"].write(value.domainSigningPrivateKey)
-        try writer["DomainSigningSelector"].write(value.domainSigningSelector)
-        try writer["NextSigningKeyLength"].write(value.nextSigningKeyLength)
-    }
-}
-
-extension SESv2ClientTypes.Details {
-
-    static func write(value: SESv2ClientTypes.Details?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RoutesDetails"].writeList(value.routesDetails, memberWritingClosure: SESv2ClientTypes.RouteDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension SESv2ClientTypes.RouteDetails {
-
-    static func write(value: SESv2ClientTypes.RouteDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Region"].write(value.region)
-    }
-}
-
-extension SESv2ClientTypes.ListContactsFilter {
-
-    static func write(value: SESv2ClientTypes.ListContactsFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FilteredStatus"].write(value.filteredStatus)
-        try writer["TopicFilter"].write(value.topicFilter, with: SESv2ClientTypes.TopicFilter.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Topic {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.Topic()
+        value.topicName = try reader["TopicName"].readIfPresent() ?? ""
+        value.displayName = try reader["DisplayName"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.defaultSubscriptionStatus = try reader["DefaultSubscriptionStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -15093,57 +15490,99 @@ extension SESv2ClientTypes.TopicFilter {
     }
 }
 
-extension SESv2ClientTypes.BulkEmailContent {
+extension SESv2ClientTypes.TopicPreference {
 
-    static func write(value: SESv2ClientTypes.BulkEmailContent?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SESv2ClientTypes.TopicPreference?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Template"].write(value.template, with: SESv2ClientTypes.Template.write(value:to:))
-    }
-}
-
-extension SESv2ClientTypes.BulkEmailEntry {
-
-    static func write(value: SESv2ClientTypes.BulkEmailEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Destination"].write(value.destination, with: SESv2ClientTypes.Destination.write(value:to:))
-        try writer["ReplacementEmailContent"].write(value.replacementEmailContent, with: SESv2ClientTypes.ReplacementEmailContent.write(value:to:))
-        try writer["ReplacementHeaders"].writeList(value.replacementHeaders, memberWritingClosure: SESv2ClientTypes.MessageHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReplacementTags"].writeList(value.replacementTags, memberWritingClosure: SESv2ClientTypes.MessageTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension SESv2ClientTypes.ReplacementEmailContent {
-
-    static func write(value: SESv2ClientTypes.ReplacementEmailContent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReplacementTemplate"].write(value.replacementTemplate, with: SESv2ClientTypes.ReplacementTemplate.write(value:to:))
-    }
-}
-
-extension SESv2ClientTypes.ReplacementTemplate {
-
-    static func write(value: SESv2ClientTypes.ReplacementTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReplacementTemplateData"].write(value.replacementTemplateData)
-    }
-}
-
-extension SESv2ClientTypes.Destination {
-
-    static func write(value: SESv2ClientTypes.Destination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BccAddresses"].writeList(value.bccAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CcAddresses"].writeList(value.ccAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ToAddresses"].writeList(value.toAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension SESv2ClientTypes.ListManagementOptions {
-
-    static func write(value: SESv2ClientTypes.ListManagementOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContactListName"].write(value.contactListName)
+        try writer["SubscriptionStatus"].write(value.subscriptionStatus)
         try writer["TopicName"].write(value.topicName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.TopicPreference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.TopicPreference()
+        value.topicName = try reader["TopicName"].readIfPresent() ?? ""
+        value.subscriptionStatus = try reader["SubscriptionStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension SESv2ClientTypes.TrackingOptions {
+
+    static func write(value: SESv2ClientTypes.TrackingOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomRedirectDomain"].write(value.customRedirectDomain)
+        try writer["HttpsPolicy"].write(value.httpsPolicy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.TrackingOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.TrackingOptions()
+        value.customRedirectDomain = try reader["CustomRedirectDomain"].readIfPresent() ?? ""
+        value.httpsPolicy = try reader["HttpsPolicy"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.VdmAttributes {
+
+    static func write(value: SESv2ClientTypes.VdmAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DashboardAttributes"].write(value.dashboardAttributes, with: SESv2ClientTypes.DashboardAttributes.write(value:to:))
+        try writer["GuardianAttributes"].write(value.guardianAttributes, with: SESv2ClientTypes.GuardianAttributes.write(value:to:))
+        try writer["VdmEnabled"].write(value.vdmEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.VdmAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.VdmAttributes()
+        value.vdmEnabled = try reader["VdmEnabled"].readIfPresent() ?? .sdkUnknown("")
+        value.dashboardAttributes = try reader["DashboardAttributes"].readIfPresent(with: SESv2ClientTypes.DashboardAttributes.read(from:))
+        value.guardianAttributes = try reader["GuardianAttributes"].readIfPresent(with: SESv2ClientTypes.GuardianAttributes.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.VdmOptions {
+
+    static func write(value: SESv2ClientTypes.VdmOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DashboardOptions"].write(value.dashboardOptions, with: SESv2ClientTypes.DashboardOptions.write(value:to:))
+        try writer["GuardianOptions"].write(value.guardianOptions, with: SESv2ClientTypes.GuardianOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.VdmOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.VdmOptions()
+        value.dashboardOptions = try reader["DashboardOptions"].readIfPresent(with: SESv2ClientTypes.DashboardOptions.read(from:))
+        value.guardianOptions = try reader["GuardianOptions"].readIfPresent(with: SESv2ClientTypes.GuardianOptions.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.VerificationInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.VerificationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.VerificationInfo()
+        value.lastCheckedTimestamp = try reader["LastCheckedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastSuccessTimestamp = try reader["LastSuccessTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorType = try reader["ErrorType"].readIfPresent()
+        value.soaRecord = try reader["SOARecord"].readIfPresent(with: SESv2ClientTypes.SOARecord.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.VolumeStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.VolumeStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.VolumeStatistics()
+        value.inboxRawCount = try reader["InboxRawCount"].readIfPresent()
+        value.spamRawCount = try reader["SpamRawCount"].readIfPresent()
+        value.projectedInbox = try reader["ProjectedInbox"].readIfPresent()
+        value.projectedSpam = try reader["ProjectedSpam"].readIfPresent()
+        return value
     }
 }
 

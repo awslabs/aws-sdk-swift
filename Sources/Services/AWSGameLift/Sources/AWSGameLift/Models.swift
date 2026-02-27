@@ -528,7 +528,7 @@ extension GameLiftClientTypes {
         public var creationTime: Foundation.Date?
         /// A descriptive label that is associated with a build. Build names do not need to be unique. It can be set using [CreateBuild](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateBuild.html) or [UpdateBuild](https://docs.aws.amazon.com/gamelift/latest/apireference/UpdateBuild).
         public var name: Swift.String?
-        /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+        /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
         /// The Amazon GameLift Servers Server SDK version used to develop your game server.
         public var serverSdkVersion: Swift.String?
@@ -2543,7 +2543,7 @@ extension GameLiftClientTypes {
         public var ipAddress: Swift.String?
         /// The name of the custom location you added to the fleet that this compute resource resides in.
         public var location: Swift.String?
-        /// The type of operating system on the compute resource. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+        /// The type of operating system on the compute resource. Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
         /// The Amazon EC2 instance type that the fleet uses. For registered computes in an Amazon GameLift Servers Anywhere fleet, this property is empty.
         public var type: GameLiftClientTypes.EC2InstanceType?
@@ -3554,7 +3554,7 @@ extension GameLiftClientTypes {
         /// A descriptive identifier for the container group definition. The name value is unique in an Amazon Web Services Region.
         /// This member is required.
         public var name: Swift.String?
-        /// The platform that all containers in the container group definition run on. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+        /// The platform that all containers in the container group definition run on. Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
         public var operatingSystem: GameLiftClientTypes.ContainerOperatingSystem?
         /// Current status of the container group definition resource. Values include:
         ///
@@ -3771,7 +3771,7 @@ extension GameLiftClientTypes {
 public struct CreateBuildInput: Swift.Sendable {
     /// A descriptive label that is associated with a build. Build names do not need to be unique. You can change this value later.
     public var name: Swift.String?
-    /// The operating system that your game server binaries run on. This value determines the type of fleet resources that you use for this build. If your game build contains multiple executables, they all must run on the same operating system. You must specify a valid operating system in this request. There is no default value. You can't change a build's operating system later. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+    /// The operating system that your game server binaries run on. This value determines the type of fleet resources that you use for this build. If your game build contains multiple executables, they all must run on the same operating system. You must specify a valid operating system in this request. There is no default value. You can't change a build's operating system later. Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html) Windows Server 2016 will reach end of support on 1/12/2027. For game servers that are hosted on Windows Server 2016 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to Windows Server 2022 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
     public var operatingSystem: GameLiftClientTypes.OperatingSystem?
     /// A server SDK version you used when integrating your game server build with Amazon GameLift Servers. For more information see [Integrate games with custom game servers](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-custom-intro.html). By default Amazon GameLift Servers sets this value to 4.0.2.
     public var serverSdkVersion: Swift.String?
@@ -4062,7 +4062,7 @@ public struct CreateContainerGroupDefinitionInput: Swift.Sendable {
     /// A descriptive identifier for the container group definition. The name value must be unique in an Amazon Web Services Region.
     /// This member is required.
     public var name: Swift.String?
-    /// The platform that all containers in the group use. Containers in a group must run on the same operating system. Default value: AMAZON_LINUX_2023 Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+    /// The platform that all containers in the group use. Containers in a group must run on the same operating system. Default value: AMAZON_LINUX_2023 Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
     /// This member is required.
     public var operatingSystem: GameLiftClientTypes.ContainerOperatingSystem?
     /// One or more definition for support containers in this group. You can define a support container in any type of container group. You can pass in your container definitions as a JSON file.
@@ -4500,7 +4500,7 @@ extension GameLiftClientTypes {
         ///
         /// * FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
         public var newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy?
-        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is EC2. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is EC2. Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
         /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
         public var resourceCreationLimitPolicy: GameLiftClientTypes.ResourceCreationLimitPolicy?
@@ -5389,7 +5389,7 @@ extension GameLiftClientTypes {
 
     /// This key-value pair can store custom data about a game session. For example, you might use a GameProperty to track a game session's map, level of difficulty, or remaining time. The difficulty level could be specified like this: {"Key": "difficulty", "Value":"Novice"}. You can set game properties when creating a game session. You can also modify game properties of an active game session. When searching for game sessions, you can filter on game property keys and values. You can't delete game properties from a game session. For examples of working with game properties, see [Create a game session with properties](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties).
     public struct GameProperty: Swift.Sendable {
-        /// The game property identifier.
+        /// The game property identifier. Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
         /// This member is required.
         public var key: Swift.String?
         /// The game property value.
@@ -5413,7 +5413,7 @@ public struct CreateGameSessionInput: Swift.Sendable {
     public var creatorId: Swift.String?
     /// A unique identifier for the fleet to create a game session in. You can use either the fleet ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
     public var fleetId: Swift.String?
-    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. For an example, see [Create a game session with custom properties](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-create).
+    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. For an example, see [Create a game session with custom properties](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-create). Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see [Start a game session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession).
     public var gameSessionData: Swift.String?
@@ -5576,7 +5576,7 @@ extension GameLiftClientTypes {
         public var fleetArn: Swift.String?
         /// A unique identifier for the fleet that the game session is running on.
         public var fleetId: Swift.String?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
         public var gameProperties: [GameLiftClientTypes.GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see [Start a game session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession).
         public var gameSessionData: Swift.String?
@@ -5802,7 +5802,7 @@ public struct CreateGameSessionQueueInput: Swift.Sendable {
     public var priorityConfiguration: GameLiftClientTypes.PriorityConfiguration?
     /// A list of labels to assign to the new game session queue resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [GameLiftClientTypes.Tag]?
-    /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. If you don't specify a request timeout, the queue uses a default value.
+    /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. If you don't specify a request timeout, the queue uses a default value. The minimum value is 10 and the maximum value is 600.
     public var timeoutInSeconds: Swift.Int?
 
     public init(
@@ -5848,7 +5848,7 @@ extension GameLiftClientTypes {
         public var playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]?
         /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process.
         public var priorityConfiguration: GameLiftClientTypes.PriorityConfiguration?
-        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
+        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. The minimum value is 10 and the maximum value is 600.
         public var timeoutInSeconds: Swift.Int?
 
         public init(
@@ -6019,7 +6019,7 @@ public struct CreateMatchmakingConfigurationInput: Swift.Sendable {
     ///
     /// * WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift Servers queue to start a game session for the match.
     public var flexMatchMode: GameLiftClientTypes.FlexMatchMode?
-    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
+    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE. Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see [Start a game session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var gameSessionData: Swift.String?
@@ -6100,7 +6100,7 @@ extension GameLiftClientTypes {
         ///
         /// * WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift Servers queue to start a game session for the match.
         public var flexMatchMode: GameLiftClientTypes.FlexMatchMode?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE. Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
         public var gameProperties: [GameLiftClientTypes.GameProperty]?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see [Start a game session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession). This information is added to the new GameSession object that is created for a successful match. This parameter is not used when FlexMatchMode is set to STANDALONE.
         public var gameSessionData: Swift.String?
@@ -6474,6 +6474,8 @@ public struct CreatePlayerSessionsOutput: Swift.Sendable {
 public struct CreateScriptInput: Swift.Sendable {
     /// A descriptive label that is associated with a script. Script names do not need to be unique. You can use [UpdateScript](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateScript.html) to change this value later.
     public var name: Swift.String?
+    /// The Node.js version used for execution of your Realtime script. The valid values are 10.x | 24.x. By default, NodeJsVersion is 10.x. This value cannot be updated later.
+    public var nodeJsVersion: Swift.String?
     /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift Servers to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift Servers uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
     public var storageLocation: GameLiftClientTypes.S3Location?
     /// A list of labels to assign to the new script resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference. Once the resource is created, you can use [TagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_TagResource.html), [UntagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UntagResource.html), and [ListTagsForResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListTagsForResource.html) to add, remove, and view tags. The maximum tag limit may be lower than stated. See the Amazon Web Services General Reference for actual tagging limits.
@@ -6485,12 +6487,14 @@ public struct CreateScriptInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil,
+        nodeJsVersion: Swift.String? = nil,
         storageLocation: GameLiftClientTypes.S3Location? = nil,
         tags: [GameLiftClientTypes.Tag]? = nil,
         version: Swift.String? = nil,
         zipFile: Foundation.Data? = nil
     ) {
         self.name = name
+        self.nodeJsVersion = nodeJsVersion
         self.storageLocation = storageLocation
         self.tags = tags
         self.version = version
@@ -6506,6 +6510,8 @@ extension GameLiftClientTypes {
         public var creationTime: Foundation.Date?
         /// A descriptive label that is associated with a script. Script names do not need to be unique.
         public var name: Swift.String?
+        /// The Node.js version used for execution of your Realtime script. The valid values are 10.x | 24.x. By default, NodeJsVersion is 10.x. This value cannot be updated later.
+        public var nodeJsVersion: Swift.String?
         /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift Servers script resource and uniquely identifies it. ARNs are unique across all Regions. In a GameLift script ARN, the resource ID matches the ScriptId value.
         public var scriptArn: Swift.String?
         /// A unique identifier for the Realtime script
@@ -6520,6 +6526,7 @@ extension GameLiftClientTypes {
         public init(
             creationTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            nodeJsVersion: Swift.String? = nil,
             scriptArn: Swift.String? = nil,
             scriptId: Swift.String? = nil,
             sizeOnDisk: Swift.Int? = nil,
@@ -6528,6 +6535,7 @@ extension GameLiftClientTypes {
         ) {
             self.creationTime = creationTime
             self.name = name
+            self.nodeJsVersion = nodeJsVersion
             self.scriptArn = scriptArn
             self.scriptId = scriptId
             self.sizeOnDisk = sizeOnDisk
@@ -7416,6 +7424,58 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
+    public enum ZeroCapacityStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case manual
+        case scaleToAndFromZero
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ZeroCapacityStrategy] {
+            return [
+                .manual,
+                .scaleToAndFromZero
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .manual: return "MANUAL"
+            case .scaleToAndFromZero: return "SCALE_TO_AND_FROM_ZERO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GameLiftClientTypes {
+
+    /// Use ManagedCapacityConfiguration with the "SCALE_TO_AND_FROM_ZERO" ZeroCapacityStrategy to enable Amazon GameLift Servers to fully manage the MinSize value, switching between 0 and 1 based on game session activity. This is ideal for eliminating compute costs during periods of no game activity. It is particularly beneficial during development when you're away from your desk, iterating on builds for extended periods, in production environments serving low-traffic locations, or for games with long, predictable downtime windows. By automatically managing capacity between 0 and 1 instances, you avoid paying for idle instances while maintaining the ability to serve game sessions when demand arrives. Note that while scale-out is triggered immediately upon receiving a game session request, actual game session availability depends on your server process startup time, so this approach works best with multi-location Fleets where cold-start latency is tolerable. With a "MANUAL" ZeroCapacityStrategy Amazon GameLift Servers will not modify Fleet MinSize values automatically and will not scale out from zero instances in response to game sessions.
+    public struct ManagedCapacityConfiguration: Swift.Sendable {
+        /// Length of time, in minutes, that Amazon GameLift Servers will wait before scaling in your MinSize and DesiredInstances to 0 after a period with no game session activity. Default: 30 minutes.
+        public var scaleInAfterInactivityMinutes: Swift.Int?
+        /// The strategy Amazon GameLift Servers will use to automatically scale your capacity to and from zero instances in response to game session activity. Game session activity refers to any active running sessions or game session requests. Possible ZeroCapacityStrategy types include:
+        ///
+        /// * MANUAL -- (default value) Amazon GameLift Servers will not update capacity to and from zero on your behalf.
+        ///
+        /// * SCALE_TO_AND_FROM_ZERO -- Amazon GameLift Servers will automatically scale out MinSize and DesiredInstances from 0 to 1 in response to a game session request, and will scale in MinSize and DesiredInstances to 0 after a period with no game session activity. The duration of this scale in period can be configured using ScaleInAfterInactivityMinutes.
+        public var zeroCapacityStrategy: GameLiftClientTypes.ZeroCapacityStrategy?
+
+        public init(
+            scaleInAfterInactivityMinutes: Swift.Int? = nil,
+            zeroCapacityStrategy: GameLiftClientTypes.ZeroCapacityStrategy? = nil
+        ) {
+            self.scaleInAfterInactivityMinutes = scaleInAfterInactivityMinutes
+            self.zeroCapacityStrategy = zeroCapacityStrategy
+        }
+    }
+}
+
+extension GameLiftClientTypes {
+
     /// Current resource capacity settings for managed EC2 fleets and managed container fleets. For multi-location fleets, location values might refer to a fleet's remote location or its home Region. Returned by: [DescribeFleetCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetCapacity.html), [DescribeFleetLocationCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetLocationCapacity.html), [UpdateFleetCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetCapacity.html)
     public struct FleetCapacity: Swift.Sendable {
         /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift Servers fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
@@ -7430,6 +7490,8 @@ extension GameLiftClientTypes {
         public var instanceType: GameLiftClientTypes.EC2InstanceType?
         /// The fleet location for the instance count information, expressed as an Amazon Web Services Region code, such as us-west-2.
         public var location: Swift.String?
+        /// Configuration settings for managed capacity scaling.
+        public var managedCapacityConfiguration: GameLiftClientTypes.ManagedCapacityConfiguration?
 
         public init(
             fleetArn: Swift.String? = nil,
@@ -7437,7 +7499,8 @@ extension GameLiftClientTypes {
             gameServerContainerGroupCounts: GameLiftClientTypes.GameServerContainerGroupCounts? = nil,
             instanceCounts: GameLiftClientTypes.EC2InstanceCounts? = nil,
             instanceType: GameLiftClientTypes.EC2InstanceType? = nil,
-            location: Swift.String? = nil
+            location: Swift.String? = nil,
+            managedCapacityConfiguration: GameLiftClientTypes.ManagedCapacityConfiguration? = nil
         ) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
@@ -7445,6 +7508,7 @@ extension GameLiftClientTypes {
             self.instanceCounts = instanceCounts
             self.instanceType = instanceType
             self.location = location
+            self.managedCapacityConfiguration = managedCapacityConfiguration
         }
     }
 }
@@ -8604,7 +8668,7 @@ extension GameLiftClientTypes {
         public var dnsName: Swift.String?
         /// Time stamp indicating when this request was completed, canceled, or timed out.
         public var endTime: Foundation.Date?
-        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.
+        /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
         public var gameProperties: [GameLiftClientTypes.GameProperty]?
         /// Identifier for the game session created by this placement request. This identifier is unique across all Regions. This value isn't final until placement status is FULFILLED.
         public var gameSessionArn: Swift.String?
@@ -8878,7 +8942,7 @@ extension GameLiftClientTypes {
         public var ipAddress: Swift.String?
         /// The fleet location of the instance, expressed as an Amazon Web Services Region code, such as us-west-2.
         public var location: Swift.String?
-        /// Operating system that is running on this EC2 instance. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+        /// Operating system that is running on this EC2 instance. Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
         /// Current status of the instance. Possible statuses include the following:
         ///
@@ -10976,7 +11040,7 @@ public struct StartFleetActionsOutput: Swift.Sendable {
 public struct StartGameSessionPlacementInput: Swift.Sendable {
     /// Set of information on each player to create a player session for.
     public var desiredPlayerSessions: [GameLiftClientTypes.DesiredPlayerSession]?
-    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}.
+    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see [Start a game session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession).
     public var gameSessionData: Swift.String?
@@ -11458,7 +11522,7 @@ public struct UpdateContainerGroupDefinitionInput: Swift.Sendable {
     /// A descriptive identifier for the container group definition. The name value must be unique in an Amazon Web Services Region.
     /// This member is required.
     public var name: Swift.String?
-    /// The platform that all containers in the group use. Containers in a group must run on the same operating system. Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+    /// The platform that all containers in the group use. Containers in a group must run on the same operating system. Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
     public var operatingSystem: GameLiftClientTypes.ContainerOperatingSystem?
     /// The container group definition version to update. The new version starts with values from the source version, and then updates values included in this request.
     public var sourceVersionNumber: Swift.Int?
@@ -11566,21 +11630,25 @@ public struct UpdateFleetCapacityInput: Swift.Sendable {
     public var fleetId: Swift.String?
     /// The name of a remote location to update fleet capacity settings for, in the form of an Amazon Web Services Region code such as us-west-2.
     public var location: Swift.String?
+    /// Configuration for Amazon GameLift Servers-managed capacity scaling options.
+    public var managedCapacityConfiguration: GameLiftClientTypes.ManagedCapacityConfiguration?
     /// The maximum number of instances that are allowed in the specified fleet location. If this parameter is not set, the default is 1.
     public var maxSize: Swift.Int?
-    /// The minimum number of instances that are allowed in the specified fleet location. If this parameter is not set, the default is 0.
+    /// The minimum number of instances that are allowed in the specified fleet location. If this parameter is not set, the default is 0. This parameter cannot be set when using a ManagedCapacityConfiguration where ZeroCapacityStrategy has a value of SCALE_TO_AND_FROM_ZERO.
     public var minSize: Swift.Int?
 
     public init(
         desiredInstances: Swift.Int? = nil,
         fleetId: Swift.String? = nil,
         location: Swift.String? = nil,
+        managedCapacityConfiguration: GameLiftClientTypes.ManagedCapacityConfiguration? = nil,
         maxSize: Swift.Int? = nil,
         minSize: Swift.Int? = nil
     ) {
         self.desiredInstances = desiredInstances
         self.fleetId = fleetId
         self.location = location
+        self.managedCapacityConfiguration = managedCapacityConfiguration
         self.maxSize = maxSize
         self.minSize = minSize
     }
@@ -11593,15 +11661,19 @@ public struct UpdateFleetCapacityOutput: Swift.Sendable {
     public var fleetId: Swift.String?
     /// The remote location being updated, expressed as an Amazon Web Services Region code, such as us-west-2.
     public var location: Swift.String?
+    /// Configuration for Amazon GameLift Servers-managed capacity scaling options.
+    public var managedCapacityConfiguration: GameLiftClientTypes.ManagedCapacityConfiguration?
 
     public init(
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil,
-        location: Swift.String? = nil
+        location: Swift.String? = nil,
+        managedCapacityConfiguration: GameLiftClientTypes.ManagedCapacityConfiguration? = nil
     ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
         self.location = location
+        self.managedCapacityConfiguration = managedCapacityConfiguration
     }
 }
 
@@ -11752,7 +11824,7 @@ public struct UpdateGameServerGroupOutput: Swift.Sendable {
 }
 
 public struct UpdateGameSessionInput: Swift.Sendable {
-    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. You can use this parameter to modify game properties in an active game session. This action adds new properties and modifies existing properties. There is no way to delete properties. For an example, see [Update the value of a game property](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-update).
+    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. You can use this parameter to modify game properties in an active game session. This action adds new properties and modifies existing properties. There is no way to delete properties. For an example, see [Update the value of a game property](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-client-api.html#game-properties-update). Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A unique identifier for the game session to update.
     /// This member is required.
@@ -11814,7 +11886,7 @@ public struct UpdateGameSessionQueueInput: Swift.Sendable {
     public var playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]?
     /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process. To remove an existing priority configuration, pass in an empty set.
     public var priorityConfiguration: GameLiftClientTypes.PriorityConfiguration?
-    /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
+    /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. The minimum value is 10 and the maximum value is 600.
     public var timeoutInSeconds: Swift.Int?
 
     public init(
@@ -11868,7 +11940,7 @@ public struct UpdateMatchmakingConfigurationInput: Swift.Sendable {
     ///
     /// * WITH_QUEUE - FlexMatch forms matches and uses the specified Amazon GameLift Servers queue to start a game session for the match.
     public var flexMatchMode: GameLiftClientTypes.FlexMatchMode?
-    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
+    /// A set of key-value pairs that can store custom data in a game session. For example: {"Key": "difficulty", "Value": "novice"}. This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE. Avoid using periods (".") in property keys if you plan to search for game sessions by properties. Property keys containing periods cannot be searched and will be filtered out from search results due to search index limitations.
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see [Start a game session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession). This information is added to the game session that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var gameSessionData: Swift.String?
@@ -13083,6 +13155,7 @@ extension CreateScriptInput {
     static func write(value: CreateScriptInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
+        try writer["NodeJsVersion"].write(value.nodeJsVersion)
         try writer["StorageLocation"].write(value.storageLocation, with: GameLiftClientTypes.S3Location.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: GameLiftClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Version"].write(value.version)
@@ -14001,6 +14074,7 @@ extension UpdateFleetCapacityInput {
         try writer["DesiredInstances"].write(value.desiredInstances)
         try writer["FleetId"].write(value.fleetId)
         try writer["Location"].write(value.location)
+        try writer["ManagedCapacityConfiguration"].write(value.managedCapacityConfiguration, with: GameLiftClientTypes.ManagedCapacityConfiguration.write(value:to:))
         try writer["MaxSize"].write(value.maxSize)
         try writer["MinSize"].write(value.minSize)
     }
@@ -15381,6 +15455,7 @@ extension UpdateFleetCapacityOutput {
         value.fleetArn = try reader["FleetArn"].readIfPresent()
         value.fleetId = try reader["FleetId"].readIfPresent()
         value.location = try reader["Location"].readIfPresent()
+        value.managedCapacityConfiguration = try reader["ManagedCapacityConfiguration"].readIfPresent(with: GameLiftClientTypes.ManagedCapacityConfiguration.read(from:))
         return value
     }
 }
@@ -17810,26 +17885,6 @@ extension InvalidGameSessionStatusException {
     }
 }
 
-extension GameLiftClientTypes.GameServer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameServer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameServer()
-        value.gameServerGroupName = try reader["GameServerGroupName"].readIfPresent()
-        value.gameServerGroupArn = try reader["GameServerGroupArn"].readIfPresent()
-        value.gameServerId = try reader["GameServerId"].readIfPresent()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
-        value.connectionInfo = try reader["ConnectionInfo"].readIfPresent()
-        value.gameServerData = try reader["GameServerData"].readIfPresent()
-        value.claimStatus = try reader["ClaimStatus"].readIfPresent()
-        value.utilizationStatus = try reader["UtilizationStatus"].readIfPresent()
-        value.registrationTime = try reader["RegistrationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastClaimTime = try reader["LastClaimTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastHealthCheckTime = try reader["LastHealthCheckTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
 extension GameLiftClientTypes.Alias {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Alias {
@@ -17846,21 +17901,50 @@ extension GameLiftClientTypes.Alias {
     }
 }
 
-extension GameLiftClientTypes.RoutingStrategy {
+extension GameLiftClientTypes.AnywhereConfiguration {
 
-    static func write(value: GameLiftClientTypes.RoutingStrategy?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.AnywhereConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["FleetId"].write(value.fleetId)
-        try writer["Message"].write(value.message)
-        try writer["Type"].write(value.type)
+        try writer["Cost"].write(value.cost)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.RoutingStrategy {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.AnywhereConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.RoutingStrategy()
-        value.type = try reader["Type"].readIfPresent()
-        value.fleetId = try reader["FleetId"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
+        var value = GameLiftClientTypes.AnywhereConfiguration()
+        value.cost = try reader["Cost"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GameLiftClientTypes.AttributeValue {
+
+    static func write(value: GameLiftClientTypes.AttributeValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["N"].write(value.n)
+        try writer["S"].write(value.s)
+        try writer["SDM"].writeMap(value.sdm, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["SL"].writeList(value.sl, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.AttributeValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.AttributeValue()
+        value.s = try reader["S"].readIfPresent()
+        value.n = try reader["N"].readIfPresent()
+        value.sl = try reader["SL"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sdm = try reader["SDM"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GameLiftClientTypes.AwsCredentials {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.AwsCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.AwsCredentials()
+        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
+        value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent()
+        value.sessionToken = try reader["SessionToken"].readIfPresent()
         return value
     }
 }
@@ -17883,35 +17967,112 @@ extension GameLiftClientTypes.Build {
     }
 }
 
-extension GameLiftClientTypes.AwsCredentials {
+extension GameLiftClientTypes.CertificateConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.AwsCredentials {
+    static func write(value: GameLiftClientTypes.CertificateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateType"].write(value.certificateType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.CertificateConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.AwsCredentials()
-        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
-        value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent()
-        value.sessionToken = try reader["SessionToken"].readIfPresent()
+        var value = GameLiftClientTypes.CertificateConfiguration()
+        value.certificateType = try reader["CertificateType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension GameLiftClientTypes.S3Location {
+extension GameLiftClientTypes.ClaimFilterOption {
 
-    static func write(value: GameLiftClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.ClaimFilterOption?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Key"].write(value.key)
-        try writer["ObjectVersion"].write(value.objectVersion)
-        try writer["RoleArn"].write(value.roleArn)
+        try writer["InstanceStatuses"].writeList(value.instanceStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GameLiftClientTypes.FilterInstanceStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GameLiftClientTypes.Compute {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Compute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.Compute()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.fleetArn = try reader["FleetArn"].readIfPresent()
+        value.computeName = try reader["ComputeName"].readIfPresent()
+        value.computeArn = try reader["ComputeArn"].readIfPresent()
+        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.dnsName = try reader["DnsName"].readIfPresent()
+        value.computeStatus = try reader["ComputeStatus"].readIfPresent()
+        value.location = try reader["Location"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.operatingSystem = try reader["OperatingSystem"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.gameLiftServiceSdkEndpoint = try reader["GameLiftServiceSdkEndpoint"].readIfPresent()
+        value.gameLiftAgentEndpoint = try reader["GameLiftAgentEndpoint"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.containerAttributes = try reader["ContainerAttributes"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.gameServerContainerGroupDefinitionArn = try reader["GameServerContainerGroupDefinitionArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ConnectionPortRange {
+
+    static func write(value: GameLiftClientTypes.ConnectionPortRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FromPort"].write(value.fromPort)
+        try writer["ToPort"].write(value.toPort)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.S3Location {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ConnectionPortRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.S3Location()
-        value.bucket = try reader["Bucket"].readIfPresent()
-        value.key = try reader["Key"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.objectVersion = try reader["ObjectVersion"].readIfPresent()
+        var value = GameLiftClientTypes.ConnectionPortRange()
+        value.fromPort = try reader["FromPort"].readIfPresent() ?? 0
+        value.toPort = try reader["ToPort"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ContainerAttribute {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ContainerAttribute()
+        value.containerName = try reader["ContainerName"].readIfPresent()
+        value.containerRuntimeId = try reader["ContainerRuntimeId"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ContainerDependency {
+
+    static func write(value: GameLiftClientTypes.ContainerDependency?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Condition"].write(value.condition)
+        try writer["ContainerName"].write(value.containerName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerDependency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ContainerDependency()
+        value.containerName = try reader["ContainerName"].readIfPresent() ?? ""
+        value.condition = try reader["Condition"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ContainerEnvironment {
+
+    static func write(value: GameLiftClientTypes.ContainerEnvironment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerEnvironment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ContainerEnvironment()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -17958,90 +18119,6 @@ extension GameLiftClientTypes.ContainerFleetLocationAttributes {
     }
 }
 
-extension GameLiftClientTypes.LogConfiguration {
-
-    static func write(value: GameLiftClientTypes.LogConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LogDestination"].write(value.logDestination)
-        try writer["LogGroupArn"].write(value.logGroupArn)
-        try writer["S3BucketName"].write(value.s3BucketName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LogConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.LogConfiguration()
-        value.logDestination = try reader["LogDestination"].readIfPresent()
-        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
-        value.logGroupArn = try reader["LogGroupArn"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.DeploymentDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.DeploymentDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.DeploymentDetails()
-        value.latestDeploymentId = try reader["LatestDeploymentId"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.GameSessionCreationLimitPolicy {
-
-    static func write(value: GameLiftClientTypes.GameSessionCreationLimitPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NewGameSessionsPerCreator"].write(value.newGameSessionsPerCreator)
-        try writer["PolicyPeriodInMinutes"].write(value.policyPeriodInMinutes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameSessionCreationLimitPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameSessionCreationLimitPolicy()
-        value.newGameSessionsPerCreator = try reader["NewGameSessionsPerCreator"].readIfPresent()
-        value.policyPeriodInMinutes = try reader["PolicyPeriodInMinutes"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.IpPermission {
-
-    static func write(value: GameLiftClientTypes.IpPermission?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FromPort"].write(value.fromPort)
-        try writer["IpRange"].write(value.ipRange)
-        try writer["Protocol"].write(value.`protocol`)
-        try writer["ToPort"].write(value.toPort)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.IpPermission {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.IpPermission()
-        value.fromPort = try reader["FromPort"].readIfPresent() ?? 0
-        value.toPort = try reader["ToPort"].readIfPresent() ?? 0
-        value.ipRange = try reader["IpRange"].readIfPresent() ?? ""
-        value.`protocol` = try reader["Protocol"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GameLiftClientTypes.ConnectionPortRange {
-
-    static func write(value: GameLiftClientTypes.ConnectionPortRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FromPort"].write(value.fromPort)
-        try writer["ToPort"].write(value.toPort)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ConnectionPortRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ConnectionPortRange()
-        value.fromPort = try reader["FromPort"].readIfPresent() ?? 0
-        value.toPort = try reader["ToPort"].readIfPresent() ?? 0
-        return value
-    }
-}
-
 extension GameLiftClientTypes.ContainerGroupDefinition {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerGroupDefinition {
@@ -18064,22 +18141,55 @@ extension GameLiftClientTypes.ContainerGroupDefinition {
     }
 }
 
-extension GameLiftClientTypes.SupportContainerDefinition {
+extension GameLiftClientTypes.ContainerHealthCheck {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.SupportContainerDefinition {
+    static func write(value: GameLiftClientTypes.ContainerHealthCheck?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Interval"].write(value.interval)
+        try writer["Retries"].write(value.retries)
+        try writer["StartPeriod"].write(value.startPeriod)
+        try writer["Timeout"].write(value.timeout)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerHealthCheck {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.SupportContainerDefinition()
+        var value = GameLiftClientTypes.ContainerHealthCheck()
+        value.command = try reader["Command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.interval = try reader["Interval"].readIfPresent()
+        value.retries = try reader["Retries"].readIfPresent()
+        value.startPeriod = try reader["StartPeriod"].readIfPresent()
+        value.timeout = try reader["Timeout"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ContainerIdentifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ContainerIdentifier()
         value.containerName = try reader["ContainerName"].readIfPresent()
-        value.dependsOn = try reader["DependsOn"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.mountPoints = try reader["MountPoints"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerMountPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.environmentOverride = try reader["EnvironmentOverride"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerEnvironment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.essential = try reader["Essential"].readIfPresent()
-        value.healthCheck = try reader["HealthCheck"].readIfPresent(with: GameLiftClientTypes.ContainerHealthCheck.read(from:))
-        value.imageUri = try reader["ImageUri"].readIfPresent()
-        value.memoryHardLimitMebibytes = try reader["MemoryHardLimitMebibytes"].readIfPresent()
-        value.portConfiguration = try reader["PortConfiguration"].readIfPresent(with: GameLiftClientTypes.ContainerPortConfiguration.read(from:))
-        value.resolvedImageDigest = try reader["ResolvedImageDigest"].readIfPresent()
-        value.vcpu = try reader["Vcpu"].readIfPresent()
+        value.containerRuntimeId = try reader["ContainerRuntimeId"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ContainerMountPoint {
+
+    static func write(value: GameLiftClientTypes.ContainerMountPoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessLevel"].write(value.accessLevel)
+        try writer["ContainerPath"].write(value.containerPath)
+        try writer["InstancePath"].write(value.instancePath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerMountPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ContainerMountPoint()
+        value.instancePath = try reader["InstancePath"].readIfPresent() ?? ""
+        value.containerPath = try reader["ContainerPath"].readIfPresent()
+        value.accessLevel = try reader["AccessLevel"].readIfPresent()
         return value
     }
 }
@@ -18118,95 +18228,100 @@ extension GameLiftClientTypes.ContainerPortRange {
     }
 }
 
-extension GameLiftClientTypes.ContainerHealthCheck {
+extension GameLiftClientTypes.DeploymentConfiguration {
 
-    static func write(value: GameLiftClientTypes.ContainerHealthCheck?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.DeploymentConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Interval"].write(value.interval)
-        try writer["Retries"].write(value.retries)
-        try writer["StartPeriod"].write(value.startPeriod)
-        try writer["Timeout"].write(value.timeout)
+        try writer["ImpairmentStrategy"].write(value.impairmentStrategy)
+        try writer["MinimumHealthyPercentage"].write(value.minimumHealthyPercentage)
+        try writer["ProtectionStrategy"].write(value.protectionStrategy)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerHealthCheck {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.DeploymentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ContainerHealthCheck()
-        value.command = try reader["Command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.interval = try reader["Interval"].readIfPresent()
-        value.retries = try reader["Retries"].readIfPresent()
-        value.startPeriod = try reader["StartPeriod"].readIfPresent()
-        value.timeout = try reader["Timeout"].readIfPresent()
+        var value = GameLiftClientTypes.DeploymentConfiguration()
+        value.protectionStrategy = try reader["ProtectionStrategy"].readIfPresent()
+        value.minimumHealthyPercentage = try reader["MinimumHealthyPercentage"].readIfPresent()
+        value.impairmentStrategy = try reader["ImpairmentStrategy"].readIfPresent()
         return value
     }
 }
 
-extension GameLiftClientTypes.ContainerEnvironment {
+extension GameLiftClientTypes.DeploymentDetails {
 
-    static func write(value: GameLiftClientTypes.ContainerEnvironment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerEnvironment {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.DeploymentDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ContainerEnvironment()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = GameLiftClientTypes.DeploymentDetails()
+        value.latestDeploymentId = try reader["LatestDeploymentId"].readIfPresent()
         return value
     }
 }
 
-extension GameLiftClientTypes.ContainerMountPoint {
+extension GameLiftClientTypes.DesiredPlayerSession {
 
-    static func write(value: GameLiftClientTypes.ContainerMountPoint?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.DesiredPlayerSession?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AccessLevel"].write(value.accessLevel)
-        try writer["ContainerPath"].write(value.containerPath)
-        try writer["InstancePath"].write(value.instancePath)
+        try writer["PlayerData"].write(value.playerData)
+        try writer["PlayerId"].write(value.playerId)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerMountPoint {
+extension GameLiftClientTypes.EC2InstanceCounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.EC2InstanceCounts {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ContainerMountPoint()
-        value.instancePath = try reader["InstancePath"].readIfPresent() ?? ""
-        value.containerPath = try reader["ContainerPath"].readIfPresent()
-        value.accessLevel = try reader["AccessLevel"].readIfPresent()
+        var value = GameLiftClientTypes.EC2InstanceCounts()
+        value.desired = try reader["DESIRED"].readIfPresent()
+        value.minimum = try reader["MINIMUM"].readIfPresent()
+        value.maximum = try reader["MAXIMUM"].readIfPresent()
+        value.pending = try reader["PENDING"].readIfPresent()
+        value.active = try reader["ACTIVE"].readIfPresent()
+        value.idle = try reader["IDLE"].readIfPresent()
+        value.terminating = try reader["TERMINATING"].readIfPresent()
         return value
     }
 }
 
-extension GameLiftClientTypes.ContainerDependency {
+extension GameLiftClientTypes.EC2InstanceLimit {
 
-    static func write(value: GameLiftClientTypes.ContainerDependency?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Condition"].write(value.condition)
-        try writer["ContainerName"].write(value.containerName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerDependency {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.EC2InstanceLimit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ContainerDependency()
-        value.containerName = try reader["ContainerName"].readIfPresent() ?? ""
-        value.condition = try reader["Condition"].readIfPresent() ?? .sdkUnknown("")
+        var value = GameLiftClientTypes.EC2InstanceLimit()
+        value.ec2InstanceType = try reader["EC2InstanceType"].readIfPresent()
+        value.currentInstances = try reader["CurrentInstances"].readIfPresent()
+        value.instanceLimit = try reader["InstanceLimit"].readIfPresent()
+        value.location = try reader["Location"].readIfPresent()
         return value
     }
 }
 
-extension GameLiftClientTypes.GameServerContainerDefinition {
+extension GameLiftClientTypes.Event {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameServerContainerDefinition {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Event {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameServerContainerDefinition()
-        value.containerName = try reader["ContainerName"].readIfPresent()
-        value.dependsOn = try reader["DependsOn"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.mountPoints = try reader["MountPoints"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerMountPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.environmentOverride = try reader["EnvironmentOverride"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerEnvironment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.imageUri = try reader["ImageUri"].readIfPresent()
-        value.portConfiguration = try reader["PortConfiguration"].readIfPresent(with: GameLiftClientTypes.ContainerPortConfiguration.read(from:))
-        value.resolvedImageDigest = try reader["ResolvedImageDigest"].readIfPresent()
-        value.serverSdkVersion = try reader["ServerSdkVersion"].readIfPresent()
+        var value = GameLiftClientTypes.Event()
+        value.eventId = try reader["EventId"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.eventCode = try reader["EventCode"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.preSignedLogUrl = try reader["PreSignedLogUrl"].readIfPresent()
+        value.count = try reader["Count"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.FilterConfiguration {
+
+    static func write(value: GameLiftClientTypes.FilterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedLocations"].writeList(value.allowedLocations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.FilterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.FilterConfiguration()
+        value.allowedLocations = try reader["AllowedLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -18246,60 +18361,133 @@ extension GameLiftClientTypes.FleetAttributes {
     }
 }
 
-extension GameLiftClientTypes.AnywhereConfiguration {
+extension GameLiftClientTypes.FleetCapacity {
 
-    static func write(value: GameLiftClientTypes.AnywhereConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Cost"].write(value.cost)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.AnywhereConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.FleetCapacity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.AnywhereConfiguration()
-        value.cost = try reader["Cost"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GameLiftClientTypes.CertificateConfiguration {
-
-    static func write(value: GameLiftClientTypes.CertificateConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateType"].write(value.certificateType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.CertificateConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.CertificateConfiguration()
-        value.certificateType = try reader["CertificateType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GameLiftClientTypes.ResourceCreationLimitPolicy {
-
-    static func write(value: GameLiftClientTypes.ResourceCreationLimitPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NewGameSessionsPerCreator"].write(value.newGameSessionsPerCreator)
-        try writer["PolicyPeriodInMinutes"].write(value.policyPeriodInMinutes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ResourceCreationLimitPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ResourceCreationLimitPolicy()
-        value.newGameSessionsPerCreator = try reader["NewGameSessionsPerCreator"].readIfPresent()
-        value.policyPeriodInMinutes = try reader["PolicyPeriodInMinutes"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.LocationState {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LocationState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.LocationState()
+        var value = GameLiftClientTypes.FleetCapacity()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.fleetArn = try reader["FleetArn"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.instanceCounts = try reader["InstanceCounts"].readIfPresent(with: GameLiftClientTypes.EC2InstanceCounts.read(from:))
         value.location = try reader["Location"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.gameServerContainerGroupCounts = try reader["GameServerContainerGroupCounts"].readIfPresent(with: GameLiftClientTypes.GameServerContainerGroupCounts.read(from:))
+        value.managedCapacityConfiguration = try reader["ManagedCapacityConfiguration"].readIfPresent(with: GameLiftClientTypes.ManagedCapacityConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GameLiftClientTypes.FleetDeployment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.FleetDeployment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.FleetDeployment()
+        value.deploymentId = try reader["DeploymentId"].readIfPresent()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.gameServerBinaryArn = try reader["GameServerBinaryArn"].readIfPresent()
+        value.rollbackGameServerBinaryArn = try reader["RollbackGameServerBinaryArn"].readIfPresent()
+        value.perInstanceBinaryArn = try reader["PerInstanceBinaryArn"].readIfPresent()
+        value.rollbackPerInstanceBinaryArn = try reader["RollbackPerInstanceBinaryArn"].readIfPresent()
+        value.deploymentStatus = try reader["DeploymentStatus"].readIfPresent()
+        value.deploymentConfiguration = try reader["DeploymentConfiguration"].readIfPresent(with: GameLiftClientTypes.DeploymentConfiguration.read(from:))
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GameLiftClientTypes.FleetUtilization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.FleetUtilization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.FleetUtilization()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.fleetArn = try reader["FleetArn"].readIfPresent()
+        value.activeServerProcessCount = try reader["ActiveServerProcessCount"].readIfPresent()
+        value.activeGameSessionCount = try reader["ActiveGameSessionCount"].readIfPresent()
+        value.currentPlayerSessionCount = try reader["CurrentPlayerSessionCount"].readIfPresent()
+        value.maximumPlayerSessionCount = try reader["MaximumPlayerSessionCount"].readIfPresent()
+        value.location = try reader["Location"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.GameProperty {
+
+    static func write(value: GameLiftClientTypes.GameProperty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.GameProperty()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GameLiftClientTypes.GameServer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.GameServer()
+        value.gameServerGroupName = try reader["GameServerGroupName"].readIfPresent()
+        value.gameServerGroupArn = try reader["GameServerGroupArn"].readIfPresent()
+        value.gameServerId = try reader["GameServerId"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.connectionInfo = try reader["ConnectionInfo"].readIfPresent()
+        value.gameServerData = try reader["GameServerData"].readIfPresent()
+        value.claimStatus = try reader["ClaimStatus"].readIfPresent()
+        value.utilizationStatus = try reader["UtilizationStatus"].readIfPresent()
+        value.registrationTime = try reader["RegistrationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastClaimTime = try reader["LastClaimTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastHealthCheckTime = try reader["LastHealthCheckTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GameLiftClientTypes.GameServerContainerDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameServerContainerDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.GameServerContainerDefinition()
+        value.containerName = try reader["ContainerName"].readIfPresent()
+        value.dependsOn = try reader["DependsOn"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mountPoints = try reader["MountPoints"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerMountPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.environmentOverride = try reader["EnvironmentOverride"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerEnvironment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.imageUri = try reader["ImageUri"].readIfPresent()
+        value.portConfiguration = try reader["PortConfiguration"].readIfPresent(with: GameLiftClientTypes.ContainerPortConfiguration.read(from:))
+        value.resolvedImageDigest = try reader["ResolvedImageDigest"].readIfPresent()
+        value.serverSdkVersion = try reader["ServerSdkVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.GameServerContainerDefinitionInput {
+
+    static func write(value: GameLiftClientTypes.GameServerContainerDefinitionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContainerName"].write(value.containerName)
+        try writer["DependsOn"].writeList(value.dependsOn, memberWritingClosure: GameLiftClientTypes.ContainerDependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnvironmentOverride"].writeList(value.environmentOverride, memberWritingClosure: GameLiftClientTypes.ContainerEnvironment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ImageUri"].write(value.imageUri)
+        try writer["MountPoints"].writeList(value.mountPoints, memberWritingClosure: GameLiftClientTypes.ContainerMountPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PortConfiguration"].write(value.portConfiguration, with: GameLiftClientTypes.ContainerPortConfiguration.write(value:to:))
+        try writer["ServerSdkVersion"].write(value.serverSdkVersion)
+    }
+}
+
+extension GameLiftClientTypes.GameServerContainerGroupCounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameServerContainerGroupCounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.GameServerContainerGroupCounts()
+        value.pending = try reader["PENDING"].readIfPresent()
+        value.active = try reader["ACTIVE"].readIfPresent()
+        value.idle = try reader["IDLE"].readIfPresent()
+        value.terminating = try reader["TERMINATING"].readIfPresent()
         return value
     }
 }
@@ -18325,19 +18513,24 @@ extension GameLiftClientTypes.GameServerGroup {
     }
 }
 
-extension GameLiftClientTypes.InstanceDefinition {
+extension GameLiftClientTypes.GameServerGroupAutoScalingPolicy {
 
-    static func write(value: GameLiftClientTypes.InstanceDefinition?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.GameServerGroupAutoScalingPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["InstanceType"].write(value.instanceType)
-        try writer["WeightedCapacity"].write(value.weightedCapacity)
+        try writer["EstimatedInstanceWarmup"].write(value.estimatedInstanceWarmup)
+        try writer["TargetTrackingConfiguration"].write(value.targetTrackingConfiguration, with: GameLiftClientTypes.TargetTrackingConfiguration.write(value:to:))
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.InstanceDefinition {
+extension GameLiftClientTypes.GameServerInstance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameServerInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.InstanceDefinition()
-        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
-        value.weightedCapacity = try reader["WeightedCapacity"].readIfPresent()
+        var value = GameLiftClientTypes.GameServerInstance()
+        value.gameServerGroupName = try reader["GameServerGroupName"].readIfPresent()
+        value.gameServerGroupArn = try reader["GameServerGroupArn"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.instanceStatus = try reader["InstanceStatus"].readIfPresent()
         return value
     }
 }
@@ -18370,421 +18563,33 @@ extension GameLiftClientTypes.GameSession {
     }
 }
 
-extension GameLiftClientTypes.GameProperty {
+extension GameLiftClientTypes.GameSessionConnectionInfo {
 
-    static func write(value: GameLiftClientTypes.GameProperty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameProperty {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameSessionConnectionInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameProperty()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GameLiftClientTypes.GameSessionQueue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameSessionQueue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameSessionQueue()
-        value.name = try reader["Name"].readIfPresent()
-        value.gameSessionQueueArn = try reader["GameSessionQueueArn"].readIfPresent()
-        value.timeoutInSeconds = try reader["TimeoutInSeconds"].readIfPresent()
-        value.playerLatencyPolicies = try reader["PlayerLatencyPolicies"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.PlayerLatencyPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.GameSessionQueueDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: GameLiftClientTypes.FilterConfiguration.read(from:))
-        value.priorityConfiguration = try reader["PriorityConfiguration"].readIfPresent(with: GameLiftClientTypes.PriorityConfiguration.read(from:))
-        value.customEventData = try reader["CustomEventData"].readIfPresent()
-        value.notificationTarget = try reader["NotificationTarget"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.PriorityConfiguration {
-
-    static func write(value: GameLiftClientTypes.PriorityConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LocationOrder"].writeList(value.locationOrder, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PriorityOrder"].writeList(value.priorityOrder, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GameLiftClientTypes.PriorityType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PriorityConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.PriorityConfiguration()
-        value.priorityOrder = try reader["PriorityOrder"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GameLiftClientTypes.PriorityType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.locationOrder = try reader["LocationOrder"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GameLiftClientTypes.FilterConfiguration {
-
-    static func write(value: GameLiftClientTypes.FilterConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedLocations"].writeList(value.allowedLocations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.FilterConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.FilterConfiguration()
-        value.allowedLocations = try reader["AllowedLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GameLiftClientTypes.GameSessionQueueDestination {
-
-    static func write(value: GameLiftClientTypes.GameSessionQueueDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationArn"].write(value.destinationArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameSessionQueueDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameSessionQueueDestination()
-        value.destinationArn = try reader["DestinationArn"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.PlayerLatencyPolicy {
-
-    static func write(value: GameLiftClientTypes.PlayerLatencyPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaximumIndividualPlayerLatencyMilliseconds"].write(value.maximumIndividualPlayerLatencyMilliseconds)
-        try writer["PolicyDurationSeconds"].write(value.policyDurationSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlayerLatencyPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.PlayerLatencyPolicy()
-        value.maximumIndividualPlayerLatencyMilliseconds = try reader["MaximumIndividualPlayerLatencyMilliseconds"].readIfPresent()
-        value.policyDurationSeconds = try reader["PolicyDurationSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.LocationModel {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LocationModel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.LocationModel()
-        value.locationName = try reader["LocationName"].readIfPresent()
-        value.locationArn = try reader["LocationArn"].readIfPresent()
-        value.pingBeacon = try reader["PingBeacon"].readIfPresent(with: GameLiftClientTypes.PingBeacon.read(from:))
-        return value
-    }
-}
-
-extension GameLiftClientTypes.PingBeacon {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PingBeacon {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.PingBeacon()
-        value.udpEndpoint = try reader["UDPEndpoint"].readIfPresent(with: GameLiftClientTypes.UDPEndpoint.read(from:))
-        return value
-    }
-}
-
-extension GameLiftClientTypes.UDPEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.UDPEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.UDPEndpoint()
-        value.domain = try reader["Domain"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.MatchmakingConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.MatchmakingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.MatchmakingConfiguration()
-        value.name = try reader["Name"].readIfPresent()
-        value.configurationArn = try reader["ConfigurationArn"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.gameSessionQueueArns = try reader["GameSessionQueueArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.requestTimeoutSeconds = try reader["RequestTimeoutSeconds"].readIfPresent()
-        value.acceptanceTimeoutSeconds = try reader["AcceptanceTimeoutSeconds"].readIfPresent()
-        value.acceptanceRequired = try reader["AcceptanceRequired"].readIfPresent()
-        value.ruleSetName = try reader["RuleSetName"].readIfPresent()
-        value.ruleSetArn = try reader["RuleSetArn"].readIfPresent()
-        value.notificationTarget = try reader["NotificationTarget"].readIfPresent()
-        value.additionalPlayerCount = try reader["AdditionalPlayerCount"].readIfPresent()
-        value.customEventData = try reader["CustomEventData"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.gameProperties = try reader["GameProperties"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.GameProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.gameSessionData = try reader["GameSessionData"].readIfPresent()
-        value.backfillMode = try reader["BackfillMode"].readIfPresent()
-        value.flexMatchMode = try reader["FlexMatchMode"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.MatchmakingRuleSet {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.MatchmakingRuleSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.MatchmakingRuleSet()
-        value.ruleSetName = try reader["RuleSetName"].readIfPresent()
-        value.ruleSetArn = try reader["RuleSetArn"].readIfPresent()
-        value.ruleSetBody = try reader["RuleSetBody"].readIfPresent() ?? ""
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GameLiftClientTypes.PlayerSession {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlayerSession {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.PlayerSession()
-        value.playerSessionId = try reader["PlayerSessionId"].readIfPresent()
-        value.playerId = try reader["PlayerId"].readIfPresent()
-        value.gameSessionId = try reader["GameSessionId"].readIfPresent()
-        value.fleetId = try reader["FleetId"].readIfPresent()
-        value.fleetArn = try reader["FleetArn"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.terminationTime = try reader["TerminationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
+        var value = GameLiftClientTypes.GameSessionConnectionInfo()
+        value.gameSessionArn = try reader["GameSessionArn"].readIfPresent()
         value.ipAddress = try reader["IpAddress"].readIfPresent()
         value.dnsName = try reader["DnsName"].readIfPresent()
         value.port = try reader["Port"].readIfPresent()
-        value.playerData = try reader["PlayerData"].readIfPresent()
+        value.matchedPlayerSessions = try reader["MatchedPlayerSessions"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.MatchedPlayerSession.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GameLiftClientTypes.Script {
+extension GameLiftClientTypes.GameSessionCreationLimitPolicy {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Script {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.Script()
-        value.scriptId = try reader["ScriptId"].readIfPresent()
-        value.scriptArn = try reader["ScriptArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.version = try reader["Version"].readIfPresent()
-        value.sizeOnDisk = try reader["SizeOnDisk"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.storageLocation = try reader["StorageLocation"].readIfPresent(with: GameLiftClientTypes.S3Location.read(from:))
-        return value
-    }
-}
-
-extension GameLiftClientTypes.VpcPeeringAuthorization {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.VpcPeeringAuthorization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.VpcPeeringAuthorization()
-        value.gameLiftAwsAccountId = try reader["GameLiftAwsAccountId"].readIfPresent()
-        value.peerVpcAwsAccountId = try reader["PeerVpcAwsAccountId"].readIfPresent()
-        value.peerVpcId = try reader["PeerVpcId"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.expirationTime = try reader["ExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GameLiftClientTypes.Compute {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Compute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.Compute()
-        value.fleetId = try reader["FleetId"].readIfPresent()
-        value.fleetArn = try reader["FleetArn"].readIfPresent()
-        value.computeName = try reader["ComputeName"].readIfPresent()
-        value.computeArn = try reader["ComputeArn"].readIfPresent()
-        value.ipAddress = try reader["IpAddress"].readIfPresent()
-        value.dnsName = try reader["DnsName"].readIfPresent()
-        value.computeStatus = try reader["ComputeStatus"].readIfPresent()
-        value.location = try reader["Location"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.operatingSystem = try reader["OperatingSystem"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.gameLiftServiceSdkEndpoint = try reader["GameLiftServiceSdkEndpoint"].readIfPresent()
-        value.gameLiftAgentEndpoint = try reader["GameLiftAgentEndpoint"].readIfPresent()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
-        value.containerAttributes = try reader["ContainerAttributes"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.gameServerContainerGroupDefinitionArn = try reader["GameServerContainerGroupDefinitionArn"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.ContainerAttribute {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ContainerAttribute()
-        value.containerName = try reader["ContainerName"].readIfPresent()
-        value.containerRuntimeId = try reader["ContainerRuntimeId"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.EC2InstanceLimit {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.EC2InstanceLimit {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.EC2InstanceLimit()
-        value.ec2InstanceType = try reader["EC2InstanceType"].readIfPresent()
-        value.currentInstances = try reader["CurrentInstances"].readIfPresent()
-        value.instanceLimit = try reader["InstanceLimit"].readIfPresent()
-        value.location = try reader["Location"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.FleetCapacity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.FleetCapacity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.FleetCapacity()
-        value.fleetId = try reader["FleetId"].readIfPresent()
-        value.fleetArn = try reader["FleetArn"].readIfPresent()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.instanceCounts = try reader["InstanceCounts"].readIfPresent(with: GameLiftClientTypes.EC2InstanceCounts.read(from:))
-        value.location = try reader["Location"].readIfPresent()
-        value.gameServerContainerGroupCounts = try reader["GameServerContainerGroupCounts"].readIfPresent(with: GameLiftClientTypes.GameServerContainerGroupCounts.read(from:))
-        return value
-    }
-}
-
-extension GameLiftClientTypes.GameServerContainerGroupCounts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameServerContainerGroupCounts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameServerContainerGroupCounts()
-        value.pending = try reader["PENDING"].readIfPresent()
-        value.active = try reader["ACTIVE"].readIfPresent()
-        value.idle = try reader["IDLE"].readIfPresent()
-        value.terminating = try reader["TERMINATING"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.EC2InstanceCounts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.EC2InstanceCounts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.EC2InstanceCounts()
-        value.desired = try reader["DESIRED"].readIfPresent()
-        value.minimum = try reader["MINIMUM"].readIfPresent()
-        value.maximum = try reader["MAXIMUM"].readIfPresent()
-        value.pending = try reader["PENDING"].readIfPresent()
-        value.active = try reader["ACTIVE"].readIfPresent()
-        value.idle = try reader["IDLE"].readIfPresent()
-        value.terminating = try reader["TERMINATING"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.FleetDeployment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.FleetDeployment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.FleetDeployment()
-        value.deploymentId = try reader["DeploymentId"].readIfPresent()
-        value.fleetId = try reader["FleetId"].readIfPresent()
-        value.gameServerBinaryArn = try reader["GameServerBinaryArn"].readIfPresent()
-        value.rollbackGameServerBinaryArn = try reader["RollbackGameServerBinaryArn"].readIfPresent()
-        value.perInstanceBinaryArn = try reader["PerInstanceBinaryArn"].readIfPresent()
-        value.rollbackPerInstanceBinaryArn = try reader["RollbackPerInstanceBinaryArn"].readIfPresent()
-        value.deploymentStatus = try reader["DeploymentStatus"].readIfPresent()
-        value.deploymentConfiguration = try reader["DeploymentConfiguration"].readIfPresent(with: GameLiftClientTypes.DeploymentConfiguration.read(from:))
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GameLiftClientTypes.DeploymentConfiguration {
-
-    static func write(value: GameLiftClientTypes.DeploymentConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.GameSessionCreationLimitPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ImpairmentStrategy"].write(value.impairmentStrategy)
-        try writer["MinimumHealthyPercentage"].write(value.minimumHealthyPercentage)
-        try writer["ProtectionStrategy"].write(value.protectionStrategy)
+        try writer["NewGameSessionsPerCreator"].write(value.newGameSessionsPerCreator)
+        try writer["PolicyPeriodInMinutes"].write(value.policyPeriodInMinutes)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.DeploymentConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameSessionCreationLimitPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.DeploymentConfiguration()
-        value.protectionStrategy = try reader["ProtectionStrategy"].readIfPresent()
-        value.minimumHealthyPercentage = try reader["MinimumHealthyPercentage"].readIfPresent()
-        value.impairmentStrategy = try reader["ImpairmentStrategy"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.LocationalDeployment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LocationalDeployment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.LocationalDeployment()
-        value.deploymentStatus = try reader["DeploymentStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.Event {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Event {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.Event()
-        value.eventId = try reader["EventId"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.eventCode = try reader["EventCode"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.preSignedLogUrl = try reader["PreSignedLogUrl"].readIfPresent()
-        value.count = try reader["Count"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.LocationAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LocationAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.LocationAttributes()
-        value.locationState = try reader["LocationState"].readIfPresent(with: GameLiftClientTypes.LocationState.read(from:))
-        value.stoppedActions = try reader["StoppedActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GameLiftClientTypes.FleetAction>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.updateStatus = try reader["UpdateStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.FleetUtilization {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.FleetUtilization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.FleetUtilization()
-        value.fleetId = try reader["FleetId"].readIfPresent()
-        value.fleetArn = try reader["FleetArn"].readIfPresent()
-        value.activeServerProcessCount = try reader["ActiveServerProcessCount"].readIfPresent()
-        value.activeGameSessionCount = try reader["ActiveGameSessionCount"].readIfPresent()
-        value.currentPlayerSessionCount = try reader["CurrentPlayerSessionCount"].readIfPresent()
-        value.maximumPlayerSessionCount = try reader["MaximumPlayerSessionCount"].readIfPresent()
-        value.location = try reader["Location"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.GameServerInstance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameServerInstance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameServerInstance()
-        value.gameServerGroupName = try reader["GameServerGroupName"].readIfPresent()
-        value.gameServerGroupArn = try reader["GameServerGroupArn"].readIfPresent()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
-        value.instanceStatus = try reader["InstanceStatus"].readIfPresent()
+        var value = GameLiftClientTypes.GameSessionCreationLimitPolicy()
+        value.newGameSessionsPerCreator = try reader["NewGameSessionsPerCreator"].readIfPresent()
+        value.policyPeriodInMinutes = try reader["PolicyPeriodInMinutes"].readIfPresent()
         return value
     }
 }
@@ -18828,49 +18633,35 @@ extension GameLiftClientTypes.GameSessionPlacement {
     }
 }
 
-extension GameLiftClientTypes.PriorityConfigurationOverride {
+extension GameLiftClientTypes.GameSessionQueue {
 
-    static func write(value: GameLiftClientTypes.PriorityConfigurationOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LocationOrder"].writeList(value.locationOrder, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PlacementFallbackStrategy"].write(value.placementFallbackStrategy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PriorityConfigurationOverride {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameSessionQueue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.PriorityConfigurationOverride()
-        value.placementFallbackStrategy = try reader["PlacementFallbackStrategy"].readIfPresent()
-        value.locationOrder = try reader["LocationOrder"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = GameLiftClientTypes.GameSessionQueue()
+        value.name = try reader["Name"].readIfPresent()
+        value.gameSessionQueueArn = try reader["GameSessionQueueArn"].readIfPresent()
+        value.timeoutInSeconds = try reader["TimeoutInSeconds"].readIfPresent()
+        value.playerLatencyPolicies = try reader["PlayerLatencyPolicies"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.PlayerLatencyPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.GameSessionQueueDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: GameLiftClientTypes.FilterConfiguration.read(from:))
+        value.priorityConfiguration = try reader["PriorityConfiguration"].readIfPresent(with: GameLiftClientTypes.PriorityConfiguration.read(from:))
+        value.customEventData = try reader["CustomEventData"].readIfPresent()
+        value.notificationTarget = try reader["NotificationTarget"].readIfPresent()
         return value
     }
 }
 
-extension GameLiftClientTypes.PlacedPlayerSession {
+extension GameLiftClientTypes.GameSessionQueueDestination {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlacedPlayerSession {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.PlacedPlayerSession()
-        value.playerId = try reader["PlayerId"].readIfPresent()
-        value.playerSessionId = try reader["PlayerSessionId"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.PlayerLatency {
-
-    static func write(value: GameLiftClientTypes.PlayerLatency?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.GameSessionQueueDestination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["LatencyInMilliseconds"].write(value.latencyInMilliseconds)
-        try writer["PlayerId"].write(value.playerId)
-        try writer["RegionIdentifier"].write(value.regionIdentifier)
+        try writer["DestinationArn"].write(value.destinationArn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlayerLatency {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameSessionQueueDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.PlayerLatency()
-        value.playerId = try reader["PlayerId"].readIfPresent()
-        value.regionIdentifier = try reader["RegionIdentifier"].readIfPresent()
-        value.latencyInMilliseconds = try reader["LatencyInMilliseconds"].readIfPresent()
+        var value = GameLiftClientTypes.GameSessionQueueDestination()
+        value.destinationArn = try reader["DestinationArn"].readIfPresent()
         return value
     }
 }
@@ -18890,207 +18681,6 @@ extension GameLiftClientTypes.Instance {
         value.status = try reader["Status"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.location = try reader["Location"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.MatchmakingTicket {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.MatchmakingTicket {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.MatchmakingTicket()
-        value.ticketId = try reader["TicketId"].readIfPresent()
-        value.configurationName = try reader["ConfigurationName"].readIfPresent()
-        value.configurationArn = try reader["ConfigurationArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.players = try reader["Players"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.Player.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.gameSessionConnectionInfo = try reader["GameSessionConnectionInfo"].readIfPresent(with: GameLiftClientTypes.GameSessionConnectionInfo.read(from:))
-        value.estimatedWaitTime = try reader["EstimatedWaitTime"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.GameSessionConnectionInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.GameSessionConnectionInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.GameSessionConnectionInfo()
-        value.gameSessionArn = try reader["GameSessionArn"].readIfPresent()
-        value.ipAddress = try reader["IpAddress"].readIfPresent()
-        value.dnsName = try reader["DnsName"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.matchedPlayerSessions = try reader["MatchedPlayerSessions"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.MatchedPlayerSession.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GameLiftClientTypes.MatchedPlayerSession {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.MatchedPlayerSession {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.MatchedPlayerSession()
-        value.playerId = try reader["PlayerId"].readIfPresent()
-        value.playerSessionId = try reader["PlayerSessionId"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.Player {
-
-    static func write(value: GameLiftClientTypes.Player?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LatencyInMs"].writeMap(value.latencyInMs, valueWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["PlayerAttributes"].writeMap(value.playerAttributes, valueWritingClosure: GameLiftClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["PlayerId"].write(value.playerId)
-        try writer["Team"].write(value.team)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Player {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.Player()
-        value.playerId = try reader["PlayerId"].readIfPresent()
-        value.playerAttributes = try reader["PlayerAttributes"].readMapIfPresent(valueReadingClosure: GameLiftClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.team = try reader["Team"].readIfPresent()
-        value.latencyInMs = try reader["LatencyInMs"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GameLiftClientTypes.AttributeValue {
-
-    static func write(value: GameLiftClientTypes.AttributeValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["N"].write(value.n)
-        try writer["S"].write(value.s)
-        try writer["SDM"].writeMap(value.sdm, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["SL"].writeList(value.sl, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.AttributeValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.AttributeValue()
-        value.s = try reader["S"].readIfPresent()
-        value.n = try reader["N"].readIfPresent()
-        value.sl = try reader["SL"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sdm = try reader["SDM"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GameLiftClientTypes.RuntimeConfiguration {
-
-    static func write(value: GameLiftClientTypes.RuntimeConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GameSessionActivationTimeoutSeconds"].write(value.gameSessionActivationTimeoutSeconds)
-        try writer["MaxConcurrentGameSessionActivations"].write(value.maxConcurrentGameSessionActivations)
-        try writer["ServerProcesses"].writeList(value.serverProcesses, memberWritingClosure: GameLiftClientTypes.ServerProcess.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.RuntimeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.RuntimeConfiguration()
-        value.serverProcesses = try reader["ServerProcesses"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ServerProcess.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.maxConcurrentGameSessionActivations = try reader["MaxConcurrentGameSessionActivations"].readIfPresent()
-        value.gameSessionActivationTimeoutSeconds = try reader["GameSessionActivationTimeoutSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.ServerProcess {
-
-    static func write(value: GameLiftClientTypes.ServerProcess?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConcurrentExecutions"].write(value.concurrentExecutions)
-        try writer["LaunchPath"].write(value.launchPath)
-        try writer["Parameters"].write(value.parameters)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ServerProcess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ServerProcess()
-        value.launchPath = try reader["LaunchPath"].readIfPresent() ?? ""
-        value.parameters = try reader["Parameters"].readIfPresent()
-        value.concurrentExecutions = try reader["ConcurrentExecutions"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GameLiftClientTypes.ScalingPolicy {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ScalingPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ScalingPolicy()
-        value.fleetId = try reader["FleetId"].readIfPresent()
-        value.fleetArn = try reader["FleetArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.scalingAdjustment = try reader["ScalingAdjustment"].readIfPresent()
-        value.scalingAdjustmentType = try reader["ScalingAdjustmentType"].readIfPresent()
-        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
-        value.threshold = try reader["Threshold"].readIfPresent()
-        value.evaluationPeriods = try reader["EvaluationPeriods"].readIfPresent()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.policyType = try reader["PolicyType"].readIfPresent()
-        value.targetConfiguration = try reader["TargetConfiguration"].readIfPresent(with: GameLiftClientTypes.TargetConfiguration.read(from:))
-        value.updateStatus = try reader["UpdateStatus"].readIfPresent()
-        value.location = try reader["Location"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.TargetConfiguration {
-
-    static func write(value: GameLiftClientTypes.TargetConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TargetValue"].write(value.targetValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.TargetConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.TargetConfiguration()
-        value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
-extension GameLiftClientTypes.VpcPeeringConnection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.VpcPeeringConnection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.VpcPeeringConnection()
-        value.fleetId = try reader["FleetId"].readIfPresent()
-        value.fleetArn = try reader["FleetArn"].readIfPresent()
-        value.ipV4CidrBlock = try reader["IpV4CidrBlock"].readIfPresent()
-        value.vpcPeeringConnectionId = try reader["VpcPeeringConnectionId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent(with: GameLiftClientTypes.VpcPeeringConnectionStatus.read(from:))
-        value.peerVpcId = try reader["PeerVpcId"].readIfPresent()
-        value.gameLiftVpcId = try reader["GameLiftVpcId"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.VpcPeeringConnectionStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.VpcPeeringConnectionStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.VpcPeeringConnectionStatus()
-        value.code = try reader["Code"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension GameLiftClientTypes.ContainerIdentifier {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ContainerIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.ContainerIdentifier()
-        value.containerName = try reader["ContainerName"].readIfPresent()
-        value.containerRuntimeId = try reader["ContainerRuntimeId"].readIfPresent()
         return value
     }
 }
@@ -19120,28 +18710,73 @@ extension GameLiftClientTypes.InstanceCredentials {
     }
 }
 
-extension GameLiftClientTypes.Tag {
+extension GameLiftClientTypes.InstanceDefinition {
 
-    static func write(value: GameLiftClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.InstanceDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
+        try writer["InstanceType"].write(value.instanceType)
+        try writer["WeightedCapacity"].write(value.weightedCapacity)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Tag {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.InstanceDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GameLiftClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = GameLiftClientTypes.InstanceDefinition()
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.weightedCapacity = try reader["WeightedCapacity"].readIfPresent()
         return value
     }
 }
 
-extension GameLiftClientTypes.ClaimFilterOption {
+extension GameLiftClientTypes.IpPermission {
 
-    static func write(value: GameLiftClientTypes.ClaimFilterOption?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.IpPermission?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["InstanceStatuses"].writeList(value.instanceStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GameLiftClientTypes.FilterInstanceStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FromPort"].write(value.fromPort)
+        try writer["IpRange"].write(value.ipRange)
+        try writer["Protocol"].write(value.`protocol`)
+        try writer["ToPort"].write(value.toPort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.IpPermission {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.IpPermission()
+        value.fromPort = try reader["FromPort"].readIfPresent() ?? 0
+        value.toPort = try reader["ToPort"].readIfPresent() ?? 0
+        value.ipRange = try reader["IpRange"].readIfPresent() ?? ""
+        value.`protocol` = try reader["Protocol"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GameLiftClientTypes.LaunchTemplateSpecification {
+
+    static func write(value: GameLiftClientTypes.LaunchTemplateSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LaunchTemplateId"].write(value.launchTemplateId)
+        try writer["LaunchTemplateName"].write(value.launchTemplateName)
+        try writer["Version"].write(value.version)
+    }
+}
+
+extension GameLiftClientTypes.LocationalDeployment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LocationalDeployment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.LocationalDeployment()
+        value.deploymentStatus = try reader["DeploymentStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.LocationAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LocationAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.LocationAttributes()
+        value.locationState = try reader["LocationState"].readIfPresent(with: GameLiftClientTypes.LocationState.read(from:))
+        value.stoppedActions = try reader["StoppedActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GameLiftClientTypes.FleetAction>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.updateStatus = try reader["UpdateStatus"].readIfPresent()
+        return value
     }
 }
 
@@ -19153,17 +18788,420 @@ extension GameLiftClientTypes.LocationConfiguration {
     }
 }
 
-extension GameLiftClientTypes.GameServerContainerDefinitionInput {
+extension GameLiftClientTypes.LocationModel {
 
-    static func write(value: GameLiftClientTypes.GameServerContainerDefinitionInput?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LocationModel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.LocationModel()
+        value.locationName = try reader["LocationName"].readIfPresent()
+        value.locationArn = try reader["LocationArn"].readIfPresent()
+        value.pingBeacon = try reader["PingBeacon"].readIfPresent(with: GameLiftClientTypes.PingBeacon.read(from:))
+        return value
+    }
+}
+
+extension GameLiftClientTypes.LocationState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LocationState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.LocationState()
+        value.location = try reader["Location"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.LogConfiguration {
+
+    static func write(value: GameLiftClientTypes.LogConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ContainerName"].write(value.containerName)
-        try writer["DependsOn"].writeList(value.dependsOn, memberWritingClosure: GameLiftClientTypes.ContainerDependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EnvironmentOverride"].writeList(value.environmentOverride, memberWritingClosure: GameLiftClientTypes.ContainerEnvironment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ImageUri"].write(value.imageUri)
-        try writer["MountPoints"].writeList(value.mountPoints, memberWritingClosure: GameLiftClientTypes.ContainerMountPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PortConfiguration"].write(value.portConfiguration, with: GameLiftClientTypes.ContainerPortConfiguration.write(value:to:))
-        try writer["ServerSdkVersion"].write(value.serverSdkVersion)
+        try writer["LogDestination"].write(value.logDestination)
+        try writer["LogGroupArn"].write(value.logGroupArn)
+        try writer["S3BucketName"].write(value.s3BucketName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.LogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.LogConfiguration()
+        value.logDestination = try reader["LogDestination"].readIfPresent()
+        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
+        value.logGroupArn = try reader["LogGroupArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ManagedCapacityConfiguration {
+
+    static func write(value: GameLiftClientTypes.ManagedCapacityConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ScaleInAfterInactivityMinutes"].write(value.scaleInAfterInactivityMinutes)
+        try writer["ZeroCapacityStrategy"].write(value.zeroCapacityStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ManagedCapacityConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ManagedCapacityConfiguration()
+        value.zeroCapacityStrategy = try reader["ZeroCapacityStrategy"].readIfPresent()
+        value.scaleInAfterInactivityMinutes = try reader["ScaleInAfterInactivityMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.MatchedPlayerSession {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.MatchedPlayerSession {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.MatchedPlayerSession()
+        value.playerId = try reader["PlayerId"].readIfPresent()
+        value.playerSessionId = try reader["PlayerSessionId"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.MatchmakingConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.MatchmakingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.MatchmakingConfiguration()
+        value.name = try reader["Name"].readIfPresent()
+        value.configurationArn = try reader["ConfigurationArn"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.gameSessionQueueArns = try reader["GameSessionQueueArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestTimeoutSeconds = try reader["RequestTimeoutSeconds"].readIfPresent()
+        value.acceptanceTimeoutSeconds = try reader["AcceptanceTimeoutSeconds"].readIfPresent()
+        value.acceptanceRequired = try reader["AcceptanceRequired"].readIfPresent()
+        value.ruleSetName = try reader["RuleSetName"].readIfPresent()
+        value.ruleSetArn = try reader["RuleSetArn"].readIfPresent()
+        value.notificationTarget = try reader["NotificationTarget"].readIfPresent()
+        value.additionalPlayerCount = try reader["AdditionalPlayerCount"].readIfPresent()
+        value.customEventData = try reader["CustomEventData"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.gameProperties = try reader["GameProperties"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.GameProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.gameSessionData = try reader["GameSessionData"].readIfPresent()
+        value.backfillMode = try reader["BackfillMode"].readIfPresent()
+        value.flexMatchMode = try reader["FlexMatchMode"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.MatchmakingRuleSet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.MatchmakingRuleSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.MatchmakingRuleSet()
+        value.ruleSetName = try reader["RuleSetName"].readIfPresent()
+        value.ruleSetArn = try reader["RuleSetArn"].readIfPresent()
+        value.ruleSetBody = try reader["RuleSetBody"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GameLiftClientTypes.MatchmakingTicket {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.MatchmakingTicket {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.MatchmakingTicket()
+        value.ticketId = try reader["TicketId"].readIfPresent()
+        value.configurationName = try reader["ConfigurationName"].readIfPresent()
+        value.configurationArn = try reader["ConfigurationArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.players = try reader["Players"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.Player.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.gameSessionConnectionInfo = try reader["GameSessionConnectionInfo"].readIfPresent(with: GameLiftClientTypes.GameSessionConnectionInfo.read(from:))
+        value.estimatedWaitTime = try reader["EstimatedWaitTime"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.PingBeacon {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PingBeacon {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.PingBeacon()
+        value.udpEndpoint = try reader["UDPEndpoint"].readIfPresent(with: GameLiftClientTypes.UDPEndpoint.read(from:))
+        return value
+    }
+}
+
+extension GameLiftClientTypes.PlacedPlayerSession {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlacedPlayerSession {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.PlacedPlayerSession()
+        value.playerId = try reader["PlayerId"].readIfPresent()
+        value.playerSessionId = try reader["PlayerSessionId"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.Player {
+
+    static func write(value: GameLiftClientTypes.Player?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LatencyInMs"].writeMap(value.latencyInMs, valueWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["PlayerAttributes"].writeMap(value.playerAttributes, valueWritingClosure: GameLiftClientTypes.AttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["PlayerId"].write(value.playerId)
+        try writer["Team"].write(value.team)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Player {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.Player()
+        value.playerId = try reader["PlayerId"].readIfPresent()
+        value.playerAttributes = try reader["PlayerAttributes"].readMapIfPresent(valueReadingClosure: GameLiftClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.team = try reader["Team"].readIfPresent()
+        value.latencyInMs = try reader["LatencyInMs"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GameLiftClientTypes.PlayerLatency {
+
+    static func write(value: GameLiftClientTypes.PlayerLatency?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LatencyInMilliseconds"].write(value.latencyInMilliseconds)
+        try writer["PlayerId"].write(value.playerId)
+        try writer["RegionIdentifier"].write(value.regionIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlayerLatency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.PlayerLatency()
+        value.playerId = try reader["PlayerId"].readIfPresent()
+        value.regionIdentifier = try reader["RegionIdentifier"].readIfPresent()
+        value.latencyInMilliseconds = try reader["LatencyInMilliseconds"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.PlayerLatencyPolicy {
+
+    static func write(value: GameLiftClientTypes.PlayerLatencyPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaximumIndividualPlayerLatencyMilliseconds"].write(value.maximumIndividualPlayerLatencyMilliseconds)
+        try writer["PolicyDurationSeconds"].write(value.policyDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlayerLatencyPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.PlayerLatencyPolicy()
+        value.maximumIndividualPlayerLatencyMilliseconds = try reader["MaximumIndividualPlayerLatencyMilliseconds"].readIfPresent()
+        value.policyDurationSeconds = try reader["PolicyDurationSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.PlayerSession {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PlayerSession {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.PlayerSession()
+        value.playerSessionId = try reader["PlayerSessionId"].readIfPresent()
+        value.playerId = try reader["PlayerId"].readIfPresent()
+        value.gameSessionId = try reader["GameSessionId"].readIfPresent()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.fleetArn = try reader["FleetArn"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.terminationTime = try reader["TerminationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.dnsName = try reader["DnsName"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.playerData = try reader["PlayerData"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.PriorityConfiguration {
+
+    static func write(value: GameLiftClientTypes.PriorityConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LocationOrder"].writeList(value.locationOrder, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PriorityOrder"].writeList(value.priorityOrder, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GameLiftClientTypes.PriorityType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PriorityConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.PriorityConfiguration()
+        value.priorityOrder = try reader["PriorityOrder"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GameLiftClientTypes.PriorityType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.locationOrder = try reader["LocationOrder"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GameLiftClientTypes.PriorityConfigurationOverride {
+
+    static func write(value: GameLiftClientTypes.PriorityConfigurationOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LocationOrder"].writeList(value.locationOrder, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PlacementFallbackStrategy"].write(value.placementFallbackStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.PriorityConfigurationOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.PriorityConfigurationOverride()
+        value.placementFallbackStrategy = try reader["PlacementFallbackStrategy"].readIfPresent()
+        value.locationOrder = try reader["LocationOrder"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ResourceCreationLimitPolicy {
+
+    static func write(value: GameLiftClientTypes.ResourceCreationLimitPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NewGameSessionsPerCreator"].write(value.newGameSessionsPerCreator)
+        try writer["PolicyPeriodInMinutes"].write(value.policyPeriodInMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ResourceCreationLimitPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ResourceCreationLimitPolicy()
+        value.newGameSessionsPerCreator = try reader["NewGameSessionsPerCreator"].readIfPresent()
+        value.policyPeriodInMinutes = try reader["PolicyPeriodInMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.RoutingStrategy {
+
+    static func write(value: GameLiftClientTypes.RoutingStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FleetId"].write(value.fleetId)
+        try writer["Message"].write(value.message)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.RoutingStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.RoutingStrategy()
+        value.type = try reader["Type"].readIfPresent()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.RuntimeConfiguration {
+
+    static func write(value: GameLiftClientTypes.RuntimeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GameSessionActivationTimeoutSeconds"].write(value.gameSessionActivationTimeoutSeconds)
+        try writer["MaxConcurrentGameSessionActivations"].write(value.maxConcurrentGameSessionActivations)
+        try writer["ServerProcesses"].writeList(value.serverProcesses, memberWritingClosure: GameLiftClientTypes.ServerProcess.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.RuntimeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.RuntimeConfiguration()
+        value.serverProcesses = try reader["ServerProcesses"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ServerProcess.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maxConcurrentGameSessionActivations = try reader["MaxConcurrentGameSessionActivations"].readIfPresent()
+        value.gameSessionActivationTimeoutSeconds = try reader["GameSessionActivationTimeoutSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.S3Location {
+
+    static func write(value: GameLiftClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["Key"].write(value.key)
+        try writer["ObjectVersion"].write(value.objectVersion)
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.S3Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.S3Location()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.objectVersion = try reader["ObjectVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ScalingPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ScalingPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ScalingPolicy()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.fleetArn = try reader["FleetArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.scalingAdjustment = try reader["ScalingAdjustment"].readIfPresent()
+        value.scalingAdjustmentType = try reader["ScalingAdjustmentType"].readIfPresent()
+        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
+        value.threshold = try reader["Threshold"].readIfPresent()
+        value.evaluationPeriods = try reader["EvaluationPeriods"].readIfPresent()
+        value.metricName = try reader["MetricName"].readIfPresent()
+        value.policyType = try reader["PolicyType"].readIfPresent()
+        value.targetConfiguration = try reader["TargetConfiguration"].readIfPresent(with: GameLiftClientTypes.TargetConfiguration.read(from:))
+        value.updateStatus = try reader["UpdateStatus"].readIfPresent()
+        value.location = try reader["Location"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.Script {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Script {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.Script()
+        value.scriptId = try reader["ScriptId"].readIfPresent()
+        value.scriptArn = try reader["ScriptArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent()
+        value.sizeOnDisk = try reader["SizeOnDisk"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.storageLocation = try reader["StorageLocation"].readIfPresent(with: GameLiftClientTypes.S3Location.read(from:))
+        value.nodeJsVersion = try reader["NodeJsVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ServerProcess {
+
+    static func write(value: GameLiftClientTypes.ServerProcess?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConcurrentExecutions"].write(value.concurrentExecutions)
+        try writer["LaunchPath"].write(value.launchPath)
+        try writer["Parameters"].write(value.parameters)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ServerProcess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ServerProcess()
+        value.launchPath = try reader["LaunchPath"].readIfPresent() ?? ""
+        value.parameters = try reader["Parameters"].readIfPresent()
+        value.concurrentExecutions = try reader["ConcurrentExecutions"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GameLiftClientTypes.SupportContainerDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.SupportContainerDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.SupportContainerDefinition()
+        value.containerName = try reader["ContainerName"].readIfPresent()
+        value.dependsOn = try reader["DependsOn"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mountPoints = try reader["MountPoints"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerMountPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.environmentOverride = try reader["EnvironmentOverride"].readListIfPresent(memberReadingClosure: GameLiftClientTypes.ContainerEnvironment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.essential = try reader["Essential"].readIfPresent()
+        value.healthCheck = try reader["HealthCheck"].readIfPresent(with: GameLiftClientTypes.ContainerHealthCheck.read(from:))
+        value.imageUri = try reader["ImageUri"].readIfPresent()
+        value.memoryHardLimitMebibytes = try reader["MemoryHardLimitMebibytes"].readIfPresent()
+        value.portConfiguration = try reader["PortConfiguration"].readIfPresent(with: GameLiftClientTypes.ContainerPortConfiguration.read(from:))
+        value.resolvedImageDigest = try reader["ResolvedImageDigest"].readIfPresent()
+        value.vcpu = try reader["Vcpu"].readIfPresent()
+        return value
     }
 }
 
@@ -19184,22 +19222,35 @@ extension GameLiftClientTypes.SupportContainerDefinitionInput {
     }
 }
 
-extension GameLiftClientTypes.LaunchTemplateSpecification {
+extension GameLiftClientTypes.Tag {
 
-    static func write(value: GameLiftClientTypes.LaunchTemplateSpecification?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["LaunchTemplateId"].write(value.launchTemplateId)
-        try writer["LaunchTemplateName"].write(value.launchTemplateName)
-        try writer["Version"].write(value.version)
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension GameLiftClientTypes.GameServerGroupAutoScalingPolicy {
+extension GameLiftClientTypes.TargetConfiguration {
 
-    static func write(value: GameLiftClientTypes.GameServerGroupAutoScalingPolicy?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GameLiftClientTypes.TargetConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EstimatedInstanceWarmup"].write(value.estimatedInstanceWarmup)
-        try writer["TargetTrackingConfiguration"].write(value.targetTrackingConfiguration, with: GameLiftClientTypes.TargetTrackingConfiguration.write(value:to:))
+        try writer["TargetValue"].write(value.targetValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.TargetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.TargetConfiguration()
+        value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
+        return value
     }
 }
 
@@ -19211,12 +19262,55 @@ extension GameLiftClientTypes.TargetTrackingConfiguration {
     }
 }
 
-extension GameLiftClientTypes.DesiredPlayerSession {
+extension GameLiftClientTypes.UDPEndpoint {
 
-    static func write(value: GameLiftClientTypes.DesiredPlayerSession?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PlayerData"].write(value.playerData)
-        try writer["PlayerId"].write(value.playerId)
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.UDPEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.UDPEndpoint()
+        value.domain = try reader["Domain"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.VpcPeeringAuthorization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.VpcPeeringAuthorization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.VpcPeeringAuthorization()
+        value.gameLiftAwsAccountId = try reader["GameLiftAwsAccountId"].readIfPresent()
+        value.peerVpcAwsAccountId = try reader["PeerVpcAwsAccountId"].readIfPresent()
+        value.peerVpcId = try reader["PeerVpcId"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expirationTime = try reader["ExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GameLiftClientTypes.VpcPeeringConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.VpcPeeringConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.VpcPeeringConnection()
+        value.fleetId = try reader["FleetId"].readIfPresent()
+        value.fleetArn = try reader["FleetArn"].readIfPresent()
+        value.ipV4CidrBlock = try reader["IpV4CidrBlock"].readIfPresent()
+        value.vpcPeeringConnectionId = try reader["VpcPeeringConnectionId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent(with: GameLiftClientTypes.VpcPeeringConnectionStatus.read(from:))
+        value.peerVpcId = try reader["PeerVpcId"].readIfPresent()
+        value.gameLiftVpcId = try reader["GameLiftVpcId"].readIfPresent()
+        return value
+    }
+}
+
+extension GameLiftClientTypes.VpcPeeringConnectionStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.VpcPeeringConnectionStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.VpcPeeringConnectionStatus()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
     }
 }
 

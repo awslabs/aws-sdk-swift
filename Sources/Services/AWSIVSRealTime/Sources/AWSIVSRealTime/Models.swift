@@ -734,7 +734,7 @@ extension IVSRealTimeClientTypes {
 
     /// Object specifying a participant token in a stage. Important: Treat tokens as opaque; i.e., do not build functionality based on token contents. The format of tokens could change in the future.
     public struct ParticipantToken: Swift.Sendable {
-        /// Application-provided attributes to encode into the token and attach to a stage. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        /// Application-provided attributes to encode into the token and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public var attributes: [Swift.String: Swift.String]?
         /// Set of capabilities that the user is allowed to perform in the stage.
         public var capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]?
@@ -2753,6 +2753,7 @@ extension IVSRealTimeClientTypes {
         case subscribeError
         case subscribeStarted
         case subscribeStopped
+        case tokenExchanged
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EventName] {
@@ -2767,7 +2768,8 @@ extension IVSRealTimeClientTypes {
                 .replicationStopped,
                 .subscribeError,
                 .subscribeStarted,
-                .subscribeStopped
+                .subscribeStopped,
+                .tokenExchanged
             ]
         }
 
@@ -2789,8 +2791,36 @@ extension IVSRealTimeClientTypes {
             case .subscribeError: return "SUBSCRIBE_ERROR"
             case .subscribeStarted: return "SUBSCRIBE_STARTED"
             case .subscribeStopped: return "SUBSCRIBE_STOPPED"
+            case .tokenExchanged: return "TOKEN_EXCHANGED"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
+    /// Object specifying an exchanged participant token in a stage, created when an original participant token is updated. Important: Treat tokens as opaque; i.e., do not build functionality based on token contents. The format of tokens could change in the future.
+    public struct ExchangedParticipantToken: Swift.Sendable {
+        /// Application-provided attributes to encode into the token and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        public var attributes: [Swift.String: Swift.String]?
+        /// Set of capabilities that the user is allowed to perform in the stage.
+        public var capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]?
+        /// ISO 8601 timestamp (returned as a string) for when this token expires.
+        public var expirationTime: Foundation.Date?
+        /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        public var userId: Swift.String?
+
+        public init(
+            attributes: [Swift.String: Swift.String]? = nil,
+            capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]? = nil,
+            expirationTime: Foundation.Date? = nil,
+            userId: Swift.String? = nil
+        ) {
+            self.attributes = attributes
+            self.capabilities = capabilities
+            self.expirationTime = expirationTime
+            self.userId = userId
         }
     }
 }
@@ -2837,8 +2867,12 @@ extension IVSRealTimeClientTypes {
         public var eventTime: Foundation.Date?
         /// The name of the event.
         public var name: IVSRealTimeClientTypes.EventName?
+        /// Participant token created during TOKEN_EXCHANGED event.
+        public var newToken: IVSRealTimeClientTypes.ExchangedParticipantToken?
         /// Unique identifier for the participant who triggered the event. This is assigned by IVS.
         public var participantId: Swift.String?
+        /// Source participant token for TOKEN_EXCHANGED event.
+        public var previousToken: IVSRealTimeClientTypes.ExchangedParticipantToken?
         /// Unique identifier for the remote participant. For a subscribe event, this is the publisher. For a publish or join event, this is null. This is assigned by IVS.
         public var remoteParticipantId: Swift.String?
         /// If true, this indicates the participantId is a replicated participant. If this is a subscribe event, then this flag refers to remoteParticipantId. Default: false.
@@ -2850,7 +2884,9 @@ extension IVSRealTimeClientTypes {
             errorCode: IVSRealTimeClientTypes.EventErrorCode? = nil,
             eventTime: Foundation.Date? = nil,
             name: IVSRealTimeClientTypes.EventName? = nil,
+            newToken: IVSRealTimeClientTypes.ExchangedParticipantToken? = nil,
             participantId: Swift.String? = nil,
+            previousToken: IVSRealTimeClientTypes.ExchangedParticipantToken? = nil,
             remoteParticipantId: Swift.String? = nil,
             replica: Swift.Bool = false
         ) {
@@ -2859,7 +2895,9 @@ extension IVSRealTimeClientTypes {
             self.errorCode = errorCode
             self.eventTime = eventTime
             self.name = name
+            self.newToken = newToken
             self.participantId = participantId
+            self.previousToken = previousToken
             self.remoteParticipantId = remoteParticipantId
             self.replica = replica
         }
@@ -5715,103 +5753,6 @@ extension ValidationException {
     }
 }
 
-extension IVSRealTimeClientTypes.EncoderConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.EncoderConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.EncoderConfiguration()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent()
-        value.video = try reader["video"].readIfPresent(with: IVSRealTimeClientTypes.Video.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension IVSRealTimeClientTypes.Video {
-
-    static func write(value: IVSRealTimeClientTypes.Video?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bitrate"].write(value.bitrate)
-        try writer["framerate"].write(value.framerate)
-        try writer["height"].write(value.height)
-        try writer["width"].write(value.width)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.Video {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.Video()
-        value.width = try reader["width"].readIfPresent()
-        value.height = try reader["height"].readIfPresent()
-        value.framerate = try reader["framerate"].readIfPresent()
-        value.bitrate = try reader["bitrate"].readIfPresent()
-        return value
-    }
-}
-
-extension IVSRealTimeClientTypes.IngestConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.IngestConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.IngestConfiguration()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.ingestProtocol = try reader["ingestProtocol"].readIfPresent() ?? .sdkUnknown("")
-        value.streamKey = try reader["streamKey"].readIfPresent() ?? ""
-        value.stageArn = try reader["stageArn"].readIfPresent() ?? ""
-        value.participantId = try reader["participantId"].readIfPresent() ?? ""
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.userId = try reader["userId"].readIfPresent()
-        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension IVSRealTimeClientTypes.ParticipantToken {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ParticipantToken {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.ParticipantToken()
-        value.participantId = try reader["participantId"].readIfPresent()
-        value.token = try reader["token"].readIfPresent()
-        value.userId = try reader["userId"].readIfPresent()
-        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.duration = try reader["duration"].readIfPresent()
-        value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ParticipantTokenCapability>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.expirationTime = try reader["expirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension IVSRealTimeClientTypes.Stage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.Stage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.Stage()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent()
-        value.activeSessionId = try reader["activeSessionId"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.autoParticipantRecordingConfiguration = try reader["autoParticipantRecordingConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration.read(from:))
-        value.endpoints = try reader["endpoints"].readIfPresent(with: IVSRealTimeClientTypes.StageEndpoints.read(from:))
-        return value
-    }
-}
-
-extension IVSRealTimeClientTypes.StageEndpoints {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.StageEndpoints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.StageEndpoints()
-        value.events = try reader["events"].readIfPresent()
-        value.whip = try reader["whip"].readIfPresent()
-        value.rtmp = try reader["rtmp"].readIfPresent()
-        value.rtmps = try reader["rtmps"].readIfPresent()
-        return value
-    }
-}
-
 extension IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
 
     static func write(value: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -5837,64 +5778,19 @@ extension IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
     }
 }
 
-extension IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration {
+extension IVSRealTimeClientTypes.ChannelDestinationConfiguration {
 
-    static func write(value: IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IVSRealTimeClientTypes.ChannelDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["targetSegmentDurationSeconds"].write(value.targetSegmentDurationSeconds)
+        try writer["channelArn"].write(value.channelArn)
+        try writer["encoderConfigurationArn"].write(value.encoderConfigurationArn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ChannelDestinationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration()
-        value.targetSegmentDurationSeconds = try reader["targetSegmentDurationSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension IVSRealTimeClientTypes.ParticipantThumbnailConfiguration {
-
-    static func write(value: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["recordingMode"].write(value.recordingMode)
-        try writer["storage"].writeList(value.storage, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ThumbnailStorageType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["targetIntervalSeconds"].write(value.targetIntervalSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ParticipantThumbnailConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.ParticipantThumbnailConfiguration()
-        value.targetIntervalSeconds = try reader["targetIntervalSeconds"].readIfPresent()
-        value.storage = try reader["storage"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ThumbnailStorageType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.recordingMode = try reader["recordingMode"].readIfPresent()
-        return value
-    }
-}
-
-extension IVSRealTimeClientTypes.StorageConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.StorageConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.StorageConfiguration()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent()
-        value.s3 = try reader["s3"].readIfPresent(with: IVSRealTimeClientTypes.S3StorageConfiguration.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension IVSRealTimeClientTypes.S3StorageConfiguration {
-
-    static func write(value: IVSRealTimeClientTypes.S3StorageConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketName"].write(value.bucketName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.S3StorageConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.S3StorageConfiguration()
-        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        var value = IVSRealTimeClientTypes.ChannelDestinationConfiguration()
+        value.channelArn = try reader["channelArn"].readIfPresent() ?? ""
+        value.encoderConfigurationArn = try reader["encoderConfigurationArn"].readIfPresent()
         return value
     }
 }
@@ -5916,6 +5812,54 @@ extension IVSRealTimeClientTypes.Composition {
     }
 }
 
+extension IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetSegmentDurationSeconds"].write(value.targetSegmentDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration()
+        value.targetSegmentDurationSeconds = try reader["targetSegmentDurationSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.CompositionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.CompositionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.CompositionSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.stageArn = try reader["stageArn"].readIfPresent() ?? ""
+        value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: IVSRealTimeClientTypes.DestinationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.CompositionThumbnailConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.CompositionThumbnailConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["storage"].writeList(value.storage, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ThumbnailStorageType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetIntervalSeconds"].write(value.targetIntervalSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.CompositionThumbnailConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.CompositionThumbnailConfiguration()
+        value.targetIntervalSeconds = try reader["targetIntervalSeconds"].readIfPresent()
+        value.storage = try reader["storage"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ThumbnailStorageType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension IVSRealTimeClientTypes.Destination {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.Destination {
@@ -5927,26 +5871,6 @@ extension IVSRealTimeClientTypes.Destination {
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.configuration = try reader["configuration"].readIfPresent(with: IVSRealTimeClientTypes.DestinationConfiguration.read(from:))
         value.detail = try reader["detail"].readIfPresent(with: IVSRealTimeClientTypes.DestinationDetail.read(from:))
-        return value
-    }
-}
-
-extension IVSRealTimeClientTypes.DestinationDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.DestinationDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.DestinationDetail()
-        value.s3 = try reader["s3"].readIfPresent(with: IVSRealTimeClientTypes.S3Detail.read(from:))
-        return value
-    }
-}
-
-extension IVSRealTimeClientTypes.S3Detail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.S3Detail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.S3Detail()
-        value.recordingPrefix = try reader["recordingPrefix"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5970,141 +5894,82 @@ extension IVSRealTimeClientTypes.DestinationConfiguration {
     }
 }
 
-extension IVSRealTimeClientTypes.S3DestinationConfiguration {
+extension IVSRealTimeClientTypes.DestinationDetail {
 
-    static func write(value: IVSRealTimeClientTypes.S3DestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["encoderConfigurationArns"].writeList(value.encoderConfigurationArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["recordingConfiguration"].write(value.recordingConfiguration, with: IVSRealTimeClientTypes.RecordingConfiguration.write(value:to:))
-        try writer["storageConfigurationArn"].write(value.storageConfigurationArn)
-        try writer["thumbnailConfigurations"].writeList(value.thumbnailConfigurations, memberWritingClosure: IVSRealTimeClientTypes.CompositionThumbnailConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.S3DestinationConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.DestinationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.S3DestinationConfiguration()
-        value.storageConfigurationArn = try reader["storageConfigurationArn"].readIfPresent() ?? ""
-        value.encoderConfigurationArns = try reader["encoderConfigurationArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.recordingConfiguration = try reader["recordingConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.RecordingConfiguration.read(from:))
-        value.thumbnailConfigurations = try reader["thumbnailConfigurations"].readListIfPresent(memberReadingClosure: IVSRealTimeClientTypes.CompositionThumbnailConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = IVSRealTimeClientTypes.DestinationDetail()
+        value.s3 = try reader["s3"].readIfPresent(with: IVSRealTimeClientTypes.S3Detail.read(from:))
         return value
     }
 }
 
-extension IVSRealTimeClientTypes.CompositionThumbnailConfiguration {
+extension IVSRealTimeClientTypes.DestinationSummary {
 
-    static func write(value: IVSRealTimeClientTypes.CompositionThumbnailConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["storage"].writeList(value.storage, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ThumbnailStorageType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["targetIntervalSeconds"].write(value.targetIntervalSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.CompositionThumbnailConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.DestinationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.CompositionThumbnailConfiguration()
-        value.targetIntervalSeconds = try reader["targetIntervalSeconds"].readIfPresent()
-        value.storage = try reader["storage"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ThumbnailStorageType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = IVSRealTimeClientTypes.DestinationSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
 
-extension IVSRealTimeClientTypes.RecordingConfiguration {
+extension IVSRealTimeClientTypes.EncoderConfiguration {
 
-    static func write(value: IVSRealTimeClientTypes.RecordingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["format"].write(value.format)
-        try writer["hlsConfiguration"].write(value.hlsConfiguration, with: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.RecordingConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.EncoderConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.RecordingConfiguration()
-        value.hlsConfiguration = try reader["hlsConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration.read(from:))
-        value.format = try reader["format"].readIfPresent()
+        var value = IVSRealTimeClientTypes.EncoderConfiguration()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.video = try reader["video"].readIfPresent(with: IVSRealTimeClientTypes.Video.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration {
+extension IVSRealTimeClientTypes.EncoderConfigurationSummary {
 
-    static func write(value: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["targetSegmentDurationSeconds"].write(value.targetSegmentDurationSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.EncoderConfigurationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration()
-        value.targetSegmentDurationSeconds = try reader["targetSegmentDurationSeconds"].readIfPresent()
+        var value = IVSRealTimeClientTypes.EncoderConfigurationSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension IVSRealTimeClientTypes.ChannelDestinationConfiguration {
+extension IVSRealTimeClientTypes.Event {
 
-    static func write(value: IVSRealTimeClientTypes.ChannelDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channelArn"].write(value.channelArn)
-        try writer["encoderConfigurationArn"].write(value.encoderConfigurationArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ChannelDestinationConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.Event {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.ChannelDestinationConfiguration()
-        value.channelArn = try reader["channelArn"].readIfPresent() ?? ""
-        value.encoderConfigurationArn = try reader["encoderConfigurationArn"].readIfPresent()
+        var value = IVSRealTimeClientTypes.Event()
+        value.name = try reader["name"].readIfPresent()
+        value.participantId = try reader["participantId"].readIfPresent()
+        value.eventTime = try reader["eventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.remoteParticipantId = try reader["remoteParticipantId"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.destinationStageArn = try reader["destinationStageArn"].readIfPresent()
+        value.destinationSessionId = try reader["destinationSessionId"].readIfPresent()
+        value.replica = try reader["replica"].readIfPresent() ?? false
+        value.previousToken = try reader["previousToken"].readIfPresent(with: IVSRealTimeClientTypes.ExchangedParticipantToken.read(from:))
+        value.newToken = try reader["newToken"].readIfPresent(with: IVSRealTimeClientTypes.ExchangedParticipantToken.read(from:))
         return value
     }
 }
 
-extension IVSRealTimeClientTypes.LayoutConfiguration {
+extension IVSRealTimeClientTypes.ExchangedParticipantToken {
 
-    static func write(value: IVSRealTimeClientTypes.LayoutConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["grid"].write(value.grid, with: IVSRealTimeClientTypes.GridConfiguration.write(value:to:))
-        try writer["pip"].write(value.pip, with: IVSRealTimeClientTypes.PipConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.LayoutConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ExchangedParticipantToken {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.LayoutConfiguration()
-        value.grid = try reader["grid"].readIfPresent(with: IVSRealTimeClientTypes.GridConfiguration.read(from:))
-        value.pip = try reader["pip"].readIfPresent(with: IVSRealTimeClientTypes.PipConfiguration.read(from:))
-        return value
-    }
-}
-
-extension IVSRealTimeClientTypes.PipConfiguration {
-
-    static func write(value: IVSRealTimeClientTypes.PipConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["featuredParticipantAttribute"].write(value.featuredParticipantAttribute)
-        try writer["gridGap"].write(value.gridGap)
-        try writer["omitStoppedVideo"].write(value.omitStoppedVideo)
-        try writer["participantOrderAttribute"].write(value.participantOrderAttribute)
-        try writer["pipBehavior"].write(value.pipBehavior)
-        try writer["pipHeight"].write(value.pipHeight)
-        try writer["pipOffset"].write(value.pipOffset)
-        try writer["pipParticipantAttribute"].write(value.pipParticipantAttribute)
-        try writer["pipPosition"].write(value.pipPosition)
-        try writer["pipWidth"].write(value.pipWidth)
-        try writer["videoFillMode"].write(value.videoFillMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.PipConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.PipConfiguration()
-        value.featuredParticipantAttribute = try reader["featuredParticipantAttribute"].readIfPresent()
-        value.omitStoppedVideo = try reader["omitStoppedVideo"].readIfPresent() ?? false
-        value.videoFillMode = try reader["videoFillMode"].readIfPresent()
-        value.gridGap = try reader["gridGap"].readIfPresent() ?? 0
-        value.pipParticipantAttribute = try reader["pipParticipantAttribute"].readIfPresent()
-        value.pipBehavior = try reader["pipBehavior"].readIfPresent()
-        value.pipOffset = try reader["pipOffset"].readIfPresent() ?? 0
-        value.pipPosition = try reader["pipPosition"].readIfPresent()
-        value.pipWidth = try reader["pipWidth"].readIfPresent()
-        value.pipHeight = try reader["pipHeight"].readIfPresent()
-        value.participantOrderAttribute = try reader["participantOrderAttribute"].readIfPresent()
+        var value = IVSRealTimeClientTypes.ExchangedParticipantToken()
+        value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ParticipantTokenCapability>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.userId = try reader["userId"].readIfPresent()
+        value.expirationTime = try reader["expirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -6130,6 +5995,58 @@ extension IVSRealTimeClientTypes.GridConfiguration {
         value.videoFillMode = try reader["videoFillMode"].readIfPresent()
         value.gridGap = try reader["gridGap"].readIfPresent() ?? 0
         value.participantOrderAttribute = try reader["participantOrderAttribute"].readIfPresent()
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.IngestConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.IngestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.IngestConfiguration()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.ingestProtocol = try reader["ingestProtocol"].readIfPresent() ?? .sdkUnknown("")
+        value.streamKey = try reader["streamKey"].readIfPresent() ?? ""
+        value.stageArn = try reader["stageArn"].readIfPresent() ?? ""
+        value.participantId = try reader["participantId"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.userId = try reader["userId"].readIfPresent()
+        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.IngestConfigurationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.IngestConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.IngestConfigurationSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.ingestProtocol = try reader["ingestProtocol"].readIfPresent() ?? .sdkUnknown("")
+        value.stageArn = try reader["stageArn"].readIfPresent() ?? ""
+        value.participantId = try reader["participantId"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.userId = try reader["userId"].readIfPresent()
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.LayoutConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.LayoutConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["grid"].write(value.grid, with: IVSRealTimeClientTypes.GridConfiguration.write(value:to:))
+        try writer["pip"].write(value.pip, with: IVSRealTimeClientTypes.PipConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.LayoutConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.LayoutConfiguration()
+        value.grid = try reader["grid"].readIfPresent(with: IVSRealTimeClientTypes.GridConfiguration.read(from:))
+        value.pip = try reader["pip"].readIfPresent(with: IVSRealTimeClientTypes.PipConfiguration.read(from:))
         return value
     }
 }
@@ -6163,102 +6080,17 @@ extension IVSRealTimeClientTypes.Participant {
     }
 }
 
-extension IVSRealTimeClientTypes.PublicKey {
+extension IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.PublicKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.PublicKey()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.publicKeyMaterial = try reader["publicKeyMaterial"].readIfPresent()
-        value.fingerprint = try reader["fingerprint"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
+    static func write(value: IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetSegmentDurationSeconds"].write(value.targetSegmentDurationSeconds)
     }
-}
 
-extension IVSRealTimeClientTypes.StageSession {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.StageSession {
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.StageSession()
-        value.sessionId = try reader["sessionId"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension IVSRealTimeClientTypes.CompositionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.CompositionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.CompositionSummary()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.stageArn = try reader["stageArn"].readIfPresent() ?? ""
-        value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: IVSRealTimeClientTypes.DestinationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension IVSRealTimeClientTypes.DestinationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.DestinationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.DestinationSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension IVSRealTimeClientTypes.EncoderConfigurationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.EncoderConfigurationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.EncoderConfigurationSummary()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension IVSRealTimeClientTypes.IngestConfigurationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.IngestConfigurationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.IngestConfigurationSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.ingestProtocol = try reader["ingestProtocol"].readIfPresent() ?? .sdkUnknown("")
-        value.stageArn = try reader["stageArn"].readIfPresent() ?? ""
-        value.participantId = try reader["participantId"].readIfPresent() ?? ""
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        value.userId = try reader["userId"].readIfPresent()
-        return value
-    }
-}
-
-extension IVSRealTimeClientTypes.Event {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.Event {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.Event()
-        value.name = try reader["name"].readIfPresent()
-        value.participantId = try reader["participantId"].readIfPresent()
-        value.eventTime = try reader["eventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.remoteParticipantId = try reader["remoteParticipantId"].readIfPresent()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.destinationStageArn = try reader["destinationStageArn"].readIfPresent()
-        value.destinationSessionId = try reader["destinationSessionId"].readIfPresent()
-        value.replica = try reader["replica"].readIfPresent() ?? false
+        var value = IVSRealTimeClientTypes.ParticipantRecordingHlsConfiguration()
+        value.targetSegmentDurationSeconds = try reader["targetSegmentDurationSeconds"].readIfPresent()
         return value
     }
 }
@@ -6297,6 +6129,101 @@ extension IVSRealTimeClientTypes.ParticipantSummary {
     }
 }
 
+extension IVSRealTimeClientTypes.ParticipantThumbnailConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.ParticipantThumbnailConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recordingMode"].write(value.recordingMode)
+        try writer["storage"].writeList(value.storage, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ThumbnailStorageType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetIntervalSeconds"].write(value.targetIntervalSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ParticipantThumbnailConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.ParticipantThumbnailConfiguration()
+        value.targetIntervalSeconds = try reader["targetIntervalSeconds"].readIfPresent()
+        value.storage = try reader["storage"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ThumbnailStorageType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recordingMode = try reader["recordingMode"].readIfPresent()
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.ParticipantToken {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ParticipantToken {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.ParticipantToken()
+        value.participantId = try reader["participantId"].readIfPresent()
+        value.token = try reader["token"].readIfPresent()
+        value.userId = try reader["userId"].readIfPresent()
+        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.duration = try reader["duration"].readIfPresent()
+        value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ParticipantTokenCapability>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.expirationTime = try reader["expirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.ParticipantTokenConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.ParticipantTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["capabilities"].writeList(value.capabilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ParticipantTokenCapability>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["duration"].write(value.duration)
+        try writer["userId"].write(value.userId)
+    }
+}
+
+extension IVSRealTimeClientTypes.PipConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.PipConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["featuredParticipantAttribute"].write(value.featuredParticipantAttribute)
+        try writer["gridGap"].write(value.gridGap)
+        try writer["omitStoppedVideo"].write(value.omitStoppedVideo)
+        try writer["participantOrderAttribute"].write(value.participantOrderAttribute)
+        try writer["pipBehavior"].write(value.pipBehavior)
+        try writer["pipHeight"].write(value.pipHeight)
+        try writer["pipOffset"].write(value.pipOffset)
+        try writer["pipParticipantAttribute"].write(value.pipParticipantAttribute)
+        try writer["pipPosition"].write(value.pipPosition)
+        try writer["pipWidth"].write(value.pipWidth)
+        try writer["videoFillMode"].write(value.videoFillMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.PipConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.PipConfiguration()
+        value.featuredParticipantAttribute = try reader["featuredParticipantAttribute"].readIfPresent()
+        value.omitStoppedVideo = try reader["omitStoppedVideo"].readIfPresent() ?? false
+        value.videoFillMode = try reader["videoFillMode"].readIfPresent()
+        value.gridGap = try reader["gridGap"].readIfPresent() ?? 0
+        value.pipParticipantAttribute = try reader["pipParticipantAttribute"].readIfPresent()
+        value.pipBehavior = try reader["pipBehavior"].readIfPresent()
+        value.pipOffset = try reader["pipOffset"].readIfPresent() ?? 0
+        value.pipPosition = try reader["pipPosition"].readIfPresent()
+        value.pipWidth = try reader["pipWidth"].readIfPresent()
+        value.pipHeight = try reader["pipHeight"].readIfPresent()
+        value.participantOrderAttribute = try reader["participantOrderAttribute"].readIfPresent()
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.PublicKey {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.PublicKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.PublicKey()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.publicKeyMaterial = try reader["publicKeyMaterial"].readIfPresent()
+        value.fingerprint = try reader["fingerprint"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension IVSRealTimeClientTypes.PublicKeySummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.PublicKeySummary {
@@ -6305,6 +6232,121 @@ extension IVSRealTimeClientTypes.PublicKeySummary {
         value.arn = try reader["arn"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.RecordingConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.RecordingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["format"].write(value.format)
+        try writer["hlsConfiguration"].write(value.hlsConfiguration, with: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.RecordingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.RecordingConfiguration()
+        value.hlsConfiguration = try reader["hlsConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.CompositionRecordingHlsConfiguration.read(from:))
+        value.format = try reader["format"].readIfPresent()
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.S3DestinationConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.S3DestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encoderConfigurationArns"].writeList(value.encoderConfigurationArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["recordingConfiguration"].write(value.recordingConfiguration, with: IVSRealTimeClientTypes.RecordingConfiguration.write(value:to:))
+        try writer["storageConfigurationArn"].write(value.storageConfigurationArn)
+        try writer["thumbnailConfigurations"].writeList(value.thumbnailConfigurations, memberWritingClosure: IVSRealTimeClientTypes.CompositionThumbnailConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.S3DestinationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.S3DestinationConfiguration()
+        value.storageConfigurationArn = try reader["storageConfigurationArn"].readIfPresent() ?? ""
+        value.encoderConfigurationArns = try reader["encoderConfigurationArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.recordingConfiguration = try reader["recordingConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.RecordingConfiguration.read(from:))
+        value.thumbnailConfigurations = try reader["thumbnailConfigurations"].readListIfPresent(memberReadingClosure: IVSRealTimeClientTypes.CompositionThumbnailConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.S3Detail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.S3Detail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.S3Detail()
+        value.recordingPrefix = try reader["recordingPrefix"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.S3StorageConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.S3StorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketName"].write(value.bucketName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.S3StorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.S3StorageConfiguration()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.Stage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.Stage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.Stage()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.activeSessionId = try reader["activeSessionId"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.autoParticipantRecordingConfiguration = try reader["autoParticipantRecordingConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration.read(from:))
+        value.endpoints = try reader["endpoints"].readIfPresent(with: IVSRealTimeClientTypes.StageEndpoints.read(from:))
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.StageEndpoints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.StageEndpoints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.StageEndpoints()
+        value.events = try reader["events"].readIfPresent()
+        value.whip = try reader["whip"].readIfPresent()
+        value.rtmp = try reader["rtmp"].readIfPresent()
+        value.rtmps = try reader["rtmps"].readIfPresent()
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.StageSession {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.StageSession {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.StageSession()
+        value.sessionId = try reader["sessionId"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.StageSessionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.StageSessionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.StageSessionSummary()
+        value.sessionId = try reader["sessionId"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -6322,14 +6364,15 @@ extension IVSRealTimeClientTypes.StageSummary {
     }
 }
 
-extension IVSRealTimeClientTypes.StageSessionSummary {
+extension IVSRealTimeClientTypes.StorageConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.StageSessionSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.StorageConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IVSRealTimeClientTypes.StageSessionSummary()
-        value.sessionId = try reader["sessionId"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        var value = IVSRealTimeClientTypes.StorageConfiguration()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.s3 = try reader["s3"].readIfPresent(with: IVSRealTimeClientTypes.S3StorageConfiguration.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -6347,14 +6390,24 @@ extension IVSRealTimeClientTypes.StorageConfigurationSummary {
     }
 }
 
-extension IVSRealTimeClientTypes.ParticipantTokenConfiguration {
+extension IVSRealTimeClientTypes.Video {
 
-    static func write(value: IVSRealTimeClientTypes.ParticipantTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IVSRealTimeClientTypes.Video?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["capabilities"].writeList(value.capabilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ParticipantTokenCapability>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["duration"].write(value.duration)
-        try writer["userId"].write(value.userId)
+        try writer["bitrate"].write(value.bitrate)
+        try writer["framerate"].write(value.framerate)
+        try writer["height"].write(value.height)
+        try writer["width"].write(value.width)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.Video {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.Video()
+        value.width = try reader["width"].readIfPresent()
+        value.height = try reader["height"].readIfPresent()
+        value.framerate = try reader["framerate"].readIfPresent()
+        value.bitrate = try reader["bitrate"].readIfPresent()
+        return value
     }
 }
 

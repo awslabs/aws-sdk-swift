@@ -2620,32 +2620,12 @@ extension ValidationException {
     }
 }
 
-extension NovaActClientTypes.WorkflowExportConfig {
+extension NovaActClientTypes.ActError {
 
-    static func write(value: NovaActClientTypes.WorkflowExportConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: NovaActClientTypes.ActError?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["s3BucketName"].write(value.s3BucketName)
-        try writer["s3KeyPrefix"].write(value.s3KeyPrefix)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.WorkflowExportConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.WorkflowExportConfig()
-        value.s3BucketName = try reader["s3BucketName"].readIfPresent() ?? ""
-        value.s3KeyPrefix = try reader["s3KeyPrefix"].readIfPresent()
-        return value
-    }
-}
-
-extension NovaActClientTypes.Call {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.Call {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.Call()
-        value.callId = try reader["callId"].readIfPresent() ?? ""
-        value.input = try reader["input"].readIfPresent() ?? [:]
-        value.name = try reader["name"].readIfPresent() ?? ""
-        return value
+        try writer["message"].write(value.message)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -2665,141 +2645,15 @@ extension NovaActClientTypes.ActSummary {
     }
 }
 
-extension NovaActClientTypes.TraceLocation {
+extension NovaActClientTypes.Call {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.TraceLocation {
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.Call {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.TraceLocation()
-        value.locationType = try reader["locationType"].readIfPresent() ?? .sdkUnknown("")
-        value.location = try reader["location"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NovaActClientTypes.ModelSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.ModelSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.ModelSummary()
-        value.modelId = try reader["modelId"].readIfPresent() ?? ""
-        value.modelLifecycle = try reader["modelLifecycle"].readIfPresent(with: NovaActClientTypes.ModelLifecycle.read(from:))
-        value.minimumCompatibilityVersion = try reader["minimumCompatibilityVersion"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension NovaActClientTypes.ModelLifecycle {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.ModelLifecycle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.ModelLifecycle()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension NovaActClientTypes.ModelAlias {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.ModelAlias {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.ModelAlias()
-        value.aliasName = try reader["aliasName"].readIfPresent() ?? ""
-        value.latestModelId = try reader["latestModelId"].readIfPresent() ?? ""
-        value.resolvedModelId = try reader["resolvedModelId"].readIfPresent()
-        return value
-    }
-}
-
-extension NovaActClientTypes.CompatibilityInformation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.CompatibilityInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.CompatibilityInformation()
-        value.clientCompatibilityVersion = try reader["clientCompatibilityVersion"].readIfPresent() ?? 0
-        value.supportedModelIds = try reader["supportedModelIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension NovaActClientTypes.SessionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.SessionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.SessionSummary()
-        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NovaActClientTypes.WorkflowDefinitionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.WorkflowDefinitionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.WorkflowDefinitionSummary()
-        value.workflowDefinitionArn = try reader["workflowDefinitionArn"].readIfPresent() ?? ""
-        value.workflowDefinitionName = try reader["workflowDefinitionName"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension NovaActClientTypes.WorkflowRunSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.WorkflowRunSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.WorkflowRunSummary()
-        value.workflowRunArn = try reader["workflowRunArn"].readIfPresent() ?? ""
-        value.workflowRunId = try reader["workflowRunId"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.traceLocation = try reader["traceLocation"].readIfPresent(with: NovaActClientTypes.TraceLocation.read(from:))
-        return value
-    }
-}
-
-extension NovaActClientTypes.ValidationExceptionField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NovaActClientTypes.ValidationExceptionField()
+        var value = NovaActClientTypes.Call()
+        value.callId = try reader["callId"].readIfPresent() ?? ""
+        value.input = try reader["input"].readIfPresent() ?? [:]
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension NovaActClientTypes.ToolSpec {
-
-    static func write(value: NovaActClientTypes.ToolSpec?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["inputSchema"].write(value.inputSchema, with: NovaActClientTypes.ToolInputSchema.write(value:to:))
-        try writer["name"].write(value.name)
-    }
-}
-
-extension NovaActClientTypes.ToolInputSchema {
-
-    static func write(value: NovaActClientTypes.ToolInputSchema?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .json(json):
-                try writer["json"].write(json)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension NovaActClientTypes.ClientInfo {
-
-    static func write(value: NovaActClientTypes.ClientInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["compatibilityVersion"].write(value.compatibilityVersion)
-        try writer["sdkVersion"].write(value.sdkVersion)
     }
 }
 
@@ -2825,12 +2679,158 @@ extension NovaActClientTypes.CallResultContent {
     }
 }
 
-extension NovaActClientTypes.ActError {
+extension NovaActClientTypes.ClientInfo {
 
-    static func write(value: NovaActClientTypes.ActError?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: NovaActClientTypes.ClientInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["message"].write(value.message)
-        try writer["type"].write(value.type)
+        try writer["compatibilityVersion"].write(value.compatibilityVersion)
+        try writer["sdkVersion"].write(value.sdkVersion)
+    }
+}
+
+extension NovaActClientTypes.CompatibilityInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.CompatibilityInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.CompatibilityInformation()
+        value.clientCompatibilityVersion = try reader["clientCompatibilityVersion"].readIfPresent() ?? 0
+        value.supportedModelIds = try reader["supportedModelIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension NovaActClientTypes.ModelAlias {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.ModelAlias {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.ModelAlias()
+        value.aliasName = try reader["aliasName"].readIfPresent() ?? ""
+        value.latestModelId = try reader["latestModelId"].readIfPresent() ?? ""
+        value.resolvedModelId = try reader["resolvedModelId"].readIfPresent()
+        return value
+    }
+}
+
+extension NovaActClientTypes.ModelLifecycle {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.ModelLifecycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.ModelLifecycle()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension NovaActClientTypes.ModelSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.ModelSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.ModelSummary()
+        value.modelId = try reader["modelId"].readIfPresent() ?? ""
+        value.modelLifecycle = try reader["modelLifecycle"].readIfPresent(with: NovaActClientTypes.ModelLifecycle.read(from:))
+        value.minimumCompatibilityVersion = try reader["minimumCompatibilityVersion"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension NovaActClientTypes.SessionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.SessionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.SessionSummary()
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NovaActClientTypes.ToolInputSchema {
+
+    static func write(value: NovaActClientTypes.ToolInputSchema?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .json(json):
+                try writer["json"].write(json)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension NovaActClientTypes.ToolSpec {
+
+    static func write(value: NovaActClientTypes.ToolSpec?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["inputSchema"].write(value.inputSchema, with: NovaActClientTypes.ToolInputSchema.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+}
+
+extension NovaActClientTypes.TraceLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.TraceLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.TraceLocation()
+        value.locationType = try reader["locationType"].readIfPresent() ?? .sdkUnknown("")
+        value.location = try reader["location"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NovaActClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NovaActClientTypes.WorkflowDefinitionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.WorkflowDefinitionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.WorkflowDefinitionSummary()
+        value.workflowDefinitionArn = try reader["workflowDefinitionArn"].readIfPresent() ?? ""
+        value.workflowDefinitionName = try reader["workflowDefinitionName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension NovaActClientTypes.WorkflowExportConfig {
+
+    static func write(value: NovaActClientTypes.WorkflowExportConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3BucketName"].write(value.s3BucketName)
+        try writer["s3KeyPrefix"].write(value.s3KeyPrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.WorkflowExportConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.WorkflowExportConfig()
+        value.s3BucketName = try reader["s3BucketName"].readIfPresent() ?? ""
+        value.s3KeyPrefix = try reader["s3KeyPrefix"].readIfPresent()
+        return value
+    }
+}
+
+extension NovaActClientTypes.WorkflowRunSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NovaActClientTypes.WorkflowRunSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NovaActClientTypes.WorkflowRunSummary()
+        value.workflowRunArn = try reader["workflowRunArn"].readIfPresent() ?? ""
+        value.workflowRunId = try reader["workflowRunId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.traceLocation = try reader["traceLocation"].readIfPresent(with: NovaActClientTypes.TraceLocation.read(from:))
+        return value
     }
 }
 

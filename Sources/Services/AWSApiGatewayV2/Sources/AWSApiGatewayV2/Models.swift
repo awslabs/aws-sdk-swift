@@ -13203,6 +13203,127 @@ extension AccessDeniedException {
     }
 }
 
+extension ApiGatewayV2ClientTypes.AccessLogSettings {
+
+    static func write(value: ApiGatewayV2ClientTypes.AccessLogSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationArn"].write(value.destinationArn)
+        try writer["format"].write(value.format)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.AccessLogSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.AccessLogSettings()
+        value.destinationArn = try reader["destinationArn"].readIfPresent()
+        value.format = try reader["format"].readIfPresent()
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.ACMManaged {
+
+    static func write(value: ApiGatewayV2ClientTypes.ACMManaged?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificateArn"].write(value.certificateArn)
+        try writer["domainName"].write(value.domainName)
+    }
+}
+
+extension ApiGatewayV2ClientTypes.Api {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Api {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.Api()
+        value.apiEndpoint = try reader["apiEndpoint"].readIfPresent()
+        value.apiGatewayManaged = try reader["apiGatewayManaged"].readIfPresent()
+        value.apiId = try reader["apiId"].readIfPresent()
+        value.apiKeySelectionExpression = try reader["apiKeySelectionExpression"].readIfPresent()
+        value.corsConfiguration = try reader["corsConfiguration"].readIfPresent(with: ApiGatewayV2ClientTypes.Cors.read(from:))
+        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["description"].readIfPresent()
+        value.disableSchemaValidation = try reader["disableSchemaValidation"].readIfPresent()
+        value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent()
+        value.importInfo = try reader["importInfo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.protocolType = try reader["protocolType"].readIfPresent() ?? .sdkUnknown("")
+        value.routeSelectionExpression = try reader["routeSelectionExpression"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.version = try reader["version"].readIfPresent()
+        value.warnings = try reader["warnings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.ApiMapping {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.ApiMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.ApiMapping()
+        value.apiId = try reader["apiId"].readIfPresent() ?? ""
+        value.apiMappingId = try reader["apiMappingId"].readIfPresent()
+        value.apiMappingKey = try reader["apiMappingKey"].readIfPresent()
+        value.stage = try reader["stage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.Authorization {
+
+    static func write(value: ApiGatewayV2ClientTypes.Authorization?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cognitoConfig"].write(value.cognitoConfig, with: ApiGatewayV2ClientTypes.CognitoConfig.write(value:to:))
+        try writer["none"].write(value.`none`, with: ApiGatewayV2ClientTypes.None.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Authorization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.Authorization()
+        value.cognitoConfig = try reader["cognitoConfig"].readIfPresent(with: ApiGatewayV2ClientTypes.CognitoConfig.read(from:))
+        value.`none` = try reader["none"].readIfPresent(with: ApiGatewayV2ClientTypes.None.read(from:))
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.Authorizer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Authorizer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.Authorizer()
+        value.authorizerCredentialsArn = try reader["authorizerCredentialsArn"].readIfPresent()
+        value.authorizerId = try reader["authorizerId"].readIfPresent()
+        value.authorizerPayloadFormatVersion = try reader["authorizerPayloadFormatVersion"].readIfPresent()
+        value.authorizerResultTtlInSeconds = try reader["authorizerResultTtlInSeconds"].readIfPresent()
+        value.authorizerType = try reader["authorizerType"].readIfPresent()
+        value.authorizerUri = try reader["authorizerUri"].readIfPresent()
+        value.enableSimpleResponses = try reader["enableSimpleResponses"].readIfPresent()
+        value.identitySource = try reader["identitySource"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.identityValidationExpression = try reader["identityValidationExpression"].readIfPresent()
+        value.jwtConfiguration = try reader["jwtConfiguration"].readIfPresent(with: ApiGatewayV2ClientTypes.JWTConfiguration.read(from:))
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.CognitoConfig {
+
+    static func write(value: ApiGatewayV2ClientTypes.CognitoConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appClientId"].write(value.appClientId)
+        try writer["userPoolArn"].write(value.userPoolArn)
+        try writer["userPoolDomain"].write(value.userPoolDomain)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.CognitoConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.CognitoConfig()
+        value.appClientId = try reader["appClientId"].readIfPresent() ?? ""
+        value.userPoolArn = try reader["userPoolArn"].readIfPresent() ?? ""
+        value.userPoolDomain = try reader["userPoolDomain"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ApiGatewayV2ClientTypes.Cors {
 
     static func write(value: ApiGatewayV2ClientTypes.Cors?, to writer: SmithyJSON.Writer) throws {
@@ -13228,19 +13349,104 @@ extension ApiGatewayV2ClientTypes.Cors {
     }
 }
 
-extension ApiGatewayV2ClientTypes.JWTConfiguration {
+extension ApiGatewayV2ClientTypes.CustomColors {
 
-    static func write(value: ApiGatewayV2ClientTypes.JWTConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ApiGatewayV2ClientTypes.CustomColors?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["audience"].writeList(value.audience, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["issuer"].write(value.issuer)
+        try writer["accentColor"].write(value.accentColor)
+        try writer["backgroundColor"].write(value.backgroundColor)
+        try writer["errorValidationColor"].write(value.errorValidationColor)
+        try writer["headerColor"].write(value.headerColor)
+        try writer["navigationColor"].write(value.navigationColor)
+        try writer["textColor"].write(value.textColor)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.JWTConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.CustomColors {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.JWTConfiguration()
-        value.audience = try reader["audience"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.issuer = try reader["issuer"].readIfPresent()
+        var value = ApiGatewayV2ClientTypes.CustomColors()
+        value.accentColor = try reader["accentColor"].readIfPresent() ?? ""
+        value.backgroundColor = try reader["backgroundColor"].readIfPresent() ?? ""
+        value.errorValidationColor = try reader["errorValidationColor"].readIfPresent() ?? ""
+        value.headerColor = try reader["headerColor"].readIfPresent() ?? ""
+        value.navigationColor = try reader["navigationColor"].readIfPresent() ?? ""
+        value.textColor = try reader["textColor"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.Deployment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Deployment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.Deployment()
+        value.autoDeployed = try reader["autoDeployed"].readIfPresent()
+        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.deploymentId = try reader["deploymentId"].readIfPresent()
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
+        value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.DisplayContent {
+
+    static func write(value: ApiGatewayV2ClientTypes.DisplayContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["body"].write(value.body)
+        try writer["title"].write(value.title)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.DisplayContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.DisplayContent()
+        value.body = try reader["body"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.DisplayContentOverrides {
+
+    static func write(value: ApiGatewayV2ClientTypes.DisplayContentOverrides?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["body"].write(value.body)
+        try writer["endpoint"].write(value.endpoint)
+        try writer["operationName"].write(value.operationName)
+    }
+}
+
+extension ApiGatewayV2ClientTypes.DisplayOrder {
+
+    static func write(value: ApiGatewayV2ClientTypes.DisplayOrder?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["contents"].writeList(value.contents, memberWritingClosure: ApiGatewayV2ClientTypes.Section.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["overviewPageArn"].write(value.overviewPageArn)
+        try writer["productPageArns"].writeList(value.productPageArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.DisplayOrder {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.DisplayOrder()
+        value.contents = try reader["contents"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.Section.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.overviewPageArn = try reader["overviewPageArn"].readIfPresent()
+        value.productPageArns = try reader["productPageArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.DomainName {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.DomainName {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.DomainName()
+        value.apiMappingSelectionExpression = try reader["apiMappingSelectionExpression"].readIfPresent()
+        value.domainName = try reader["domainName"].readIfPresent() ?? ""
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
+        value.domainNameConfigurations = try reader["domainNameConfigurations"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.DomainNameConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: ApiGatewayV2ClientTypes.MutualTlsAuthentication.read(from:))
+        value.routingMode = try reader["routingMode"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -13280,74 +13486,12 @@ extension ApiGatewayV2ClientTypes.DomainNameConfiguration {
     }
 }
 
-extension ApiGatewayV2ClientTypes.MutualTlsAuthentication {
+extension ApiGatewayV2ClientTypes.EndpointConfigurationRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.MutualTlsAuthentication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.MutualTlsAuthentication()
-        value.truststoreUri = try reader["truststoreUri"].readIfPresent()
-        value.truststoreVersion = try reader["truststoreVersion"].readIfPresent()
-        value.truststoreWarnings = try reader["truststoreWarnings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.TlsConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.TlsConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.TlsConfig()
-        value.serverNameToVerify = try reader["serverNameToVerify"].readIfPresent()
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.Authorization {
-
-    static func write(value: ApiGatewayV2ClientTypes.Authorization?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ApiGatewayV2ClientTypes.EndpointConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["cognitoConfig"].write(value.cognitoConfig, with: ApiGatewayV2ClientTypes.CognitoConfig.write(value:to:))
+        try writer["acmManaged"].write(value.acmManaged, with: ApiGatewayV2ClientTypes.ACMManaged.write(value:to:))
         try writer["none"].write(value.`none`, with: ApiGatewayV2ClientTypes.None.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Authorization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.Authorization()
-        value.cognitoConfig = try reader["cognitoConfig"].readIfPresent(with: ApiGatewayV2ClientTypes.CognitoConfig.read(from:))
-        value.`none` = try reader["none"].readIfPresent(with: ApiGatewayV2ClientTypes.None.read(from:))
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.None {
-
-    static func write(value: ApiGatewayV2ClientTypes.None?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.None {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return ApiGatewayV2ClientTypes.None()
-    }
-}
-
-extension ApiGatewayV2ClientTypes.CognitoConfig {
-
-    static func write(value: ApiGatewayV2ClientTypes.CognitoConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["appClientId"].write(value.appClientId)
-        try writer["userPoolArn"].write(value.userPoolArn)
-        try writer["userPoolDomain"].write(value.userPoolDomain)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.CognitoConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.CognitoConfig()
-        value.appClientId = try reader["appClientId"].readIfPresent() ?? ""
-        value.userPoolArn = try reader["userPoolArn"].readIfPresent() ?? ""
-        value.userPoolDomain = try reader["userPoolDomain"].readIfPresent() ?? ""
-        return value
     }
 }
 
@@ -13364,128 +13508,12 @@ extension ApiGatewayV2ClientTypes.EndpointConfigurationResponse {
     }
 }
 
-extension ApiGatewayV2ClientTypes.PortalContent {
+extension ApiGatewayV2ClientTypes.EndpointDisplayContent {
 
-    static func write(value: ApiGatewayV2ClientTypes.PortalContent?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ApiGatewayV2ClientTypes.EndpointDisplayContent?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["displayName"].write(value.displayName)
-        try writer["theme"].write(value.theme, with: ApiGatewayV2ClientTypes.PortalTheme.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.PortalContent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.PortalContent()
-        value.description = try reader["description"].readIfPresent()
-        value.displayName = try reader["displayName"].readIfPresent() ?? ""
-        value.theme = try reader["theme"].readIfPresent(with: ApiGatewayV2ClientTypes.PortalTheme.read(from:))
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.PortalTheme {
-
-    static func write(value: ApiGatewayV2ClientTypes.PortalTheme?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["customColors"].write(value.customColors, with: ApiGatewayV2ClientTypes.CustomColors.write(value:to:))
-        try writer["logoLastUploaded"].writeTimestamp(value.logoLastUploaded, format: SmithyTimestamps.TimestampFormat.dateTime)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.PortalTheme {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.PortalTheme()
-        value.customColors = try reader["customColors"].readIfPresent(with: ApiGatewayV2ClientTypes.CustomColors.read(from:))
-        value.logoLastUploaded = try reader["logoLastUploaded"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.CustomColors {
-
-    static func write(value: ApiGatewayV2ClientTypes.CustomColors?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accentColor"].write(value.accentColor)
-        try writer["backgroundColor"].write(value.backgroundColor)
-        try writer["errorValidationColor"].write(value.errorValidationColor)
-        try writer["headerColor"].write(value.headerColor)
-        try writer["navigationColor"].write(value.navigationColor)
-        try writer["textColor"].write(value.textColor)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.CustomColors {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.CustomColors()
-        value.accentColor = try reader["accentColor"].readIfPresent() ?? ""
-        value.backgroundColor = try reader["backgroundColor"].readIfPresent() ?? ""
-        value.errorValidationColor = try reader["errorValidationColor"].readIfPresent() ?? ""
-        value.headerColor = try reader["headerColor"].readIfPresent() ?? ""
-        value.navigationColor = try reader["navigationColor"].readIfPresent() ?? ""
-        value.textColor = try reader["textColor"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.StatusException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.StatusException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.StatusException()
-        value.exception = try reader["exception"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.DisplayOrder {
-
-    static func write(value: ApiGatewayV2ClientTypes.DisplayOrder?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contents"].writeList(value.contents, memberWritingClosure: ApiGatewayV2ClientTypes.Section.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["overviewPageArn"].write(value.overviewPageArn)
-        try writer["productPageArns"].writeList(value.productPageArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.DisplayOrder {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.DisplayOrder()
-        value.contents = try reader["contents"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.Section.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.overviewPageArn = try reader["overviewPageArn"].readIfPresent()
-        value.productPageArns = try reader["productPageArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.Section {
-
-    static func write(value: ApiGatewayV2ClientTypes.Section?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["productRestEndpointPageArns"].writeList(value.productRestEndpointPageArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["sectionName"].write(value.sectionName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Section {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.Section()
-        value.productRestEndpointPageArns = try reader["productRestEndpointPageArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.sectionName = try reader["sectionName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.DisplayContent {
-
-    static func write(value: ApiGatewayV2ClientTypes.DisplayContent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["body"].write(value.body)
-        try writer["title"].write(value.title)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.DisplayContent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.DisplayContent()
-        value.body = try reader["body"].readIfPresent() ?? ""
-        value.title = try reader["title"].readIfPresent() ?? ""
-        return value
+        try writer["none"].write(value.`none`, with: ApiGatewayV2ClientTypes.None.write(value:to:))
+        try writer["overrides"].write(value.overrides, with: ApiGatewayV2ClientTypes.DisplayContentOverrides.write(value:to:))
     }
 }
 
@@ -13497,21 +13525,6 @@ extension ApiGatewayV2ClientTypes.EndpointDisplayContentResponse {
         value.body = try reader["body"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
         value.operationName = try reader["operationName"].readIfPresent()
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.RestEndpointIdentifier {
-
-    static func write(value: ApiGatewayV2ClientTypes.RestEndpointIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["identifierParts"].write(value.identifierParts, with: ApiGatewayV2ClientTypes.IdentifierParts.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RestEndpointIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.RestEndpointIdentifier()
-        value.identifierParts = try reader["identifierParts"].readIfPresent(with: ApiGatewayV2ClientTypes.IdentifierParts.read(from:))
         return value
     }
 }
@@ -13537,6 +13550,115 @@ extension ApiGatewayV2ClientTypes.IdentifierParts {
     }
 }
 
+extension ApiGatewayV2ClientTypes.Integration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Integration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.Integration()
+        value.apiGatewayManaged = try reader["apiGatewayManaged"].readIfPresent()
+        value.connectionId = try reader["connectionId"].readIfPresent()
+        value.connectionType = try reader["connectionType"].readIfPresent()
+        value.contentHandlingStrategy = try reader["contentHandlingStrategy"].readIfPresent()
+        value.credentialsArn = try reader["credentialsArn"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.integrationId = try reader["integrationId"].readIfPresent()
+        value.integrationMethod = try reader["integrationMethod"].readIfPresent()
+        value.integrationResponseSelectionExpression = try reader["integrationResponseSelectionExpression"].readIfPresent()
+        value.integrationSubtype = try reader["integrationSubtype"].readIfPresent()
+        value.integrationType = try reader["integrationType"].readIfPresent()
+        value.integrationUri = try reader["integrationUri"].readIfPresent()
+        value.passthroughBehavior = try reader["passthroughBehavior"].readIfPresent()
+        value.payloadFormatVersion = try reader["payloadFormatVersion"].readIfPresent()
+        value.requestParameters = try reader["requestParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.requestTemplates = try reader["requestTemplates"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.responseParameters = try reader["responseParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.templateSelectionExpression = try reader["templateSelectionExpression"].readIfPresent()
+        value.timeoutInMillis = try reader["timeoutInMillis"].readIfPresent()
+        value.tlsConfig = try reader["tlsConfig"].readIfPresent(with: ApiGatewayV2ClientTypes.TlsConfig.read(from:))
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.IntegrationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.IntegrationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.IntegrationResponse()
+        value.contentHandlingStrategy = try reader["contentHandlingStrategy"].readIfPresent()
+        value.integrationResponseId = try reader["integrationResponseId"].readIfPresent()
+        value.integrationResponseKey = try reader["integrationResponseKey"].readIfPresent() ?? ""
+        value.responseParameters = try reader["responseParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.responseTemplates = try reader["responseTemplates"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.templateSelectionExpression = try reader["templateSelectionExpression"].readIfPresent()
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.JWTConfiguration {
+
+    static func write(value: ApiGatewayV2ClientTypes.JWTConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audience"].writeList(value.audience, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["issuer"].write(value.issuer)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.JWTConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.JWTConfiguration()
+        value.audience = try reader["audience"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.issuer = try reader["issuer"].readIfPresent()
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.Model {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Model {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.Model()
+        value.contentType = try reader["contentType"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.modelId = try reader["modelId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.schema = try reader["schema"].readIfPresent()
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.MutualTlsAuthentication {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.MutualTlsAuthentication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.MutualTlsAuthentication()
+        value.truststoreUri = try reader["truststoreUri"].readIfPresent()
+        value.truststoreVersion = try reader["truststoreVersion"].readIfPresent()
+        value.truststoreWarnings = try reader["truststoreWarnings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.MutualTlsAuthenticationInput {
+
+    static func write(value: ApiGatewayV2ClientTypes.MutualTlsAuthenticationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["truststoreUri"].write(value.truststoreUri)
+        try writer["truststoreVersion"].write(value.truststoreVersion)
+    }
+}
+
+extension ApiGatewayV2ClientTypes.None {
+
+    static func write(value: ApiGatewayV2ClientTypes.None?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.None {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return ApiGatewayV2ClientTypes.None()
+    }
+}
+
 extension ApiGatewayV2ClientTypes.ParameterConstraints {
 
     static func write(value: ApiGatewayV2ClientTypes.ParameterConstraints?, to writer: SmithyJSON.Writer) throws {
@@ -13548,6 +13670,211 @@ extension ApiGatewayV2ClientTypes.ParameterConstraints {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ApiGatewayV2ClientTypes.ParameterConstraints()
         value.`required` = try reader["required"].readIfPresent()
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.PortalContent {
+
+    static func write(value: ApiGatewayV2ClientTypes.PortalContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+        try writer["theme"].write(value.theme, with: ApiGatewayV2ClientTypes.PortalTheme.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.PortalContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.PortalContent()
+        value.description = try reader["description"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent() ?? ""
+        value.theme = try reader["theme"].readIfPresent(with: ApiGatewayV2ClientTypes.PortalTheme.read(from:))
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.PortalProductSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.PortalProductSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.PortalProductSummary()
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.displayName = try reader["displayName"].readIfPresent() ?? ""
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.portalProductArn = try reader["portalProductArn"].readIfPresent() ?? ""
+        value.portalProductId = try reader["portalProductId"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.PortalSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.PortalSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.PortalSummary()
+        value.authorization = try reader["authorization"].readIfPresent(with: ApiGatewayV2ClientTypes.Authorization.read(from:))
+        value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: ApiGatewayV2ClientTypes.EndpointConfigurationResponse.read(from:))
+        value.includedPortalProductArns = try reader["includedPortalProductArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastPublished = try reader["lastPublished"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastPublishedDescription = try reader["lastPublishedDescription"].readIfPresent()
+        value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
+        value.portalContent = try reader["portalContent"].readIfPresent(with: ApiGatewayV2ClientTypes.PortalContent.read(from:))
+        value.portalId = try reader["portalId"].readIfPresent() ?? ""
+        value.preview = try reader["preview"].readIfPresent(with: ApiGatewayV2ClientTypes.Preview.read(from:))
+        value.publishStatus = try reader["publishStatus"].readIfPresent()
+        value.rumAppMonitorName = try reader["rumAppMonitorName"].readIfPresent()
+        value.statusException = try reader["statusException"].readIfPresent(with: ApiGatewayV2ClientTypes.StatusException.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.PortalTheme {
+
+    static func write(value: ApiGatewayV2ClientTypes.PortalTheme?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customColors"].write(value.customColors, with: ApiGatewayV2ClientTypes.CustomColors.write(value:to:))
+        try writer["logoLastUploaded"].writeTimestamp(value.logoLastUploaded, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.PortalTheme {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.PortalTheme()
+        value.customColors = try reader["customColors"].readIfPresent(with: ApiGatewayV2ClientTypes.CustomColors.read(from:))
+        value.logoLastUploaded = try reader["logoLastUploaded"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.Preview {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Preview {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.Preview()
+        value.previewStatus = try reader["previewStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.previewUrl = try reader["previewUrl"].readIfPresent()
+        value.statusException = try reader["statusException"].readIfPresent(with: ApiGatewayV2ClientTypes.StatusException.read(from:))
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.ProductPageSummaryNoBody {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.ProductPageSummaryNoBody {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.ProductPageSummaryNoBody()
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.pageTitle = try reader["pageTitle"].readIfPresent() ?? ""
+        value.productPageArn = try reader["productPageArn"].readIfPresent() ?? ""
+        value.productPageId = try reader["productPageId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.ProductRestEndpointPageSummaryNoBody {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.ProductRestEndpointPageSummaryNoBody {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.ProductRestEndpointPageSummaryNoBody()
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.operationName = try reader["operationName"].readIfPresent()
+        value.productRestEndpointPageArn = try reader["productRestEndpointPageArn"].readIfPresent() ?? ""
+        value.productRestEndpointPageId = try reader["productRestEndpointPageId"].readIfPresent() ?? ""
+        value.restEndpointIdentifier = try reader["restEndpointIdentifier"].readIfPresent(with: ApiGatewayV2ClientTypes.RestEndpointIdentifier.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusException = try reader["statusException"].readIfPresent(with: ApiGatewayV2ClientTypes.StatusException.read(from:))
+        value.tryItState = try reader["tryItState"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.RestEndpointIdentifier {
+
+    static func write(value: ApiGatewayV2ClientTypes.RestEndpointIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifierParts"].write(value.identifierParts, with: ApiGatewayV2ClientTypes.IdentifierParts.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RestEndpointIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.RestEndpointIdentifier()
+        value.identifierParts = try reader["identifierParts"].readIfPresent(with: ApiGatewayV2ClientTypes.IdentifierParts.read(from:))
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.Route {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Route {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.Route()
+        value.apiGatewayManaged = try reader["apiGatewayManaged"].readIfPresent()
+        value.apiKeyRequired = try reader["apiKeyRequired"].readIfPresent()
+        value.authorizationScopes = try reader["authorizationScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.authorizationType = try reader["authorizationType"].readIfPresent()
+        value.authorizerId = try reader["authorizerId"].readIfPresent()
+        value.modelSelectionExpression = try reader["modelSelectionExpression"].readIfPresent()
+        value.operationName = try reader["operationName"].readIfPresent()
+        value.requestModels = try reader["requestModels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.requestParameters = try reader["requestParameters"].readMapIfPresent(valueReadingClosure: ApiGatewayV2ClientTypes.ParameterConstraints.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.routeId = try reader["routeId"].readIfPresent()
+        value.routeKey = try reader["routeKey"].readIfPresent() ?? ""
+        value.routeResponseSelectionExpression = try reader["routeResponseSelectionExpression"].readIfPresent()
+        value.target = try reader["target"].readIfPresent()
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.RouteResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RouteResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.RouteResponse()
+        value.modelSelectionExpression = try reader["modelSelectionExpression"].readIfPresent()
+        value.responseModels = try reader["responseModels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.responseParameters = try reader["responseParameters"].readMapIfPresent(valueReadingClosure: ApiGatewayV2ClientTypes.ParameterConstraints.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.routeResponseId = try reader["routeResponseId"].readIfPresent()
+        value.routeResponseKey = try reader["routeResponseKey"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.RouteSettings {
+
+    static func write(value: ApiGatewayV2ClientTypes.RouteSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataTraceEnabled"].write(value.dataTraceEnabled)
+        try writer["detailedMetricsEnabled"].write(value.detailedMetricsEnabled)
+        try writer["loggingLevel"].write(value.loggingLevel)
+        try writer["throttlingBurstLimit"].write(value.throttlingBurstLimit)
+        try writer["throttlingRateLimit"].write(value.throttlingRateLimit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RouteSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.RouteSettings()
+        value.dataTraceEnabled = try reader["dataTraceEnabled"].readIfPresent()
+        value.detailedMetricsEnabled = try reader["detailedMetricsEnabled"].readIfPresent()
+        value.loggingLevel = try reader["loggingLevel"].readIfPresent()
+        value.throttlingBurstLimit = try reader["throttlingBurstLimit"].readIfPresent()
+        value.throttlingRateLimit = try reader["throttlingRateLimit"].readIfPresent()
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.RoutingRule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RoutingRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.RoutingRule()
+        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.RoutingRuleAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.RoutingRuleCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.priority = try reader["priority"].readIfPresent()
+        value.routingRuleArn = try reader["routingRuleArn"].readIfPresent()
+        value.routingRuleId = try reader["routingRuleId"].readIfPresent()
         return value
     }
 }
@@ -13603,6 +13930,21 @@ extension ApiGatewayV2ClientTypes.RoutingRuleCondition {
     }
 }
 
+extension ApiGatewayV2ClientTypes.RoutingRuleMatchBasePaths {
+
+    static func write(value: ApiGatewayV2ClientTypes.RoutingRuleMatchBasePaths?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["anyOf"].writeList(value.anyOf, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RoutingRuleMatchBasePaths {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.RoutingRuleMatchBasePaths()
+        value.anyOf = try reader["anyOf"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ApiGatewayV2ClientTypes.RoutingRuleMatchHeaders {
 
     static func write(value: ApiGatewayV2ClientTypes.RoutingRuleMatchHeaders?, to writer: SmithyJSON.Writer) throws {
@@ -13635,253 +13977,19 @@ extension ApiGatewayV2ClientTypes.RoutingRuleMatchHeaderValue {
     }
 }
 
-extension ApiGatewayV2ClientTypes.RoutingRuleMatchBasePaths {
+extension ApiGatewayV2ClientTypes.Section {
 
-    static func write(value: ApiGatewayV2ClientTypes.RoutingRuleMatchBasePaths?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ApiGatewayV2ClientTypes.Section?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["anyOf"].writeList(value.anyOf, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["productRestEndpointPageArns"].writeList(value.productRestEndpointPageArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sectionName"].write(value.sectionName)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RoutingRuleMatchBasePaths {
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Section {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.RoutingRuleMatchBasePaths()
-        value.anyOf = try reader["anyOf"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.AccessLogSettings {
-
-    static func write(value: ApiGatewayV2ClientTypes.AccessLogSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationArn"].write(value.destinationArn)
-        try writer["format"].write(value.format)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.AccessLogSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.AccessLogSettings()
-        value.destinationArn = try reader["destinationArn"].readIfPresent()
-        value.format = try reader["format"].readIfPresent()
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.RouteSettings {
-
-    static func write(value: ApiGatewayV2ClientTypes.RouteSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataTraceEnabled"].write(value.dataTraceEnabled)
-        try writer["detailedMetricsEnabled"].write(value.detailedMetricsEnabled)
-        try writer["loggingLevel"].write(value.loggingLevel)
-        try writer["throttlingBurstLimit"].write(value.throttlingBurstLimit)
-        try writer["throttlingRateLimit"].write(value.throttlingRateLimit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RouteSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.RouteSettings()
-        value.dataTraceEnabled = try reader["dataTraceEnabled"].readIfPresent()
-        value.detailedMetricsEnabled = try reader["detailedMetricsEnabled"].readIfPresent()
-        value.loggingLevel = try reader["loggingLevel"].readIfPresent()
-        value.throttlingBurstLimit = try reader["throttlingBurstLimit"].readIfPresent()
-        value.throttlingRateLimit = try reader["throttlingRateLimit"].readIfPresent()
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.ApiMapping {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.ApiMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.ApiMapping()
-        value.apiId = try reader["apiId"].readIfPresent() ?? ""
-        value.apiMappingId = try reader["apiMappingId"].readIfPresent()
-        value.apiMappingKey = try reader["apiMappingKey"].readIfPresent()
-        value.stage = try reader["stage"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.Api {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Api {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.Api()
-        value.apiEndpoint = try reader["apiEndpoint"].readIfPresent()
-        value.apiGatewayManaged = try reader["apiGatewayManaged"].readIfPresent()
-        value.apiId = try reader["apiId"].readIfPresent()
-        value.apiKeySelectionExpression = try reader["apiKeySelectionExpression"].readIfPresent()
-        value.corsConfiguration = try reader["corsConfiguration"].readIfPresent(with: ApiGatewayV2ClientTypes.Cors.read(from:))
-        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.description = try reader["description"].readIfPresent()
-        value.disableSchemaValidation = try reader["disableSchemaValidation"].readIfPresent()
-        value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent()
-        value.importInfo = try reader["importInfo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.protocolType = try reader["protocolType"].readIfPresent() ?? .sdkUnknown("")
-        value.routeSelectionExpression = try reader["routeSelectionExpression"].readIfPresent() ?? ""
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.version = try reader["version"].readIfPresent()
-        value.warnings = try reader["warnings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.Authorizer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Authorizer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.Authorizer()
-        value.authorizerCredentialsArn = try reader["authorizerCredentialsArn"].readIfPresent()
-        value.authorizerId = try reader["authorizerId"].readIfPresent()
-        value.authorizerPayloadFormatVersion = try reader["authorizerPayloadFormatVersion"].readIfPresent()
-        value.authorizerResultTtlInSeconds = try reader["authorizerResultTtlInSeconds"].readIfPresent()
-        value.authorizerType = try reader["authorizerType"].readIfPresent()
-        value.authorizerUri = try reader["authorizerUri"].readIfPresent()
-        value.enableSimpleResponses = try reader["enableSimpleResponses"].readIfPresent()
-        value.identitySource = try reader["identitySource"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.identityValidationExpression = try reader["identityValidationExpression"].readIfPresent()
-        value.jwtConfiguration = try reader["jwtConfiguration"].readIfPresent(with: ApiGatewayV2ClientTypes.JWTConfiguration.read(from:))
-        value.name = try reader["name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.Deployment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Deployment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.Deployment()
-        value.autoDeployed = try reader["autoDeployed"].readIfPresent()
-        value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.deploymentId = try reader["deploymentId"].readIfPresent()
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
-        value.deploymentStatusMessage = try reader["deploymentStatusMessage"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.DomainName {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.DomainName {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.DomainName()
-        value.apiMappingSelectionExpression = try reader["apiMappingSelectionExpression"].readIfPresent()
-        value.domainName = try reader["domainName"].readIfPresent() ?? ""
-        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
-        value.domainNameConfigurations = try reader["domainNameConfigurations"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.DomainNameConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: ApiGatewayV2ClientTypes.MutualTlsAuthentication.read(from:))
-        value.routingMode = try reader["routingMode"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.IntegrationResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.IntegrationResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.IntegrationResponse()
-        value.contentHandlingStrategy = try reader["contentHandlingStrategy"].readIfPresent()
-        value.integrationResponseId = try reader["integrationResponseId"].readIfPresent()
-        value.integrationResponseKey = try reader["integrationResponseKey"].readIfPresent() ?? ""
-        value.responseParameters = try reader["responseParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.responseTemplates = try reader["responseTemplates"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.templateSelectionExpression = try reader["templateSelectionExpression"].readIfPresent()
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.Integration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Integration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.Integration()
-        value.apiGatewayManaged = try reader["apiGatewayManaged"].readIfPresent()
-        value.connectionId = try reader["connectionId"].readIfPresent()
-        value.connectionType = try reader["connectionType"].readIfPresent()
-        value.contentHandlingStrategy = try reader["contentHandlingStrategy"].readIfPresent()
-        value.credentialsArn = try reader["credentialsArn"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.integrationId = try reader["integrationId"].readIfPresent()
-        value.integrationMethod = try reader["integrationMethod"].readIfPresent()
-        value.integrationResponseSelectionExpression = try reader["integrationResponseSelectionExpression"].readIfPresent()
-        value.integrationSubtype = try reader["integrationSubtype"].readIfPresent()
-        value.integrationType = try reader["integrationType"].readIfPresent()
-        value.integrationUri = try reader["integrationUri"].readIfPresent()
-        value.passthroughBehavior = try reader["passthroughBehavior"].readIfPresent()
-        value.payloadFormatVersion = try reader["payloadFormatVersion"].readIfPresent()
-        value.requestParameters = try reader["requestParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.requestTemplates = try reader["requestTemplates"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.responseParameters = try reader["responseParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.templateSelectionExpression = try reader["templateSelectionExpression"].readIfPresent()
-        value.timeoutInMillis = try reader["timeoutInMillis"].readIfPresent()
-        value.tlsConfig = try reader["tlsConfig"].readIfPresent(with: ApiGatewayV2ClientTypes.TlsConfig.read(from:))
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.Model {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Model {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.Model()
-        value.contentType = try reader["contentType"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.modelId = try reader["modelId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.schema = try reader["schema"].readIfPresent()
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.Preview {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Preview {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.Preview()
-        value.previewStatus = try reader["previewStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.previewUrl = try reader["previewUrl"].readIfPresent()
-        value.statusException = try reader["statusException"].readIfPresent(with: ApiGatewayV2ClientTypes.StatusException.read(from:))
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.RouteResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RouteResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.RouteResponse()
-        value.modelSelectionExpression = try reader["modelSelectionExpression"].readIfPresent()
-        value.responseModels = try reader["responseModels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.responseParameters = try reader["responseParameters"].readMapIfPresent(valueReadingClosure: ApiGatewayV2ClientTypes.ParameterConstraints.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.routeResponseId = try reader["routeResponseId"].readIfPresent()
-        value.routeResponseKey = try reader["routeResponseKey"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.Route {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.Route {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.Route()
-        value.apiGatewayManaged = try reader["apiGatewayManaged"].readIfPresent()
-        value.apiKeyRequired = try reader["apiKeyRequired"].readIfPresent()
-        value.authorizationScopes = try reader["authorizationScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.authorizationType = try reader["authorizationType"].readIfPresent()
-        value.authorizerId = try reader["authorizerId"].readIfPresent()
-        value.modelSelectionExpression = try reader["modelSelectionExpression"].readIfPresent()
-        value.operationName = try reader["operationName"].readIfPresent()
-        value.requestModels = try reader["requestModels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.requestParameters = try reader["requestParameters"].readMapIfPresent(valueReadingClosure: ApiGatewayV2ClientTypes.ParameterConstraints.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.routeId = try reader["routeId"].readIfPresent()
-        value.routeKey = try reader["routeKey"].readIfPresent() ?? ""
-        value.routeResponseSelectionExpression = try reader["routeResponseSelectionExpression"].readIfPresent()
-        value.target = try reader["target"].readIfPresent()
+        var value = ApiGatewayV2ClientTypes.Section()
+        value.productRestEndpointPageArns = try reader["productRestEndpointPageArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sectionName = try reader["sectionName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13909,6 +14017,35 @@ extension ApiGatewayV2ClientTypes.Stage {
     }
 }
 
+extension ApiGatewayV2ClientTypes.StatusException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.StatusException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.StatusException()
+        value.exception = try reader["exception"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.TlsConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.TlsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApiGatewayV2ClientTypes.TlsConfig()
+        value.serverNameToVerify = try reader["serverNameToVerify"].readIfPresent()
+        return value
+    }
+}
+
+extension ApiGatewayV2ClientTypes.TlsConfigInput {
+
+    static func write(value: ApiGatewayV2ClientTypes.TlsConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["serverNameToVerify"].write(value.serverNameToVerify)
+    }
+}
+
 extension ApiGatewayV2ClientTypes.VpcLink {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.VpcLink {
@@ -13924,143 +14061,6 @@ extension ApiGatewayV2ClientTypes.VpcLink {
         value.vpcLinkStatusMessage = try reader["vpcLinkStatusMessage"].readIfPresent()
         value.vpcLinkVersion = try reader["vpcLinkVersion"].readIfPresent()
         return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.PortalProductSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.PortalProductSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.PortalProductSummary()
-        value.description = try reader["description"].readIfPresent() ?? ""
-        value.displayName = try reader["displayName"].readIfPresent() ?? ""
-        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.portalProductArn = try reader["portalProductArn"].readIfPresent() ?? ""
-        value.portalProductId = try reader["portalProductId"].readIfPresent() ?? ""
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.PortalSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.PortalSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.PortalSummary()
-        value.authorization = try reader["authorization"].readIfPresent(with: ApiGatewayV2ClientTypes.Authorization.read(from:))
-        value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: ApiGatewayV2ClientTypes.EndpointConfigurationResponse.read(from:))
-        value.includedPortalProductArns = try reader["includedPortalProductArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastPublished = try reader["lastPublished"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastPublishedDescription = try reader["lastPublishedDescription"].readIfPresent()
-        value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
-        value.portalContent = try reader["portalContent"].readIfPresent(with: ApiGatewayV2ClientTypes.PortalContent.read(from:))
-        value.portalId = try reader["portalId"].readIfPresent() ?? ""
-        value.preview = try reader["preview"].readIfPresent(with: ApiGatewayV2ClientTypes.Preview.read(from:))
-        value.publishStatus = try reader["publishStatus"].readIfPresent()
-        value.rumAppMonitorName = try reader["rumAppMonitorName"].readIfPresent()
-        value.statusException = try reader["statusException"].readIfPresent(with: ApiGatewayV2ClientTypes.StatusException.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.ProductPageSummaryNoBody {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.ProductPageSummaryNoBody {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.ProductPageSummaryNoBody()
-        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.pageTitle = try reader["pageTitle"].readIfPresent() ?? ""
-        value.productPageArn = try reader["productPageArn"].readIfPresent() ?? ""
-        value.productPageId = try reader["productPageId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.ProductRestEndpointPageSummaryNoBody {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.ProductRestEndpointPageSummaryNoBody {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.ProductRestEndpointPageSummaryNoBody()
-        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
-        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.operationName = try reader["operationName"].readIfPresent()
-        value.productRestEndpointPageArn = try reader["productRestEndpointPageArn"].readIfPresent() ?? ""
-        value.productRestEndpointPageId = try reader["productRestEndpointPageId"].readIfPresent() ?? ""
-        value.restEndpointIdentifier = try reader["restEndpointIdentifier"].readIfPresent(with: ApiGatewayV2ClientTypes.RestEndpointIdentifier.read(from:))
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.statusException = try reader["statusException"].readIfPresent(with: ApiGatewayV2ClientTypes.StatusException.read(from:))
-        value.tryItState = try reader["tryItState"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.RoutingRule {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApiGatewayV2ClientTypes.RoutingRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApiGatewayV2ClientTypes.RoutingRule()
-        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.RoutingRuleAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: ApiGatewayV2ClientTypes.RoutingRuleCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.priority = try reader["priority"].readIfPresent()
-        value.routingRuleArn = try reader["routingRuleArn"].readIfPresent()
-        value.routingRuleId = try reader["routingRuleId"].readIfPresent()
-        return value
-    }
-}
-
-extension ApiGatewayV2ClientTypes.MutualTlsAuthenticationInput {
-
-    static func write(value: ApiGatewayV2ClientTypes.MutualTlsAuthenticationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["truststoreUri"].write(value.truststoreUri)
-        try writer["truststoreVersion"].write(value.truststoreVersion)
-    }
-}
-
-extension ApiGatewayV2ClientTypes.TlsConfigInput {
-
-    static func write(value: ApiGatewayV2ClientTypes.TlsConfigInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["serverNameToVerify"].write(value.serverNameToVerify)
-    }
-}
-
-extension ApiGatewayV2ClientTypes.EndpointConfigurationRequest {
-
-    static func write(value: ApiGatewayV2ClientTypes.EndpointConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["acmManaged"].write(value.acmManaged, with: ApiGatewayV2ClientTypes.ACMManaged.write(value:to:))
-        try writer["none"].write(value.`none`, with: ApiGatewayV2ClientTypes.None.write(value:to:))
-    }
-}
-
-extension ApiGatewayV2ClientTypes.ACMManaged {
-
-    static func write(value: ApiGatewayV2ClientTypes.ACMManaged?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateArn"].write(value.certificateArn)
-        try writer["domainName"].write(value.domainName)
-    }
-}
-
-extension ApiGatewayV2ClientTypes.EndpointDisplayContent {
-
-    static func write(value: ApiGatewayV2ClientTypes.EndpointDisplayContent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["none"].write(value.`none`, with: ApiGatewayV2ClientTypes.None.write(value:to:))
-        try writer["overrides"].write(value.overrides, with: ApiGatewayV2ClientTypes.DisplayContentOverrides.write(value:to:))
-    }
-}
-
-extension ApiGatewayV2ClientTypes.DisplayContentOverrides {
-
-    static func write(value: ApiGatewayV2ClientTypes.DisplayContentOverrides?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["body"].write(value.body)
-        try writer["endpoint"].write(value.endpoint)
-        try writer["operationName"].write(value.operationName)
     }
 }
 

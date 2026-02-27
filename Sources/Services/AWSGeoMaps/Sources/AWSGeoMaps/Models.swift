@@ -48,6 +48,32 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension GeoMapsClientTypes {
 
+    public enum Buildings: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case buildings3d
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Buildings] {
+            return [
+                .buildings3d
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .buildings3d: return "Buildings3D"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoMapsClientTypes {
+
     public enum ColorScheme: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dark
         case light
@@ -973,11 +999,13 @@ extension GeoMapsClientTypes {
 
     public enum Terrain: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case hillshade
+        case terrain3d
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Terrain] {
             return [
-                .hillshade
+                .hillshade,
+                .terrain3d
             ]
         }
 
@@ -989,6 +1017,7 @@ extension GeoMapsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .hillshade: return "Hillshade"
+            case .terrain3d: return "Terrain3D"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1051,9 +1080,16 @@ extension GeoMapsClientTypes {
 }
 
 public struct GetStyleDescriptorInput: Swift.Sendable {
+    /// Adjusts how building details are rendered on the map. The following building styles are currently supported:
+    ///
+    /// * Buildings3D: Displays buildings as three-dimensional extrusions on the map.
+    ///
+    ///
+    /// Buildings3D is valid only for the Standard and Monochrome map styles.
+    public var buildings: GeoMapsClientTypes.Buildings?
     /// Sets color tone for map such as dark and light for specific map styles. It applies to only vector map styles such as Standard and Monochrome. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
     public var colorScheme: GeoMapsClientTypes.ColorScheme?
-    /// Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. This parameter is valid only for the Standard map style.
+    /// Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. This parameter is valid only for the Standard, Monochrome, and Hybrid map styles.
     public var contourDensity: GeoMapsClientTypes.ContourDensity?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
@@ -1094,8 +1130,10 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
     ///
     /// * Hillshade: Displays the physical terrain details through shading and highlighting of elevation change and geographic features.
     ///
+    /// * Terrain3D: Displays physical terrain details and elevations as a three-dimensional model.
     ///
-    /// This parameter is valid only for the Standard map style.
+    ///
+    /// Hillshade is valid only for the Standard and Monochrome map styles.
     public var terrain: GeoMapsClientTypes.Terrain?
     /// Displays real-time traffic information overlay on map, such as incident events and flow events. This parameter is valid only for the Standard map style.
     public var traffic: GeoMapsClientTypes.Traffic?
@@ -1103,6 +1141,7 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
     public var travelModes: [GeoMapsClientTypes.TravelMode]?
 
     public init(
+        buildings: GeoMapsClientTypes.Buildings? = nil,
         colorScheme: GeoMapsClientTypes.ColorScheme? = nil,
         contourDensity: GeoMapsClientTypes.ContourDensity? = nil,
         key: Swift.String? = nil,
@@ -1112,6 +1151,7 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
         traffic: GeoMapsClientTypes.Traffic? = nil,
         travelModes: [GeoMapsClientTypes.TravelMode]? = nil
     ) {
+        self.buildings = buildings
         self.colorScheme = colorScheme
         self.contourDensity = contourDensity
         self.key = key
@@ -1125,7 +1165,7 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
 
 extension GetStyleDescriptorInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetStyleDescriptorInput(colorScheme: \(Swift.String(describing: colorScheme)), contourDensity: \(Swift.String(describing: contourDensity)), style: \(Swift.String(describing: style)), terrain: \(Swift.String(describing: terrain)), traffic: \(Swift.String(describing: traffic)), travelModes: \(Swift.String(describing: travelModes)), key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\")"}
+        "GetStyleDescriptorInput(buildings: \(Swift.String(describing: buildings)), colorScheme: \(Swift.String(describing: colorScheme)), contourDensity: \(Swift.String(describing: contourDensity)), style: \(Swift.String(describing: style)), terrain: \(Swift.String(describing: terrain)), traffic: \(Swift.String(describing: traffic)), travelModes: \(Swift.String(describing: travelModes)), key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetStyleDescriptorOutput: Swift.Sendable {
@@ -1219,7 +1259,7 @@ public struct GetTileInput: Swift.Sendable {
     public var additionalFeatures: [GeoMapsClientTypes.TileAdditionalFeature]?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// Specifies the desired tile set. Valid Values: raster.satellite | vector.basemap
+    /// Specifies the desired tile set. Valid Values: raster.satellite | vector.basemap | vector.traffic | raster.dem
     /// This member is required.
     public var tileset: Swift.String?
     /// The X axis value for the map tile. Must be between 0 and 19.
@@ -1433,6 +1473,10 @@ extension GetStyleDescriptorInput {
         if let contourDensity = value.contourDensity {
             let contourDensityQueryItem = Smithy.URIQueryItem(name: "contour-density".urlPercentEncoding(), value: Swift.String(contourDensity.rawValue).urlPercentEncoding())
             items.append(contourDensityQueryItem)
+        }
+        if let buildings = value.buildings {
+            let buildingsQueryItem = Smithy.URIQueryItem(name: "buildings".urlPercentEncoding(), value: Swift.String(buildings.rawValue).urlPercentEncoding())
+            items.append(buildingsQueryItem)
         }
         if let traffic = value.traffic {
             let trafficQueryItem = Smithy.URIQueryItem(name: "traffic".urlPercentEncoding(), value: Swift.String(traffic.rawValue).urlPercentEncoding())

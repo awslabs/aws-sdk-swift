@@ -4392,177 +4392,49 @@ extension ValidationException {
     }
 }
 
-extension PcaConnectorAdClientTypes.Connector {
+extension PcaConnectorAdClientTypes.AccessControlEntry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.Connector {
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.AccessControlEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.Connector()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.certificateAuthorityArn = try reader["CertificateAuthorityArn"].readIfPresent()
-        value.certificateEnrollmentPolicyServerEndpoint = try reader["CertificateEnrollmentPolicyServerEndpoint"].readIfPresent()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.vpcInformation = try reader["VpcInformation"].readIfPresent(with: PcaConnectorAdClientTypes.VpcInformation.read(from:))
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
+        var value = PcaConnectorAdClientTypes.AccessControlEntry()
+        value.groupDisplayName = try reader["GroupDisplayName"].readIfPresent()
+        value.groupSecurityIdentifier = try reader["GroupSecurityIdentifier"].readIfPresent()
+        value.accessRights = try reader["AccessRights"].readIfPresent(with: PcaConnectorAdClientTypes.AccessRights.read(from:))
+        value.templateArn = try reader["TemplateArn"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension PcaConnectorAdClientTypes.VpcInformation {
+extension PcaConnectorAdClientTypes.AccessControlEntrySummary {
 
-    static func write(value: PcaConnectorAdClientTypes.VpcInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IpAddressType"].write(value.ipAddressType)
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.VpcInformation {
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.AccessControlEntrySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.VpcInformation()
-        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.DirectoryRegistration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.DirectoryRegistration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.DirectoryRegistration()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
+        var value = PcaConnectorAdClientTypes.AccessControlEntrySummary()
+        value.groupDisplayName = try reader["GroupDisplayName"].readIfPresent()
+        value.groupSecurityIdentifier = try reader["GroupSecurityIdentifier"].readIfPresent()
+        value.accessRights = try reader["AccessRights"].readIfPresent(with: PcaConnectorAdClientTypes.AccessRights.read(from:))
+        value.templateArn = try reader["TemplateArn"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension PcaConnectorAdClientTypes.ServicePrincipalName {
+extension PcaConnectorAdClientTypes.AccessRights {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ServicePrincipalName {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.ServicePrincipalName()
-        value.directoryRegistrationArn = try reader["DirectoryRegistrationArn"].readIfPresent()
-        value.connectorArn = try reader["ConnectorArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.Template {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.Template {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.Template()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.connectorArn = try reader["ConnectorArn"].readIfPresent()
-        value.definition = try reader["Definition"].readIfPresent(with: PcaConnectorAdClientTypes.TemplateDefinition.read(from:))
-        value.name = try reader["Name"].readIfPresent()
-        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
-        value.policySchema = try reader["PolicySchema"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.revision = try reader["Revision"].readIfPresent(with: PcaConnectorAdClientTypes.TemplateRevision.read(from:))
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.TemplateRevision {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.TemplateRevision {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.TemplateRevision()
-        value.majorRevision = try reader["MajorRevision"].readIfPresent() ?? 0
-        value.minorRevision = try reader["MinorRevision"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.TemplateDefinition {
-
-    static func write(value: PcaConnectorAdClientTypes.TemplateDefinition?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PcaConnectorAdClientTypes.AccessRights?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .templatev2(templatev2):
-                try writer["TemplateV2"].write(templatev2, with: PcaConnectorAdClientTypes.TemplateV2.write(value:to:))
-            case let .templatev3(templatev3):
-                try writer["TemplateV3"].write(templatev3, with: PcaConnectorAdClientTypes.TemplateV3.write(value:to:))
-            case let .templatev4(templatev4):
-                try writer["TemplateV4"].write(templatev4, with: PcaConnectorAdClientTypes.TemplateV4.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["AutoEnroll"].write(value.autoEnroll)
+        try writer["Enroll"].write(value.enroll)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.TemplateDefinition {
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.AccessRights {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "TemplateV2":
-                return .templatev2(try reader["TemplateV2"].read(with: PcaConnectorAdClientTypes.TemplateV2.read(from:)))
-            case "TemplateV3":
-                return .templatev3(try reader["TemplateV3"].read(with: PcaConnectorAdClientTypes.TemplateV3.read(from:)))
-            case "TemplateV4":
-                return .templatev4(try reader["TemplateV4"].read(with: PcaConnectorAdClientTypes.TemplateV4.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension PcaConnectorAdClientTypes.TemplateV4 {
-
-    static func write(value: PcaConnectorAdClientTypes.TemplateV4?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateValidity"].write(value.certificateValidity, with: PcaConnectorAdClientTypes.CertificateValidity.write(value:to:))
-        try writer["EnrollmentFlags"].write(value.enrollmentFlags, with: PcaConnectorAdClientTypes.EnrollmentFlagsV4.write(value:to:))
-        try writer["Extensions"].write(value.extensions, with: PcaConnectorAdClientTypes.ExtensionsV4.write(value:to:))
-        try writer["GeneralFlags"].write(value.generalFlags, with: PcaConnectorAdClientTypes.GeneralFlagsV4.write(value:to:))
-        try writer["HashAlgorithm"].write(value.hashAlgorithm)
-        try writer["PrivateKeyAttributes"].write(value.privateKeyAttributes, with: PcaConnectorAdClientTypes.PrivateKeyAttributesV4.write(value:to:))
-        try writer["PrivateKeyFlags"].write(value.privateKeyFlags, with: PcaConnectorAdClientTypes.PrivateKeyFlagsV4.write(value:to:))
-        try writer["SubjectNameFlags"].write(value.subjectNameFlags, with: PcaConnectorAdClientTypes.SubjectNameFlagsV4.write(value:to:))
-        try writer["SupersededTemplates"].writeList(value.supersededTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.TemplateV4 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.TemplateV4()
-        value.certificateValidity = try reader["CertificateValidity"].readIfPresent(with: PcaConnectorAdClientTypes.CertificateValidity.read(from:))
-        value.supersededTemplates = try reader["SupersededTemplates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.privateKeyAttributes = try reader["PrivateKeyAttributes"].readIfPresent(with: PcaConnectorAdClientTypes.PrivateKeyAttributesV4.read(from:))
-        value.privateKeyFlags = try reader["PrivateKeyFlags"].readIfPresent(with: PcaConnectorAdClientTypes.PrivateKeyFlagsV4.read(from:))
-        value.enrollmentFlags = try reader["EnrollmentFlags"].readIfPresent(with: PcaConnectorAdClientTypes.EnrollmentFlagsV4.read(from:))
-        value.subjectNameFlags = try reader["SubjectNameFlags"].readIfPresent(with: PcaConnectorAdClientTypes.SubjectNameFlagsV4.read(from:))
-        value.generalFlags = try reader["GeneralFlags"].readIfPresent(with: PcaConnectorAdClientTypes.GeneralFlagsV4.read(from:))
-        value.hashAlgorithm = try reader["HashAlgorithm"].readIfPresent()
-        value.extensions = try reader["Extensions"].readIfPresent(with: PcaConnectorAdClientTypes.ExtensionsV4.read(from:))
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.ExtensionsV4 {
-
-    static func write(value: PcaConnectorAdClientTypes.ExtensionsV4?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationPolicies"].write(value.applicationPolicies, with: PcaConnectorAdClientTypes.ApplicationPolicies.write(value:to:))
-        try writer["KeyUsage"].write(value.keyUsage, with: PcaConnectorAdClientTypes.KeyUsage.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ExtensionsV4 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.ExtensionsV4()
-        value.keyUsage = try reader["KeyUsage"].readIfPresent(with: PcaConnectorAdClientTypes.KeyUsage.read(from:))
-        value.applicationPolicies = try reader["ApplicationPolicies"].readIfPresent(with: PcaConnectorAdClientTypes.ApplicationPolicies.read(from:))
+        var value = PcaConnectorAdClientTypes.AccessRights()
+        value.enroll = try reader["Enroll"].readIfPresent()
+        value.autoEnroll = try reader["AutoEnroll"].readIfPresent()
         return value
     }
 }
@@ -4612,6 +4484,260 @@ extension PcaConnectorAdClientTypes.ApplicationPolicy {
     }
 }
 
+extension PcaConnectorAdClientTypes.CertificateValidity {
+
+    static func write(value: PcaConnectorAdClientTypes.CertificateValidity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RenewalPeriod"].write(value.renewalPeriod, with: PcaConnectorAdClientTypes.ValidityPeriod.write(value:to:))
+        try writer["ValidityPeriod"].write(value.validityPeriod, with: PcaConnectorAdClientTypes.ValidityPeriod.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.CertificateValidity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.CertificateValidity()
+        value.validityPeriod = try reader["ValidityPeriod"].readIfPresent(with: PcaConnectorAdClientTypes.ValidityPeriod.read(from:))
+        value.renewalPeriod = try reader["RenewalPeriod"].readIfPresent(with: PcaConnectorAdClientTypes.ValidityPeriod.read(from:))
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.Connector {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.Connector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.Connector()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.certificateAuthorityArn = try reader["CertificateAuthorityArn"].readIfPresent()
+        value.certificateEnrollmentPolicyServerEndpoint = try reader["CertificateEnrollmentPolicyServerEndpoint"].readIfPresent()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.vpcInformation = try reader["VpcInformation"].readIfPresent(with: PcaConnectorAdClientTypes.VpcInformation.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.ConnectorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ConnectorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.ConnectorSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.certificateAuthorityArn = try reader["CertificateAuthorityArn"].readIfPresent()
+        value.certificateEnrollmentPolicyServerEndpoint = try reader["CertificateEnrollmentPolicyServerEndpoint"].readIfPresent()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.vpcInformation = try reader["VpcInformation"].readIfPresent(with: PcaConnectorAdClientTypes.VpcInformation.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.DirectoryRegistration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.DirectoryRegistration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.DirectoryRegistration()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.DirectoryRegistrationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.DirectoryRegistrationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.DirectoryRegistrationSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.EnrollmentFlagsV2 {
+
+    static func write(value: PcaConnectorAdClientTypes.EnrollmentFlagsV2?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnableKeyReuseOnNtTokenKeysetStorageFull"].write(value.enableKeyReuseOnNtTokenKeysetStorageFull)
+        try writer["IncludeSymmetricAlgorithms"].write(value.includeSymmetricAlgorithms)
+        try writer["NoSecurityExtension"].write(value.noSecurityExtension)
+        try writer["RemoveInvalidCertificateFromPersonalStore"].write(value.removeInvalidCertificateFromPersonalStore)
+        try writer["UserInteractionRequired"].write(value.userInteractionRequired)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.EnrollmentFlagsV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.EnrollmentFlagsV2()
+        value.includeSymmetricAlgorithms = try reader["IncludeSymmetricAlgorithms"].readIfPresent()
+        value.userInteractionRequired = try reader["UserInteractionRequired"].readIfPresent()
+        value.removeInvalidCertificateFromPersonalStore = try reader["RemoveInvalidCertificateFromPersonalStore"].readIfPresent()
+        value.noSecurityExtension = try reader["NoSecurityExtension"].readIfPresent()
+        value.enableKeyReuseOnNtTokenKeysetStorageFull = try reader["EnableKeyReuseOnNtTokenKeysetStorageFull"].readIfPresent()
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.EnrollmentFlagsV3 {
+
+    static func write(value: PcaConnectorAdClientTypes.EnrollmentFlagsV3?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnableKeyReuseOnNtTokenKeysetStorageFull"].write(value.enableKeyReuseOnNtTokenKeysetStorageFull)
+        try writer["IncludeSymmetricAlgorithms"].write(value.includeSymmetricAlgorithms)
+        try writer["NoSecurityExtension"].write(value.noSecurityExtension)
+        try writer["RemoveInvalidCertificateFromPersonalStore"].write(value.removeInvalidCertificateFromPersonalStore)
+        try writer["UserInteractionRequired"].write(value.userInteractionRequired)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.EnrollmentFlagsV3 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.EnrollmentFlagsV3()
+        value.includeSymmetricAlgorithms = try reader["IncludeSymmetricAlgorithms"].readIfPresent()
+        value.userInteractionRequired = try reader["UserInteractionRequired"].readIfPresent()
+        value.removeInvalidCertificateFromPersonalStore = try reader["RemoveInvalidCertificateFromPersonalStore"].readIfPresent()
+        value.noSecurityExtension = try reader["NoSecurityExtension"].readIfPresent()
+        value.enableKeyReuseOnNtTokenKeysetStorageFull = try reader["EnableKeyReuseOnNtTokenKeysetStorageFull"].readIfPresent()
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.EnrollmentFlagsV4 {
+
+    static func write(value: PcaConnectorAdClientTypes.EnrollmentFlagsV4?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnableKeyReuseOnNtTokenKeysetStorageFull"].write(value.enableKeyReuseOnNtTokenKeysetStorageFull)
+        try writer["IncludeSymmetricAlgorithms"].write(value.includeSymmetricAlgorithms)
+        try writer["NoSecurityExtension"].write(value.noSecurityExtension)
+        try writer["RemoveInvalidCertificateFromPersonalStore"].write(value.removeInvalidCertificateFromPersonalStore)
+        try writer["UserInteractionRequired"].write(value.userInteractionRequired)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.EnrollmentFlagsV4 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.EnrollmentFlagsV4()
+        value.includeSymmetricAlgorithms = try reader["IncludeSymmetricAlgorithms"].readIfPresent()
+        value.userInteractionRequired = try reader["UserInteractionRequired"].readIfPresent()
+        value.removeInvalidCertificateFromPersonalStore = try reader["RemoveInvalidCertificateFromPersonalStore"].readIfPresent()
+        value.noSecurityExtension = try reader["NoSecurityExtension"].readIfPresent()
+        value.enableKeyReuseOnNtTokenKeysetStorageFull = try reader["EnableKeyReuseOnNtTokenKeysetStorageFull"].readIfPresent()
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.ExtensionsV2 {
+
+    static func write(value: PcaConnectorAdClientTypes.ExtensionsV2?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationPolicies"].write(value.applicationPolicies, with: PcaConnectorAdClientTypes.ApplicationPolicies.write(value:to:))
+        try writer["KeyUsage"].write(value.keyUsage, with: PcaConnectorAdClientTypes.KeyUsage.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ExtensionsV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.ExtensionsV2()
+        value.keyUsage = try reader["KeyUsage"].readIfPresent(with: PcaConnectorAdClientTypes.KeyUsage.read(from:))
+        value.applicationPolicies = try reader["ApplicationPolicies"].readIfPresent(with: PcaConnectorAdClientTypes.ApplicationPolicies.read(from:))
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.ExtensionsV3 {
+
+    static func write(value: PcaConnectorAdClientTypes.ExtensionsV3?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationPolicies"].write(value.applicationPolicies, with: PcaConnectorAdClientTypes.ApplicationPolicies.write(value:to:))
+        try writer["KeyUsage"].write(value.keyUsage, with: PcaConnectorAdClientTypes.KeyUsage.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ExtensionsV3 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.ExtensionsV3()
+        value.keyUsage = try reader["KeyUsage"].readIfPresent(with: PcaConnectorAdClientTypes.KeyUsage.read(from:))
+        value.applicationPolicies = try reader["ApplicationPolicies"].readIfPresent(with: PcaConnectorAdClientTypes.ApplicationPolicies.read(from:))
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.ExtensionsV4 {
+
+    static func write(value: PcaConnectorAdClientTypes.ExtensionsV4?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationPolicies"].write(value.applicationPolicies, with: PcaConnectorAdClientTypes.ApplicationPolicies.write(value:to:))
+        try writer["KeyUsage"].write(value.keyUsage, with: PcaConnectorAdClientTypes.KeyUsage.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ExtensionsV4 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.ExtensionsV4()
+        value.keyUsage = try reader["KeyUsage"].readIfPresent(with: PcaConnectorAdClientTypes.KeyUsage.read(from:))
+        value.applicationPolicies = try reader["ApplicationPolicies"].readIfPresent(with: PcaConnectorAdClientTypes.ApplicationPolicies.read(from:))
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.GeneralFlagsV2 {
+
+    static func write(value: PcaConnectorAdClientTypes.GeneralFlagsV2?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutoEnrollment"].write(value.autoEnrollment)
+        try writer["MachineType"].write(value.machineType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.GeneralFlagsV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.GeneralFlagsV2()
+        value.autoEnrollment = try reader["AutoEnrollment"].readIfPresent()
+        value.machineType = try reader["MachineType"].readIfPresent()
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.GeneralFlagsV3 {
+
+    static func write(value: PcaConnectorAdClientTypes.GeneralFlagsV3?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutoEnrollment"].write(value.autoEnrollment)
+        try writer["MachineType"].write(value.machineType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.GeneralFlagsV3 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.GeneralFlagsV3()
+        value.autoEnrollment = try reader["AutoEnrollment"].readIfPresent()
+        value.machineType = try reader["MachineType"].readIfPresent()
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.GeneralFlagsV4 {
+
+    static func write(value: PcaConnectorAdClientTypes.GeneralFlagsV4?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutoEnrollment"].write(value.autoEnrollment)
+        try writer["MachineType"].write(value.machineType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.GeneralFlagsV4 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.GeneralFlagsV4()
+        value.autoEnrollment = try reader["AutoEnrollment"].readIfPresent()
+        value.machineType = try reader["MachineType"].readIfPresent()
+        return value
+    }
+}
+
 extension PcaConnectorAdClientTypes.KeyUsage {
 
     static func write(value: PcaConnectorAdClientTypes.KeyUsage?, to writer: SmithyJSON.Writer) throws {
@@ -4648,127 +4774,6 @@ extension PcaConnectorAdClientTypes.KeyUsageFlags {
         value.keyEncipherment = try reader["KeyEncipherment"].readIfPresent()
         value.dataEncipherment = try reader["DataEncipherment"].readIfPresent()
         value.keyAgreement = try reader["KeyAgreement"].readIfPresent()
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.GeneralFlagsV4 {
-
-    static func write(value: PcaConnectorAdClientTypes.GeneralFlagsV4?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoEnrollment"].write(value.autoEnrollment)
-        try writer["MachineType"].write(value.machineType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.GeneralFlagsV4 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.GeneralFlagsV4()
-        value.autoEnrollment = try reader["AutoEnrollment"].readIfPresent()
-        value.machineType = try reader["MachineType"].readIfPresent()
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.SubjectNameFlagsV4 {
-
-    static func write(value: PcaConnectorAdClientTypes.SubjectNameFlagsV4?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RequireCommonName"].write(value.requireCommonName)
-        try writer["RequireDirectoryPath"].write(value.requireDirectoryPath)
-        try writer["RequireDnsAsCn"].write(value.requireDnsAsCn)
-        try writer["RequireEmail"].write(value.requireEmail)
-        try writer["SanRequireDirectoryGuid"].write(value.sanRequireDirectoryGuid)
-        try writer["SanRequireDns"].write(value.sanRequireDns)
-        try writer["SanRequireDomainDns"].write(value.sanRequireDomainDns)
-        try writer["SanRequireEmail"].write(value.sanRequireEmail)
-        try writer["SanRequireSpn"].write(value.sanRequireSpn)
-        try writer["SanRequireUpn"].write(value.sanRequireUpn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.SubjectNameFlagsV4 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.SubjectNameFlagsV4()
-        value.sanRequireDomainDns = try reader["SanRequireDomainDns"].readIfPresent()
-        value.sanRequireSpn = try reader["SanRequireSpn"].readIfPresent()
-        value.sanRequireDirectoryGuid = try reader["SanRequireDirectoryGuid"].readIfPresent()
-        value.sanRequireUpn = try reader["SanRequireUpn"].readIfPresent()
-        value.sanRequireEmail = try reader["SanRequireEmail"].readIfPresent()
-        value.sanRequireDns = try reader["SanRequireDns"].readIfPresent()
-        value.requireDnsAsCn = try reader["RequireDnsAsCn"].readIfPresent()
-        value.requireEmail = try reader["RequireEmail"].readIfPresent()
-        value.requireCommonName = try reader["RequireCommonName"].readIfPresent()
-        value.requireDirectoryPath = try reader["RequireDirectoryPath"].readIfPresent()
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.EnrollmentFlagsV4 {
-
-    static func write(value: PcaConnectorAdClientTypes.EnrollmentFlagsV4?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EnableKeyReuseOnNtTokenKeysetStorageFull"].write(value.enableKeyReuseOnNtTokenKeysetStorageFull)
-        try writer["IncludeSymmetricAlgorithms"].write(value.includeSymmetricAlgorithms)
-        try writer["NoSecurityExtension"].write(value.noSecurityExtension)
-        try writer["RemoveInvalidCertificateFromPersonalStore"].write(value.removeInvalidCertificateFromPersonalStore)
-        try writer["UserInteractionRequired"].write(value.userInteractionRequired)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.EnrollmentFlagsV4 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.EnrollmentFlagsV4()
-        value.includeSymmetricAlgorithms = try reader["IncludeSymmetricAlgorithms"].readIfPresent()
-        value.userInteractionRequired = try reader["UserInteractionRequired"].readIfPresent()
-        value.removeInvalidCertificateFromPersonalStore = try reader["RemoveInvalidCertificateFromPersonalStore"].readIfPresent()
-        value.noSecurityExtension = try reader["NoSecurityExtension"].readIfPresent()
-        value.enableKeyReuseOnNtTokenKeysetStorageFull = try reader["EnableKeyReuseOnNtTokenKeysetStorageFull"].readIfPresent()
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.PrivateKeyFlagsV4 {
-
-    static func write(value: PcaConnectorAdClientTypes.PrivateKeyFlagsV4?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClientVersion"].write(value.clientVersion)
-        try writer["ExportableKey"].write(value.exportableKey)
-        try writer["RequireAlternateSignatureAlgorithm"].write(value.requireAlternateSignatureAlgorithm)
-        try writer["RequireSameKeyRenewal"].write(value.requireSameKeyRenewal)
-        try writer["StrongKeyProtectionRequired"].write(value.strongKeyProtectionRequired)
-        try writer["UseLegacyProvider"].write(value.useLegacyProvider)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.PrivateKeyFlagsV4 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.PrivateKeyFlagsV4()
-        value.exportableKey = try reader["ExportableKey"].readIfPresent()
-        value.strongKeyProtectionRequired = try reader["StrongKeyProtectionRequired"].readIfPresent()
-        value.requireAlternateSignatureAlgorithm = try reader["RequireAlternateSignatureAlgorithm"].readIfPresent()
-        value.requireSameKeyRenewal = try reader["RequireSameKeyRenewal"].readIfPresent()
-        value.useLegacyProvider = try reader["UseLegacyProvider"].readIfPresent()
-        value.clientVersion = try reader["ClientVersion"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.PrivateKeyAttributesV4 {
-
-    static func write(value: PcaConnectorAdClientTypes.PrivateKeyAttributesV4?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Algorithm"].write(value.algorithm)
-        try writer["CryptoProviders"].writeList(value.cryptoProviders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["KeySpec"].write(value.keySpec)
-        try writer["KeyUsageProperty"].write(value.keyUsageProperty, with: PcaConnectorAdClientTypes.KeyUsageProperty.write(value:to:))
-        try writer["MinimalKeyLength"].write(value.minimalKeyLength)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.PrivateKeyAttributesV4 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.PrivateKeyAttributesV4()
-        value.minimalKeyLength = try reader["MinimalKeyLength"].readIfPresent() ?? 0
-        value.keySpec = try reader["KeySpec"].readIfPresent() ?? .sdkUnknown("")
-        value.cryptoProviders = try reader["CryptoProviders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.keyUsageProperty = try reader["KeyUsageProperty"].readIfPresent(with: PcaConnectorAdClientTypes.KeyUsageProperty.read(from:))
-        value.algorithm = try reader["Algorithm"].readIfPresent()
         return value
     }
 }
@@ -4820,178 +4825,21 @@ extension PcaConnectorAdClientTypes.KeyUsagePropertyFlags {
     }
 }
 
-extension PcaConnectorAdClientTypes.CertificateValidity {
+extension PcaConnectorAdClientTypes.PrivateKeyAttributesV2 {
 
-    static func write(value: PcaConnectorAdClientTypes.CertificateValidity?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PcaConnectorAdClientTypes.PrivateKeyAttributesV2?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["RenewalPeriod"].write(value.renewalPeriod, with: PcaConnectorAdClientTypes.ValidityPeriod.write(value:to:))
-        try writer["ValidityPeriod"].write(value.validityPeriod, with: PcaConnectorAdClientTypes.ValidityPeriod.write(value:to:))
+        try writer["CryptoProviders"].writeList(value.cryptoProviders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["KeySpec"].write(value.keySpec)
+        try writer["MinimalKeyLength"].write(value.minimalKeyLength)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.CertificateValidity {
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.PrivateKeyAttributesV2 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.CertificateValidity()
-        value.validityPeriod = try reader["ValidityPeriod"].readIfPresent(with: PcaConnectorAdClientTypes.ValidityPeriod.read(from:))
-        value.renewalPeriod = try reader["RenewalPeriod"].readIfPresent(with: PcaConnectorAdClientTypes.ValidityPeriod.read(from:))
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.ValidityPeriod {
-
-    static func write(value: PcaConnectorAdClientTypes.ValidityPeriod?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Period"].write(value.period)
-        try writer["PeriodType"].write(value.periodType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ValidityPeriod {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.ValidityPeriod()
-        value.periodType = try reader["PeriodType"].readIfPresent() ?? .sdkUnknown("")
-        value.period = try reader["Period"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.TemplateV3 {
-
-    static func write(value: PcaConnectorAdClientTypes.TemplateV3?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CertificateValidity"].write(value.certificateValidity, with: PcaConnectorAdClientTypes.CertificateValidity.write(value:to:))
-        try writer["EnrollmentFlags"].write(value.enrollmentFlags, with: PcaConnectorAdClientTypes.EnrollmentFlagsV3.write(value:to:))
-        try writer["Extensions"].write(value.extensions, with: PcaConnectorAdClientTypes.ExtensionsV3.write(value:to:))
-        try writer["GeneralFlags"].write(value.generalFlags, with: PcaConnectorAdClientTypes.GeneralFlagsV3.write(value:to:))
-        try writer["HashAlgorithm"].write(value.hashAlgorithm)
-        try writer["PrivateKeyAttributes"].write(value.privateKeyAttributes, with: PcaConnectorAdClientTypes.PrivateKeyAttributesV3.write(value:to:))
-        try writer["PrivateKeyFlags"].write(value.privateKeyFlags, with: PcaConnectorAdClientTypes.PrivateKeyFlagsV3.write(value:to:))
-        try writer["SubjectNameFlags"].write(value.subjectNameFlags, with: PcaConnectorAdClientTypes.SubjectNameFlagsV3.write(value:to:))
-        try writer["SupersededTemplates"].writeList(value.supersededTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.TemplateV3 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.TemplateV3()
-        value.certificateValidity = try reader["CertificateValidity"].readIfPresent(with: PcaConnectorAdClientTypes.CertificateValidity.read(from:))
-        value.supersededTemplates = try reader["SupersededTemplates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.privateKeyAttributes = try reader["PrivateKeyAttributes"].readIfPresent(with: PcaConnectorAdClientTypes.PrivateKeyAttributesV3.read(from:))
-        value.privateKeyFlags = try reader["PrivateKeyFlags"].readIfPresent(with: PcaConnectorAdClientTypes.PrivateKeyFlagsV3.read(from:))
-        value.enrollmentFlags = try reader["EnrollmentFlags"].readIfPresent(with: PcaConnectorAdClientTypes.EnrollmentFlagsV3.read(from:))
-        value.subjectNameFlags = try reader["SubjectNameFlags"].readIfPresent(with: PcaConnectorAdClientTypes.SubjectNameFlagsV3.read(from:))
-        value.generalFlags = try reader["GeneralFlags"].readIfPresent(with: PcaConnectorAdClientTypes.GeneralFlagsV3.read(from:))
-        value.hashAlgorithm = try reader["HashAlgorithm"].readIfPresent() ?? .sdkUnknown("")
-        value.extensions = try reader["Extensions"].readIfPresent(with: PcaConnectorAdClientTypes.ExtensionsV3.read(from:))
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.ExtensionsV3 {
-
-    static func write(value: PcaConnectorAdClientTypes.ExtensionsV3?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationPolicies"].write(value.applicationPolicies, with: PcaConnectorAdClientTypes.ApplicationPolicies.write(value:to:))
-        try writer["KeyUsage"].write(value.keyUsage, with: PcaConnectorAdClientTypes.KeyUsage.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ExtensionsV3 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.ExtensionsV3()
-        value.keyUsage = try reader["KeyUsage"].readIfPresent(with: PcaConnectorAdClientTypes.KeyUsage.read(from:))
-        value.applicationPolicies = try reader["ApplicationPolicies"].readIfPresent(with: PcaConnectorAdClientTypes.ApplicationPolicies.read(from:))
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.GeneralFlagsV3 {
-
-    static func write(value: PcaConnectorAdClientTypes.GeneralFlagsV3?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoEnrollment"].write(value.autoEnrollment)
-        try writer["MachineType"].write(value.machineType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.GeneralFlagsV3 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.GeneralFlagsV3()
-        value.autoEnrollment = try reader["AutoEnrollment"].readIfPresent()
-        value.machineType = try reader["MachineType"].readIfPresent()
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.SubjectNameFlagsV3 {
-
-    static func write(value: PcaConnectorAdClientTypes.SubjectNameFlagsV3?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RequireCommonName"].write(value.requireCommonName)
-        try writer["RequireDirectoryPath"].write(value.requireDirectoryPath)
-        try writer["RequireDnsAsCn"].write(value.requireDnsAsCn)
-        try writer["RequireEmail"].write(value.requireEmail)
-        try writer["SanRequireDirectoryGuid"].write(value.sanRequireDirectoryGuid)
-        try writer["SanRequireDns"].write(value.sanRequireDns)
-        try writer["SanRequireDomainDns"].write(value.sanRequireDomainDns)
-        try writer["SanRequireEmail"].write(value.sanRequireEmail)
-        try writer["SanRequireSpn"].write(value.sanRequireSpn)
-        try writer["SanRequireUpn"].write(value.sanRequireUpn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.SubjectNameFlagsV3 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.SubjectNameFlagsV3()
-        value.sanRequireDomainDns = try reader["SanRequireDomainDns"].readIfPresent()
-        value.sanRequireSpn = try reader["SanRequireSpn"].readIfPresent()
-        value.sanRequireDirectoryGuid = try reader["SanRequireDirectoryGuid"].readIfPresent()
-        value.sanRequireUpn = try reader["SanRequireUpn"].readIfPresent()
-        value.sanRequireEmail = try reader["SanRequireEmail"].readIfPresent()
-        value.sanRequireDns = try reader["SanRequireDns"].readIfPresent()
-        value.requireDnsAsCn = try reader["RequireDnsAsCn"].readIfPresent()
-        value.requireEmail = try reader["RequireEmail"].readIfPresent()
-        value.requireCommonName = try reader["RequireCommonName"].readIfPresent()
-        value.requireDirectoryPath = try reader["RequireDirectoryPath"].readIfPresent()
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.EnrollmentFlagsV3 {
-
-    static func write(value: PcaConnectorAdClientTypes.EnrollmentFlagsV3?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EnableKeyReuseOnNtTokenKeysetStorageFull"].write(value.enableKeyReuseOnNtTokenKeysetStorageFull)
-        try writer["IncludeSymmetricAlgorithms"].write(value.includeSymmetricAlgorithms)
-        try writer["NoSecurityExtension"].write(value.noSecurityExtension)
-        try writer["RemoveInvalidCertificateFromPersonalStore"].write(value.removeInvalidCertificateFromPersonalStore)
-        try writer["UserInteractionRequired"].write(value.userInteractionRequired)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.EnrollmentFlagsV3 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.EnrollmentFlagsV3()
-        value.includeSymmetricAlgorithms = try reader["IncludeSymmetricAlgorithms"].readIfPresent()
-        value.userInteractionRequired = try reader["UserInteractionRequired"].readIfPresent()
-        value.removeInvalidCertificateFromPersonalStore = try reader["RemoveInvalidCertificateFromPersonalStore"].readIfPresent()
-        value.noSecurityExtension = try reader["NoSecurityExtension"].readIfPresent()
-        value.enableKeyReuseOnNtTokenKeysetStorageFull = try reader["EnableKeyReuseOnNtTokenKeysetStorageFull"].readIfPresent()
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.PrivateKeyFlagsV3 {
-
-    static func write(value: PcaConnectorAdClientTypes.PrivateKeyFlagsV3?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClientVersion"].write(value.clientVersion)
-        try writer["ExportableKey"].write(value.exportableKey)
-        try writer["RequireAlternateSignatureAlgorithm"].write(value.requireAlternateSignatureAlgorithm)
-        try writer["StrongKeyProtectionRequired"].write(value.strongKeyProtectionRequired)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.PrivateKeyFlagsV3 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.PrivateKeyFlagsV3()
-        value.exportableKey = try reader["ExportableKey"].readIfPresent()
-        value.strongKeyProtectionRequired = try reader["StrongKeyProtectionRequired"].readIfPresent()
-        value.requireAlternateSignatureAlgorithm = try reader["RequireAlternateSignatureAlgorithm"].readIfPresent()
-        value.clientVersion = try reader["ClientVersion"].readIfPresent() ?? .sdkUnknown("")
+        var value = PcaConnectorAdClientTypes.PrivateKeyAttributesV2()
+        value.minimalKeyLength = try reader["MinimalKeyLength"].readIfPresent() ?? 0
+        value.keySpec = try reader["KeySpec"].readIfPresent() ?? .sdkUnknown("")
+        value.cryptoProviders = try reader["CryptoProviders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5019,65 +4867,120 @@ extension PcaConnectorAdClientTypes.PrivateKeyAttributesV3 {
     }
 }
 
-extension PcaConnectorAdClientTypes.TemplateV2 {
+extension PcaConnectorAdClientTypes.PrivateKeyAttributesV4 {
 
-    static func write(value: PcaConnectorAdClientTypes.TemplateV2?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PcaConnectorAdClientTypes.PrivateKeyAttributesV4?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CertificateValidity"].write(value.certificateValidity, with: PcaConnectorAdClientTypes.CertificateValidity.write(value:to:))
-        try writer["EnrollmentFlags"].write(value.enrollmentFlags, with: PcaConnectorAdClientTypes.EnrollmentFlagsV2.write(value:to:))
-        try writer["Extensions"].write(value.extensions, with: PcaConnectorAdClientTypes.ExtensionsV2.write(value:to:))
-        try writer["GeneralFlags"].write(value.generalFlags, with: PcaConnectorAdClientTypes.GeneralFlagsV2.write(value:to:))
-        try writer["PrivateKeyAttributes"].write(value.privateKeyAttributes, with: PcaConnectorAdClientTypes.PrivateKeyAttributesV2.write(value:to:))
-        try writer["PrivateKeyFlags"].write(value.privateKeyFlags, with: PcaConnectorAdClientTypes.PrivateKeyFlagsV2.write(value:to:))
-        try writer["SubjectNameFlags"].write(value.subjectNameFlags, with: PcaConnectorAdClientTypes.SubjectNameFlagsV2.write(value:to:))
-        try writer["SupersededTemplates"].writeList(value.supersededTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Algorithm"].write(value.algorithm)
+        try writer["CryptoProviders"].writeList(value.cryptoProviders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["KeySpec"].write(value.keySpec)
+        try writer["KeyUsageProperty"].write(value.keyUsageProperty, with: PcaConnectorAdClientTypes.KeyUsageProperty.write(value:to:))
+        try writer["MinimalKeyLength"].write(value.minimalKeyLength)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.TemplateV2 {
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.PrivateKeyAttributesV4 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.TemplateV2()
-        value.certificateValidity = try reader["CertificateValidity"].readIfPresent(with: PcaConnectorAdClientTypes.CertificateValidity.read(from:))
-        value.supersededTemplates = try reader["SupersededTemplates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.privateKeyAttributes = try reader["PrivateKeyAttributes"].readIfPresent(with: PcaConnectorAdClientTypes.PrivateKeyAttributesV2.read(from:))
-        value.privateKeyFlags = try reader["PrivateKeyFlags"].readIfPresent(with: PcaConnectorAdClientTypes.PrivateKeyFlagsV2.read(from:))
-        value.enrollmentFlags = try reader["EnrollmentFlags"].readIfPresent(with: PcaConnectorAdClientTypes.EnrollmentFlagsV2.read(from:))
-        value.subjectNameFlags = try reader["SubjectNameFlags"].readIfPresent(with: PcaConnectorAdClientTypes.SubjectNameFlagsV2.read(from:))
-        value.generalFlags = try reader["GeneralFlags"].readIfPresent(with: PcaConnectorAdClientTypes.GeneralFlagsV2.read(from:))
-        value.extensions = try reader["Extensions"].readIfPresent(with: PcaConnectorAdClientTypes.ExtensionsV2.read(from:))
+        var value = PcaConnectorAdClientTypes.PrivateKeyAttributesV4()
+        value.minimalKeyLength = try reader["MinimalKeyLength"].readIfPresent() ?? 0
+        value.keySpec = try reader["KeySpec"].readIfPresent() ?? .sdkUnknown("")
+        value.cryptoProviders = try reader["CryptoProviders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.keyUsageProperty = try reader["KeyUsageProperty"].readIfPresent(with: PcaConnectorAdClientTypes.KeyUsageProperty.read(from:))
+        value.algorithm = try reader["Algorithm"].readIfPresent()
         return value
     }
 }
 
-extension PcaConnectorAdClientTypes.ExtensionsV2 {
+extension PcaConnectorAdClientTypes.PrivateKeyFlagsV2 {
 
-    static func write(value: PcaConnectorAdClientTypes.ExtensionsV2?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PcaConnectorAdClientTypes.PrivateKeyFlagsV2?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ApplicationPolicies"].write(value.applicationPolicies, with: PcaConnectorAdClientTypes.ApplicationPolicies.write(value:to:))
-        try writer["KeyUsage"].write(value.keyUsage, with: PcaConnectorAdClientTypes.KeyUsage.write(value:to:))
+        try writer["ClientVersion"].write(value.clientVersion)
+        try writer["ExportableKey"].write(value.exportableKey)
+        try writer["StrongKeyProtectionRequired"].write(value.strongKeyProtectionRequired)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ExtensionsV2 {
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.PrivateKeyFlagsV2 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.ExtensionsV2()
-        value.keyUsage = try reader["KeyUsage"].readIfPresent(with: PcaConnectorAdClientTypes.KeyUsage.read(from:))
-        value.applicationPolicies = try reader["ApplicationPolicies"].readIfPresent(with: PcaConnectorAdClientTypes.ApplicationPolicies.read(from:))
+        var value = PcaConnectorAdClientTypes.PrivateKeyFlagsV2()
+        value.exportableKey = try reader["ExportableKey"].readIfPresent()
+        value.strongKeyProtectionRequired = try reader["StrongKeyProtectionRequired"].readIfPresent()
+        value.clientVersion = try reader["ClientVersion"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension PcaConnectorAdClientTypes.GeneralFlagsV2 {
+extension PcaConnectorAdClientTypes.PrivateKeyFlagsV3 {
 
-    static func write(value: PcaConnectorAdClientTypes.GeneralFlagsV2?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PcaConnectorAdClientTypes.PrivateKeyFlagsV3?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AutoEnrollment"].write(value.autoEnrollment)
-        try writer["MachineType"].write(value.machineType)
+        try writer["ClientVersion"].write(value.clientVersion)
+        try writer["ExportableKey"].write(value.exportableKey)
+        try writer["RequireAlternateSignatureAlgorithm"].write(value.requireAlternateSignatureAlgorithm)
+        try writer["StrongKeyProtectionRequired"].write(value.strongKeyProtectionRequired)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.GeneralFlagsV2 {
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.PrivateKeyFlagsV3 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.GeneralFlagsV2()
-        value.autoEnrollment = try reader["AutoEnrollment"].readIfPresent()
-        value.machineType = try reader["MachineType"].readIfPresent()
+        var value = PcaConnectorAdClientTypes.PrivateKeyFlagsV3()
+        value.exportableKey = try reader["ExportableKey"].readIfPresent()
+        value.strongKeyProtectionRequired = try reader["StrongKeyProtectionRequired"].readIfPresent()
+        value.requireAlternateSignatureAlgorithm = try reader["RequireAlternateSignatureAlgorithm"].readIfPresent()
+        value.clientVersion = try reader["ClientVersion"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.PrivateKeyFlagsV4 {
+
+    static func write(value: PcaConnectorAdClientTypes.PrivateKeyFlagsV4?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientVersion"].write(value.clientVersion)
+        try writer["ExportableKey"].write(value.exportableKey)
+        try writer["RequireAlternateSignatureAlgorithm"].write(value.requireAlternateSignatureAlgorithm)
+        try writer["RequireSameKeyRenewal"].write(value.requireSameKeyRenewal)
+        try writer["StrongKeyProtectionRequired"].write(value.strongKeyProtectionRequired)
+        try writer["UseLegacyProvider"].write(value.useLegacyProvider)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.PrivateKeyFlagsV4 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.PrivateKeyFlagsV4()
+        value.exportableKey = try reader["ExportableKey"].readIfPresent()
+        value.strongKeyProtectionRequired = try reader["StrongKeyProtectionRequired"].readIfPresent()
+        value.requireAlternateSignatureAlgorithm = try reader["RequireAlternateSignatureAlgorithm"].readIfPresent()
+        value.requireSameKeyRenewal = try reader["RequireSameKeyRenewal"].readIfPresent()
+        value.useLegacyProvider = try reader["UseLegacyProvider"].readIfPresent()
+        value.clientVersion = try reader["ClientVersion"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.ServicePrincipalName {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ServicePrincipalName {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.ServicePrincipalName()
+        value.directoryRegistrationArn = try reader["DirectoryRegistrationArn"].readIfPresent()
+        value.connectorArn = try reader["ConnectorArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.ServicePrincipalNameSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ServicePrincipalNameSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.ServicePrincipalNameSummary()
+        value.directoryRegistrationArn = try reader["DirectoryRegistrationArn"].readIfPresent()
+        value.connectorArn = try reader["ConnectorArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -5115,158 +5018,130 @@ extension PcaConnectorAdClientTypes.SubjectNameFlagsV2 {
     }
 }
 
-extension PcaConnectorAdClientTypes.EnrollmentFlagsV2 {
+extension PcaConnectorAdClientTypes.SubjectNameFlagsV3 {
 
-    static func write(value: PcaConnectorAdClientTypes.EnrollmentFlagsV2?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PcaConnectorAdClientTypes.SubjectNameFlagsV3?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EnableKeyReuseOnNtTokenKeysetStorageFull"].write(value.enableKeyReuseOnNtTokenKeysetStorageFull)
-        try writer["IncludeSymmetricAlgorithms"].write(value.includeSymmetricAlgorithms)
-        try writer["NoSecurityExtension"].write(value.noSecurityExtension)
-        try writer["RemoveInvalidCertificateFromPersonalStore"].write(value.removeInvalidCertificateFromPersonalStore)
-        try writer["UserInteractionRequired"].write(value.userInteractionRequired)
+        try writer["RequireCommonName"].write(value.requireCommonName)
+        try writer["RequireDirectoryPath"].write(value.requireDirectoryPath)
+        try writer["RequireDnsAsCn"].write(value.requireDnsAsCn)
+        try writer["RequireEmail"].write(value.requireEmail)
+        try writer["SanRequireDirectoryGuid"].write(value.sanRequireDirectoryGuid)
+        try writer["SanRequireDns"].write(value.sanRequireDns)
+        try writer["SanRequireDomainDns"].write(value.sanRequireDomainDns)
+        try writer["SanRequireEmail"].write(value.sanRequireEmail)
+        try writer["SanRequireSpn"].write(value.sanRequireSpn)
+        try writer["SanRequireUpn"].write(value.sanRequireUpn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.EnrollmentFlagsV2 {
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.SubjectNameFlagsV3 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.EnrollmentFlagsV2()
-        value.includeSymmetricAlgorithms = try reader["IncludeSymmetricAlgorithms"].readIfPresent()
-        value.userInteractionRequired = try reader["UserInteractionRequired"].readIfPresent()
-        value.removeInvalidCertificateFromPersonalStore = try reader["RemoveInvalidCertificateFromPersonalStore"].readIfPresent()
-        value.noSecurityExtension = try reader["NoSecurityExtension"].readIfPresent()
-        value.enableKeyReuseOnNtTokenKeysetStorageFull = try reader["EnableKeyReuseOnNtTokenKeysetStorageFull"].readIfPresent()
+        var value = PcaConnectorAdClientTypes.SubjectNameFlagsV3()
+        value.sanRequireDomainDns = try reader["SanRequireDomainDns"].readIfPresent()
+        value.sanRequireSpn = try reader["SanRequireSpn"].readIfPresent()
+        value.sanRequireDirectoryGuid = try reader["SanRequireDirectoryGuid"].readIfPresent()
+        value.sanRequireUpn = try reader["SanRequireUpn"].readIfPresent()
+        value.sanRequireEmail = try reader["SanRequireEmail"].readIfPresent()
+        value.sanRequireDns = try reader["SanRequireDns"].readIfPresent()
+        value.requireDnsAsCn = try reader["RequireDnsAsCn"].readIfPresent()
+        value.requireEmail = try reader["RequireEmail"].readIfPresent()
+        value.requireCommonName = try reader["RequireCommonName"].readIfPresent()
+        value.requireDirectoryPath = try reader["RequireDirectoryPath"].readIfPresent()
         return value
     }
 }
 
-extension PcaConnectorAdClientTypes.PrivateKeyFlagsV2 {
+extension PcaConnectorAdClientTypes.SubjectNameFlagsV4 {
 
-    static func write(value: PcaConnectorAdClientTypes.PrivateKeyFlagsV2?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PcaConnectorAdClientTypes.SubjectNameFlagsV4?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ClientVersion"].write(value.clientVersion)
-        try writer["ExportableKey"].write(value.exportableKey)
-        try writer["StrongKeyProtectionRequired"].write(value.strongKeyProtectionRequired)
+        try writer["RequireCommonName"].write(value.requireCommonName)
+        try writer["RequireDirectoryPath"].write(value.requireDirectoryPath)
+        try writer["RequireDnsAsCn"].write(value.requireDnsAsCn)
+        try writer["RequireEmail"].write(value.requireEmail)
+        try writer["SanRequireDirectoryGuid"].write(value.sanRequireDirectoryGuid)
+        try writer["SanRequireDns"].write(value.sanRequireDns)
+        try writer["SanRequireDomainDns"].write(value.sanRequireDomainDns)
+        try writer["SanRequireEmail"].write(value.sanRequireEmail)
+        try writer["SanRequireSpn"].write(value.sanRequireSpn)
+        try writer["SanRequireUpn"].write(value.sanRequireUpn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.PrivateKeyFlagsV2 {
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.SubjectNameFlagsV4 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.PrivateKeyFlagsV2()
-        value.exportableKey = try reader["ExportableKey"].readIfPresent()
-        value.strongKeyProtectionRequired = try reader["StrongKeyProtectionRequired"].readIfPresent()
-        value.clientVersion = try reader["ClientVersion"].readIfPresent() ?? .sdkUnknown("")
+        var value = PcaConnectorAdClientTypes.SubjectNameFlagsV4()
+        value.sanRequireDomainDns = try reader["SanRequireDomainDns"].readIfPresent()
+        value.sanRequireSpn = try reader["SanRequireSpn"].readIfPresent()
+        value.sanRequireDirectoryGuid = try reader["SanRequireDirectoryGuid"].readIfPresent()
+        value.sanRequireUpn = try reader["SanRequireUpn"].readIfPresent()
+        value.sanRequireEmail = try reader["SanRequireEmail"].readIfPresent()
+        value.sanRequireDns = try reader["SanRequireDns"].readIfPresent()
+        value.requireDnsAsCn = try reader["RequireDnsAsCn"].readIfPresent()
+        value.requireEmail = try reader["RequireEmail"].readIfPresent()
+        value.requireCommonName = try reader["RequireCommonName"].readIfPresent()
+        value.requireDirectoryPath = try reader["RequireDirectoryPath"].readIfPresent()
         return value
     }
 }
 
-extension PcaConnectorAdClientTypes.PrivateKeyAttributesV2 {
+extension PcaConnectorAdClientTypes.Template {
 
-    static func write(value: PcaConnectorAdClientTypes.PrivateKeyAttributesV2?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CryptoProviders"].writeList(value.cryptoProviders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["KeySpec"].write(value.keySpec)
-        try writer["MinimalKeyLength"].write(value.minimalKeyLength)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.PrivateKeyAttributesV2 {
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.Template {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.PrivateKeyAttributesV2()
-        value.minimalKeyLength = try reader["MinimalKeyLength"].readIfPresent() ?? 0
-        value.keySpec = try reader["KeySpec"].readIfPresent() ?? .sdkUnknown("")
-        value.cryptoProviders = try reader["CryptoProviders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.AccessControlEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.AccessControlEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.AccessControlEntry()
-        value.groupDisplayName = try reader["GroupDisplayName"].readIfPresent()
-        value.groupSecurityIdentifier = try reader["GroupSecurityIdentifier"].readIfPresent()
-        value.accessRights = try reader["AccessRights"].readIfPresent(with: PcaConnectorAdClientTypes.AccessRights.read(from:))
-        value.templateArn = try reader["TemplateArn"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.AccessRights {
-
-    static func write(value: PcaConnectorAdClientTypes.AccessRights?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoEnroll"].write(value.autoEnroll)
-        try writer["Enroll"].write(value.enroll)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.AccessRights {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.AccessRights()
-        value.enroll = try reader["Enroll"].readIfPresent()
-        value.autoEnroll = try reader["AutoEnroll"].readIfPresent()
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.ConnectorSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ConnectorSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.ConnectorSummary()
+        var value = PcaConnectorAdClientTypes.Template()
         value.arn = try reader["Arn"].readIfPresent()
-        value.certificateAuthorityArn = try reader["CertificateAuthorityArn"].readIfPresent()
-        value.certificateEnrollmentPolicyServerEndpoint = try reader["CertificateEnrollmentPolicyServerEndpoint"].readIfPresent()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.vpcInformation = try reader["VpcInformation"].readIfPresent(with: PcaConnectorAdClientTypes.VpcInformation.read(from:))
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.DirectoryRegistrationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.DirectoryRegistrationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.DirectoryRegistrationSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension PcaConnectorAdClientTypes.ServicePrincipalNameSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ServicePrincipalNameSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.ServicePrincipalNameSummary()
-        value.directoryRegistrationArn = try reader["DirectoryRegistrationArn"].readIfPresent()
         value.connectorArn = try reader["ConnectorArn"].readIfPresent()
+        value.definition = try reader["Definition"].readIfPresent(with: PcaConnectorAdClientTypes.TemplateDefinition.read(from:))
+        value.name = try reader["Name"].readIfPresent()
+        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
+        value.policySchema = try reader["PolicySchema"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.revision = try reader["Revision"].readIfPresent(with: PcaConnectorAdClientTypes.TemplateRevision.read(from:))
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension PcaConnectorAdClientTypes.AccessControlEntrySummary {
+extension PcaConnectorAdClientTypes.TemplateDefinition {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.AccessControlEntrySummary {
+    static func write(value: PcaConnectorAdClientTypes.TemplateDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .templatev2(templatev2):
+                try writer["TemplateV2"].write(templatev2, with: PcaConnectorAdClientTypes.TemplateV2.write(value:to:))
+            case let .templatev3(templatev3):
+                try writer["TemplateV3"].write(templatev3, with: PcaConnectorAdClientTypes.TemplateV3.write(value:to:))
+            case let .templatev4(templatev4):
+                try writer["TemplateV4"].write(templatev4, with: PcaConnectorAdClientTypes.TemplateV4.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.TemplateDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorAdClientTypes.AccessControlEntrySummary()
-        value.groupDisplayName = try reader["GroupDisplayName"].readIfPresent()
-        value.groupSecurityIdentifier = try reader["GroupSecurityIdentifier"].readIfPresent()
-        value.accessRights = try reader["AccessRights"].readIfPresent(with: PcaConnectorAdClientTypes.AccessRights.read(from:))
-        value.templateArn = try reader["TemplateArn"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "TemplateV2":
+                return .templatev2(try reader["TemplateV2"].read(with: PcaConnectorAdClientTypes.TemplateV2.read(from:)))
+            case "TemplateV3":
+                return .templatev3(try reader["TemplateV3"].read(with: PcaConnectorAdClientTypes.TemplateV3.read(from:)))
+            case "TemplateV4":
+                return .templatev4(try reader["TemplateV4"].read(with: PcaConnectorAdClientTypes.TemplateV4.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension PcaConnectorAdClientTypes.TemplateRevision {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.TemplateRevision {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.TemplateRevision()
+        value.majorRevision = try reader["MajorRevision"].readIfPresent() ?? 0
+        value.minorRevision = try reader["MinorRevision"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5286,6 +5161,131 @@ extension PcaConnectorAdClientTypes.TemplateSummary {
         value.revision = try reader["Revision"].readIfPresent(with: PcaConnectorAdClientTypes.TemplateRevision.read(from:))
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.TemplateV2 {
+
+    static func write(value: PcaConnectorAdClientTypes.TemplateV2?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateValidity"].write(value.certificateValidity, with: PcaConnectorAdClientTypes.CertificateValidity.write(value:to:))
+        try writer["EnrollmentFlags"].write(value.enrollmentFlags, with: PcaConnectorAdClientTypes.EnrollmentFlagsV2.write(value:to:))
+        try writer["Extensions"].write(value.extensions, with: PcaConnectorAdClientTypes.ExtensionsV2.write(value:to:))
+        try writer["GeneralFlags"].write(value.generalFlags, with: PcaConnectorAdClientTypes.GeneralFlagsV2.write(value:to:))
+        try writer["PrivateKeyAttributes"].write(value.privateKeyAttributes, with: PcaConnectorAdClientTypes.PrivateKeyAttributesV2.write(value:to:))
+        try writer["PrivateKeyFlags"].write(value.privateKeyFlags, with: PcaConnectorAdClientTypes.PrivateKeyFlagsV2.write(value:to:))
+        try writer["SubjectNameFlags"].write(value.subjectNameFlags, with: PcaConnectorAdClientTypes.SubjectNameFlagsV2.write(value:to:))
+        try writer["SupersededTemplates"].writeList(value.supersededTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.TemplateV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.TemplateV2()
+        value.certificateValidity = try reader["CertificateValidity"].readIfPresent(with: PcaConnectorAdClientTypes.CertificateValidity.read(from:))
+        value.supersededTemplates = try reader["SupersededTemplates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.privateKeyAttributes = try reader["PrivateKeyAttributes"].readIfPresent(with: PcaConnectorAdClientTypes.PrivateKeyAttributesV2.read(from:))
+        value.privateKeyFlags = try reader["PrivateKeyFlags"].readIfPresent(with: PcaConnectorAdClientTypes.PrivateKeyFlagsV2.read(from:))
+        value.enrollmentFlags = try reader["EnrollmentFlags"].readIfPresent(with: PcaConnectorAdClientTypes.EnrollmentFlagsV2.read(from:))
+        value.subjectNameFlags = try reader["SubjectNameFlags"].readIfPresent(with: PcaConnectorAdClientTypes.SubjectNameFlagsV2.read(from:))
+        value.generalFlags = try reader["GeneralFlags"].readIfPresent(with: PcaConnectorAdClientTypes.GeneralFlagsV2.read(from:))
+        value.extensions = try reader["Extensions"].readIfPresent(with: PcaConnectorAdClientTypes.ExtensionsV2.read(from:))
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.TemplateV3 {
+
+    static func write(value: PcaConnectorAdClientTypes.TemplateV3?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateValidity"].write(value.certificateValidity, with: PcaConnectorAdClientTypes.CertificateValidity.write(value:to:))
+        try writer["EnrollmentFlags"].write(value.enrollmentFlags, with: PcaConnectorAdClientTypes.EnrollmentFlagsV3.write(value:to:))
+        try writer["Extensions"].write(value.extensions, with: PcaConnectorAdClientTypes.ExtensionsV3.write(value:to:))
+        try writer["GeneralFlags"].write(value.generalFlags, with: PcaConnectorAdClientTypes.GeneralFlagsV3.write(value:to:))
+        try writer["HashAlgorithm"].write(value.hashAlgorithm)
+        try writer["PrivateKeyAttributes"].write(value.privateKeyAttributes, with: PcaConnectorAdClientTypes.PrivateKeyAttributesV3.write(value:to:))
+        try writer["PrivateKeyFlags"].write(value.privateKeyFlags, with: PcaConnectorAdClientTypes.PrivateKeyFlagsV3.write(value:to:))
+        try writer["SubjectNameFlags"].write(value.subjectNameFlags, with: PcaConnectorAdClientTypes.SubjectNameFlagsV3.write(value:to:))
+        try writer["SupersededTemplates"].writeList(value.supersededTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.TemplateV3 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.TemplateV3()
+        value.certificateValidity = try reader["CertificateValidity"].readIfPresent(with: PcaConnectorAdClientTypes.CertificateValidity.read(from:))
+        value.supersededTemplates = try reader["SupersededTemplates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.privateKeyAttributes = try reader["PrivateKeyAttributes"].readIfPresent(with: PcaConnectorAdClientTypes.PrivateKeyAttributesV3.read(from:))
+        value.privateKeyFlags = try reader["PrivateKeyFlags"].readIfPresent(with: PcaConnectorAdClientTypes.PrivateKeyFlagsV3.read(from:))
+        value.enrollmentFlags = try reader["EnrollmentFlags"].readIfPresent(with: PcaConnectorAdClientTypes.EnrollmentFlagsV3.read(from:))
+        value.subjectNameFlags = try reader["SubjectNameFlags"].readIfPresent(with: PcaConnectorAdClientTypes.SubjectNameFlagsV3.read(from:))
+        value.generalFlags = try reader["GeneralFlags"].readIfPresent(with: PcaConnectorAdClientTypes.GeneralFlagsV3.read(from:))
+        value.hashAlgorithm = try reader["HashAlgorithm"].readIfPresent() ?? .sdkUnknown("")
+        value.extensions = try reader["Extensions"].readIfPresent(with: PcaConnectorAdClientTypes.ExtensionsV3.read(from:))
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.TemplateV4 {
+
+    static func write(value: PcaConnectorAdClientTypes.TemplateV4?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateValidity"].write(value.certificateValidity, with: PcaConnectorAdClientTypes.CertificateValidity.write(value:to:))
+        try writer["EnrollmentFlags"].write(value.enrollmentFlags, with: PcaConnectorAdClientTypes.EnrollmentFlagsV4.write(value:to:))
+        try writer["Extensions"].write(value.extensions, with: PcaConnectorAdClientTypes.ExtensionsV4.write(value:to:))
+        try writer["GeneralFlags"].write(value.generalFlags, with: PcaConnectorAdClientTypes.GeneralFlagsV4.write(value:to:))
+        try writer["HashAlgorithm"].write(value.hashAlgorithm)
+        try writer["PrivateKeyAttributes"].write(value.privateKeyAttributes, with: PcaConnectorAdClientTypes.PrivateKeyAttributesV4.write(value:to:))
+        try writer["PrivateKeyFlags"].write(value.privateKeyFlags, with: PcaConnectorAdClientTypes.PrivateKeyFlagsV4.write(value:to:))
+        try writer["SubjectNameFlags"].write(value.subjectNameFlags, with: PcaConnectorAdClientTypes.SubjectNameFlagsV4.write(value:to:))
+        try writer["SupersededTemplates"].writeList(value.supersededTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.TemplateV4 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.TemplateV4()
+        value.certificateValidity = try reader["CertificateValidity"].readIfPresent(with: PcaConnectorAdClientTypes.CertificateValidity.read(from:))
+        value.supersededTemplates = try reader["SupersededTemplates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.privateKeyAttributes = try reader["PrivateKeyAttributes"].readIfPresent(with: PcaConnectorAdClientTypes.PrivateKeyAttributesV4.read(from:))
+        value.privateKeyFlags = try reader["PrivateKeyFlags"].readIfPresent(with: PcaConnectorAdClientTypes.PrivateKeyFlagsV4.read(from:))
+        value.enrollmentFlags = try reader["EnrollmentFlags"].readIfPresent(with: PcaConnectorAdClientTypes.EnrollmentFlagsV4.read(from:))
+        value.subjectNameFlags = try reader["SubjectNameFlags"].readIfPresent(with: PcaConnectorAdClientTypes.SubjectNameFlagsV4.read(from:))
+        value.generalFlags = try reader["GeneralFlags"].readIfPresent(with: PcaConnectorAdClientTypes.GeneralFlagsV4.read(from:))
+        value.hashAlgorithm = try reader["HashAlgorithm"].readIfPresent()
+        value.extensions = try reader["Extensions"].readIfPresent(with: PcaConnectorAdClientTypes.ExtensionsV4.read(from:))
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.ValidityPeriod {
+
+    static func write(value: PcaConnectorAdClientTypes.ValidityPeriod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Period"].write(value.period)
+        try writer["PeriodType"].write(value.periodType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.ValidityPeriod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.ValidityPeriod()
+        value.periodType = try reader["PeriodType"].readIfPresent() ?? .sdkUnknown("")
+        value.period = try reader["Period"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension PcaConnectorAdClientTypes.VpcInformation {
+
+    static func write(value: PcaConnectorAdClientTypes.VpcInformation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IpAddressType"].write(value.ipAddressType)
+        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorAdClientTypes.VpcInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorAdClientTypes.VpcInformation()
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

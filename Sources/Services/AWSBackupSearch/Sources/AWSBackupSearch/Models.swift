@@ -2123,52 +2123,6 @@ extension ValidationException {
     }
 }
 
-extension BackupSearchClientTypes.SearchScopeSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.SearchScopeSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupSearchClientTypes.SearchScopeSummary()
-        value.totalRecoveryPointsToScanCount = try reader["TotalRecoveryPointsToScanCount"].readIfPresent()
-        value.totalItemsToScanCount = try reader["TotalItemsToScanCount"].readIfPresent()
-        return value
-    }
-}
-
-extension BackupSearchClientTypes.CurrentSearchProgress {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.CurrentSearchProgress {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupSearchClientTypes.CurrentSearchProgress()
-        value.recoveryPointsScannedCount = try reader["RecoveryPointsScannedCount"].readIfPresent()
-        value.itemsScannedCount = try reader["ItemsScannedCount"].readIfPresent()
-        value.itemsMatchedCount = try reader["ItemsMatchedCount"].readIfPresent()
-        return value
-    }
-}
-
-extension BackupSearchClientTypes.SearchScope {
-
-    static func write(value: BackupSearchClientTypes.SearchScope?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackupResourceArns"].writeList(value.backupResourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BackupResourceCreationTime"].write(value.backupResourceCreationTime, with: BackupSearchClientTypes.BackupCreationTimeFilter.write(value:to:))
-        try writer["BackupResourceTags"].writeMap(value.backupResourceTags, valueWritingClosure: SmithyReadWrite.sparseFormOf(writingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["BackupResourceTypes"].writeList(value.backupResourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BackupSearchClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourceResourceArns"].writeList(value.sourceResourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.SearchScope {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupSearchClientTypes.SearchScope()
-        value.backupResourceTypes = try reader["BackupResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BackupSearchClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.backupResourceCreationTime = try reader["BackupResourceCreationTime"].readIfPresent(with: BackupSearchClientTypes.BackupCreationTimeFilter.read(from:))
-        value.sourceResourceArns = try reader["SourceResourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.backupResourceArns = try reader["BackupResourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.backupResourceTags = try reader["BackupResourceTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
 extension BackupSearchClientTypes.BackupCreationTimeFilter {
 
     static func write(value: BackupSearchClientTypes.BackupCreationTimeFilter?, to writer: SmithyJSON.Writer) throws {
@@ -2186,19 +2140,14 @@ extension BackupSearchClientTypes.BackupCreationTimeFilter {
     }
 }
 
-extension BackupSearchClientTypes.ItemFilters {
+extension BackupSearchClientTypes.CurrentSearchProgress {
 
-    static func write(value: BackupSearchClientTypes.ItemFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EBSItemFilters"].writeList(value.ebsItemFilters, memberWritingClosure: BackupSearchClientTypes.EBSItemFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["S3ItemFilters"].writeList(value.s3ItemFilters, memberWritingClosure: BackupSearchClientTypes.S3ItemFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.ItemFilters {
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.CurrentSearchProgress {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupSearchClientTypes.ItemFilters()
-        value.s3ItemFilters = try reader["S3ItemFilters"].readListIfPresent(memberReadingClosure: BackupSearchClientTypes.S3ItemFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ebsItemFilters = try reader["EBSItemFilters"].readListIfPresent(memberReadingClosure: BackupSearchClientTypes.EBSItemFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = BackupSearchClientTypes.CurrentSearchProgress()
+        value.recoveryPointsScannedCount = try reader["RecoveryPointsScannedCount"].readIfPresent()
+        value.itemsScannedCount = try reader["ItemsScannedCount"].readIfPresent()
+        value.itemsMatchedCount = try reader["ItemsMatchedCount"].readIfPresent()
         return value
     }
 }
@@ -2224,76 +2173,35 @@ extension BackupSearchClientTypes.EBSItemFilter {
     }
 }
 
-extension BackupSearchClientTypes.TimeCondition {
+extension BackupSearchClientTypes.EBSResultItem {
 
-    static func write(value: BackupSearchClientTypes.TimeCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Operator"].write(value.`operator`)
-        try writer["Value"].writeTimestamp(value.value, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.TimeCondition {
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.EBSResultItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupSearchClientTypes.TimeCondition()
-        value.value = try reader["Value"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.`operator` = try reader["Operator"].readIfPresent() ?? BackupSearchClientTypes.TimeConditionOperator.equalsTo
+        var value = BackupSearchClientTypes.EBSResultItem()
+        value.backupResourceArn = try reader["BackupResourceArn"].readIfPresent()
+        value.sourceResourceArn = try reader["SourceResourceArn"].readIfPresent()
+        value.backupVaultName = try reader["BackupVaultName"].readIfPresent()
+        value.fileSystemIdentifier = try reader["FileSystemIdentifier"].readIfPresent()
+        value.filePath = try reader["FilePath"].readIfPresent()
+        value.fileSize = try reader["FileSize"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension BackupSearchClientTypes.LongCondition {
+extension BackupSearchClientTypes.ExportJobSummary {
 
-    static func write(value: BackupSearchClientTypes.LongCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Operator"].write(value.`operator`)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.LongCondition {
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.ExportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupSearchClientTypes.LongCondition()
-        value.value = try reader["Value"].readIfPresent() ?? 0
-        value.`operator` = try reader["Operator"].readIfPresent() ?? BackupSearchClientTypes.LongConditionOperator.equalsTo
-        return value
-    }
-}
-
-extension BackupSearchClientTypes.StringCondition {
-
-    static func write(value: BackupSearchClientTypes.StringCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Operator"].write(value.`operator`)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.StringCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupSearchClientTypes.StringCondition()
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        value.`operator` = try reader["Operator"].readIfPresent() ?? BackupSearchClientTypes.StringConditionOperator.equalsTo
-        return value
-    }
-}
-
-extension BackupSearchClientTypes.S3ItemFilter {
-
-    static func write(value: BackupSearchClientTypes.S3ItemFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationTimes"].writeList(value.creationTimes, memberWritingClosure: BackupSearchClientTypes.TimeCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ETags"].writeList(value.eTags, memberWritingClosure: BackupSearchClientTypes.StringCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ObjectKeys"].writeList(value.objectKeys, memberWritingClosure: BackupSearchClientTypes.StringCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Sizes"].writeList(value.sizes, memberWritingClosure: BackupSearchClientTypes.LongCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VersionIds"].writeList(value.versionIds, memberWritingClosure: BackupSearchClientTypes.StringCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.S3ItemFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupSearchClientTypes.S3ItemFilter()
-        value.objectKeys = try reader["ObjectKeys"].readListIfPresent(memberReadingClosure: BackupSearchClientTypes.StringCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sizes = try reader["Sizes"].readListIfPresent(memberReadingClosure: BackupSearchClientTypes.LongCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.creationTimes = try reader["CreationTimes"].readListIfPresent(memberReadingClosure: BackupSearchClientTypes.TimeCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.versionIds = try reader["VersionIds"].readListIfPresent(memberReadingClosure: BackupSearchClientTypes.StringCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.eTags = try reader["ETags"].readListIfPresent(memberReadingClosure: BackupSearchClientTypes.StringCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = BackupSearchClientTypes.ExportJobSummary()
+        value.exportJobIdentifier = try reader["ExportJobIdentifier"].readIfPresent() ?? ""
+        value.exportJobArn = try reader["ExportJobArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.searchJobArn = try reader["SearchJobArn"].readIfPresent()
         return value
     }
 }
@@ -2322,35 +2230,36 @@ extension BackupSearchClientTypes.ExportSpecification {
     }
 }
 
-extension BackupSearchClientTypes.S3ExportSpecification {
+extension BackupSearchClientTypes.ItemFilters {
 
-    static func write(value: BackupSearchClientTypes.S3ExportSpecification?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BackupSearchClientTypes.ItemFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DestinationBucket"].write(value.destinationBucket)
-        try writer["DestinationPrefix"].write(value.destinationPrefix)
+        try writer["EBSItemFilters"].writeList(value.ebsItemFilters, memberWritingClosure: BackupSearchClientTypes.EBSItemFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["S3ItemFilters"].writeList(value.s3ItemFilters, memberWritingClosure: BackupSearchClientTypes.S3ItemFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.S3ExportSpecification {
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.ItemFilters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupSearchClientTypes.S3ExportSpecification()
-        value.destinationBucket = try reader["DestinationBucket"].readIfPresent() ?? ""
-        value.destinationPrefix = try reader["DestinationPrefix"].readIfPresent()
+        var value = BackupSearchClientTypes.ItemFilters()
+        value.s3ItemFilters = try reader["S3ItemFilters"].readListIfPresent(memberReadingClosure: BackupSearchClientTypes.S3ItemFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ebsItemFilters = try reader["EBSItemFilters"].readListIfPresent(memberReadingClosure: BackupSearchClientTypes.EBSItemFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension BackupSearchClientTypes.SearchJobBackupsResult {
+extension BackupSearchClientTypes.LongCondition {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.SearchJobBackupsResult {
+    static func write(value: BackupSearchClientTypes.LongCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Operator"].write(value.`operator`)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.LongCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupSearchClientTypes.SearchJobBackupsResult()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.backupResourceArn = try reader["BackupResourceArn"].readIfPresent()
-        value.sourceResourceArn = try reader["SourceResourceArn"].readIfPresent()
-        value.indexCreationTime = try reader["IndexCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.backupCreationTime = try reader["BackupCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = BackupSearchClientTypes.LongCondition()
+        value.value = try reader["Value"].readIfPresent() ?? 0
+        value.`operator` = try reader["Operator"].readIfPresent() ?? BackupSearchClientTypes.LongConditionOperator.equalsTo
         return value
     }
 }
@@ -2371,19 +2280,42 @@ extension BackupSearchClientTypes.ResultItem {
     }
 }
 
-extension BackupSearchClientTypes.EBSResultItem {
+extension BackupSearchClientTypes.S3ExportSpecification {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.EBSResultItem {
+    static func write(value: BackupSearchClientTypes.S3ExportSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationBucket"].write(value.destinationBucket)
+        try writer["DestinationPrefix"].write(value.destinationPrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.S3ExportSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupSearchClientTypes.EBSResultItem()
-        value.backupResourceArn = try reader["BackupResourceArn"].readIfPresent()
-        value.sourceResourceArn = try reader["SourceResourceArn"].readIfPresent()
-        value.backupVaultName = try reader["BackupVaultName"].readIfPresent()
-        value.fileSystemIdentifier = try reader["FileSystemIdentifier"].readIfPresent()
-        value.filePath = try reader["FilePath"].readIfPresent()
-        value.fileSize = try reader["FileSize"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = BackupSearchClientTypes.S3ExportSpecification()
+        value.destinationBucket = try reader["DestinationBucket"].readIfPresent() ?? ""
+        value.destinationPrefix = try reader["DestinationPrefix"].readIfPresent()
+        return value
+    }
+}
+
+extension BackupSearchClientTypes.S3ItemFilter {
+
+    static func write(value: BackupSearchClientTypes.S3ItemFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CreationTimes"].writeList(value.creationTimes, memberWritingClosure: BackupSearchClientTypes.TimeCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ETags"].writeList(value.eTags, memberWritingClosure: BackupSearchClientTypes.StringCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ObjectKeys"].writeList(value.objectKeys, memberWritingClosure: BackupSearchClientTypes.StringCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Sizes"].writeList(value.sizes, memberWritingClosure: BackupSearchClientTypes.LongCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VersionIds"].writeList(value.versionIds, memberWritingClosure: BackupSearchClientTypes.StringCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.S3ItemFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupSearchClientTypes.S3ItemFilter()
+        value.objectKeys = try reader["ObjectKeys"].readListIfPresent(memberReadingClosure: BackupSearchClientTypes.StringCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sizes = try reader["Sizes"].readListIfPresent(memberReadingClosure: BackupSearchClientTypes.LongCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.creationTimes = try reader["CreationTimes"].readListIfPresent(memberReadingClosure: BackupSearchClientTypes.TimeCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.versionIds = try reader["VersionIds"].readListIfPresent(memberReadingClosure: BackupSearchClientTypes.StringCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eTags = try reader["ETags"].readListIfPresent(memberReadingClosure: BackupSearchClientTypes.StringCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2405,6 +2337,22 @@ extension BackupSearchClientTypes.S3ResultItem {
     }
 }
 
+extension BackupSearchClientTypes.SearchJobBackupsResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.SearchJobBackupsResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupSearchClientTypes.SearchJobBackupsResult()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.backupResourceArn = try reader["BackupResourceArn"].readIfPresent()
+        value.sourceResourceArn = try reader["SourceResourceArn"].readIfPresent()
+        value.indexCreationTime = try reader["IndexCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.backupCreationTime = try reader["BackupCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension BackupSearchClientTypes.SearchJobSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.SearchJobSummary {
@@ -2422,18 +2370,70 @@ extension BackupSearchClientTypes.SearchJobSummary {
     }
 }
 
-extension BackupSearchClientTypes.ExportJobSummary {
+extension BackupSearchClientTypes.SearchScope {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.ExportJobSummary {
+    static func write(value: BackupSearchClientTypes.SearchScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BackupResourceArns"].writeList(value.backupResourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BackupResourceCreationTime"].write(value.backupResourceCreationTime, with: BackupSearchClientTypes.BackupCreationTimeFilter.write(value:to:))
+        try writer["BackupResourceTags"].writeMap(value.backupResourceTags, valueWritingClosure: SmithyReadWrite.sparseFormOf(writingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["BackupResourceTypes"].writeList(value.backupResourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BackupSearchClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceResourceArns"].writeList(value.sourceResourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.SearchScope {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupSearchClientTypes.ExportJobSummary()
-        value.exportJobIdentifier = try reader["ExportJobIdentifier"].readIfPresent() ?? ""
-        value.exportJobArn = try reader["ExportJobArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completionTime = try reader["CompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.searchJobArn = try reader["SearchJobArn"].readIfPresent()
+        var value = BackupSearchClientTypes.SearchScope()
+        value.backupResourceTypes = try reader["BackupResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BackupSearchClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.backupResourceCreationTime = try reader["BackupResourceCreationTime"].readIfPresent(with: BackupSearchClientTypes.BackupCreationTimeFilter.read(from:))
+        value.sourceResourceArns = try reader["SourceResourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.backupResourceArns = try reader["BackupResourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.backupResourceTags = try reader["BackupResourceTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BackupSearchClientTypes.SearchScopeSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.SearchScopeSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupSearchClientTypes.SearchScopeSummary()
+        value.totalRecoveryPointsToScanCount = try reader["TotalRecoveryPointsToScanCount"].readIfPresent()
+        value.totalItemsToScanCount = try reader["TotalItemsToScanCount"].readIfPresent()
+        return value
+    }
+}
+
+extension BackupSearchClientTypes.StringCondition {
+
+    static func write(value: BackupSearchClientTypes.StringCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Operator"].write(value.`operator`)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.StringCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupSearchClientTypes.StringCondition()
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        value.`operator` = try reader["Operator"].readIfPresent() ?? BackupSearchClientTypes.StringConditionOperator.equalsTo
+        return value
+    }
+}
+
+extension BackupSearchClientTypes.TimeCondition {
+
+    static func write(value: BackupSearchClientTypes.TimeCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Operator"].write(value.`operator`)
+        try writer["Value"].writeTimestamp(value.value, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupSearchClientTypes.TimeCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupSearchClientTypes.TimeCondition()
+        value.value = try reader["Value"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.`operator` = try reader["Operator"].readIfPresent() ?? BackupSearchClientTypes.TimeConditionOperator.equalsTo
         return value
     }
 }

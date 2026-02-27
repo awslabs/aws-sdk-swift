@@ -943,22 +943,30 @@ extension LimitExceededException {
     }
 }
 
-extension IoTSecureTunnelingClientTypes.Tunnel {
+extension IoTSecureTunnelingClientTypes.ConnectionState {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSecureTunnelingClientTypes.Tunnel {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSecureTunnelingClientTypes.ConnectionState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSecureTunnelingClientTypes.Tunnel()
-        value.tunnelId = try reader["tunnelId"].readIfPresent()
-        value.tunnelArn = try reader["tunnelArn"].readIfPresent()
+        var value = IoTSecureTunnelingClientTypes.ConnectionState()
         value.status = try reader["status"].readIfPresent()
-        value.sourceConnectionState = try reader["sourceConnectionState"].readIfPresent(with: IoTSecureTunnelingClientTypes.ConnectionState.read(from:))
-        value.destinationConnectionState = try reader["destinationConnectionState"].readIfPresent(with: IoTSecureTunnelingClientTypes.ConnectionState.read(from:))
-        value.description = try reader["description"].readIfPresent()
-        value.destinationConfig = try reader["destinationConfig"].readIfPresent(with: IoTSecureTunnelingClientTypes.DestinationConfig.read(from:))
-        value.timeoutConfig = try reader["timeoutConfig"].readIfPresent(with: IoTSecureTunnelingClientTypes.TimeoutConfig.read(from:))
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: IoTSecureTunnelingClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension IoTSecureTunnelingClientTypes.DestinationConfig {
+
+    static func write(value: IoTSecureTunnelingClientTypes.DestinationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["services"].writeList(value.services, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["thingName"].write(value.thingName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSecureTunnelingClientTypes.DestinationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSecureTunnelingClientTypes.DestinationConfig()
+        value.thingName = try reader["thingName"].readIfPresent()
+        value.services = try reader["services"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -995,29 +1003,21 @@ extension IoTSecureTunnelingClientTypes.TimeoutConfig {
     }
 }
 
-extension IoTSecureTunnelingClientTypes.DestinationConfig {
+extension IoTSecureTunnelingClientTypes.Tunnel {
 
-    static func write(value: IoTSecureTunnelingClientTypes.DestinationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["services"].writeList(value.services, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["thingName"].write(value.thingName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSecureTunnelingClientTypes.DestinationConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSecureTunnelingClientTypes.Tunnel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSecureTunnelingClientTypes.DestinationConfig()
-        value.thingName = try reader["thingName"].readIfPresent()
-        value.services = try reader["services"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension IoTSecureTunnelingClientTypes.ConnectionState {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTSecureTunnelingClientTypes.ConnectionState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTSecureTunnelingClientTypes.ConnectionState()
+        var value = IoTSecureTunnelingClientTypes.Tunnel()
+        value.tunnelId = try reader["tunnelId"].readIfPresent()
+        value.tunnelArn = try reader["tunnelArn"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
+        value.sourceConnectionState = try reader["sourceConnectionState"].readIfPresent(with: IoTSecureTunnelingClientTypes.ConnectionState.read(from:))
+        value.destinationConnectionState = try reader["destinationConnectionState"].readIfPresent(with: IoTSecureTunnelingClientTypes.ConnectionState.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.destinationConfig = try reader["destinationConfig"].readIfPresent(with: IoTSecureTunnelingClientTypes.DestinationConfig.read(from:))
+        value.timeoutConfig = try reader["timeoutConfig"].readIfPresent(with: IoTSecureTunnelingClientTypes.TimeoutConfig.read(from:))
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: IoTSecureTunnelingClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }

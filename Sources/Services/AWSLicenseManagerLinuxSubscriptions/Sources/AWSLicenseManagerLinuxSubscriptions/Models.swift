@@ -1438,20 +1438,13 @@ extension ValidationException {
     }
 }
 
-extension LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings {
+extension LicenseManagerLinuxSubscriptionsClientTypes.Filter {
 
-    static func write(value: LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LicenseManagerLinuxSubscriptionsClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["OrganizationIntegration"].write(value.organizationIntegration)
-        try writer["SourceRegions"].writeList(value.sourceRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings()
-        value.sourceRegions = try reader["SourceRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.organizationIntegration = try reader["OrganizationIntegration"].readIfPresent() ?? .sdkUnknown("")
-        return value
+        try writer["Name"].write(value.name)
+        try writer["Operator"].write(value.`operator`)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -1479,14 +1472,19 @@ extension LicenseManagerLinuxSubscriptionsClientTypes.Instance {
     }
 }
 
-extension LicenseManagerLinuxSubscriptionsClientTypes.Subscription {
+extension LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerLinuxSubscriptionsClientTypes.Subscription {
+    static func write(value: LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OrganizationIntegration"].write(value.organizationIntegration)
+        try writer["SourceRegions"].writeList(value.sourceRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LicenseManagerLinuxSubscriptionsClientTypes.Subscription()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.instanceCount = try reader["InstanceCount"].readIfPresent()
+        var value = LicenseManagerLinuxSubscriptionsClientTypes.LinuxSubscriptionsDiscoverySettings()
+        value.sourceRegions = try reader["SourceRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.organizationIntegration = try reader["OrganizationIntegration"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -1506,13 +1504,15 @@ extension LicenseManagerLinuxSubscriptionsClientTypes.RegisteredSubscriptionProv
     }
 }
 
-extension LicenseManagerLinuxSubscriptionsClientTypes.Filter {
+extension LicenseManagerLinuxSubscriptionsClientTypes.Subscription {
 
-    static func write(value: LicenseManagerLinuxSubscriptionsClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Operator"].write(value.`operator`)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> LicenseManagerLinuxSubscriptionsClientTypes.Subscription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LicenseManagerLinuxSubscriptionsClientTypes.Subscription()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.instanceCount = try reader["InstanceCount"].readIfPresent()
+        return value
     }
 }
 

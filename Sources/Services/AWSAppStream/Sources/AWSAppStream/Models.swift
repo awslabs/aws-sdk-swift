@@ -670,6 +670,8 @@ extension AppStreamClientTypes {
         public var createdTime: Foundation.Date?
         /// The description of the app block builder.
         public var description: Swift.String?
+        /// Indicates whether Instance Metadata Service Version 1 (IMDSv1) is disabled for the app block builder.
+        public var disableIMDSV1: Swift.Bool?
         /// The display name of the app block builder.
         public var displayName: Swift.String?
         /// Indicates whether default internet access is enabled for the app block builder.
@@ -700,6 +702,7 @@ extension AppStreamClientTypes {
             arn: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            disableIMDSV1: Swift.Bool? = nil,
             displayName: Swift.String? = nil,
             enableDefaultInternetAccess: Swift.Bool? = nil,
             iamRoleArn: Swift.String? = nil,
@@ -715,6 +718,7 @@ extension AppStreamClientTypes {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
+            self.disableIMDSV1 = disableIMDSV1
             self.displayName = displayName
             self.enableDefaultInternetAccess = enableDefaultInternetAccess
             self.iamRoleArn = iamRoleArn
@@ -834,10 +838,12 @@ extension AppStreamClientTypes {
         case amazonLinux2
         case rhel8
         case rockyLinux8
+        case ubuntuPro2404
         case windows
         case windowsServer2016
         case windowsServer2019
         case windowsServer2022
+        case windowsServer2025
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PlatformType] {
@@ -845,10 +851,12 @@ extension AppStreamClientTypes {
                 .amazonLinux2,
                 .rhel8,
                 .rockyLinux8,
+                .ubuntuPro2404,
                 .windows,
                 .windowsServer2016,
                 .windowsServer2019,
-                .windowsServer2022
+                .windowsServer2022,
+                .windowsServer2025
             ]
         }
 
@@ -862,10 +870,12 @@ extension AppStreamClientTypes {
             case .amazonLinux2: return "AMAZON_LINUX2"
             case .rhel8: return "RHEL8"
             case .rockyLinux8: return "ROCKY_LINUX8"
+            case .ubuntuPro2404: return "UBUNTU_PRO_2404"
             case .windows: return "WINDOWS"
             case .windowsServer2016: return "WINDOWS_SERVER_2016"
             case .windowsServer2019: return "WINDOWS_SERVER_2019"
             case .windowsServer2022: return "WINDOWS_SERVER_2022"
+            case .windowsServer2025: return "WINDOWS_SERVER_2025"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1910,6 +1920,8 @@ public struct CreateAppBlockBuilderInput: Swift.Sendable {
     public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
     /// The description of the app block builder.
     public var description: Swift.String?
+    /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+    public var disableIMDSV1: Swift.Bool?
     /// The display name of the app block builder.
     public var displayName: Swift.String?
     /// Enables or disables default internet access for the app block builder.
@@ -1944,6 +1956,7 @@ public struct CreateAppBlockBuilderInput: Swift.Sendable {
     public init(
         accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
         description: Swift.String? = nil,
+        disableIMDSV1: Swift.Bool? = nil,
         displayName: Swift.String? = nil,
         enableDefaultInternetAccess: Swift.Bool? = nil,
         iamRoleArn: Swift.String? = nil,
@@ -1955,6 +1968,7 @@ public struct CreateAppBlockBuilderInput: Swift.Sendable {
     ) {
         self.accessEndpoints = accessEndpoints
         self.description = description
+        self.disableIMDSV1 = disableIMDSV1
         self.displayName = displayName
         self.enableDefaultInternetAccess = enableDefaultInternetAccess
         self.iamRoleArn = iamRoleArn
@@ -2030,7 +2044,7 @@ public struct CreateApplicationInput: Swift.Sendable {
     /// The name of the application. This name is visible to users when display name is not specified.
     /// This member is required.
     public var name: Swift.String?
-    /// The platforms the application supports. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+    /// The platforms the application supports. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets.
     /// This member is required.
     public var platforms: [AppStreamClientTypes.PlatformType]?
     /// The tags assigned to the application.
@@ -2538,6 +2552,8 @@ public struct CreateFleetInput: Swift.Sendable {
     public var computeCapacity: AppStreamClientTypes.ComputeCapacity?
     /// The description to display.
     public var description: Swift.String?
+    /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2. Before disabling IMDSv1, ensure your WorkSpaces Applications images are running the agent version or managed image update released on or after January 16, 2024 to support IMDSv2 enforcement.
+    public var disableIMDSV1: Swift.Bool?
     /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 36000.
     public var disconnectTimeoutInSeconds: Swift.Int?
     /// The fleet name to display.
@@ -2599,14 +2615,6 @@ public struct CreateFleetInput: Swift.Sendable {
     /// * stream.memory.z1d.6xlarge
     ///
     /// * stream.memory.z1d.12xlarge
-    ///
-    /// * stream.graphics-design.large
-    ///
-    /// * stream.graphics-design.xlarge
-    ///
-    /// * stream.graphics-design.2xlarge
-    ///
-    /// * stream.graphics-design.4xlarge
     ///
     /// * stream.graphics.g4dn.xlarge
     ///
@@ -2685,7 +2693,7 @@ public struct CreateFleetInput: Swift.Sendable {
     /// A unique name for the fleet.
     /// This member is required.
     public var name: Swift.String?
-    /// The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+    /// The fleet platform. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets.
     public var platform: AppStreamClientTypes.PlatformType?
     /// The configuration for the root volume of fleet instances. Use this to customize storage capacity from 200 GB up to 500 GB based on your application requirements.
     public var rootVolumeConfig: AppStreamClientTypes.VolumeConfig?
@@ -2703,6 +2711,7 @@ public struct CreateFleetInput: Swift.Sendable {
     public init(
         computeCapacity: AppStreamClientTypes.ComputeCapacity? = nil,
         description: Swift.String? = nil,
+        disableIMDSV1: Swift.Bool? = nil,
         disconnectTimeoutInSeconds: Swift.Int? = nil,
         displayName: Swift.String? = nil,
         domainJoinInfo: AppStreamClientTypes.DomainJoinInfo? = nil,
@@ -2727,6 +2736,7 @@ public struct CreateFleetInput: Swift.Sendable {
     ) {
         self.computeCapacity = computeCapacity
         self.description = description
+        self.disableIMDSV1 = disableIMDSV1
         self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
         self.displayName = displayName
         self.domainJoinInfo = domainJoinInfo
@@ -2819,6 +2829,8 @@ extension AppStreamClientTypes {
         public var createdTime: Foundation.Date?
         /// The description to display.
         public var description: Swift.String?
+        /// Indicates whether Instance Metadata Service Version 1 (IMDSv1) is disabled for the fleet.
+        public var disableIMDSV1: Swift.Bool?
         /// The amount of time that a streaming session remains active after users disconnect. If they try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 36000.
         public var disconnectTimeoutInSeconds: Swift.Int?
         /// The fleet name to display.
@@ -2878,14 +2890,6 @@ extension AppStreamClientTypes {
         /// * stream.memory.z1d.6xlarge
         ///
         /// * stream.memory.z1d.12xlarge
-        ///
-        /// * stream.graphics-design.large
-        ///
-        /// * stream.graphics-design.xlarge
-        ///
-        /// * stream.graphics-design.2xlarge
-        ///
-        /// * stream.graphics-design.4xlarge
         ///
         /// * stream.graphics.g4dn.xlarge
         ///
@@ -2972,6 +2976,7 @@ extension AppStreamClientTypes {
             computeCapacityStatus: AppStreamClientTypes.ComputeCapacityStatus? = nil,
             createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            disableIMDSV1: Swift.Bool? = nil,
             disconnectTimeoutInSeconds: Swift.Int? = nil,
             displayName: Swift.String? = nil,
             domainJoinInfo: AppStreamClientTypes.DomainJoinInfo? = nil,
@@ -2999,6 +3004,7 @@ extension AppStreamClientTypes {
             self.computeCapacityStatus = computeCapacityStatus
             self.createdTime = createdTime
             self.description = description
+            self.disableIMDSV1 = disableIMDSV1
             self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
             self.displayName = displayName
             self.domainJoinInfo = domainJoinInfo
@@ -3043,6 +3049,8 @@ public struct CreateImageBuilderInput: Swift.Sendable {
     public var appstreamAgentVersion: Swift.String?
     /// The description to display.
     public var description: Swift.String?
+    /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2. Before disabling IMDSv1, ensure your WorkSpaces Applications images are running the agent version or managed image update released on or after January 16, 2024 to support IMDSv2 enforcement.
+    public var disableIMDSV1: Swift.Bool?
     /// The image builder name to display.
     public var displayName: Swift.String?
     /// The name of the directory and organizational unit (OU) to use to join the image builder to a Microsoft Active Directory domain.
@@ -3094,14 +3102,6 @@ public struct CreateImageBuilderInput: Swift.Sendable {
     /// * stream.memory.z1d.6xlarge
     ///
     /// * stream.memory.z1d.12xlarge
-    ///
-    /// * stream.graphics-design.large
-    ///
-    /// * stream.graphics-design.xlarge
-    ///
-    /// * stream.graphics-design.2xlarge
-    ///
-    /// * stream.graphics-design.4xlarge
     ///
     /// * stream.graphics.g4dn.xlarge
     ///
@@ -3272,6 +3272,7 @@ public struct CreateImageBuilderInput: Swift.Sendable {
         accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
         appstreamAgentVersion: Swift.String? = nil,
         description: Swift.String? = nil,
+        disableIMDSV1: Swift.Bool? = nil,
         displayName: Swift.String? = nil,
         domainJoinInfo: AppStreamClientTypes.DomainJoinInfo? = nil,
         enableDefaultInternetAccess: Swift.Bool? = nil,
@@ -3289,6 +3290,7 @@ public struct CreateImageBuilderInput: Swift.Sendable {
         self.accessEndpoints = accessEndpoints
         self.appstreamAgentVersion = appstreamAgentVersion
         self.description = description
+        self.disableIMDSV1 = disableIMDSV1
         self.displayName = displayName
         self.domainJoinInfo = domainJoinInfo
         self.enableDefaultInternetAccess = enableDefaultInternetAccess
@@ -3484,6 +3486,8 @@ extension AppStreamClientTypes {
         public var createdTime: Foundation.Date?
         /// The description to display.
         public var description: Swift.String?
+        /// Indicates whether Instance Metadata Service Version 1 (IMDSv1) is disabled for the image builder.
+        public var disableIMDSV1: Swift.Bool?
         /// The image builder name to display.
         public var displayName: Swift.String?
         /// The name of the directory and organizational unit (OU) to use to join the image builder to a Microsoft Active Directory domain.
@@ -3535,14 +3539,6 @@ extension AppStreamClientTypes {
         /// * stream.memory.z1d.6xlarge
         ///
         /// * stream.memory.z1d.12xlarge
-        ///
-        /// * stream.graphics-design.large
-        ///
-        /// * stream.graphics-design.xlarge
-        ///
-        /// * stream.graphics-design.2xlarge
-        ///
-        /// * stream.graphics-design.4xlarge
         ///
         /// * stream.graphics.g4dn.xlarge
         ///
@@ -3622,6 +3618,7 @@ extension AppStreamClientTypes {
             arn: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            disableIMDSV1: Swift.Bool? = nil,
             displayName: Swift.String? = nil,
             domainJoinInfo: AppStreamClientTypes.DomainJoinInfo? = nil,
             enableDefaultInternetAccess: Swift.Bool? = nil,
@@ -3643,6 +3640,7 @@ extension AppStreamClientTypes {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
+            self.disableIMDSV1 = disableIMDSV1
             self.displayName = displayName
             self.domainJoinInfo = domainJoinInfo
             self.enableDefaultInternetAccess = enableDefaultInternetAccess
@@ -4096,15 +4094,11 @@ extension AppStreamClientTypes {
         ///
         /// * Memory Optimized
         ///
-        /// * Graphics
-        ///
-        /// * Graphics Design
-        ///
-        /// * Graphics Pro
-        ///
         /// * Graphics G4
         ///
         /// * Graphics G5
+        ///
+        /// * Graphics G6
         public var supportedInstanceFamilies: [Swift.String]?
         /// Indicates whether the image is public or private.
         public var visibility: AppStreamClientTypes.VisibilityType?
@@ -6964,6 +6958,8 @@ public struct UpdateAppBlockBuilderInput: Swift.Sendable {
     public var attributesToDelete: [AppStreamClientTypes.AppBlockBuilderAttribute]?
     /// The description of the app block builder.
     public var description: Swift.String?
+    /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+    public var disableIMDSV1: Swift.Bool?
     /// The display name of the app block builder.
     public var displayName: Swift.String?
     /// Enables or disables default internet access for the app block builder.
@@ -6994,6 +6990,7 @@ public struct UpdateAppBlockBuilderInput: Swift.Sendable {
         accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
         attributesToDelete: [AppStreamClientTypes.AppBlockBuilderAttribute]? = nil,
         description: Swift.String? = nil,
+        disableIMDSV1: Swift.Bool? = nil,
         displayName: Swift.String? = nil,
         enableDefaultInternetAccess: Swift.Bool? = nil,
         iamRoleArn: Swift.String? = nil,
@@ -7005,6 +7002,7 @@ public struct UpdateAppBlockBuilderInput: Swift.Sendable {
         self.accessEndpoints = accessEndpoints
         self.attributesToDelete = attributesToDelete
         self.description = description
+        self.disableIMDSV1 = disableIMDSV1
         self.displayName = displayName
         self.enableDefaultInternetAccess = enableDefaultInternetAccess
         self.iamRoleArn = iamRoleArn
@@ -7166,6 +7164,8 @@ public struct UpdateFleetInput: Swift.Sendable {
     public var deleteVpcConfig: Swift.Bool?
     /// The description to display.
     public var description: Swift.String?
+    /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2. Before disabling IMDSv1, ensure your WorkSpaces Applications images are running the agent version or managed image update released on or after January 16, 2024 to support IMDSv2 enforcement.
+    public var disableIMDSV1: Swift.Bool?
     /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 36000.
     public var disconnectTimeoutInSeconds: Swift.Int?
     /// The fleet name to display.
@@ -7225,14 +7225,6 @@ public struct UpdateFleetInput: Swift.Sendable {
     /// * stream.memory.z1d.6xlarge
     ///
     /// * stream.memory.z1d.12xlarge
-    ///
-    /// * stream.graphics-design.large
-    ///
-    /// * stream.graphics-design.xlarge
-    ///
-    /// * stream.graphics-design.2xlarge
-    ///
-    /// * stream.graphics-design.4xlarge
     ///
     /// * stream.graphics.g4dn.xlarge
     ///
@@ -7309,7 +7301,7 @@ public struct UpdateFleetInput: Swift.Sendable {
     public var maxUserDurationInSeconds: Swift.Int?
     /// A unique name for the fleet.
     public var name: Swift.String?
-    /// The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+    /// The platform of the fleet. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets.
     public var platform: AppStreamClientTypes.PlatformType?
     /// The updated configuration for the root volume of fleet instances. Note that volume size cannot be decreased below the image volume size.
     public var rootVolumeConfig: AppStreamClientTypes.VolumeConfig?
@@ -7327,6 +7319,7 @@ public struct UpdateFleetInput: Swift.Sendable {
         computeCapacity: AppStreamClientTypes.ComputeCapacity? = nil,
         deleteVpcConfig: Swift.Bool? = nil,
         description: Swift.String? = nil,
+        disableIMDSV1: Swift.Bool? = nil,
         disconnectTimeoutInSeconds: Swift.Int? = nil,
         displayName: Swift.String? = nil,
         domainJoinInfo: AppStreamClientTypes.DomainJoinInfo? = nil,
@@ -7351,6 +7344,7 @@ public struct UpdateFleetInput: Swift.Sendable {
         self.computeCapacity = computeCapacity
         self.deleteVpcConfig = deleteVpcConfig
         self.description = description
+        self.disableIMDSV1 = disableIMDSV1
         self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
         self.displayName = displayName
         self.domainJoinInfo = domainJoinInfo
@@ -8329,6 +8323,7 @@ extension CreateAppBlockBuilderInput {
         guard let value else { return }
         try writer["AccessEndpoints"].writeList(value.accessEndpoints, memberWritingClosure: AppStreamClientTypes.AccessEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Description"].write(value.description)
+        try writer["DisableIMDSV1"].write(value.disableIMDSV1)
         try writer["DisplayName"].write(value.displayName)
         try writer["EnableDefaultInternetAccess"].write(value.enableDefaultInternetAccess)
         try writer["IamRoleArn"].write(value.iamRoleArn)
@@ -8408,6 +8403,7 @@ extension CreateFleetInput {
         guard let value else { return }
         try writer["ComputeCapacity"].write(value.computeCapacity, with: AppStreamClientTypes.ComputeCapacity.write(value:to:))
         try writer["Description"].write(value.description)
+        try writer["DisableIMDSV1"].write(value.disableIMDSV1)
         try writer["DisconnectTimeoutInSeconds"].write(value.disconnectTimeoutInSeconds)
         try writer["DisplayName"].write(value.displayName)
         try writer["DomainJoinInfo"].write(value.domainJoinInfo, with: AppStreamClientTypes.DomainJoinInfo.write(value:to:))
@@ -8439,6 +8435,7 @@ extension CreateImageBuilderInput {
         try writer["AccessEndpoints"].writeList(value.accessEndpoints, memberWritingClosure: AppStreamClientTypes.AccessEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AppstreamAgentVersion"].write(value.appstreamAgentVersion)
         try writer["Description"].write(value.description)
+        try writer["DisableIMDSV1"].write(value.disableIMDSV1)
         try writer["DisplayName"].write(value.displayName)
         try writer["DomainJoinInfo"].write(value.domainJoinInfo, with: AppStreamClientTypes.DomainJoinInfo.write(value:to:))
         try writer["EnableDefaultInternetAccess"].write(value.enableDefaultInternetAccess)
@@ -9073,6 +9070,7 @@ extension UpdateAppBlockBuilderInput {
         try writer["AccessEndpoints"].writeList(value.accessEndpoints, memberWritingClosure: AppStreamClientTypes.AccessEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AttributesToDelete"].writeList(value.attributesToDelete, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AppStreamClientTypes.AppBlockBuilderAttribute>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Description"].write(value.description)
+        try writer["DisableIMDSV1"].write(value.disableIMDSV1)
         try writer["DisplayName"].write(value.displayName)
         try writer["EnableDefaultInternetAccess"].write(value.enableDefaultInternetAccess)
         try writer["IamRoleArn"].write(value.iamRoleArn)
@@ -9130,6 +9128,7 @@ extension UpdateFleetInput {
         try writer["ComputeCapacity"].write(value.computeCapacity, with: AppStreamClientTypes.ComputeCapacity.write(value:to:))
         try writer["DeleteVpcConfig"].write(value.deleteVpcConfig)
         try writer["Description"].write(value.description)
+        try writer["DisableIMDSV1"].write(value.disableIMDSV1)
         try writer["DisconnectTimeoutInSeconds"].write(value.disconnectTimeoutInSeconds)
         try writer["DisplayName"].write(value.displayName)
         try writer["DomainJoinInfo"].write(value.domainJoinInfo, with: AppStreamClientTypes.DomainJoinInfo.write(value:to:))
@@ -11803,57 +11802,35 @@ extension ResourceInUseException {
     }
 }
 
-extension AppStreamClientTypes.AppBlockBuilderAppBlockAssociation {
+extension AppStreamClientTypes.AccessEndpoint {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AppBlockBuilderAppBlockAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.AppBlockBuilderAppBlockAssociation()
-        value.appBlockArn = try reader["AppBlockArn"].readIfPresent() ?? ""
-        value.appBlockBuilderName = try reader["AppBlockBuilderName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppStreamClientTypes.ApplicationFleetAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ApplicationFleetAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.ApplicationFleetAssociation()
-        value.fleetName = try reader["FleetName"].readIfPresent() ?? ""
-        value.applicationArn = try reader["ApplicationArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppStreamClientTypes.UserStackAssociationError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.UserStackAssociationError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.UserStackAssociationError()
-        value.userStackAssociation = try reader["UserStackAssociation"].readIfPresent(with: AppStreamClientTypes.UserStackAssociation.read(from:))
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension AppStreamClientTypes.UserStackAssociation {
-
-    static func write(value: AppStreamClientTypes.UserStackAssociation?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AppStreamClientTypes.AccessEndpoint?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AuthenticationType"].write(value.authenticationType)
-        try writer["SendEmailNotification"].write(value.sendEmailNotification)
-        try writer["StackName"].write(value.stackName)
-        try writer["UserName"].write(value.userName)
+        try writer["EndpointType"].write(value.endpointType)
+        try writer["VpceId"].write(value.vpceId)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.UserStackAssociation {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AccessEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.UserStackAssociation()
-        value.stackName = try reader["StackName"].readIfPresent() ?? ""
-        value.userName = try reader["UserName"].readIfPresent() ?? ""
-        value.authenticationType = try reader["AuthenticationType"].readIfPresent() ?? .sdkUnknown("")
-        value.sendEmailNotification = try reader["SendEmailNotification"].readIfPresent()
+        var value = AppStreamClientTypes.AccessEndpoint()
+        value.endpointType = try reader["EndpointType"].readIfPresent() ?? .sdkUnknown("")
+        value.vpceId = try reader["VpceId"].readIfPresent()
+        return value
+    }
+}
+
+extension AppStreamClientTypes.AdminAppLicenseUsageRecord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AdminAppLicenseUsageRecord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.AdminAppLicenseUsageRecord()
+        value.userArn = try reader["UserArn"].readIfPresent() ?? ""
+        value.billingPeriod = try reader["BillingPeriod"].readIfPresent() ?? ""
+        value.ownerAWSAccountId = try reader["OwnerAWSAccountId"].readIfPresent() ?? ""
+        value.subscriptionFirstUsedDate = try reader["SubscriptionFirstUsedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.subscriptionLastUsedDate = try reader["SubscriptionLastUsedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.licenseType = try reader["LicenseType"].readIfPresent() ?? ""
+        value.userId = try reader["UserId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11878,55 +11855,6 @@ extension AppStreamClientTypes.AppBlock {
     }
 }
 
-extension AppStreamClientTypes.ErrorDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ErrorDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.ErrorDetails()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension AppStreamClientTypes.ScriptDetails {
-
-    static func write(value: AppStreamClientTypes.ScriptDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExecutableParameters"].write(value.executableParameters)
-        try writer["ExecutablePath"].write(value.executablePath)
-        try writer["ScriptS3Location"].write(value.scriptS3Location, with: AppStreamClientTypes.S3Location.write(value:to:))
-        try writer["TimeoutInSeconds"].write(value.timeoutInSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ScriptDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.ScriptDetails()
-        value.scriptS3Location = try reader["ScriptS3Location"].readIfPresent(with: AppStreamClientTypes.S3Location.read(from:))
-        value.executablePath = try reader["ExecutablePath"].readIfPresent() ?? ""
-        value.executableParameters = try reader["ExecutableParameters"].readIfPresent()
-        value.timeoutInSeconds = try reader["TimeoutInSeconds"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension AppStreamClientTypes.S3Location {
-
-    static func write(value: AppStreamClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Bucket"].write(value.s3Bucket)
-        try writer["S3Key"].write(value.s3Key)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.S3Location {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.S3Location()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
-        value.s3Key = try reader["S3Key"].readIfPresent()
-        return value
-    }
-}
-
 extension AppStreamClientTypes.AppBlockBuilder {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AppBlockBuilder {
@@ -11946,23 +11874,18 @@ extension AppStreamClientTypes.AppBlockBuilder {
         value.appBlockBuilderErrors = try reader["AppBlockBuilderErrors"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ResourceError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.stateChangeReason = try reader["StateChangeReason"].readIfPresent(with: AppStreamClientTypes.AppBlockBuilderStateChangeReason.read(from:))
         value.accessEndpoints = try reader["AccessEndpoints"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.AccessEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.disableIMDSV1 = try reader["DisableIMDSV1"].readIfPresent()
         return value
     }
 }
 
-extension AppStreamClientTypes.AccessEndpoint {
+extension AppStreamClientTypes.AppBlockBuilderAppBlockAssociation {
 
-    static func write(value: AppStreamClientTypes.AccessEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndpointType"].write(value.endpointType)
-        try writer["VpceId"].write(value.vpceId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AccessEndpoint {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AppBlockBuilderAppBlockAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.AccessEndpoint()
-        value.endpointType = try reader["EndpointType"].readIfPresent() ?? .sdkUnknown("")
-        value.vpceId = try reader["VpceId"].readIfPresent()
+        var value = AppStreamClientTypes.AppBlockBuilderAppBlockAssociation()
+        value.appBlockArn = try reader["AppBlockArn"].readIfPresent() ?? ""
+        value.appBlockBuilderName = try reader["AppBlockBuilderName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11974,35 +11897,6 @@ extension AppStreamClientTypes.AppBlockBuilderStateChangeReason {
         var value = AppStreamClientTypes.AppBlockBuilderStateChangeReason()
         value.code = try reader["Code"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension AppStreamClientTypes.ResourceError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ResourceError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.ResourceError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.errorTimestamp = try reader["ErrorTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension AppStreamClientTypes.VpcConfig {
-
-    static func write(value: AppStreamClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.VpcConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.VpcConfig()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -12031,16 +11925,48 @@ extension AppStreamClientTypes.Application {
     }
 }
 
-extension AppStreamClientTypes.DirectoryConfig {
+extension AppStreamClientTypes.ApplicationConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.DirectoryConfig {
+    static func write(value: AppStreamClientTypes.ApplicationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AbsoluteAppPath"].write(value.absoluteAppPath)
+        try writer["AbsoluteIconPath"].write(value.absoluteIconPath)
+        try writer["AbsoluteManifestPath"].write(value.absoluteManifestPath)
+        try writer["DisplayName"].write(value.displayName)
+        try writer["LaunchParameters"].write(value.launchParameters)
+        try writer["Name"].write(value.name)
+        try writer["WorkingDirectory"].write(value.workingDirectory)
+    }
+}
+
+extension AppStreamClientTypes.ApplicationFleetAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ApplicationFleetAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.DirectoryConfig()
-        value.directoryName = try reader["DirectoryName"].readIfPresent() ?? ""
-        value.organizationalUnitDistinguishedNames = try reader["OrganizationalUnitDistinguishedNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.serviceAccountCredentials = try reader["ServiceAccountCredentials"].readIfPresent(with: AppStreamClientTypes.ServiceAccountCredentials.read(from:))
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.certificateBasedAuthProperties = try reader["CertificateBasedAuthProperties"].readIfPresent(with: AppStreamClientTypes.CertificateBasedAuthProperties.read(from:))
+        var value = AppStreamClientTypes.ApplicationFleetAssociation()
+        value.fleetName = try reader["FleetName"].readIfPresent() ?? ""
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppStreamClientTypes.ApplicationSettings {
+
+    static func write(value: AppStreamClientTypes.ApplicationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["SettingsGroup"].write(value.settingsGroup)
+    }
+}
+
+extension AppStreamClientTypes.ApplicationSettingsResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ApplicationSettingsResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.ApplicationSettingsResponse()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.settingsGroup = try reader["SettingsGroup"].readIfPresent()
+        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
         return value
     }
 }
@@ -12062,19 +11988,69 @@ extension AppStreamClientTypes.CertificateBasedAuthProperties {
     }
 }
 
-extension AppStreamClientTypes.ServiceAccountCredentials {
+extension AppStreamClientTypes.ComputeCapacity {
 
-    static func write(value: AppStreamClientTypes.ServiceAccountCredentials?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AppStreamClientTypes.ComputeCapacity?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AccountName"].write(value.accountName)
-        try writer["AccountPassword"].write(value.accountPassword)
+        try writer["DesiredInstances"].write(value.desiredInstances)
+        try writer["DesiredSessions"].write(value.desiredSessions)
+    }
+}
+
+extension AppStreamClientTypes.ComputeCapacityStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ComputeCapacityStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.ComputeCapacityStatus()
+        value.desired = try reader["Desired"].readIfPresent() ?? 0
+        value.running = try reader["Running"].readIfPresent()
+        value.inUse = try reader["InUse"].readIfPresent()
+        value.available = try reader["Available"].readIfPresent()
+        value.desiredUserSessions = try reader["DesiredUserSessions"].readIfPresent()
+        value.availableUserSessions = try reader["AvailableUserSessions"].readIfPresent()
+        value.activeUserSessions = try reader["ActiveUserSessions"].readIfPresent()
+        value.actualUserSessions = try reader["ActualUserSessions"].readIfPresent()
+        return value
+    }
+}
+
+extension AppStreamClientTypes.DirectoryConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.DirectoryConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.DirectoryConfig()
+        value.directoryName = try reader["DirectoryName"].readIfPresent() ?? ""
+        value.organizationalUnitDistinguishedNames = try reader["OrganizationalUnitDistinguishedNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceAccountCredentials = try reader["ServiceAccountCredentials"].readIfPresent(with: AppStreamClientTypes.ServiceAccountCredentials.read(from:))
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.certificateBasedAuthProperties = try reader["CertificateBasedAuthProperties"].readIfPresent(with: AppStreamClientTypes.CertificateBasedAuthProperties.read(from:))
+        return value
+    }
+}
+
+extension AppStreamClientTypes.DomainJoinInfo {
+
+    static func write(value: AppStreamClientTypes.DomainJoinInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryName"].write(value.directoryName)
+        try writer["OrganizationalUnitDistinguishedName"].write(value.organizationalUnitDistinguishedName)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ServiceAccountCredentials {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.DomainJoinInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.ServiceAccountCredentials()
-        value.accountName = try reader["AccountName"].readIfPresent() ?? ""
-        value.accountPassword = try reader["AccountPassword"].readIfPresent() ?? ""
+        var value = AppStreamClientTypes.DomainJoinInfo()
+        value.directoryName = try reader["DirectoryName"].readIfPresent()
+        value.organizationalUnitDistinguishedName = try reader["OrganizationalUnitDistinguishedName"].readIfPresent()
+        return value
+    }
+}
+
+extension AppStreamClientTypes.EntitledApplication {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.EntitledApplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.EntitledApplication()
+        value.applicationIdentifier = try reader["ApplicationIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12112,6 +12088,17 @@ extension AppStreamClientTypes.EntitlementAttribute {
     }
 }
 
+extension AppStreamClientTypes.ErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.ErrorDetails()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
 extension AppStreamClientTypes.ExportImageTask {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ExportImageTask {
@@ -12127,6 +12114,15 @@ extension AppStreamClientTypes.ExportImageTask {
         value.tagSpecifications = try reader["TagSpecifications"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.errorDetails = try reader["ErrorDetails"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ErrorDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension AppStreamClientTypes.Filter {
+
+    static func write(value: AppStreamClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -12161,38 +12157,7 @@ extension AppStreamClientTypes.Fleet {
         value.sessionScriptS3Location = try reader["SessionScriptS3Location"].readIfPresent(with: AppStreamClientTypes.S3Location.read(from:))
         value.maxSessionsPerInstance = try reader["MaxSessionsPerInstance"].readIfPresent()
         value.rootVolumeConfig = try reader["RootVolumeConfig"].readIfPresent(with: AppStreamClientTypes.VolumeConfig.read(from:))
-        return value
-    }
-}
-
-extension AppStreamClientTypes.VolumeConfig {
-
-    static func write(value: AppStreamClientTypes.VolumeConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["VolumeSizeInGb"].write(value.volumeSizeInGb)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.VolumeConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.VolumeConfig()
-        value.volumeSizeInGb = try reader["VolumeSizeInGb"].readIfPresent()
-        return value
-    }
-}
-
-extension AppStreamClientTypes.DomainJoinInfo {
-
-    static func write(value: AppStreamClientTypes.DomainJoinInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DirectoryName"].write(value.directoryName)
-        try writer["OrganizationalUnitDistinguishedName"].write(value.organizationalUnitDistinguishedName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.DomainJoinInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.DomainJoinInfo()
-        value.directoryName = try reader["DirectoryName"].readIfPresent()
-        value.organizationalUnitDistinguishedName = try reader["OrganizationalUnitDistinguishedName"].readIfPresent()
+        value.disableIMDSV1 = try reader["DisableIMDSV1"].readIfPresent()
         return value
     }
 }
@@ -12204,75 +12169,6 @@ extension AppStreamClientTypes.FleetError {
         var value = AppStreamClientTypes.FleetError()
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension AppStreamClientTypes.ComputeCapacityStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ComputeCapacityStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.ComputeCapacityStatus()
-        value.desired = try reader["Desired"].readIfPresent() ?? 0
-        value.running = try reader["Running"].readIfPresent()
-        value.inUse = try reader["InUse"].readIfPresent()
-        value.available = try reader["Available"].readIfPresent()
-        value.desiredUserSessions = try reader["DesiredUserSessions"].readIfPresent()
-        value.availableUserSessions = try reader["AvailableUserSessions"].readIfPresent()
-        value.activeUserSessions = try reader["ActiveUserSessions"].readIfPresent()
-        value.actualUserSessions = try reader["ActualUserSessions"].readIfPresent()
-        return value
-    }
-}
-
-extension AppStreamClientTypes.ImageBuilder {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ImageBuilder {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.ImageBuilder()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent()
-        value.imageArn = try reader["ImageArn"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.displayName = try reader["DisplayName"].readIfPresent()
-        value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: AppStreamClientTypes.VpcConfig.read(from:))
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.stateChangeReason = try reader["StateChangeReason"].readIfPresent(with: AppStreamClientTypes.ImageBuilderStateChangeReason.read(from:))
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.enableDefaultInternetAccess = try reader["EnableDefaultInternetAccess"].readIfPresent()
-        value.domainJoinInfo = try reader["DomainJoinInfo"].readIfPresent(with: AppStreamClientTypes.DomainJoinInfo.read(from:))
-        value.networkAccessConfiguration = try reader["NetworkAccessConfiguration"].readIfPresent(with: AppStreamClientTypes.NetworkAccessConfiguration.read(from:))
-        value.imageBuilderErrors = try reader["ImageBuilderErrors"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ResourceError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.appstreamAgentVersion = try reader["AppstreamAgentVersion"].readIfPresent()
-        value.accessEndpoints = try reader["AccessEndpoints"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.AccessEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.rootVolumeConfig = try reader["RootVolumeConfig"].readIfPresent(with: AppStreamClientTypes.VolumeConfig.read(from:))
-        value.latestAppstreamAgentVersion = try reader["LatestAppstreamAgentVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension AppStreamClientTypes.NetworkAccessConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.NetworkAccessConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.NetworkAccessConfiguration()
-        value.eniPrivateIpAddress = try reader["EniPrivateIpAddress"].readIfPresent()
-        value.eniIpv6Addresses = try reader["EniIpv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.eniId = try reader["EniId"].readIfPresent()
-        return value
-    }
-}
-
-extension AppStreamClientTypes.ImageBuilderStateChangeReason {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ImageBuilderStateChangeReason {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.ImageBuilderStateChangeReason()
-        value.code = try reader["Code"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -12309,6 +12205,47 @@ extension AppStreamClientTypes.Image {
     }
 }
 
+extension AppStreamClientTypes.ImageBuilder {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ImageBuilder {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.ImageBuilder()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent()
+        value.imageArn = try reader["ImageArn"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: AppStreamClientTypes.VpcConfig.read(from:))
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.stateChangeReason = try reader["StateChangeReason"].readIfPresent(with: AppStreamClientTypes.ImageBuilderStateChangeReason.read(from:))
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.enableDefaultInternetAccess = try reader["EnableDefaultInternetAccess"].readIfPresent()
+        value.domainJoinInfo = try reader["DomainJoinInfo"].readIfPresent(with: AppStreamClientTypes.DomainJoinInfo.read(from:))
+        value.networkAccessConfiguration = try reader["NetworkAccessConfiguration"].readIfPresent(with: AppStreamClientTypes.NetworkAccessConfiguration.read(from:))
+        value.imageBuilderErrors = try reader["ImageBuilderErrors"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ResourceError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appstreamAgentVersion = try reader["AppstreamAgentVersion"].readIfPresent()
+        value.accessEndpoints = try reader["AccessEndpoints"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.AccessEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rootVolumeConfig = try reader["RootVolumeConfig"].readIfPresent(with: AppStreamClientTypes.VolumeConfig.read(from:))
+        value.latestAppstreamAgentVersion = try reader["LatestAppstreamAgentVersion"].readIfPresent()
+        value.disableIMDSV1 = try reader["DisableIMDSV1"].readIfPresent()
+        return value
+    }
+}
+
+extension AppStreamClientTypes.ImageBuilderStateChangeReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ImageBuilderStateChangeReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.ImageBuilderStateChangeReason()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
 extension AppStreamClientTypes.ImagePermissions {
 
     static func write(value: AppStreamClientTypes.ImagePermissions?, to writer: SmithyJSON.Writer) throws {
@@ -12337,6 +12274,147 @@ extension AppStreamClientTypes.ImageStateChangeReason {
     }
 }
 
+extension AppStreamClientTypes.LastReportGenerationExecutionError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.LastReportGenerationExecutionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.LastReportGenerationExecutionError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension AppStreamClientTypes.NetworkAccessConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.NetworkAccessConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.NetworkAccessConfiguration()
+        value.eniPrivateIpAddress = try reader["EniPrivateIpAddress"].readIfPresent()
+        value.eniIpv6Addresses = try reader["EniIpv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eniId = try reader["EniId"].readIfPresent()
+        return value
+    }
+}
+
+extension AppStreamClientTypes.ResourceError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ResourceError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.ResourceError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.errorTimestamp = try reader["ErrorTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension AppStreamClientTypes.RuntimeValidationConfig {
+
+    static func write(value: AppStreamClientTypes.RuntimeValidationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IntendedInstanceType"].write(value.intendedInstanceType)
+    }
+}
+
+extension AppStreamClientTypes.S3Location {
+
+    static func write(value: AppStreamClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Bucket"].write(value.s3Bucket)
+        try writer["S3Key"].write(value.s3Key)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.S3Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.S3Location()
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
+        value.s3Key = try reader["S3Key"].readIfPresent()
+        return value
+    }
+}
+
+extension AppStreamClientTypes.ScriptDetails {
+
+    static func write(value: AppStreamClientTypes.ScriptDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExecutableParameters"].write(value.executableParameters)
+        try writer["ExecutablePath"].write(value.executablePath)
+        try writer["ScriptS3Location"].write(value.scriptS3Location, with: AppStreamClientTypes.S3Location.write(value:to:))
+        try writer["TimeoutInSeconds"].write(value.timeoutInSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ScriptDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.ScriptDetails()
+        value.scriptS3Location = try reader["ScriptS3Location"].readIfPresent(with: AppStreamClientTypes.S3Location.read(from:))
+        value.executablePath = try reader["ExecutablePath"].readIfPresent() ?? ""
+        value.executableParameters = try reader["ExecutableParameters"].readIfPresent()
+        value.timeoutInSeconds = try reader["TimeoutInSeconds"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension AppStreamClientTypes.ServiceAccountCredentials {
+
+    static func write(value: AppStreamClientTypes.ServiceAccountCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountName"].write(value.accountName)
+        try writer["AccountPassword"].write(value.accountPassword)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ServiceAccountCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.ServiceAccountCredentials()
+        value.accountName = try reader["AccountName"].readIfPresent() ?? ""
+        value.accountPassword = try reader["AccountPassword"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppStreamClientTypes.Session {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Session {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.Session()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.userId = try reader["UserId"].readIfPresent() ?? ""
+        value.stackName = try reader["StackName"].readIfPresent() ?? ""
+        value.fleetName = try reader["FleetName"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        value.connectionState = try reader["ConnectionState"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.maxExpirationTime = try reader["MaxExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
+        value.networkAccessConfiguration = try reader["NetworkAccessConfiguration"].readIfPresent(with: AppStreamClientTypes.NetworkAccessConfiguration.read(from:))
+        value.instanceId = try reader["InstanceId"].readIfPresent()
+        return value
+    }
+}
+
+extension AppStreamClientTypes.SharedImagePermissions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.SharedImagePermissions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.SharedImagePermissions()
+        value.sharedAccountId = try reader["sharedAccountId"].readIfPresent() ?? ""
+        value.imagePermissions = try reader["imagePermissions"].readIfPresent(with: AppStreamClientTypes.ImagePermissions.read(from:))
+        return value
+    }
+}
+
+extension AppStreamClientTypes.SoftwareAssociations {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.SoftwareAssociations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.SoftwareAssociations()
+        value.softwareName = try reader["SoftwareName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.deploymentError = try reader["DeploymentError"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ErrorDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension AppStreamClientTypes.Stack {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Stack {
@@ -12356,52 +12434,6 @@ extension AppStreamClientTypes.Stack {
         value.accessEndpoints = try reader["AccessEndpoints"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.AccessEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.embedHostDomains = try reader["EmbedHostDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.streamingExperienceSettings = try reader["StreamingExperienceSettings"].readIfPresent(with: AppStreamClientTypes.StreamingExperienceSettings.read(from:))
-        return value
-    }
-}
-
-extension AppStreamClientTypes.StreamingExperienceSettings {
-
-    static func write(value: AppStreamClientTypes.StreamingExperienceSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PreferredProtocol"].write(value.preferredProtocol)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.StreamingExperienceSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.StreamingExperienceSettings()
-        value.preferredProtocol = try reader["PreferredProtocol"].readIfPresent()
-        return value
-    }
-}
-
-extension AppStreamClientTypes.ApplicationSettingsResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ApplicationSettingsResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.ApplicationSettingsResponse()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.settingsGroup = try reader["SettingsGroup"].readIfPresent()
-        value.s3BucketName = try reader["S3BucketName"].readIfPresent()
-        return value
-    }
-}
-
-extension AppStreamClientTypes.UserSetting {
-
-    static func write(value: AppStreamClientTypes.UserSetting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["MaximumLength"].write(value.maximumLength)
-        try writer["Permission"].write(value.permission)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.UserSetting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.UserSetting()
-        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
-        value.permission = try reader["Permission"].readIfPresent() ?? .sdkUnknown("")
-        value.maximumLength = try reader["MaximumLength"].readIfPresent()
         return value
     }
 }
@@ -12434,6 +12466,21 @@ extension AppStreamClientTypes.StorageConnector {
         value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
         value.domains = try reader["Domains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.domainsRequireAdminConsent = try reader["DomainsRequireAdminConsent"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AppStreamClientTypes.StreamingExperienceSettings {
+
+    static func write(value: AppStreamClientTypes.StreamingExperienceSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PreferredProtocol"].write(value.preferredProtocol)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.StreamingExperienceSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.StreamingExperienceSettings()
+        value.preferredProtocol = try reader["PreferredProtocol"].readIfPresent()
         return value
     }
 }
@@ -12472,65 +12519,6 @@ extension AppStreamClientTypes.ThemeFooterLink {
     }
 }
 
-extension AppStreamClientTypes.AdminAppLicenseUsageRecord {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AdminAppLicenseUsageRecord {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.AdminAppLicenseUsageRecord()
-        value.userArn = try reader["UserArn"].readIfPresent() ?? ""
-        value.billingPeriod = try reader["BillingPeriod"].readIfPresent() ?? ""
-        value.ownerAWSAccountId = try reader["OwnerAWSAccountId"].readIfPresent() ?? ""
-        value.subscriptionFirstUsedDate = try reader["SubscriptionFirstUsedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.subscriptionLastUsedDate = try reader["SubscriptionLastUsedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.licenseType = try reader["LicenseType"].readIfPresent() ?? ""
-        value.userId = try reader["UserId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppStreamClientTypes.SharedImagePermissions {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.SharedImagePermissions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.SharedImagePermissions()
-        value.sharedAccountId = try reader["sharedAccountId"].readIfPresent() ?? ""
-        value.imagePermissions = try reader["imagePermissions"].readIfPresent(with: AppStreamClientTypes.ImagePermissions.read(from:))
-        return value
-    }
-}
-
-extension AppStreamClientTypes.Session {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Session {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.Session()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.userId = try reader["UserId"].readIfPresent() ?? ""
-        value.stackName = try reader["StackName"].readIfPresent() ?? ""
-        value.fleetName = try reader["FleetName"].readIfPresent() ?? ""
-        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
-        value.connectionState = try reader["ConnectionState"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.maxExpirationTime = try reader["MaxExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
-        value.networkAccessConfiguration = try reader["NetworkAccessConfiguration"].readIfPresent(with: AppStreamClientTypes.NetworkAccessConfiguration.read(from:))
-        value.instanceId = try reader["InstanceId"].readIfPresent()
-        return value
-    }
-}
-
-extension AppStreamClientTypes.SoftwareAssociations {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.SoftwareAssociations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.SoftwareAssociations()
-        value.softwareName = try reader["SoftwareName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.deploymentError = try reader["DeploymentError"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ErrorDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension AppStreamClientTypes.UsageReportSubscription {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.UsageReportSubscription {
@@ -12540,17 +12528,6 @@ extension AppStreamClientTypes.UsageReportSubscription {
         value.schedule = try reader["Schedule"].readIfPresent()
         value.lastGeneratedReportDate = try reader["LastGeneratedReportDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.subscriptionErrors = try reader["SubscriptionErrors"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.LastReportGenerationExecutionError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension AppStreamClientTypes.LastReportGenerationExecutionError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.LastReportGenerationExecutionError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.LastReportGenerationExecutionError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }
@@ -12572,62 +12549,87 @@ extension AppStreamClientTypes.User {
     }
 }
 
-extension AppStreamClientTypes.EntitledApplication {
+extension AppStreamClientTypes.UserSetting {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.EntitledApplication {
+    static func write(value: AppStreamClientTypes.UserSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["MaximumLength"].write(value.maximumLength)
+        try writer["Permission"].write(value.permission)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.UserSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.EntitledApplication()
-        value.applicationIdentifier = try reader["ApplicationIdentifier"].readIfPresent() ?? ""
+        var value = AppStreamClientTypes.UserSetting()
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.permission = try reader["Permission"].readIfPresent() ?? .sdkUnknown("")
+        value.maximumLength = try reader["MaximumLength"].readIfPresent()
         return value
     }
 }
 
-extension AppStreamClientTypes.ComputeCapacity {
+extension AppStreamClientTypes.UserStackAssociation {
 
-    static func write(value: AppStreamClientTypes.ComputeCapacity?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AppStreamClientTypes.UserStackAssociation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DesiredInstances"].write(value.desiredInstances)
-        try writer["DesiredSessions"].write(value.desiredSessions)
+        try writer["AuthenticationType"].write(value.authenticationType)
+        try writer["SendEmailNotification"].write(value.sendEmailNotification)
+        try writer["StackName"].write(value.stackName)
+        try writer["UserName"].write(value.userName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.UserStackAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.UserStackAssociation()
+        value.stackName = try reader["StackName"].readIfPresent() ?? ""
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent() ?? .sdkUnknown("")
+        value.sendEmailNotification = try reader["SendEmailNotification"].readIfPresent()
+        return value
     }
 }
 
-extension AppStreamClientTypes.RuntimeValidationConfig {
+extension AppStreamClientTypes.UserStackAssociationError {
 
-    static func write(value: AppStreamClientTypes.RuntimeValidationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IntendedInstanceType"].write(value.intendedInstanceType)
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.UserStackAssociationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.UserStackAssociationError()
+        value.userStackAssociation = try reader["UserStackAssociation"].readIfPresent(with: AppStreamClientTypes.UserStackAssociation.read(from:))
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
     }
 }
 
-extension AppStreamClientTypes.ApplicationConfig {
+extension AppStreamClientTypes.VolumeConfig {
 
-    static func write(value: AppStreamClientTypes.ApplicationConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AppStreamClientTypes.VolumeConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AbsoluteAppPath"].write(value.absoluteAppPath)
-        try writer["AbsoluteIconPath"].write(value.absoluteIconPath)
-        try writer["AbsoluteManifestPath"].write(value.absoluteManifestPath)
-        try writer["DisplayName"].write(value.displayName)
-        try writer["LaunchParameters"].write(value.launchParameters)
-        try writer["Name"].write(value.name)
-        try writer["WorkingDirectory"].write(value.workingDirectory)
+        try writer["VolumeSizeInGb"].write(value.volumeSizeInGb)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.VolumeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.VolumeConfig()
+        value.volumeSizeInGb = try reader["VolumeSizeInGb"].readIfPresent()
+        return value
     }
 }
 
-extension AppStreamClientTypes.ApplicationSettings {
+extension AppStreamClientTypes.VpcConfig {
 
-    static func write(value: AppStreamClientTypes.ApplicationSettings?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AppStreamClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["SettingsGroup"].write(value.settingsGroup)
+        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-}
 
-extension AppStreamClientTypes.Filter {
-
-    static func write(value: AppStreamClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.VpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.VpcConfig()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

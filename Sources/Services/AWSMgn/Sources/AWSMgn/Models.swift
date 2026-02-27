@@ -1382,6 +1382,8 @@ extension MgnClientTypes {
 
     /// Export task.
     public struct ExportTask: Swift.Sendable {
+        /// ExportTask arn.
+        public var arn: Swift.String?
         /// Export task creation datetime.
         public var creationDateTime: Swift.String?
         /// Export task end datetime.
@@ -1400,8 +1402,11 @@ extension MgnClientTypes {
         public var status: MgnClientTypes.ExportStatus?
         /// Export task summary.
         public var summary: MgnClientTypes.ExportTaskSummary?
+        /// Export task tags.
+        public var tags: [Swift.String: Swift.String]?
 
         public init(
+            arn: Swift.String? = nil,
             creationDateTime: Swift.String? = nil,
             endDateTime: Swift.String? = nil,
             exportID: Swift.String? = nil,
@@ -1410,8 +1415,10 @@ extension MgnClientTypes {
             s3BucketOwner: Swift.String? = nil,
             s3Key: Swift.String? = nil,
             status: MgnClientTypes.ExportStatus? = nil,
-            summary: MgnClientTypes.ExportTaskSummary? = nil
+            summary: MgnClientTypes.ExportTaskSummary? = nil,
+            tags: [Swift.String: Swift.String]? = nil
         ) {
+            self.arn = arn
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.exportID = exportID
@@ -1421,8 +1428,14 @@ extension MgnClientTypes {
             self.s3Key = s3Key
             self.status = status
             self.summary = summary
+            self.tags = tags
         }
     }
+}
+
+extension MgnClientTypes.ExportTask: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ExportTask(arn: \(Swift.String(describing: arn)), creationDateTime: \(Swift.String(describing: creationDateTime)), endDateTime: \(Swift.String(describing: endDateTime)), exportID: \(Swift.String(describing: exportID)), progressPercentage: \(Swift.String(describing: progressPercentage)), s3Bucket: \(Swift.String(describing: s3Bucket)), s3BucketOwner: \(Swift.String(describing: s3BucketOwner)), s3Key: \(Swift.String(describing: s3Key)), status: \(Swift.String(describing: status)), summary: \(Swift.String(describing: summary)), tags: \"CONTENT_REDACTED\")"}
 }
 
 /// List export response.
@@ -1451,16 +1464,25 @@ public struct StartExportInput: Swift.Sendable {
     /// Start export request s3key.
     /// This member is required.
     public var s3Key: Swift.String?
+    /// Start import request tags.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         s3Bucket: Swift.String? = nil,
         s3BucketOwner: Swift.String? = nil,
-        s3Key: Swift.String? = nil
+        s3Key: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.s3Bucket = s3Bucket
         self.s3BucketOwner = s3BucketOwner
         self.s3Key = s3Key
+        self.tags = tags
     }
+}
+
+extension StartExportInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartExportInput(s3Bucket: \(Swift.String(describing: s3Bucket)), s3BucketOwner: \(Swift.String(describing: s3BucketOwner)), s3Key: \(Swift.String(describing: s3Key)), tags: \"CONTENT_REDACTED\")"}
 }
 
 /// Start export response.
@@ -1782,6 +1804,8 @@ extension MgnClientTypes {
 
     /// Import task.
     public struct ImportTask: Swift.Sendable {
+        /// ImportTask arn.
+        public var arn: Swift.String?
         /// Import task creation datetime.
         public var creationDateTime: Swift.String?
         /// Import task end datetime.
@@ -1796,16 +1820,21 @@ extension MgnClientTypes {
         public var status: MgnClientTypes.ImportStatus?
         /// Import task summary.
         public var summary: MgnClientTypes.ImportTaskSummary?
+        /// Import task tags.
+        public var tags: [Swift.String: Swift.String]?
 
         public init(
+            arn: Swift.String? = nil,
             creationDateTime: Swift.String? = nil,
             endDateTime: Swift.String? = nil,
             importID: Swift.String? = nil,
             progressPercentage: Swift.Float? = nil,
             s3BucketSource: MgnClientTypes.S3BucketSource? = nil,
             status: MgnClientTypes.ImportStatus? = nil,
-            summary: MgnClientTypes.ImportTaskSummary? = nil
+            summary: MgnClientTypes.ImportTaskSummary? = nil,
+            tags: [Swift.String: Swift.String]? = nil
         ) {
+            self.arn = arn
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.importID = importID
@@ -1813,8 +1842,14 @@ extension MgnClientTypes {
             self.s3BucketSource = s3BucketSource
             self.status = status
             self.summary = summary
+            self.tags = tags
         }
     }
+}
+
+extension MgnClientTypes.ImportTask: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ImportTask(arn: \(Swift.String(describing: arn)), creationDateTime: \(Swift.String(describing: creationDateTime)), endDateTime: \(Swift.String(describing: endDateTime)), importID: \(Swift.String(describing: importID)), progressPercentage: \(Swift.String(describing: progressPercentage)), s3BucketSource: \(Swift.String(describing: s3BucketSource)), status: \(Swift.String(describing: status)), summary: \(Swift.String(describing: summary)), tags: \"CONTENT_REDACTED\")"}
 }
 
 /// List import response.
@@ -1840,14 +1875,23 @@ public struct StartImportInput: Swift.Sendable {
     /// Start import request s3 bucket source.
     /// This member is required.
     public var s3BucketSource: MgnClientTypes.S3BucketSource?
+    /// Start import request tags.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         clientToken: Swift.String? = nil,
-        s3BucketSource: MgnClientTypes.S3BucketSource? = nil
+        s3BucketSource: MgnClientTypes.S3BucketSource? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.s3BucketSource = s3BucketSource
+        self.tags = tags
     }
+}
+
+extension StartImportInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartImportInput(clientToken: \(Swift.String(describing: clientToken)), s3BucketSource: \(Swift.String(describing: s3BucketSource)), tags: \"CONTENT_REDACTED\")"}
 }
 
 /// Start import response.
@@ -1992,8 +2036,12 @@ extension MgnClientTypes {
 
     /// Job log data
     public struct JobLogEventData: Swift.Sendable {
+        /// Retries for this operation.
+        public var attemptCount: Swift.Int?
         /// Job Event conversion Server ID.
         public var conversionServerID: Swift.String?
+        /// The maximum number of retries that will be attempted if this operation failed.
+        public var maxAttemptsCount: Swift.Int?
         /// Job error.
         public var rawError: Swift.String?
         /// Job Event Source Server ID.
@@ -2002,12 +2050,16 @@ extension MgnClientTypes {
         public var targetInstanceID: Swift.String?
 
         public init(
+            attemptCount: Swift.Int? = nil,
             conversionServerID: Swift.String? = nil,
+            maxAttemptsCount: Swift.Int? = nil,
             rawError: Swift.String? = nil,
             sourceServerID: Swift.String? = nil,
             targetInstanceID: Swift.String? = nil
         ) {
+            self.attemptCount = attemptCount
             self.conversionServerID = conversionServerID
+            self.maxAttemptsCount = maxAttemptsCount
             self.rawError = rawError
             self.sourceServerID = sourceServerID
             self.targetInstanceID = targetInstanceID
@@ -2217,11 +2269,13 @@ extension MgnClientTypes {
 extension MgnClientTypes {
 
     public enum SsmParameterStoreParameterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case secureString
         case string
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SsmParameterStoreParameterType] {
             return [
+                .secureString,
                 .string
             ]
         }
@@ -2233,6 +2287,7 @@ extension MgnClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .secureString: return "SECURE_STRING"
             case .string: return "STRING"
             case let .sdkUnknown(s): return s
             }
@@ -2780,6 +2835,8 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Sendable {
     public var copyTags: Swift.Bool?
     /// Enable map auto tagging.
     public var enableMapAutoTagging: Swift.Bool?
+    /// Enable parameters encryption.
+    public var enableParametersEncryption: Swift.Bool?
     /// Large volume config.
     public var largeVolumeConf: MgnClientTypes.LaunchTemplateDiskConf?
     /// Launch disposition.
@@ -2788,6 +2845,8 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Sendable {
     public var licensing: MgnClientTypes.Licensing?
     /// Launch configuration template map auto tagging MPE ID.
     public var mapAutoTaggingMpeID: Swift.String?
+    /// Parameters encryption key.
+    public var parametersEncryptionKey: Swift.String?
     /// Launch configuration template post launch actions.
     public var postLaunchActions: MgnClientTypes.PostLaunchActions?
     /// Small volume config.
@@ -2805,10 +2864,12 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Sendable {
         copyPrivateIp: Swift.Bool? = nil,
         copyTags: Swift.Bool? = nil,
         enableMapAutoTagging: Swift.Bool? = nil,
+        enableParametersEncryption: Swift.Bool? = nil,
         largeVolumeConf: MgnClientTypes.LaunchTemplateDiskConf? = nil,
         launchDisposition: MgnClientTypes.LaunchDisposition? = nil,
         licensing: MgnClientTypes.Licensing? = nil,
         mapAutoTaggingMpeID: Swift.String? = nil,
+        parametersEncryptionKey: Swift.String? = nil,
         postLaunchActions: MgnClientTypes.PostLaunchActions? = nil,
         smallVolumeConf: MgnClientTypes.LaunchTemplateDiskConf? = nil,
         smallVolumeMaxSize: Swift.Int = 0,
@@ -2820,10 +2881,12 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Sendable {
         self.copyPrivateIp = copyPrivateIp
         self.copyTags = copyTags
         self.enableMapAutoTagging = enableMapAutoTagging
+        self.enableParametersEncryption = enableParametersEncryption
         self.largeVolumeConf = largeVolumeConf
         self.launchDisposition = launchDisposition
         self.licensing = licensing
         self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
+        self.parametersEncryptionKey = parametersEncryptionKey
         self.postLaunchActions = postLaunchActions
         self.smallVolumeConf = smallVolumeConf
         self.smallVolumeMaxSize = smallVolumeMaxSize
@@ -2834,7 +2897,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Sendable {
 
 extension CreateLaunchConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateLaunchConfigurationTemplateInput(associatePublicIpAddress: \(Swift.String(describing: associatePublicIpAddress)), bootMode: \(Swift.String(describing: bootMode)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), enableMapAutoTagging: \(Swift.String(describing: enableMapAutoTagging)), largeVolumeConf: \(Swift.String(describing: largeVolumeConf)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), mapAutoTaggingMpeID: \(Swift.String(describing: mapAutoTaggingMpeID)), postLaunchActions: \(Swift.String(describing: postLaunchActions)), smallVolumeConf: \(Swift.String(describing: smallVolumeConf)), smallVolumeMaxSize: \(Swift.String(describing: smallVolumeMaxSize)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+        "CreateLaunchConfigurationTemplateInput(associatePublicIpAddress: \(Swift.String(describing: associatePublicIpAddress)), bootMode: \(Swift.String(describing: bootMode)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), enableMapAutoTagging: \(Swift.String(describing: enableMapAutoTagging)), enableParametersEncryption: \(Swift.String(describing: enableParametersEncryption)), largeVolumeConf: \(Swift.String(describing: largeVolumeConf)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), mapAutoTaggingMpeID: \(Swift.String(describing: mapAutoTaggingMpeID)), parametersEncryptionKey: \(Swift.String(describing: parametersEncryptionKey)), postLaunchActions: \(Swift.String(describing: postLaunchActions)), smallVolumeConf: \(Swift.String(describing: smallVolumeConf)), smallVolumeMaxSize: \(Swift.String(describing: smallVolumeMaxSize)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateLaunchConfigurationTemplateOutput: Swift.Sendable {
@@ -2852,6 +2915,8 @@ public struct CreateLaunchConfigurationTemplateOutput: Swift.Sendable {
     public var ec2LaunchTemplateID: Swift.String?
     /// Enable map auto tagging.
     public var enableMapAutoTagging: Swift.Bool?
+    /// Enable parameters encryption.
+    public var enableParametersEncryption: Swift.Bool?
     /// Large volume config.
     public var largeVolumeConf: MgnClientTypes.LaunchTemplateDiskConf?
     /// ID of the Launch Configuration Template.
@@ -2863,6 +2928,8 @@ public struct CreateLaunchConfigurationTemplateOutput: Swift.Sendable {
     public var licensing: MgnClientTypes.Licensing?
     /// Launch configuration template map auto tagging MPE ID.
     public var mapAutoTaggingMpeID: Swift.String?
+    /// Parameters encryption key.
+    public var parametersEncryptionKey: Swift.String?
     /// Post Launch Actions of the Launch Configuration Template.
     public var postLaunchActions: MgnClientTypes.PostLaunchActions?
     /// Small volume config.
@@ -2882,11 +2949,13 @@ public struct CreateLaunchConfigurationTemplateOutput: Swift.Sendable {
         copyTags: Swift.Bool? = nil,
         ec2LaunchTemplateID: Swift.String? = nil,
         enableMapAutoTagging: Swift.Bool? = nil,
+        enableParametersEncryption: Swift.Bool? = nil,
         largeVolumeConf: MgnClientTypes.LaunchTemplateDiskConf? = nil,
         launchConfigurationTemplateID: Swift.String? = nil,
         launchDisposition: MgnClientTypes.LaunchDisposition? = nil,
         licensing: MgnClientTypes.Licensing? = nil,
         mapAutoTaggingMpeID: Swift.String? = nil,
+        parametersEncryptionKey: Swift.String? = nil,
         postLaunchActions: MgnClientTypes.PostLaunchActions? = nil,
         smallVolumeConf: MgnClientTypes.LaunchTemplateDiskConf? = nil,
         smallVolumeMaxSize: Swift.Int = 0,
@@ -2900,11 +2969,13 @@ public struct CreateLaunchConfigurationTemplateOutput: Swift.Sendable {
         self.copyTags = copyTags
         self.ec2LaunchTemplateID = ec2LaunchTemplateID
         self.enableMapAutoTagging = enableMapAutoTagging
+        self.enableParametersEncryption = enableParametersEncryption
         self.largeVolumeConf = largeVolumeConf
         self.launchConfigurationTemplateID = launchConfigurationTemplateID
         self.launchDisposition = launchDisposition
         self.licensing = licensing
         self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
+        self.parametersEncryptionKey = parametersEncryptionKey
         self.postLaunchActions = postLaunchActions
         self.smallVolumeConf = smallVolumeConf
         self.smallVolumeMaxSize = smallVolumeMaxSize
@@ -2915,7 +2986,7 @@ public struct CreateLaunchConfigurationTemplateOutput: Swift.Sendable {
 
 extension CreateLaunchConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateLaunchConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associatePublicIpAddress: \(Swift.String(describing: associatePublicIpAddress)), bootMode: \(Swift.String(describing: bootMode)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), ec2LaunchTemplateID: \(Swift.String(describing: ec2LaunchTemplateID)), enableMapAutoTagging: \(Swift.String(describing: enableMapAutoTagging)), largeVolumeConf: \(Swift.String(describing: largeVolumeConf)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), mapAutoTaggingMpeID: \(Swift.String(describing: mapAutoTaggingMpeID)), postLaunchActions: \(Swift.String(describing: postLaunchActions)), smallVolumeConf: \(Swift.String(describing: smallVolumeConf)), smallVolumeMaxSize: \(Swift.String(describing: smallVolumeMaxSize)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+        "CreateLaunchConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associatePublicIpAddress: \(Swift.String(describing: associatePublicIpAddress)), bootMode: \(Swift.String(describing: bootMode)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), ec2LaunchTemplateID: \(Swift.String(describing: ec2LaunchTemplateID)), enableMapAutoTagging: \(Swift.String(describing: enableMapAutoTagging)), enableParametersEncryption: \(Swift.String(describing: enableParametersEncryption)), largeVolumeConf: \(Swift.String(describing: largeVolumeConf)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), mapAutoTaggingMpeID: \(Swift.String(describing: mapAutoTaggingMpeID)), parametersEncryptionKey: \(Swift.String(describing: parametersEncryptionKey)), postLaunchActions: \(Swift.String(describing: postLaunchActions)), smallVolumeConf: \(Swift.String(describing: smallVolumeConf)), smallVolumeMaxSize: \(Swift.String(describing: smallVolumeMaxSize)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteLaunchConfigurationTemplateInput: Swift.Sendable {
@@ -2971,6 +3042,8 @@ extension MgnClientTypes {
         public var ec2LaunchTemplateID: Swift.String?
         /// Enable map auto tagging.
         public var enableMapAutoTagging: Swift.Bool?
+        /// Enable parameters encryption.
+        public var enableParametersEncryption: Swift.Bool?
         /// Large volume config.
         public var largeVolumeConf: MgnClientTypes.LaunchTemplateDiskConf?
         /// ID of the Launch Configuration Template.
@@ -2982,6 +3055,8 @@ extension MgnClientTypes {
         public var licensing: MgnClientTypes.Licensing?
         /// Launch configuration template map auto tagging MPE ID.
         public var mapAutoTaggingMpeID: Swift.String?
+        /// Parameters encryption key.
+        public var parametersEncryptionKey: Swift.String?
         /// Post Launch Actions of the Launch Configuration Template.
         public var postLaunchActions: MgnClientTypes.PostLaunchActions?
         /// Small volume config.
@@ -3001,11 +3076,13 @@ extension MgnClientTypes {
             copyTags: Swift.Bool? = nil,
             ec2LaunchTemplateID: Swift.String? = nil,
             enableMapAutoTagging: Swift.Bool? = nil,
+            enableParametersEncryption: Swift.Bool? = nil,
             largeVolumeConf: MgnClientTypes.LaunchTemplateDiskConf? = nil,
             launchConfigurationTemplateID: Swift.String? = nil,
             launchDisposition: MgnClientTypes.LaunchDisposition? = nil,
             licensing: MgnClientTypes.Licensing? = nil,
             mapAutoTaggingMpeID: Swift.String? = nil,
+            parametersEncryptionKey: Swift.String? = nil,
             postLaunchActions: MgnClientTypes.PostLaunchActions? = nil,
             smallVolumeConf: MgnClientTypes.LaunchTemplateDiskConf? = nil,
             smallVolumeMaxSize: Swift.Int = 0,
@@ -3019,11 +3096,13 @@ extension MgnClientTypes {
             self.copyTags = copyTags
             self.ec2LaunchTemplateID = ec2LaunchTemplateID
             self.enableMapAutoTagging = enableMapAutoTagging
+            self.enableParametersEncryption = enableParametersEncryption
             self.largeVolumeConf = largeVolumeConf
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
             self.launchDisposition = launchDisposition
             self.licensing = licensing
             self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
+            self.parametersEncryptionKey = parametersEncryptionKey
             self.postLaunchActions = postLaunchActions
             self.smallVolumeConf = smallVolumeConf
             self.smallVolumeMaxSize = smallVolumeMaxSize
@@ -3035,7 +3114,7 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.LaunchConfigurationTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "LaunchConfigurationTemplate(arn: \(Swift.String(describing: arn)), associatePublicIpAddress: \(Swift.String(describing: associatePublicIpAddress)), bootMode: \(Swift.String(describing: bootMode)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), ec2LaunchTemplateID: \(Swift.String(describing: ec2LaunchTemplateID)), enableMapAutoTagging: \(Swift.String(describing: enableMapAutoTagging)), largeVolumeConf: \(Swift.String(describing: largeVolumeConf)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), mapAutoTaggingMpeID: \(Swift.String(describing: mapAutoTaggingMpeID)), postLaunchActions: \(Swift.String(describing: postLaunchActions)), smallVolumeConf: \(Swift.String(describing: smallVolumeConf)), smallVolumeMaxSize: \(Swift.String(describing: smallVolumeMaxSize)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+        "LaunchConfigurationTemplate(arn: \(Swift.String(describing: arn)), associatePublicIpAddress: \(Swift.String(describing: associatePublicIpAddress)), bootMode: \(Swift.String(describing: bootMode)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), ec2LaunchTemplateID: \(Swift.String(describing: ec2LaunchTemplateID)), enableMapAutoTagging: \(Swift.String(describing: enableMapAutoTagging)), enableParametersEncryption: \(Swift.String(describing: enableParametersEncryption)), largeVolumeConf: \(Swift.String(describing: largeVolumeConf)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), mapAutoTaggingMpeID: \(Swift.String(describing: mapAutoTaggingMpeID)), parametersEncryptionKey: \(Swift.String(describing: parametersEncryptionKey)), postLaunchActions: \(Swift.String(describing: postLaunchActions)), smallVolumeConf: \(Swift.String(describing: smallVolumeConf)), smallVolumeMaxSize: \(Swift.String(describing: smallVolumeMaxSize)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeLaunchConfigurationTemplatesOutput: Swift.Sendable {
@@ -3329,6 +3408,8 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Sendable {
     public var copyTags: Swift.Bool?
     /// Enable map auto tagging.
     public var enableMapAutoTagging: Swift.Bool?
+    /// Enable parameters encryption.
+    public var enableParametersEncryption: Swift.Bool?
     /// Large volume config.
     public var largeVolumeConf: MgnClientTypes.LaunchTemplateDiskConf?
     /// Launch Configuration Template ID.
@@ -3340,6 +3421,8 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Sendable {
     public var licensing: MgnClientTypes.Licensing?
     /// Launch configuration template map auto tagging MPE ID.
     public var mapAutoTaggingMpeID: Swift.String?
+    /// Parameters encryption key.
+    public var parametersEncryptionKey: Swift.String?
     /// Post Launch Action to execute on the Test or Cutover instance.
     public var postLaunchActions: MgnClientTypes.PostLaunchActions?
     /// Small volume config.
@@ -3355,11 +3438,13 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Sendable {
         copyPrivateIp: Swift.Bool? = nil,
         copyTags: Swift.Bool? = nil,
         enableMapAutoTagging: Swift.Bool? = nil,
+        enableParametersEncryption: Swift.Bool? = nil,
         largeVolumeConf: MgnClientTypes.LaunchTemplateDiskConf? = nil,
         launchConfigurationTemplateID: Swift.String? = nil,
         launchDisposition: MgnClientTypes.LaunchDisposition? = nil,
         licensing: MgnClientTypes.Licensing? = nil,
         mapAutoTaggingMpeID: Swift.String? = nil,
+        parametersEncryptionKey: Swift.String? = nil,
         postLaunchActions: MgnClientTypes.PostLaunchActions? = nil,
         smallVolumeConf: MgnClientTypes.LaunchTemplateDiskConf? = nil,
         smallVolumeMaxSize: Swift.Int = 0,
@@ -3370,11 +3455,13 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Sendable {
         self.copyPrivateIp = copyPrivateIp
         self.copyTags = copyTags
         self.enableMapAutoTagging = enableMapAutoTagging
+        self.enableParametersEncryption = enableParametersEncryption
         self.largeVolumeConf = largeVolumeConf
         self.launchConfigurationTemplateID = launchConfigurationTemplateID
         self.launchDisposition = launchDisposition
         self.licensing = licensing
         self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
+        self.parametersEncryptionKey = parametersEncryptionKey
         self.postLaunchActions = postLaunchActions
         self.smallVolumeConf = smallVolumeConf
         self.smallVolumeMaxSize = smallVolumeMaxSize
@@ -3397,6 +3484,8 @@ public struct UpdateLaunchConfigurationTemplateOutput: Swift.Sendable {
     public var ec2LaunchTemplateID: Swift.String?
     /// Enable map auto tagging.
     public var enableMapAutoTagging: Swift.Bool?
+    /// Enable parameters encryption.
+    public var enableParametersEncryption: Swift.Bool?
     /// Large volume config.
     public var largeVolumeConf: MgnClientTypes.LaunchTemplateDiskConf?
     /// ID of the Launch Configuration Template.
@@ -3408,6 +3497,8 @@ public struct UpdateLaunchConfigurationTemplateOutput: Swift.Sendable {
     public var licensing: MgnClientTypes.Licensing?
     /// Launch configuration template map auto tagging MPE ID.
     public var mapAutoTaggingMpeID: Swift.String?
+    /// Parameters encryption key.
+    public var parametersEncryptionKey: Swift.String?
     /// Post Launch Actions of the Launch Configuration Template.
     public var postLaunchActions: MgnClientTypes.PostLaunchActions?
     /// Small volume config.
@@ -3427,11 +3518,13 @@ public struct UpdateLaunchConfigurationTemplateOutput: Swift.Sendable {
         copyTags: Swift.Bool? = nil,
         ec2LaunchTemplateID: Swift.String? = nil,
         enableMapAutoTagging: Swift.Bool? = nil,
+        enableParametersEncryption: Swift.Bool? = nil,
         largeVolumeConf: MgnClientTypes.LaunchTemplateDiskConf? = nil,
         launchConfigurationTemplateID: Swift.String? = nil,
         launchDisposition: MgnClientTypes.LaunchDisposition? = nil,
         licensing: MgnClientTypes.Licensing? = nil,
         mapAutoTaggingMpeID: Swift.String? = nil,
+        parametersEncryptionKey: Swift.String? = nil,
         postLaunchActions: MgnClientTypes.PostLaunchActions? = nil,
         smallVolumeConf: MgnClientTypes.LaunchTemplateDiskConf? = nil,
         smallVolumeMaxSize: Swift.Int = 0,
@@ -3445,11 +3538,13 @@ public struct UpdateLaunchConfigurationTemplateOutput: Swift.Sendable {
         self.copyTags = copyTags
         self.ec2LaunchTemplateID = ec2LaunchTemplateID
         self.enableMapAutoTagging = enableMapAutoTagging
+        self.enableParametersEncryption = enableParametersEncryption
         self.largeVolumeConf = largeVolumeConf
         self.launchConfigurationTemplateID = launchConfigurationTemplateID
         self.launchDisposition = launchDisposition
         self.licensing = licensing
         self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
+        self.parametersEncryptionKey = parametersEncryptionKey
         self.postLaunchActions = postLaunchActions
         self.smallVolumeConf = smallVolumeConf
         self.smallVolumeMaxSize = smallVolumeMaxSize
@@ -3460,7 +3555,7 @@ public struct UpdateLaunchConfigurationTemplateOutput: Swift.Sendable {
 
 extension UpdateLaunchConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateLaunchConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associatePublicIpAddress: \(Swift.String(describing: associatePublicIpAddress)), bootMode: \(Swift.String(describing: bootMode)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), ec2LaunchTemplateID: \(Swift.String(describing: ec2LaunchTemplateID)), enableMapAutoTagging: \(Swift.String(describing: enableMapAutoTagging)), largeVolumeConf: \(Swift.String(describing: largeVolumeConf)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), mapAutoTaggingMpeID: \(Swift.String(describing: mapAutoTaggingMpeID)), postLaunchActions: \(Swift.String(describing: postLaunchActions)), smallVolumeConf: \(Swift.String(describing: smallVolumeConf)), smallVolumeMaxSize: \(Swift.String(describing: smallVolumeMaxSize)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+        "UpdateLaunchConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associatePublicIpAddress: \(Swift.String(describing: associatePublicIpAddress)), bootMode: \(Swift.String(describing: bootMode)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), ec2LaunchTemplateID: \(Swift.String(describing: ec2LaunchTemplateID)), enableMapAutoTagging: \(Swift.String(describing: enableMapAutoTagging)), enableParametersEncryption: \(Swift.String(describing: enableParametersEncryption)), largeVolumeConf: \(Swift.String(describing: largeVolumeConf)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), mapAutoTaggingMpeID: \(Swift.String(describing: mapAutoTaggingMpeID)), parametersEncryptionKey: \(Swift.String(describing: parametersEncryptionKey)), postLaunchActions: \(Swift.String(describing: postLaunchActions)), smallVolumeConf: \(Swift.String(describing: smallVolumeConf)), smallVolumeMaxSize: \(Swift.String(describing: smallVolumeMaxSize)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
 }
 
 /// List managed accounts request.
@@ -3693,6 +3788,35 @@ extension MgnClientTypes {
     }
 }
 
+extension MgnClientTypes {
+
+    public enum InternetProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InternetProtocol] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
     /// Request to associate the default Application Migration Service Security group with the Replication Settings template.
     /// This member is required.
@@ -3714,6 +3838,8 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
     public var ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption?
     /// Request to configure an EBS encryption key during Replication Settings template creation.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Request to configure the internet protocol to IPv4 or IPv6.
+    public var internetProtocol: MgnClientTypes.InternetProtocol?
     /// Request to configure the Replication Server instance type during Replication Settings template creation.
     /// This member is required.
     public var replicationServerInstanceType: Swift.String?
@@ -3742,6 +3868,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
         defaultLargeStagingDiskType: MgnClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: MgnClientTypes.InternetProtocol? = nil,
         replicationServerInstanceType: Swift.String? = nil,
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
         stagingAreaSubnetId: Swift.String? = nil,
@@ -3757,6 +3884,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.replicationServerInstanceType = replicationServerInstanceType
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
         self.stagingAreaSubnetId = stagingAreaSubnetId
@@ -3769,7 +3897,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Sendable {
 
 extension CreateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
@@ -3789,6 +3917,8 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
     public var ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption?
     /// Replication Configuration template EBS encryption key ARN.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Replication Configuration template internet protocol.
+    public var internetProtocol: MgnClientTypes.InternetProtocol?
     /// Replication Configuration template ID.
     /// This member is required.
     public var replicationConfigurationTemplateID: Swift.String?
@@ -3816,6 +3946,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
         defaultLargeStagingDiskType: MgnClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: MgnClientTypes.InternetProtocol? = nil,
         replicationConfigurationTemplateID: Swift.String? = nil,
         replicationServerInstanceType: Swift.String? = nil,
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
@@ -3833,6 +3964,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
         self.replicationServerInstanceType = replicationServerInstanceType
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
@@ -3846,7 +3978,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Sendable {
 
 extension CreateReplicationConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteReplicationConfigurationTemplateInput: Swift.Sendable {
@@ -3904,6 +4036,8 @@ extension MgnClientTypes {
         public var ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption?
         /// Replication Configuration template EBS encryption key ARN.
         public var ebsEncryptionKeyArn: Swift.String?
+        /// Replication Configuration template internet protocol.
+        public var internetProtocol: MgnClientTypes.InternetProtocol?
         /// Replication Configuration template ID.
         /// This member is required.
         public var replicationConfigurationTemplateID: Swift.String?
@@ -3931,6 +4065,7 @@ extension MgnClientTypes {
             defaultLargeStagingDiskType: MgnClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
             ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption? = nil,
             ebsEncryptionKeyArn: Swift.String? = nil,
+            internetProtocol: MgnClientTypes.InternetProtocol? = nil,
             replicationConfigurationTemplateID: Swift.String? = nil,
             replicationServerInstanceType: Swift.String? = nil,
             replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
@@ -3948,6 +4083,7 @@ extension MgnClientTypes {
             self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
             self.ebsEncryption = ebsEncryption
             self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+            self.internetProtocol = internetProtocol
             self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
             self.replicationServerInstanceType = replicationServerInstanceType
             self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
@@ -3962,7 +4098,7 @@ extension MgnClientTypes {
 
 extension MgnClientTypes.ReplicationConfigurationTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ReplicationConfigurationTemplate(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "ReplicationConfigurationTemplate(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeReplicationConfigurationTemplatesOutput: Swift.Sendable {
@@ -3997,6 +4133,8 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
     public var ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption?
     /// Update replication configuration template EBS encryption key ARN request.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Update replication configuration template internet protocol request.
+    public var internetProtocol: MgnClientTypes.InternetProtocol?
     /// Update replication configuration template template ID request.
     /// This member is required.
     public var replicationConfigurationTemplateID: Swift.String?
@@ -4022,6 +4160,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
         defaultLargeStagingDiskType: MgnClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: MgnClientTypes.InternetProtocol? = nil,
         replicationConfigurationTemplateID: Swift.String? = nil,
         replicationServerInstanceType: Swift.String? = nil,
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
@@ -4038,6 +4177,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
         self.replicationServerInstanceType = replicationServerInstanceType
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
@@ -4050,7 +4190,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationTemplateInput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationTemplateInput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
@@ -4070,6 +4210,8 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
     public var ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption?
     /// Replication Configuration template EBS encryption key ARN.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Replication Configuration template internet protocol.
+    public var internetProtocol: MgnClientTypes.InternetProtocol?
     /// Replication Configuration template ID.
     /// This member is required.
     public var replicationConfigurationTemplateID: Swift.String?
@@ -4097,6 +4239,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
         defaultLargeStagingDiskType: MgnClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: MgnClientTypes.InternetProtocol? = nil,
         replicationConfigurationTemplateID: Swift.String? = nil,
         replicationServerInstanceType: Swift.String? = nil,
         replicationServersSecurityGroupsIDs: [Swift.String]? = nil,
@@ -4114,6 +4257,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
         self.replicationServerInstanceType = replicationServerInstanceType
         self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
@@ -4127,7 +4271,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationTemplateOutput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 extension MgnClientTypes {
@@ -4552,6 +4696,8 @@ extension MgnClientTypes {
         public var lastSnapshotDateTime: Swift.String?
         /// Request to query disks replicated.
         public var replicatedDisks: [MgnClientTypes.DataReplicationInfoReplicatedDisk]?
+        /// Replication server instance ID.
+        public var replicatorId: Swift.String?
 
         public init(
             dataReplicationError: MgnClientTypes.DataReplicationError? = nil,
@@ -4560,7 +4706,8 @@ extension MgnClientTypes {
             etaDateTime: Swift.String? = nil,
             lagDuration: Swift.String? = nil,
             lastSnapshotDateTime: Swift.String? = nil,
-            replicatedDisks: [MgnClientTypes.DataReplicationInfoReplicatedDisk]? = nil
+            replicatedDisks: [MgnClientTypes.DataReplicationInfoReplicatedDisk]? = nil,
+            replicatorId: Swift.String? = nil
         ) {
             self.dataReplicationError = dataReplicationError
             self.dataReplicationInitiation = dataReplicationInitiation
@@ -4569,6 +4716,7 @@ extension MgnClientTypes {
             self.lagDuration = lagDuration
             self.lastSnapshotDateTime = lastSnapshotDateTime
             self.replicatedDisks = replicatedDisks
+            self.replicatorId = replicatorId
         }
     }
 }
@@ -5623,6 +5771,8 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
     public var ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption?
     /// Replication Configuration EBS encryption key ARN.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Replication Configuration internet protocol.
+    public var internetProtocol: MgnClientTypes.InternetProtocol?
     /// Replication Configuration name.
     public var name: Swift.String?
     /// Replication Configuration replicated disks.
@@ -5650,6 +5800,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
         defaultLargeStagingDiskType: MgnClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: MgnClientTypes.InternetProtocol? = nil,
         name: Swift.String? = nil,
         replicatedDisks: [MgnClientTypes.ReplicationConfigurationReplicatedDisk]? = nil,
         replicationServerInstanceType: Swift.String? = nil,
@@ -5667,6 +5818,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.name = name
         self.replicatedDisks = replicatedDisks
         self.replicationServerInstanceType = replicationServerInstanceType
@@ -5681,7 +5833,7 @@ public struct GetReplicationConfigurationOutput: Swift.Sendable {
 
 extension GetReplicationConfigurationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "GetReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 extension MgnClientTypes {
@@ -6689,6 +6841,8 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
     public var ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption?
     /// Update replication configuration EBS encryption key ARN request.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Update replication configuration internet protocol.
+    public var internetProtocol: MgnClientTypes.InternetProtocol?
     /// Update replication configuration name request.
     public var name: Swift.String?
     /// Update replication configuration replicated disks request.
@@ -6718,6 +6872,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
         defaultLargeStagingDiskType: MgnClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: MgnClientTypes.InternetProtocol? = nil,
         name: Swift.String? = nil,
         replicatedDisks: [MgnClientTypes.ReplicationConfigurationReplicatedDisk]? = nil,
         replicationServerInstanceType: Swift.String? = nil,
@@ -6736,6 +6891,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.name = name
         self.replicatedDisks = replicatedDisks
         self.replicationServerInstanceType = replicationServerInstanceType
@@ -6750,7 +6906,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationInput(accountID: \(Swift.String(describing: accountID)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationInput(accountID: \(Swift.String(describing: accountID)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
@@ -6768,6 +6924,8 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
     public var ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption?
     /// Replication Configuration EBS encryption key ARN.
     public var ebsEncryptionKeyArn: Swift.String?
+    /// Replication Configuration internet protocol.
+    public var internetProtocol: MgnClientTypes.InternetProtocol?
     /// Replication Configuration name.
     public var name: Swift.String?
     /// Replication Configuration replicated disks.
@@ -6795,6 +6953,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
         defaultLargeStagingDiskType: MgnClientTypes.ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: MgnClientTypes.ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: Swift.String? = nil,
+        internetProtocol: MgnClientTypes.InternetProtocol? = nil,
         name: Swift.String? = nil,
         replicatedDisks: [MgnClientTypes.ReplicationConfigurationReplicatedDisk]? = nil,
         replicationServerInstanceType: Swift.String? = nil,
@@ -6812,6 +6971,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
         self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
         self.ebsEncryption = ebsEncryption
         self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+        self.internetProtocol = internetProtocol
         self.name = name
         self.replicatedDisks = replicatedDisks
         self.replicationServerInstanceType = replicationServerInstanceType
@@ -6826,7 +6986,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Sendable {
 
 extension UpdateReplicationConfigurationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationOutput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), internetProtocol: \(Swift.String(describing: internetProtocol)), name: \(Swift.String(describing: name)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), useFipsEndpoint: \(Swift.String(describing: useFipsEndpoint)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateSourceServerInput: Swift.Sendable {
@@ -8303,10 +8463,12 @@ extension CreateLaunchConfigurationTemplateInput {
         try writer["copyPrivateIp"].write(value.copyPrivateIp)
         try writer["copyTags"].write(value.copyTags)
         try writer["enableMapAutoTagging"].write(value.enableMapAutoTagging)
+        try writer["enableParametersEncryption"].write(value.enableParametersEncryption)
         try writer["largeVolumeConf"].write(value.largeVolumeConf, with: MgnClientTypes.LaunchTemplateDiskConf.write(value:to:))
         try writer["launchDisposition"].write(value.launchDisposition)
         try writer["licensing"].write(value.licensing, with: MgnClientTypes.Licensing.write(value:to:))
         try writer["mapAutoTaggingMpeID"].write(value.mapAutoTaggingMpeID)
+        try writer["parametersEncryptionKey"].write(value.parametersEncryptionKey)
         try writer["postLaunchActions"].write(value.postLaunchActions, with: MgnClientTypes.PostLaunchActions.write(value:to:))
         try writer["smallVolumeConf"].write(value.smallVolumeConf, with: MgnClientTypes.LaunchTemplateDiskConf.write(value:to:))
         try writer["smallVolumeMaxSize"].write(value.smallVolumeMaxSize)
@@ -8326,6 +8488,7 @@ extension CreateReplicationConfigurationTemplateInput {
         try writer["defaultLargeStagingDiskType"].write(value.defaultLargeStagingDiskType)
         try writer["ebsEncryption"].write(value.ebsEncryption)
         try writer["ebsEncryptionKeyArn"].write(value.ebsEncryptionKeyArn)
+        try writer["internetProtocol"].write(value.internetProtocol)
         try writer["replicationServerInstanceType"].write(value.replicationServerInstanceType)
         try writer["replicationServersSecurityGroupsIDs"].writeList(value.replicationServersSecurityGroupsIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["stagingAreaSubnetId"].write(value.stagingAreaSubnetId)
@@ -8742,6 +8905,7 @@ extension StartExportInput {
         try writer["s3Bucket"].write(value.s3Bucket)
         try writer["s3BucketOwner"].write(value.s3BucketOwner)
         try writer["s3Key"].write(value.s3Key)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -8751,6 +8915,7 @@ extension StartImportInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["s3BucketSource"].write(value.s3BucketSource, with: MgnClientTypes.S3BucketSource.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -8867,11 +9032,13 @@ extension UpdateLaunchConfigurationTemplateInput {
         try writer["copyPrivateIp"].write(value.copyPrivateIp)
         try writer["copyTags"].write(value.copyTags)
         try writer["enableMapAutoTagging"].write(value.enableMapAutoTagging)
+        try writer["enableParametersEncryption"].write(value.enableParametersEncryption)
         try writer["largeVolumeConf"].write(value.largeVolumeConf, with: MgnClientTypes.LaunchTemplateDiskConf.write(value:to:))
         try writer["launchConfigurationTemplateID"].write(value.launchConfigurationTemplateID)
         try writer["launchDisposition"].write(value.launchDisposition)
         try writer["licensing"].write(value.licensing, with: MgnClientTypes.Licensing.write(value:to:))
         try writer["mapAutoTaggingMpeID"].write(value.mapAutoTaggingMpeID)
+        try writer["parametersEncryptionKey"].write(value.parametersEncryptionKey)
         try writer["postLaunchActions"].write(value.postLaunchActions, with: MgnClientTypes.PostLaunchActions.write(value:to:))
         try writer["smallVolumeConf"].write(value.smallVolumeConf, with: MgnClientTypes.LaunchTemplateDiskConf.write(value:to:))
         try writer["smallVolumeMaxSize"].write(value.smallVolumeMaxSize)
@@ -8891,6 +9058,7 @@ extension UpdateReplicationConfigurationInput {
         try writer["defaultLargeStagingDiskType"].write(value.defaultLargeStagingDiskType)
         try writer["ebsEncryption"].write(value.ebsEncryption)
         try writer["ebsEncryptionKeyArn"].write(value.ebsEncryptionKeyArn)
+        try writer["internetProtocol"].write(value.internetProtocol)
         try writer["name"].write(value.name)
         try writer["replicatedDisks"].writeList(value.replicatedDisks, memberWritingClosure: MgnClientTypes.ReplicationConfigurationReplicatedDisk.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["replicationServerInstanceType"].write(value.replicationServerInstanceType)
@@ -8915,6 +9083,7 @@ extension UpdateReplicationConfigurationTemplateInput {
         try writer["defaultLargeStagingDiskType"].write(value.defaultLargeStagingDiskType)
         try writer["ebsEncryption"].write(value.ebsEncryption)
         try writer["ebsEncryptionKeyArn"].write(value.ebsEncryptionKeyArn)
+        try writer["internetProtocol"].write(value.internetProtocol)
         try writer["replicationConfigurationTemplateID"].write(value.replicationConfigurationTemplateID)
         try writer["replicationServerInstanceType"].write(value.replicationServerInstanceType)
         try writer["replicationServersSecurityGroupsIDs"].writeList(value.replicationServersSecurityGroupsIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9088,11 +9257,13 @@ extension CreateLaunchConfigurationTemplateOutput {
         value.copyTags = try reader["copyTags"].readIfPresent()
         value.ec2LaunchTemplateID = try reader["ec2LaunchTemplateID"].readIfPresent()
         value.enableMapAutoTagging = try reader["enableMapAutoTagging"].readIfPresent()
+        value.enableParametersEncryption = try reader["enableParametersEncryption"].readIfPresent()
         value.largeVolumeConf = try reader["largeVolumeConf"].readIfPresent(with: MgnClientTypes.LaunchTemplateDiskConf.read(from:))
         value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent() ?? ""
         value.launchDisposition = try reader["launchDisposition"].readIfPresent()
         value.licensing = try reader["licensing"].readIfPresent(with: MgnClientTypes.Licensing.read(from:))
         value.mapAutoTaggingMpeID = try reader["mapAutoTaggingMpeID"].readIfPresent()
+        value.parametersEncryptionKey = try reader["parametersEncryptionKey"].readIfPresent()
         value.postLaunchActions = try reader["postLaunchActions"].readIfPresent(with: MgnClientTypes.PostLaunchActions.read(from:))
         value.smallVolumeConf = try reader["smallVolumeConf"].readIfPresent(with: MgnClientTypes.LaunchTemplateDiskConf.read(from:))
         value.smallVolumeMaxSize = try reader["smallVolumeMaxSize"].readIfPresent() ?? 0
@@ -9117,6 +9288,7 @@ extension CreateReplicationConfigurationTemplateOutput {
         value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
         value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
         value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -9384,6 +9556,7 @@ extension GetReplicationConfigurationOutput {
         value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.replicatedDisks = try reader["replicatedDisks"].readListIfPresent(memberReadingClosure: MgnClientTypes.ReplicationConfigurationReplicatedDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
@@ -9947,11 +10120,13 @@ extension UpdateLaunchConfigurationTemplateOutput {
         value.copyTags = try reader["copyTags"].readIfPresent()
         value.ec2LaunchTemplateID = try reader["ec2LaunchTemplateID"].readIfPresent()
         value.enableMapAutoTagging = try reader["enableMapAutoTagging"].readIfPresent()
+        value.enableParametersEncryption = try reader["enableParametersEncryption"].readIfPresent()
         value.largeVolumeConf = try reader["largeVolumeConf"].readIfPresent(with: MgnClientTypes.LaunchTemplateDiskConf.read(from:))
         value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent() ?? ""
         value.launchDisposition = try reader["launchDisposition"].readIfPresent()
         value.licensing = try reader["licensing"].readIfPresent(with: MgnClientTypes.Licensing.read(from:))
         value.mapAutoTaggingMpeID = try reader["mapAutoTaggingMpeID"].readIfPresent()
+        value.parametersEncryptionKey = try reader["parametersEncryptionKey"].readIfPresent()
         value.postLaunchActions = try reader["postLaunchActions"].readIfPresent(with: MgnClientTypes.PostLaunchActions.read(from:))
         value.smallVolumeConf = try reader["smallVolumeConf"].readIfPresent(with: MgnClientTypes.LaunchTemplateDiskConf.read(from:))
         value.smallVolumeMaxSize = try reader["smallVolumeMaxSize"].readIfPresent() ?? 0
@@ -9975,6 +10150,7 @@ extension UpdateReplicationConfigurationOutput {
         value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.replicatedDisks = try reader["replicatedDisks"].readListIfPresent(memberReadingClosure: MgnClientTypes.ReplicationConfigurationReplicatedDisk.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
@@ -10003,6 +10179,7 @@ extension UpdateReplicationConfigurationTemplateOutput {
         value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
         value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
         value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
         value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
         value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
         value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -11347,6 +11524,25 @@ extension ThrottlingException {
     }
 }
 
+extension MgnClientTypes.Application {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Application {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.Application()
+        value.applicationID = try reader["applicationID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.isArchived = try reader["isArchived"].readIfPresent()
+        value.applicationAggregatedStatus = try reader["applicationAggregatedStatus"].readIfPresent(with: MgnClientTypes.ApplicationAggregatedStatus.read(from:))
+        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
+        value.lastModifiedDateTime = try reader["lastModifiedDateTime"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.waveID = try reader["waveID"].readIfPresent()
+        return value
+    }
+}
+
 extension MgnClientTypes.ApplicationAggregatedStatus {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ApplicationAggregatedStatus {
@@ -11360,28 +11556,68 @@ extension MgnClientTypes.ApplicationAggregatedStatus {
     }
 }
 
-extension MgnClientTypes.WaveAggregatedStatus {
+extension MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.WaveAggregatedStatus {
+    static func write(value: MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["state"].write(value.state)
+    }
+}
+
+extension MgnClientTypes.Connector {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Connector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.WaveAggregatedStatus()
-        value.lastUpdateDateTime = try reader["lastUpdateDateTime"].readIfPresent()
-        value.replicationStartedDateTime = try reader["replicationStartedDateTime"].readIfPresent()
-        value.healthStatus = try reader["healthStatus"].readIfPresent()
-        value.progressStatus = try reader["progressStatus"].readIfPresent()
-        value.totalApplications = try reader["totalApplications"].readIfPresent() ?? 0
+        var value = MgnClientTypes.Connector()
+        value.connectorID = try reader["connectorID"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.ssmInstanceID = try reader["ssmInstanceID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.ssmCommandConfig = try reader["ssmCommandConfig"].readIfPresent(with: MgnClientTypes.ConnectorSsmCommandConfig.read(from:))
         return value
     }
 }
 
-extension MgnClientTypes.LaunchedInstance {
+extension MgnClientTypes.ConnectorSsmCommandConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LaunchedInstance {
+    static func write(value: MgnClientTypes.ConnectorSsmCommandConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudWatchLogGroupName"].write(value.cloudWatchLogGroupName)
+        try writer["cloudWatchOutputEnabled"].write(value.cloudWatchOutputEnabled)
+        try writer["outputS3BucketName"].write(value.outputS3BucketName)
+        try writer["s3OutputEnabled"].write(value.s3OutputEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ConnectorSsmCommandConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.LaunchedInstance()
-        value.ec2InstanceID = try reader["ec2InstanceID"].readIfPresent()
-        value.jobID = try reader["jobID"].readIfPresent()
-        value.firstBoot = try reader["firstBoot"].readIfPresent()
+        var value = MgnClientTypes.ConnectorSsmCommandConfig()
+        value.s3OutputEnabled = try reader["s3OutputEnabled"].readIfPresent() ?? false
+        value.outputS3BucketName = try reader["outputS3BucketName"].readIfPresent()
+        value.cloudWatchOutputEnabled = try reader["cloudWatchOutputEnabled"].readIfPresent() ?? false
+        value.cloudWatchLogGroupName = try reader["cloudWatchLogGroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.CPU {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.CPU {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.CPU()
+        value.cores = try reader["cores"].readIfPresent() ?? 0
+        value.modelName = try reader["modelName"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.DataReplicationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.DataReplicationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.DataReplicationError()
+        value.error = try reader["error"].readIfPresent()
+        value.rawError = try reader["rawError"].readIfPresent()
         return value
     }
 }
@@ -11398,17 +11634,21 @@ extension MgnClientTypes.DataReplicationInfo {
         value.dataReplicationInitiation = try reader["dataReplicationInitiation"].readIfPresent(with: MgnClientTypes.DataReplicationInitiation.read(from:))
         value.dataReplicationError = try reader["dataReplicationError"].readIfPresent(with: MgnClientTypes.DataReplicationError.read(from:))
         value.lastSnapshotDateTime = try reader["lastSnapshotDateTime"].readIfPresent()
+        value.replicatorId = try reader["replicatorId"].readIfPresent()
         return value
     }
 }
 
-extension MgnClientTypes.DataReplicationError {
+extension MgnClientTypes.DataReplicationInfoReplicatedDisk {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.DataReplicationError {
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.DataReplicationInfoReplicatedDisk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.DataReplicationError()
-        value.error = try reader["error"].readIfPresent()
-        value.rawError = try reader["rawError"].readIfPresent()
+        var value = MgnClientTypes.DataReplicationInfoReplicatedDisk()
+        value.deviceName = try reader["deviceName"].readIfPresent()
+        value.totalStorageBytes = try reader["totalStorageBytes"].readIfPresent() ?? 0
+        value.replicatedStorageBytes = try reader["replicatedStorageBytes"].readIfPresent() ?? 0
+        value.rescannedStorageBytes = try reader["rescannedStorageBytes"].readIfPresent() ?? 0
+        value.backloggedStorageBytes = try reader["backloggedStorageBytes"].readIfPresent() ?? 0
         return value
     }
 }
@@ -11436,16 +11676,339 @@ extension MgnClientTypes.DataReplicationInitiationStep {
     }
 }
 
-extension MgnClientTypes.DataReplicationInfoReplicatedDisk {
+extension MgnClientTypes.DescribeJobsRequestFilters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.DataReplicationInfoReplicatedDisk {
+    static func write(value: MgnClientTypes.DescribeJobsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fromDate"].write(value.fromDate)
+        try writer["jobIDs"].writeList(value.jobIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["toDate"].write(value.toDate)
+    }
+}
+
+extension MgnClientTypes.DescribeSourceServersRequestFilters {
+
+    static func write(value: MgnClientTypes.DescribeSourceServersRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applicationIDs"].writeList(value.applicationIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["isArchived"].write(value.isArchived)
+        try writer["lifeCycleStates"].writeList(value.lifeCycleStates, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MgnClientTypes.LifeCycleState>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["replicationTypes"].writeList(value.replicationTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MgnClientTypes.ReplicationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sourceServerIDs"].writeList(value.sourceServerIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MgnClientTypes.Disk {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Disk {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.DataReplicationInfoReplicatedDisk()
+        var value = MgnClientTypes.Disk()
         value.deviceName = try reader["deviceName"].readIfPresent()
-        value.totalStorageBytes = try reader["totalStorageBytes"].readIfPresent() ?? 0
-        value.replicatedStorageBytes = try reader["replicatedStorageBytes"].readIfPresent() ?? 0
-        value.rescannedStorageBytes = try reader["rescannedStorageBytes"].readIfPresent() ?? 0
-        value.backloggedStorageBytes = try reader["backloggedStorageBytes"].readIfPresent() ?? 0
+        value.bytes = try reader["bytes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MgnClientTypes.ErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ErrorDetails()
+        value.message = try reader["message"].readIfPresent()
+        value.code = try reader["code"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.ExportErrorData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportErrorData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ExportErrorData()
+        value.rawError = try reader["rawError"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.ExportTask {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportTask {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ExportTask()
+        value.exportID = try reader["exportID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.s3Bucket = try reader["s3Bucket"].readIfPresent()
+        value.s3Key = try reader["s3Key"].readIfPresent()
+        value.s3BucketOwner = try reader["s3BucketOwner"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
+        value.endDateTime = try reader["endDateTime"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.progressPercentage = try reader["progressPercentage"].readIfPresent()
+        value.summary = try reader["summary"].readIfPresent(with: MgnClientTypes.ExportTaskSummary.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension MgnClientTypes.ExportTaskError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportTaskError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ExportTaskError()
+        value.errorDateTime = try reader["errorDateTime"].readIfPresent()
+        value.errorData = try reader["errorData"].readIfPresent(with: MgnClientTypes.ExportErrorData.read(from:))
+        return value
+    }
+}
+
+extension MgnClientTypes.ExportTaskSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportTaskSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ExportTaskSummary()
+        value.serversCount = try reader["serversCount"].readIfPresent() ?? 0
+        value.applicationsCount = try reader["applicationsCount"].readIfPresent() ?? 0
+        value.wavesCount = try reader["wavesCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MgnClientTypes.IdentificationHints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.IdentificationHints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.IdentificationHints()
+        value.fqdn = try reader["fqdn"].readIfPresent()
+        value.hostname = try reader["hostname"].readIfPresent()
+        value.vmWareUuid = try reader["vmWareUuid"].readIfPresent()
+        value.awsInstanceID = try reader["awsInstanceID"].readIfPresent()
+        value.vmPath = try reader["vmPath"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.ImportErrorData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportErrorData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ImportErrorData()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
+        value.applicationID = try reader["applicationID"].readIfPresent()
+        value.waveID = try reader["waveID"].readIfPresent()
+        value.ec2LaunchTemplateID = try reader["ec2LaunchTemplateID"].readIfPresent()
+        value.rowNumber = try reader["rowNumber"].readIfPresent() ?? 0
+        value.rawError = try reader["rawError"].readIfPresent()
+        value.accountID = try reader["accountID"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.ImportTask {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTask {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ImportTask()
+        value.importID = try reader["importID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.s3BucketSource = try reader["s3BucketSource"].readIfPresent(with: MgnClientTypes.S3BucketSource.read(from:))
+        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
+        value.endDateTime = try reader["endDateTime"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.progressPercentage = try reader["progressPercentage"].readIfPresent()
+        value.summary = try reader["summary"].readIfPresent(with: MgnClientTypes.ImportTaskSummary.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension MgnClientTypes.ImportTaskError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ImportTaskError()
+        value.errorDateTime = try reader["errorDateTime"].readIfPresent()
+        value.errorType = try reader["errorType"].readIfPresent()
+        value.errorData = try reader["errorData"].readIfPresent(with: MgnClientTypes.ImportErrorData.read(from:))
+        return value
+    }
+}
+
+extension MgnClientTypes.ImportTaskSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ImportTaskSummary()
+        value.waves = try reader["waves"].readIfPresent(with: MgnClientTypes.ImportTaskSummaryWaves.read(from:))
+        value.applications = try reader["applications"].readIfPresent(with: MgnClientTypes.ImportTaskSummaryApplications.read(from:))
+        value.servers = try reader["servers"].readIfPresent(with: MgnClientTypes.ImportTaskSummaryServers.read(from:))
+        return value
+    }
+}
+
+extension MgnClientTypes.ImportTaskSummaryApplications {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummaryApplications {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ImportTaskSummaryApplications()
+        value.createdCount = try reader["createdCount"].readIfPresent() ?? 0
+        value.modifiedCount = try reader["modifiedCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MgnClientTypes.ImportTaskSummaryServers {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummaryServers {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ImportTaskSummaryServers()
+        value.createdCount = try reader["createdCount"].readIfPresent() ?? 0
+        value.modifiedCount = try reader["modifiedCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MgnClientTypes.ImportTaskSummaryWaves {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummaryWaves {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ImportTaskSummaryWaves()
+        value.createdCount = try reader["createdCount"].readIfPresent() ?? 0
+        value.modifiedCount = try reader["modifiedCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MgnClientTypes.Job {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Job {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.Job()
+        value.jobID = try reader["jobID"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.initiatedBy = try reader["initiatedBy"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
+        value.endDateTime = try reader["endDateTime"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.participatingServers = try reader["participatingServers"].readListIfPresent(memberReadingClosure: MgnClientTypes.ParticipatingServer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension MgnClientTypes.JobLog {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.JobLog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.JobLog()
+        value.logDateTime = try reader["logDateTime"].readIfPresent()
+        value.event = try reader["event"].readIfPresent()
+        value.eventData = try reader["eventData"].readIfPresent(with: MgnClientTypes.JobLogEventData.read(from:))
+        return value
+    }
+}
+
+extension MgnClientTypes.JobLogEventData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.JobLogEventData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.JobLogEventData()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
+        value.conversionServerID = try reader["conversionServerID"].readIfPresent()
+        value.targetInstanceID = try reader["targetInstanceID"].readIfPresent()
+        value.rawError = try reader["rawError"].readIfPresent()
+        value.attemptCount = try reader["attemptCount"].readIfPresent()
+        value.maxAttemptsCount = try reader["maxAttemptsCount"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.JobPostLaunchActionsLaunchStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.JobPostLaunchActionsLaunchStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.JobPostLaunchActionsLaunchStatus()
+        value.ssmDocument = try reader["ssmDocument"].readIfPresent(with: MgnClientTypes.SsmDocument.read(from:))
+        value.ssmDocumentType = try reader["ssmDocumentType"].readIfPresent()
+        value.executionID = try reader["executionID"].readIfPresent()
+        value.executionStatus = try reader["executionStatus"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.LaunchConfigurationTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LaunchConfigurationTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.LaunchConfigurationTemplate()
+        value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent()
+        value.postLaunchActions = try reader["postLaunchActions"].readIfPresent(with: MgnClientTypes.PostLaunchActions.read(from:))
+        value.enableMapAutoTagging = try reader["enableMapAutoTagging"].readIfPresent()
+        value.mapAutoTaggingMpeID = try reader["mapAutoTaggingMpeID"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.ec2LaunchTemplateID = try reader["ec2LaunchTemplateID"].readIfPresent()
+        value.launchDisposition = try reader["launchDisposition"].readIfPresent()
+        value.targetInstanceTypeRightSizingMethod = try reader["targetInstanceTypeRightSizingMethod"].readIfPresent()
+        value.copyPrivateIp = try reader["copyPrivateIp"].readIfPresent()
+        value.associatePublicIpAddress = try reader["associatePublicIpAddress"].readIfPresent()
+        value.copyTags = try reader["copyTags"].readIfPresent()
+        value.licensing = try reader["licensing"].readIfPresent(with: MgnClientTypes.Licensing.read(from:))
+        value.bootMode = try reader["bootMode"].readIfPresent()
+        value.smallVolumeMaxSize = try reader["smallVolumeMaxSize"].readIfPresent() ?? 0
+        value.smallVolumeConf = try reader["smallVolumeConf"].readIfPresent(with: MgnClientTypes.LaunchTemplateDiskConf.read(from:))
+        value.largeVolumeConf = try reader["largeVolumeConf"].readIfPresent(with: MgnClientTypes.LaunchTemplateDiskConf.read(from:))
+        value.enableParametersEncryption = try reader["enableParametersEncryption"].readIfPresent()
+        value.parametersEncryptionKey = try reader["parametersEncryptionKey"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.LaunchedInstance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LaunchedInstance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.LaunchedInstance()
+        value.ec2InstanceID = try reader["ec2InstanceID"].readIfPresent()
+        value.jobID = try reader["jobID"].readIfPresent()
+        value.firstBoot = try reader["firstBoot"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.LaunchTemplateDiskConf {
+
+    static func write(value: MgnClientTypes.LaunchTemplateDiskConf?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["iops"].write(value.iops)
+        try writer["throughput"].write(value.throughput)
+        try writer["volumeType"].write(value.volumeType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LaunchTemplateDiskConf {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.LaunchTemplateDiskConf()
+        value.volumeType = try reader["volumeType"].readIfPresent()
+        value.iops = try reader["iops"].readIfPresent()
+        value.throughput = try reader["throughput"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.Licensing {
+
+    static func write(value: MgnClientTypes.Licensing?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["osByol"].write(value.osByol)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Licensing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.Licensing()
+        value.osByol = try reader["osByol"].readIfPresent()
         return value
     }
 }
@@ -11488,16 +12051,6 @@ extension MgnClientTypes.LifeCycleLastCutoverFinalized {
     }
 }
 
-extension MgnClientTypes.LifeCycleLastCutoverReverted {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastCutoverReverted {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.LifeCycleLastCutoverReverted()
-        value.apiCallDateTime = try reader["apiCallDateTime"].readIfPresent()
-        return value
-    }
-}
-
 extension MgnClientTypes.LifeCycleLastCutoverInitiated {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastCutoverInitiated {
@@ -11505,6 +12058,16 @@ extension MgnClientTypes.LifeCycleLastCutoverInitiated {
         var value = MgnClientTypes.LifeCycleLastCutoverInitiated()
         value.apiCallDateTime = try reader["apiCallDateTime"].readIfPresent()
         value.jobID = try reader["jobID"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.LifeCycleLastCutoverReverted {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastCutoverReverted {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.LifeCycleLastCutoverReverted()
+        value.apiCallDateTime = try reader["apiCallDateTime"].readIfPresent()
         return value
     }
 }
@@ -11531,16 +12094,6 @@ extension MgnClientTypes.LifeCycleLastTestFinalized {
     }
 }
 
-extension MgnClientTypes.LifeCycleLastTestReverted {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastTestReverted {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.LifeCycleLastTestReverted()
-        value.apiCallDateTime = try reader["apiCallDateTime"].readIfPresent()
-        return value
-    }
-}
-
 extension MgnClientTypes.LifeCycleLastTestInitiated {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastTestInitiated {
@@ -11552,51 +12105,65 @@ extension MgnClientTypes.LifeCycleLastTestInitiated {
     }
 }
 
-extension MgnClientTypes.SourceProperties {
+extension MgnClientTypes.LifeCycleLastTestReverted {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceProperties {
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LifeCycleLastTestReverted {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.SourceProperties()
-        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readIfPresent()
-        value.recommendedInstanceType = try reader["recommendedInstanceType"].readIfPresent()
-        value.identificationHints = try reader["identificationHints"].readIfPresent(with: MgnClientTypes.IdentificationHints.read(from:))
-        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: MgnClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.disks = try reader["disks"].readListIfPresent(memberReadingClosure: MgnClientTypes.Disk.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cpus = try reader["cpus"].readListIfPresent(memberReadingClosure: MgnClientTypes.CPU.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ramBytes = try reader["ramBytes"].readIfPresent() ?? 0
-        value.os = try reader["os"].readIfPresent(with: MgnClientTypes.OS.read(from:))
+        var value = MgnClientTypes.LifeCycleLastTestReverted()
+        value.apiCallDateTime = try reader["apiCallDateTime"].readIfPresent()
         return value
     }
 }
 
-extension MgnClientTypes.OS {
+extension MgnClientTypes.ListApplicationsRequestFilters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.OS {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.OS()
-        value.fullString = try reader["fullString"].readIfPresent()
-        return value
+    static func write(value: MgnClientTypes.ListApplicationsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applicationIDs"].writeList(value.applicationIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["isArchived"].write(value.isArchived)
+        try writer["waveIDs"].writeList(value.waveIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension MgnClientTypes.CPU {
+extension MgnClientTypes.ListConnectorsRequestFilters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.CPU {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.CPU()
-        value.cores = try reader["cores"].readIfPresent() ?? 0
-        value.modelName = try reader["modelName"].readIfPresent()
-        return value
+    static func write(value: MgnClientTypes.ListConnectorsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectorIDs"].writeList(value.connectorIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension MgnClientTypes.Disk {
+extension MgnClientTypes.ListExportsRequestFilters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Disk {
+    static func write(value: MgnClientTypes.ListExportsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["exportIDs"].writeList(value.exportIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MgnClientTypes.ListImportsRequestFilters {
+
+    static func write(value: MgnClientTypes.ListImportsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["importIDs"].writeList(value.importIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MgnClientTypes.ListWavesRequestFilters {
+
+    static func write(value: MgnClientTypes.ListWavesRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isArchived"].write(value.isArchived)
+        try writer["waveIDs"].writeList(value.waveIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MgnClientTypes.ManagedAccount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ManagedAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.Disk()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        value.bytes = try reader["bytes"].readIfPresent() ?? 0
+        var value = MgnClientTypes.ManagedAccount()
+        value.accountId = try reader["accountId"].readIfPresent()
         return value
     }
 }
@@ -11613,54 +12180,25 @@ extension MgnClientTypes.NetworkInterface {
     }
 }
 
-extension MgnClientTypes.IdentificationHints {
+extension MgnClientTypes.OS {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.IdentificationHints {
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.OS {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.IdentificationHints()
-        value.fqdn = try reader["fqdn"].readIfPresent()
-        value.hostname = try reader["hostname"].readIfPresent()
-        value.vmWareUuid = try reader["vmWareUuid"].readIfPresent()
-        value.awsInstanceID = try reader["awsInstanceID"].readIfPresent()
-        value.vmPath = try reader["vmPath"].readIfPresent()
+        var value = MgnClientTypes.OS()
+        value.fullString = try reader["fullString"].readIfPresent()
         return value
     }
 }
 
-extension MgnClientTypes.SourceServerConnectorAction {
+extension MgnClientTypes.ParticipatingServer {
 
-    static func write(value: MgnClientTypes.SourceServerConnectorAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connectorArn"].write(value.connectorArn)
-        try writer["credentialsSecretArn"].write(value.credentialsSecretArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceServerConnectorAction {
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ParticipatingServer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.SourceServerConnectorAction()
-        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent()
-        value.connectorArn = try reader["connectorArn"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.ConnectorSsmCommandConfig {
-
-    static func write(value: MgnClientTypes.ConnectorSsmCommandConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cloudWatchLogGroupName"].write(value.cloudWatchLogGroupName)
-        try writer["cloudWatchOutputEnabled"].write(value.cloudWatchOutputEnabled)
-        try writer["outputS3BucketName"].write(value.outputS3BucketName)
-        try writer["s3OutputEnabled"].write(value.s3OutputEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ConnectorSsmCommandConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ConnectorSsmCommandConfig()
-        value.s3OutputEnabled = try reader["s3OutputEnabled"].readIfPresent() ?? false
-        value.outputS3BucketName = try reader["outputS3BucketName"].readIfPresent()
-        value.cloudWatchOutputEnabled = try reader["cloudWatchOutputEnabled"].readIfPresent() ?? false
-        value.cloudWatchLogGroupName = try reader["cloudWatchLogGroupName"].readIfPresent()
+        var value = MgnClientTypes.ParticipatingServer()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent() ?? ""
+        value.launchStatus = try reader["launchStatus"].readIfPresent()
+        value.launchedEc2InstanceID = try reader["launchedEc2InstanceID"].readIfPresent()
+        value.postLaunchActionsStatus = try reader["postLaunchActionsStatus"].readIfPresent(with: MgnClientTypes.PostLaunchActionsStatus.read(from:))
         return value
     }
 }
@@ -11684,6 +12222,171 @@ extension MgnClientTypes.PostLaunchActions {
         value.s3OutputKeyPrefix = try reader["s3OutputKeyPrefix"].readIfPresent()
         value.cloudWatchLogGroupName = try reader["cloudWatchLogGroupName"].readIfPresent()
         value.ssmDocuments = try reader["ssmDocuments"].readListIfPresent(memberReadingClosure: MgnClientTypes.SsmDocument.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MgnClientTypes.PostLaunchActionsStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.PostLaunchActionsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.PostLaunchActionsStatus()
+        value.ssmAgentDiscoveryDatetime = try reader["ssmAgentDiscoveryDatetime"].readIfPresent()
+        value.postLaunchActionsLaunchStatusList = try reader["postLaunchActionsLaunchStatusList"].readListIfPresent(memberReadingClosure: MgnClientTypes.JobPostLaunchActionsLaunchStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MgnClientTypes.ReplicationConfigurationReplicatedDisk {
+
+    static func write(value: MgnClientTypes.ReplicationConfigurationReplicatedDisk?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deviceName"].write(value.deviceName)
+        try writer["iops"].write(value.iops)
+        try writer["isBootDisk"].write(value.isBootDisk)
+        try writer["stagingDiskType"].write(value.stagingDiskType)
+        try writer["throughput"].write(value.throughput)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ReplicationConfigurationReplicatedDisk {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ReplicationConfigurationReplicatedDisk()
+        value.deviceName = try reader["deviceName"].readIfPresent()
+        value.isBootDisk = try reader["isBootDisk"].readIfPresent()
+        value.stagingDiskType = try reader["stagingDiskType"].readIfPresent()
+        value.iops = try reader["iops"].readIfPresent() ?? 0
+        value.throughput = try reader["throughput"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MgnClientTypes.ReplicationConfigurationTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ReplicationConfigurationTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ReplicationConfigurationTemplate()
+        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent()
+        value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
+        value.associateDefaultSecurityGroup = try reader["associateDefaultSecurityGroup"].readIfPresent()
+        value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
+        value.useDedicatedReplicationServer = try reader["useDedicatedReplicationServer"].readIfPresent()
+        value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
+        value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
+        value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
+        value.bandwidthThrottling = try reader["bandwidthThrottling"].readIfPresent() ?? 0
+        value.dataPlaneRouting = try reader["dataPlaneRouting"].readIfPresent()
+        value.createPublicIP = try reader["createPublicIP"].readIfPresent()
+        value.stagingAreaTags = try reader["stagingAreaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.useFipsEndpoint = try reader["useFipsEndpoint"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.internetProtocol = try reader["internetProtocol"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.S3BucketSource {
+
+    static func write(value: MgnClientTypes.S3BucketSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Bucket"].write(value.s3Bucket)
+        try writer["s3BucketOwner"].write(value.s3BucketOwner)
+        try writer["s3Key"].write(value.s3Key)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.S3BucketSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.S3BucketSource()
+        value.s3Bucket = try reader["s3Bucket"].readIfPresent() ?? ""
+        value.s3Key = try reader["s3Key"].readIfPresent() ?? ""
+        value.s3BucketOwner = try reader["s3BucketOwner"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.SourceProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.SourceProperties()
+        value.lastUpdatedDateTime = try reader["lastUpdatedDateTime"].readIfPresent()
+        value.recommendedInstanceType = try reader["recommendedInstanceType"].readIfPresent()
+        value.identificationHints = try reader["identificationHints"].readIfPresent(with: MgnClientTypes.IdentificationHints.read(from:))
+        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: MgnClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.disks = try reader["disks"].readListIfPresent(memberReadingClosure: MgnClientTypes.Disk.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cpus = try reader["cpus"].readListIfPresent(memberReadingClosure: MgnClientTypes.CPU.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ramBytes = try reader["ramBytes"].readIfPresent() ?? 0
+        value.os = try reader["os"].readIfPresent(with: MgnClientTypes.OS.read(from:))
+        return value
+    }
+}
+
+extension MgnClientTypes.SourceServer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.SourceServer()
+        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.isArchived = try reader["isArchived"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.launchedInstance = try reader["launchedInstance"].readIfPresent(with: MgnClientTypes.LaunchedInstance.read(from:))
+        value.dataReplicationInfo = try reader["dataReplicationInfo"].readIfPresent(with: MgnClientTypes.DataReplicationInfo.read(from:))
+        value.lifeCycle = try reader["lifeCycle"].readIfPresent(with: MgnClientTypes.LifeCycle.read(from:))
+        value.sourceProperties = try reader["sourceProperties"].readIfPresent(with: MgnClientTypes.SourceProperties.read(from:))
+        value.replicationType = try reader["replicationType"].readIfPresent()
+        value.vcenterClientID = try reader["vcenterClientID"].readIfPresent()
+        value.applicationID = try reader["applicationID"].readIfPresent()
+        value.userProvidedID = try reader["userProvidedID"].readIfPresent()
+        value.fqdnForActionFramework = try reader["fqdnForActionFramework"].readIfPresent()
+        value.connectorAction = try reader["connectorAction"].readIfPresent(with: MgnClientTypes.SourceServerConnectorAction.read(from:))
+        return value
+    }
+}
+
+extension MgnClientTypes.SourceServerActionDocument {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceServerActionDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.SourceServerActionDocument()
+        value.actionID = try reader["actionID"].readIfPresent()
+        value.actionName = try reader["actionName"].readIfPresent()
+        value.documentIdentifier = try reader["documentIdentifier"].readIfPresent()
+        value.order = try reader["order"].readIfPresent()
+        value.documentVersion = try reader["documentVersion"].readIfPresent()
+        value.active = try reader["active"].readIfPresent()
+        value.timeoutSeconds = try reader["timeoutSeconds"].readIfPresent()
+        value.mustSucceedForCutover = try reader["mustSucceedForCutover"].readIfPresent()
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: MgnClientTypes.SsmParameterStoreParameter.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.externalParameters = try reader["externalParameters"].readMapIfPresent(valueReadingClosure: MgnClientTypes.SsmExternalParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.description = try reader["description"].readIfPresent()
+        value.category = try reader["category"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.SourceServerActionsRequestFilters {
+
+    static func write(value: MgnClientTypes.SourceServerActionsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actionIDs"].writeList(value.actionIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MgnClientTypes.SourceServerConnectorAction {
+
+    static func write(value: MgnClientTypes.SourceServerConnectorAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectorArn"].write(value.connectorArn)
+        try writer["credentialsSecretArn"].write(value.credentialsSecretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceServerConnectorAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.SourceServerConnectorAction()
+        value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent()
+        value.connectorArn = try reader["connectorArn"].readIfPresent()
         return value
     }
 }
@@ -11754,459 +12457,6 @@ extension MgnClientTypes.SsmParameterStoreParameter {
     }
 }
 
-extension MgnClientTypes.Licensing {
-
-    static func write(value: MgnClientTypes.Licensing?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["osByol"].write(value.osByol)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Licensing {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.Licensing()
-        value.osByol = try reader["osByol"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.LaunchTemplateDiskConf {
-
-    static func write(value: MgnClientTypes.LaunchTemplateDiskConf?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["iops"].write(value.iops)
-        try writer["throughput"].write(value.throughput)
-        try writer["volumeType"].write(value.volumeType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LaunchTemplateDiskConf {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.LaunchTemplateDiskConf()
-        value.volumeType = try reader["volumeType"].readIfPresent()
-        value.iops = try reader["iops"].readIfPresent()
-        value.throughput = try reader["throughput"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.JobLog {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.JobLog {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.JobLog()
-        value.logDateTime = try reader["logDateTime"].readIfPresent()
-        value.event = try reader["event"].readIfPresent()
-        value.eventData = try reader["eventData"].readIfPresent(with: MgnClientTypes.JobLogEventData.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.JobLogEventData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.JobLogEventData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.JobLogEventData()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
-        value.conversionServerID = try reader["conversionServerID"].readIfPresent()
-        value.targetInstanceID = try reader["targetInstanceID"].readIfPresent()
-        value.rawError = try reader["rawError"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.Job {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Job {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.Job()
-        value.jobID = try reader["jobID"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.initiatedBy = try reader["initiatedBy"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
-        value.endDateTime = try reader["endDateTime"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.participatingServers = try reader["participatingServers"].readListIfPresent(memberReadingClosure: MgnClientTypes.ParticipatingServer.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension MgnClientTypes.ParticipatingServer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ParticipatingServer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ParticipatingServer()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent() ?? ""
-        value.launchStatus = try reader["launchStatus"].readIfPresent()
-        value.launchedEc2InstanceID = try reader["launchedEc2InstanceID"].readIfPresent()
-        value.postLaunchActionsStatus = try reader["postLaunchActionsStatus"].readIfPresent(with: MgnClientTypes.PostLaunchActionsStatus.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.PostLaunchActionsStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.PostLaunchActionsStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.PostLaunchActionsStatus()
-        value.ssmAgentDiscoveryDatetime = try reader["ssmAgentDiscoveryDatetime"].readIfPresent()
-        value.postLaunchActionsLaunchStatusList = try reader["postLaunchActionsLaunchStatusList"].readListIfPresent(memberReadingClosure: MgnClientTypes.JobPostLaunchActionsLaunchStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MgnClientTypes.JobPostLaunchActionsLaunchStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.JobPostLaunchActionsLaunchStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.JobPostLaunchActionsLaunchStatus()
-        value.ssmDocument = try reader["ssmDocument"].readIfPresent(with: MgnClientTypes.SsmDocument.read(from:))
-        value.ssmDocumentType = try reader["ssmDocumentType"].readIfPresent()
-        value.executionID = try reader["executionID"].readIfPresent()
-        value.executionStatus = try reader["executionStatus"].readIfPresent()
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.LaunchConfigurationTemplate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.LaunchConfigurationTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.LaunchConfigurationTemplate()
-        value.launchConfigurationTemplateID = try reader["launchConfigurationTemplateID"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent()
-        value.postLaunchActions = try reader["postLaunchActions"].readIfPresent(with: MgnClientTypes.PostLaunchActions.read(from:))
-        value.enableMapAutoTagging = try reader["enableMapAutoTagging"].readIfPresent()
-        value.mapAutoTaggingMpeID = try reader["mapAutoTaggingMpeID"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.ec2LaunchTemplateID = try reader["ec2LaunchTemplateID"].readIfPresent()
-        value.launchDisposition = try reader["launchDisposition"].readIfPresent()
-        value.targetInstanceTypeRightSizingMethod = try reader["targetInstanceTypeRightSizingMethod"].readIfPresent()
-        value.copyPrivateIp = try reader["copyPrivateIp"].readIfPresent()
-        value.associatePublicIpAddress = try reader["associatePublicIpAddress"].readIfPresent()
-        value.copyTags = try reader["copyTags"].readIfPresent()
-        value.licensing = try reader["licensing"].readIfPresent(with: MgnClientTypes.Licensing.read(from:))
-        value.bootMode = try reader["bootMode"].readIfPresent()
-        value.smallVolumeMaxSize = try reader["smallVolumeMaxSize"].readIfPresent() ?? 0
-        value.smallVolumeConf = try reader["smallVolumeConf"].readIfPresent(with: MgnClientTypes.LaunchTemplateDiskConf.read(from:))
-        value.largeVolumeConf = try reader["largeVolumeConf"].readIfPresent(with: MgnClientTypes.LaunchTemplateDiskConf.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.ReplicationConfigurationTemplate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ReplicationConfigurationTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ReplicationConfigurationTemplate()
-        value.replicationConfigurationTemplateID = try reader["replicationConfigurationTemplateID"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent()
-        value.stagingAreaSubnetId = try reader["stagingAreaSubnetId"].readIfPresent()
-        value.associateDefaultSecurityGroup = try reader["associateDefaultSecurityGroup"].readIfPresent()
-        value.replicationServersSecurityGroupsIDs = try reader["replicationServersSecurityGroupsIDs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.replicationServerInstanceType = try reader["replicationServerInstanceType"].readIfPresent()
-        value.useDedicatedReplicationServer = try reader["useDedicatedReplicationServer"].readIfPresent()
-        value.defaultLargeStagingDiskType = try reader["defaultLargeStagingDiskType"].readIfPresent()
-        value.ebsEncryption = try reader["ebsEncryption"].readIfPresent()
-        value.ebsEncryptionKeyArn = try reader["ebsEncryptionKeyArn"].readIfPresent()
-        value.bandwidthThrottling = try reader["bandwidthThrottling"].readIfPresent() ?? 0
-        value.dataPlaneRouting = try reader["dataPlaneRouting"].readIfPresent()
-        value.createPublicIP = try reader["createPublicIP"].readIfPresent()
-        value.stagingAreaTags = try reader["stagingAreaTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.useFipsEndpoint = try reader["useFipsEndpoint"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension MgnClientTypes.SourceServer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceServer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.SourceServer()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.isArchived = try reader["isArchived"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.launchedInstance = try reader["launchedInstance"].readIfPresent(with: MgnClientTypes.LaunchedInstance.read(from:))
-        value.dataReplicationInfo = try reader["dataReplicationInfo"].readIfPresent(with: MgnClientTypes.DataReplicationInfo.read(from:))
-        value.lifeCycle = try reader["lifeCycle"].readIfPresent(with: MgnClientTypes.LifeCycle.read(from:))
-        value.sourceProperties = try reader["sourceProperties"].readIfPresent(with: MgnClientTypes.SourceProperties.read(from:))
-        value.replicationType = try reader["replicationType"].readIfPresent()
-        value.vcenterClientID = try reader["vcenterClientID"].readIfPresent()
-        value.applicationID = try reader["applicationID"].readIfPresent()
-        value.userProvidedID = try reader["userProvidedID"].readIfPresent()
-        value.fqdnForActionFramework = try reader["fqdnForActionFramework"].readIfPresent()
-        value.connectorAction = try reader["connectorAction"].readIfPresent(with: MgnClientTypes.SourceServerConnectorAction.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.VcenterClient {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.VcenterClient {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.VcenterClient()
-        value.vcenterClientID = try reader["vcenterClientID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.hostname = try reader["hostname"].readIfPresent()
-        value.vcenterUUID = try reader["vcenterUUID"].readIfPresent()
-        value.datacenterName = try reader["datacenterName"].readIfPresent()
-        value.lastSeenDatetime = try reader["lastSeenDatetime"].readIfPresent()
-        value.sourceServerTags = try reader["sourceServerTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension MgnClientTypes.ReplicationConfigurationReplicatedDisk {
-
-    static func write(value: MgnClientTypes.ReplicationConfigurationReplicatedDisk?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deviceName"].write(value.deviceName)
-        try writer["iops"].write(value.iops)
-        try writer["isBootDisk"].write(value.isBootDisk)
-        try writer["stagingDiskType"].write(value.stagingDiskType)
-        try writer["throughput"].write(value.throughput)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ReplicationConfigurationReplicatedDisk {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ReplicationConfigurationReplicatedDisk()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        value.isBootDisk = try reader["isBootDisk"].readIfPresent()
-        value.stagingDiskType = try reader["stagingDiskType"].readIfPresent()
-        value.iops = try reader["iops"].readIfPresent() ?? 0
-        value.throughput = try reader["throughput"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MgnClientTypes.Application {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Application {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.Application()
-        value.applicationID = try reader["applicationID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.isArchived = try reader["isArchived"].readIfPresent()
-        value.applicationAggregatedStatus = try reader["applicationAggregatedStatus"].readIfPresent(with: MgnClientTypes.ApplicationAggregatedStatus.read(from:))
-        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
-        value.lastModifiedDateTime = try reader["lastModifiedDateTime"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.waveID = try reader["waveID"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.Connector {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Connector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.Connector()
-        value.connectorID = try reader["connectorID"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.ssmInstanceID = try reader["ssmInstanceID"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.ssmCommandConfig = try reader["ssmCommandConfig"].readIfPresent(with: MgnClientTypes.ConnectorSsmCommandConfig.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.ExportTaskError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportTaskError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ExportTaskError()
-        value.errorDateTime = try reader["errorDateTime"].readIfPresent()
-        value.errorData = try reader["errorData"].readIfPresent(with: MgnClientTypes.ExportErrorData.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.ExportErrorData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportErrorData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ExportErrorData()
-        value.rawError = try reader["rawError"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.ExportTask {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportTask {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ExportTask()
-        value.exportID = try reader["exportID"].readIfPresent()
-        value.s3Bucket = try reader["s3Bucket"].readIfPresent()
-        value.s3Key = try reader["s3Key"].readIfPresent()
-        value.s3BucketOwner = try reader["s3BucketOwner"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
-        value.endDateTime = try reader["endDateTime"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.progressPercentage = try reader["progressPercentage"].readIfPresent()
-        value.summary = try reader["summary"].readIfPresent(with: MgnClientTypes.ExportTaskSummary.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.ExportTaskSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ExportTaskSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ExportTaskSummary()
-        value.serversCount = try reader["serversCount"].readIfPresent() ?? 0
-        value.applicationsCount = try reader["applicationsCount"].readIfPresent() ?? 0
-        value.wavesCount = try reader["wavesCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MgnClientTypes.ImportTaskError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ImportTaskError()
-        value.errorDateTime = try reader["errorDateTime"].readIfPresent()
-        value.errorType = try reader["errorType"].readIfPresent()
-        value.errorData = try reader["errorData"].readIfPresent(with: MgnClientTypes.ImportErrorData.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.ImportErrorData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportErrorData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ImportErrorData()
-        value.sourceServerID = try reader["sourceServerID"].readIfPresent()
-        value.applicationID = try reader["applicationID"].readIfPresent()
-        value.waveID = try reader["waveID"].readIfPresent()
-        value.ec2LaunchTemplateID = try reader["ec2LaunchTemplateID"].readIfPresent()
-        value.rowNumber = try reader["rowNumber"].readIfPresent() ?? 0
-        value.rawError = try reader["rawError"].readIfPresent()
-        value.accountID = try reader["accountID"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.ImportTask {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTask {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ImportTask()
-        value.importID = try reader["importID"].readIfPresent()
-        value.s3BucketSource = try reader["s3BucketSource"].readIfPresent(with: MgnClientTypes.S3BucketSource.read(from:))
-        value.creationDateTime = try reader["creationDateTime"].readIfPresent()
-        value.endDateTime = try reader["endDateTime"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.progressPercentage = try reader["progressPercentage"].readIfPresent()
-        value.summary = try reader["summary"].readIfPresent(with: MgnClientTypes.ImportTaskSummary.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.ImportTaskSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ImportTaskSummary()
-        value.waves = try reader["waves"].readIfPresent(with: MgnClientTypes.ImportTaskSummaryWaves.read(from:))
-        value.applications = try reader["applications"].readIfPresent(with: MgnClientTypes.ImportTaskSummaryApplications.read(from:))
-        value.servers = try reader["servers"].readIfPresent(with: MgnClientTypes.ImportTaskSummaryServers.read(from:))
-        return value
-    }
-}
-
-extension MgnClientTypes.ImportTaskSummaryServers {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummaryServers {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ImportTaskSummaryServers()
-        value.createdCount = try reader["createdCount"].readIfPresent() ?? 0
-        value.modifiedCount = try reader["modifiedCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MgnClientTypes.ImportTaskSummaryApplications {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummaryApplications {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ImportTaskSummaryApplications()
-        value.createdCount = try reader["createdCount"].readIfPresent() ?? 0
-        value.modifiedCount = try reader["modifiedCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MgnClientTypes.ImportTaskSummaryWaves {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ImportTaskSummaryWaves {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ImportTaskSummaryWaves()
-        value.createdCount = try reader["createdCount"].readIfPresent() ?? 0
-        value.modifiedCount = try reader["modifiedCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MgnClientTypes.S3BucketSource {
-
-    static func write(value: MgnClientTypes.S3BucketSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3Bucket"].write(value.s3Bucket)
-        try writer["s3BucketOwner"].write(value.s3BucketOwner)
-        try writer["s3Key"].write(value.s3Key)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.S3BucketSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.S3BucketSource()
-        value.s3Bucket = try reader["s3Bucket"].readIfPresent() ?? ""
-        value.s3Key = try reader["s3Key"].readIfPresent() ?? ""
-        value.s3BucketOwner = try reader["s3BucketOwner"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.ManagedAccount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ManagedAccount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ManagedAccount()
-        value.accountId = try reader["accountId"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.SourceServerActionDocument {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.SourceServerActionDocument {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.SourceServerActionDocument()
-        value.actionID = try reader["actionID"].readIfPresent()
-        value.actionName = try reader["actionName"].readIfPresent()
-        value.documentIdentifier = try reader["documentIdentifier"].readIfPresent()
-        value.order = try reader["order"].readIfPresent()
-        value.documentVersion = try reader["documentVersion"].readIfPresent()
-        value.active = try reader["active"].readIfPresent()
-        value.timeoutSeconds = try reader["timeoutSeconds"].readIfPresent()
-        value.mustSucceedForCutover = try reader["mustSucceedForCutover"].readIfPresent()
-        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: MgnClientTypes.SsmParameterStoreParameter.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.externalParameters = try reader["externalParameters"].readMapIfPresent(valueReadingClosure: MgnClientTypes.SsmExternalParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.description = try reader["description"].readIfPresent()
-        value.category = try reader["category"].readIfPresent()
-        return value
-    }
-}
-
 extension MgnClientTypes.TemplateActionDocument {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.TemplateActionDocument {
@@ -12229,6 +12479,42 @@ extension MgnClientTypes.TemplateActionDocument {
     }
 }
 
+extension MgnClientTypes.TemplateActionsRequestFilters {
+
+    static func write(value: MgnClientTypes.TemplateActionsRequestFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actionIDs"].writeList(value.actionIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MgnClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension MgnClientTypes.VcenterClient {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.VcenterClient {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MgnClientTypes.VcenterClient()
+        value.vcenterClientID = try reader["vcenterClientID"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.hostname = try reader["hostname"].readIfPresent()
+        value.vcenterUUID = try reader["vcenterUUID"].readIfPresent()
+        value.datacenterName = try reader["datacenterName"].readIfPresent()
+        value.lastSeenDatetime = try reader["lastSeenDatetime"].readIfPresent()
+        value.sourceServerTags = try reader["sourceServerTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension MgnClientTypes.Wave {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.Wave {
@@ -12247,116 +12533,17 @@ extension MgnClientTypes.Wave {
     }
 }
 
-extension MgnClientTypes.ErrorDetails {
+extension MgnClientTypes.WaveAggregatedStatus {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ErrorDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.WaveAggregatedStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ErrorDetails()
-        value.message = try reader["message"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
+        var value = MgnClientTypes.WaveAggregatedStatus()
+        value.lastUpdateDateTime = try reader["lastUpdateDateTime"].readIfPresent()
+        value.replicationStartedDateTime = try reader["replicationStartedDateTime"].readIfPresent()
+        value.healthStatus = try reader["healthStatus"].readIfPresent()
+        value.progressStatus = try reader["progressStatus"].readIfPresent()
+        value.totalApplications = try reader["totalApplications"].readIfPresent() ?? 0
         return value
-    }
-}
-
-extension MgnClientTypes.ValidationExceptionField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MgnClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MgnClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle {
-
-    static func write(value: MgnClientTypes.ChangeServerLifeCycleStateSourceServerLifecycle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["state"].write(value.state)
-    }
-}
-
-extension MgnClientTypes.DescribeJobsRequestFilters {
-
-    static func write(value: MgnClientTypes.DescribeJobsRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fromDate"].write(value.fromDate)
-        try writer["jobIDs"].writeList(value.jobIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["toDate"].write(value.toDate)
-    }
-}
-
-extension MgnClientTypes.DescribeSourceServersRequestFilters {
-
-    static func write(value: MgnClientTypes.DescribeSourceServersRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationIDs"].writeList(value.applicationIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["isArchived"].write(value.isArchived)
-        try writer["lifeCycleStates"].writeList(value.lifeCycleStates, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MgnClientTypes.LifeCycleState>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["replicationTypes"].writeList(value.replicationTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MgnClientTypes.ReplicationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["sourceServerIDs"].writeList(value.sourceServerIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MgnClientTypes.ListApplicationsRequestFilters {
-
-    static func write(value: MgnClientTypes.ListApplicationsRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["applicationIDs"].writeList(value.applicationIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["isArchived"].write(value.isArchived)
-        try writer["waveIDs"].writeList(value.waveIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MgnClientTypes.ListConnectorsRequestFilters {
-
-    static func write(value: MgnClientTypes.ListConnectorsRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connectorIDs"].writeList(value.connectorIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MgnClientTypes.ListExportsRequestFilters {
-
-    static func write(value: MgnClientTypes.ListExportsRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["exportIDs"].writeList(value.exportIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MgnClientTypes.ListImportsRequestFilters {
-
-    static func write(value: MgnClientTypes.ListImportsRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["importIDs"].writeList(value.importIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MgnClientTypes.SourceServerActionsRequestFilters {
-
-    static func write(value: MgnClientTypes.SourceServerActionsRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionIDs"].writeList(value.actionIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MgnClientTypes.TemplateActionsRequestFilters {
-
-    static func write(value: MgnClientTypes.TemplateActionsRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionIDs"].writeList(value.actionIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MgnClientTypes.ListWavesRequestFilters {
-
-    static func write(value: MgnClientTypes.ListWavesRequestFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isArchived"].write(value.isArchived)
-        try writer["waveIDs"].writeList(value.waveIDs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

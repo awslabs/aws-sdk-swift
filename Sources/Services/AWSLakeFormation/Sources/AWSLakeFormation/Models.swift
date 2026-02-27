@@ -1730,8 +1730,42 @@ public struct DescribeResourceInput: Swift.Sendable {
 
 extension LakeFormationClientTypes {
 
+    public enum VerificationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notVerified
+        case verificationFailed
+        case verified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VerificationStatus] {
+            return [
+                .notVerified,
+                .verificationFailed,
+                .verified
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notVerified: return "NOT_VERIFIED"
+            case .verificationFailed: return "VERIFICATION_FAILED"
+            case .verified: return "VERIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LakeFormationClientTypes {
+
     /// A structure containing information about an Lake Formation resource.
     public struct ResourceInfo: Swift.Sendable {
+        /// The Amazon Web Services account that owns the Glue tables associated with specific Amazon S3 locations.
+        public var expectedResourceOwnerAccount: Swift.String?
         /// Indicates whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
         public var hybridAccessEnabled: Swift.Bool?
         /// The date and time the resource was last modified.
@@ -1740,23 +1774,35 @@ extension LakeFormationClientTypes {
         public var resourceArn: Swift.String?
         /// The IAM role that registered a resource.
         public var roleArn: Swift.String?
+        /// Indicates whether the registered role has sufficient permissions to access registered Amazon S3 location. Verification Status can be one of the following:
+        ///
+        /// * VERIFIED - Registered role has sufficient permissions to access registered Amazon S3 location.
+        ///
+        /// * NOT_VERIFIED - Registered role does not have sufficient permissions to access registered Amazon S3 location.
+        ///
+        /// * VERIFICATION_FAILED - Unable to verify if the registered role can access the registered Amazon S3 location.
+        public var verificationStatus: LakeFormationClientTypes.VerificationStatus?
         /// Whether or not the resource is a federated resource.
         public var withFederation: Swift.Bool?
         /// Grants the calling principal the permissions to perform all supported Lake Formation operations on the registered data location.
         public var withPrivilegedAccess: Swift.Bool?
 
         public init(
+            expectedResourceOwnerAccount: Swift.String? = nil,
             hybridAccessEnabled: Swift.Bool? = nil,
             lastModified: Foundation.Date? = nil,
             resourceArn: Swift.String? = nil,
             roleArn: Swift.String? = nil,
+            verificationStatus: LakeFormationClientTypes.VerificationStatus? = nil,
             withFederation: Swift.Bool? = nil,
             withPrivilegedAccess: Swift.Bool? = nil
         ) {
+            self.expectedResourceOwnerAccount = expectedResourceOwnerAccount
             self.hybridAccessEnabled = hybridAccessEnabled
             self.lastModified = lastModified
             self.resourceArn = resourceArn
             self.roleArn = roleArn
+            self.verificationStatus = verificationStatus
             self.withFederation = withFederation
             self.withPrivilegedAccess = withPrivilegedAccess
         }
@@ -1942,7 +1988,7 @@ extension LakeFormationClientTypes {
         public var dataLakeAdmins: [LakeFormationClientTypes.DataLakePrincipal]?
         /// A list of the account IDs of Amazon Web Services accounts with Amazon EMR clusters that are to perform data filtering.>
         public var externalDataFilteringAllowList: [LakeFormationClientTypes.DataLakePrincipal]?
-        /// A key-value map that provides an additional configuration on your data lake. CROSS_ACCOUNT_VERSION is the key you can configure in the Parameters field. Accepted values for the CrossAccountVersion key are 1, 2, 3, and 4.
+        /// A key-value map that provides an additional configuration on your data lake. CROSS_ACCOUNT_VERSION is the key you can configure in the Parameters field. Accepted values for the CrossAccountVersion key are 1, 2, 3, 4 and 5.
         public var parameters: [Swift.String: Swift.String]?
         /// A list of Lake Formation principals with only view access to the resources, without the ability to make changes. Supported principals are IAM users or IAM roles.
         public var readOnlyAdmins: [LakeFormationClientTypes.DataLakePrincipal]?
@@ -2571,6 +2617,136 @@ public struct GetTableObjectsOutput: Swift.Sendable {
     }
 }
 
+/// Multiple resources exist with the same Amazon S3 location
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    public enum CredentialsScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case read
+        case readwrite
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CredentialsScope] {
+            return [
+                .read,
+                .readwrite
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .read: return "READ"
+            case .readwrite: return "READWRITE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetTemporaryDataLocationCredentialsInput: Swift.Sendable {
+    /// A structure used to include auditing information on the privileged API.
+    public var auditContext: LakeFormationClientTypes.AuditContext?
+    /// The credential scope is determined by the caller's Lake Formation permission on the associated table. Credential scope can be either:
+    ///
+    /// * READ - Provides read-only access to the data location.
+    ///
+    /// * READ_WRITE - Provides both read and write access to the data location.
+    public var credentialsScope: LakeFormationClientTypes.CredentialsScope?
+    /// The Amazon S3 data location that you want to access.
+    public var dataLocations: [Swift.String]?
+    /// The time period, between 900 and 43,200 seconds, for the timeout of the temporary credentials.
+    public var durationSeconds: Swift.Int?
+
+    public init(
+        auditContext: LakeFormationClientTypes.AuditContext? = nil,
+        credentialsScope: LakeFormationClientTypes.CredentialsScope? = nil,
+        dataLocations: [Swift.String]? = nil,
+        durationSeconds: Swift.Int? = nil
+    ) {
+        self.auditContext = auditContext
+        self.credentialsScope = credentialsScope
+        self.dataLocations = dataLocations
+        self.durationSeconds = durationSeconds
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    /// A temporary set of credentials for an Lake Formation user. These credentials are scoped down to only access the raw data sources that the user has access to. The temporary security credentials consist of an access key and a session token. The access key consists of an access key ID and a secret key. When the credentials are created, they are associated with an IAM access control policy that limits what the user can do when using the credentials.
+    public struct TemporaryCredentials: Swift.Sendable {
+        /// The access key ID for the temporary credentials.
+        public var accessKeyId: Swift.String?
+        /// The date and time when the temporary credentials expire.
+        public var expiration: Foundation.Date?
+        /// The secret key for the temporary credentials.
+        public var secretAccessKey: Swift.String?
+        /// The session token for the temporary credentials.
+        public var sessionToken: Swift.String?
+
+        public init(
+            accessKeyId: Swift.String? = nil,
+            expiration: Foundation.Date? = nil,
+            secretAccessKey: Swift.String? = nil,
+            sessionToken: Swift.String? = nil
+        ) {
+            self.accessKeyId = accessKeyId
+            self.expiration = expiration
+            self.secretAccessKey = secretAccessKey
+            self.sessionToken = sessionToken
+        }
+    }
+}
+
+public struct GetTemporaryDataLocationCredentialsOutput: Swift.Sendable {
+    /// Refers to the Amazon S3 locations that can be accessed through the GetTemporaryCredentialsForLocation API operation.
+    public var accessibleDataLocations: [Swift.String]?
+    /// A temporary set of credentials for an Lake Formation user. These credentials are scoped down to only access the raw data sources that the user has access to. The temporary security credentials consist of an access key and a session token. The access key consists of an access key ID and a secret key. When the credentials are created, they are associated with an IAM access control policy that limits what the user can do when using the credentials.
+    public var credentials: LakeFormationClientTypes.TemporaryCredentials?
+    /// The credential scope is determined by the caller's Lake Formation permission on the associated table. Credential scope can be either:
+    ///
+    /// * READ - Provides read-only access to the data location.
+    ///
+    /// * READ_WRITE - Provides both read and write access to the data location.
+    public var credentialsScope: LakeFormationClientTypes.CredentialsScope?
+
+    public init(
+        accessibleDataLocations: [Swift.String]? = nil,
+        credentials: LakeFormationClientTypes.TemporaryCredentials? = nil,
+        credentialsScope: LakeFormationClientTypes.CredentialsScope? = nil
+    ) {
+        self.accessibleDataLocations = accessibleDataLocations
+        self.credentials = credentials
+        self.credentialsScope = credentialsScope
+    }
+}
+
 /// The engine does not support filtering data based on the enforced permissions. For example, if you call the GetTemporaryGlueTableCredentials operation with SupportedPermissionType equal to ColumnPermission, but cell-level permissions exist on the table, this exception is thrown.
 public struct PermissionTypeMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2704,7 +2880,7 @@ public struct GetTemporaryGluePartitionCredentialsOutput: Swift.Sendable {
 
 extension LakeFormationClientTypes {
 
-    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.
+    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context. For more information about how to utilize QuerySessionContext, see [Lake Formation workflow for application integration API operations](https://docs.aws.amazon.com/lake-formation/latest/dg/api-overview.html) in the developer guide.
     public struct QuerySessionContext: Swift.Sendable {
         /// An opaque string-string map passed by the query engine.
         public var additionalContext: [Swift.String: Swift.String]?
@@ -3651,6 +3827,8 @@ public struct PutDataLakeSettingsOutput: Swift.Sendable {
 }
 
 public struct RegisterResourceInput: Swift.Sendable {
+    /// The Amazon Web Services account that owns the Glue tables associated with specific Amazon S3 locations.
+    public var expectedResourceOwnerAccount: Swift.String?
     /// Specifies whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
     public var hybridAccessEnabled: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the resource that you want to register.
@@ -3666,6 +3844,7 @@ public struct RegisterResourceInput: Swift.Sendable {
     public var withPrivilegedAccess: Swift.Bool?
 
     public init(
+        expectedResourceOwnerAccount: Swift.String? = nil,
         hybridAccessEnabled: Swift.Bool? = nil,
         resourceArn: Swift.String? = nil,
         roleArn: Swift.String? = nil,
@@ -3673,6 +3852,7 @@ public struct RegisterResourceInput: Swift.Sendable {
         withFederation: Swift.Bool? = nil,
         withPrivilegedAccess: Swift.Bool? = false
     ) {
+        self.expectedResourceOwnerAccount = expectedResourceOwnerAccount
         self.hybridAccessEnabled = hybridAccessEnabled
         self.resourceArn = resourceArn
         self.roleArn = roleArn
@@ -4109,6 +4289,8 @@ public struct UpdateLFTagExpressionOutput: Swift.Sendable {
 }
 
 public struct UpdateResourceInput: Swift.Sendable {
+    /// The Amazon Web Services account that owns the Glue tables associated with specific Amazon S3 locations.
+    public var expectedResourceOwnerAccount: Swift.String?
     /// Specifies whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
     public var hybridAccessEnabled: Swift.Bool?
     /// The resource ARN.
@@ -4121,11 +4303,13 @@ public struct UpdateResourceInput: Swift.Sendable {
     public var withFederation: Swift.Bool?
 
     public init(
+        expectedResourceOwnerAccount: Swift.String? = nil,
         hybridAccessEnabled: Swift.Bool? = nil,
         resourceArn: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         withFederation: Swift.Bool? = nil
     ) {
+        self.expectedResourceOwnerAccount = expectedResourceOwnerAccount
         self.hybridAccessEnabled = hybridAccessEnabled
         self.resourceArn = resourceArn
         self.roleArn = roleArn
@@ -4474,6 +4658,13 @@ extension GetTableObjectsInput {
 
     static func urlPathProvider(_ value: GetTableObjectsInput) -> Swift.String? {
         return "/GetTableObjects"
+    }
+}
+
+extension GetTemporaryDataLocationCredentialsInput {
+
+    static func urlPathProvider(_ value: GetTemporaryDataLocationCredentialsInput) -> Swift.String? {
+        return "/GetTemporaryDataLocationCredentials"
     }
 }
 
@@ -4967,6 +5158,17 @@ extension GetTableObjectsInput {
     }
 }
 
+extension GetTemporaryDataLocationCredentialsInput {
+
+    static func write(value: GetTemporaryDataLocationCredentialsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuditContext"].write(value.auditContext, with: LakeFormationClientTypes.AuditContext.write(value:to:))
+        try writer["CredentialsScope"].write(value.credentialsScope)
+        try writer["DataLocations"].writeList(value.dataLocations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DurationSeconds"].write(value.durationSeconds)
+    }
+}
+
 extension GetTemporaryGluePartitionCredentialsInput {
 
     static func write(value: GetTemporaryGluePartitionCredentialsInput?, to writer: SmithyJSON.Writer) throws {
@@ -5130,6 +5332,7 @@ extension RegisterResourceInput {
 
     static func write(value: RegisterResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ExpectedResourceOwnerAccount"].write(value.expectedResourceOwnerAccount)
         try writer["HybridAccessEnabled"].write(value.hybridAccessEnabled)
         try writer["ResourceArn"].write(value.resourceArn)
         try writer["RoleArn"].write(value.roleArn)
@@ -5247,6 +5450,7 @@ extension UpdateResourceInput {
 
     static func write(value: UpdateResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ExpectedResourceOwnerAccount"].write(value.expectedResourceOwnerAccount)
         try writer["HybridAccessEnabled"].write(value.hybridAccessEnabled)
         try writer["ResourceArn"].write(value.resourceArn)
         try writer["RoleArn"].write(value.roleArn)
@@ -5613,6 +5817,20 @@ extension GetTableObjectsOutput {
         var value = GetTableObjectsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.objects = try reader["Objects"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.PartitionObjects.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetTemporaryDataLocationCredentialsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTemporaryDataLocationCredentialsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTemporaryDataLocationCredentialsOutput()
+        value.accessibleDataLocations = try reader["AccessibleDataLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.credentials = try reader["Credentials"].readIfPresent(with: LakeFormationClientTypes.TemporaryCredentials.read(from:))
+        value.credentialsScope = try reader["CredentialsScope"].readIfPresent()
         return value
     }
 }
@@ -6508,6 +6726,26 @@ enum GetTableObjectsOutputError {
     }
 }
 
+enum GetTemporaryDataLocationCredentialsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetTemporaryGluePartitionCredentialsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7214,6 +7452,19 @@ extension GlueEncryptionException {
     }
 }
 
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension PermissionTypeMismatchException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PermissionTypeMismatchException {
@@ -7240,44 +7491,35 @@ extension WorkUnitsNotReadyYetException {
     }
 }
 
-extension LakeFormationClientTypes.LFTagError {
+extension LakeFormationClientTypes.AddObjectInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LFTagError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.LFTagError()
-        value.lfTag = try reader["LFTag"].readIfPresent(with: LakeFormationClientTypes.LFTagPair.read(from:))
-        value.error = try reader["Error"].readIfPresent(with: LakeFormationClientTypes.ErrorDetail.read(from:))
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.ErrorDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ErrorDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.ErrorDetail()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.LFTagPair {
-
-    static func write(value: LakeFormationClientTypes.LFTagPair?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LakeFormationClientTypes.AddObjectInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["TagKey"].write(value.tagKey)
-        try writer["TagValues"].writeList(value.tagValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ETag"].write(value.eTag)
+        try writer["PartitionValues"].writeList(value.partitionValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Size"].write(value.size)
+        try writer["Uri"].write(value.uri)
+    }
+}
+
+extension LakeFormationClientTypes.AllRowsWildcard {
+
+    static func write(value: LakeFormationClientTypes.AllRowsWildcard?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LFTagPair {
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.AllRowsWildcard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.LFTagPair()
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
-        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
+        return LakeFormationClientTypes.AllRowsWildcard()
+    }
+}
+
+extension LakeFormationClientTypes.AuditContext {
+
+    static func write(value: LakeFormationClientTypes.AuditContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalAuditContext"].write(value.additionalAuditContext)
     }
 }
 
@@ -7317,183 +7559,28 @@ extension LakeFormationClientTypes.BatchPermissionsRequestEntry {
     }
 }
 
-extension LakeFormationClientTypes.Condition {
+extension LakeFormationClientTypes.CatalogResource {
 
-    static func write(value: LakeFormationClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LakeFormationClientTypes.CatalogResource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Expression"].write(value.expression)
+        try writer["Id"].write(value.id)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.Condition {
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.CatalogResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.Condition()
-        value.expression = try reader["Expression"].readIfPresent()
+        var value = LakeFormationClientTypes.CatalogResource()
+        value.id = try reader["Id"].readIfPresent()
         return value
     }
 }
 
-extension LakeFormationClientTypes.Resource {
+extension LakeFormationClientTypes.ColumnLFTag {
 
-    static func write(value: LakeFormationClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Catalog"].write(value.catalog, with: LakeFormationClientTypes.CatalogResource.write(value:to:))
-        try writer["DataCellsFilter"].write(value.dataCellsFilter, with: LakeFormationClientTypes.DataCellsFilterResource.write(value:to:))
-        try writer["DataLocation"].write(value.dataLocation, with: LakeFormationClientTypes.DataLocationResource.write(value:to:))
-        try writer["Database"].write(value.database, with: LakeFormationClientTypes.DatabaseResource.write(value:to:))
-        try writer["LFTag"].write(value.lfTag, with: LakeFormationClientTypes.LFTagKeyResource.write(value:to:))
-        try writer["LFTagExpression"].write(value.lfTagExpression, with: LakeFormationClientTypes.LFTagExpressionResource.write(value:to:))
-        try writer["LFTagPolicy"].write(value.lfTagPolicy, with: LakeFormationClientTypes.LFTagPolicyResource.write(value:to:))
-        try writer["Table"].write(value.table, with: LakeFormationClientTypes.TableResource.write(value:to:))
-        try writer["TableWithColumns"].write(value.tableWithColumns, with: LakeFormationClientTypes.TableWithColumnsResource.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.Resource {
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ColumnLFTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.Resource()
-        value.catalog = try reader["Catalog"].readIfPresent(with: LakeFormationClientTypes.CatalogResource.read(from:))
-        value.database = try reader["Database"].readIfPresent(with: LakeFormationClientTypes.DatabaseResource.read(from:))
-        value.table = try reader["Table"].readIfPresent(with: LakeFormationClientTypes.TableResource.read(from:))
-        value.tableWithColumns = try reader["TableWithColumns"].readIfPresent(with: LakeFormationClientTypes.TableWithColumnsResource.read(from:))
-        value.dataLocation = try reader["DataLocation"].readIfPresent(with: LakeFormationClientTypes.DataLocationResource.read(from:))
-        value.dataCellsFilter = try reader["DataCellsFilter"].readIfPresent(with: LakeFormationClientTypes.DataCellsFilterResource.read(from:))
-        value.lfTag = try reader["LFTag"].readIfPresent(with: LakeFormationClientTypes.LFTagKeyResource.read(from:))
-        value.lfTagPolicy = try reader["LFTagPolicy"].readIfPresent(with: LakeFormationClientTypes.LFTagPolicyResource.read(from:))
-        value.lfTagExpression = try reader["LFTagExpression"].readIfPresent(with: LakeFormationClientTypes.LFTagExpressionResource.read(from:))
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.LFTagExpressionResource {
-
-    static func write(value: LakeFormationClientTypes.LFTagExpressionResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LFTagExpressionResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.LFTagExpressionResource()
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.LFTagPolicyResource {
-
-    static func write(value: LakeFormationClientTypes.LFTagPolicyResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["Expression"].writeList(value.expression, memberWritingClosure: LakeFormationClientTypes.LFTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExpressionName"].write(value.expressionName)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LFTagPolicyResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.LFTagPolicyResource()
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
-        value.expression = try reader["Expression"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.LFTag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.expressionName = try reader["ExpressionName"].readIfPresent()
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.LFTag {
-
-    static func write(value: LakeFormationClientTypes.LFTag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TagKey"].write(value.tagKey)
-        try writer["TagValues"].writeList(value.tagValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LFTag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.LFTag()
-        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
-        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.LFTagKeyResource {
-
-    static func write(value: LakeFormationClientTypes.LFTagKeyResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["TagKey"].write(value.tagKey)
-        try writer["TagValues"].writeList(value.tagValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LFTagKeyResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.LFTagKeyResource()
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
-        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.DataCellsFilterResource {
-
-    static func write(value: LakeFormationClientTypes.DataCellsFilterResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["Name"].write(value.name)
-        try writer["TableCatalogId"].write(value.tableCatalogId)
-        try writer["TableName"].write(value.tableName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.DataCellsFilterResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.DataCellsFilterResource()
-        value.tableCatalogId = try reader["TableCatalogId"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.tableName = try reader["TableName"].readIfPresent()
+        var value = LakeFormationClientTypes.ColumnLFTag()
         value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.DataLocationResource {
-
-    static func write(value: LakeFormationClientTypes.DataLocationResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["ResourceArn"].write(value.resourceArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.DataLocationResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.DataLocationResource()
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.TableWithColumnsResource {
-
-    static func write(value: LakeFormationClientTypes.TableWithColumnsResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["ColumnNames"].writeList(value.columnNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ColumnWildcard"].write(value.columnWildcard, with: LakeFormationClientTypes.ColumnWildcard.write(value:to:))
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.TableWithColumnsResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.TableWithColumnsResource()
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.columnNames = try reader["ColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.columnWildcard = try reader["ColumnWildcard"].readIfPresent(with: LakeFormationClientTypes.ColumnWildcard.read(from:))
+        value.lfTags = try reader["LFTags"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.LFTagPair.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7513,37 +7600,18 @@ extension LakeFormationClientTypes.ColumnWildcard {
     }
 }
 
-extension LakeFormationClientTypes.TableResource {
+extension LakeFormationClientTypes.Condition {
 
-    static func write(value: LakeFormationClientTypes.TableResource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LakeFormationClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["Name"].write(value.name)
-        try writer["TableWildcard"].write(value.tableWildcard, with: LakeFormationClientTypes.TableWildcard.write(value:to:))
+        try writer["Expression"].write(value.expression)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.TableResource {
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.Condition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.TableResource()
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent()
-        value.tableWildcard = try reader["TableWildcard"].readIfPresent(with: LakeFormationClientTypes.TableWildcard.read(from:))
+        var value = LakeFormationClientTypes.Condition()
+        value.expression = try reader["Expression"].readIfPresent()
         return value
-    }
-}
-
-extension LakeFormationClientTypes.TableWildcard {
-
-    static func write(value: LakeFormationClientTypes.TableWildcard?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.TableWildcard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return LakeFormationClientTypes.TableWildcard()
     }
 }
 
@@ -7560,144 +7628,6 @@ extension LakeFormationClientTypes.DatabaseResource {
         var value = LakeFormationClientTypes.DatabaseResource()
         value.catalogId = try reader["CatalogId"].readIfPresent()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.CatalogResource {
-
-    static func write(value: LakeFormationClientTypes.CatalogResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.CatalogResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.CatalogResource()
-        value.id = try reader["Id"].readIfPresent()
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.DataLakePrincipal {
-
-    static func write(value: LakeFormationClientTypes.DataLakePrincipal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataLakePrincipalIdentifier"].write(value.dataLakePrincipalIdentifier)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.DataLakePrincipal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.DataLakePrincipal()
-        value.dataLakePrincipalIdentifier = try reader["DataLakePrincipalIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.ExternalFilteringConfiguration {
-
-    static func write(value: LakeFormationClientTypes.ExternalFilteringConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizedTargets"].writeList(value.authorizedTargets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ExternalFilteringConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.ExternalFilteringConfiguration()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.authorizedTargets = try reader["AuthorizedTargets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.ServiceIntegrationUnion {
-
-    static func write(value: LakeFormationClientTypes.ServiceIntegrationUnion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .redshift(redshift):
-                try writer["Redshift"].writeList(redshift, memberWritingClosure: LakeFormationClientTypes.RedshiftScopeUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ServiceIntegrationUnion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Redshift":
-                return .redshift(try reader["Redshift"].readList(memberReadingClosure: LakeFormationClientTypes.RedshiftScopeUnion.read(from:), memberNodeInfo: "member", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension LakeFormationClientTypes.RedshiftScopeUnion {
-
-    static func write(value: LakeFormationClientTypes.RedshiftScopeUnion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .redshiftconnect(redshiftconnect):
-                try writer["RedshiftConnect"].write(redshiftconnect, with: LakeFormationClientTypes.RedshiftConnect.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.RedshiftScopeUnion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "RedshiftConnect":
-                return .redshiftconnect(try reader["RedshiftConnect"].read(with: LakeFormationClientTypes.RedshiftConnect.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension LakeFormationClientTypes.RedshiftConnect {
-
-    static func write(value: LakeFormationClientTypes.RedshiftConnect?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Authorization"].write(value.authorization)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.RedshiftConnect {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.RedshiftConnect()
-        value.authorization = try reader["Authorization"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.ResourceInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ResourceInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.ResourceInfo()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.withFederation = try reader["WithFederation"].readIfPresent()
-        value.hybridAccessEnabled = try reader["HybridAccessEnabled"].readIfPresent()
-        value.withPrivilegedAccess = try reader["WithPrivilegedAccess"].readIfPresent()
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.TransactionDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.TransactionDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.TransactionDescription()
-        value.transactionId = try reader["TransactionId"].readIfPresent()
-        value.transactionStatus = try reader["TransactionStatus"].readIfPresent()
-        value.transactionStartTime = try reader["TransactionStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.transactionEndTime = try reader["TransactionEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -7731,33 +7661,39 @@ extension LakeFormationClientTypes.DataCellsFilter {
     }
 }
 
-extension LakeFormationClientTypes.RowFilter {
+extension LakeFormationClientTypes.DataCellsFilterResource {
 
-    static func write(value: LakeFormationClientTypes.RowFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LakeFormationClientTypes.DataCellsFilterResource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AllRowsWildcard"].write(value.allRowsWildcard, with: LakeFormationClientTypes.AllRowsWildcard.write(value:to:))
-        try writer["FilterExpression"].write(value.filterExpression)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["Name"].write(value.name)
+        try writer["TableCatalogId"].write(value.tableCatalogId)
+        try writer["TableName"].write(value.tableName)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.RowFilter {
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.DataCellsFilterResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.RowFilter()
-        value.filterExpression = try reader["FilterExpression"].readIfPresent()
-        value.allRowsWildcard = try reader["AllRowsWildcard"].readIfPresent(with: LakeFormationClientTypes.AllRowsWildcard.read(from:))
+        var value = LakeFormationClientTypes.DataCellsFilterResource()
+        value.tableCatalogId = try reader["TableCatalogId"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
 
-extension LakeFormationClientTypes.AllRowsWildcard {
+extension LakeFormationClientTypes.DataLakePrincipal {
 
-    static func write(value: LakeFormationClientTypes.AllRowsWildcard?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+    static func write(value: LakeFormationClientTypes.DataLakePrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataLakePrincipalIdentifier"].write(value.dataLakePrincipalIdentifier)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.AllRowsWildcard {
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.DataLakePrincipal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return LakeFormationClientTypes.AllRowsWildcard()
+        var value = LakeFormationClientTypes.DataLakePrincipal()
+        value.dataLakePrincipalIdentifier = try reader["DataLakePrincipalIdentifier"].readIfPresent()
+        return value
     }
 }
 
@@ -7790,6 +7726,256 @@ extension LakeFormationClientTypes.DataLakeSettings {
         value.allowFullTableExternalDataAccess = try reader["AllowFullTableExternalDataAccess"].readIfPresent()
         value.externalDataFilteringAllowList = try reader["ExternalDataFilteringAllowList"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.DataLakePrincipal.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.authorizedSessionTagValueList = try reader["AuthorizedSessionTagValueList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.DataLocationResource {
+
+    static func write(value: LakeFormationClientTypes.DataLocationResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.DataLocationResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.DataLocationResource()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.DeleteObjectInput {
+
+    static func write(value: LakeFormationClientTypes.DeleteObjectInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ETag"].write(value.eTag)
+        try writer["PartitionValues"].writeList(value.partitionValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Uri"].write(value.uri)
+    }
+}
+
+extension LakeFormationClientTypes.DetailsMap {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.DetailsMap {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.DetailsMap()
+        value.resourceShare = try reader["ResourceShare"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.ErrorDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.ErrorDetail()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.ExecutionStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ExecutionStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.ExecutionStatistics()
+        value.averageExecutionTimeMillis = try reader["AverageExecutionTimeMillis"].readIfPresent() ?? 0
+        value.dataScannedBytes = try reader["DataScannedBytes"].readIfPresent() ?? 0
+        value.workUnitsExecutedCount = try reader["WorkUnitsExecutedCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.ExternalFilteringConfiguration {
+
+    static func write(value: LakeFormationClientTypes.ExternalFilteringConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthorizedTargets"].writeList(value.authorizedTargets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ExternalFilteringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.ExternalFilteringConfiguration()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.authorizedTargets = try reader["AuthorizedTargets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.FilterCondition {
+
+    static func write(value: LakeFormationClientTypes.FilterCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComparisonOperator"].write(value.comparisonOperator)
+        try writer["Field"].write(value.field)
+        try writer["StringValueList"].writeList(value.stringValueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension LakeFormationClientTypes.LakeFormationOptInsInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LakeFormationOptInsInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.LakeFormationOptInsInfo()
+        value.resource = try reader["Resource"].readIfPresent(with: LakeFormationClientTypes.Resource.read(from:))
+        value.principal = try reader["Principal"].readIfPresent(with: LakeFormationClientTypes.DataLakePrincipal.read(from:))
+        value.condition = try reader["Condition"].readIfPresent(with: LakeFormationClientTypes.Condition.read(from:))
+        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedBy = try reader["LastUpdatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.LFTag {
+
+    static func write(value: LakeFormationClientTypes.LFTag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TagKey"].write(value.tagKey)
+        try writer["TagValues"].writeList(value.tagValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LFTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.LFTag()
+        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
+        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.LFTagError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LFTagError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.LFTagError()
+        value.lfTag = try reader["LFTag"].readIfPresent(with: LakeFormationClientTypes.LFTagPair.read(from:))
+        value.error = try reader["Error"].readIfPresent(with: LakeFormationClientTypes.ErrorDetail.read(from:))
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.LFTagExpression {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LFTagExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.LFTagExpression()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.expression = try reader["Expression"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.LFTag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.LFTagExpressionResource {
+
+    static func write(value: LakeFormationClientTypes.LFTagExpressionResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LFTagExpressionResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.LFTagExpressionResource()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.LFTagKeyResource {
+
+    static func write(value: LakeFormationClientTypes.LFTagKeyResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["TagKey"].write(value.tagKey)
+        try writer["TagValues"].writeList(value.tagValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LFTagKeyResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.LFTagKeyResource()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
+        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.LFTagPair {
+
+    static func write(value: LakeFormationClientTypes.LFTagPair?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["TagKey"].write(value.tagKey)
+        try writer["TagValues"].writeList(value.tagValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LFTagPair {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.LFTagPair()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
+        value.tagValues = try reader["TagValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.LFTagPolicyResource {
+
+    static func write(value: LakeFormationClientTypes.LFTagPolicyResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["Expression"].writeList(value.expression, memberWritingClosure: LakeFormationClientTypes.LFTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExpressionName"].write(value.expressionName)
+        try writer["ResourceType"].write(value.resourceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LFTagPolicyResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.LFTagPolicyResource()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.expression = try reader["Expression"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.LFTag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.expressionName = try reader["ExpressionName"].readIfPresent()
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.PartitionObjects {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.PartitionObjects {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.PartitionObjects()
+        value.partitionValues = try reader["PartitionValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.objects = try reader["Objects"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.TableObject.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.PartitionValueList {
+
+    static func write(value: LakeFormationClientTypes.PartitionValueList?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension LakeFormationClientTypes.PlanningStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.PlanningStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.PlanningStatistics()
+        value.estimatedDataToScanBytes = try reader["EstimatedDataToScanBytes"].readIfPresent() ?? 0
+        value.planningTimeMillis = try reader["PlanningTimeMillis"].readIfPresent() ?? 0
+        value.queueTimeMillis = try reader["QueueTimeMillis"].readIfPresent() ?? 0
+        value.workUnitsGeneratedCount = try reader["WorkUnitsGeneratedCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -7828,59 +8014,168 @@ extension LakeFormationClientTypes.PrincipalResourcePermissions {
     }
 }
 
-extension LakeFormationClientTypes.DetailsMap {
+extension LakeFormationClientTypes.QueryPlanningContext {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.DetailsMap {
+    static func write(value: LakeFormationClientTypes.QueryPlanningContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["QueryAsOfTime"].writeTimestamp(value.queryAsOfTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["QueryParameters"].writeMap(value.queryParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TransactionId"].write(value.transactionId)
+    }
+}
+
+extension LakeFormationClientTypes.QuerySessionContext {
+
+    static func write(value: LakeFormationClientTypes.QuerySessionContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalContext"].writeMap(value.additionalContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ClusterId"].write(value.clusterId)
+        try writer["QueryAuthorizationId"].write(value.queryAuthorizationId)
+        try writer["QueryId"].write(value.queryId)
+        try writer["QueryStartTime"].writeTimestamp(value.queryStartTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension LakeFormationClientTypes.RedshiftConnect {
+
+    static func write(value: LakeFormationClientTypes.RedshiftConnect?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Authorization"].write(value.authorization)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.RedshiftConnect {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.DetailsMap()
-        value.resourceShare = try reader["ResourceShare"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = LakeFormationClientTypes.RedshiftConnect()
+        value.authorization = try reader["Authorization"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension LakeFormationClientTypes.ExecutionStatistics {
+extension LakeFormationClientTypes.RedshiftScopeUnion {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ExecutionStatistics {
+    static func write(value: LakeFormationClientTypes.RedshiftScopeUnion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .redshiftconnect(redshiftconnect):
+                try writer["RedshiftConnect"].write(redshiftconnect, with: LakeFormationClientTypes.RedshiftConnect.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.RedshiftScopeUnion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.ExecutionStatistics()
-        value.averageExecutionTimeMillis = try reader["AverageExecutionTimeMillis"].readIfPresent() ?? 0
-        value.dataScannedBytes = try reader["DataScannedBytes"].readIfPresent() ?? 0
-        value.workUnitsExecutedCount = try reader["WorkUnitsExecutedCount"].readIfPresent() ?? 0
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "RedshiftConnect":
+                return .redshiftconnect(try reader["RedshiftConnect"].read(with: LakeFormationClientTypes.RedshiftConnect.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension LakeFormationClientTypes.Resource {
+
+    static func write(value: LakeFormationClientTypes.Resource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog, with: LakeFormationClientTypes.CatalogResource.write(value:to:))
+        try writer["DataCellsFilter"].write(value.dataCellsFilter, with: LakeFormationClientTypes.DataCellsFilterResource.write(value:to:))
+        try writer["DataLocation"].write(value.dataLocation, with: LakeFormationClientTypes.DataLocationResource.write(value:to:))
+        try writer["Database"].write(value.database, with: LakeFormationClientTypes.DatabaseResource.write(value:to:))
+        try writer["LFTag"].write(value.lfTag, with: LakeFormationClientTypes.LFTagKeyResource.write(value:to:))
+        try writer["LFTagExpression"].write(value.lfTagExpression, with: LakeFormationClientTypes.LFTagExpressionResource.write(value:to:))
+        try writer["LFTagPolicy"].write(value.lfTagPolicy, with: LakeFormationClientTypes.LFTagPolicyResource.write(value:to:))
+        try writer["Table"].write(value.table, with: LakeFormationClientTypes.TableResource.write(value:to:))
+        try writer["TableWithColumns"].write(value.tableWithColumns, with: LakeFormationClientTypes.TableWithColumnsResource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.Resource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.Resource()
+        value.catalog = try reader["Catalog"].readIfPresent(with: LakeFormationClientTypes.CatalogResource.read(from:))
+        value.database = try reader["Database"].readIfPresent(with: LakeFormationClientTypes.DatabaseResource.read(from:))
+        value.table = try reader["Table"].readIfPresent(with: LakeFormationClientTypes.TableResource.read(from:))
+        value.tableWithColumns = try reader["TableWithColumns"].readIfPresent(with: LakeFormationClientTypes.TableWithColumnsResource.read(from:))
+        value.dataLocation = try reader["DataLocation"].readIfPresent(with: LakeFormationClientTypes.DataLocationResource.read(from:))
+        value.dataCellsFilter = try reader["DataCellsFilter"].readIfPresent(with: LakeFormationClientTypes.DataCellsFilterResource.read(from:))
+        value.lfTag = try reader["LFTag"].readIfPresent(with: LakeFormationClientTypes.LFTagKeyResource.read(from:))
+        value.lfTagPolicy = try reader["LFTagPolicy"].readIfPresent(with: LakeFormationClientTypes.LFTagPolicyResource.read(from:))
+        value.lfTagExpression = try reader["LFTagExpression"].readIfPresent(with: LakeFormationClientTypes.LFTagExpressionResource.read(from:))
         return value
     }
 }
 
-extension LakeFormationClientTypes.PlanningStatistics {
+extension LakeFormationClientTypes.ResourceInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.PlanningStatistics {
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ResourceInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.PlanningStatistics()
-        value.estimatedDataToScanBytes = try reader["EstimatedDataToScanBytes"].readIfPresent() ?? 0
-        value.planningTimeMillis = try reader["PlanningTimeMillis"].readIfPresent() ?? 0
-        value.queueTimeMillis = try reader["QueueTimeMillis"].readIfPresent() ?? 0
-        value.workUnitsGeneratedCount = try reader["WorkUnitsGeneratedCount"].readIfPresent() ?? 0
+        var value = LakeFormationClientTypes.ResourceInfo()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.withFederation = try reader["WithFederation"].readIfPresent()
+        value.hybridAccessEnabled = try reader["HybridAccessEnabled"].readIfPresent()
+        value.withPrivilegedAccess = try reader["WithPrivilegedAccess"].readIfPresent()
+        value.verificationStatus = try reader["VerificationStatus"].readIfPresent()
+        value.expectedResourceOwnerAccount = try reader["ExpectedResourceOwnerAccount"].readIfPresent()
         return value
     }
 }
 
-extension LakeFormationClientTypes.ColumnLFTag {
+extension LakeFormationClientTypes.RowFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ColumnLFTag {
+    static func write(value: LakeFormationClientTypes.RowFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllRowsWildcard"].write(value.allRowsWildcard, with: LakeFormationClientTypes.AllRowsWildcard.write(value:to:))
+        try writer["FilterExpression"].write(value.filterExpression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.RowFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.ColumnLFTag()
-        value.name = try reader["Name"].readIfPresent()
-        value.lfTags = try reader["LFTags"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.LFTagPair.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = LakeFormationClientTypes.RowFilter()
+        value.filterExpression = try reader["FilterExpression"].readIfPresent()
+        value.allRowsWildcard = try reader["AllRowsWildcard"].readIfPresent(with: LakeFormationClientTypes.AllRowsWildcard.read(from:))
         return value
     }
 }
 
-extension LakeFormationClientTypes.PartitionObjects {
+extension LakeFormationClientTypes.ServiceIntegrationUnion {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.PartitionObjects {
+    static func write(value: LakeFormationClientTypes.ServiceIntegrationUnion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .redshift(redshift):
+                try writer["Redshift"].writeList(redshift, memberWritingClosure: LakeFormationClientTypes.RedshiftScopeUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ServiceIntegrationUnion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.PartitionObjects()
-        value.partitionValues = try reader["PartitionValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.objects = try reader["Objects"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.TableObject.read(from:), memberNodeInfo: "member", isFlattened: false)
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Redshift":
+                return .redshift(try reader["Redshift"].readList(memberReadingClosure: LakeFormationClientTypes.RedshiftScopeUnion.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension LakeFormationClientTypes.StorageOptimizer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.StorageOptimizer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.StorageOptimizer()
+        value.storageOptimizerType = try reader["StorageOptimizerType"].readIfPresent()
+        value.config = try reader["Config"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.warnings = try reader["Warnings"].readIfPresent()
+        value.lastRunDetails = try reader["LastRunDetails"].readIfPresent()
         return value
     }
 }
@@ -7897,55 +8192,59 @@ extension LakeFormationClientTypes.TableObject {
     }
 }
 
-extension LakeFormationClientTypes.WorkUnitRange {
+extension LakeFormationClientTypes.TableResource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.WorkUnitRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.WorkUnitRange()
-        value.workUnitIdMax = try reader["WorkUnitIdMax"].readIfPresent() ?? 0
-        value.workUnitIdMin = try reader["WorkUnitIdMin"].readIfPresent() ?? 0
-        value.workUnitToken = try reader["WorkUnitToken"].readIfPresent() ?? ""
-        return value
+    static func write(value: LakeFormationClientTypes.TableResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["Name"].write(value.name)
+        try writer["TableWildcard"].write(value.tableWildcard, with: LakeFormationClientTypes.TableWildcard.write(value:to:))
     }
-}
 
-extension LakeFormationClientTypes.LakeFormationOptInsInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LakeFormationOptInsInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.TableResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.LakeFormationOptInsInfo()
-        value.resource = try reader["Resource"].readIfPresent(with: LakeFormationClientTypes.Resource.read(from:))
-        value.principal = try reader["Principal"].readIfPresent(with: LakeFormationClientTypes.DataLakePrincipal.read(from:))
-        value.condition = try reader["Condition"].readIfPresent(with: LakeFormationClientTypes.Condition.read(from:))
-        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedBy = try reader["LastUpdatedBy"].readIfPresent()
-        return value
-    }
-}
-
-extension LakeFormationClientTypes.LFTagExpression {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.LFTagExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.LFTagExpression()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
+        var value = LakeFormationClientTypes.TableResource()
         value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.expression = try reader["Expression"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.LFTag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.tableWildcard = try reader["TableWildcard"].readIfPresent(with: LakeFormationClientTypes.TableWildcard.read(from:))
         return value
     }
 }
 
-extension LakeFormationClientTypes.StorageOptimizer {
+extension LakeFormationClientTypes.TableWildcard {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.StorageOptimizer {
+    static func write(value: LakeFormationClientTypes.TableWildcard?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.TableWildcard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LakeFormationClientTypes.StorageOptimizer()
-        value.storageOptimizerType = try reader["StorageOptimizerType"].readIfPresent()
-        value.config = try reader["Config"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.warnings = try reader["Warnings"].readIfPresent()
-        value.lastRunDetails = try reader["LastRunDetails"].readIfPresent()
+        return LakeFormationClientTypes.TableWildcard()
+    }
+}
+
+extension LakeFormationClientTypes.TableWithColumnsResource {
+
+    static func write(value: LakeFormationClientTypes.TableWithColumnsResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["ColumnNames"].writeList(value.columnNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ColumnWildcard"].write(value.columnWildcard, with: LakeFormationClientTypes.ColumnWildcard.write(value:to:))
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.TableWithColumnsResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.TableWithColumnsResource()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.columnNames = try reader["ColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.columnWildcard = try reader["ColumnWildcard"].readIfPresent(with: LakeFormationClientTypes.ColumnWildcard.read(from:))
         return value
     }
 }
@@ -7974,6 +8273,32 @@ extension LakeFormationClientTypes.TaggedTable {
     }
 }
 
+extension LakeFormationClientTypes.TemporaryCredentials {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.TemporaryCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.TemporaryCredentials()
+        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
+        value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent()
+        value.sessionToken = try reader["SessionToken"].readIfPresent()
+        value.expiration = try reader["Expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.TransactionDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.TransactionDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.TransactionDescription()
+        value.transactionId = try reader["TransactionId"].readIfPresent()
+        value.transactionStatus = try reader["TransactionStatus"].readIfPresent()
+        value.transactionStartTime = try reader["TransactionStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.transactionEndTime = try reader["TransactionEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension LakeFormationClientTypes.VirtualObject {
 
     static func write(value: LakeFormationClientTypes.VirtualObject?, to writer: SmithyJSON.Writer) throws {
@@ -7983,53 +8308,15 @@ extension LakeFormationClientTypes.VirtualObject {
     }
 }
 
-extension LakeFormationClientTypes.PartitionValueList {
+extension LakeFormationClientTypes.WorkUnitRange {
 
-    static func write(value: LakeFormationClientTypes.PartitionValueList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension LakeFormationClientTypes.AuditContext {
-
-    static func write(value: LakeFormationClientTypes.AuditContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalAuditContext"].write(value.additionalAuditContext)
-    }
-}
-
-extension LakeFormationClientTypes.QuerySessionContext {
-
-    static func write(value: LakeFormationClientTypes.QuerySessionContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalContext"].writeMap(value.additionalContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ClusterId"].write(value.clusterId)
-        try writer["QueryAuthorizationId"].write(value.queryAuthorizationId)
-        try writer["QueryId"].write(value.queryId)
-        try writer["QueryStartTime"].writeTimestamp(value.queryStartTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension LakeFormationClientTypes.FilterCondition {
-
-    static func write(value: LakeFormationClientTypes.FilterCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComparisonOperator"].write(value.comparisonOperator)
-        try writer["Field"].write(value.field)
-        try writer["StringValueList"].writeList(value.stringValueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension LakeFormationClientTypes.QueryPlanningContext {
-
-    static func write(value: LakeFormationClientTypes.QueryPlanningContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["QueryAsOfTime"].writeTimestamp(value.queryAsOfTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["QueryParameters"].writeMap(value.queryParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["TransactionId"].write(value.transactionId)
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.WorkUnitRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.WorkUnitRange()
+        value.workUnitIdMax = try reader["WorkUnitIdMax"].readIfPresent() ?? 0
+        value.workUnitIdMin = try reader["WorkUnitIdMin"].readIfPresent() ?? 0
+        value.workUnitToken = try reader["WorkUnitToken"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -8039,27 +8326,6 @@ extension LakeFormationClientTypes.WriteOperation {
         guard let value else { return }
         try writer["AddObject"].write(value.addObject, with: LakeFormationClientTypes.AddObjectInput.write(value:to:))
         try writer["DeleteObject"].write(value.deleteObject, with: LakeFormationClientTypes.DeleteObjectInput.write(value:to:))
-    }
-}
-
-extension LakeFormationClientTypes.DeleteObjectInput {
-
-    static func write(value: LakeFormationClientTypes.DeleteObjectInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ETag"].write(value.eTag)
-        try writer["PartitionValues"].writeList(value.partitionValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Uri"].write(value.uri)
-    }
-}
-
-extension LakeFormationClientTypes.AddObjectInput {
-
-    static func write(value: LakeFormationClientTypes.AddObjectInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ETag"].write(value.eTag)
-        try writer["PartitionValues"].writeList(value.partitionValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Size"].write(value.size)
-        try writer["Uri"].write(value.uri)
     }
 }
 

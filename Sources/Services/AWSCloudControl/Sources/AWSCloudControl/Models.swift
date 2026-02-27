@@ -1872,6 +1872,23 @@ extension UnsupportedActionException {
     }
 }
 
+extension CloudControlClientTypes.HookProgressEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudControlClientTypes.HookProgressEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudControlClientTypes.HookProgressEvent()
+        value.hookTypeName = try reader["HookTypeName"].readIfPresent()
+        value.hookTypeVersionId = try reader["HookTypeVersionId"].readIfPresent()
+        value.hookTypeArn = try reader["HookTypeArn"].readIfPresent()
+        value.invocationPoint = try reader["InvocationPoint"].readIfPresent()
+        value.hookStatus = try reader["HookStatus"].readIfPresent()
+        value.hookEventTime = try reader["HookEventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.hookStatusMessage = try reader["HookStatusMessage"].readIfPresent()
+        value.failureMode = try reader["FailureMode"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudControlClientTypes.ProgressEvent {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudControlClientTypes.ProgressEvent {
@@ -1899,23 +1916,6 @@ extension CloudControlClientTypes.ResourceDescription {
         var value = CloudControlClientTypes.ResourceDescription()
         value.identifier = try reader["Identifier"].readIfPresent()
         value.properties = try reader["Properties"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudControlClientTypes.HookProgressEvent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudControlClientTypes.HookProgressEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudControlClientTypes.HookProgressEvent()
-        value.hookTypeName = try reader["HookTypeName"].readIfPresent()
-        value.hookTypeVersionId = try reader["HookTypeVersionId"].readIfPresent()
-        value.hookTypeArn = try reader["HookTypeArn"].readIfPresent()
-        value.invocationPoint = try reader["InvocationPoint"].readIfPresent()
-        value.hookStatus = try reader["HookStatus"].readIfPresent()
-        value.hookEventTime = try reader["HookEventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.hookStatusMessage = try reader["HookStatusMessage"].readIfPresent()
-        value.failureMode = try reader["FailureMode"].readIfPresent()
         return value
     }
 }

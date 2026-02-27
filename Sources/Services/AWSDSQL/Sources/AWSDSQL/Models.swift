@@ -1665,19 +1665,13 @@ extension AccessDeniedException {
     }
 }
 
-extension DSQLClientTypes.MultiRegionProperties {
+extension DSQLClientTypes.ClusterSummary {
 
-    static func write(value: DSQLClientTypes.MultiRegionProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clusters"].writeList(value.clusters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["witnessRegion"].write(value.witnessRegion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DSQLClientTypes.MultiRegionProperties {
+    static func read(from reader: SmithyJSON.Reader) throws -> DSQLClientTypes.ClusterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DSQLClientTypes.MultiRegionProperties()
-        value.witnessRegion = try reader["witnessRegion"].readIfPresent()
-        value.clusters = try reader["clusters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = DSQLClientTypes.ClusterSummary()
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1694,13 +1688,19 @@ extension DSQLClientTypes.EncryptionDetails {
     }
 }
 
-extension DSQLClientTypes.ClusterSummary {
+extension DSQLClientTypes.MultiRegionProperties {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DSQLClientTypes.ClusterSummary {
+    static func write(value: DSQLClientTypes.MultiRegionProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clusters"].writeList(value.clusters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["witnessRegion"].write(value.witnessRegion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DSQLClientTypes.MultiRegionProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DSQLClientTypes.ClusterSummary()
-        value.identifier = try reader["identifier"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
+        var value = DSQLClientTypes.MultiRegionProperties()
+        value.witnessRegion = try reader["witnessRegion"].readIfPresent()
+        value.clusters = try reader["clusters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

@@ -1813,6 +1813,75 @@ extension ResourceNotFoundException {
     }
 }
 
+extension BCMDataExportsClientTypes.Column {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.Column {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDataExportsClientTypes.Column()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension BCMDataExportsClientTypes.DataQuery {
+
+    static func write(value: BCMDataExportsClientTypes.DataQuery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["QueryStatement"].write(value.queryStatement)
+        try writer["TableConfigurations"].writeMap(value.tableConfigurations, valueWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.DataQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDataExportsClientTypes.DataQuery()
+        value.queryStatement = try reader["QueryStatement"].readIfPresent() ?? ""
+        value.tableConfigurations = try reader["TableConfigurations"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BCMDataExportsClientTypes.DestinationConfigurations {
+
+    static func write(value: BCMDataExportsClientTypes.DestinationConfigurations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Destination"].write(value.s3Destination, with: BCMDataExportsClientTypes.S3Destination.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.DestinationConfigurations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDataExportsClientTypes.DestinationConfigurations()
+        value.s3Destination = try reader["S3Destination"].readIfPresent(with: BCMDataExportsClientTypes.S3Destination.read(from:))
+        return value
+    }
+}
+
+extension BCMDataExportsClientTypes.ExecutionReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExecutionReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDataExportsClientTypes.ExecutionReference()
+        value.executionId = try reader["ExecutionId"].readIfPresent() ?? ""
+        value.executionStatus = try reader["ExecutionStatus"].readIfPresent(with: BCMDataExportsClientTypes.ExecutionStatus.read(from:))
+        return value
+    }
+}
+
+extension BCMDataExportsClientTypes.ExecutionStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExecutionStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDataExportsClientTypes.ExecutionStatus()
+        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.completedAt = try reader["CompletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension BCMDataExportsClientTypes.Export {
 
     static func write(value: BCMDataExportsClientTypes.Export?, to writer: SmithyJSON.Writer) throws {
@@ -1838,6 +1907,32 @@ extension BCMDataExportsClientTypes.Export {
     }
 }
 
+extension BCMDataExportsClientTypes.ExportReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExportReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDataExportsClientTypes.ExportReference()
+        value.exportArn = try reader["ExportArn"].readIfPresent() ?? ""
+        value.exportName = try reader["ExportName"].readIfPresent() ?? ""
+        value.exportStatus = try reader["ExportStatus"].readIfPresent(with: BCMDataExportsClientTypes.ExportStatus.read(from:))
+        return value
+    }
+}
+
+extension BCMDataExportsClientTypes.ExportStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExportStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMDataExportsClientTypes.ExportStatus()
+        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastRefreshedAt = try reader["LastRefreshedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension BCMDataExportsClientTypes.RefreshCadence {
 
     static func write(value: BCMDataExportsClientTypes.RefreshCadence?, to writer: SmithyJSON.Writer) throws {
@@ -1853,17 +1948,19 @@ extension BCMDataExportsClientTypes.RefreshCadence {
     }
 }
 
-extension BCMDataExportsClientTypes.DestinationConfigurations {
+extension BCMDataExportsClientTypes.ResourceTag {
 
-    static func write(value: BCMDataExportsClientTypes.DestinationConfigurations?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: BCMDataExportsClientTypes.ResourceTag?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["S3Destination"].write(value.s3Destination, with: BCMDataExportsClientTypes.S3Destination.write(value:to:))
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.DestinationConfigurations {
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ResourceTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDataExportsClientTypes.DestinationConfigurations()
-        value.s3Destination = try reader["S3Destination"].readIfPresent(with: BCMDataExportsClientTypes.S3Destination.read(from:))
+        var value = BCMDataExportsClientTypes.ResourceTag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1910,86 +2007,6 @@ extension BCMDataExportsClientTypes.S3OutputConfigurations {
     }
 }
 
-extension BCMDataExportsClientTypes.DataQuery {
-
-    static func write(value: BCMDataExportsClientTypes.DataQuery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["QueryStatement"].write(value.queryStatement)
-        try writer["TableConfigurations"].writeMap(value.tableConfigurations, valueWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.DataQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDataExportsClientTypes.DataQuery()
-        value.queryStatement = try reader["QueryStatement"].readIfPresent() ?? ""
-        value.tableConfigurations = try reader["TableConfigurations"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension BCMDataExportsClientTypes.ExecutionStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExecutionStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDataExportsClientTypes.ExecutionStatus()
-        value.statusCode = try reader["StatusCode"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.completedAt = try reader["CompletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension BCMDataExportsClientTypes.ExportStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExportStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDataExportsClientTypes.ExportStatus()
-        value.statusCode = try reader["StatusCode"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastRefreshedAt = try reader["LastRefreshedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension BCMDataExportsClientTypes.Column {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.Column {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDataExportsClientTypes.Column()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension BCMDataExportsClientTypes.ExecutionReference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExecutionReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDataExportsClientTypes.ExecutionReference()
-        value.executionId = try reader["ExecutionId"].readIfPresent() ?? ""
-        value.executionStatus = try reader["ExecutionStatus"].readIfPresent(with: BCMDataExportsClientTypes.ExecutionStatus.read(from:))
-        return value
-    }
-}
-
-extension BCMDataExportsClientTypes.ExportReference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ExportReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDataExportsClientTypes.ExportReference()
-        value.exportArn = try reader["ExportArn"].readIfPresent() ?? ""
-        value.exportName = try reader["ExportName"].readIfPresent() ?? ""
-        value.exportStatus = try reader["ExportStatus"].readIfPresent(with: BCMDataExportsClientTypes.ExportStatus.read(from:))
-        return value
-    }
-}
-
 extension BCMDataExportsClientTypes.Table {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.Table {
@@ -2011,23 +2028,6 @@ extension BCMDataExportsClientTypes.TablePropertyDescription {
         value.validValues = try reader["ValidValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.defaultValue = try reader["DefaultValue"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension BCMDataExportsClientTypes.ResourceTag {
-
-    static func write(value: BCMDataExportsClientTypes.ResourceTag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMDataExportsClientTypes.ResourceTag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMDataExportsClientTypes.ResourceTag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
