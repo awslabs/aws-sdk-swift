@@ -77,11 +77,11 @@ private var protocolTestTargets: [Target] {
 
     let protocolTests: [ProtocolTest] = [
         // Serde benchmark tests
-//         .init(name: "SerdeBenchmarkAWSJSONRPC10", sourcePath: "\(baseDirLocal)/SerdeBenchmarkAWSJSONRPC10"),
-//         .init(name: "SerdeBenchmarkAWSQuery", sourcePath: "\(baseDirLocal)/SerdeBenchmarkAWSQuery"),
-//         .init(name: "SerdeBenchmarkAWSRestJSON", sourcePath: "\(baseDirLocal)/SerdeBenchmarkAWSRestJSON"),
+        .init(name: "SerdeBenchmarkAWSJSONRPC10", sourcePath: "\(baseDirLocal)/SerdeBenchmarkAWSJSONRPC10"),
+        .init(name: "SerdeBenchmarkAWSQuery", sourcePath: "\(baseDirLocal)/SerdeBenchmarkAWSQuery"),
+        .init(name: "SerdeBenchmarkAWSRestJSON", sourcePath: "\(baseDirLocal)/SerdeBenchmarkAWSRestJSON"),
         .init(name: "SerdeBenchmarkAWSRestXML", sourcePath: "\(baseDirLocal)/SerdeBenchmarkAWSRestXML"),
-//         .init(name: "SerdeBenchmarkSmithyRPCV2CBOR", sourcePath: "\(baseDirLocal)/SerdeBenchmarkSmithyRPCV2CBOR"),
+        .init(name: "SerdeBenchmarkSmithyRPCV2CBOR", sourcePath: "\(baseDirLocal)/SerdeBenchmarkSmithyRPCV2CBOR"),
     ]
     return protocolTests.flatMap { protocolTest in
         let target = Target.target(

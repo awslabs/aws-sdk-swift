@@ -1,0 +1,7 @@
+aws-query-extras.smithy
+waiters.smithy
+endpoints-string-array.smithy
+rest-json-extras.smithy
+eventstream-rpc.smithy
+aws-json-rpc-1-0-data-plane.json
+eventstream.smithy

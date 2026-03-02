@@ -1,0 +1,19 @@
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/rpccbordataplane.json",
+  "dependencies": [
+    "AWSClientRuntime",
+    "AWSSDKChecksums",
+    "AWSSDKHTTPAuth",
+    "AWSSDKIdentity",
+    "ClientRuntime",
+    "Smithy",
+    "SmithyCBOR",
+    "SmithyHTTPAPI",
+    "SmithyHTTPAuthAPI",
+    "SmithyIdentity",
+    "SmithyReadWrite",
+    "SmithyRetries",
+    "SmithyRetriesAPI",
+    "SmithyTimestamps"
+  ]
+}
