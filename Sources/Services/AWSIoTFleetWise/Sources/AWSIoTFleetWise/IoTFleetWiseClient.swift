@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
@@ -665,7 +665,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateVehicleFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateVehicleFleetInput, AssociateVehicleFleetOutput>(xAmzTarget: "IoTAutobahnControlPlane.AssociateVehicleFleet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateVehicleFleetInput, AssociateVehicleFleetOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.AssociateVehicleFleet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateVehicleFleetInput, AssociateVehicleFleetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateVehicleFleetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateVehicleFleetInput, AssociateVehicleFleetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateVehicleFleetOutput>())
@@ -738,7 +738,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreateVehicleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchCreateVehicleInput, BatchCreateVehicleOutput>(xAmzTarget: "IoTAutobahnControlPlane.BatchCreateVehicle"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreateVehicleInput, BatchCreateVehicleOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.BatchCreateVehicle"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchCreateVehicleInput, BatchCreateVehicleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCreateVehicleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateVehicleInput, BatchCreateVehicleOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateVehicleOutput>())
@@ -811,7 +811,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchUpdateVehicleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchUpdateVehicleInput, BatchUpdateVehicleOutput>(xAmzTarget: "IoTAutobahnControlPlane.BatchUpdateVehicle"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchUpdateVehicleInput, BatchUpdateVehicleOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.BatchUpdateVehicle"]))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchUpdateVehicleInput, BatchUpdateVehicleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchUpdateVehicleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateVehicleInput, BatchUpdateVehicleOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateVehicleOutput>())
@@ -886,7 +886,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCampaignOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCampaignInput, CreateCampaignOutput>(xAmzTarget: "IoTAutobahnControlPlane.CreateCampaign"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCampaignInput, CreateCampaignOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.CreateCampaign"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateCampaignInput, CreateCampaignOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCampaignInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCampaignInput, CreateCampaignOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCampaignOutput>())
@@ -970,7 +970,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDecoderManifestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDecoderManifestInput, CreateDecoderManifestOutput>(xAmzTarget: "IoTAutobahnControlPlane.CreateDecoderManifest"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDecoderManifestInput, CreateDecoderManifestOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.CreateDecoderManifest"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDecoderManifestInput, CreateDecoderManifestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDecoderManifestInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDecoderManifestInput, CreateDecoderManifestOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDecoderManifestOutput>())
@@ -1045,7 +1045,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateFleetInput, CreateFleetOutput>(xAmzTarget: "IoTAutobahnControlPlane.CreateFleet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFleetInput, CreateFleetOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.CreateFleet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateFleetInput, CreateFleetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateFleetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFleetInput, CreateFleetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFleetOutput>())
@@ -1121,7 +1121,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateModelManifestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateModelManifestInput, CreateModelManifestOutput>(xAmzTarget: "IoTAutobahnControlPlane.CreateModelManifest"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateModelManifestInput, CreateModelManifestOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.CreateModelManifest"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateModelManifestInput, CreateModelManifestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateModelManifestInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateModelManifestInput, CreateModelManifestOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateModelManifestOutput>())
@@ -1197,7 +1197,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSignalCatalogOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateSignalCatalogInput, CreateSignalCatalogOutput>(xAmzTarget: "IoTAutobahnControlPlane.CreateSignalCatalog"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSignalCatalogInput, CreateSignalCatalogOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.CreateSignalCatalog"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateSignalCatalogInput, CreateSignalCatalogOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSignalCatalogInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSignalCatalogInput, CreateSignalCatalogOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSignalCatalogOutput>())
@@ -1273,7 +1273,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateStateTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateStateTemplateInput, CreateStateTemplateOutput>(xAmzTarget: "IoTAutobahnControlPlane.CreateStateTemplate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateStateTemplateInput, CreateStateTemplateOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.CreateStateTemplate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateStateTemplateInput, CreateStateTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateStateTemplateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStateTemplateInput, CreateStateTemplateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateStateTemplateOutput>())
@@ -1348,7 +1348,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVehicleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateVehicleInput, CreateVehicleOutput>(xAmzTarget: "IoTAutobahnControlPlane.CreateVehicle"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVehicleInput, CreateVehicleOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.CreateVehicle"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateVehicleInput, CreateVehicleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVehicleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVehicleInput, CreateVehicleOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVehicleOutput>())
@@ -1421,7 +1421,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCampaignOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCampaignInput, DeleteCampaignOutput>(xAmzTarget: "IoTAutobahnControlPlane.DeleteCampaign"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCampaignInput, DeleteCampaignOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.DeleteCampaign"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteCampaignInput, DeleteCampaignOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCampaignInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCampaignInput, DeleteCampaignOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCampaignOutput>())
@@ -1494,7 +1494,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDecoderManifestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDecoderManifestInput, DeleteDecoderManifestOutput>(xAmzTarget: "IoTAutobahnControlPlane.DeleteDecoderManifest"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDecoderManifestInput, DeleteDecoderManifestOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.DeleteDecoderManifest"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDecoderManifestInput, DeleteDecoderManifestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDecoderManifestInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDecoderManifestInput, DeleteDecoderManifestOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDecoderManifestOutput>())
@@ -1566,7 +1566,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteFleetInput, DeleteFleetOutput>(xAmzTarget: "IoTAutobahnControlPlane.DeleteFleet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFleetInput, DeleteFleetOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.DeleteFleet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteFleetInput, DeleteFleetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteFleetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFleetInput, DeleteFleetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFleetOutput>())
@@ -1639,7 +1639,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteModelManifestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteModelManifestInput, DeleteModelManifestOutput>(xAmzTarget: "IoTAutobahnControlPlane.DeleteModelManifest"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteModelManifestInput, DeleteModelManifestOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.DeleteModelManifest"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteModelManifestInput, DeleteModelManifestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteModelManifestInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteModelManifestInput, DeleteModelManifestOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteModelManifestOutput>())
@@ -1712,7 +1712,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSignalCatalogOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteSignalCatalogInput, DeleteSignalCatalogOutput>(xAmzTarget: "IoTAutobahnControlPlane.DeleteSignalCatalog"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSignalCatalogInput, DeleteSignalCatalogOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.DeleteSignalCatalog"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteSignalCatalogInput, DeleteSignalCatalogOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSignalCatalogInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSignalCatalogInput, DeleteSignalCatalogOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSignalCatalogOutput>())
@@ -1784,7 +1784,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteStateTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteStateTemplateInput, DeleteStateTemplateOutput>(xAmzTarget: "IoTAutobahnControlPlane.DeleteStateTemplate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteStateTemplateInput, DeleteStateTemplateOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.DeleteStateTemplate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteStateTemplateInput, DeleteStateTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteStateTemplateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteStateTemplateInput, DeleteStateTemplateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteStateTemplateOutput>())
@@ -1856,7 +1856,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVehicleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteVehicleInput, DeleteVehicleOutput>(xAmzTarget: "IoTAutobahnControlPlane.DeleteVehicle"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVehicleInput, DeleteVehicleOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.DeleteVehicle"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteVehicleInput, DeleteVehicleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVehicleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVehicleInput, DeleteVehicleOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVehicleOutput>())
@@ -1929,7 +1929,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateVehicleFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateVehicleFleetInput, DisassociateVehicleFleetOutput>(xAmzTarget: "IoTAutobahnControlPlane.DisassociateVehicleFleet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateVehicleFleetInput, DisassociateVehicleFleetOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.DisassociateVehicleFleet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateVehicleFleetInput, DisassociateVehicleFleetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateVehicleFleetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateVehicleFleetInput, DisassociateVehicleFleetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateVehicleFleetOutput>())
@@ -2002,7 +2002,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCampaignOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCampaignInput, GetCampaignOutput>(xAmzTarget: "IoTAutobahnControlPlane.GetCampaign"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCampaignInput, GetCampaignOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.GetCampaign"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCampaignInput, GetCampaignOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCampaignInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCampaignInput, GetCampaignOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCampaignOutput>())
@@ -2075,7 +2075,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDecoderManifestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDecoderManifestInput, GetDecoderManifestOutput>(xAmzTarget: "IoTAutobahnControlPlane.GetDecoderManifest"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDecoderManifestInput, GetDecoderManifestOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.GetDecoderManifest"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDecoderManifestInput, GetDecoderManifestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDecoderManifestInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDecoderManifestInput, GetDecoderManifestOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDecoderManifestOutput>())
@@ -2148,7 +2148,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEncryptionConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetEncryptionConfigurationInput, GetEncryptionConfigurationOutput>(xAmzTarget: "IoTAutobahnControlPlane.GetEncryptionConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetEncryptionConfigurationInput, GetEncryptionConfigurationOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.GetEncryptionConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetEncryptionConfigurationInput, GetEncryptionConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetEncryptionConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetEncryptionConfigurationInput, GetEncryptionConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEncryptionConfigurationOutput>())
@@ -2221,7 +2221,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetFleetInput, GetFleetOutput>(xAmzTarget: "IoTAutobahnControlPlane.GetFleet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetFleetInput, GetFleetOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.GetFleet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetFleetInput, GetFleetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetFleetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetFleetInput, GetFleetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFleetOutput>())
@@ -2292,7 +2292,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLoggingOptionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetLoggingOptionsInput, GetLoggingOptionsOutput>(xAmzTarget: "IoTAutobahnControlPlane.GetLoggingOptions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetLoggingOptionsInput, GetLoggingOptionsOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.GetLoggingOptions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetLoggingOptionsInput, GetLoggingOptionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLoggingOptionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLoggingOptionsInput, GetLoggingOptionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLoggingOptionsOutput>())
@@ -2365,7 +2365,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetModelManifestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetModelManifestInput, GetModelManifestOutput>(xAmzTarget: "IoTAutobahnControlPlane.GetModelManifest"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetModelManifestInput, GetModelManifestOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.GetModelManifest"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetModelManifestInput, GetModelManifestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetModelManifestInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetModelManifestInput, GetModelManifestOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetModelManifestOutput>())
@@ -2438,7 +2438,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRegisterAccountStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRegisterAccountStatusInput, GetRegisterAccountStatusOutput>(xAmzTarget: "IoTAutobahnControlPlane.GetRegisterAccountStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRegisterAccountStatusInput, GetRegisterAccountStatusOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.GetRegisterAccountStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRegisterAccountStatusInput, GetRegisterAccountStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRegisterAccountStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRegisterAccountStatusInput, GetRegisterAccountStatusOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRegisterAccountStatusOutput>())
@@ -2511,7 +2511,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSignalCatalogOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetSignalCatalogInput, GetSignalCatalogOutput>(xAmzTarget: "IoTAutobahnControlPlane.GetSignalCatalog"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSignalCatalogInput, GetSignalCatalogOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.GetSignalCatalog"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetSignalCatalogInput, GetSignalCatalogOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSignalCatalogInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSignalCatalogInput, GetSignalCatalogOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSignalCatalogOutput>())
@@ -2584,7 +2584,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetStateTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetStateTemplateInput, GetStateTemplateOutput>(xAmzTarget: "IoTAutobahnControlPlane.GetStateTemplate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetStateTemplateInput, GetStateTemplateOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.GetStateTemplate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetStateTemplateInput, GetStateTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetStateTemplateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetStateTemplateInput, GetStateTemplateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetStateTemplateOutput>())
@@ -2657,7 +2657,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetVehicleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetVehicleInput, GetVehicleOutput>(xAmzTarget: "IoTAutobahnControlPlane.GetVehicle"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetVehicleInput, GetVehicleOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.GetVehicle"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetVehicleInput, GetVehicleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetVehicleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVehicleInput, GetVehicleOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetVehicleOutput>())
@@ -2731,7 +2731,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetVehicleStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetVehicleStatusInput, GetVehicleStatusOutput>(xAmzTarget: "IoTAutobahnControlPlane.GetVehicleStatus"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetVehicleStatusInput, GetVehicleStatusOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.GetVehicleStatus"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetVehicleStatusInput, GetVehicleStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetVehicleStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVehicleStatusInput, GetVehicleStatusOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetVehicleStatusOutput>())
@@ -2807,7 +2807,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportDecoderManifestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ImportDecoderManifestInput, ImportDecoderManifestOutput>(xAmzTarget: "IoTAutobahnControlPlane.ImportDecoderManifest"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportDecoderManifestInput, ImportDecoderManifestOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.ImportDecoderManifest"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ImportDecoderManifestInput, ImportDecoderManifestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportDecoderManifestInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportDecoderManifestInput, ImportDecoderManifestOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportDecoderManifestOutput>())
@@ -2883,7 +2883,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportSignalCatalogOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ImportSignalCatalogInput, ImportSignalCatalogOutput>(xAmzTarget: "IoTAutobahnControlPlane.ImportSignalCatalog"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportSignalCatalogInput, ImportSignalCatalogOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.ImportSignalCatalog"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ImportSignalCatalogInput, ImportSignalCatalogOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportSignalCatalogInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportSignalCatalogInput, ImportSignalCatalogOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportSignalCatalogOutput>())
@@ -2956,7 +2956,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCampaignsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCampaignsInput, ListCampaignsOutput>(xAmzTarget: "IoTAutobahnControlPlane.ListCampaigns"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCampaignsInput, ListCampaignsOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.ListCampaigns"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListCampaignsInput, ListCampaignsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCampaignsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCampaignsInput, ListCampaignsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCampaignsOutput>())
@@ -3030,7 +3030,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDecoderManifestNetworkInterfacesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDecoderManifestNetworkInterfacesInput, ListDecoderManifestNetworkInterfacesOutput>(xAmzTarget: "IoTAutobahnControlPlane.ListDecoderManifestNetworkInterfaces"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDecoderManifestNetworkInterfacesInput, ListDecoderManifestNetworkInterfacesOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.ListDecoderManifestNetworkInterfaces"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDecoderManifestNetworkInterfacesInput, ListDecoderManifestNetworkInterfacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDecoderManifestNetworkInterfacesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDecoderManifestNetworkInterfacesInput, ListDecoderManifestNetworkInterfacesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDecoderManifestNetworkInterfacesOutput>())
@@ -3104,7 +3104,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDecoderManifestSignalsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDecoderManifestSignalsInput, ListDecoderManifestSignalsOutput>(xAmzTarget: "IoTAutobahnControlPlane.ListDecoderManifestSignals"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDecoderManifestSignalsInput, ListDecoderManifestSignalsOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.ListDecoderManifestSignals"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDecoderManifestSignalsInput, ListDecoderManifestSignalsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDecoderManifestSignalsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDecoderManifestSignalsInput, ListDecoderManifestSignalsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDecoderManifestSignalsOutput>())
@@ -3177,7 +3177,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDecoderManifestsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDecoderManifestsInput, ListDecoderManifestsOutput>(xAmzTarget: "IoTAutobahnControlPlane.ListDecoderManifests"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDecoderManifestsInput, ListDecoderManifestsOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.ListDecoderManifests"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDecoderManifestsInput, ListDecoderManifestsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDecoderManifestsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDecoderManifestsInput, ListDecoderManifestsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDecoderManifestsOutput>())
@@ -3251,7 +3251,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFleetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListFleetsInput, ListFleetsOutput>(xAmzTarget: "IoTAutobahnControlPlane.ListFleets"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFleetsInput, ListFleetsOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.ListFleets"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListFleetsInput, ListFleetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFleetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFleetsInput, ListFleetsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFleetsOutput>())
@@ -3325,7 +3325,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFleetsForVehicleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListFleetsForVehicleInput, ListFleetsForVehicleOutput>(xAmzTarget: "IoTAutobahnControlPlane.ListFleetsForVehicle"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFleetsForVehicleInput, ListFleetsForVehicleOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.ListFleetsForVehicle"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListFleetsForVehicleInput, ListFleetsForVehicleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListFleetsForVehicleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFleetsForVehicleInput, ListFleetsForVehicleOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFleetsForVehicleOutput>())
@@ -3400,7 +3400,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListModelManifestNodesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListModelManifestNodesInput, ListModelManifestNodesOutput>(xAmzTarget: "IoTAutobahnControlPlane.ListModelManifestNodes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListModelManifestNodesInput, ListModelManifestNodesOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.ListModelManifestNodes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListModelManifestNodesInput, ListModelManifestNodesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListModelManifestNodesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListModelManifestNodesInput, ListModelManifestNodesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListModelManifestNodesOutput>())
@@ -3473,7 +3473,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListModelManifestsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListModelManifestsInput, ListModelManifestsOutput>(xAmzTarget: "IoTAutobahnControlPlane.ListModelManifests"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListModelManifestsInput, ListModelManifestsOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.ListModelManifests"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListModelManifestsInput, ListModelManifestsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListModelManifestsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListModelManifestsInput, ListModelManifestsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListModelManifestsOutput>())
@@ -3548,7 +3548,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSignalCatalogNodesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSignalCatalogNodesInput, ListSignalCatalogNodesOutput>(xAmzTarget: "IoTAutobahnControlPlane.ListSignalCatalogNodes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSignalCatalogNodesInput, ListSignalCatalogNodesOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.ListSignalCatalogNodes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSignalCatalogNodesInput, ListSignalCatalogNodesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSignalCatalogNodesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSignalCatalogNodesInput, ListSignalCatalogNodesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSignalCatalogNodesOutput>())
@@ -3621,7 +3621,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSignalCatalogsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSignalCatalogsInput, ListSignalCatalogsOutput>(xAmzTarget: "IoTAutobahnControlPlane.ListSignalCatalogs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSignalCatalogsInput, ListSignalCatalogsOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.ListSignalCatalogs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSignalCatalogsInput, ListSignalCatalogsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSignalCatalogsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSignalCatalogsInput, ListSignalCatalogsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSignalCatalogsOutput>())
@@ -3694,7 +3694,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListStateTemplatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput>(xAmzTarget: "IoTAutobahnControlPlane.ListStateTemplates"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.ListStateTemplates"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStateTemplatesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStateTemplatesOutput>())
@@ -3768,7 +3768,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "IoTAutobahnControlPlane.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -3841,7 +3841,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVehiclesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListVehiclesInput, ListVehiclesOutput>(xAmzTarget: "IoTAutobahnControlPlane.ListVehicles"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVehiclesInput, ListVehiclesOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.ListVehicles"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListVehiclesInput, ListVehiclesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListVehiclesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVehiclesInput, ListVehiclesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVehiclesOutput>())
@@ -3915,7 +3915,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVehiclesInFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListVehiclesInFleetInput, ListVehiclesInFleetOutput>(xAmzTarget: "IoTAutobahnControlPlane.ListVehiclesInFleet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVehiclesInFleetInput, ListVehiclesInFleetOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.ListVehiclesInFleet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListVehiclesInFleetInput, ListVehiclesInFleetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListVehiclesInFleetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVehiclesInFleetInput, ListVehiclesInFleetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVehiclesInFleetOutput>())
@@ -3989,7 +3989,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutEncryptionConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutEncryptionConfigurationInput, PutEncryptionConfigurationOutput>(xAmzTarget: "IoTAutobahnControlPlane.PutEncryptionConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutEncryptionConfigurationInput, PutEncryptionConfigurationOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.PutEncryptionConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutEncryptionConfigurationInput, PutEncryptionConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutEncryptionConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutEncryptionConfigurationInput, PutEncryptionConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutEncryptionConfigurationOutput>())
@@ -4063,7 +4063,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutLoggingOptionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutLoggingOptionsInput, PutLoggingOptionsOutput>(xAmzTarget: "IoTAutobahnControlPlane.PutLoggingOptions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutLoggingOptionsInput, PutLoggingOptionsOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.PutLoggingOptions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutLoggingOptionsInput, PutLoggingOptionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutLoggingOptionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLoggingOptionsInput, PutLoggingOptionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutLoggingOptionsOutput>())
@@ -4137,7 +4137,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterAccountInput, RegisterAccountOutput>(xAmzTarget: "IoTAutobahnControlPlane.RegisterAccount"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterAccountInput, RegisterAccountOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.RegisterAccount"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RegisterAccountInput, RegisterAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterAccountInput, RegisterAccountOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterAccountOutput>())
@@ -4211,7 +4211,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "IoTAutobahnControlPlane.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -4285,7 +4285,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "IoTAutobahnControlPlane.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -4359,7 +4359,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCampaignOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateCampaignInput, UpdateCampaignOutput>(xAmzTarget: "IoTAutobahnControlPlane.UpdateCampaign"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCampaignInput, UpdateCampaignOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.UpdateCampaign"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateCampaignInput, UpdateCampaignOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCampaignInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCampaignInput, UpdateCampaignOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCampaignOutput>())
@@ -4435,7 +4435,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDecoderManifestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDecoderManifestInput, UpdateDecoderManifestOutput>(xAmzTarget: "IoTAutobahnControlPlane.UpdateDecoderManifest"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDecoderManifestInput, UpdateDecoderManifestOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.UpdateDecoderManifest"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDecoderManifestInput, UpdateDecoderManifestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDecoderManifestInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDecoderManifestInput, UpdateDecoderManifestOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDecoderManifestOutput>())
@@ -4509,7 +4509,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateFleetInput, UpdateFleetOutput>(xAmzTarget: "IoTAutobahnControlPlane.UpdateFleet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFleetInput, UpdateFleetOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.UpdateFleet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateFleetInput, UpdateFleetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFleetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetInput, UpdateFleetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFleetOutput>())
@@ -4584,7 +4584,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateModelManifestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateModelManifestInput, UpdateModelManifestOutput>(xAmzTarget: "IoTAutobahnControlPlane.UpdateModelManifest"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateModelManifestInput, UpdateModelManifestOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.UpdateModelManifest"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateModelManifestInput, UpdateModelManifestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateModelManifestInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateModelManifestInput, UpdateModelManifestOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateModelManifestOutput>())
@@ -4661,7 +4661,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSignalCatalogOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateSignalCatalogInput, UpdateSignalCatalogOutput>(xAmzTarget: "IoTAutobahnControlPlane.UpdateSignalCatalog"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSignalCatalogInput, UpdateSignalCatalogOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.UpdateSignalCatalog"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateSignalCatalogInput, UpdateSignalCatalogOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSignalCatalogInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSignalCatalogInput, UpdateSignalCatalogOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSignalCatalogOutput>())
@@ -4736,7 +4736,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateStateTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateStateTemplateInput, UpdateStateTemplateOutput>(xAmzTarget: "IoTAutobahnControlPlane.UpdateStateTemplate"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateStateTemplateInput, UpdateStateTemplateOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.UpdateStateTemplate"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateStateTemplateInput, UpdateStateTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateStateTemplateInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStateTemplateInput, UpdateStateTemplateOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateStateTemplateOutput>())
@@ -4811,7 +4811,7 @@ extension IoTFleetWiseClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateVehicleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateVehicleInput, UpdateVehicleOutput>(xAmzTarget: "IoTAutobahnControlPlane.UpdateVehicle"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateVehicleInput, UpdateVehicleOutput>(overrides: ["X-Amz-Target": "IoTAutobahnControlPlane.UpdateVehicle"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateVehicleInput, UpdateVehicleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateVehicleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateVehicleInput, UpdateVehicleOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateVehicleOutput>())

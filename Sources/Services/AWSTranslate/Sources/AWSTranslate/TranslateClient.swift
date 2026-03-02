@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -58,6 +57,7 @@ import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -668,7 +668,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateParallelDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateParallelDataInput, CreateParallelDataOutput>(xAmzTarget: "AWSShineFrontendService_20170701.CreateParallelData"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateParallelDataInput, CreateParallelDataOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.CreateParallelData"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateParallelDataInput, CreateParallelDataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateParallelDataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateParallelDataInput, CreateParallelDataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateParallelDataOutput>())
@@ -740,7 +740,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteParallelDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteParallelDataInput, DeleteParallelDataOutput>(xAmzTarget: "AWSShineFrontendService_20170701.DeleteParallelData"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteParallelDataInput, DeleteParallelDataOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.DeleteParallelData"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteParallelDataInput, DeleteParallelDataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteParallelDataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteParallelDataInput, DeleteParallelDataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteParallelDataOutput>())
@@ -812,7 +812,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTerminologyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTerminologyInput, DeleteTerminologyOutput>(xAmzTarget: "AWSShineFrontendService_20170701.DeleteTerminology"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTerminologyInput, DeleteTerminologyOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.DeleteTerminology"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTerminologyInput, DeleteTerminologyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTerminologyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTerminologyInput, DeleteTerminologyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTerminologyOutput>())
@@ -883,7 +883,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTextTranslationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutput>(xAmzTarget: "AWSShineFrontendService_20170701.DescribeTextTranslationJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.DescribeTextTranslationJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTextTranslationJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTextTranslationJobInput, DescribeTextTranslationJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTextTranslationJobOutput>())
@@ -955,7 +955,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetParallelDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetParallelDataInput, GetParallelDataOutput>(xAmzTarget: "AWSShineFrontendService_20170701.GetParallelData"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetParallelDataInput, GetParallelDataOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.GetParallelData"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetParallelDataInput, GetParallelDataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetParallelDataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetParallelDataInput, GetParallelDataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetParallelDataOutput>())
@@ -1027,7 +1027,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTerminologyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTerminologyInput, GetTerminologyOutput>(xAmzTarget: "AWSShineFrontendService_20170701.GetTerminology"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTerminologyInput, GetTerminologyOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.GetTerminology"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetTerminologyInput, GetTerminologyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTerminologyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTerminologyInput, GetTerminologyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTerminologyOutput>())
@@ -1101,7 +1101,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportTerminologyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ImportTerminologyInput, ImportTerminologyOutput>(xAmzTarget: "AWSShineFrontendService_20170701.ImportTerminology"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportTerminologyInput, ImportTerminologyOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.ImportTerminology"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ImportTerminologyInput, ImportTerminologyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportTerminologyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportTerminologyInput, ImportTerminologyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportTerminologyOutput>())
@@ -1173,7 +1173,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLanguagesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListLanguagesInput, ListLanguagesOutput>(xAmzTarget: "AWSShineFrontendService_20170701.ListLanguages"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLanguagesInput, ListLanguagesOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.ListLanguages"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListLanguagesInput, ListLanguagesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLanguagesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLanguagesInput, ListLanguagesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLanguagesOutput>())
@@ -1244,7 +1244,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListParallelDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListParallelDataInput, ListParallelDataOutput>(xAmzTarget: "AWSShineFrontendService_20170701.ListParallelData"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListParallelDataInput, ListParallelDataOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.ListParallelData"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListParallelDataInput, ListParallelDataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListParallelDataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListParallelDataInput, ListParallelDataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListParallelDataOutput>())
@@ -1315,7 +1315,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSShineFrontendService_20170701.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -1386,7 +1386,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTerminologiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTerminologiesInput, ListTerminologiesOutput>(xAmzTarget: "AWSShineFrontendService_20170701.ListTerminologies"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTerminologiesInput, ListTerminologiesOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.ListTerminologies"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTerminologiesInput, ListTerminologiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTerminologiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTerminologiesInput, ListTerminologiesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTerminologiesOutput>())
@@ -1458,7 +1458,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTextTranslationJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTextTranslationJobsInput, ListTextTranslationJobsOutput>(xAmzTarget: "AWSShineFrontendService_20170701.ListTextTranslationJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTextTranslationJobsInput, ListTextTranslationJobsOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.ListTextTranslationJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTextTranslationJobsInput, ListTextTranslationJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTextTranslationJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTextTranslationJobsInput, ListTextTranslationJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTextTranslationJobsOutput>())
@@ -1533,7 +1533,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartTextTranslationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutput>(xAmzTarget: "AWSShineFrontendService_20170701.StartTextTranslationJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.StartTextTranslationJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartTextTranslationJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTextTranslationJobInput, StartTextTranslationJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartTextTranslationJobOutput>())
@@ -1604,7 +1604,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopTextTranslationJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopTextTranslationJobInput, StopTextTranslationJobOutput>(xAmzTarget: "AWSShineFrontendService_20170701.StopTextTranslationJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopTextTranslationJobInput, StopTextTranslationJobOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.StopTextTranslationJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopTextTranslationJobInput, StopTextTranslationJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopTextTranslationJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopTextTranslationJobInput, StopTextTranslationJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopTextTranslationJobOutput>())
@@ -1677,7 +1677,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSShineFrontendService_20170701.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -1752,7 +1752,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TranslateDocumentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TranslateDocumentInput, TranslateDocumentOutput>(xAmzTarget: "AWSShineFrontendService_20170701.TranslateDocument"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TranslateDocumentInput, TranslateDocumentOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.TranslateDocument"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TranslateDocumentInput, TranslateDocumentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TranslateDocumentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TranslateDocumentInput, TranslateDocumentOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TranslateDocumentOutput>())
@@ -1828,7 +1828,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TranslateTextOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TranslateTextInput, TranslateTextOutput>(xAmzTarget: "AWSShineFrontendService_20170701.TranslateText"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TranslateTextInput, TranslateTextOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.TranslateText"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TranslateTextInput, TranslateTextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TranslateTextInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TranslateTextInput, TranslateTextOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TranslateTextOutput>())
@@ -1900,7 +1900,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSShineFrontendService_20170701.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -1977,7 +1977,7 @@ extension TranslateClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateParallelDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateParallelDataInput, UpdateParallelDataOutput>(xAmzTarget: "AWSShineFrontendService_20170701.UpdateParallelData"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateParallelDataInput, UpdateParallelDataOutput>(overrides: ["X-Amz-Target": "AWSShineFrontendService_20170701.UpdateParallelData"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateParallelDataInput, UpdateParallelDataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateParallelDataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateParallelDataInput, UpdateParallelDataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateParallelDataOutput>())

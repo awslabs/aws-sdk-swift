@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
@@ -663,7 +663,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCallAnalyticsCategoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>(xAmzTarget: "Transcribe.CreateCallAnalyticsCategory"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>(overrides: ["X-Amz-Target": "Transcribe.CreateCallAnalyticsCategory"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCallAnalyticsCategoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCallAnalyticsCategoryOutput>())
@@ -743,7 +743,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLanguageModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>(xAmzTarget: "Transcribe.CreateLanguageModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>(overrides: ["X-Amz-Target": "Transcribe.CreateLanguageModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLanguageModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLanguageModelOutput>())
@@ -815,7 +815,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateMedicalVocabularyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>(xAmzTarget: "Transcribe.CreateMedicalVocabulary"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>(overrides: ["X-Amz-Target": "Transcribe.CreateMedicalVocabulary"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateMedicalVocabularyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMedicalVocabularyOutput>())
@@ -887,7 +887,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVocabularyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateVocabularyInput, CreateVocabularyOutput>(xAmzTarget: "Transcribe.CreateVocabulary"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVocabularyInput, CreateVocabularyOutput>(overrides: ["X-Amz-Target": "Transcribe.CreateVocabulary"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateVocabularyInput, CreateVocabularyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVocabularyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVocabularyInput, CreateVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVocabularyOutput>())
@@ -959,7 +959,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVocabularyFilterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>(xAmzTarget: "Transcribe.CreateVocabularyFilter"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>(overrides: ["X-Amz-Target": "Transcribe.CreateVocabularyFilter"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVocabularyFilterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVocabularyFilterOutput>())
@@ -1031,7 +1031,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCallAnalyticsCategoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>(xAmzTarget: "Transcribe.DeleteCallAnalyticsCategory"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteCallAnalyticsCategory"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCallAnalyticsCategoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCallAnalyticsCategoryOutput>())
@@ -1102,7 +1102,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCallAnalyticsJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>(xAmzTarget: "Transcribe.DeleteCallAnalyticsJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteCallAnalyticsJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCallAnalyticsJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCallAnalyticsJobOutput>())
@@ -1173,7 +1173,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLanguageModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>(xAmzTarget: "Transcribe.DeleteLanguageModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteLanguageModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLanguageModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLanguageModelOutput>())
@@ -1244,7 +1244,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMedicalScribeJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>(xAmzTarget: "Transcribe.DeleteMedicalScribeJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteMedicalScribeJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMedicalScribeJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMedicalScribeJobOutput>())
@@ -1315,7 +1315,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMedicalTranscriptionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>(xAmzTarget: "Transcribe.DeleteMedicalTranscriptionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteMedicalTranscriptionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMedicalTranscriptionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMedicalTranscriptionJobOutput>())
@@ -1387,7 +1387,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMedicalVocabularyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>(xAmzTarget: "Transcribe.DeleteMedicalVocabulary"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteMedicalVocabulary"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMedicalVocabularyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMedicalVocabularyOutput>())
@@ -1458,7 +1458,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTranscriptionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>(xAmzTarget: "Transcribe.DeleteTranscriptionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteTranscriptionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTranscriptionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTranscriptionJobOutput>())
@@ -1530,7 +1530,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVocabularyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>(xAmzTarget: "Transcribe.DeleteVocabulary"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteVocabulary"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVocabularyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVocabularyOutput>())
@@ -1602,7 +1602,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVocabularyFilterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>(xAmzTarget: "Transcribe.DeleteVocabularyFilter"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteVocabularyFilter"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVocabularyFilterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVocabularyFilterOutput>())
@@ -1674,7 +1674,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLanguageModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>(xAmzTarget: "Transcribe.DescribeLanguageModel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>(overrides: ["X-Amz-Target": "Transcribe.DescribeLanguageModel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLanguageModelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLanguageModelOutput>())
@@ -1746,7 +1746,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCallAnalyticsCategoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>(xAmzTarget: "Transcribe.GetCallAnalyticsCategory"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>(overrides: ["X-Amz-Target": "Transcribe.GetCallAnalyticsCategory"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCallAnalyticsCategoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCallAnalyticsCategoryOutput>())
@@ -1818,7 +1818,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCallAnalyticsJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>(xAmzTarget: "Transcribe.GetCallAnalyticsJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>(overrides: ["X-Amz-Target": "Transcribe.GetCallAnalyticsJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCallAnalyticsJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCallAnalyticsJobOutput>())
@@ -1890,7 +1890,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMedicalScribeJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>(xAmzTarget: "Transcribe.GetMedicalScribeJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>(overrides: ["X-Amz-Target": "Transcribe.GetMedicalScribeJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetMedicalScribeJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMedicalScribeJobOutput>())
@@ -1962,7 +1962,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMedicalTranscriptionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>(xAmzTarget: "Transcribe.GetMedicalTranscriptionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>(overrides: ["X-Amz-Target": "Transcribe.GetMedicalTranscriptionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetMedicalTranscriptionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMedicalTranscriptionJobOutput>())
@@ -2034,7 +2034,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMedicalVocabularyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>(xAmzTarget: "Transcribe.GetMedicalVocabulary"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>(overrides: ["X-Amz-Target": "Transcribe.GetMedicalVocabulary"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetMedicalVocabularyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMedicalVocabularyOutput>())
@@ -2106,7 +2106,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTranscriptionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>(xAmzTarget: "Transcribe.GetTranscriptionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>(overrides: ["X-Amz-Target": "Transcribe.GetTranscriptionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTranscriptionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTranscriptionJobOutput>())
@@ -2178,7 +2178,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetVocabularyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetVocabularyInput, GetVocabularyOutput>(xAmzTarget: "Transcribe.GetVocabulary"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetVocabularyInput, GetVocabularyOutput>(overrides: ["X-Amz-Target": "Transcribe.GetVocabulary"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetVocabularyInput, GetVocabularyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetVocabularyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVocabularyInput, GetVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetVocabularyOutput>())
@@ -2250,7 +2250,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetVocabularyFilterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>(xAmzTarget: "Transcribe.GetVocabularyFilter"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>(overrides: ["X-Amz-Target": "Transcribe.GetVocabularyFilter"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetVocabularyFilterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetVocabularyFilterOutput>())
@@ -2322,7 +2322,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCallAnalyticsCategoriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>(xAmzTarget: "Transcribe.ListCallAnalyticsCategories"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>(overrides: ["X-Amz-Target": "Transcribe.ListCallAnalyticsCategories"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCallAnalyticsCategoriesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCallAnalyticsCategoriesOutput>())
@@ -2394,7 +2394,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCallAnalyticsJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>(xAmzTarget: "Transcribe.ListCallAnalyticsJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>(overrides: ["X-Amz-Target": "Transcribe.ListCallAnalyticsJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCallAnalyticsJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCallAnalyticsJobsOutput>())
@@ -2466,7 +2466,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLanguageModelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>(xAmzTarget: "Transcribe.ListLanguageModels"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>(overrides: ["X-Amz-Target": "Transcribe.ListLanguageModels"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLanguageModelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLanguageModelsOutput>())
@@ -2538,7 +2538,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMedicalScribeJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>(xAmzTarget: "Transcribe.ListMedicalScribeJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>(overrides: ["X-Amz-Target": "Transcribe.ListMedicalScribeJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMedicalScribeJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMedicalScribeJobsOutput>())
@@ -2610,7 +2610,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMedicalTranscriptionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>(xAmzTarget: "Transcribe.ListMedicalTranscriptionJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>(overrides: ["X-Amz-Target": "Transcribe.ListMedicalTranscriptionJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMedicalTranscriptionJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMedicalTranscriptionJobsOutput>())
@@ -2682,7 +2682,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMedicalVocabulariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>(xAmzTarget: "Transcribe.ListMedicalVocabularies"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>(overrides: ["X-Amz-Target": "Transcribe.ListMedicalVocabularies"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMedicalVocabulariesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMedicalVocabulariesOutput>())
@@ -2754,7 +2754,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "Transcribe.ListTagsForResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "Transcribe.ListTagsForResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
@@ -2826,7 +2826,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTranscriptionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>(xAmzTarget: "Transcribe.ListTranscriptionJobs"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>(overrides: ["X-Amz-Target": "Transcribe.ListTranscriptionJobs"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTranscriptionJobsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTranscriptionJobsOutput>())
@@ -2898,7 +2898,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVocabulariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListVocabulariesInput, ListVocabulariesOutput>(xAmzTarget: "Transcribe.ListVocabularies"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVocabulariesInput, ListVocabulariesOutput>(overrides: ["X-Amz-Target": "Transcribe.ListVocabularies"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListVocabulariesInput, ListVocabulariesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListVocabulariesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVocabulariesInput, ListVocabulariesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVocabulariesOutput>())
@@ -2970,7 +2970,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVocabularyFiltersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>(xAmzTarget: "Transcribe.ListVocabularyFilters"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>(overrides: ["X-Amz-Target": "Transcribe.ListVocabularyFilters"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListVocabularyFiltersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVocabularyFiltersOutput>())
@@ -3051,7 +3051,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartCallAnalyticsJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>(xAmzTarget: "Transcribe.StartCallAnalyticsJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>(overrides: ["X-Amz-Target": "Transcribe.StartCallAnalyticsJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartCallAnalyticsJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCallAnalyticsJobOutput>())
@@ -3135,7 +3135,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMedicalScribeJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>(xAmzTarget: "Transcribe.StartMedicalScribeJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>(overrides: ["X-Amz-Target": "Transcribe.StartMedicalScribeJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMedicalScribeJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMedicalScribeJobOutput>())
@@ -3221,7 +3221,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMedicalTranscriptionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>(xAmzTarget: "Transcribe.StartMedicalTranscriptionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>(overrides: ["X-Amz-Target": "Transcribe.StartMedicalTranscriptionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMedicalTranscriptionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMedicalTranscriptionJobOutput>())
@@ -3301,7 +3301,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartTranscriptionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>(xAmzTarget: "Transcribe.StartTranscriptionJob"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>(overrides: ["X-Amz-Target": "Transcribe.StartTranscriptionJob"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartTranscriptionJobInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartTranscriptionJobOutput>())
@@ -3374,7 +3374,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "Transcribe.TagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "Transcribe.TagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
@@ -3448,7 +3448,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "Transcribe.UntagResource"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "Transcribe.UntagResource"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
@@ -3521,7 +3521,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCallAnalyticsCategoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>(xAmzTarget: "Transcribe.UpdateCallAnalyticsCategory"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>(overrides: ["X-Amz-Target": "Transcribe.UpdateCallAnalyticsCategory"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCallAnalyticsCategoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCallAnalyticsCategoryOutput>())
@@ -3594,7 +3594,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateMedicalVocabularyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>(xAmzTarget: "Transcribe.UpdateMedicalVocabulary"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>(overrides: ["X-Amz-Target": "Transcribe.UpdateMedicalVocabulary"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateMedicalVocabularyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMedicalVocabularyOutput>())
@@ -3667,7 +3667,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateVocabularyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>(xAmzTarget: "Transcribe.UpdateVocabulary"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>(overrides: ["X-Amz-Target": "Transcribe.UpdateVocabulary"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateVocabularyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateVocabularyOutput>())
@@ -3739,7 +3739,7 @@ extension TranscribeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateVocabularyFilterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>(xAmzTarget: "Transcribe.UpdateVocabularyFilter"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>(overrides: ["X-Amz-Target": "Transcribe.UpdateVocabularyFilter"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateVocabularyFilterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateVocabularyFilterOutput>())

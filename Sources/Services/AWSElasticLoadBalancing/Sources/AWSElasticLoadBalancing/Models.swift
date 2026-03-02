@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSQueryError
 
 extension ElasticLoadBalancingClientTypes {
 
@@ -2858,7 +2858,7 @@ enum AddTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -2874,7 +2874,7 @@ enum ApplySecurityGroupsToLoadBalancerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -2890,7 +2890,7 @@ enum AttachLoadBalancerToSubnetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -2907,7 +2907,7 @@ enum ConfigureHealthCheckOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -2921,7 +2921,7 @@ enum CreateAppCookieStickinessPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -2938,7 +2938,7 @@ enum CreateLBCookieStickinessPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -2955,7 +2955,7 @@ enum CreateLoadBalancerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CertificateNotFound": return try CertificateNotFoundException.makeError(baseError: baseError)
@@ -2980,7 +2980,7 @@ enum CreateLoadBalancerListenersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -2998,7 +2998,7 @@ enum CreateLoadBalancerPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3016,7 +3016,7 @@ enum DeleteLoadBalancerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3029,7 +3029,7 @@ enum DeleteLoadBalancerListenersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3043,7 +3043,7 @@ enum DeleteLoadBalancerPolicyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3058,7 +3058,7 @@ enum DeregisterInstancesFromLoadBalancerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3073,7 +3073,7 @@ enum DescribeAccountLimitsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3086,7 +3086,7 @@ enum DescribeInstanceHealthOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3101,7 +3101,7 @@ enum DescribeLoadBalancerAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3116,7 +3116,7 @@ enum DescribeLoadBalancerPoliciesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3131,7 +3131,7 @@ enum DescribeLoadBalancerPolicyTypesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "PolicyTypeNotFound": return try PolicyTypeNotFoundException.makeError(baseError: baseError)
@@ -3145,7 +3145,7 @@ enum DescribeLoadBalancersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3160,7 +3160,7 @@ enum DescribeTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3174,7 +3174,7 @@ enum DetachLoadBalancerFromSubnetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3189,7 +3189,7 @@ enum DisableAvailabilityZonesForLoadBalancerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3204,7 +3204,7 @@ enum EnableAvailabilityZonesForLoadBalancerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3218,7 +3218,7 @@ enum ModifyLoadBalancerAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3234,7 +3234,7 @@ enum RegisterInstancesWithLoadBalancerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3249,7 +3249,7 @@ enum RemoveTagsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3263,7 +3263,7 @@ enum SetLoadBalancerListenerSSLCertificateOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3281,7 +3281,7 @@ enum SetLoadBalancerPoliciesForBackendServerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3297,7 +3297,7 @@ enum SetLoadBalancerPoliciesOfListenerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LoadBalancerNotFound": return try AccessPointNotFoundException.makeError(baseError: baseError)
@@ -3311,7 +3311,7 @@ enum SetLoadBalancerPoliciesOfListenerOutputError {
 
 extension AccessPointNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AccessPointNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AccessPointNotFoundException {
         let reader = baseError.errorBodyReader
         var value = AccessPointNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3324,7 +3324,7 @@ extension AccessPointNotFoundException {
 
 extension DuplicateTagKeysException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateTagKeysException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DuplicateTagKeysException {
         let reader = baseError.errorBodyReader
         var value = DuplicateTagKeysException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3337,7 +3337,7 @@ extension DuplicateTagKeysException {
 
 extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyTagsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
         var value = TooManyTagsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3350,7 +3350,7 @@ extension TooManyTagsException {
 
 extension InvalidConfigurationRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidConfigurationRequestException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidConfigurationRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidConfigurationRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3363,7 +3363,7 @@ extension InvalidConfigurationRequestException {
 
 extension InvalidSecurityGroupException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSecurityGroupException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidSecurityGroupException {
         let reader = baseError.errorBodyReader
         var value = InvalidSecurityGroupException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3376,7 +3376,7 @@ extension InvalidSecurityGroupException {
 
 extension InvalidSubnetException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSubnetException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidSubnetException {
         let reader = baseError.errorBodyReader
         var value = InvalidSubnetException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3389,7 +3389,7 @@ extension InvalidSubnetException {
 
 extension SubnetNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubnetNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SubnetNotFoundException {
         let reader = baseError.errorBodyReader
         var value = SubnetNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3402,7 +3402,7 @@ extension SubnetNotFoundException {
 
 extension DuplicatePolicyNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicatePolicyNameException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DuplicatePolicyNameException {
         let reader = baseError.errorBodyReader
         var value = DuplicatePolicyNameException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3415,7 +3415,7 @@ extension DuplicatePolicyNameException {
 
 extension TooManyPoliciesException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyPoliciesException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyPoliciesException {
         let reader = baseError.errorBodyReader
         var value = TooManyPoliciesException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3428,7 +3428,7 @@ extension TooManyPoliciesException {
 
 extension CertificateNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CertificateNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CertificateNotFoundException {
         let reader = baseError.errorBodyReader
         var value = CertificateNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3441,7 +3441,7 @@ extension CertificateNotFoundException {
 
 extension DuplicateAccessPointNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateAccessPointNameException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DuplicateAccessPointNameException {
         let reader = baseError.errorBodyReader
         var value = DuplicateAccessPointNameException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3454,7 +3454,7 @@ extension DuplicateAccessPointNameException {
 
 extension InvalidSchemeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSchemeException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidSchemeException {
         let reader = baseError.errorBodyReader
         var value = InvalidSchemeException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3467,7 +3467,7 @@ extension InvalidSchemeException {
 
 extension OperationNotPermittedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationNotPermittedException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> OperationNotPermittedException {
         let reader = baseError.errorBodyReader
         var value = OperationNotPermittedException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3480,7 +3480,7 @@ extension OperationNotPermittedException {
 
 extension TooManyAccessPointsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TooManyAccessPointsException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TooManyAccessPointsException {
         let reader = baseError.errorBodyReader
         var value = TooManyAccessPointsException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3493,7 +3493,7 @@ extension TooManyAccessPointsException {
 
 extension UnsupportedProtocolException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnsupportedProtocolException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UnsupportedProtocolException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedProtocolException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3506,7 +3506,7 @@ extension UnsupportedProtocolException {
 
 extension DuplicateListenerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DuplicateListenerException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DuplicateListenerException {
         let reader = baseError.errorBodyReader
         var value = DuplicateListenerException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3519,7 +3519,7 @@ extension DuplicateListenerException {
 
 extension PolicyTypeNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PolicyTypeNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> PolicyTypeNotFoundException {
         let reader = baseError.errorBodyReader
         var value = PolicyTypeNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3532,7 +3532,7 @@ extension PolicyTypeNotFoundException {
 
 extension InvalidEndPointException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidEndPointException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidEndPointException {
         let reader = baseError.errorBodyReader
         var value = InvalidEndPointException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3545,7 +3545,7 @@ extension InvalidEndPointException {
 
 extension LoadBalancerAttributeNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> LoadBalancerAttributeNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> LoadBalancerAttributeNotFoundException {
         let reader = baseError.errorBodyReader
         var value = LoadBalancerAttributeNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3558,7 +3558,7 @@ extension LoadBalancerAttributeNotFoundException {
 
 extension PolicyNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PolicyNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> PolicyNotFoundException {
         let reader = baseError.errorBodyReader
         var value = PolicyNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3571,7 +3571,7 @@ extension PolicyNotFoundException {
 
 extension DependencyThrottleException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DependencyThrottleException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DependencyThrottleException {
         let reader = baseError.errorBodyReader
         var value = DependencyThrottleException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -3584,7 +3584,7 @@ extension DependencyThrottleException {
 
 extension ListenerNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ListenerNotFoundException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ListenerNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ListenerNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()

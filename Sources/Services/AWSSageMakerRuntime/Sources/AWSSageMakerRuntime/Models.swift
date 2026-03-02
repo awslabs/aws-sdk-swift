@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct SmithyEventStreams.DefaultMessageDecoderStream
 import struct SmithyEventStreamsAPI.Message
 import struct SmithyHTTPAPI.Header
@@ -749,7 +749,7 @@ enum InvokeEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalDependencyException": return try InternalDependencyException.makeError(baseError: baseError)
@@ -768,7 +768,7 @@ enum InvokeEndpointAsyncOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailure": return try InternalFailure.makeError(baseError: baseError)
@@ -784,7 +784,7 @@ enum InvokeEndpointWithResponseStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalFailure": return try InternalFailure.makeError(baseError: baseError)
@@ -800,7 +800,7 @@ enum InvokeEndpointWithResponseStreamOutputError {
 
 extension InternalDependencyException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalDependencyException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalDependencyException {
         let reader = baseError.errorBodyReader
         var value = InternalDependencyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -813,7 +813,7 @@ extension InternalDependencyException {
 
 extension InternalFailure {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailure {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalFailure {
         let reader = baseError.errorBodyReader
         var value = InternalFailure()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -826,7 +826,7 @@ extension InternalFailure {
 
 extension ModelError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ModelError {
         let reader = baseError.errorBodyReader
         var value = ModelError()
         value.properties.logStreamArn = try reader["LogStreamArn"].readIfPresent()
@@ -842,7 +842,7 @@ extension ModelError {
 
 extension ModelNotReadyException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelNotReadyException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ModelNotReadyException {
         let reader = baseError.errorBodyReader
         var value = ModelNotReadyException()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -855,7 +855,7 @@ extension ModelNotReadyException {
 
 extension ServiceUnavailable {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailable {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailable {
         let reader = baseError.errorBodyReader
         var value = ServiceUnavailable()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -868,7 +868,7 @@ extension ServiceUnavailable {
 
 extension ValidationError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationError {
         let reader = baseError.errorBodyReader
         var value = ValidationError()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -881,7 +881,7 @@ extension ValidationError {
 
 extension InternalStreamFailure {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalStreamFailure {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalStreamFailure {
         let reader = baseError.errorBodyReader
         var value = InternalStreamFailure()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -894,7 +894,7 @@ extension InternalStreamFailure {
 
 extension ModelStreamError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelStreamError {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ModelStreamError {
         let reader = baseError.errorBodyReader
         var value = ModelStreamError()
         value.properties.errorCode = try reader["ErrorCode"].readIfPresent()

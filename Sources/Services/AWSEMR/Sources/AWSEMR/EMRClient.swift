@@ -49,7 +49,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -57,6 +56,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.MutateHeadersMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
 import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
@@ -660,7 +660,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddInstanceFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AddInstanceFleetInput, AddInstanceFleetOutput>(xAmzTarget: "ElasticMapReduce.AddInstanceFleet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddInstanceFleetInput, AddInstanceFleetOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.AddInstanceFleet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AddInstanceFleetInput, AddInstanceFleetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddInstanceFleetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddInstanceFleetInput, AddInstanceFleetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddInstanceFleetOutput>())
@@ -729,7 +729,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddInstanceGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AddInstanceGroupsInput, AddInstanceGroupsOutput>(xAmzTarget: "ElasticMapReduce.AddInstanceGroups"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddInstanceGroupsInput, AddInstanceGroupsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.AddInstanceGroups"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AddInstanceGroupsInput, AddInstanceGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddInstanceGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddInstanceGroupsInput, AddInstanceGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddInstanceGroupsOutput>())
@@ -798,7 +798,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddJobFlowStepsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AddJobFlowStepsInput, AddJobFlowStepsOutput>(xAmzTarget: "ElasticMapReduce.AddJobFlowSteps"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddJobFlowStepsInput, AddJobFlowStepsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.AddJobFlowSteps"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AddJobFlowStepsInput, AddJobFlowStepsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddJobFlowStepsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddJobFlowStepsInput, AddJobFlowStepsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddJobFlowStepsOutput>())
@@ -868,7 +868,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AddTagsInput, AddTagsOutput>(xAmzTarget: "ElasticMapReduce.AddTags"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddTagsInput, AddTagsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.AddTags"]))
         builder.serialize(ClientRuntime.BodyMiddleware<AddTagsInput, AddTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddTagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddTagsInput, AddTagsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddTagsOutput>())
@@ -938,7 +938,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelStepsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelStepsInput, CancelStepsOutput>(xAmzTarget: "ElasticMapReduce.CancelSteps"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelStepsInput, CancelStepsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.CancelSteps"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelStepsInput, CancelStepsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelStepsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelStepsInput, CancelStepsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelStepsOutput>())
@@ -1008,7 +1008,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePersistentAppUIOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePersistentAppUIInput, CreatePersistentAppUIOutput>(xAmzTarget: "ElasticMapReduce.CreatePersistentAppUI"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreatePersistentAppUIInput, CreatePersistentAppUIOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.CreatePersistentAppUI"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePersistentAppUIInput, CreatePersistentAppUIOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePersistentAppUIInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePersistentAppUIInput, CreatePersistentAppUIOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePersistentAppUIOutput>())
@@ -1078,7 +1078,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSecurityConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>(xAmzTarget: "ElasticMapReduce.CreateSecurityConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.CreateSecurityConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSecurityConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSecurityConfigurationOutput>())
@@ -1148,7 +1148,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateStudioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateStudioInput, CreateStudioOutput>(xAmzTarget: "ElasticMapReduce.CreateStudio"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateStudioInput, CreateStudioOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.CreateStudio"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateStudioInput, CreateStudioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateStudioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStudioInput, CreateStudioOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateStudioOutput>())
@@ -1218,7 +1218,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateStudioSessionMappingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateStudioSessionMappingInput, CreateStudioSessionMappingOutput>(xAmzTarget: "ElasticMapReduce.CreateStudioSessionMapping"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateStudioSessionMappingInput, CreateStudioSessionMappingOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.CreateStudioSessionMapping"]))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateStudioSessionMappingInput, CreateStudioSessionMappingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateStudioSessionMappingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStudioSessionMappingInput, CreateStudioSessionMappingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateStudioSessionMappingOutput>())
@@ -1288,7 +1288,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSecurityConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput>(xAmzTarget: "ElasticMapReduce.DeleteSecurityConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.DeleteSecurityConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteSecurityConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSecurityConfigurationOutput>())
@@ -1358,7 +1358,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteStudioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteStudioInput, DeleteStudioOutput>(xAmzTarget: "ElasticMapReduce.DeleteStudio"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteStudioInput, DeleteStudioOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.DeleteStudio"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteStudioInput, DeleteStudioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteStudioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteStudioInput, DeleteStudioOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteStudioOutput>())
@@ -1428,7 +1428,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteStudioSessionMappingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteStudioSessionMappingInput, DeleteStudioSessionMappingOutput>(xAmzTarget: "ElasticMapReduce.DeleteStudioSessionMapping"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteStudioSessionMappingInput, DeleteStudioSessionMappingOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.DeleteStudioSessionMapping"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteStudioSessionMappingInput, DeleteStudioSessionMappingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteStudioSessionMappingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteStudioSessionMappingInput, DeleteStudioSessionMappingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteStudioSessionMappingOutput>())
@@ -1498,7 +1498,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeClusterInput, DescribeClusterOutput>(xAmzTarget: "ElasticMapReduce.DescribeCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeClusterInput, DescribeClusterOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.DescribeCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeClusterInput, DescribeClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeClusterInput, DescribeClusterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeClusterOutput>())
@@ -1575,7 +1575,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeJobFlowsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeJobFlowsInput, DescribeJobFlowsOutput>(xAmzTarget: "ElasticMapReduce.DescribeJobFlows"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeJobFlowsInput, DescribeJobFlowsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.DescribeJobFlows"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeJobFlowsInput, DescribeJobFlowsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeJobFlowsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeJobFlowsInput, DescribeJobFlowsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeJobFlowsOutput>())
@@ -1645,7 +1645,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeNotebookExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeNotebookExecutionInput, DescribeNotebookExecutionOutput>(xAmzTarget: "ElasticMapReduce.DescribeNotebookExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeNotebookExecutionInput, DescribeNotebookExecutionOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.DescribeNotebookExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeNotebookExecutionInput, DescribeNotebookExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeNotebookExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeNotebookExecutionInput, DescribeNotebookExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeNotebookExecutionOutput>())
@@ -1715,7 +1715,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePersistentAppUIOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePersistentAppUIInput, DescribePersistentAppUIOutput>(xAmzTarget: "ElasticMapReduce.DescribePersistentAppUI"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribePersistentAppUIInput, DescribePersistentAppUIOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.DescribePersistentAppUI"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePersistentAppUIInput, DescribePersistentAppUIOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePersistentAppUIInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePersistentAppUIInput, DescribePersistentAppUIOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePersistentAppUIOutput>())
@@ -1785,7 +1785,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeReleaseLabelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeReleaseLabelInput, DescribeReleaseLabelOutput>(xAmzTarget: "ElasticMapReduce.DescribeReleaseLabel"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeReleaseLabelInput, DescribeReleaseLabelOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.DescribeReleaseLabel"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeReleaseLabelInput, DescribeReleaseLabelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeReleaseLabelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeReleaseLabelInput, DescribeReleaseLabelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeReleaseLabelOutput>())
@@ -1855,7 +1855,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSecurityConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutput>(xAmzTarget: "ElasticMapReduce.DescribeSecurityConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.DescribeSecurityConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSecurityConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSecurityConfigurationOutput>())
@@ -1925,7 +1925,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeStepOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeStepInput, DescribeStepOutput>(xAmzTarget: "ElasticMapReduce.DescribeStep"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeStepInput, DescribeStepOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.DescribeStep"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeStepInput, DescribeStepOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStepInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStepInput, DescribeStepOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStepOutput>())
@@ -1995,7 +1995,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeStudioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeStudioInput, DescribeStudioOutput>(xAmzTarget: "ElasticMapReduce.DescribeStudio"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeStudioInput, DescribeStudioOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.DescribeStudio"]))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeStudioInput, DescribeStudioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeStudioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeStudioInput, DescribeStudioOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeStudioOutput>())
@@ -2059,7 +2059,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAutoTerminationPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAutoTerminationPolicyInput, GetAutoTerminationPolicyOutput>(xAmzTarget: "ElasticMapReduce.GetAutoTerminationPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAutoTerminationPolicyInput, GetAutoTerminationPolicyOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.GetAutoTerminationPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetAutoTerminationPolicyInput, GetAutoTerminationPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAutoTerminationPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAutoTerminationPolicyInput, GetAutoTerminationPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAutoTerminationPolicyOutput>())
@@ -2129,7 +2129,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBlockPublicAccessConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetBlockPublicAccessConfigurationInput, GetBlockPublicAccessConfigurationOutput>(xAmzTarget: "ElasticMapReduce.GetBlockPublicAccessConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBlockPublicAccessConfigurationInput, GetBlockPublicAccessConfigurationOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.GetBlockPublicAccessConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetBlockPublicAccessConfigurationInput, GetBlockPublicAccessConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetBlockPublicAccessConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBlockPublicAccessConfigurationInput, GetBlockPublicAccessConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBlockPublicAccessConfigurationOutput>())
@@ -2199,7 +2199,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetClusterSessionCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetClusterSessionCredentialsInput, GetClusterSessionCredentialsOutput>(xAmzTarget: "ElasticMapReduce.GetClusterSessionCredentials"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetClusterSessionCredentialsInput, GetClusterSessionCredentialsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.GetClusterSessionCredentials"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetClusterSessionCredentialsInput, GetClusterSessionCredentialsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetClusterSessionCredentialsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetClusterSessionCredentialsInput, GetClusterSessionCredentialsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetClusterSessionCredentialsOutput>())
@@ -2263,7 +2263,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetManagedScalingPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetManagedScalingPolicyInput, GetManagedScalingPolicyOutput>(xAmzTarget: "ElasticMapReduce.GetManagedScalingPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetManagedScalingPolicyInput, GetManagedScalingPolicyOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.GetManagedScalingPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetManagedScalingPolicyInput, GetManagedScalingPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetManagedScalingPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetManagedScalingPolicyInput, GetManagedScalingPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetManagedScalingPolicyOutput>())
@@ -2333,7 +2333,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOnClusterAppUIPresignedURLOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetOnClusterAppUIPresignedURLInput, GetOnClusterAppUIPresignedURLOutput>(xAmzTarget: "ElasticMapReduce.GetOnClusterAppUIPresignedURL"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOnClusterAppUIPresignedURLInput, GetOnClusterAppUIPresignedURLOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.GetOnClusterAppUIPresignedURL"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetOnClusterAppUIPresignedURLInput, GetOnClusterAppUIPresignedURLOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOnClusterAppUIPresignedURLInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOnClusterAppUIPresignedURLInput, GetOnClusterAppUIPresignedURLOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOnClusterAppUIPresignedURLOutput>())
@@ -2403,7 +2403,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPersistentAppUIPresignedURLOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetPersistentAppUIPresignedURLInput, GetPersistentAppUIPresignedURLOutput>(xAmzTarget: "ElasticMapReduce.GetPersistentAppUIPresignedURL"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetPersistentAppUIPresignedURLInput, GetPersistentAppUIPresignedURLOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.GetPersistentAppUIPresignedURL"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetPersistentAppUIPresignedURLInput, GetPersistentAppUIPresignedURLOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPersistentAppUIPresignedURLInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPersistentAppUIPresignedURLInput, GetPersistentAppUIPresignedURLOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPersistentAppUIPresignedURLOutput>())
@@ -2473,7 +2473,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetStudioSessionMappingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetStudioSessionMappingInput, GetStudioSessionMappingOutput>(xAmzTarget: "ElasticMapReduce.GetStudioSessionMapping"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetStudioSessionMappingInput, GetStudioSessionMappingOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.GetStudioSessionMapping"]))
         builder.serialize(ClientRuntime.BodyMiddleware<GetStudioSessionMappingInput, GetStudioSessionMappingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetStudioSessionMappingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetStudioSessionMappingInput, GetStudioSessionMappingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetStudioSessionMappingOutput>())
@@ -2543,7 +2543,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBootstrapActionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBootstrapActionsInput, ListBootstrapActionsOutput>(xAmzTarget: "ElasticMapReduce.ListBootstrapActions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBootstrapActionsInput, ListBootstrapActionsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.ListBootstrapActions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBootstrapActionsInput, ListBootstrapActionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBootstrapActionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBootstrapActionsInput, ListBootstrapActionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBootstrapActionsOutput>())
@@ -2613,7 +2613,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListClustersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListClustersInput, ListClustersOutput>(xAmzTarget: "ElasticMapReduce.ListClusters"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListClustersInput, ListClustersOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.ListClusters"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListClustersInput, ListClustersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListClustersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListClustersInput, ListClustersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListClustersOutput>())
@@ -2683,7 +2683,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInstanceFleetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListInstanceFleetsInput, ListInstanceFleetsOutput>(xAmzTarget: "ElasticMapReduce.ListInstanceFleets"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListInstanceFleetsInput, ListInstanceFleetsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.ListInstanceFleets"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListInstanceFleetsInput, ListInstanceFleetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInstanceFleetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInstanceFleetsInput, ListInstanceFleetsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInstanceFleetsOutput>())
@@ -2753,7 +2753,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInstanceGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListInstanceGroupsInput, ListInstanceGroupsOutput>(xAmzTarget: "ElasticMapReduce.ListInstanceGroups"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListInstanceGroupsInput, ListInstanceGroupsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.ListInstanceGroups"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListInstanceGroupsInput, ListInstanceGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInstanceGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInstanceGroupsInput, ListInstanceGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInstanceGroupsOutput>())
@@ -2823,7 +2823,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListInstancesInput, ListInstancesOutput>(xAmzTarget: "ElasticMapReduce.ListInstances"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListInstancesInput, ListInstancesOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.ListInstances"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListInstancesInput, ListInstancesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInstancesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInstancesInput, ListInstancesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInstancesOutput>())
@@ -2893,7 +2893,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListNotebookExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListNotebookExecutionsInput, ListNotebookExecutionsOutput>(xAmzTarget: "ElasticMapReduce.ListNotebookExecutions"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListNotebookExecutionsInput, ListNotebookExecutionsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.ListNotebookExecutions"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListNotebookExecutionsInput, ListNotebookExecutionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListNotebookExecutionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListNotebookExecutionsInput, ListNotebookExecutionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListNotebookExecutionsOutput>())
@@ -2963,7 +2963,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListReleaseLabelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListReleaseLabelsInput, ListReleaseLabelsOutput>(xAmzTarget: "ElasticMapReduce.ListReleaseLabels"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReleaseLabelsInput, ListReleaseLabelsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.ListReleaseLabels"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListReleaseLabelsInput, ListReleaseLabelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListReleaseLabelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReleaseLabelsInput, ListReleaseLabelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListReleaseLabelsOutput>())
@@ -3033,7 +3033,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSecurityConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput>(xAmzTarget: "ElasticMapReduce.ListSecurityConfigurations"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.ListSecurityConfigurations"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSecurityConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSecurityConfigurationsOutput>())
@@ -3103,7 +3103,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListStepsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStepsInput, ListStepsOutput>(xAmzTarget: "ElasticMapReduce.ListSteps"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListStepsInput, ListStepsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.ListSteps"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListStepsInput, ListStepsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStepsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStepsInput, ListStepsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStepsOutput>())
@@ -3173,7 +3173,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListStudioSessionMappingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutput>(xAmzTarget: "ElasticMapReduce.ListStudioSessionMappings"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.ListStudioSessionMappings"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStudioSessionMappingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStudioSessionMappingsOutput>())
@@ -3243,7 +3243,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListStudiosOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStudiosInput, ListStudiosOutput>(xAmzTarget: "ElasticMapReduce.ListStudios"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListStudiosInput, ListStudiosOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.ListStudios"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListStudiosInput, ListStudiosOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStudiosInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStudiosInput, ListStudiosOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStudiosOutput>())
@@ -3313,7 +3313,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSupportedInstanceTypesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutput>(xAmzTarget: "ElasticMapReduce.ListSupportedInstanceTypes"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.ListSupportedInstanceTypes"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSupportedInstanceTypesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSupportedInstanceTypesOutput>())
@@ -3383,7 +3383,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ModifyClusterInput, ModifyClusterOutput>(xAmzTarget: "ElasticMapReduce.ModifyCluster"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ModifyClusterInput, ModifyClusterOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.ModifyCluster"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ModifyClusterInput, ModifyClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyClusterInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyClusterInput, ModifyClusterOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyClusterOutput>())
@@ -3453,7 +3453,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyInstanceFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ModifyInstanceFleetInput, ModifyInstanceFleetOutput>(xAmzTarget: "ElasticMapReduce.ModifyInstanceFleet"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ModifyInstanceFleetInput, ModifyInstanceFleetOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.ModifyInstanceFleet"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ModifyInstanceFleetInput, ModifyInstanceFleetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyInstanceFleetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyInstanceFleetInput, ModifyInstanceFleetOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyInstanceFleetOutput>())
@@ -3522,7 +3522,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyInstanceGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ModifyInstanceGroupsInput, ModifyInstanceGroupsOutput>(xAmzTarget: "ElasticMapReduce.ModifyInstanceGroups"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ModifyInstanceGroupsInput, ModifyInstanceGroupsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.ModifyInstanceGroups"]))
         builder.serialize(ClientRuntime.BodyMiddleware<ModifyInstanceGroupsInput, ModifyInstanceGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyInstanceGroupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyInstanceGroupsInput, ModifyInstanceGroupsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyInstanceGroupsOutput>())
@@ -3586,7 +3586,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAutoScalingPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutAutoScalingPolicyInput, PutAutoScalingPolicyOutput>(xAmzTarget: "ElasticMapReduce.PutAutoScalingPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAutoScalingPolicyInput, PutAutoScalingPolicyOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.PutAutoScalingPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutAutoScalingPolicyInput, PutAutoScalingPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAutoScalingPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAutoScalingPolicyInput, PutAutoScalingPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAutoScalingPolicyOutput>())
@@ -3650,7 +3650,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAutoTerminationPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutAutoTerminationPolicyInput, PutAutoTerminationPolicyOutput>(xAmzTarget: "ElasticMapReduce.PutAutoTerminationPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutAutoTerminationPolicyInput, PutAutoTerminationPolicyOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.PutAutoTerminationPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutAutoTerminationPolicyInput, PutAutoTerminationPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAutoTerminationPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAutoTerminationPolicyInput, PutAutoTerminationPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAutoTerminationPolicyOutput>())
@@ -3720,7 +3720,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutBlockPublicAccessConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutBlockPublicAccessConfigurationInput, PutBlockPublicAccessConfigurationOutput>(xAmzTarget: "ElasticMapReduce.PutBlockPublicAccessConfiguration"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutBlockPublicAccessConfigurationInput, PutBlockPublicAccessConfigurationOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.PutBlockPublicAccessConfiguration"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutBlockPublicAccessConfigurationInput, PutBlockPublicAccessConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutBlockPublicAccessConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutBlockPublicAccessConfigurationInput, PutBlockPublicAccessConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutBlockPublicAccessConfigurationOutput>())
@@ -3784,7 +3784,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutManagedScalingPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutManagedScalingPolicyInput, PutManagedScalingPolicyOutput>(xAmzTarget: "ElasticMapReduce.PutManagedScalingPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutManagedScalingPolicyInput, PutManagedScalingPolicyOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.PutManagedScalingPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<PutManagedScalingPolicyInput, PutManagedScalingPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutManagedScalingPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutManagedScalingPolicyInput, PutManagedScalingPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutManagedScalingPolicyOutput>())
@@ -3848,7 +3848,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveAutoScalingPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RemoveAutoScalingPolicyInput, RemoveAutoScalingPolicyOutput>(xAmzTarget: "ElasticMapReduce.RemoveAutoScalingPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemoveAutoScalingPolicyInput, RemoveAutoScalingPolicyOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.RemoveAutoScalingPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RemoveAutoScalingPolicyInput, RemoveAutoScalingPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveAutoScalingPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveAutoScalingPolicyInput, RemoveAutoScalingPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveAutoScalingPolicyOutput>())
@@ -3912,7 +3912,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveAutoTerminationPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RemoveAutoTerminationPolicyInput, RemoveAutoTerminationPolicyOutput>(xAmzTarget: "ElasticMapReduce.RemoveAutoTerminationPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemoveAutoTerminationPolicyInput, RemoveAutoTerminationPolicyOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.RemoveAutoTerminationPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RemoveAutoTerminationPolicyInput, RemoveAutoTerminationPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveAutoTerminationPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveAutoTerminationPolicyInput, RemoveAutoTerminationPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveAutoTerminationPolicyOutput>())
@@ -3976,7 +3976,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveManagedScalingPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RemoveManagedScalingPolicyInput, RemoveManagedScalingPolicyOutput>(xAmzTarget: "ElasticMapReduce.RemoveManagedScalingPolicy"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemoveManagedScalingPolicyInput, RemoveManagedScalingPolicyOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.RemoveManagedScalingPolicy"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RemoveManagedScalingPolicyInput, RemoveManagedScalingPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveManagedScalingPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveManagedScalingPolicyInput, RemoveManagedScalingPolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveManagedScalingPolicyOutput>())
@@ -4046,7 +4046,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RemoveTagsInput, RemoveTagsOutput>(xAmzTarget: "ElasticMapReduce.RemoveTags"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemoveTagsInput, RemoveTagsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.RemoveTags"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RemoveTagsInput, RemoveTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveTagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveTagsInput, RemoveTagsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveTagsOutput>())
@@ -4115,7 +4115,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RunJobFlowOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RunJobFlowInput, RunJobFlowOutput>(xAmzTarget: "ElasticMapReduce.RunJobFlow"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RunJobFlowInput, RunJobFlowOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.RunJobFlow"]))
         builder.serialize(ClientRuntime.BodyMiddleware<RunJobFlowInput, RunJobFlowOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RunJobFlowInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RunJobFlowInput, RunJobFlowOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RunJobFlowOutput>())
@@ -4184,7 +4184,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetKeepJobFlowAliveWhenNoStepsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetKeepJobFlowAliveWhenNoStepsInput, SetKeepJobFlowAliveWhenNoStepsOutput>(xAmzTarget: "ElasticMapReduce.SetKeepJobFlowAliveWhenNoSteps"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetKeepJobFlowAliveWhenNoStepsInput, SetKeepJobFlowAliveWhenNoStepsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.SetKeepJobFlowAliveWhenNoSteps"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetKeepJobFlowAliveWhenNoStepsInput, SetKeepJobFlowAliveWhenNoStepsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetKeepJobFlowAliveWhenNoStepsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetKeepJobFlowAliveWhenNoStepsInput, SetKeepJobFlowAliveWhenNoStepsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetKeepJobFlowAliveWhenNoStepsOutput>())
@@ -4253,7 +4253,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetTerminationProtectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetTerminationProtectionInput, SetTerminationProtectionOutput>(xAmzTarget: "ElasticMapReduce.SetTerminationProtection"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetTerminationProtectionInput, SetTerminationProtectionOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.SetTerminationProtection"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetTerminationProtectionInput, SetTerminationProtectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetTerminationProtectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetTerminationProtectionInput, SetTerminationProtectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetTerminationProtectionOutput>())
@@ -4322,7 +4322,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetUnhealthyNodeReplacementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetUnhealthyNodeReplacementInput, SetUnhealthyNodeReplacementOutput>(xAmzTarget: "ElasticMapReduce.SetUnhealthyNodeReplacement"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetUnhealthyNodeReplacementInput, SetUnhealthyNodeReplacementOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.SetUnhealthyNodeReplacement"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetUnhealthyNodeReplacementInput, SetUnhealthyNodeReplacementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetUnhealthyNodeReplacementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetUnhealthyNodeReplacementInput, SetUnhealthyNodeReplacementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetUnhealthyNodeReplacementOutput>())
@@ -4391,7 +4391,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetVisibleToAllUsersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetVisibleToAllUsersInput, SetVisibleToAllUsersOutput>(xAmzTarget: "ElasticMapReduce.SetVisibleToAllUsers"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetVisibleToAllUsersInput, SetVisibleToAllUsersOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.SetVisibleToAllUsers"]))
         builder.serialize(ClientRuntime.BodyMiddleware<SetVisibleToAllUsersInput, SetVisibleToAllUsersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetVisibleToAllUsersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetVisibleToAllUsersInput, SetVisibleToAllUsersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetVisibleToAllUsersOutput>())
@@ -4461,7 +4461,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartNotebookExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartNotebookExecutionInput, StartNotebookExecutionOutput>(xAmzTarget: "ElasticMapReduce.StartNotebookExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartNotebookExecutionInput, StartNotebookExecutionOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.StartNotebookExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StartNotebookExecutionInput, StartNotebookExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartNotebookExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartNotebookExecutionInput, StartNotebookExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartNotebookExecutionOutput>())
@@ -4531,7 +4531,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopNotebookExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopNotebookExecutionInput, StopNotebookExecutionOutput>(xAmzTarget: "ElasticMapReduce.StopNotebookExecution"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopNotebookExecutionInput, StopNotebookExecutionOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.StopNotebookExecution"]))
         builder.serialize(ClientRuntime.BodyMiddleware<StopNotebookExecutionInput, StopNotebookExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopNotebookExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopNotebookExecutionInput, StopNotebookExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopNotebookExecutionOutput>())
@@ -4600,7 +4600,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TerminateJobFlowsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TerminateJobFlowsInput, TerminateJobFlowsOutput>(xAmzTarget: "ElasticMapReduce.TerminateJobFlows"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TerminateJobFlowsInput, TerminateJobFlowsOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.TerminateJobFlows"]))
         builder.serialize(ClientRuntime.BodyMiddleware<TerminateJobFlowsInput, TerminateJobFlowsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TerminateJobFlowsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TerminateJobFlowsInput, TerminateJobFlowsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TerminateJobFlowsOutput>())
@@ -4670,7 +4670,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateStudioOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateStudioInput, UpdateStudioOutput>(xAmzTarget: "ElasticMapReduce.UpdateStudio"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateStudioInput, UpdateStudioOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.UpdateStudio"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateStudioInput, UpdateStudioOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateStudioInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStudioInput, UpdateStudioOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateStudioOutput>())
@@ -4740,7 +4740,7 @@ extension EMRClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateStudioSessionMappingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateStudioSessionMappingInput, UpdateStudioSessionMappingOutput>(xAmzTarget: "ElasticMapReduce.UpdateStudioSessionMapping"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateStudioSessionMappingInput, UpdateStudioSessionMappingOutput>(overrides: ["X-Amz-Target": "ElasticMapReduce.UpdateStudioSessionMapping"]))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateStudioSessionMappingInput, UpdateStudioSessionMappingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateStudioSessionMappingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStudioSessionMappingInput, UpdateStudioSessionMappingOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateStudioSessionMappingOutput>())

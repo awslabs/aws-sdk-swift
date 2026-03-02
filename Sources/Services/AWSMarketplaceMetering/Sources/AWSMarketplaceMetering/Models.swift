@@ -20,8 +20,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSJSONError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The API is disabled in the Region.
@@ -79,6 +79,29 @@ public struct InvalidCustomerIdentifierException: ClientRuntime.ModeledError, AW
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidCustomerIdentifierException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// Ensure the LicenseArn is valid, matches the customer, and usage is within the license activation period.
+public struct InvalidLicenseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidLicenseException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -276,13 +299,15 @@ extension MarketplaceMeteringClientTypes {
 
     /// A UsageRecord indicates a quantity of usage for a given product, customer, dimension and time. Multiple requests with the same UsageRecords as input will be de-duplicated to prevent double charges.
     public struct UsageRecord: Swift.Sendable {
-        /// The CustomerAWSAccountID parameter specifies the AWS account ID of the buyer.
+        /// The CustomerAWSAccountId parameter specifies the AWS account ID of the buyer. For existing integrations, to access your CustomerIdentifier to CustomerAWSAccountId mapping, see [Account Feeds](https://docs.aws.amazon.com/marketplace/latest/userguide/data-feed-account.html).
         public var customerAWSAccountId: Swift.String?
         /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
         public var customerIdentifier: Swift.String?
         /// During the process of registering a product on Amazon Web Services Marketplace, dimensions are specified. These represent different units of value in your application.
         /// This member is required.
         public var dimension: Swift.String?
+        /// The LicenseArn is a unique identifier for a specific granted license. These are used for software purchased through Amazon Web Services Marketplace. To access your CustomerAWSAccountId and LicenseArn mapping, visit [Agreements Feeds](https://docs.aws.amazon.com/marketplace/latest/userguide/data-feed-agreements.html).
+        public var licenseArn: Swift.String?
         /// The quantity of usage consumed by the customer for the given dimension and time. Defaults to 0 if not specified.
         public var quantity: Swift.Int?
         /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.
@@ -295,6 +320,7 @@ extension MarketplaceMeteringClientTypes {
             customerAWSAccountId: Swift.String? = nil,
             customerIdentifier: Swift.String? = "",
             dimension: Swift.String? = nil,
+            licenseArn: Swift.String? = nil,
             quantity: Swift.Int? = nil,
             timestamp: Foundation.Date? = nil,
             usageAllocations: [MarketplaceMeteringClientTypes.UsageAllocation]? = nil
@@ -302,6 +328,7 @@ extension MarketplaceMeteringClientTypes {
             self.customerAWSAccountId = customerAWSAccountId
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
+            self.licenseArn = licenseArn
             self.quantity = quantity
             self.timestamp = timestamp
             self.usageAllocations = usageAllocations
@@ -312,7 +339,6 @@ extension MarketplaceMeteringClientTypes {
 /// A BatchMeterUsageRequest contains UsageRecords, which indicate quantities of usage within your application.
 public struct BatchMeterUsageInput: Swift.Sendable {
     /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product.
-    /// This member is required.
     public var productCode: Swift.String?
     /// The set of UsageRecords to submit. BatchMeterUsage accepts up to 25 UsageRecords at a time.
     /// This member is required.
@@ -707,7 +733,7 @@ public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 
 /// Contains input to the ResolveCustomer operation.
 public struct ResolveCustomerInput: Swift.Sendable {
-    /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId and ProductCode.
+    /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId, ProductCode, and LicenseArn.
     /// This member is required.
     public var registrationToken: Swift.String?
 
@@ -718,22 +744,26 @@ public struct ResolveCustomerInput: Swift.Sendable {
     }
 }
 
-/// The result of the ResolveCustomer operation. Contains the CustomerIdentifier along with the CustomerAWSAccountId and ProductCode.
+/// The result of the ResolveCustomer operation. Contains the CustomerIdentifier along with the CustomerAWSAccountId, ProductCode, and LicenseArn.
 public struct ResolveCustomerOutput: Swift.Sendable {
-    /// The CustomerAWSAccountId provides the Amazon Web Services account ID associated with the CustomerIdentifier for the individual customer.
+    /// The CustomerAWSAccountId provides the Amazon Web Services account ID associated with the CustomerIdentifier for the individual customer. Calls to BatchMeterUsage require CustomerAWSAccountId for each UsageRecord.
     public var customerAWSAccountId: Swift.String?
-    /// The CustomerIdentifier is used to identify an individual customer in your application. Calls to BatchMeterUsage require CustomerIdentifiers for each UsageRecord.
+    /// The CustomerIdentifier is used to identify an individual customer in your application.
     public var customerIdentifier: Swift.String?
+    /// The LicenseArn is a unique identifier for a specific granted license. These are typically used for software purchased through Amazon Web Services Marketplace. Calls to BatchMeterUsage require LicenseArn for each UsageRecord. Once you receive the CustomerAWSAccountId and LicenseArn in the response, store that for future purposes/API calls/integrations.
+    public var licenseArn: Swift.String?
     /// The product code is returned to confirm that the buyer is registering for your product. Subsequent BatchMeterUsage calls should be made using this product code.
     public var productCode: Swift.String?
 
     public init(
         customerAWSAccountId: Swift.String? = nil,
         customerIdentifier: Swift.String? = nil,
+        licenseArn: Swift.String? = nil,
         productCode: Swift.String? = nil
     ) {
         self.customerAWSAccountId = customerAWSAccountId
         self.customerIdentifier = customerIdentifier
+        self.licenseArn = licenseArn
         self.productCode = productCode
     }
 }
@@ -854,6 +884,7 @@ extension ResolveCustomerOutput {
         var value = ResolveCustomerOutput()
         value.customerAWSAccountId = try reader["CustomerAWSAccountId"].readIfPresent()
         value.customerIdentifier = try reader["CustomerIdentifier"].readIfPresent()
+        value.licenseArn = try reader["LicenseArn"].readIfPresent()
         value.productCode = try reader["ProductCode"].readIfPresent()
         return value
     }
@@ -864,12 +895,13 @@ enum BatchMeterUsageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DisabledApiException": return try DisabledApiException.makeError(baseError: baseError)
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
             case "InvalidCustomerIdentifierException": return try InvalidCustomerIdentifierException.makeError(baseError: baseError)
+            case "InvalidLicenseException": return try InvalidLicenseException.makeError(baseError: baseError)
             case "InvalidProductCodeException": return try InvalidProductCodeException.makeError(baseError: baseError)
             case "InvalidTagException": return try InvalidTagException.makeError(baseError: baseError)
             case "InvalidUsageAllocationsException": return try InvalidUsageAllocationsException.makeError(baseError: baseError)
@@ -886,7 +918,7 @@ enum MeterUsageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CustomerNotEntitledException": return try CustomerNotEntitledException.makeError(baseError: baseError)
@@ -910,7 +942,7 @@ enum RegisterUsageOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CustomerNotEntitledException": return try CustomerNotEntitledException.makeError(baseError: baseError)
@@ -931,7 +963,7 @@ enum ResolveCustomerOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DisabledApiException": return try DisabledApiException.makeError(baseError: baseError)
@@ -946,7 +978,7 @@ enum ResolveCustomerOutputError {
 
 extension DisabledApiException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DisabledApiException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DisabledApiException {
         let reader = baseError.errorBodyReader
         var value = DisabledApiException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -959,7 +991,7 @@ extension DisabledApiException {
 
 extension InternalServiceErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
         let reader = baseError.errorBodyReader
         var value = InternalServiceErrorException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -972,7 +1004,7 @@ extension InternalServiceErrorException {
 
 extension InvalidCustomerIdentifierException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCustomerIdentifierException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidCustomerIdentifierException {
         let reader = baseError.errorBodyReader
         var value = InvalidCustomerIdentifierException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -983,9 +1015,22 @@ extension InvalidCustomerIdentifierException {
     }
 }
 
+extension InvalidLicenseException {
+
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidLicenseException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidLicenseException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidProductCodeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidProductCodeException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidProductCodeException {
         let reader = baseError.errorBodyReader
         var value = InvalidProductCodeException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -998,7 +1043,7 @@ extension InvalidProductCodeException {
 
 extension InvalidTagException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTagException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTagException {
         let reader = baseError.errorBodyReader
         var value = InvalidTagException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1011,7 +1056,7 @@ extension InvalidTagException {
 
 extension InvalidUsageAllocationsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidUsageAllocationsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidUsageAllocationsException {
         let reader = baseError.errorBodyReader
         var value = InvalidUsageAllocationsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1024,7 +1069,7 @@ extension InvalidUsageAllocationsException {
 
 extension InvalidUsageDimensionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidUsageDimensionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidUsageDimensionException {
         let reader = baseError.errorBodyReader
         var value = InvalidUsageDimensionException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1037,7 +1082,7 @@ extension InvalidUsageDimensionException {
 
 extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1050,7 +1095,7 @@ extension ThrottlingException {
 
 extension TimestampOutOfBoundsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TimestampOutOfBoundsException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> TimestampOutOfBoundsException {
         let reader = baseError.errorBodyReader
         var value = TimestampOutOfBoundsException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1063,7 +1108,7 @@ extension TimestampOutOfBoundsException {
 
 extension CustomerNotEntitledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CustomerNotEntitledException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> CustomerNotEntitledException {
         let reader = baseError.errorBodyReader
         var value = CustomerNotEntitledException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1076,7 +1121,7 @@ extension CustomerNotEntitledException {
 
 extension DuplicateRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateRequestException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> DuplicateRequestException {
         let reader = baseError.errorBodyReader
         var value = DuplicateRequestException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1089,7 +1134,7 @@ extension DuplicateRequestException {
 
 extension IdempotencyConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IdempotencyConflictException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> IdempotencyConflictException {
         let reader = baseError.errorBodyReader
         var value = IdempotencyConflictException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1102,7 +1147,7 @@ extension IdempotencyConflictException {
 
 extension InvalidEndpointRegionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEndpointRegionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidEndpointRegionException {
         let reader = baseError.errorBodyReader
         var value = InvalidEndpointRegionException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1115,7 +1160,7 @@ extension InvalidEndpointRegionException {
 
 extension InvalidPublicKeyVersionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPublicKeyVersionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidPublicKeyVersionException {
         let reader = baseError.errorBodyReader
         var value = InvalidPublicKeyVersionException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1128,7 +1173,7 @@ extension InvalidPublicKeyVersionException {
 
 extension InvalidRegionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRegionException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidRegionException {
         let reader = baseError.errorBodyReader
         var value = InvalidRegionException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1141,7 +1186,7 @@ extension InvalidRegionException {
 
 extension PlatformNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PlatformNotSupportedException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> PlatformNotSupportedException {
         let reader = baseError.errorBodyReader
         var value = PlatformNotSupportedException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1154,7 +1199,7 @@ extension PlatformNotSupportedException {
 
 extension ExpiredTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExpiredTokenException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> ExpiredTokenException {
         let reader = baseError.errorBodyReader
         var value = ExpiredTokenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1167,7 +1212,7 @@ extension ExpiredTokenException {
 
 extension InvalidTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTokenException {
+    static func makeError(baseError: ClientRuntime.AWSJSONError) throws -> InvalidTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidTokenException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -1219,6 +1264,7 @@ extension MarketplaceMeteringClientTypes.UsageRecord {
         try writer["CustomerAWSAccountId"].write(value.customerAWSAccountId)
         try writer["CustomerIdentifier"].write(value.customerIdentifier)
         try writer["Dimension"].write(value.dimension)
+        try writer["LicenseArn"].write(value.licenseArn)
         try writer["Quantity"].write(value.quantity)
         try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["UsageAllocations"].writeList(value.usageAllocations, memberWritingClosure: MarketplaceMeteringClientTypes.UsageAllocation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -1233,6 +1279,7 @@ extension MarketplaceMeteringClientTypes.UsageRecord {
         value.quantity = try reader["Quantity"].readIfPresent()
         value.usageAllocations = try reader["UsageAllocations"].readListIfPresent(memberReadingClosure: MarketplaceMeteringClientTypes.UsageAllocation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.customerAWSAccountId = try reader["CustomerAWSAccountId"].readIfPresent()
+        value.licenseArn = try reader["LicenseArn"].readIfPresent()
         return value
     }
 }

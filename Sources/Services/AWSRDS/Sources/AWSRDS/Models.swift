@@ -22,8 +22,8 @@ import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
-@_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSQueryError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct ClientRuntime.AWSQueryError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
@@ -28725,7 +28725,7 @@ enum AddRoleToDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -28742,7 +28742,7 @@ enum AddRoleToDBInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -28759,7 +28759,7 @@ enum AddSourceIdentifierToSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "SourceNotFound": return try SourceNotFoundFault.makeError(baseError: baseError)
@@ -28774,7 +28774,7 @@ enum AddTagsToResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
@@ -28801,7 +28801,7 @@ enum ApplyPendingMaintenanceActionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
@@ -28817,7 +28817,7 @@ enum AuthorizeDBSecurityGroupIngressOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationAlreadyExists": return try AuthorizationAlreadyExistsFault.makeError(baseError: baseError)
@@ -28834,7 +28834,7 @@ enum BacktrackDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -28849,7 +28849,7 @@ enum CancelExportTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExportTaskNotFound": return try ExportTaskNotFoundFault.makeError(baseError: baseError)
@@ -28864,7 +28864,7 @@ enum CopyDBClusterParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupAlreadyExists": return try DBParameterGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -28880,7 +28880,7 @@ enum CopyDBClusterSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterSnapshotAlreadyExistsFault": return try DBClusterSnapshotAlreadyExistsFault.makeError(baseError: baseError)
@@ -28899,7 +28899,7 @@ enum CopyDBParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupAlreadyExists": return try DBParameterGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -28915,7 +28915,7 @@ enum CopyDBSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CustomAvailabilityZoneNotFound": return try CustomAvailabilityZoneNotFoundFault.makeError(baseError: baseError)
@@ -28934,7 +28934,7 @@ enum CopyOptionGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OptionGroupAlreadyExistsFault": return try OptionGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -28950,7 +28950,7 @@ enum CreateBlueGreenDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentAlreadyExistsFault": return try BlueGreenDeploymentAlreadyExistsFault.makeError(baseError: baseError)
@@ -28975,7 +28975,7 @@ enum CreateCustomDBEngineVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CreateCustomDBEngineVersionFault": return try CreateCustomDBEngineVersionFault.makeError(baseError: baseError)
@@ -28995,7 +28995,7 @@ enum CreateDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterAlreadyExistsFault": return try DBClusterAlreadyExistsFault.makeError(baseError: baseError)
@@ -29032,7 +29032,7 @@ enum CreateDBClusterEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterEndpointAlreadyExistsFault": return try DBClusterEndpointAlreadyExistsFault.makeError(baseError: baseError)
@@ -29051,7 +29051,7 @@ enum CreateDBClusterParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupAlreadyExists": return try DBParameterGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -29066,7 +29066,7 @@ enum CreateDBClusterSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -29084,7 +29084,7 @@ enum CreateDBInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
@@ -29120,7 +29120,7 @@ enum CreateDBInstanceReadReplicaOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CertificateNotFound": return try CertificateNotFoundFault.makeError(baseError: baseError)
@@ -29158,7 +29158,7 @@ enum CreateDBParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupAlreadyExists": return try DBParameterGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -29173,7 +29173,7 @@ enum CreateDBProxyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyAlreadyExistsFault": return try DBProxyAlreadyExistsFault.makeError(baseError: baseError)
@@ -29189,7 +29189,7 @@ enum CreateDBProxyEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyEndpointAlreadyExistsFault": return try DBProxyEndpointAlreadyExistsFault.makeError(baseError: baseError)
@@ -29207,7 +29207,7 @@ enum CreateDBSecurityGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSecurityGroupAlreadyExists": return try DBSecurityGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -29223,7 +29223,7 @@ enum CreateDBShardGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -29243,7 +29243,7 @@ enum CreateDBSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -29260,7 +29260,7 @@ enum CreateDBSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSubnetGroupAlreadyExists": return try DBSubnetGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -29278,7 +29278,7 @@ enum CreateEventSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EventSubscriptionQuotaExceeded": return try EventSubscriptionQuotaExceededFault.makeError(baseError: baseError)
@@ -29298,7 +29298,7 @@ enum CreateGlobalClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -29317,7 +29317,7 @@ enum CreateIntegrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -29336,7 +29336,7 @@ enum CreateOptionGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OptionGroupAlreadyExistsFault": return try OptionGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -29351,7 +29351,7 @@ enum CreateTenantDatabaseOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -29369,7 +29369,7 @@ enum DeleteBlueGreenDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
@@ -29384,7 +29384,7 @@ enum DeleteCustomDBEngineVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CustomDBEngineVersionNotFoundFault": return try CustomDBEngineVersionNotFoundFault.makeError(baseError: baseError)
@@ -29399,7 +29399,7 @@ enum DeleteDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterAutomatedBackupQuotaExceededFault": return try DBClusterAutomatedBackupQuotaExceededFault.makeError(baseError: baseError)
@@ -29420,7 +29420,7 @@ enum DeleteDBClusterAutomatedBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterAutomatedBackupNotFoundFault": return try DBClusterAutomatedBackupNotFoundFault.makeError(baseError: baseError)
@@ -29435,7 +29435,7 @@ enum DeleteDBClusterEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterEndpointNotFoundFault": return try DBClusterEndpointNotFoundFault.makeError(baseError: baseError)
@@ -29451,7 +29451,7 @@ enum DeleteDBClusterParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -29466,7 +29466,7 @@ enum DeleteDBClusterSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterSnapshotNotFoundFault": return try DBClusterSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -29481,7 +29481,7 @@ enum DeleteDBInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceAutomatedBackupQuotaExceeded": return try DBInstanceAutomatedBackupQuotaExceededFault.makeError(baseError: baseError)
@@ -29501,7 +29501,7 @@ enum DeleteDBInstanceAutomatedBackupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceAutomatedBackupNotFound": return try DBInstanceAutomatedBackupNotFoundFault.makeError(baseError: baseError)
@@ -29516,7 +29516,7 @@ enum DeleteDBParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -29531,7 +29531,7 @@ enum DeleteDBProxyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyNotFoundFault": return try DBProxyNotFoundFault.makeError(baseError: baseError)
@@ -29546,7 +29546,7 @@ enum DeleteDBProxyEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyEndpointNotFoundFault": return try DBProxyEndpointNotFoundFault.makeError(baseError: baseError)
@@ -29561,7 +29561,7 @@ enum DeleteDBSecurityGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSecurityGroupNotFound": return try DBSecurityGroupNotFoundFault.makeError(baseError: baseError)
@@ -29576,7 +29576,7 @@ enum DeleteDBShardGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBShardGroupNotFound": return try DBShardGroupNotFoundFault.makeError(baseError: baseError)
@@ -29592,7 +29592,7 @@ enum DeleteDBSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -29607,7 +29607,7 @@ enum DeleteDBSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSubnetGroupNotFoundFault": return try DBSubnetGroupNotFoundFault.makeError(baseError: baseError)
@@ -29623,7 +29623,7 @@ enum DeleteEventSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidEventSubscriptionState": return try InvalidEventSubscriptionStateFault.makeError(baseError: baseError)
@@ -29638,7 +29638,7 @@ enum DeleteGlobalClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalClusterNotFoundFault": return try GlobalClusterNotFoundFault.makeError(baseError: baseError)
@@ -29653,7 +29653,7 @@ enum DeleteIntegrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IntegrationConflictOperationFault": return try IntegrationConflictOperationFault.makeError(baseError: baseError)
@@ -29669,7 +29669,7 @@ enum DeleteOptionGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidOptionGroupStateFault": return try InvalidOptionGroupStateFault.makeError(baseError: baseError)
@@ -29684,7 +29684,7 @@ enum DeleteTenantDatabaseOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -29701,7 +29701,7 @@ enum DeregisterDBProxyTargetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyNotFoundFault": return try DBProxyNotFoundFault.makeError(baseError: baseError)
@@ -29718,7 +29718,7 @@ enum DescribeAccountAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -29731,7 +29731,7 @@ enum DescribeBlueGreenDeploymentsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
@@ -29745,7 +29745,7 @@ enum DescribeCertificatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CertificateNotFound": return try CertificateNotFoundFault.makeError(baseError: baseError)
@@ -29759,7 +29759,7 @@ enum DescribeDBClusterAutomatedBackupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterAutomatedBackupNotFoundFault": return try DBClusterAutomatedBackupNotFoundFault.makeError(baseError: baseError)
@@ -29773,7 +29773,7 @@ enum DescribeDBClusterBacktracksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterBacktrackNotFoundFault": return try DBClusterBacktrackNotFoundFault.makeError(baseError: baseError)
@@ -29788,7 +29788,7 @@ enum DescribeDBClusterEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -29802,7 +29802,7 @@ enum DescribeDBClusterParameterGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -29816,7 +29816,7 @@ enum DescribeDBClusterParametersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -29830,7 +29830,7 @@ enum DescribeDBClustersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -29844,7 +29844,7 @@ enum DescribeDBClusterSnapshotAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterSnapshotNotFoundFault": return try DBClusterSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -29858,7 +29858,7 @@ enum DescribeDBClusterSnapshotsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterSnapshotNotFoundFault": return try DBClusterSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -29872,7 +29872,7 @@ enum DescribeDBEngineVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -29885,7 +29885,7 @@ enum DescribeDBInstanceAutomatedBackupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceAutomatedBackupNotFound": return try DBInstanceAutomatedBackupNotFoundFault.makeError(baseError: baseError)
@@ -29899,7 +29899,7 @@ enum DescribeDBInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -29913,7 +29913,7 @@ enum DescribeDBLogFilesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -29928,7 +29928,7 @@ enum DescribeDBMajorEngineVersionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -29941,7 +29941,7 @@ enum DescribeDBParameterGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -29955,7 +29955,7 @@ enum DescribeDBParametersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -29969,7 +29969,7 @@ enum DescribeDBProxiesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyNotFoundFault": return try DBProxyNotFoundFault.makeError(baseError: baseError)
@@ -29983,7 +29983,7 @@ enum DescribeDBProxyEndpointsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyEndpointNotFoundFault": return try DBProxyEndpointNotFoundFault.makeError(baseError: baseError)
@@ -29998,7 +29998,7 @@ enum DescribeDBProxyTargetGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyNotFoundFault": return try DBProxyNotFoundFault.makeError(baseError: baseError)
@@ -30014,7 +30014,7 @@ enum DescribeDBProxyTargetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyNotFoundFault": return try DBProxyNotFoundFault.makeError(baseError: baseError)
@@ -30031,7 +30031,7 @@ enum DescribeDBRecommendationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30044,7 +30044,7 @@ enum DescribeDBSecurityGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSecurityGroupNotFound": return try DBSecurityGroupNotFoundFault.makeError(baseError: baseError)
@@ -30058,7 +30058,7 @@ enum DescribeDBShardGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -30073,7 +30073,7 @@ enum DescribeDBSnapshotAttributesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -30087,7 +30087,7 @@ enum DescribeDBSnapshotsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -30101,7 +30101,7 @@ enum DescribeDBSnapshotTenantDatabasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -30115,7 +30115,7 @@ enum DescribeDBSubnetGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSubnetGroupNotFoundFault": return try DBSubnetGroupNotFoundFault.makeError(baseError: baseError)
@@ -30129,7 +30129,7 @@ enum DescribeEngineDefaultClusterParametersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30142,7 +30142,7 @@ enum DescribeEngineDefaultParametersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30155,7 +30155,7 @@ enum DescribeEventCategoriesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30168,7 +30168,7 @@ enum DescribeEventsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30181,7 +30181,7 @@ enum DescribeEventSubscriptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "SubscriptionNotFound": return try SubscriptionNotFoundFault.makeError(baseError: baseError)
@@ -30195,7 +30195,7 @@ enum DescribeExportTasksOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ExportTaskNotFound": return try ExportTaskNotFoundFault.makeError(baseError: baseError)
@@ -30209,7 +30209,7 @@ enum DescribeGlobalClustersOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalClusterNotFoundFault": return try GlobalClusterNotFoundFault.makeError(baseError: baseError)
@@ -30223,7 +30223,7 @@ enum DescribeIntegrationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
@@ -30237,7 +30237,7 @@ enum DescribeOptionGroupOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30250,7 +30250,7 @@ enum DescribeOptionGroupsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OptionGroupNotFoundFault": return try OptionGroupNotFoundFault.makeError(baseError: baseError)
@@ -30264,7 +30264,7 @@ enum DescribeOrderableDBInstanceOptionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30277,7 +30277,7 @@ enum DescribePendingMaintenanceActionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
@@ -30291,7 +30291,7 @@ enum DescribeReservedDBInstancesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ReservedDBInstanceNotFound": return try ReservedDBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30305,7 +30305,7 @@ enum DescribeReservedDBInstancesOfferingsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ReservedDBInstancesOfferingNotFound": return try ReservedDBInstancesOfferingNotFoundFault.makeError(baseError: baseError)
@@ -30319,7 +30319,7 @@ enum DescribeSourceRegionsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30332,7 +30332,7 @@ enum DescribeTenantDatabasesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30346,7 +30346,7 @@ enum DescribeValidDBInstanceModificationsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30361,7 +30361,7 @@ enum DisableHttpEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -30376,7 +30376,7 @@ enum DownloadDBLogFilePortionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30392,7 +30392,7 @@ enum EnableHttpEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
@@ -30407,7 +30407,7 @@ enum FailoverDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -30423,7 +30423,7 @@ enum FailoverGlobalClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -30440,7 +30440,7 @@ enum ListTagsForResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
@@ -30464,7 +30464,7 @@ enum ModifyActivityStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30480,7 +30480,7 @@ enum ModifyCertificatesOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CertificateNotFound": return try CertificateNotFoundFault.makeError(baseError: baseError)
@@ -30494,7 +30494,7 @@ enum ModifyCurrentDBClusterCapacityOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -30510,7 +30510,7 @@ enum ModifyCustomDBEngineVersionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CustomDBEngineVersionNotFoundFault": return try CustomDBEngineVersionNotFoundFault.makeError(baseError: baseError)
@@ -30525,7 +30525,7 @@ enum ModifyDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterAlreadyExistsFault": return try DBClusterAlreadyExistsFault.makeError(baseError: baseError)
@@ -30559,7 +30559,7 @@ enum ModifyDBClusterEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterEndpointNotFoundFault": return try DBClusterEndpointNotFoundFault.makeError(baseError: baseError)
@@ -30577,7 +30577,7 @@ enum ModifyDBClusterParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -30592,7 +30592,7 @@ enum ModifyDBClusterSnapshotAttributeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterSnapshotNotFoundFault": return try DBClusterSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -30608,7 +30608,7 @@ enum ModifyDBInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
@@ -30643,7 +30643,7 @@ enum ModifyDBParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -30658,7 +30658,7 @@ enum ModifyDBProxyOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyAlreadyExistsFault": return try DBProxyAlreadyExistsFault.makeError(baseError: baseError)
@@ -30674,7 +30674,7 @@ enum ModifyDBProxyEndpointOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyEndpointAlreadyExistsFault": return try DBProxyEndpointAlreadyExistsFault.makeError(baseError: baseError)
@@ -30691,7 +30691,7 @@ enum ModifyDBProxyTargetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBProxyNotFoundFault": return try DBProxyNotFoundFault.makeError(baseError: baseError)
@@ -30707,7 +30707,7 @@ enum ModifyDBRecommendationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30720,7 +30720,7 @@ enum ModifyDBShardGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBShardGroupAlreadyExists": return try DBShardGroupAlreadyExistsFault.makeError(baseError: baseError)
@@ -30736,7 +30736,7 @@ enum ModifyDBSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -30752,7 +30752,7 @@ enum ModifyDBSnapshotAttributeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
@@ -30768,7 +30768,7 @@ enum ModifyDBSubnetGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSubnetGroupDoesNotCoverEnoughAZs": return try DBSubnetGroupDoesNotCoverEnoughAZs.makeError(baseError: baseError)
@@ -30787,7 +30787,7 @@ enum ModifyEventSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "EventSubscriptionQuotaExceeded": return try EventSubscriptionQuotaExceededFault.makeError(baseError: baseError)
@@ -30806,7 +30806,7 @@ enum ModifyGlobalClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GlobalClusterAlreadyExistsFault": return try GlobalClusterAlreadyExistsFault.makeError(baseError: baseError)
@@ -30824,7 +30824,7 @@ enum ModifyIntegrationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "IntegrationConflictOperationFault": return try IntegrationConflictOperationFault.makeError(baseError: baseError)
@@ -30840,7 +30840,7 @@ enum ModifyOptionGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidOptionGroupStateFault": return try InvalidOptionGroupStateFault.makeError(baseError: baseError)
@@ -30855,7 +30855,7 @@ enum ModifyTenantDatabaseOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30873,7 +30873,7 @@ enum PromoteReadReplicaOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30888,7 +30888,7 @@ enum PromoteReadReplicaDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -30903,7 +30903,7 @@ enum PurchaseReservedDBInstancesOfferingOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ReservedDBInstanceAlreadyExists": return try ReservedDBInstanceAlreadyExistsFault.makeError(baseError: baseError)
@@ -30919,7 +30919,7 @@ enum RebootDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -30935,7 +30935,7 @@ enum RebootDBInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -30951,7 +30951,7 @@ enum RebootDBShardGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBShardGroupNotFound": return try DBShardGroupNotFoundFault.makeError(baseError: baseError)
@@ -30966,7 +30966,7 @@ enum RegisterDBProxyTargetsOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -30988,7 +30988,7 @@ enum RemoveFromGlobalClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -31005,7 +31005,7 @@ enum RemoveRoleFromDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -31021,7 +31021,7 @@ enum RemoveRoleFromDBInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -31037,7 +31037,7 @@ enum RemoveSourceIdentifierFromSubscriptionOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "SourceNotFound": return try SourceNotFoundFault.makeError(baseError: baseError)
@@ -31052,7 +31052,7 @@ enum RemoveTagsFromResourceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
@@ -31079,7 +31079,7 @@ enum ResetDBClusterParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -31094,7 +31094,7 @@ enum ResetDBParameterGroupOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -31109,7 +31109,7 @@ enum RestoreDBClusterFromS3OutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterAlreadyExistsFault": return try DBClusterAlreadyExistsFault.makeError(baseError: baseError)
@@ -31138,7 +31138,7 @@ enum RestoreDBClusterFromSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterAlreadyExistsFault": return try DBClusterAlreadyExistsFault.makeError(baseError: baseError)
@@ -31174,7 +31174,7 @@ enum RestoreDBClusterToPointInTimeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterAlreadyExistsFault": return try DBClusterAlreadyExistsFault.makeError(baseError: baseError)
@@ -31210,7 +31210,7 @@ enum RestoreDBInstanceFromDBSnapshotOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
@@ -31248,7 +31248,7 @@ enum RestoreDBInstanceFromS3OutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
@@ -31281,7 +31281,7 @@ enum RestoreDBInstanceToPointInTimeOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
@@ -31320,7 +31320,7 @@ enum RevokeDBSecurityGroupIngressOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
@@ -31336,7 +31336,7 @@ enum StartActivityStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -31355,7 +31355,7 @@ enum StartDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -31374,7 +31374,7 @@ enum StartDBInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
@@ -31399,7 +31399,7 @@ enum StartDBInstanceAutomatedBackupsReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceAutomatedBackupQuotaExceeded": return try DBInstanceAutomatedBackupQuotaExceededFault.makeError(baseError: baseError)
@@ -31418,7 +31418,7 @@ enum StartExportTaskOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -31441,7 +31441,7 @@ enum StopActivityStreamOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -31459,7 +31459,7 @@ enum StopDBClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -31476,7 +31476,7 @@ enum StopDBInstanceOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -31494,7 +31494,7 @@ enum StopDBInstanceAutomatedBackupsReplicationOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -31509,7 +31509,7 @@ enum SwitchoverBlueGreenDeploymentOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
@@ -31524,7 +31524,7 @@ enum SwitchoverGlobalClusterOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
@@ -31541,7 +31541,7 @@ enum SwitchoverReadReplicaOutputError {
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
-        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -31553,7 +31553,7 @@ enum SwitchoverReadReplicaOutputError {
 
 extension DBClusterNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31566,7 +31566,7 @@ extension DBClusterNotFoundFault {
 
 extension DBClusterRoleAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterRoleAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterRoleAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterRoleAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31579,7 +31579,7 @@ extension DBClusterRoleAlreadyExistsFault {
 
 extension DBClusterRoleQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterRoleQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterRoleQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterRoleQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31592,7 +31592,7 @@ extension DBClusterRoleQuotaExceededFault {
 
 extension InvalidDBClusterStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBClusterStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBClusterStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBClusterStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31605,7 +31605,7 @@ extension InvalidDBClusterStateFault {
 
 extension DBInstanceNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBInstanceNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31618,7 +31618,7 @@ extension DBInstanceNotFoundFault {
 
 extension DBInstanceRoleAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceRoleAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBInstanceRoleAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceRoleAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31631,7 +31631,7 @@ extension DBInstanceRoleAlreadyExistsFault {
 
 extension DBInstanceRoleQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceRoleQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBInstanceRoleQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceRoleQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31644,7 +31644,7 @@ extension DBInstanceRoleQuotaExceededFault {
 
 extension InvalidDBInstanceStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBInstanceStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBInstanceStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBInstanceStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31657,7 +31657,7 @@ extension InvalidDBInstanceStateFault {
 
 extension SourceNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SourceNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SourceNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = SourceNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31670,7 +31670,7 @@ extension SourceNotFoundFault {
 
 extension SubscriptionNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SubscriptionNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = SubscriptionNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31683,7 +31683,7 @@ extension SubscriptionNotFoundFault {
 
 extension BlueGreenDeploymentNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BlueGreenDeploymentNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> BlueGreenDeploymentNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = BlueGreenDeploymentNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31696,7 +31696,7 @@ extension BlueGreenDeploymentNotFoundFault {
 
 extension DBProxyEndpointNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyEndpointNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyEndpointNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyEndpointNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31709,7 +31709,7 @@ extension DBProxyEndpointNotFoundFault {
 
 extension DBProxyNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31722,7 +31722,7 @@ extension DBProxyNotFoundFault {
 
 extension DBProxyTargetGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyTargetGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyTargetGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyTargetGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31735,7 +31735,7 @@ extension DBProxyTargetGroupNotFoundFault {
 
 extension DBShardGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBShardGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBShardGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBShardGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31748,7 +31748,7 @@ extension DBShardGroupNotFoundFault {
 
 extension DBSnapshotNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSnapshotNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSnapshotNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBSnapshotNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31761,7 +31761,7 @@ extension DBSnapshotNotFoundFault {
 
 extension DBSnapshotTenantDatabaseNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSnapshotTenantDatabaseNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSnapshotTenantDatabaseNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBSnapshotTenantDatabaseNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31774,7 +31774,7 @@ extension DBSnapshotTenantDatabaseNotFoundFault {
 
 extension IntegrationNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IntegrationNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = IntegrationNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31787,7 +31787,7 @@ extension IntegrationNotFoundFault {
 
 extension InvalidDBClusterEndpointStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBClusterEndpointStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBClusterEndpointStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBClusterEndpointStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31800,7 +31800,7 @@ extension InvalidDBClusterEndpointStateFault {
 
 extension TenantDatabaseNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TenantDatabaseNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TenantDatabaseNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = TenantDatabaseNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31813,7 +31813,7 @@ extension TenantDatabaseNotFoundFault {
 
 extension ResourceNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ResourceNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31826,7 +31826,7 @@ extension ResourceNotFoundFault {
 
 extension AuthorizationAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AuthorizationAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = AuthorizationAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31839,7 +31839,7 @@ extension AuthorizationAlreadyExistsFault {
 
 extension AuthorizationQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AuthorizationQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = AuthorizationQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31852,7 +31852,7 @@ extension AuthorizationQuotaExceededFault {
 
 extension DBSecurityGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSecurityGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSecurityGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBSecurityGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31865,7 +31865,7 @@ extension DBSecurityGroupNotFoundFault {
 
 extension InvalidDBSecurityGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBSecurityGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBSecurityGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBSecurityGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31878,7 +31878,7 @@ extension InvalidDBSecurityGroupStateFault {
 
 extension ExportTaskNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ExportTaskNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ExportTaskNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ExportTaskNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31891,7 +31891,7 @@ extension ExportTaskNotFoundFault {
 
 extension InvalidExportTaskStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidExportTaskStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidExportTaskStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidExportTaskStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31904,7 +31904,7 @@ extension InvalidExportTaskStateFault {
 
 extension DBParameterGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBParameterGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBParameterGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBParameterGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31917,7 +31917,7 @@ extension DBParameterGroupAlreadyExistsFault {
 
 extension DBParameterGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBParameterGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBParameterGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBParameterGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31930,7 +31930,7 @@ extension DBParameterGroupNotFoundFault {
 
 extension DBParameterGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBParameterGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBParameterGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBParameterGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31943,7 +31943,7 @@ extension DBParameterGroupQuotaExceededFault {
 
 extension DBClusterSnapshotAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterSnapshotAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterSnapshotAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterSnapshotAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31956,7 +31956,7 @@ extension DBClusterSnapshotAlreadyExistsFault {
 
 extension DBClusterSnapshotNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterSnapshotNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterSnapshotNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterSnapshotNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31969,7 +31969,7 @@ extension DBClusterSnapshotNotFoundFault {
 
 extension InvalidDBClusterSnapshotStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBClusterSnapshotStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBClusterSnapshotStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBClusterSnapshotStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31982,7 +31982,7 @@ extension InvalidDBClusterSnapshotStateFault {
 
 extension KMSKeyNotAccessibleFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> KMSKeyNotAccessibleFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> KMSKeyNotAccessibleFault {
         let reader = baseError.errorBodyReader
         var value = KMSKeyNotAccessibleFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -31995,7 +31995,7 @@ extension KMSKeyNotAccessibleFault {
 
 extension SnapshotQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SnapshotQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SnapshotQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = SnapshotQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32008,7 +32008,7 @@ extension SnapshotQuotaExceededFault {
 
 extension CustomAvailabilityZoneNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomAvailabilityZoneNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CustomAvailabilityZoneNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CustomAvailabilityZoneNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32021,7 +32021,7 @@ extension CustomAvailabilityZoneNotFoundFault {
 
 extension DBSnapshotAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSnapshotAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSnapshotAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBSnapshotAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32034,7 +32034,7 @@ extension DBSnapshotAlreadyExistsFault {
 
 extension InvalidDBSnapshotStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBSnapshotStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBSnapshotStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBSnapshotStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32047,7 +32047,7 @@ extension InvalidDBSnapshotStateFault {
 
 extension OptionGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OptionGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> OptionGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = OptionGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32060,7 +32060,7 @@ extension OptionGroupAlreadyExistsFault {
 
 extension OptionGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OptionGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> OptionGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = OptionGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32073,7 +32073,7 @@ extension OptionGroupNotFoundFault {
 
 extension OptionGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OptionGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> OptionGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = OptionGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32086,7 +32086,7 @@ extension OptionGroupQuotaExceededFault {
 
 extension BlueGreenDeploymentAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BlueGreenDeploymentAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> BlueGreenDeploymentAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = BlueGreenDeploymentAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32099,7 +32099,7 @@ extension BlueGreenDeploymentAlreadyExistsFault {
 
 extension DBClusterParameterGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterParameterGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterParameterGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterParameterGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32112,7 +32112,7 @@ extension DBClusterParameterGroupNotFoundFault {
 
 extension DBClusterQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32125,7 +32125,7 @@ extension DBClusterQuotaExceededFault {
 
 extension InstanceQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InstanceQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InstanceQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = InstanceQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32138,7 +32138,7 @@ extension InstanceQuotaExceededFault {
 
 extension SourceClusterNotSupportedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SourceClusterNotSupportedFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SourceClusterNotSupportedFault {
         let reader = baseError.errorBodyReader
         var value = SourceClusterNotSupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32151,7 +32151,7 @@ extension SourceClusterNotSupportedFault {
 
 extension SourceDatabaseNotSupportedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SourceDatabaseNotSupportedFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SourceDatabaseNotSupportedFault {
         let reader = baseError.errorBodyReader
         var value = SourceDatabaseNotSupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32164,7 +32164,7 @@ extension SourceDatabaseNotSupportedFault {
 
 extension StorageQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StorageQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> StorageQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = StorageQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32177,7 +32177,7 @@ extension StorageQuotaExceededFault {
 
 extension CreateCustomDBEngineVersionFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CreateCustomDBEngineVersionFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CreateCustomDBEngineVersionFault {
         let reader = baseError.errorBodyReader
         var value = CreateCustomDBEngineVersionFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32190,7 +32190,7 @@ extension CreateCustomDBEngineVersionFault {
 
 extension CustomDBEngineVersionAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = CustomDBEngineVersionAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32203,7 +32203,7 @@ extension CustomDBEngineVersionAlreadyExistsFault {
 
 extension CustomDBEngineVersionNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CustomDBEngineVersionNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32216,7 +32216,7 @@ extension CustomDBEngineVersionNotFoundFault {
 
 extension CustomDBEngineVersionQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = CustomDBEngineVersionQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32229,7 +32229,7 @@ extension CustomDBEngineVersionQuotaExceededFault {
 
 extension Ec2ImagePropertiesNotSupportedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> Ec2ImagePropertiesNotSupportedFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> Ec2ImagePropertiesNotSupportedFault {
         let reader = baseError.errorBodyReader
         var value = Ec2ImagePropertiesNotSupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32242,7 +32242,7 @@ extension Ec2ImagePropertiesNotSupportedFault {
 
 extension InvalidCustomDBEngineVersionStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCustomDBEngineVersionStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidCustomDBEngineVersionStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidCustomDBEngineVersionStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32255,7 +32255,7 @@ extension InvalidCustomDBEngineVersionStateFault {
 
 extension DBClusterAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32268,7 +32268,7 @@ extension DBClusterAlreadyExistsFault {
 
 extension DBSubnetGroupDoesNotCoverEnoughAZs {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupDoesNotCoverEnoughAZs {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSubnetGroupDoesNotCoverEnoughAZs {
         let reader = baseError.errorBodyReader
         var value = DBSubnetGroupDoesNotCoverEnoughAZs()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32281,7 +32281,7 @@ extension DBSubnetGroupDoesNotCoverEnoughAZs {
 
 extension DBSubnetGroupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSubnetGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBSubnetGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32294,7 +32294,7 @@ extension DBSubnetGroupNotFoundFault {
 
 extension DomainNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DomainNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DomainNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DomainNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32307,7 +32307,7 @@ extension DomainNotFoundFault {
 
 extension GlobalClusterNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> GlobalClusterNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> GlobalClusterNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = GlobalClusterNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32320,7 +32320,7 @@ extension GlobalClusterNotFoundFault {
 
 extension InsufficientDBInstanceCapacityFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientDBInstanceCapacityFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InsufficientDBInstanceCapacityFault {
         let reader = baseError.errorBodyReader
         var value = InsufficientDBInstanceCapacityFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32333,7 +32333,7 @@ extension InsufficientDBInstanceCapacityFault {
 
 extension InsufficientStorageClusterCapacityFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientStorageClusterCapacityFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InsufficientStorageClusterCapacityFault {
         let reader = baseError.errorBodyReader
         var value = InsufficientStorageClusterCapacityFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32346,7 +32346,7 @@ extension InsufficientStorageClusterCapacityFault {
 
 extension InvalidDBSubnetGroupFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBSubnetGroupFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBSubnetGroupFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBSubnetGroupFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32359,7 +32359,7 @@ extension InvalidDBSubnetGroupFault {
 
 extension InvalidDBSubnetGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBSubnetGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBSubnetGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBSubnetGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32372,7 +32372,7 @@ extension InvalidDBSubnetGroupStateFault {
 
 extension InvalidGlobalClusterStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidGlobalClusterStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidGlobalClusterStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidGlobalClusterStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32385,7 +32385,7 @@ extension InvalidGlobalClusterStateFault {
 
 extension InvalidSubnet {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSubnet {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidSubnet {
         let reader = baseError.errorBodyReader
         var value = InvalidSubnet()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32398,7 +32398,7 @@ extension InvalidSubnet {
 
 extension InvalidVPCNetworkStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidVPCNetworkStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidVPCNetworkStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidVPCNetworkStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32411,7 +32411,7 @@ extension InvalidVPCNetworkStateFault {
 
 extension NetworkTypeNotSupported {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NetworkTypeNotSupported {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> NetworkTypeNotSupported {
         let reader = baseError.errorBodyReader
         var value = NetworkTypeNotSupported()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32424,7 +32424,7 @@ extension NetworkTypeNotSupported {
 
 extension StorageTypeNotSupportedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StorageTypeNotSupportedFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> StorageTypeNotSupportedFault {
         let reader = baseError.errorBodyReader
         var value = StorageTypeNotSupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32437,7 +32437,7 @@ extension StorageTypeNotSupportedFault {
 
 extension VpcEncryptionControlViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> VpcEncryptionControlViolationException {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> VpcEncryptionControlViolationException {
         let reader = baseError.errorBodyReader
         var value = VpcEncryptionControlViolationException()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32450,7 +32450,7 @@ extension VpcEncryptionControlViolationException {
 
 extension DBClusterEndpointAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterEndpointAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterEndpointAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterEndpointAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32463,7 +32463,7 @@ extension DBClusterEndpointAlreadyExistsFault {
 
 extension DBClusterEndpointQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterEndpointQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterEndpointQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterEndpointQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32476,7 +32476,7 @@ extension DBClusterEndpointQuotaExceededFault {
 
 extension AuthorizationNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AuthorizationNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> AuthorizationNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = AuthorizationNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32489,7 +32489,7 @@ extension AuthorizationNotFoundFault {
 
 extension BackupPolicyNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> BackupPolicyNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> BackupPolicyNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = BackupPolicyNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32502,7 +32502,7 @@ extension BackupPolicyNotFoundFault {
 
 extension CertificateNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CertificateNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> CertificateNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = CertificateNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32515,7 +32515,7 @@ extension CertificateNotFoundFault {
 
 extension DBInstanceAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBInstanceAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32528,7 +32528,7 @@ extension DBInstanceAlreadyExistsFault {
 
 extension ProvisionedIopsNotAvailableInAZFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ProvisionedIopsNotAvailableInAZFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ProvisionedIopsNotAvailableInAZFault {
         let reader = baseError.errorBodyReader
         var value = ProvisionedIopsNotAvailableInAZFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32541,7 +32541,7 @@ extension ProvisionedIopsNotAvailableInAZFault {
 
 extension TenantDatabaseQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TenantDatabaseQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TenantDatabaseQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = TenantDatabaseQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32554,7 +32554,7 @@ extension TenantDatabaseQuotaExceededFault {
 
 extension DBSubnetGroupNotAllowedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupNotAllowedFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSubnetGroupNotAllowedFault {
         let reader = baseError.errorBodyReader
         var value = DBSubnetGroupNotAllowedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32567,7 +32567,7 @@ extension DBSubnetGroupNotAllowedFault {
 
 extension DBProxyAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32580,7 +32580,7 @@ extension DBProxyAlreadyExistsFault {
 
 extension DBProxyQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32593,7 +32593,7 @@ extension DBProxyQuotaExceededFault {
 
 extension DBProxyEndpointAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyEndpointAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyEndpointAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyEndpointAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32606,7 +32606,7 @@ extension DBProxyEndpointAlreadyExistsFault {
 
 extension DBProxyEndpointQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyEndpointQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyEndpointQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyEndpointQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32619,7 +32619,7 @@ extension DBProxyEndpointQuotaExceededFault {
 
 extension InvalidDBProxyStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBProxyStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBProxyStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBProxyStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32632,7 +32632,7 @@ extension InvalidDBProxyStateFault {
 
 extension DBSecurityGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSecurityGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSecurityGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBSecurityGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32645,7 +32645,7 @@ extension DBSecurityGroupAlreadyExistsFault {
 
 extension DBSecurityGroupNotSupportedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSecurityGroupNotSupportedFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSecurityGroupNotSupportedFault {
         let reader = baseError.errorBodyReader
         var value = DBSecurityGroupNotSupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32658,7 +32658,7 @@ extension DBSecurityGroupNotSupportedFault {
 
 extension DBSecurityGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSecurityGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSecurityGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBSecurityGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32671,7 +32671,7 @@ extension DBSecurityGroupQuotaExceededFault {
 
 extension DBShardGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBShardGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBShardGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBShardGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32684,7 +32684,7 @@ extension DBShardGroupAlreadyExistsFault {
 
 extension MaxDBShardGroupLimitReached {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MaxDBShardGroupLimitReached {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> MaxDBShardGroupLimitReached {
         let reader = baseError.errorBodyReader
         var value = MaxDBShardGroupLimitReached()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32697,7 +32697,7 @@ extension MaxDBShardGroupLimitReached {
 
 extension UnsupportedDBEngineVersionFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnsupportedDBEngineVersionFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> UnsupportedDBEngineVersionFault {
         let reader = baseError.errorBodyReader
         var value = UnsupportedDBEngineVersionFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32710,7 +32710,7 @@ extension UnsupportedDBEngineVersionFault {
 
 extension DBSubnetGroupAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSubnetGroupAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = DBSubnetGroupAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32723,7 +32723,7 @@ extension DBSubnetGroupAlreadyExistsFault {
 
 extension DBSubnetGroupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetGroupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSubnetGroupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBSubnetGroupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32736,7 +32736,7 @@ extension DBSubnetGroupQuotaExceededFault {
 
 extension DBSubnetQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBSubnetQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBSubnetQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBSubnetQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32749,7 +32749,7 @@ extension DBSubnetQuotaExceededFault {
 
 extension EventSubscriptionQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EventSubscriptionQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> EventSubscriptionQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = EventSubscriptionQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32762,7 +32762,7 @@ extension EventSubscriptionQuotaExceededFault {
 
 extension SNSInvalidTopicFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SNSInvalidTopicFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SNSInvalidTopicFault {
         let reader = baseError.errorBodyReader
         var value = SNSInvalidTopicFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32775,7 +32775,7 @@ extension SNSInvalidTopicFault {
 
 extension SNSNoAuthorizationFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SNSNoAuthorizationFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SNSNoAuthorizationFault {
         let reader = baseError.errorBodyReader
         var value = SNSNoAuthorizationFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32788,7 +32788,7 @@ extension SNSNoAuthorizationFault {
 
 extension SNSTopicArnNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SNSTopicArnNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SNSTopicArnNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = SNSTopicArnNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32801,7 +32801,7 @@ extension SNSTopicArnNotFoundFault {
 
 extension SubscriptionAlreadyExistFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionAlreadyExistFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SubscriptionAlreadyExistFault {
         let reader = baseError.errorBodyReader
         var value = SubscriptionAlreadyExistFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32814,7 +32814,7 @@ extension SubscriptionAlreadyExistFault {
 
 extension SubscriptionCategoryNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubscriptionCategoryNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SubscriptionCategoryNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = SubscriptionCategoryNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32827,7 +32827,7 @@ extension SubscriptionCategoryNotFoundFault {
 
 extension GlobalClusterAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> GlobalClusterAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> GlobalClusterAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = GlobalClusterAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32840,7 +32840,7 @@ extension GlobalClusterAlreadyExistsFault {
 
 extension GlobalClusterQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> GlobalClusterQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> GlobalClusterQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = GlobalClusterQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32853,7 +32853,7 @@ extension GlobalClusterQuotaExceededFault {
 
 extension InvalidDBShardGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBShardGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBShardGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBShardGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32866,7 +32866,7 @@ extension InvalidDBShardGroupStateFault {
 
 extension IntegrationAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IntegrationAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = IntegrationAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32879,7 +32879,7 @@ extension IntegrationAlreadyExistsFault {
 
 extension IntegrationConflictOperationFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationConflictOperationFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IntegrationConflictOperationFault {
         let reader = baseError.errorBodyReader
         var value = IntegrationConflictOperationFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32892,7 +32892,7 @@ extension IntegrationConflictOperationFault {
 
 extension IntegrationQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IntegrationQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = IntegrationQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32905,7 +32905,7 @@ extension IntegrationQuotaExceededFault {
 
 extension TenantDatabaseAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TenantDatabaseAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> TenantDatabaseAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = TenantDatabaseAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32918,7 +32918,7 @@ extension TenantDatabaseAlreadyExistsFault {
 
 extension InvalidBlueGreenDeploymentStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidBlueGreenDeploymentStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidBlueGreenDeploymentStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidBlueGreenDeploymentStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32931,7 +32931,7 @@ extension InvalidBlueGreenDeploymentStateFault {
 
 extension DBClusterAutomatedBackupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterAutomatedBackupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterAutomatedBackupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterAutomatedBackupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32944,7 +32944,7 @@ extension DBClusterAutomatedBackupQuotaExceededFault {
 
 extension DBClusterAutomatedBackupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterAutomatedBackupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterAutomatedBackupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterAutomatedBackupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32957,7 +32957,7 @@ extension DBClusterAutomatedBackupNotFoundFault {
 
 extension InvalidDBClusterAutomatedBackupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBClusterAutomatedBackupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBClusterAutomatedBackupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBClusterAutomatedBackupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32970,7 +32970,7 @@ extension InvalidDBClusterAutomatedBackupStateFault {
 
 extension DBClusterEndpointNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterEndpointNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterEndpointNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterEndpointNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32983,7 +32983,7 @@ extension DBClusterEndpointNotFoundFault {
 
 extension InvalidDBParameterGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBParameterGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBParameterGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBParameterGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -32996,7 +32996,7 @@ extension InvalidDBParameterGroupStateFault {
 
 extension DBInstanceAutomatedBackupQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceAutomatedBackupQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBInstanceAutomatedBackupQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceAutomatedBackupQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33009,7 +33009,7 @@ extension DBInstanceAutomatedBackupQuotaExceededFault {
 
 extension DBInstanceAutomatedBackupNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceAutomatedBackupNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBInstanceAutomatedBackupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceAutomatedBackupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33022,7 +33022,7 @@ extension DBInstanceAutomatedBackupNotFoundFault {
 
 extension InvalidDBInstanceAutomatedBackupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBInstanceAutomatedBackupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBInstanceAutomatedBackupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBInstanceAutomatedBackupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33035,7 +33035,7 @@ extension InvalidDBInstanceAutomatedBackupStateFault {
 
 extension InvalidDBProxyEndpointStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBProxyEndpointStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBProxyEndpointStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBProxyEndpointStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33048,7 +33048,7 @@ extension InvalidDBProxyEndpointStateFault {
 
 extension InvalidDBSubnetStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBSubnetStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBSubnetStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBSubnetStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33061,7 +33061,7 @@ extension InvalidDBSubnetStateFault {
 
 extension InvalidEventSubscriptionStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidEventSubscriptionStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidEventSubscriptionStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidEventSubscriptionStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33074,7 +33074,7 @@ extension InvalidEventSubscriptionStateFault {
 
 extension InvalidIntegrationStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidIntegrationStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidIntegrationStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidIntegrationStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33087,7 +33087,7 @@ extension InvalidIntegrationStateFault {
 
 extension InvalidOptionGroupStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidOptionGroupStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidOptionGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidOptionGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33100,7 +33100,7 @@ extension InvalidOptionGroupStateFault {
 
 extension DBProxyTargetNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyTargetNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyTargetNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyTargetNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33113,7 +33113,7 @@ extension DBProxyTargetNotFoundFault {
 
 extension DBClusterBacktrackNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterBacktrackNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterBacktrackNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterBacktrackNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33126,7 +33126,7 @@ extension DBClusterBacktrackNotFoundFault {
 
 extension DBInstanceNotReadyFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceNotReadyFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBInstanceNotReadyFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceNotReadyFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33139,7 +33139,7 @@ extension DBInstanceNotReadyFault {
 
 extension ReservedDBInstanceNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedDBInstanceNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReservedDBInstanceNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ReservedDBInstanceNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33152,7 +33152,7 @@ extension ReservedDBInstanceNotFoundFault {
 
 extension ReservedDBInstancesOfferingNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedDBInstancesOfferingNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReservedDBInstancesOfferingNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = ReservedDBInstancesOfferingNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33165,7 +33165,7 @@ extension ReservedDBInstancesOfferingNotFoundFault {
 
 extension InvalidResourceStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidResourceStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidResourceStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidResourceStateFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33178,7 +33178,7 @@ extension InvalidResourceStateFault {
 
 extension DBLogFileNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBLogFileNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBLogFileNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBLogFileNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33191,7 +33191,7 @@ extension DBLogFileNotFoundFault {
 
 extension InvalidDBClusterCapacityFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBClusterCapacityFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBClusterCapacityFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBClusterCapacityFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33204,7 +33204,7 @@ extension InvalidDBClusterCapacityFault {
 
 extension StorageTypeNotAvailableFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StorageTypeNotAvailableFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> StorageTypeNotAvailableFault {
         let reader = baseError.errorBodyReader
         var value = StorageTypeNotAvailableFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33217,7 +33217,7 @@ extension StorageTypeNotAvailableFault {
 
 extension SharedSnapshotQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SharedSnapshotQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SharedSnapshotQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = SharedSnapshotQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33230,7 +33230,7 @@ extension SharedSnapshotQuotaExceededFault {
 
 extension DBUpgradeDependencyFailureFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBUpgradeDependencyFailureFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBUpgradeDependencyFailureFault {
         let reader = baseError.errorBodyReader
         var value = DBUpgradeDependencyFailureFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33243,7 +33243,7 @@ extension DBUpgradeDependencyFailureFault {
 
 extension SubnetAlreadyInUse {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> SubnetAlreadyInUse {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SubnetAlreadyInUse {
         let reader = baseError.errorBodyReader
         var value = SubnetAlreadyInUse()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33256,7 +33256,7 @@ extension SubnetAlreadyInUse {
 
 extension ReservedDBInstanceAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedDBInstanceAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReservedDBInstanceAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ReservedDBInstanceAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33269,7 +33269,7 @@ extension ReservedDBInstanceAlreadyExistsFault {
 
 extension ReservedDBInstanceQuotaExceededFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedDBInstanceQuotaExceededFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReservedDBInstanceQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = ReservedDBInstanceQuotaExceededFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33282,7 +33282,7 @@ extension ReservedDBInstanceQuotaExceededFault {
 
 extension DBProxyTargetAlreadyRegisteredFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyTargetAlreadyRegisteredFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyTargetAlreadyRegisteredFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyTargetAlreadyRegisteredFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33295,7 +33295,7 @@ extension DBProxyTargetAlreadyRegisteredFault {
 
 extension InsufficientAvailableIPsInSubnetFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientAvailableIPsInSubnetFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InsufficientAvailableIPsInSubnetFault {
         let reader = baseError.errorBodyReader
         var value = InsufficientAvailableIPsInSubnetFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33308,7 +33308,7 @@ extension InsufficientAvailableIPsInSubnetFault {
 
 extension DBClusterRoleNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterRoleNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterRoleNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterRoleNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33321,7 +33321,7 @@ extension DBClusterRoleNotFoundFault {
 
 extension DBInstanceRoleNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceRoleNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBInstanceRoleNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBInstanceRoleNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33334,7 +33334,7 @@ extension DBInstanceRoleNotFoundFault {
 
 extension InvalidS3BucketFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidS3BucketFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidS3BucketFault {
         let reader = baseError.errorBodyReader
         var value = InvalidS3BucketFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33347,7 +33347,7 @@ extension InvalidS3BucketFault {
 
 extension InsufficientDBClusterCapacityFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientDBClusterCapacityFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InsufficientDBClusterCapacityFault {
         let reader = baseError.errorBodyReader
         var value = InsufficientDBClusterCapacityFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33360,7 +33360,7 @@ extension InsufficientDBClusterCapacityFault {
 
 extension InvalidRestoreFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidRestoreFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidRestoreFault {
         let reader = baseError.errorBodyReader
         var value = InvalidRestoreFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33373,7 +33373,7 @@ extension InvalidRestoreFault {
 
 extension PointInTimeRestoreNotEnabledFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PointInTimeRestoreNotEnabledFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> PointInTimeRestoreNotEnabledFault {
         let reader = baseError.errorBodyReader
         var value = PointInTimeRestoreNotEnabledFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33386,7 +33386,7 @@ extension PointInTimeRestoreNotEnabledFault {
 
 extension ExportTaskAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ExportTaskAlreadyExistsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ExportTaskAlreadyExistsFault {
         let reader = baseError.errorBodyReader
         var value = ExportTaskAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33399,7 +33399,7 @@ extension ExportTaskAlreadyExistsFault {
 
 extension IamRoleMissingPermissionsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IamRoleMissingPermissionsFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IamRoleMissingPermissionsFault {
         let reader = baseError.errorBodyReader
         var value = IamRoleMissingPermissionsFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33412,7 +33412,7 @@ extension IamRoleMissingPermissionsFault {
 
 extension IamRoleNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IamRoleNotFoundFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> IamRoleNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = IamRoleNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33425,7 +33425,7 @@ extension IamRoleNotFoundFault {
 
 extension InvalidExportOnlyFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidExportOnlyFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidExportOnlyFault {
         let reader = baseError.errorBodyReader
         var value = InvalidExportOnlyFault()
         value.properties.message = try reader["message"].readIfPresent()
@@ -33438,7 +33438,7 @@ extension InvalidExportOnlyFault {
 
 extension InvalidExportSourceStateFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidExportSourceStateFault {
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidExportSourceStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidExportSourceStateFault()
         value.properties.message = try reader["message"].readIfPresent()

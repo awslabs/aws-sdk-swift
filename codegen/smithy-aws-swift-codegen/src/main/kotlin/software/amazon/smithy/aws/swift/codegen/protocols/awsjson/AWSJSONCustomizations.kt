@@ -6,12 +6,12 @@
 package software.amazon.smithy.aws.swift.codegen.protocols.awsjson
 
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPProtocolCustomizations
-import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.traits.TimestampFormatTrait
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 
 class AWSJSONCustomizations : AWSHTTPProtocolCustomizations() {
-    override val baseErrorSymbol: Symbol = AWSClientRuntimeTypes.AWSJSON.AWSJSONError
+    override val baseErrorSymbol: Symbol = ClientRuntimeTypes.AWSJSON.AWSJSONError
 
     override val defaultTimestampFormat = TimestampFormatTrait.Format.EPOCH_SECONDS
 }

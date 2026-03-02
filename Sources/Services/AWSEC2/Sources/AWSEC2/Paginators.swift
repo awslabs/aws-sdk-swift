@@ -222,6 +222,7 @@ extension EC2Client {
 extension DescribeCapacityBlockOfferingsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeCapacityBlockOfferingsInput {
         return DescribeCapacityBlockOfferingsInput(
+            allAvailabilityZones: self.allAvailabilityZones,
             capacityDurationHours: self.capacityDurationHours,
             dryRun: self.dryRun,
             endDateRange: self.endDateRange,
